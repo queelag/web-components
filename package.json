@@ -1,0 +1,77 @@
+{
+  "author": "Dario Sechi",
+  "devDependencies": {
+    "@astrojs/lit": "^1.0.0",
+    "@astrojs/preact": "^1.0.2",
+    "@astrojs/tailwind": "^1.0.0",
+    "@floating-ui/dom": "^1.0.1",
+    "@microsoft/api-extractor": "^7.29.3",
+    "@queelag/core": "^1.1.4",
+    "@queelag/web": "^1.0.2",
+    "@rollup/plugin-strip": "^2.1.0",
+    "@rollup/plugin-typescript": "^8.3.4",
+    "@types/dompurify": "^2.3.4",
+    "@types/jest": "^28.1.7",
+    "@types/react": "^18.0.17",
+    "@webcomponents/template-shadowroot": "^0.1.0",
+    "astro": "^1.1.1",
+    "dompurify": "^2.4.0",
+    "focus-trap": "^7.0.0",
+    "jest": "^28.1.3",
+    "lit": "^2.3.1",
+    "lit-html": "^2.3.1",
+    "preact": "^10.10.6",
+    "prettier": "^2.7.1",
+    "rollup": "^2.78.1",
+    "rollup-plugin-minify-html-literals": "^1.2.6",
+    "rollup-plugin-terser": "^7.0.2",
+    "superstruct": "^0.16.0",
+    "tabbable": "^6.0.0",
+    "ts-jest": "^28.0.8",
+    "ts-lit-plugin": "^1.2.1",
+    "tslib": "^2.4.0",
+    "typedoc": "^0.23.10",
+    "typescript": "4.7.4"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "name": "@queelag/web-components",
+  "peerDependencies": {
+    "@floating-ui/dom": ">= 1.0.1",
+    "@queelag/core": ">= 1.1.0",
+    "@queelag/web": ">= 1.0.0",
+    "dompurify": ">= 2.4.0",
+    "focus-trap": ">= 7.0.0",
+    "tabbable": ">= 6.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@floating-ui/dom": {
+      "optional": true
+    },
+    "dompurify": {
+      "optional": true
+    },
+    "focus-trap": {
+      "optional": true
+    },
+    "tabbable": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": "https://github.com/queelag/web-components",
+  "scripts": {
+    "test": "yarn jest --coverage",
+    "build": "rm -rf dist && yarn rollup -c && yarn api-extractor run --local",
+    "tarball": "yarn version && cp package.json dist/. && cd dist && yarn pack",
+    "deploy": "yarn test && yarn build && yarn tarball && yarn publish dist/*.tgz --access public",
+    "playground:dev": "yarn astro dev --root ./playground",
+    "playground:build": "yarn astro build --root ./playground",
+    "playground:preview": "yarn astro preview --root ./playground"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "1.0.0"
+}
