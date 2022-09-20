@@ -23,11 +23,17 @@ export default defineConfig({
     'tabbable'
   ],
   input: 'src/index.ts',
-  output: {
-    dir: 'dist',
-    preserveModules: true,
-    preserveModulesRoot: 'src',
-    format: 'esm'
-  },
+  output: [
+    {
+      file: 'dist/index.cjs',
+      format: 'cjs'
+    },
+    {
+      dir: 'dist',
+      preserveModules: true,
+      preserveModulesRoot: 'src',
+      format: 'esm'
+    }
+  ],
   plugins: [minifyHTML(), strip({ include: ['src/**/*.ts'], functions: ['[a-zA-Z]+Logger.(verbose|debug|info)'] }), terser(), typescript()]
 })
