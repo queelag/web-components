@@ -43,7 +43,7 @@ export class IconElement extends BaseElement {
   /**
    * STATES
    */
-  private svgElement: SVGSVGElement = document.createElementNS(SVG_NAMESPACE_URI, 'svg')
+  private svgElement?: SVGSVGElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -144,7 +144,7 @@ export class IconElement extends BaseElement {
   }
 
   private get svgElementInnerHTML(): string {
-    return this.svgElement.innerHTML
+    return this.svgElement?.innerHTML || ''
   }
 
   private get svgElementStyle(): DirectiveResult<typeof StyleMapDirective> {
@@ -163,7 +163,7 @@ export class IconElement extends BaseElement {
   }
 
   private get svgElementViewBox(): string {
-    return this.svgElement.getAttribute('viewbox') || this.svgElement.getAttribute('viewBox') || '0 0 0 0'
+    return this.svgElement?.getAttribute('viewbox') || this.svgElement?.getAttribute('viewBox') || '0 0 0 0'
   }
 
   get name(): ElementName {
