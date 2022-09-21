@@ -2,6 +2,7 @@ import { Fetch, FetchResponse, isStringURL, rvp, tcp } from '@queelag/core'
 import {
   CACHE_ICONS,
   Color,
+  DEFAULT_ICON_SANITIZE_CONFIG,
   DEFAULT_ICON_SVG_STRING,
   ElementName,
   FETCHING_ICONS,
@@ -35,7 +36,8 @@ export class IconElement extends BaseElement {
   cache?: boolean
   color?: Color
   fill?: string
-  sanitize: IconElementSanitizeConfig = { RETURN_DOM: false, RETURN_DOM_FRAGMENT: false }
+  sanitize?: boolean
+  sanitizeConfig?: IconElementSanitizeConfig
   src!: string
   stroke?: string
   strokeWidth?: string
@@ -118,10 +120,15 @@ export class IconElement extends BaseElement {
   }
 
   private parseSVGString(string: string): void {
-    let parser: DOMParser, document: Document, element: SVGSVGElement | null
+    let sanitized: string | undefined, parser: DOMParser, document: Document, element: SVGSVGElement | null
+
+    if (this.sanitize) {
+      sanitized = DOMPurify.sanitize(string, { ...DEFAULT_ICON_SANITIZE_CONFIG, ...this.sanitizeConfig })
+      WebElementLogger.verbose(this.uid, 'parseSVGString', `The string has been sanitized.`, [sanitized])
+    }
 
     parser = new DOMParser()
-    document = parser.parseFromString(DOMPurify.sanitize(string, this.sanitize), 'text/html')
+    document = parser.parseFromString(sanitized ?? string, 'text/html')
 
     element = document.querySelector('svg')
     if (!element) return WebElementLogger.error(this.uid, 'parseSVGString', `Failed to find the svg element.`, document)
@@ -174,7 +181,8 @@ export class IconElement extends BaseElement {
     cache: { type: Boolean, reflect: true },
     color: { type: String, reflect: true },
     fill: { type: String, reflect: true },
-    sanitize: { type: Object },
+    sanitize: { type: Boolean, reflect: true },
+    sanitizeConfig: { type: Object, attribute: 'sanitize-config' },
     src: { type: String, reflect: true },
     stroke: { type: String, reflect: true },
     strokeWidth: { type: String, attribute: 'stroke-width', reflect: true },
