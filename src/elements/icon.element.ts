@@ -122,7 +122,7 @@ export class IconElement extends BaseElement {
   private parseSVGString(string: string): void {
     let sanitized: string | undefined, parser: DOMParser, document: Document, element: SVGSVGElement | null
 
-    if (this.sanitize !== false) {
+    if (this.sanitize) {
       sanitized = DOMPurify.sanitize(string, { ...DEFAULT_ICON_SANITIZE_CONFIG, ...this.sanitizeConfig })
       WebElementLogger.verbose(this.uid, 'parseSVGString', `The string has been sanitized.`, [sanitized])
     }
