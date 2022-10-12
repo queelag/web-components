@@ -49,7 +49,7 @@ export class AriaTooltipElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.TOOLTIP
+    return ElementName.ARIA_TOOLTIP
   }
 
   static properties: PropertyDeclarations = {
@@ -75,7 +75,7 @@ export class AriaTooltipElement extends BaseElement {
 
 export class AriaTooltipArrowElement extends BaseElement {
   get name(): ElementName {
-    return ElementName.TOOLTIP_ARROW
+    return ElementName.ARIA_TOOLTIP_ARROW
   }
 
   static styles: CSSResultGroup = [
@@ -103,7 +103,7 @@ export class AriaTooltipContentElement extends FloatingElement {
   }
 
   get name(): ElementName {
-    return ElementName.TOOLTIP_CONTENT
+    return ElementName.ARIA_TOOLTIP_CONTENT
   }
 
   get referenceElement(): AriaTooltipTriggerElement | undefined {
@@ -180,7 +180,7 @@ export class AriaTooltipTriggerElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.TOOLTIP_TRIGGER
+    return ElementName.ARIA_TOOLTIP_TRIGGER
   }
 
   static queries: QueryDeclarations = {

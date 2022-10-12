@@ -189,7 +189,7 @@ export class AriaMenuElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.MENU
+    return ElementName.ARIA_MENU
   }
 
   static properties: PropertyDeclarations = {
@@ -245,7 +245,7 @@ export class AriaMenuButtonElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.MENU_BUTTON
+    return ElementName.ARIA_MENU_BUTTON
   }
 
   static queries: QueryDeclarations = {
@@ -263,7 +263,7 @@ export class AriaMenuListElement extends FloatingElement {
   rootElement!: AriaMenuElement
 
   get name(): ElementName {
-    return ElementName.MENU_ITEM
+    return ElementName.ARIA_MENU_ITEM
   }
 
   get referenceElement(): HTMLElement {
@@ -349,7 +349,7 @@ export class AriaMenuItemElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.MENU_ITEM
+    return ElementName.ARIA_MENU_ITEM
   }
 
   static properties: PropertyDeclarations = {

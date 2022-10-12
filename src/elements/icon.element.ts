@@ -5,7 +5,6 @@ import {
   DEFAULT_ICON_SANITIZE_CONFIG,
   DEFAULT_ICON_SVG_STRING,
   ElementName,
-  FETCHING_ICONS,
   getElementStyleCompatibleValue,
   IconElementSanitizeConfig,
   isStringSVG,
@@ -17,6 +16,7 @@ import { html, PropertyDeclarations, svg, TemplateResult } from 'lit'
 import { DirectiveResult } from 'lit-html/directive'
 import { StyleMapDirective } from 'lit-html/directives/style-map'
 import { AriaIconController } from '../controllers/aria.icon.controller'
+import { ifdef } from '../directives/if.defined'
 import { styleMap } from '../directives/style.map'
 import { unsafeSVG } from '../directives/unsafe.svg'
 import { BaseElement } from './core/base.element'
@@ -93,20 +93,21 @@ export class IconElement extends BaseElement {
     //   return this.fetchSource()
     // }
 
-    // cache = CACHE_ICONS.get(this.src)
-    // if (typeof cache === 'string') {
-    //   WebElementLogger.verbose(this.uid, 'fetchSource', `Cached SVG found for this src, will parse.`, [this.src, cache])
-    //   return this.parseSVGString(cache)
-    // }
+    cache = CACHE_ICONS.get(this.src)
+    if (this.cache && cache) {
+      WebElementLogger.verbose(this.uid, 'fetchSource', `Cached SVG found for this src, will parse.`, [this.src, cache])
+      return this.parseSVGString(cache)
+    }
 
-    FETCHING_ICONS.add(this.src)
-    WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been marked as fetching.`, [this.src])
+    // FETCHING_ICONS.add(this.src)
+    // WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been marked as fetching.`, [this.src])
 
     response = await Fetch.get(this.src, { parse: false })
-    if (response instanceof Error) return rvp(() => FETCHING_ICONS.delete(this.src))
+    if (response instanceof Error) return
+    // if (response instanceof Error) return rvp(() => FETCHING_ICONS.delete(this.src))
 
-    FETCHING_ICONS.delete(this.src)
-    WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been unmarked as fetching.`, [this.src])
+    // FETCHING_ICONS.delete(this.src)
+    // WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been unmarked as fetching.`, [this.src])
 
     text = await tcp(() => (response as FetchResponse).text())
     if (text instanceof Error) return rvp(() => CACHE_ICONS.delete(this.src))
@@ -139,9 +140,9 @@ export class IconElement extends BaseElement {
 
   render() {
     return html`<svg
-      fill=${this.fill}
-      stroke=${this.stroke}
-      stroke-width=${this.strokeWidth}
+      fill=${ifdef(this.fill)}
+      stroke=${ifdef(this.stroke)}
+      stroke-width=${ifdef(this.strokeWidth)}
       style=${this.svgElementStyle}
       viewBox=${this.svgElementViewBox}
       xmlns=${SVG_NAMESPACE_URI}

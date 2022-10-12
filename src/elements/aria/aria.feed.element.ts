@@ -89,7 +89,7 @@ export class AriaFeedElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.FEED
+    return ElementName.ARIA_FEED
   }
 
   get nextTabbableElementSibling(): FocusableElement | null {
@@ -164,7 +164,7 @@ export class AriaFeedArticleElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.FEED_ARTICLE
+    return ElementName.ARIA_FEED_ARTICLE
   }
 
   static properties: PropertyDeclarations = {
@@ -182,7 +182,7 @@ export class AriaFeedArticleLabelElement extends BaseElement {
   protected aria: AriaFeedArticleLabelController = new AriaFeedArticleLabelController(this)
 
   get name(): ElementName {
-    return ElementName.FEED_ARTICLE_LABEL
+    return ElementName.ARIA_FEED_ARTICLE_LABEL
   }
 }
 
@@ -190,7 +190,7 @@ export class AriaFeedArticleDescriptionElement extends BaseElement {
   protected aria: AriaFeedArticleDescriptionController = new AriaFeedArticleDescriptionController(this)
 
   get name(): ElementName {
-    return ElementName.FEED_ARTICLE_DESCRIPTION
+    return ElementName.ARIA_FEED_ARTICLE_DESCRIPTION
   }
 }
 

@@ -1,12 +1,12 @@
 import { ElementName, KeyboardEventKey, QueryDeclarations, SubmitAsyncEvent, WebElementLogger } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import type { CheckBoxElement } from './check.box.element'
 import { BaseElement } from './core/base.element'
 import type { FormFieldElement } from './core/form.field.element'
-import type { InputElement } from './input.element'
-import type { InputFileElement } from './input.file.element'
-import type { TextAreaElement } from './text.area.element'
+import type { CheckBoxElement } from './inputs/check.box.element'
+import type { InputElement } from './inputs/input.element'
+import type { InputFileElement } from './inputs/input.file.element'
+import type { TextAreaElement } from './inputs/text.area.element'
 
 declare global {
   interface HTMLElementTagNameMap {

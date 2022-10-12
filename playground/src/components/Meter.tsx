@@ -1,6 +1,7 @@
+import type { MeterElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type { MeterElement, MeterElementAttributes } from '../../../src'
+import type { MeterElement } from '../../../src'
 import '../../../src/elements/meter.element'
 import { useQueelagElement } from '../hooks/use.queelag.element'
 

@@ -201,7 +201,7 @@ export class AriaCarouselElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.CAROUSEL
+    return ElementName.ARIA_CAROUSEL
   }
 
   static properties: PropertyDeclarations = {
@@ -230,7 +230,7 @@ export class AriaCarouselSlidesElement extends BaseElement {
   rootElement!: AriaCarouselElement
 
   get name(): ElementName {
-    return ElementName.CAROUSEL_SLIDES
+    return ElementName.ARIA_CAROUSEL_SLIDES
   }
 
   static queries: QueryDeclarations = {
@@ -271,7 +271,7 @@ export class AriaCarouselSlideElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.CAROUSEL_SLIDE
+    return ElementName.ARIA_CAROUSEL_SLIDE
   }
 
   static properties: PropertyDeclarations = {
@@ -314,7 +314,7 @@ export class AriaCarouselRotationControlElement extends AriaButtonElement {
   }
 
   get name(): ElementName {
-    return ElementName.CAROUSEL_ROTATION_CONTROL
+    return ElementName.ARIA_CAROUSEL_ROTATION_CONTROL
   }
 
   static queries: QueryDeclarations = {
@@ -335,7 +335,7 @@ export class AriaCarouselNextSlideControlElement extends AriaButtonElement {
   }
 
   get name(): ElementName {
-    return ElementName.CAROUSEL_NEXT_SLIDE_CONTROL
+    return ElementName.ARIA_CAROUSEL_NEXT_SLIDE_CONTROL
   }
 
   static queries: QueryDeclarations = {
@@ -356,7 +356,7 @@ export class AriaCarouselPreviousSlideControlElement extends AriaButtonElement {
   }
 
   get name(): ElementName {
-    return ElementName.CAROUSEL_PREVIOUS_SLIDE_CONTROL
+    return ElementName.ARIA_CAROUSEL_PREVIOUS_SLIDE_CONTROL
   }
 
   static queries: QueryDeclarations = {
@@ -470,7 +470,7 @@ export class AriaCarouselTabsElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.CAROUSEL_TABS
+    return ElementName.ARIA_CAROUSEL_TABS
   }
 
   static queries: QueryDeclarations = {
@@ -528,7 +528,7 @@ export class AriaCarouselTabElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.CAROUSEL_TAB
+    return ElementName.ARIA_CAROUSEL_TAB
   }
 
   static properties: PropertyDeclarations = {

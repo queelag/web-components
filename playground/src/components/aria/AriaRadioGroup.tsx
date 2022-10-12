@@ -1,12 +1,7 @@
+import { joinElementClasses, type AriaRadioButtonElementAttributes, type AriaRadioGroupElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import {
-  AriaRadioButtonElement,
-  AriaRadioButtonElementAttributes,
-  AriaRadioGroupElement,
-  AriaRadioGroupElementAttributes,
-  joinElementClasses
-} from '../../../../src'
+import type { AriaRadioButtonElement, AriaRadioGroupElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.radio.group.element'
 import { FRUITS } from '../../definitions/constants'
 import { useQueelagElement } from '../../hooks/use.queelag.element'

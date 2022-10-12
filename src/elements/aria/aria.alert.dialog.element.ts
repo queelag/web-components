@@ -17,19 +17,19 @@ export class AriaAlertDialogElement extends AriaDialogElement {
   }
 
   get name(): ElementName {
-    return ElementName.ALERT_DIALOG
+    return ElementName.ARIA_ALERT_DIALOG
   }
 }
 
 export class AriaAlertDialogDescriptionElement extends AriaDialogDescriptionElement {
   get name(): ElementName {
-    return ElementName.ALERT_DIALOG_DESCRIPTION
+    return ElementName.ARIA_ALERT_DIALOG_DESCRIPTION
   }
 }
 
 export class AriaAlertDialogLabelElement extends AriaDialogLabelElement {
   get name(): ElementName {
-    return ElementName.ALERT_DIALOG_LABEL
+    return ElementName.ARIA_ALERT_DIALOG_LABEL
   }
 }
 

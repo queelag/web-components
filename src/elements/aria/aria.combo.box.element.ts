@@ -313,7 +313,7 @@ export class AriaComboBoxElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.COMBOBOX
+    return ElementName.ARIA_COMBOBOX
   }
 
   get selectedOptionElementIndex(): number {
@@ -348,7 +348,7 @@ export class AriaComboBoxElement extends BaseElement {
 
 export class AriaComboBoxGroupElement extends BaseElement {
   get name(): ElementName {
-    return ElementName.COMBOBOX_GROUP
+    return ElementName.ARIA_COMBOBOX_GROUP
   }
 }
 
@@ -399,7 +399,7 @@ export class AriaComboBoxButtonElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.COMBOBOX_BUTTON
+    return ElementName.ARIA_COMBOBOX_BUTTON
   }
 
   static queries: QueryDeclarations = {
@@ -496,7 +496,7 @@ export class AriaComboBoxInputElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.COMBOBOX_INPUT
+    return ElementName.ARIA_COMBOBOX_INPUT
   }
 
   static properties: PropertyDeclarations = {
@@ -518,7 +518,7 @@ export class AriaComboBoxListElement extends FloatingElement {
   rootElement!: AriaComboBoxElement
 
   get name(): ElementName {
-    return ElementName.COMBOBOX_LIST
+    return ElementName.ARIA_COMBOBOX_LIST
   }
 
   get referenceElement(): AriaComboBoxGroupElement {
@@ -614,7 +614,7 @@ export class AriaComboBoxOptionElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.COMBOBOX_OPTION
+    return ElementName.ARIA_COMBOBOX_OPTION
   }
 
   static properties: PropertyDeclarations = {

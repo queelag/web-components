@@ -49,7 +49,7 @@ export class AriaLinkElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.LINK
+    return ElementName.ARIA_LINK
   }
 
   static properties: PropertyDeclarations = {

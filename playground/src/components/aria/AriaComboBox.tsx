@@ -1,20 +1,22 @@
 import { offset } from '@floating-ui/dom'
-import { useState } from 'preact/hooks'
-import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import {
-  AriaComboBoxButtonElement,
   AriaComboBoxButtonElementAttributes,
-  AriaComboBoxElement,
   AriaComboBoxElementAttributes,
-  AriaComboBoxGroupElement,
   AriaComboBoxGroupElementAttributes,
-  AriaComboBoxInputElement,
   AriaComboBoxInputElementAttributes,
-  AriaComboBoxListElement,
   AriaComboBoxListElementAttributes,
-  AriaComboBoxOptionElement,
   AriaComboBoxOptionElementAttributes,
   joinElementClasses
+} from '@queelag/web'
+import { useState } from 'preact/hooks'
+import type { DetailedHTMLProps, HTMLAttributes } from 'react'
+import type {
+  AriaComboBoxButtonElement,
+  AriaComboBoxElement,
+  AriaComboBoxGroupElement,
+  AriaComboBoxInputElement,
+  AriaComboBoxListElement,
+  AriaComboBoxOptionElement
 } from '../../../../src'
 import '../../../../src/elements/aria/aria.combo.box.element'
 import { FRUITS } from '../../definitions/constants'

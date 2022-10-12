@@ -1,8 +1,7 @@
-import { ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
+import { ElementName, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { AriaCheckBoxController } from '../controllers/aria.check.box.controller'
-import { FormFieldElement } from './core/form.field.element'
+import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -11,42 +10,21 @@ declare global {
 }
 
 export class CheckBoxElement extends FormFieldElement {
-  protected aria: AriaCheckBoxController = new AriaCheckBoxController(this)
-
   /**
    * PROPERTIES
    */
   native?: boolean
   normalized?: boolean
 
-  connectedCallback(): void {
-    super.connectedCallback()
-
-    if (this.native) {
-      return
-    }
-
-    this.addEventListener('click', this.onClick)
-    this.addEventListener('keydown', this.onKeyDown)
-  }
-
-  disconnectedCallback(): void {
-    super.disconnectedCallback()
-
-    if (this.native) {
-      return
-    }
-
-    this.removeEventListener('click', this.onClick)
-    this.removeEventListener('keydown', this.onKeyDown)
-  }
-
   private onChange(): void {
     this.value = !this.value
     this.touch()
   }
 
-  private onClick(): void {
+  onClick(event: MouseEvent): void {
+    event.preventDefault()
+    event.stopPropagation()
+
     if (this.disabled || this.readonly) {
       return WebElementLogger.warn(this.id, 'onClick', `Execution stopped, disabled is truthy.`)
     }
@@ -57,24 +35,13 @@ export class CheckBoxElement extends FormFieldElement {
     this.touch()
   }
 
-  private onKeyDown(event: KeyboardEvent): void {
-    if (event.key !== KeyboardEventKey.SPACE) {
-      return
-    }
-
-    event.preventDefault()
-    event.stopPropagation()
-
-    this.onClick()
-  }
-
   render() {
     if (this.native) {
       return html`<input @change=${this.onChange} ?checked=${this.value} ?disabled=${this.disabled} ?readonly=${this.readonly} type="checkbox" />`
     }
 
     return html`
-      <div style=${this.styleMap}>
+      <div @click=${this.onClick} style=${this.styleMap}>
         <slot></slot>
       </div>
       ${this.shapeHTML}

@@ -1,6 +1,6 @@
+import type { AttributeChangedEvent, StateChangedEvent } from '@queelag/web'
 import type { RefObject } from 'preact'
 import { useEffect, useReducer, useRef } from 'preact/hooks'
-import type { AttributeChangedEvent, StateChangedEvent } from '../../../src'
 import { useEventListener } from './use.event.listener'
 
 interface Options {

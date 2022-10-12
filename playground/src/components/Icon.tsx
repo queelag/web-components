@@ -1,6 +1,7 @@
+import type { IconElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type { IconElement, IconElementAttributes } from '../../../src'
+import type { IconElement } from '../../../src'
 import '../../../src/elements/icon.element'
 import { useQueelagElement } from '../hooks/use.queelag.element'
 

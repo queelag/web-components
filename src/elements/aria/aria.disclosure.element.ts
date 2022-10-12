@@ -45,7 +45,7 @@ export class AriaDisclosureElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.DISCLOSURE
+    return ElementName.ARIA_DISCLOSURE
   }
 
   static queries: QueryDeclarations = {
@@ -76,7 +76,7 @@ export class AriaDisclosureSectionElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.DISCLOSURE_SECTION
+    return ElementName.ARIA_DISCLOSURE_SECTION
   }
 
   static properties: PropertyDeclarations = {
@@ -113,7 +113,7 @@ export class AriaDisclosureButtonElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.DISCLOSURE_BUTTON
+    return ElementName.ARIA_DISCLOSURE_BUTTON
   }
 
   static queries: QueryDeclarations = {
@@ -125,7 +125,7 @@ export class AriaDisclosurePanelElement extends BaseElement {
   protected aria: AriaDisclosurePanelController = new AriaDisclosurePanelController(this)
 
   get name(): ElementName {
-    return ElementName.DISCLOSURE_PANEL
+    return ElementName.ARIA_DISCLOSURE_PANEL
   }
 }
 

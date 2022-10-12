@@ -1,17 +1,14 @@
 import { offset } from '@floating-ui/dom'
+import {
+  joinElementClasses,
+  type AriaMenuButtonElementAttributes,
+  type AriaMenuElementAttributes,
+  type AriaMenuItemElementAttributes,
+  type AriaMenuListElementAttributes
+} from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import {
-  AriaMenuButtonElement,
-  AriaMenuButtonElementAttributes,
-  AriaMenuElement,
-  AriaMenuElementAttributes,
-  AriaMenuItemElement,
-  AriaMenuItemElementAttributes,
-  AriaMenuListElement,
-  AriaMenuListElementAttributes,
-  joinElementClasses
-} from '../../../../src'
+import type { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuListElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.menu.element'
 import { FRUITS } from '../../definitions/constants'
 import { useQueelagElement } from '../../hooks/use.queelag.element'

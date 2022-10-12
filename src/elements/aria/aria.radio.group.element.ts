@@ -122,7 +122,7 @@ export class AriaRadioGroupElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.RADIO_GROUP
+    return ElementName.ARIA_RADIO_GROUP
   }
 
   static queries: QueryDeclarations = {
@@ -187,7 +187,7 @@ export class AriaRadioButtonElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.RADIO_BUTTON
+    return ElementName.ARIA_RADIO_BUTTON
   }
 
   static properties: PropertyDeclarations = {

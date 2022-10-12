@@ -1,9 +1,10 @@
+import type { QueelagFile } from '@queelag/core'
+import type { InputFileElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type { InputFileElement, InputFileElementAttributes } from '../../../src'
-import type { QueelagFile } from '../../../src/classes/queelag.file'
-import '../../../src/elements/input.file.element'
-import { useQueelagElement } from '../hooks/use.queelag.element'
+import type { InputFileElement } from '../../../../src'
+import '../../../../src/elements/inputs/input.file.element'
+import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
   namespace JSX {

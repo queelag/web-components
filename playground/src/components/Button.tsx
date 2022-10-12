@@ -1,9 +1,9 @@
 import { sleep } from '@queelag/core'
+import type { ButtonElementAttributes, ClickAsyncEvent } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type { ButtonElement, ButtonElementAttributes } from '../../../src'
+import type { ButtonElement } from '../../../src'
 import '../../../src/elements/button.element'
-import type { ClickAsyncEvent } from '../../../src/events/click.async.event'
 import { useEventListener } from '../hooks/use.event.listener'
 import { useQueelagElement } from '../hooks/use.queelag.element'
 

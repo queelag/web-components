@@ -1,17 +1,19 @@
-import { useState } from 'preact/hooks'
-import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import {
-  AriaAccordionButtonElement,
   AriaAccordionButtonElementAttributes,
-  AriaAccordionElement,
   AriaAccordionElementAttributes,
-  AriaAccordionHeaderElement,
   AriaAccordionHeaderElementAttributes,
-  AriaAccordionPanelElement,
   AriaAccordionPanelElementAttributes,
-  AriaAccordionSectionElement,
   AriaAccordionSectionElementAttributes,
   joinElementClasses
+} from '@queelag/web'
+import { useState } from 'preact/hooks'
+import type { DetailedHTMLProps, HTMLAttributes } from 'react'
+import type {
+  AriaAccordionButtonElement,
+  AriaAccordionElement,
+  AriaAccordionHeaderElement,
+  AriaAccordionPanelElement,
+  AriaAccordionSectionElement
 } from '../../../../src'
 import '../../../../src/elements/aria/aria.accordion.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'

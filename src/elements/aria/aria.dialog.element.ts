@@ -52,7 +52,7 @@ export class AriaDialogElement extends FocusTrapElement {
   }
 
   get name(): ElementName {
-    return ElementName.DIALOG
+    return ElementName.ARIA_DIALOG
   }
 
   static properties: PropertyDeclarations = {
@@ -71,7 +71,7 @@ export class AriaDialogDescriptionElement extends BaseElement {
   protected aria: AriaDialogDescriptionController = new AriaDialogDescriptionController(this)
 
   get name(): ElementName {
-    return ElementName.DIALOG_DESCRIPTION
+    return ElementName.ARIA_DIALOG_DESCRIPTION
   }
 }
 
@@ -79,7 +79,7 @@ export class AriaDialogLabelElement extends BaseElement {
   protected aria: AriaDialogLabelController = new AriaDialogLabelController(this)
 
   get name(): ElementName {
-    return ElementName.DIALOG_LABEL
+    return ElementName.ARIA_DIALOG_LABEL
   }
 }
 

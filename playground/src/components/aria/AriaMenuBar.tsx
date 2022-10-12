@@ -1,15 +1,13 @@
 import { offset } from '@floating-ui/dom'
+import {
+  joinElementClasses,
+  type AriaMenuBarElementAttributes,
+  type AriaMenuBarItemElementAttributes,
+  type AriaMenuBarSubMenuElementAttributes
+} from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import {
-  AriaMenuBarElement,
-  AriaMenuBarElementAttributes,
-  AriaMenuBarItemElement,
-  AriaMenuBarItemElementAttributes,
-  AriaMenuBarSubMenuElement,
-  AriaMenuBarSubMenuElementAttributes,
-  joinElementClasses
-} from '../../../../src'
+import type { AriaMenuBarElement, AriaMenuBarItemElement, AriaMenuBarSubMenuElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.menu.bar.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 

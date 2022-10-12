@@ -242,7 +242,7 @@ export class AriaListBoxElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.LISTBOX
+    return ElementName.ARIA_LISTBOX
   }
 
   get single(): boolean {
@@ -316,7 +316,7 @@ export class AriaListBoxOptionElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.LISTBOX_OPTION
+    return ElementName.ARIA_LISTBOX_OPTION
   }
 
   static properties: PropertyDeclarations = {

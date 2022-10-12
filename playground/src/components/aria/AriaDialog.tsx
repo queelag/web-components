@@ -1,14 +1,7 @@
+import { AriaDialogDescriptionElementAttributes, AriaDialogElementAttributes, AriaDialogLabelElementAttributes, joinElementClasses } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import {
-  AriaDialogDescriptionElement,
-  AriaDialogDescriptionElementAttributes,
-  AriaDialogElement,
-  AriaDialogElementAttributes,
-  AriaDialogLabelElement,
-  AriaDialogLabelElementAttributes,
-  joinElementClasses
-} from '../../../../src'
+import type { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.dialog.element'
 import { useEventListener } from '../../hooks/use.event.listener'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
@@ -27,11 +20,9 @@ interface AriaDialogProps extends AriaDialogElementAttributes, DetailedHTMLProps
 
 interface AriaDialogDescriptionProps
   extends AriaDialogDescriptionElementAttributes,
-    DetailedHTMLProps<HTMLAttributes<AriaDialogDescriptionElement>, AriaDialogLabelElement> {}
+    DetailedHTMLProps<HTMLAttributes<AriaDialogDescriptionElement>, AriaDialogDescriptionElement> {}
 
-interface AriaDialogLabelProps
-  extends AriaDialogLabelElementAttributes,
-    DetailedHTMLProps<HTMLAttributes<AriaDialogLabelElement>, AriaDialogDescriptionElement> {}
+interface AriaDialogLabelProps extends AriaDialogLabelElementAttributes, DetailedHTMLProps<HTMLAttributes<AriaDialogLabelElement>, AriaDialogLabelElement> {}
 
 export function AriaDialog() {
   const { element, ref } = useQueelagElement('q-aria-dialog')

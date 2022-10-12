@@ -1,8 +1,8 @@
-import { removeArrayItems } from '@queelag/core'
-import { deserializeFile, DeserializeFileOptions, QueelagFile, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import { deserializeFile, DeserializeFileOptions, QueelagFile, removeArrayItems } from '@queelag/core'
+import { ElementName, QueryDeclarations, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { FormFieldElement } from './core/form.field.element'
+import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -88,6 +88,10 @@ export class InputFileElement extends FormFieldElement {
     `
   }
 
+  get name(): ElementName {
+    return ElementName.INPUT_FILE
+  }
+
   get files(): QueelagFile[] {
     if (this.multiple) {
       return (this.value as QueelagFile[]) || []
@@ -98,10 +102,8 @@ export class InputFileElement extends FormFieldElement {
 
   private get deserializeFileOptions(): DeserializeFileOptions {
     return {
-      resolve: {
-        arrayBuffer: this.deserializeFileResolveArrayBuffer,
-        text: this.deserializeFileResolveText
-      }
+      resolveArrayBuffer: this.deserializeFileResolveArrayBuffer,
+      resolveText: this.deserializeFileResolveText
     }
   }
 

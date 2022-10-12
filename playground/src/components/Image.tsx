@@ -1,6 +1,7 @@
+import type { ImageElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type { ImageElement, ImageElementAttributes } from '../../../src'
+import type { ImageElement } from '../../../src'
 import '../../../src/elements/image.element'
 import { useQueelagElement } from '../hooks/use.queelag.element'
 

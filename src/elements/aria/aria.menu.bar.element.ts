@@ -227,7 +227,7 @@ export class AriaMenuBarElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.MENUBAR
+    return ElementName.ARIA_MENUBAR
   }
 
   get shallowFocusedItemElementIndex(): number {
@@ -393,7 +393,7 @@ export class AriaMenuBarItemElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.MENUBAR_ITEM
+    return ElementName.ARIA_MENUBAR_ITEM
   }
 
   get sameDepthItemElements(): NodeListOf<AriaMenuBarItemElement> {
@@ -607,7 +607,7 @@ export class AriaMenuBarSubMenuElement extends FloatingElement {
   }
 
   get name(): ElementName {
-    return ElementName.MENUBAR_SUBMENU
+    return ElementName.ARIA_MENUBAR_SUBMENU
   }
 
   get referenceElement(): HTMLElement | undefined {

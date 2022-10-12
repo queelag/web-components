@@ -15,7 +15,7 @@ export class AriaBreadcrumbElement extends BaseElement {
   protected aria: AriaBreadcrumbController = new AriaBreadcrumbController(this)
 
   get name(): ElementName {
-    return ElementName.BREADCRUMB
+    return ElementName.ARIA_BREADCRUMB
   }
 }
 
@@ -23,7 +23,7 @@ export class AriaBreadcrumbListElement extends BaseElement {
   protected aria: AriaBreadcrumbListController = new AriaBreadcrumbListController(this)
 
   get name(): ElementName {
-    return ElementName.BREADCRUMB_LIST
+    return ElementName.ARIA_BREADCRUMB_LIST
   }
 }
 
@@ -41,7 +41,7 @@ export class AriaBreadcrumbListItemElement extends BaseElement {
   anchorElement!: HTMLAnchorElement
 
   get name(): ElementName {
-    return ElementName.BREADCRUMB_LIST_ITEM
+    return ElementName.ARIA_BREADCRUMB_LIST_ITEM
   }
 
   static queries: QueryDeclarations = {

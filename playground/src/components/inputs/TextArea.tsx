@@ -1,8 +1,9 @@
+import type { TextAreaElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type { TextAreaElement, TextAreaElementAttributes } from '../../../src'
-import '../../../src/elements/text.area.element'
-import { useQueelagElement } from '../hooks/use.queelag.element'
+import type { TextAreaElement } from '../../../../src'
+import '../../../../src/elements/inputs/text.area.element'
+import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
   namespace JSX {

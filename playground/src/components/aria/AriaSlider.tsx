@@ -1,19 +1,18 @@
 import { getLowestNumber, getNumbersDistance } from '@queelag/core'
-import { useState } from 'preact/hooks'
-import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import {
-  AriaSliderElement,
-  AriaSliderElementAttributes,
-  AriaSliderThumbElement,
-  AriaSliderThumbElementAttributes,
+  AriaSliderChangeEvent,
   getAriaSliderThumbElementPercentage,
   getAriaSliderThumbElementStyleLeft,
   getAriaSliderThumbElementStyleTop,
   joinElementClasses,
-  Orientation
-} from '../../../../src'
+  type AriaSliderElementAttributes,
+  type AriaSliderThumbElementAttributes,
+  type Orientation
+} from '@queelag/web'
+import { useState } from 'preact/hooks'
+import type { DetailedHTMLProps, HTMLAttributes } from 'react'
+import type { AriaSliderElement, AriaSliderThumbElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.slider.element'
-import type { AriaSliderChangeEvent } from '../../../../src/events/slider.change.event'
 import { useEventListener } from '../../hooks/use.event.listener'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 

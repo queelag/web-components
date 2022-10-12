@@ -1,8 +1,9 @@
+import { joinElementClasses, SelectElementAttributes, SelectOption } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, FormEvent, HTMLAttributes } from 'react'
-import { joinElementClasses, SelectElement, SelectElementAttributes, SelectOption } from '../../../src'
-import '../../../src/elements/select.element'
-import { useQueelagElement } from '../hooks/use.queelag.element'
+import type { SelectElement } from '../../../../src'
+import '../../../../src/elements/inputs/select.element'
+import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
   namespace JSX {

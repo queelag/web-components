@@ -1,6 +1,7 @@
+import type { BadgeElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type { BadgeElement, BadgeElementAttributes } from '../../../src'
+import type { BadgeElement } from '../../../src'
 import '../../../src/elements/badge.element'
 import { useQueelagElement } from '../hooks/use.queelag.element'
 

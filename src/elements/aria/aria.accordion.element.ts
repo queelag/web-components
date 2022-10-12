@@ -113,7 +113,7 @@ export class AriaAccordionElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.ACCORDION
+    return ElementName.ARIA_ACCORDION
   }
 
   static queries: QueryDeclarations = {
@@ -158,7 +158,7 @@ export class AriaAccordionSectionElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.ACCORDION_SECTION
+    return ElementName.ARIA_ACCORDION_SECTION
   }
 
   static queries: QueryDeclarations = {
@@ -181,7 +181,7 @@ export class AriaAccordionHeaderElement extends BaseElement {
   level?: HeadingLevel
 
   get name(): ElementName {
-    return ElementName.ACCORDION_HEADER
+    return ElementName.ARIA_ACCORDION_HEADER
   }
 
   static properties: PropertyDeclarations = {
@@ -231,7 +231,7 @@ export class AriaAccordionButtonElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.ACCORDION_BUTTON
+    return ElementName.ARIA_ACCORDION_BUTTON
   }
 
   static queries: QueryDeclarations = {
@@ -244,7 +244,7 @@ export class AriaAccordionPanelElement extends BaseElement {
   protected aria: AriaAccordionPanelController = new AriaAccordionPanelController(this)
 
   get name(): ElementName {
-    return ElementName.ACCORDION_PANEL
+    return ElementName.ARIA_ACCORDION_PANEL
   }
 }
 

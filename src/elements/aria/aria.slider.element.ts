@@ -3,9 +3,9 @@ import {
   AriaSliderChangeEvent,
   AriaSliderThumbMoveEvent,
   DEFAULT_SLIDER_DECIMALS,
-  DEFAULT_SLIDER_MAXIMUM,
-  DEFAULT_SLIDER_MINIMUM,
-  DEFAULT_SLIDER_MINIMUM_DISTANCE,
+  DEFAULT_SLIDER_MAX,
+  DEFAULT_SLIDER_MIN,
+  DEFAULT_SLIDER_MIN_DISTANCE,
   DEFAULT_SLIDER_ORIENTATION,
   DEFAULT_SLIDER_STEP,
   DEFAULT_SLIDER_THUMB_VALUE,
@@ -37,9 +37,9 @@ export class AriaSliderElement extends BaseElement {
    */
   decimals?: number
   disableSwap?: boolean
-  maximum?: number
-  minimum?: number
-  minimumDistance?: number
+  max?: number
+  min?: number
+  minDistance?: number
   orientation?: Orientation
   step?: number
 
@@ -80,7 +80,7 @@ export class AriaSliderElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.SLIDER
+    return ElementName.ARIA_SLIDER
   }
 
   get percentages(): number[] {
@@ -110,9 +110,9 @@ export class AriaSliderElement extends BaseElement {
   static properties: PropertyDeclarations = {
     decimals: { type: Number, reflect: true },
     disableSwap: { type: Boolean, attribute: 'disable-swap', reflect: true },
-    maximum: { type: Number, reflect: true },
-    minimum: { type: Number, reflect: true },
-    minimumDistance: { type: Number, attribute: 'minimum-distance', reflect: true },
+    max: { type: Number, reflect: true },
+    min: { type: Number, reflect: true },
+    minDistance: { type: Number, attribute: 'min-distance', reflect: true },
     orientation: { type: String, reflect: true },
     step: { type: Number, reflect: true }
   }
@@ -190,8 +190,8 @@ export class AriaSliderThumbElement extends BaseElement {
       case KeyboardEventKey.ARROW_UP:
         this.value = getLimitedNumber(
           (this.value ?? DEFAULT_SLIDER_THUMB_VALUE) - (this.rootElement.step ?? DEFAULT_SLIDER_STEP),
-          this.rootElement.minimum ?? DEFAULT_SLIDER_MINIMUM,
-          this.rootElement.maximum ?? DEFAULT_SLIDER_MAXIMUM
+          this.rootElement.min ?? DEFAULT_SLIDER_MIN,
+          this.rootElement.max ?? DEFAULT_SLIDER_MAX
         )
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT or ARROW_DOWN', `The value has been decreased.`, [this.value])
 
@@ -200,8 +200,8 @@ export class AriaSliderThumbElement extends BaseElement {
       case KeyboardEventKey.ARROW_DOWN:
         this.value = getLimitedNumber(
           (this.value ?? DEFAULT_SLIDER_THUMB_VALUE) + (this.rootElement.step ?? DEFAULT_SLIDER_STEP),
-          this.rootElement.minimum ?? DEFAULT_SLIDER_MINIMUM,
-          this.rootElement.maximum ?? DEFAULT_SLIDER_MAXIMUM
+          this.rootElement.min ?? DEFAULT_SLIDER_MIN,
+          this.rootElement.max ?? DEFAULT_SLIDER_MAX
         )
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT or ARROW_UP', `The value has been increased.`, [this.value])
 
@@ -209,8 +209,8 @@ export class AriaSliderThumbElement extends BaseElement {
       case KeyboardEventKey.PAGE_DOWN:
         this.value = getLimitedNumber(
           (this.value ?? DEFAULT_SLIDER_THUMB_VALUE) - (this.rootElement.step ?? DEFAULT_SLIDER_STEP) * 10,
-          this.rootElement.minimum ?? DEFAULT_SLIDER_MINIMUM,
-          this.rootElement.maximum ?? DEFAULT_SLIDER_MAXIMUM
+          this.rootElement.min ?? DEFAULT_SLIDER_MIN,
+          this.rootElement.max ?? DEFAULT_SLIDER_MAX
         )
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The value has been decreased.`, [this.value])
 
@@ -218,20 +218,20 @@ export class AriaSliderThumbElement extends BaseElement {
       case KeyboardEventKey.PAGE_UP:
         this.value = getLimitedNumber(
           (this.value ?? DEFAULT_SLIDER_THUMB_VALUE) + (this.rootElement.step ?? DEFAULT_SLIDER_STEP) * 10,
-          this.rootElement.minimum ?? DEFAULT_SLIDER_MINIMUM,
-          this.rootElement.maximum ?? DEFAULT_SLIDER_MAXIMUM
+          this.rootElement.min ?? DEFAULT_SLIDER_MIN,
+          this.rootElement.max ?? DEFAULT_SLIDER_MAX
         )
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The value has been increased.`, [this.value])
 
         break
       case KeyboardEventKey.HOME:
-        this.value = this.rootElement.minimum ?? DEFAULT_SLIDER_MINIMUM
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the minimum.`, [this.value])
+        this.value = this.rootElement.min ?? DEFAULT_SLIDER_MIN
+        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the min.`, [this.value])
 
         break
       case KeyboardEventKey.END:
-        this.value = this.rootElement.maximum ?? DEFAULT_SLIDER_MAXIMUM
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the maximum.`, [this.value])
+        this.value = this.rootElement.max ?? DEFAULT_SLIDER_MAX
+        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the max.`, [this.value])
 
         break
     }
@@ -327,14 +327,14 @@ export class AriaSliderThumbElement extends BaseElement {
   }
 
   setValueByPercentage(percentage: number): void {
-    let decimals: number, maximum: number, minimum: number, step: number, value: number
+    let decimals: number, max: number, min: number, step: number, value: number
 
     decimals = this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS
-    maximum = this.rootElement.maximum ?? DEFAULT_SLIDER_MAXIMUM
-    minimum = this.rootElement.minimum ?? DEFAULT_SLIDER_MINIMUM
+    max = this.rootElement.max ?? DEFAULT_SLIDER_MAX
+    min = this.rootElement.min ?? DEFAULT_SLIDER_MIN
     step = this.rootElement.step ?? DEFAULT_SLIDER_STEP
 
-    value = getLimitedNumber(toFixedNumber(((maximum - minimum) * percentage) / 100 + minimum, decimals), minimum, maximum)
+    value = getLimitedNumber(toFixedNumber(((max - min) * percentage) / 100 + min, decimals), min, max)
     if (!isNumberMultipleOf(value, step)) return
 
     this.value = value
@@ -379,11 +379,11 @@ export class AriaSliderThumbElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.SLIDER_THUMB
+    return ElementName.ARIA_SLIDER_THUMB
   }
 
   get percentage(): number {
-    return getAriaSliderThumbElementPercentage(this.value, this.rootElement.minimum, this.rootElement.maximum, this.rootElement.decimals)
+    return getAriaSliderThumbElementPercentage(this.value, this.rootElement.min, this.rootElement.max, this.rootElement.decimals)
   }
 
   get value(): number | undefined {
@@ -399,7 +399,7 @@ export class AriaSliderThumbElement extends BaseElement {
       pthumb = this.rootElement.thumbElements[this.index - 1]
       nthumb = this.rootElement.thumbElements[this.index + 1]
       svalue = value ?? DEFAULT_SLIDER_THUMB_VALUE
-      mdistance = this.rootElement.minimumDistance ?? DEFAULT_SLIDER_MINIMUM_DISTANCE
+      mdistance = this.rootElement.minDistance ?? DEFAULT_SLIDER_MIN_DISTANCE
 
       if (pthumb && svalue < (pthumb.value ?? Number.MIN_SAFE_INTEGER) + mdistance) {
         return

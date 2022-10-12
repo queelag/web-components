@@ -1,6 +1,7 @@
+import type { ChipElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type { ChipElement, ChipElementAttributes } from '../../../src'
+import type { ChipElement } from '../../../src'
 import '../../../src/elements/chip.element'
 import { useQueelagElement } from '../hooks/use.queelag.element'
 

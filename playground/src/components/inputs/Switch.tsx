@@ -1,8 +1,9 @@
+import { joinElementClasses, SwitchElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import { joinElementClasses, SwitchElement, SwitchElementAttributes } from '../../../src'
-import '../../../src/elements/switch.element'
-import { useQueelagElement } from '../hooks/use.queelag.element'
+import type { SwitchElement } from '../../../../src'
+import '../../../../src/elements/inputs/switch.element'
+import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
   namespace JSX {

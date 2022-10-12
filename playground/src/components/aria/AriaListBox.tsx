@@ -1,12 +1,7 @@
+import { AriaListBoxElementAttributes, AriaListBoxOptionElementAttributes, joinElementClasses } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import {
-  AriaListBoxElement,
-  AriaListBoxElementAttributes,
-  AriaListBoxOptionElement,
-  AriaListBoxOptionElementAttributes,
-  joinElementClasses
-} from '../../../../src'
+import type { AriaListBoxElement, AriaListBoxOptionElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.list.box.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 

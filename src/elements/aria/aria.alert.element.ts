@@ -26,7 +26,7 @@ export class AriaAlertElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.ALERT
+    return ElementName.ARIA_ALERT
   }
 
   static properties: PropertyDeclarations = {

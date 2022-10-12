@@ -1,6 +1,7 @@
+import type { AvatarElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type { AvatarElement, AvatarElementAttributes } from '../../../src'
+import type { AvatarElement } from '../../../src'
 import '../../../src/elements/avatar.element'
 import { useQueelagElement } from '../hooks/use.queelag.element'
 

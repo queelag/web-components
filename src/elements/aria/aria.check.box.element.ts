@@ -1,27 +1,23 @@
-import { ButtonPressed, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
+import { ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { AriaButtonController } from '../../controllers/aria.button.controller'
+import { AriaCheckBoxController } from '../../controllers/aria.check.box.controller'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-button': AriaButtonElement
+    'q-aria-checkbox': AriaCheckBoxElement
   }
 }
 
-export class AriaButtonElement extends BaseElement {
-  protected aria: AriaButtonController
+export class AriaCheckBoxElement extends BaseElement {
+  protected aria: AriaCheckBoxController = new AriaCheckBoxController(this)
 
   /**
    * PROPERTIES
    */
+  checked?: boolean
   disabled?: boolean
-  pressed?: ButtonPressed
-
-  constructor(native?: boolean) {
-    super()
-    this.aria = new AriaButtonController(this, native)
-  }
+  readonly?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -37,27 +33,31 @@ export class AriaButtonElement extends BaseElement {
     this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onClick = (): void => {}
+  private onClick(): void {
+    this.checked = !this.checked
+    WebElementLogger.verbose(this.uid, 'onClick', `The checkbox has been ${this.checked ? 'checked' : 'unchecked'}.`)
+  }
 
-  onKeyDown = (event: KeyboardEvent): void => {
-    if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {
+  private onKeyDown(event: KeyboardEvent): void {
+    if (event.key !== KeyboardEventKey.SPACE) {
       return
     }
 
     event.preventDefault()
     event.stopPropagation()
 
-    this.click()
-    WebElementLogger.verbose(this.uid, 'onKeyDown', `The element has been clicked.`)
+    this.onClick()
   }
 
   get name(): ElementName {
-    return ElementName.ARIA_BUTTON
+    return ElementName.ARIA_CHECKBOX
   }
 
   static properties: PropertyDeclarations = {
+    ...super.properties,
+    checked: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
-    pressed: { type: String, reflect: true }
+    readonly: { type: Boolean, reflect: true }
   }
 
   static styles: CSSResultGroup = [
@@ -70,4 +70,4 @@ export class AriaButtonElement extends BaseElement {
   ]
 }
 
-customElements.define('q-aria-button', AriaButtonElement)
+customElements.define('q-aria-checkbox', AriaCheckBoxElement)

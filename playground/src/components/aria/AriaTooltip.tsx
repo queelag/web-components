@@ -1,17 +1,14 @@
 import { offset } from '@floating-ui/dom'
-import { useState } from 'preact/hooks'
-import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import {
-  AriaTooltipArrowElement,
   AriaTooltipArrowElementAttributes,
-  AriaTooltipContentElement,
   AriaTooltipContentElementAttributes,
-  AriaTooltipElement,
   AriaTooltipElementAttributes,
-  AriaTooltipTriggerElement,
   AriaTooltipTriggerElementAttributes,
   joinElementClasses
-} from '../../../../src'
+} from '@queelag/web'
+import { useState } from 'preact/hooks'
+import type { DetailedHTMLProps, HTMLAttributes } from 'react'
+import type { AriaTooltipArrowElement, AriaTooltipContentElement, AriaTooltipElement, AriaTooltipTriggerElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.tooltip.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 

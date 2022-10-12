@@ -1,12 +1,7 @@
+import { joinElementClasses, NavigationBarElementAttributes, NavigationBarItemElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import {
-  joinElementClasses,
-  NavigationBarElement,
-  NavigationBarElementAttributes,
-  NavigationBarItemElement,
-  NavigationBarItemElementAttributes
-} from '../../../src'
+import type { NavigationBarElement, NavigationBarItemElement } from '../../../src'
 import '../../../src/elements/navigation.bar.element'
 import { useQueelagElement } from '../hooks/use.queelag.element'
 

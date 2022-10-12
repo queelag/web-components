@@ -1,14 +1,8 @@
+import type { AriaBreadcrumbElementAttributes, AriaBreadcrumbListElementAttributes, AriaBreadcrumbListItemElementAttributes } from '@queelag/web'
 import { Fragment } from 'preact'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type {
-  AriaBreadcrumbElement,
-  AriaBreadcrumbElementAttributes,
-  AriaBreadcrumbListElement,
-  AriaBreadcrumbListElementAttributes,
-  AriaBreadcrumbListItemElement,
-  AriaBreadcrumbListItemElementAttributes
-} from '../../../../src'
+import type { AriaBreadcrumbElement, AriaBreadcrumbListElement, AriaBreadcrumbListItemElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.breadcrumb.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 

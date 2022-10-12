@@ -1,14 +1,7 @@
+import { joinElementClasses, type AriaTabsElementAttributes, type AriaTabsPanelElementAttributes, type AriaTabsTabElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import {
-  AriaTabsElement,
-  AriaTabsElementAttributes,
-  AriaTabsPanelElement,
-  AriaTabsPanelElementAttributes,
-  AriaTabsTabElement,
-  AriaTabsTabElementAttributes,
-  joinElementClasses
-} from '../../../../src'
+import type { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.tabs.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 

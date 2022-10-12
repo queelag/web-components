@@ -3,9 +3,9 @@ import { ElementName, InputElementTouchTrigger, InputElementType, InputElementVa
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
-import { ifdef } from '../directives/if.defined'
-import { styleMap } from '../directives/style.map'
-import { FormFieldElement } from './core/form.field.element'
+import { ifdef } from '../../directives/if.defined'
+import { styleMap } from '../../directives/style.map'
+import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {

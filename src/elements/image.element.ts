@@ -1,10 +1,8 @@
-import { DeferredPromise, sleep } from '@queelag/core'
 import {
   CACHE_IMAGES,
   DEFAULT_IMAGE_SIZE,
   DEFAULT_IMAGE_SRC,
   ElementName,
-  FETCHING_IMAGES,
   getElementStyleCompatibleValue,
   getImageElementBase64,
   ImageElementCacheType,
@@ -18,7 +16,6 @@ import { DirectiveResult } from 'lit-html/directive'
 import { StyleMapDirective } from 'lit-html/directives/style-map'
 import { ifdef } from '../directives/if.defined'
 import { styleMap } from '../directives/style.map'
-import { until } from '../directives/until'
 import { BaseElement } from './core/base.element'
 
 declare global {
@@ -38,7 +35,8 @@ export class ImageElement extends BaseElement {
   crossOrigin?: ImageElementCrossOrigin
   eager?: boolean
   lazy?: boolean
-  src: string = DEFAULT_IMAGE_SRC
+  placeholder?: string
+  src!: string
 
   /**
    * QUERIES
@@ -48,7 +46,7 @@ export class ImageElement extends BaseElement {
   /**
    * STATES
    */
-  private imgElementSrc: DeferredPromise<string> = new DeferredPromise()
+  private imgElementSrc: string = this.placeholder ?? DEFAULT_IMAGE_SRC
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -68,64 +66,48 @@ export class ImageElement extends BaseElement {
   private async load(): Promise<void> {
     let cache: string | undefined
 
-    if (this.src === null) {
-      WebElementLogger.warn(this.uid, 'load', `The src property is null.`, [this.src])
-      return
-    }
+    // if (FETCHING_IMAGES.has(this.src)) {
+    //   await sleep(100)
+    //   WebElementLogger.verbose(this.uid, 'load', `The src is already being fetched, will try again in 100ms.`, [this.src])
 
-    if (FETCHING_IMAGES.has(this.src)) {
-      await sleep(100)
-      WebElementLogger.verbose(this.uid, 'load', `The src is already being fetched, will try again in 100ms.`, [this.src])
-
-      return this.load()
-    }
+    //   return this.load()
+    // }
 
     cache = CACHE_IMAGES.get(this.src)
-    if (typeof cache === 'string') {
-      this.imgElementSrc.resolve(cache)
+    if (this.cache && cache) {
+      this.imgElementSrc = cache
       WebElementLogger.verbose(this.uid, 'load', `Cached base64 found for this image, will use it.`, [this.src, cache])
 
       return
     }
 
-    if (this.imgElementSrc.isResolved) {
-      WebElementLogger.verbose(this.uid, 'load', `The src was already resolved.`, [this.src])
-      return
-    }
+    // FETCHING_IMAGES.add(this.src)
+    // WebElementLogger.verbose(this.uid, 'load', `The src has been marked as fetching.`, [this.src])
 
-    FETCHING_IMAGES.add(this.src)
-    WebElementLogger.verbose(this.uid, 'load', `The src has been marked as fetching.`, [this.src])
-
-    this.imgElementSrc.resolve(this.src)
+    this.imgElementSrc = this.src
   }
 
   private onError(event: ErrorEvent): void {
-    FETCHING_IMAGES.delete(this.src)
-    WebElementLogger.verbose(this.uid, 'onError', `The src has been unmarked as fetching.`, [this.src])
+    // FETCHING_IMAGES.delete(this.src)
+    // WebElementLogger.verbose(this.uid, 'onError', `The src has been unmarked as fetching.`, [this.src])
 
-    this.imgElementSrc = new DeferredPromise()
-    this.imgElementSrc.resolve(DEFAULT_IMAGE_SRC)
-
-    WebElementLogger.error(this.uid, 'onError', `Falling back to the default img src.`, event)
+    this.imgElementSrc = this.placeholder ?? DEFAULT_IMAGE_SRC
+    WebElementLogger.error(this.uid, 'onError', `Falling back to the placeholder image.`, event)
   }
 
   private onLoad(): void {
     let base64: string
 
-    FETCHING_IMAGES.delete(this.src)
-    WebElementLogger.verbose(this.uid, 'onLoad', `The src has been unmarked as fetching.`, [this.src])
+    // FETCHING_IMAGES.delete(this.src)
+    // WebElementLogger.verbose(this.uid, 'onLoad', `The src has been unmarked as fetching.`, [this.src])
 
     if (!this.cache) {
       return
     }
 
-    if (this.src === DEFAULT_IMAGE_SRC) {
+    if (this.src === this.placeholder ?? DEFAULT_IMAGE_SRC) {
       return
     }
-
-    // if (CACHE_IMAGES.has(this.src) && !FETCHING_IMAGES.has(this.src)) {
-    //   return
-    // }
 
     base64 = getImageElementBase64(this.imgElement, { quality: this.cacheQuality, type: this.cacheType })
     if (!base64) return WebElementLogger.warn(this.uid, 'onLoad', `The base64 is empty.`, [base64])
@@ -142,7 +124,7 @@ export class ImageElement extends BaseElement {
         @error=${this.onError}
         @load=${this.onLoad}
         loading=${this.imgElementLoading}
-        src=${until(this.imgElementSrc.instance)}
+        src=${this.imgElementSrc}
         style=${this.imgElementStyle}
       />
       ${this.shapeHTML}
@@ -194,9 +176,10 @@ export class ImageElement extends BaseElement {
     cacheType: { type: String, attribute: 'cache-type', reflect: true },
     crossOrigin: { type: String, attribute: 'cross-origin', reflect: true },
     eager: { type: Boolean, reflect: true },
+    imgElementSrc: { state: true },
     lazy: { type: Boolean, reflect: true },
-    src: { type: String, reflect: true },
-    imgElementSrc: { state: true }
+    placeholder: { type: String, reflect: true },
+    src: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {

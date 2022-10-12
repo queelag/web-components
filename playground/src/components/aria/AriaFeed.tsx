@@ -1,15 +1,12 @@
+import type {
+  AriaFeedArticleDescriptionElementAttributes,
+  AriaFeedArticleElementAttributes,
+  AriaFeedArticleLabelElementAttributes,
+  AriaFeedElementAttributes
+} from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type {
-  AriaFeedArticleDescriptionElement,
-  AriaFeedArticleDescriptionElementAttributes,
-  AriaFeedArticleElement,
-  AriaFeedArticleElementAttributes,
-  AriaFeedArticleLabelElement,
-  AriaFeedArticleLabelElementAttributes,
-  AriaFeedElement,
-  AriaFeedElementAttributes
-} from '../../../../src'
+import type { AriaFeedArticleDescriptionElement, AriaFeedArticleElement, AriaFeedArticleLabelElement, AriaFeedElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.feed.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 

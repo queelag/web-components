@@ -1,7 +1,7 @@
 import { KeyboardEventKey, WebElementLogger } from '@queelag/web'
 import { css, CSSResult, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { FormFieldElement } from './core/form.field.element'
+import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {

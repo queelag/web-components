@@ -159,7 +159,7 @@ export class AriaTabsElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.TABS
+    return ElementName.ARIA_TABS
   }
 
   get selectedTabElementIndex(): number {
@@ -227,7 +227,7 @@ export class AriaTabsTabElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.TABS_TAB
+    return ElementName.ARIA_TABS_TAB
   }
 
   static properties: PropertyDeclarations = {
@@ -252,7 +252,7 @@ export class AriaTabsPanelElement extends BaseElement {
   protected aria: AriaTabsPanelController = new AriaTabsPanelController(this)
 
   get name(): ElementName {
-    return ElementName.TABS_PANEL
+    return ElementName.ARIA_TABS_PANEL
   }
 }
 

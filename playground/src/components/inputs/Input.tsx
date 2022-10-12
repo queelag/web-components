@@ -1,9 +1,10 @@
+import type { InputElementAttributes } from '@queelag/web'
 import { useRef, useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import { size, string } from 'superstruct'
-import type { InputElement, InputElementAttributes } from '../../../src'
-import '../../../src/elements/input.element'
-import { useQueelagElement } from '../hooks/use.queelag.element'
+import type { InputElement } from '../../../../src'
+import '../../../../src/elements/inputs/input.element'
+import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
   namespace JSX {

@@ -1,16 +1,13 @@
-import { useState } from 'preact/hooks'
-import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import {
-  AriaDisclosureButtonElement,
   AriaDisclosureButtonElementAttributes,
-  AriaDisclosureElement,
   AriaDisclosureElementAttributes,
-  AriaDisclosurePanelElement,
   AriaDisclosurePanelElementAttributes,
-  AriaDisclosureSectionElement,
   AriaDisclosureSectionElementAttributes,
   joinElementClasses
-} from '../../../../src'
+} from '@queelag/web'
+import { useState } from 'preact/hooks'
+import type { DetailedHTMLProps, HTMLAttributes } from 'react'
+import type { AriaDisclosureButtonElement, AriaDisclosureElement, AriaDisclosurePanelElement, AriaDisclosureSectionElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.disclosure.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 

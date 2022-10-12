@@ -1,6 +1,7 @@
+import type { DividerElementAttributes } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type { DividerElement, DividerElementAttributes } from '../../../src'
+import type { DividerElement } from '../../../src'
 import '../../../src/elements/divider.element'
 import { useQueelagElement } from '../hooks/use.queelag.element'
 

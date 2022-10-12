@@ -1,23 +1,25 @@
-import { useState } from 'preact/hooks'
-import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import {
-  AriaCarouselElement,
   AriaCarouselElementAttributes,
-  AriaCarouselNextSlideControlElement,
   AriaCarouselNextSlideControlElementAttributes,
-  AriaCarouselPreviousSlideControlElement,
   AriaCarouselPreviousSlideControlElementAttributes,
-  AriaCarouselRotationControlElement,
   AriaCarouselRotationControlElementAttributes,
-  AriaCarouselSlideElement,
   AriaCarouselSlideElementAttributes,
-  AriaCarouselSlidesElement,
   AriaCarouselSlidesElementAttributes,
-  AriaCarouselTabElement,
   AriaCarouselTabElementAttributes,
-  AriaCarouselTabsElement,
   AriaCarouselTabsElementAttributes,
   joinElementClasses
+} from '@queelag/web'
+import { useState } from 'preact/hooks'
+import type { DetailedHTMLProps, HTMLAttributes } from 'react'
+import type {
+  AriaCarouselElement,
+  AriaCarouselNextSlideControlElement,
+  AriaCarouselPreviousSlideControlElement,
+  AriaCarouselRotationControlElement,
+  AriaCarouselSlideElement,
+  AriaCarouselSlidesElement,
+  AriaCarouselTabElement,
+  AriaCarouselTabsElement
 } from '../../../../src'
 import '../../../../src/elements/aria/aria.carousel.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'

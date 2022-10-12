@@ -1,7 +1,7 @@
-import { ButtonType, ButtonVariant, ClickAsyncEvent, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
+import { ButtonPressed, ButtonType, ButtonVariant, ClickAsyncEvent, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
 import { ifdef } from '../directives/if.defined'
-import { AriaButtonElement } from './aria/aria.button.element'
+import { BaseElement } from './core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,22 +9,20 @@ declare global {
   }
 }
 
-export class ButtonElement extends AriaButtonElement {
+export class ButtonElement extends BaseElement {
   /**
    * PROPERTIES
    */
   async?: boolean
+  disabled?: boolean
   icon?: string
   label?: string
   native?: boolean
   normalized?: boolean
+  pressed?: ButtonPressed
   spinning?: boolean
   type?: ButtonType
   variant?: ButtonVariant
-
-  constructor() {
-    super(true)
-  }
 
   onClick = (): void => {
     if (this.async) {
