@@ -2,6 +2,7 @@ import { ElementName, KeyboardEventKey, QueryDeclarations, WebElementLogger } fr
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaRadioButtonController, AriaRadioGroupController } from '../../controllers/aria.radio.group.controller'
 import { BaseElement } from '../core/base.element'
+import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -10,7 +11,7 @@ declare global {
   }
 }
 
-export class AriaRadioGroupElement extends BaseElement {
+export class AriaRadioGroupElement extends FormFieldElement {
   protected aria: AriaRadioGroupController = new AriaRadioGroupController(this)
 
   /**
@@ -23,6 +24,10 @@ export class AriaRadioGroupElement extends BaseElement {
   connectedCallback(): void {
     super.connectedCallback()
 
+    if (this.native) {
+      return
+    }
+
     this.addEventListener('blur', this.onBlur)
     this.addEventListener('focus', this.onFocus)
     this.addEventListener('keydown', this.onKeyDown)
@@ -30,6 +35,10 @@ export class AriaRadioGroupElement extends BaseElement {
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
+
+    if (this.native) {
+      return
+    }
 
     this.removeEventListener('blur', this.onBlur)
     this.removeEventListener('focus', this.onFocus)
@@ -44,6 +53,10 @@ export class AriaRadioGroupElement extends BaseElement {
   }
 
   onFocus = (): void => {
+    if (this.disabled || this.readonly) {
+      return WebElementLogger.warn(this.uid, 'onClick', `The group is disabled or readonly.`)
+    }
+
     if (this.checkedButtonElement) {
       this.checkedButtonElement.focused = true
       WebElementLogger.verbose(this.uid, 'onFocus', `The checked button has been focused.`)
@@ -64,6 +77,10 @@ export class AriaRadioGroupElement extends BaseElement {
       case KeyboardEventKey.SPACE:
         event.preventDefault()
         event.stopPropagation()
+    }
+
+    if (this.disabled || this.readonly) {
+      return WebElementLogger.warn(this.uid, 'onKeyDown', `The group is disabled or readonly.`)
     }
 
     switch (event.key) {
@@ -157,6 +174,10 @@ export class AriaRadioButtonElement extends BaseElement {
   }
 
   onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return WebElementLogger.warn(this.uid, 'onClick', `The group is disabled or readonly.`)
+    }
+
     this.rootElement.checkedButtonElement?.uncheck()
 
     this.check()

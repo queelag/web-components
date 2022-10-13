@@ -16,8 +16,8 @@ export class MeterElement extends BaseElement {
    */
   low?: number
   high?: number
-  maximum?: number
-  minimum?: number
+  max?: number
+  min?: number
   native?: boolean
   optimum?: number
   round?: boolean
@@ -31,8 +31,8 @@ export class MeterElement extends BaseElement {
     if (this.native) {
       return html`
         <meter
-          min=${ifdef(this.minimum)}
-          max=${ifdef(this.maximum)}
+          min=${ifdef(this.min)}
+          max=${ifdef(this.max)}
           low=${ifdef(this.low)}
           high=${ifdef(this.high)}
           optimum=${ifdef(this.optimum)}
@@ -53,11 +53,11 @@ export class MeterElement extends BaseElement {
   }
 
   get percentage(): number {
-    return getNumberPercentage(this.value || 0, this.minimum, this.maximum, this.round)
+    return getNumberPercentage(this.value || 0, this.min, this.max, this.round)
   }
 
   get value(): number {
-    return getLimitedNumber(this._value || 0, this.minimum, this.maximum)
+    return getLimitedNumber(this._value || 0, this.min, this.max)
   }
 
   set value(value: number | undefined) {

@@ -1,7 +1,7 @@
 import { ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaCheckBoxController } from '../../controllers/aria.check.box.controller'
-import { BaseElement } from '../core/base.element'
+import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class AriaCheckBoxElement extends BaseElement {
+export class AriaCheckBoxElement extends FormFieldElement {
   protected aria: AriaCheckBoxController = new AriaCheckBoxController(this)
 
   /**
@@ -22,6 +22,10 @@ export class AriaCheckBoxElement extends BaseElement {
   connectedCallback(): void {
     super.connectedCallback()
 
+    if (this.native) {
+      return
+    }
+
     this.addEventListener('click', this.onClick)
     this.addEventListener('keydown', this.onKeyDown)
   }
@@ -29,11 +33,19 @@ export class AriaCheckBoxElement extends BaseElement {
   disconnectedCallback(): void {
     super.disconnectedCallback()
 
+    if (this.native) {
+      return
+    }
+
     this.removeEventListener('click', this.onClick)
     this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  private onClick(): void {
+  onClick(): void {
+    if (this.disabled || this.readonly) {
+      return WebElementLogger.warn(this.uid, 'onClick', `The checkbox is disabled or readonly.`)
+    }
+
     this.checked = !this.checked
     WebElementLogger.verbose(this.uid, 'onClick', `The checkbox has been ${this.checked ? 'checked' : 'unchecked'}.`)
   }

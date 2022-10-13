@@ -10,21 +10,21 @@ declare global {
 }
 
 export class AriaButtonElement extends BaseElement {
-  protected aria: AriaButtonController
+  protected aria: AriaButtonController = new AriaButtonController(this)
 
   /**
    * PROPERTIES
    */
   disabled?: boolean
+  native?: boolean
   pressed?: ButtonPressed
-
-  constructor(native?: boolean) {
-    super()
-    this.aria = new AriaButtonController(this, native)
-  }
 
   connectedCallback(): void {
     super.connectedCallback()
+
+    if (this.native) {
+      return
+    }
 
     this.addEventListener('click', this.onClick)
     this.addEventListener('keydown', this.onKeyDown)
@@ -32,6 +32,10 @@ export class AriaButtonElement extends BaseElement {
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
+
+    if (this.native) {
+      return
+    }
 
     this.removeEventListener('click', this.onClick)
     this.removeEventListener('keydown', this.onKeyDown)
@@ -47,8 +51,12 @@ export class AriaButtonElement extends BaseElement {
     event.preventDefault()
     event.stopPropagation()
 
+    if (this.disabled) {
+      return WebElementLogger.warn(this.uid, 'onKeyDown', `The button is disabled.`)
+    }
+
     this.click()
-    WebElementLogger.verbose(this.uid, 'onKeyDown', `The element has been clicked.`)
+    WebElementLogger.verbose(this.uid, 'onKeyDown', `The button has been clicked.`)
   }
 
   get name(): ElementName {
@@ -57,6 +65,7 @@ export class AriaButtonElement extends BaseElement {
 
   static properties: PropertyDeclarations = {
     disabled: { type: Boolean, reflect: true },
+    native: { type: Boolean, reflect: true },
     pressed: { type: String, reflect: true }
   }
 

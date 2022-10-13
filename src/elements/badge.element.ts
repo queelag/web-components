@@ -1,4 +1,5 @@
 import { getLimitedNumber, parseNumber } from '@queelag/core'
+import { DEFAULT_BADGE_MAX, DEFAULT_BADGE_MIN } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { BaseElement } from './core/base.element'
@@ -13,8 +14,8 @@ export class BadgeElement extends BaseElement {
   /**
    * PROPERTIES
    */
-  maximum?: number
-  minimum?: number
+  max?: number
+  min?: number
   numeric?: boolean
 
   /**
@@ -31,7 +32,7 @@ export class BadgeElement extends BaseElement {
 
   get value(): string {
     if (this.numeric) {
-      return getLimitedNumber(parseNumber(this._value || '0'), this.minimum, this.maximum).toString()
+      return getLimitedNumber(parseNumber(this._value || '0'), this.min ?? DEFAULT_BADGE_MIN, this.max ?? DEFAULT_BADGE_MAX).toString()
     }
 
     return this._value || ''
@@ -47,8 +48,8 @@ export class BadgeElement extends BaseElement {
   }
 
   static properties: PropertyDeclarations = {
-    maximum: { type: Number, reflect: true },
-    minimum: { type: Number, reflect: true },
+    max: { type: Number, reflect: true },
+    min: { type: Number, reflect: true },
     numeric: { type: Boolean, reflect: true },
     value: { type: String, reflect: true }
   }

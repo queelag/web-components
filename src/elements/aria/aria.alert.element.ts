@@ -1,4 +1,4 @@
-import { ElementName } from '@queelag/web'
+import { AriaAlertSeverity, AriaAlertVariant, ElementName } from '@queelag/web'
 import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
@@ -15,7 +15,9 @@ export class AriaAlertElement extends BaseElement {
   closable?: boolean
   headline?: string
   icon?: string
+  severity?: AriaAlertSeverity
   text?: string
+  variant?: AriaAlertVariant
 
   render() {
     return html`
@@ -33,6 +35,7 @@ export class AriaAlertElement extends BaseElement {
     closable: { type: Boolean, reflect: true },
     headline: { type: String, reflect: true },
     icon: { type: String, reflect: true },
+    severity: { type: String, reflect: true },
     text: { type: String, reflect: true }
   }
 

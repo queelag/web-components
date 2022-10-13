@@ -1,9 +1,9 @@
 import { setImmutableElementAttribute } from '@queelag/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import { AriaCheckBoxElement } from '../elements/aria/aria.check.box.element'
+import type { AriaSwitchElement } from '../elements/aria/aria.switch.element'
 
-export class AriaCheckBoxController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & AriaCheckBoxElement) {
+export class AriaSwitchController implements ReactiveController {
+  constructor(private host: ReactiveControllerHost & AriaSwitchElement) {
     this.host.addController(this)
   }
 
@@ -20,10 +20,10 @@ export class AriaCheckBoxController implements ReactiveController {
       return
     }
 
-    setImmutableElementAttribute(this.host, 'aria-checked', this.host.checked ? 'true' : undefined)
+    setImmutableElementAttribute(this.host, 'aria-checked', this.host.on ? 'true' : undefined)
     setImmutableElementAttribute(this.host, 'aria-disabled', this.host.disabled ? 'true' : undefined)
     setImmutableElementAttribute(this.host, 'aria-readonly', this.host.readonly ? 'true' : undefined)
-    setImmutableElementAttribute(this.host, 'role', 'checkbox')
+    setImmutableElementAttribute(this.host, 'role', 'switch')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
   }
 }

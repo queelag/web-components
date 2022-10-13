@@ -20,7 +20,6 @@ export class TextAreaElement extends FormFieldElement {
   autosize?: boolean
   cols?: number
   multiple?: boolean
-  normalized?: boolean
   padding?: string
   placeholder?: string
   resize?: TextAreaElementResize
@@ -189,7 +188,6 @@ export class TextAreaElement extends FormFieldElement {
     cols: { type: Number, reflect: true },
     computedHeight: { state: true },
     multiple: { type: Boolean, reflect: true },
-    normalized: { type: Boolean, reflect: true },
     padding: { type: String, reflect: true },
     placeholder: { type: String, reflect: true },
     resize: { type: String, reflect: true },

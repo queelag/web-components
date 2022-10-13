@@ -3,11 +3,8 @@ import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { AriaButtonElement } from '../elements/aria/aria.button.element'
 
 export class AriaButtonController implements ReactiveController {
-  native?: boolean
-
-  constructor(private host: ReactiveControllerHost & AriaButtonElement, native?: boolean) {
+  constructor(private host: ReactiveControllerHost & AriaButtonElement) {
     this.host.addController(this)
-    this.native = native
   }
 
   hostConnected(): void {
@@ -19,7 +16,7 @@ export class AriaButtonController implements ReactiveController {
   }
 
   setAttributes(): void {
-    if (this.native) {
+    if (this.host.native) {
       setImmutableElementAttribute(this.host, 'tabindex', this.host.getAttribute('tabindex') || '0')
       return
     }

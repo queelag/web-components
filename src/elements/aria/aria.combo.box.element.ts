@@ -19,6 +19,7 @@ import {
 } from '../../controllers/aria.combo.box.controller'
 import { BaseElement } from '../core/base.element'
 import { FloatingElement } from '../core/floating.element'
+import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,7 +32,7 @@ declare global {
   }
 }
 
-export class AriaComboBoxElement extends BaseElement {
+export class AriaComboBoxElement extends FormFieldElement {
   protected aria: AriaComboBoxController = new AriaComboBoxController(this)
 
   /**
@@ -39,6 +40,7 @@ export class AriaComboBoxElement extends BaseElement {
    */
   autocomplete?: AriaComboBoxElementAutoComplete
   expanded?: boolean
+  multiple?: boolean
   scrollIntoViewOptions?: ScrollIntoViewOptions
 
   /**
@@ -64,11 +66,21 @@ export class AriaComboBoxElement extends BaseElement {
 
   connectedCallback(): void {
     super.connectedCallback()
+
+    if (this.native) {
+      return
+    }
+
     this.addEventListener('keydown', this.onKeyDown)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
+
+    if (this.native) {
+      return
+    }
+
     this.removeEventListener('keydown', this.onKeyDown)
   }
 
@@ -88,6 +100,10 @@ export class AriaComboBoxElement extends BaseElement {
       case KeyboardEventKey.SPACE:
         event.preventDefault()
         event.stopPropagation()
+    }
+
+    if (this.disabled || this.readonly) {
+      return WebElementLogger.warn(this.uid, 'onKeyDown', `The combobox is disabled or readonly.`)
     }
 
     switch (event.key) {
@@ -323,6 +339,7 @@ export class AriaComboBoxElement extends BaseElement {
   static properties: PropertyDeclarations = {
     autocomplete: { type: String, reflect: true },
     expanded: { type: Boolean, reflect: true },
+    multiple: { type: Boolean, reflect: true },
     scrollIntoViewOptions: { type: Object, attribute: 'scroll-into-view-options' }
   }
 
@@ -390,6 +407,10 @@ export class AriaComboBoxButtonElement extends BaseElement {
   }
 
   onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return WebElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
+    }
+
     this.rootElement.expanded = !this.rootElement.expanded
     WebElementLogger.verbose(this.uid, 'onClick', `The combobox has been ${this.rootElement.expanded ? 'expanded' : 'collapsed'}.`)
 
@@ -462,6 +483,10 @@ export class AriaComboBoxInputElement extends BaseElement {
   }
 
   onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return WebElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
+    }
+
     this.rootElement.expand()
     WebElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded.`)
 
@@ -470,11 +495,19 @@ export class AriaComboBoxInputElement extends BaseElement {
   }
 
   onFocus = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return WebElementLogger.warn(this.uid, 'onFocus', `The combobox is disabled or readonly.`)
+    }
+
     this.rootElement.expand()
     WebElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded.`)
   }
 
   onInput = (event: Event): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return WebElementLogger.warn(this.uid, 'onInput', `The combobox is disabled or readonly.`)
+    }
+
     if (this.rootElement.collapsed) {
       this.rootElement.expand()
       this.rootElement.focusSelectedOptionElement()
@@ -490,6 +523,10 @@ export class AriaComboBoxInputElement extends BaseElement {
   }
 
   clear(): void {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return WebElementLogger.warn(this.uid, 'clear', `The combobox is disabled or readonly.`)
+    }
+
     if (this.inputElement) {
       this.inputElement.value = ''
     }
@@ -592,6 +629,10 @@ export class AriaComboBoxOptionElement extends BaseElement {
   }
 
   onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return WebElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
+    }
+
     this.rootElement.blurFocusedOptionElement()
     this.rootElement.unselectSelectedOptionElement()
 

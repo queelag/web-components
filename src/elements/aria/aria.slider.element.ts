@@ -21,6 +21,7 @@ import {
 import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
 import { AriaSliderController, AriaSliderThumbController } from '../../controllers/aria.slider.controller'
 import { BaseElement } from '../core/base.element'
+import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,7 +30,7 @@ declare global {
   }
 }
 
-export class AriaSliderElement extends BaseElement {
+export class AriaSliderElement extends FormFieldElement {
   protected aria: AriaSliderController = new AriaSliderController(this)
 
   /**
@@ -50,15 +51,29 @@ export class AriaSliderElement extends BaseElement {
 
   connectedCallback(): void {
     super.connectedCallback()
+
+    if (this.native) {
+      return
+    }
+
     this.addEventListener('click', this.onClick)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
+
+    if (this.native) {
+      return
+    }
+
     this.removeEventListener('click', this.onClick)
   }
 
   onClick = (event: MouseEvent): void => {
+    if (this.disabled || this.readonly) {
+      return WebElementLogger.warn(this.uid, 'onClick', `The slider is disabled or readonly.`)
+    }
+
     if (this.hasMultipleThumbs) {
       return
     }
@@ -185,6 +200,10 @@ export class AriaSliderThumbElement extends BaseElement {
         event.stopPropagation()
     }
 
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return WebElementLogger.warn(this.uid, 'onKeyDown', `The slider is disabled or readonly.`)
+    }
+
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
       case KeyboardEventKey.ARROW_UP:
@@ -252,7 +271,11 @@ export class AriaSliderThumbElement extends BaseElement {
     }
   }
 
-  onMouseDown = (event: MouseEvent): void => {
+  onMouseDown = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return WebElementLogger.warn(this.uid, 'onMouseDown', `The slider is disabled or readonly.`)
+    }
+
     this.movable = true
     WebElementLogger.verbose(this.uid, 'onMouseDown', `The thumb has been unlocked.`)
 
@@ -263,6 +286,10 @@ export class AriaSliderThumbElement extends BaseElement {
   }
 
   onTouchStart = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return WebElementLogger.warn(this.uid, 'onTouchStart', `The slider is disabled or readonly.`)
+    }
+
     this.movable = true
     WebElementLogger.debug(this.uid, 'onTouchStart', `The thumb has been unlocked.`)
   }
@@ -297,6 +324,10 @@ export class AriaSliderThumbElement extends BaseElement {
   }
 
   onMouseUpOrTouchEnd(): void {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return WebElementLogger.warn(this.uid, 'onMouseUpOrTouchEnd', `The slider is disabled or readonly.`)
+    }
+
     WebElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The value has been set.`, [this.value])
 
     this.movable = false

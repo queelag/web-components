@@ -1,7 +1,7 @@
 import { ElementName, WebElementLogger } from '@queelag/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup } from 'lit'
 import { html } from 'lit-html'
-import { FormFieldElement } from '../core/form.field.element'
+import { AriaCheckBoxElement } from '../aria/aria.check.box.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,21 +9,14 @@ declare global {
   }
 }
 
-export class CheckBoxElement extends FormFieldElement {
-  /**
-   * PROPERTIES
-   */
-  native?: boolean
-  normalized?: boolean
-
+export class CheckBoxElement extends AriaCheckBoxElement {
   private onChange(): void {
     this.value = !this.value
     this.touch()
   }
 
-  onClick(event: MouseEvent): void {
-    event.preventDefault()
-    event.stopPropagation()
+  onClick(): void {
+    super.onClick()
 
     if (this.disabled || this.readonly) {
       return WebElementLogger.warn(this.id, 'onClick', `Execution stopped, disabled is truthy.`)
@@ -48,10 +41,6 @@ export class CheckBoxElement extends FormFieldElement {
     `
   }
 
-  get checked(): boolean {
-    return this.value === true
-  }
-
   get name(): ElementName {
     return ElementName.CHECKBOX
   }
@@ -62,12 +51,6 @@ export class CheckBoxElement extends FormFieldElement {
 
   set value(value: boolean | undefined) {
     super.value = value
-  }
-
-  static properties: PropertyDeclarations = {
-    ...super.properties,
-    native: { type: Boolean, reflect: true },
-    normalized: { type: Boolean, reflect: true }
   }
 
   static styles: CSSResultGroup = [

@@ -17,7 +17,6 @@ export class InputFileElement extends FormFieldElement {
   deserializeFileResolveArrayBuffer?: boolean
   deserializeFileResolveText?: boolean
   multiple?: boolean
-  native?: boolean
 
   /**
    * QUERIES
@@ -124,11 +123,9 @@ export class InputFileElement extends FormFieldElement {
   }
 
   static properties: PropertyDeclarations = {
-    ...super.properties,
     deserializeFileResolveArrayBuffer: { type: Boolean, attribute: 'deserialize-file-resolve-array-buffer', reflect: true },
     deserializeFileResolveText: { type: Boolean, attribute: 'deserialize-file-resolve-text', reflect: true },
-    multiple: { type: Boolean, reflect: true },
-    native: { type: Boolean, reflect: true }
+    multiple: { type: Boolean, reflect: true }
   }
 
   static queries: QueryDeclarations = {

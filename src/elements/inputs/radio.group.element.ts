@@ -1,17 +1,20 @@
-import { ElementName, RadioButton } from '@queelag/web'
+import { ElementName, QueryDeclarations, RadioButton, WebElementLogger } from '@queelag/web'
 import { html, PropertyDeclarations } from 'lit'
 import { map } from '../../directives/map'
-import { FormFieldElement } from '../core/form.field.element'
+import { AriaRadioButtonElement, AriaRadioGroupElement } from '../aria/aria.radio.group.element'
 
 declare global {
   interface HTMLElementTagNameMap {
     'q-radio-group': RadioGroupElement
+    'q-radio-button': RadioButtonElement
   }
 }
 
-export class RadioGroupElement extends FormFieldElement {
+export class RadioGroupElement extends AriaRadioGroupElement {
+  /**
+   * PROPERTIES
+   */
   buttons?: RadioButton[]
-  native?: boolean
 
   private onChange(event: InputEvent): void {
     let button: RadioButton | undefined
@@ -36,7 +39,7 @@ export class RadioGroupElement extends FormFieldElement {
       )
     }
 
-    return html`<slot></slot>`
+    return super.render()
   }
 
   findButtonByValue(value: any): RadioButton | undefined {
@@ -47,11 +50,49 @@ export class RadioGroupElement extends FormFieldElement {
     return ElementName.RADIO_GROUP
   }
 
+  get value(): any | undefined {
+    return super.value
+  }
+
+  set value(value: any | undefined) {
+    super.value = value
+  }
+
   static properties: PropertyDeclarations = {
-    ...super.properties,
-    buttons: { type: Array },
-    native: { type: Boolean, reflect: true }
+    buttons: { type: Array }
+  }
+
+  static queries: QueryDeclarations = {
+    buttonElements: { selector: 'q-radio-button', all: true },
+    checkedButtonElement: { selector: 'q-radio-button[checked]' },
+    focusedButtonElement: { selector: 'q-radio-button[focused]' }
+  }
+}
+
+export class RadioButtonElement extends AriaRadioButtonElement {
+  label?: string
+  value?: any
+
+  check(): void {
+    super.check()
+
+    this.rootElement.value = this.value
+    WebElementLogger.verbose(this.uid, 'check', `The radio group value has been set.`, [this.value])
+  }
+
+  get name(): ElementName {
+    return ElementName.RADIO_BUTTON
+  }
+
+  static properties: PropertyDeclarations = {
+    label: { type: String, reflect: true },
+    value: {}
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-radio-group', closest: true }
   }
 }
 
 customElements.define('q-radio-group', RadioGroupElement)
+customElements.define('q-radio-button', RadioButtonElement)

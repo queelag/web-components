@@ -18,7 +18,6 @@ export class InputElement extends FormFieldElement {
    * PROPERTIES
    */
   multiple?: boolean
-  normalized?: boolean
   obscured?: boolean
   padding?: string
   placeholder?: string
@@ -284,9 +283,7 @@ export class InputElement extends FormFieldElement {
   }
 
   static properties: PropertyDeclarations = {
-    ...super.properties,
     multiple: { type: Boolean, reflect: true },
-    normalized: { type: Boolean, reflect: true },
     obscured: { type: Boolean, reflect: true },
     padding: { type: String, reflect: true },
     placeholder: { type: String, reflect: true },
