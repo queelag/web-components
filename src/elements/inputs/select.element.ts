@@ -1,5 +1,5 @@
 import { removeArrayItems } from '@queelag/core'
-import { ElementName, QueryDeclarations, SelectOption, StateChangedEvent, WebElementLogger } from '@queelag/web'
+import { ElementName, QueryDeclarations, SelectOption, StateChangeEvent, WebElementLogger } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { map } from '../../directives/map'
@@ -99,7 +99,7 @@ export class SelectElement extends AriaComboBoxElement {
     this.searchValue = event.target.value
     WebElementLogger.verbose(this.uid, 'onSearchInput', `The search value has been set.`, [this.searchValue])
 
-    this.dispatchEvent(new StateChangedEvent('searchValue', old, this.searchValue))
+    this.dispatchEvent(new StateChangeEvent('searchValue', old, this.searchValue))
   }
 
   clear(): void {

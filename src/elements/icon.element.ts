@@ -38,7 +38,7 @@ export class IconElement extends BaseElement {
   fill?: string
   sanitize?: boolean
   sanitizeConfig?: IconElementSanitizeConfig
-  src!: string
+  src?: string
   stroke?: string
   strokeWidth?: string
 
@@ -62,16 +62,14 @@ export class IconElement extends BaseElement {
     this.generateSVGElement()
   }
 
-  private generateSVGElement(): void {
-    if (this.src === null) {
-      WebElementLogger.warn(this.uid, 'generateSVGElement', `The src property is null.`, [this.src])
+  private async generateSVGElement(): Promise<void> {
+    if (typeof this.src !== 'string') {
       return this.parseSVGString(DEFAULT_ICON_SVG_STRING)
     }
 
     if (isStringURL(this.src)) {
       WebElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is an URL, will try to fetch.`, [this.src])
-      this.fetchSource()
-      return
+      return this.fetchSource()
     }
 
     if (isStringSVG(this.src)) {
@@ -85,6 +83,10 @@ export class IconElement extends BaseElement {
 
   private async fetchSource(): Promise<void> {
     let cache: string | undefined, response: FetchResponse<string> | Error, text: string | Error
+
+    if (typeof this.src !== 'string') {
+      return
+    }
 
     // if (FETCHING_ICONS.has(this.src)) {
     //   WebElementLogger.verbose(this.uid, 'fetchSource', `The src is already being fetched, will try again in 100ms.`, [this.src])
@@ -110,7 +112,7 @@ export class IconElement extends BaseElement {
     // WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been unmarked as fetching.`, [this.src])
 
     text = await tcp(() => (response as FetchResponse).text())
-    if (text instanceof Error) return rvp(() => CACHE_ICONS.delete(this.src))
+    if (text instanceof Error) return rvp(() => CACHE_ICONS.delete(this.src as string))
 
     if (this.cache) {
       CACHE_ICONS.set(this.src, text)

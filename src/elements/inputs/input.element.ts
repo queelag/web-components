@@ -1,5 +1,13 @@
-import { removeArrayItems, TextCodec } from '@queelag/core'
-import { ElementName, InputElementTouchTrigger, InputElementType, InputElementValue, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import { parseNumber, removeArrayItems, TextCodec } from '@queelag/core'
+import {
+  DEFAULT_INPUT_TYPE,
+  ElementName,
+  InputElementTouchTrigger,
+  InputElementType,
+  InputElementValue,
+  QueryDeclarations,
+  WebElementLogger
+} from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
@@ -22,7 +30,7 @@ export class InputElement extends FormFieldElement {
   padding?: string
   placeholder?: string
   touchTrigger?: InputElementTouchTrigger
-  type: InputElementType = 'text'
+  type: InputElementType = DEFAULT_INPUT_TYPE
 
   /**
    * QUERIES
@@ -53,6 +61,7 @@ export class InputElement extends FormFieldElement {
       case 'buffer':
         this.value = TextCodec.encode(this.inputElement.value)
         WebElementLogger.verbose(this.uid, 'onInput', `The value has been encoded and set.`, this.value)
+
         break
       case 'color':
       case 'email':
@@ -65,20 +74,24 @@ export class InputElement extends FormFieldElement {
       case 'week':
         this.value = this.inputElement.value
         WebElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
+
         break
       case 'date':
       case 'datetime-local':
-        this.value = this.inputElement.valueAsDate || undefined
+        this.value = this.inputElement.value ? new Date(this.inputElement.value) : undefined
         WebElementLogger.verbose(this.uid, 'onInput', `The value has been set as a date.`, this.value)
+
         break
       case 'number':
-        this.value = this.inputElement.valueAsNumber
+        this.value = this.inputElement.value ? parseNumber(this.inputElement.value) : undefined
         WebElementLogger.verbose(this.uid, 'onInput', `The value has been set as a number.`, [this.value])
+
         break
       case 'text':
         if (this.multiple) {
           this.temporaryValue = this.inputElement.value
           WebElementLogger.verbose(this.uid, 'onInput', `The temporary value has been set.`, [this.temporaryValue])
+
           break
         }
 
@@ -112,14 +125,14 @@ export class InputElement extends FormFieldElement {
     this.touch()
   }
 
-  onClickRemoveItem(item: string): void {
+  removeItem(item: string): void {
     if (this.type !== 'text' || !this.multiple) {
       return
     }
 
     this.value = this.value || []
     this.value = removeArrayItems(this.value as string[], [item])
-    WebElementLogger.verbose(this.uid, 'onClickRemoveItem', `The item has been removed.`, [item], this.value)
+    WebElementLogger.verbose(this.uid, 'removeItem', `The item has been removed.`, [item], this.value)
 
     this.touch()
   }
@@ -142,7 +155,7 @@ export class InputElement extends FormFieldElement {
         break
       case 'date':
       case 'datetime-local':
-        this.value = new Date()
+        this.value = undefined
         break
       case 'number':
         this.value = 0
@@ -253,7 +266,7 @@ export class InputElement extends FormFieldElement {
   get value(): InputElementValue {
     switch (this.type) {
       case 'buffer':
-        return undefined
+      // return undefined
       case 'color':
       case 'email':
       case 'month':
@@ -263,18 +276,18 @@ export class InputElement extends FormFieldElement {
       case 'time':
       case 'url':
       case 'week':
-        return super.value || ''
+        return super.value
       case 'date':
       case 'datetime-local':
-        return super.value || new Date()
+        return super.value
       case 'number':
-        return super.value || 0
+        return super.value
       case 'text':
         if (this.multiple) {
-          return super.value || []
+          return super.value
         }
 
-        return super.value || ''
+        return super.value
     }
   }
 

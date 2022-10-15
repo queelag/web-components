@@ -3,9 +3,10 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   test: {
     coverage: {
-      include: ['src/utils/**/*.ts']
+      exclude: ['src/index.ts']
     },
     environment: 'jsdom',
-    include: ['tests/utils/**/*.test.ts']
+    globals: true,
+    include: ['tests/**/*.test.ts']
   }
 })

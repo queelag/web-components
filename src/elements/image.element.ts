@@ -36,7 +36,7 @@ export class ImageElement extends BaseElement {
   eager?: boolean
   lazy?: boolean
   placeholder?: string
-  src!: string
+  src?: string
 
   /**
    * QUERIES
@@ -65,6 +65,10 @@ export class ImageElement extends BaseElement {
 
   private async load(): Promise<void> {
     let cache: string | undefined
+
+    if (typeof this.src !== 'string') {
+      return
+    }
 
     // if (FETCHING_IMAGES.has(this.src)) {
     //   await sleep(100)
@@ -97,6 +101,10 @@ export class ImageElement extends BaseElement {
 
   private onLoad(): void {
     let base64: string
+
+    if (typeof this.src !== 'string') {
+      return
+    }
 
     // FETCHING_IMAGES.delete(this.src)
     // WebElementLogger.verbose(this.uid, 'onLoad', `The src has been unmarked as fetching.`, [this.src])

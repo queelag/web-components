@@ -32,10 +32,10 @@ export class BadgeElement extends BaseElement {
 
   get value(): string {
     if (this.numeric) {
-      return getLimitedNumber(parseNumber(this._value || '0'), this.min ?? DEFAULT_BADGE_MIN, this.max ?? DEFAULT_BADGE_MAX).toString()
+      return getLimitedNumber(parseNumber(this._value ?? '0'), this.min ?? DEFAULT_BADGE_MIN, this.max ?? DEFAULT_BADGE_MAX).toString()
     }
 
-    return this._value || ''
+    return this._value ?? ''
   }
 
   set value(value: string | undefined) {

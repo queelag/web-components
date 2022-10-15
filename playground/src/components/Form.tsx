@@ -1,5 +1,5 @@
 import { sleep } from '@queelag/core'
-import type { FormElementAttributes, SubmitAsyncEvent } from '@queelag/web'
+import type { FormElementAttributes, FormSubmitEvent } from '@queelag/web'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import type { FormElement } from '../../../src'
@@ -21,7 +21,7 @@ export function Form() {
   const { element, ref } = useQueelagElement('q-form')
   const [props] = useState<FormProps>({})
 
-  useEventListener(ref, 'submit-async', async (event: SubmitAsyncEvent) => {
+  useEventListener(ref, 'form-submit', async (event: FormSubmitEvent) => {
     await sleep(1000)
     event.detail.finalize()
   })

@@ -1,4 +1,4 @@
-import { setImmutableElementAttribute } from '@queelag/web'
+import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, setImmutableElementAttribute } from '@queelag/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { AriaMeterElement } from '../elements/aria/aria.meter.element'
 
@@ -16,9 +16,13 @@ export class AriaMeterController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-valuemax', this.host.max?.toString())
-    setImmutableElementAttribute(this.host, 'aria-valuemin', this.host.min?.toString())
-    setImmutableElementAttribute(this.host, 'aria-valuenow', this.host.value?.toString())
+    if (this.host.native) {
+      return
+    }
+
+    setImmutableElementAttribute(this.host, 'aria-valuemax', String(this.host.max ?? DEFAULT_METER_MAX))
+    setImmutableElementAttribute(this.host, 'aria-valuemin', String(this.host.min ?? DEFAULT_METER_MIN))
+    setImmutableElementAttribute(this.host, 'aria-valuenow', String(this.host.value))
     setImmutableElementAttribute(this.host, 'role', 'meter')
   }
 }

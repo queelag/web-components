@@ -1,4 +1,4 @@
-import { ButtonType, ButtonVariant, ClickAsyncEvent, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
+import { ButtonClickEvent, ButtonType, ButtonVariant, ElementName, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
 import { ifdef } from '../directives/if.defined'
 import { AriaButtonElement } from './aria/aria.button.element'
@@ -29,7 +29,7 @@ export class ButtonElement extends AriaButtonElement {
 
   onClickAsync(): void {
     if (this.disabled || this.spinning) {
-      WebElementLogger.warn(this.uid, 'onClickAsync', `The element is disabled or spinning.`)
+      WebElementLogger.warn(this.uid, 'onClickAsync', `The button is disabled or spinning.`)
       return
     }
 
@@ -37,29 +37,8 @@ export class ButtonElement extends AriaButtonElement {
     this.spinning = true
     WebElementLogger.verbose(this.uid, 'onClickAsync', `The disabled and spinning properties have been set to true.`)
 
-    this.dispatchEvent(new ClickAsyncEvent(this.finalize))
+    this.dispatchEvent(new ButtonClickEvent(this.finalize))
     WebElementLogger.verbose(this.uid, 'onClickAsync', `The "clickasync" event has been dispatched.`)
-  }
-
-  onKeyDown = (event: KeyboardEvent): void => {
-    if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {
-      return
-    }
-
-    event.preventDefault()
-    event.stopPropagation()
-
-    if (this.disabled || this.spinning) {
-      return
-    }
-
-    if (this.async) {
-      this.onClickAsync()
-      return
-    }
-
-    this.click()
-    WebElementLogger.verbose(this.uid, 'onKeyDown', `The element has been clicked.`)
   }
 
   finalize = (): void => {

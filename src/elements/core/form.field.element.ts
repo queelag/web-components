@@ -3,7 +3,7 @@ import {
   FormFieldElementSchema,
   FormFieldElementTarget,
   FormFieldElementValidation,
-  StateChangedEvent,
+  StateChangeEvent,
   WebElementLogger
 } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
@@ -116,7 +116,7 @@ export class FormFieldElement extends BaseElement {
     // WebElementLogger.verbose(this.uid, 'set value', `The value has been set.`, [value])
 
     this.validate()
-    this.dispatchEvent(new StateChangedEvent('value', old, value))
+    this.dispatchEvent(new StateChangeEvent('value', old, value))
   }
 
   get isErrorVisible(): boolean {

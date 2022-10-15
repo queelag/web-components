@@ -1,6 +1,6 @@
 import { ID, parseNumber } from '@queelag/core'
 import {
-  AttributeChangedEvent,
+  AttributeChangeEvent,
   ElementCollector,
   ElementName,
   ELEMENT_UID_GENERATE_OPTIONS,
@@ -64,7 +64,7 @@ export class BaseElement extends LitElement {
       return
     }
 
-    this.dispatchEvent(new AttributeChangedEvent(name, _old, value))
+    this.dispatchEvent(new AttributeChangeEvent(name, _old, value))
   }
 
   onSlotChange(): void {}

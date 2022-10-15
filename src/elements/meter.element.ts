@@ -1,8 +1,9 @@
-import { getLimitedNumber, getNumberPercentage } from '@queelag/core'
+import { getNumberPercentage } from '@queelag/core'
+import { DEFAULT_METER_MAX, DEFAULT_METER_MIN } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ifdef } from '../directives/if.defined'
-import { BaseElement } from './core/base.element'
+import { AriaMeterElement } from './aria/aria.meter.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -10,22 +11,14 @@ declare global {
   }
 }
 
-export class MeterElement extends BaseElement {
+export class MeterElement extends AriaMeterElement {
   /**
    * PROPERTIES
    */
   low?: number
   high?: number
-  max?: number
-  min?: number
-  native?: boolean
   optimum?: number
   round?: boolean
-
-  /**
-   * INTERNAL
-   */
-  private _value?: number
 
   render() {
     if (this.native) {
@@ -53,31 +46,14 @@ export class MeterElement extends BaseElement {
   }
 
   get percentage(): number {
-    return getNumberPercentage(this.value || 0, this.min, this.max, this.round)
-  }
-
-  get value(): number {
-    return getLimitedNumber(this._value || 0, this.min, this.max)
-  }
-
-  set value(value: number | undefined) {
-    let old: number | undefined
-
-    old = this._value
-    this._value = value
-
-    this.requestUpdate('value', old)
+    return getNumberPercentage(this.value, this.min ?? DEFAULT_METER_MIN, this.max ?? DEFAULT_METER_MAX, this.round)
   }
 
   static properties: PropertyDeclarations = {
     low: { type: Number, reflect: true },
     high: { type: Number, reflect: true },
-    maximum: { type: Number, reflect: true },
-    minimum: { type: Number, reflect: true },
-    native: { type: Boolean, reflect: true },
     optimum: { type: Number, reflect: true },
-    round: { type: Boolean, reflect: true },
-    value: { type: Number, reflect: true }
+    round: { type: Boolean, reflect: true }
   }
 }
 

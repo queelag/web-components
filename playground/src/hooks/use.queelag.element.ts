@@ -1,4 +1,4 @@
-import type { AttributeChangedEvent, StateChangedEvent } from '@queelag/web'
+import type { AttributeChangeEvent, StateChangeEvent } from '@queelag/web'
 import type { RefObject } from 'preact'
 import { useEffect, useReducer, useRef } from 'preact/hooks'
 import { useEventListener } from './use.event.listener'
@@ -25,7 +25,7 @@ export function useQueelagElement<K extends keyof HTMLElementTagNameMap>(tagName
   const ref = useRef(null)
   const [, dispatch] = useReducer(() => ({}), {})
 
-  const onAttributeChanged = (event: AttributeChangedEvent) => {
+  const onAttributeChanged = (event: AttributeChangeEvent) => {
     if (options?.attribute?.dispatch !== true) {
       return
     }
@@ -41,7 +41,7 @@ export function useQueelagElement<K extends keyof HTMLElementTagNameMap>(tagName
     dispatch({})
   }
 
-  const onStateChanged = (event: StateChangedEvent<any>) => {
+  const onStateChanged = (event: StateChangeEvent<any>) => {
     if (options?.state?.dispatch !== true) {
       return
     }
@@ -57,8 +57,8 @@ export function useQueelagElement<K extends keyof HTMLElementTagNameMap>(tagName
     dispatch({})
   }
 
-  useEventListener(ref, 'attribute-changed', onAttributeChanged, [ref.current])
-  useEventListener(ref, 'state-changed', onStateChanged, [ref.current])
+  useEventListener(ref, 'attribute-change', onAttributeChanged, [ref.current])
+  useEventListener(ref, 'state-change', onStateChanged, [ref.current])
   useEffect(() => dispatch({}), [ref.current])
 
   return { element: ref.current, ref }

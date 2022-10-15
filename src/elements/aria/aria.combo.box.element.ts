@@ -5,7 +5,7 @@ import {
   KeyboardEventKey,
   QueryDeclarations,
   scrollElementIntoView,
-  StateChangedEvent,
+  StateChangeEvent,
   Typeahead,
   WebElementLogger
 } from '@queelag/web'
@@ -519,7 +519,7 @@ export class AriaComboBoxInputElement extends BaseElement {
     this.value = event.target.value
     WebElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
 
-    this.rootElement.dispatchEvent(new StateChangedEvent('value', undefined, this.value))
+    this.rootElement.dispatchEvent(new StateChangeEvent('value', undefined, this.value))
   }
 
   clear(): void {

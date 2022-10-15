@@ -20,7 +20,7 @@ export class AriaCheckBoxController implements ReactiveController {
       return
     }
 
-    setImmutableElementAttribute(this.host, 'aria-checked', this.host.checked ? 'true' : undefined)
+    setImmutableElementAttribute(this.host, 'aria-checked', this.host.checked ? 'true' : 'false')
     setImmutableElementAttribute(this.host, 'aria-disabled', this.host.disabled ? 'true' : undefined)
     setImmutableElementAttribute(this.host, 'aria-readonly', this.host.readonly ? 'true' : undefined)
     setImmutableElementAttribute(this.host, 'role', 'checkbox')

@@ -1,4 +1,4 @@
-import { AttributeChangedEvent, ElementName, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import { AttributeChangeEvent, ElementName, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaTabsController, AriaTabsPanelController, AriaTabsTabController } from '../../controllers/aria.tabs.controller'
 import { BaseElement } from '../core/base.element'
@@ -207,7 +207,7 @@ export class AriaTabsTabElement extends BaseElement {
       return
     }
 
-    this.rootElement.dispatchEvent(new AttributeChangedEvent('selected', _old, value))
+    this.rootElement.dispatchEvent(new AttributeChangeEvent('selected', _old, value))
   }
 
   onClick = (): void => {
