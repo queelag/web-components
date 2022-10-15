@@ -1,4 +1,4 @@
-import { parseNumber } from '@queelag/core'
+import { parseNumber, removeArrayItems } from '@queelag/core'
 import { ElementName, QueryDeclarations, TextAreaElementResize, TextAreaElementTouchTrigger, TextAreaElementValue, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
@@ -63,7 +63,7 @@ export class TextAreaElement extends FormFieldElement {
       WebElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
     }
 
-    if (this.touchTrigger === 'change') {
+    if (this.touchTrigger === 'input') {
       this.touch()
     }
 
@@ -79,6 +79,7 @@ export class TextAreaElement extends FormFieldElement {
       return WebElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
     }
 
+    this.value = this.value || []
     this.value = [...(this.value as string[]), this.temporaryValue]
     WebElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporaryValue], this.value)
 
@@ -117,6 +118,18 @@ export class TextAreaElement extends FormFieldElement {
 
     this.computedHeight = getComputedStyle(this.spanElement).height
     WebElementLogger.verbose(this.uid, 'computeHeight', `The height has been computed.`, [this.computedHeight])
+  }
+
+  removeItem(item: string): void {
+    if (this.single) {
+      return
+    }
+
+    this.value = this.value || []
+    this.value = removeArrayItems(this.value as string[], [item])
+    WebElementLogger.verbose(this.uid, 'removeItem', `The item has been removed.`, [item], this.value)
+
+    this.touch()
   }
 
   clear(): void {
@@ -158,6 +171,10 @@ export class TextAreaElement extends FormFieldElement {
     return ElementName.TEXTAREA
   }
 
+  get single(): boolean {
+    return !this.multiple
+  }
+
   private get textAreaElementStyle(): DirectiveResult {
     return styleMap({ ...this.styleInfo, minHeight: this.computedHeight, padding: this.padding, resize: this.resize })
   }
@@ -171,10 +188,6 @@ export class TextAreaElement extends FormFieldElement {
   }
 
   get value(): TextAreaElementValue {
-    if (this.multiple) {
-      return super.value || []
-    }
-
     return super.value
   }
 

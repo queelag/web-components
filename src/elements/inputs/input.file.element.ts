@@ -23,10 +23,10 @@ export class InputFileElement extends FormFieldElement {
    */
   private inputElement!: HTMLInputElement
 
-  private async onChange(event: any): Promise<void> {
+  private async onChange(): Promise<void> {
     let files: QueelagFile[] = []
 
-    for (let file of event.target.files) {
+    for (let file of this.inputElement.files || []) {
       files.push(await deserializeFile(file, this.deserializeFileOptions))
       WebElementLogger.verbose(this.uid, 'onChange', `The file have been deserialized.`, files)
     }
@@ -34,12 +34,17 @@ export class InputFileElement extends FormFieldElement {
     if (this.multiple) {
       this.value = files
       WebElementLogger.verbose(this.uid, 'onChange', `The files have been set as the value.`, files, this.value)
-
-      return
     }
 
-    this.value = files[0]
-    WebElementLogger.debug(this.id, 'onChange', `The first file has been set as the value.`, files, this.value)
+    if (this.single && files.length <= 0) {
+      this.value = QueelagFile.EMPTY
+      WebElementLogger.verbose(this.id, 'onChange', `The files are empty, setting empty file as the value.`, files, this.value)
+    }
+
+    if (this.single && files.length > 0) {
+      this.value = files[0] || QueelagFile.EMPTY
+      WebElementLogger.verbose(this.id, 'onChange', `The first file has been set as the value.`, files, this.value)
+    }
 
     this.touch()
   }
@@ -52,14 +57,18 @@ export class InputFileElement extends FormFieldElement {
       this.value = this.value || []
       this.value = removeArrayItems(this.value as QueelagFile[], (_, { id }: QueelagFile) => id === file.id)
       WebElementLogger.verbose(this.uid, 'onClickRemoveFile', `The file has been removed.`, file, this.value)
-
-      return
     }
 
-    this.value = QueelagFile.EMPTY
-    WebElementLogger.verbose(this.uid, 'onClickRemoveFile', `The value has been emptied.`, this.value)
+    if (this.single) {
+      this.value = QueelagFile.EMPTY
+      WebElementLogger.verbose(this.uid, 'onClickRemoveFile', `The value has been emptied.`, this.value)
+    }
 
     this.touch()
+  }
+
+  open = (): void => {
+    this.inputElement.click()
   }
 
   clear = (): void => {
@@ -70,10 +79,6 @@ export class InputFileElement extends FormFieldElement {
     WebElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
 
     this.touch()
-  }
-
-  open = (): void => {
-    this.inputElement.click()
   }
 
   render() {
@@ -87,8 +92,23 @@ export class InputFileElement extends FormFieldElement {
     `
   }
 
+  private get deserializeFileOptions(): DeserializeFileOptions {
+    return {
+      resolveArrayBuffer: this.deserializeFileResolveArrayBuffer,
+      resolveText: this.deserializeFileResolveText
+    }
+  }
+
   get name(): ElementName {
     return ElementName.INPUT_FILE
+  }
+
+  get file(): QueelagFile | undefined {
+    if (this.multiple) {
+      return undefined
+    }
+
+    return this.value as QueelagFile | undefined
   }
 
   get files(): QueelagFile[] {
@@ -99,11 +119,8 @@ export class InputFileElement extends FormFieldElement {
     return (this.value as QueelagFile)?.name ? [this.value as QueelagFile] : []
   }
 
-  private get deserializeFileOptions(): DeserializeFileOptions {
-    return {
-      resolveArrayBuffer: this.deserializeFileResolveArrayBuffer,
-      resolveText: this.deserializeFileResolveText
-    }
+  get single(): boolean {
+    return !this.multiple
   }
 
   get value(): QueelagFile | QueelagFile[] | undefined {

@@ -3,7 +3,7 @@ import { KeyboardEventKey } from '@queelag/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/inputs/input.element'
 import type { InputElement } from '../../../src/elements/inputs/input.element'
-import { dispatchInputEvent, dispatchKeyUpEvent, render } from '../../../vitest/utils'
+import { dispatchInputEvent, dispatchKeyUpEvent, render } from '../../../vitest/dom.utils'
 
 describe('InputElement', () => {
   let input: InputElement
@@ -52,16 +52,6 @@ describe('InputElement', () => {
     input.clear()
     expect(input.value).toStrictEqual(new Uint8Array())
   })
-
-  //   case 'color':
-  //     case 'email':
-  //     case 'month':
-  //     case 'password':
-  //     case 'search':
-  //     case 'tel':
-  //     case 'time':
-  //     case 'url':
-  //     case 'week':
 
   it('works with type color, email, month, search, tel, time, url, week', async () => {
     await render(input, { type: 'color' })
@@ -137,6 +127,38 @@ describe('InputElement', () => {
     expect(input.value).toStrictEqual(new Date('2022-01-01'))
     input.clear()
     expect(input.value).toBeUndefined()
+
+    await render(input, { type: 'datetime-local' })
+
+    dispatchInputEvent(input.renderRoot.querySelector('input'), '2022-01-01T00:00')
+    expect(input.renderRoot.querySelector('input')?.value).toBe('2022-01-01T00:00')
+    expect(input.value).toStrictEqual(new Date('2022-01-01T00:00'))
+    input.clear()
+    expect(input.value).toBeUndefined()
+  })
+
+  it('works with type number', async () => {
+    await render(input, { type: 'number' })
+
+    dispatchInputEvent(input.renderRoot.querySelector('input'), '1')
+    expect(input.renderRoot.querySelector('input')?.value).toBe('1')
+    expect(input.value).toBe(1)
+
+    input.clear()
+    expect(input.value).toBe(0)
+  })
+
+  it('works with type password', async () => {
+    await render(input, { type: 'password' })
+
+    expect(input.renderRoot.querySelector('input')?.getAttribute('type')).toBe('password')
+
+    dispatchInputEvent(input.renderRoot.querySelector('input'), 'hello')
+    expect(input.renderRoot.querySelector('input')?.value).toBe('hello')
+    expect(input.value).toBe('hello')
+
+    input.clear()
+    expect(input.value).toBe('')
   })
 
   it('works with type text', async () => {
@@ -148,10 +170,9 @@ describe('InputElement', () => {
 
     input.clear()
     expect(input.value).toBe('')
+  })
 
-    input.remove()
-    input = document.createElement('q-input')
-
+  it('supports multiple values with type text', async () => {
     await render(input, { multiple: 'true' })
 
     dispatchInputEvent(input.renderRoot.querySelector('input'), 'hello')
@@ -171,5 +192,61 @@ describe('InputElement', () => {
 
     input.clear()
     expect(input.value).toStrictEqual([])
+  })
+
+  it('can obscure the value', async () => {
+    await render(input)
+
+    expect(input.renderRoot.querySelector('input')?.getAttribute('type')).toBe('text')
+    input.obscure()
+    expect(input.obscured).toBeTruthy()
+    expect(input.focused).toBeTruthy()
+
+    input.remove()
+    await render(input, { obscured: 'true' })
+
+    expect(input.renderRoot.querySelector('input')?.getAttribute('type')).toBe('password')
+    input.reveal()
+    expect(input.obscured).toBeFalsy()
+    expect(input.focused).toBeTruthy()
+  })
+
+  it('stays untouched if touch-trigger is undefined', async () => {
+    await render(input)
+
+    dispatchInputEvent(input.renderRoot.querySelector('input'), 'hello')
+    input.renderRoot.querySelector('input')?.focus()
+    input.renderRoot.querySelector('input')?.blur()
+    expect(input.touched).toBeFalsy()
+  })
+
+  it('is touched on blur if touch-trigger is blur', async () => {
+    await render(input, { 'touch-trigger': 'blur' })
+
+    dispatchInputEvent(input.renderRoot.querySelector('input'), 'hello')
+    expect(input.touched).toBeFalsy()
+    input.renderRoot.querySelector('input')?.focus()
+    input.renderRoot.querySelector('input')?.blur()
+    expect(input.touched).toBeTruthy()
+  })
+
+  it('is touched on input if touch-trigger is input', async () => {
+    await render(input, { 'touch-trigger': 'input' })
+
+    input.renderRoot.querySelector('input')?.focus()
+    input.renderRoot.querySelector('input')?.blur()
+    expect(input.touched).toBeFalsy()
+    dispatchInputEvent(input.renderRoot.querySelector('input'), 'hello')
+    expect(input.touched).toBeTruthy()
+  })
+
+  it('has the placeholder attribute if defined', async () => {
+    await render(input, { placeholder: 'placeholder' })
+    expect(input.renderRoot.querySelector('input')?.getAttribute('placeholder')).toBe('placeholder')
+  })
+
+  it('supports custom internal padding', async () => {
+    await render(input, { padding: '24px' })
+    expect(input.renderRoot.querySelector('input')?.getAttribute('style')).toBe('padding:24px;')
   })
 })

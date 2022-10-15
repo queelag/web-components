@@ -20,7 +20,7 @@ import '../../src/elements/inputs/switch.element'
 import { SwitchElement } from '../../src/elements/inputs/switch.element'
 import '../../src/elements/inputs/text.area.element'
 import { TextAreaElement } from '../../src/elements/inputs/text.area.element'
-import { render } from '../../vitest/utils'
+import { render } from '../../vitest/dom.utils'
 
 describe('FormElement', () => {
   let form: FormElement,

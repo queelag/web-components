@@ -10,9 +10,9 @@ import {
   DEFAULT_SLIDER_STEP,
   DEFAULT_SLIDER_THUMB_VALUE,
   ElementName,
-  getAriaSliderThumbElementPercentage,
-  getAriaSliderThumbElementStyleLeft,
-  getAriaSliderThumbElementStyleTop,
+  getSliderThumbElementPercentage,
+  getSliderThumbElementStyleLeft,
+  getSliderThumbElementStyleTop,
   KeyboardEventKey,
   Orientation,
   QueryDeclarations,
@@ -344,8 +344,8 @@ export class AriaSliderThumbElement extends BaseElement {
       return
     }
 
-    this.style.left = getAriaSliderThumbElementStyleLeft(this.percentage, this.rootElement.orientation)
-    this.style.top = getAriaSliderThumbElementStyleTop(this.percentage, this.rootElement.orientation)
+    this.style.left = getSliderThumbElementStyleLeft(this.percentage, this.rootElement.orientation)
+    this.style.top = getSliderThumbElementStyleTop(this.percentage, this.rootElement.orientation)
   }
 
   setValueByCoordinates(x: number, y: number, round: boolean = false): void {
@@ -414,7 +414,7 @@ export class AriaSliderThumbElement extends BaseElement {
   }
 
   get percentage(): number {
-    return getAriaSliderThumbElementPercentage(this.value, this.rootElement.min, this.rootElement.max, this.rootElement.decimals)
+    return getSliderThumbElementPercentage(this.value, this.rootElement.min, this.rootElement.max, this.rootElement.decimals)
   }
 
   get value(): number | undefined {

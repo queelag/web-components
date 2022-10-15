@@ -101,7 +101,7 @@ export class InputElement extends FormFieldElement {
         break
     }
 
-    if (this.touchTrigger === 'change') {
+    if (this.touchTrigger === 'input') {
       this.touch()
     }
   }

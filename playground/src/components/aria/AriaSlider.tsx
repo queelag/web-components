@@ -1,9 +1,9 @@
 import { getLowestNumber, getNumbersDistance } from '@queelag/core'
 import {
   AriaSliderChangeEvent,
-  getAriaSliderThumbElementPercentage,
-  getAriaSliderThumbElementStyleLeft,
-  getAriaSliderThumbElementStyleTop,
+  getSliderThumbElementPercentage,
+  getSliderThumbElementStyleLeft,
+  getSliderThumbElementStyleTop,
   joinElementClasses,
   type AriaSliderElementAttributes,
   type AriaSliderThumbElementAttributes,
@@ -74,7 +74,7 @@ export function AriaSlider() {
 
 function AriaSliderThumb({ orientation, value }: any) {
   const { element, ref } = useQueelagElement('q-aria-slider-thumb')
-  const [percentage] = useState<number>(getAriaSliderThumbElementPercentage(value))
+  const [percentage] = useState<number>(getSliderThumbElementPercentage(value))
   // const [percentage, setPercentage] = useState<number>(getAriaSliderThumbElementPercentage(value))
 
   // useEventListener(ref, 'slider-thumb-move', (event: AriaSliderThumbMoveEvent) => {
@@ -90,8 +90,8 @@ function AriaSliderThumb({ orientation, value }: any) {
       shape='circle'
       size={20}
       style={{
-        left: getAriaSliderThumbElementStyleLeft(percentage, orientation),
-        top: getAriaSliderThumbElementStyleTop(percentage, orientation)
+        left: getSliderThumbElementStyleLeft(percentage, orientation),
+        top: getSliderThumbElementStyleTop(percentage, orientation)
       }}
       // disable-compute-position
       // value={value}

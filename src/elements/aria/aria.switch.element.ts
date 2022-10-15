@@ -39,7 +39,7 @@ export class AriaSwitchElement extends FormFieldElement {
     this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onClick = (): void => {
+  onClick(): void {
     if (this.disabled || this.readonly) {
       return WebElementLogger.warn(this.id, 'onClick', `The switch is disabled or readonly.`)
     }

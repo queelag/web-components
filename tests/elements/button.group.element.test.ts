@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../src/elements/button.group.element'
 import type { ButtonGroupElement } from '../../src/elements/button.group.element'
-import { render } from '../../vitest/utils'
+import { render } from '../../vitest/dom.utils'
 
 describe('ButtonGroupElement', () => {
   let group: ButtonGroupElement

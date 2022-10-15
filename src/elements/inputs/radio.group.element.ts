@@ -19,6 +19,10 @@ export class RadioGroupElement extends AriaRadioGroupElement {
   private onChange(event: InputEvent): void {
     let button: RadioButton | undefined
 
+    if (this.disabled || this.readonly) {
+      return WebElementLogger.warn(this.uid, 'onChange', `The radiogroup is disabled or readonly.`)
+    }
+
     // @ts-ignore
     button = this.findButtonByValue(event.target.value)
     if (!button) return
@@ -32,7 +36,15 @@ export class RadioGroupElement extends AriaRadioGroupElement {
         this.buttons,
         (button: RadioButton) => html`
           <div>
-            <input @change=${this.onChange} ?checked=${button.value === this.value} name=${this.uid} type="radio" value=${button.value} />
+            <input
+              @change=${this.onChange}
+              ?checked=${button.value === this.value}
+              ?disabled=${this.disabled}
+              name=${this.uid}
+              ?readonly=${this.readonly}
+              type="radio"
+              value=${button.value}
+            />
             <label for=${button.value}>${button.value}</label>
           </div>
         `
@@ -40,6 +52,11 @@ export class RadioGroupElement extends AriaRadioGroupElement {
     }
 
     return super.render()
+  }
+
+  clear(): void {
+    super.clear()
+    this.checkedButtonElement?.uncheck()
   }
 
   findButtonByValue(value: any): RadioButton | undefined {

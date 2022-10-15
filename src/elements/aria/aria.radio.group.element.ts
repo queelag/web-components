@@ -173,7 +173,7 @@ export class AriaRadioButtonElement extends BaseElement {
     this.removeEventListener('click', this.onClick)
   }
 
-  onClick = (): void => {
+  onClick(): void {
     if (this.rootElement.disabled || this.rootElement.readonly) {
       return WebElementLogger.warn(this.uid, 'onClick', `The group is disabled or readonly.`)
     }

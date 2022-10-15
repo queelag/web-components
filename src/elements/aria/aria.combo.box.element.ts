@@ -58,7 +58,7 @@ export class AriaComboBoxElement extends FormFieldElement {
    * INTERNAL
    */
   private typeahead: Typeahead<AriaComboBoxOptionElement> = new Typeahead((element: AriaComboBoxOptionElement) => {
-    this.blurFocusedOptionElement()
+    this.focusedOptionElement?.blur()
 
     element.focused = true
     WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
@@ -114,7 +114,7 @@ export class AriaComboBoxElement extends FormFieldElement {
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The combobox has been expanded.`)
 
           if (this.selectedOptionElement) {
-            this.focusSelectedOptionElement()
+            this.selectedOptionElement.focus()
             WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The selected option has been focused.`)
 
             return
@@ -136,7 +136,7 @@ export class AriaComboBoxElement extends FormFieldElement {
       case KeyboardEventKey.ARROW_DOWN:
         if (this.focusedOptionElementIndex >= this.optionElements.length - 1) {
           if (this.inputElement) {
-            this.blurFocusedOptionElement()
+            this.focusedOptionElement?.blur()
 
             this.optionElements[0].focused = true
             WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The first option has been focused.`)
@@ -145,7 +145,7 @@ export class AriaComboBoxElement extends FormFieldElement {
           break
         }
 
-        this.blurFocusedOptionElement()
+        this.focusedOptionElement?.blur()
 
         this.optionElements[this.focusedOptionElementIndex + 1].focused = true
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The next option has been focused.`)
@@ -154,7 +154,7 @@ export class AriaComboBoxElement extends FormFieldElement {
       case KeyboardEventKey.ARROW_UP:
         if (this.focusedOptionElementIndex <= 0) {
           if (this.inputElement) {
-            this.blurFocusedOptionElement()
+            this.focusedOptionElement?.blur()
 
             this.optionElements[this.optionElements.length - 1].focused = true
             WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The last option has been focused.`)
@@ -163,7 +163,7 @@ export class AriaComboBoxElement extends FormFieldElement {
           break
         }
 
-        this.blurFocusedOptionElement()
+        this.focusedOptionElement?.blur()
 
         this.optionElements[this.focusedOptionElementIndex - 1].focused = true
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The previous option has been focused.`)
@@ -193,7 +193,7 @@ export class AriaComboBoxElement extends FormFieldElement {
       case KeyboardEventKey.SPACE:
         if (this.collapsed) {
           this.expand()
-          this.focusSelectedOptionElement()
+          this.selectedOptionElement?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The combobox has been expanded and the selected option has been focused.`)
 
           break
@@ -235,19 +235,19 @@ export class AriaComboBoxElement extends FormFieldElement {
             WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The input value has been set to the selected option inner text.`)
           }
 
-          this.blurFocusedOptionElement()
+          this.focusedOptionElement?.blur()
         }
 
         break
       case KeyboardEventKey.PAGE_DOWN:
-        this.blurFocusedOptionElement()
+        this.focusedOptionElement?.blur()
 
         this.optionElements[getLimitedNumber(getLimitedNumber(this.focusedOptionElementIndex, 0) + 10, 0)].focused = true
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The option focus has jumped ~10 options ahead.`)
 
         break
       case KeyboardEventKey.PAGE_UP:
-        this.blurFocusedOptionElement()
+        this.focusedOptionElement?.blur()
 
         this.optionElements[getLimitedNumber(this.focusedOptionElementIndex - 10, 0)].focused = true
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The option focus has jumped ~10 options behind.`)
@@ -269,12 +269,6 @@ export class AriaComboBoxElement extends FormFieldElement {
     }
   }
 
-  blurFocusedOptionElement(): void {
-    if (this.focusedOptionElement) {
-      this.focusedOptionElement.focused = false
-    }
-  }
-
   collapse(): void {
     this.expanded = false
   }
@@ -291,24 +285,6 @@ export class AriaComboBoxElement extends FormFieldElement {
         return options.filter(predicate)
       default:
         return options
-    }
-  }
-
-  focusSelectedOptionElement(): void {
-    if (this.selectedOptionElement) {
-      this.selectedOptionElement.focused = true
-    }
-  }
-
-  selectFocusedOptionElement(): void {
-    if (this.focusedOptionElement) {
-      this.focusedOptionElement.selected = true
-    }
-  }
-
-  unselectSelectedOptionElement(): void {
-    if (this.selectedOptionElement) {
-      this.selectedOptionElement.selected = false
     }
   }
 
@@ -350,7 +326,7 @@ export class AriaComboBoxElement extends FormFieldElement {
     listElement: { selector: 'q-aria-combobox-list' },
     focusedOptionElement: { selector: 'q-aria-combobox-option[focused]' },
     optionElements: { selector: 'q-aria-combobox-option', all: true },
-    selectOptionElement: { selector: 'q-aria-combobox-option[selected]' }
+    selectedOptionElement: { selector: 'q-aria-combobox-option[selected]' }
   }
 
   static styles: CSSResultGroup = [
@@ -393,9 +369,9 @@ export class AriaComboBoxButtonElement extends BaseElement {
 
   onBlur = (): void => {
     if (this.rootElement.focusedOptionElement) {
-      this.rootElement.unselectSelectedOptionElement()
-      this.rootElement.selectFocusedOptionElement()
-      this.rootElement.blurFocusedOptionElement()
+      this.rootElement.selectedOptionElement?.unselect()
+      this.rootElement.focusedOptionElement.select()
+      this.rootElement.focusedOptionElement.blur()
 
       WebElementLogger.verbose(this.uid, 'onBlur', `The focused option has been selected && blurred.`)
     }
@@ -415,7 +391,7 @@ export class AriaComboBoxButtonElement extends BaseElement {
     WebElementLogger.verbose(this.uid, 'onClick', `The combobox has been ${this.rootElement.expanded ? 'expanded' : 'collapsed'}.`)
 
     if (this.rootElement.expanded) {
-      this.rootElement.focusSelectedOptionElement()
+      this.rootElement.selectedOptionElement?.focus()
     }
   }
 
@@ -490,7 +466,7 @@ export class AriaComboBoxInputElement extends BaseElement {
     this.rootElement.expand()
     WebElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded.`)
 
-    this.rootElement.focusSelectedOptionElement()
+    this.rootElement.selectedOptionElement?.focus()
     WebElementLogger.verbose(this.uid, 'onFocus', `The selected option has been focused.`)
   }
 
@@ -510,7 +486,7 @@ export class AriaComboBoxInputElement extends BaseElement {
 
     if (this.rootElement.collapsed) {
       this.rootElement.expand()
-      this.rootElement.focusSelectedOptionElement()
+      this.rootElement.selectedOptionElement?.focus()
 
       WebElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded and the selected option has been focused.`)
     }
@@ -628,13 +604,29 @@ export class AriaComboBoxOptionElement extends BaseElement {
     }
   }
 
-  onClick = (): void => {
+  blur(): void {
+    this.focused = false
+  }
+
+  focus(options?: FocusOptions | undefined): void {
+    this.focused = true
+  }
+
+  select(): void {
+    this.selected = true
+  }
+
+  unselect(): void {
+    this.selected = false
+  }
+
+  onClick(): void {
     if (this.rootElement.disabled || this.rootElement.readonly) {
       return WebElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
     }
 
-    this.rootElement.blurFocusedOptionElement()
-    this.rootElement.unselectSelectedOptionElement()
+    this.rootElement.focusedOptionElement?.blur()
+    this.rootElement.selectedOptionElement?.unselect()
 
     this.selected = true
     WebElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)

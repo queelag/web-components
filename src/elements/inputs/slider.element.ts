@@ -1,4 +1,13 @@
-import { DEFAULT_SLIDER_MAX, DEFAULT_SLIDER_MIN, DEFAULT_SLIDER_STEP, ElementName, QueryDeclarations } from '@queelag/web'
+import { parseNumber } from '@queelag/core'
+import {
+  DEFAULT_SLIDER_MAX,
+  DEFAULT_SLIDER_MIN,
+  DEFAULT_SLIDER_STEP,
+  DEFAULT_SLIDER_THUMB_VALUE,
+  ElementName,
+  QueryDeclarations,
+  WebElementLogger
+} from '@queelag/web'
 import { html } from 'lit-html'
 import { AriaSliderElement, AriaSliderThumbElement } from '../aria/aria.slider.element'
 
@@ -10,10 +19,21 @@ declare global {
 }
 
 export class SliderElement extends AriaSliderElement {
+  inputElement!: HTMLInputElement
+
+  onInput(): void {
+    if (this.disabled || this.readonly) {
+      return WebElementLogger.warn(this.uid, 'onInput', `The slider is disabled or readonly.`)
+    }
+
+    this.value = this.inputElement.value ? parseNumber(this.inputElement.value) : DEFAULT_SLIDER_THUMB_VALUE
+  }
+
   render() {
     if (this.native) {
       return html`
         <input
+          @input=${this.onInput}
           max=${this.max ?? DEFAULT_SLIDER_MAX}
           min=${this.min ?? DEFAULT_SLIDER_MIN}
           step=${this.step ?? DEFAULT_SLIDER_STEP}
@@ -39,6 +59,7 @@ export class SliderElement extends AriaSliderElement {
   }
 
   static queries: QueryDeclarations = {
+    inputElement: { selector: 'input', shadow: true },
     thumbElements: { selector: 'q-slider-thumb', all: true }
   }
 }
@@ -52,7 +73,7 @@ export class SliderThumbElement extends AriaSliderThumbElement {
     super.value = value
 
     if (this.rootElement.hasMultipleThumbs) {
-      this.rootElement.value = this.rootElement.value || []
+      this.rootElement.value = this.rootElement.value || this.rootElement.values
       this.rootElement.value[this.index] = value
 
       return

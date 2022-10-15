@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../src/elements/image.element'
 import type { ImageElement } from '../../src/elements/image.element'
-import { render } from '../../vitest/utils'
+import { render } from '../../vitest/dom.utils'
 
 describe('ImageElement', () => {
   let image: ImageElement

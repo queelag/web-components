@@ -16,7 +16,7 @@ export class SwitchElement extends AriaSwitchElement {
     WebElementLogger.verbose(this.uid, 'onChange', `The switch has been turned ${this.value ? 'on' : 'off'}.`)
   }
 
-  onClick = (): void => {
+  onClick(): void {
     super.onClick()
 
     if (this.disabled || this.readonly) {

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../src/elements/divider.element'
 import type { DividerElement } from '../../src/elements/divider.element'
-import { render } from '../../vitest/utils'
+import { render } from '../../vitest/dom.utils'
 
 describe('DividerElement', () => {
   let divider: DividerElement

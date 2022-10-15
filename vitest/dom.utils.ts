@@ -35,7 +35,16 @@ export async function render<T extends HTMLElement>(
   return waitForElementRender(element.tagName)
 }
 
-export function dispatchInputEvent(input: HTMLInputElement | null, value: string): void {
+export function dispatchChangeEvent(input: HTMLInputElement | HTMLSelectElement | null, value: string): void {
+  if (!input) {
+    return
+  }
+
+  input.value = value
+  input.dispatchEvent(new InputEvent('change'))
+}
+
+export function dispatchInputEvent(input: HTMLInputElement | HTMLTextAreaElement | null, value: string): void {
   if (!input) {
     return
   }
@@ -44,10 +53,33 @@ export function dispatchInputEvent(input: HTMLInputElement | null, value: string
   input.dispatchEvent(new InputEvent('input'))
 }
 
+export function dispatchInputFileEvent(input: HTMLInputElement | null, files: File[] | null): void {
+  let list: FileList | null = null
+
+  if (!input) {
+    return
+  }
+
+  if (files) {
+    list = { ...files, item: (index: number) => files[index] || null }
+  }
+
+  Object.defineProperty(input, 'files', { configurable: true, value: files })
+  input.dispatchEvent(new InputEvent('change'))
+}
+
 export function dispatchKeyUpEvent<T extends HTMLElement>(element: T | null, key: string): void {
   if (!element) {
     return
   }
 
   element.dispatchEvent(new KeyboardEvent('keyup', { key }))
+}
+
+export function dispatchKeyDownEvent<T extends HTMLElement>(element: T | null, key: string): void {
+  if (!element) {
+    return
+  }
+
+  element.dispatchEvent(new KeyboardEvent('keydown', { key }))
 }
