@@ -106,7 +106,7 @@ export class BaseElement extends LitElement {
       return
     }
 
-    return getSquircleHTML(this.squircleID, this.shapeSquircleSize || this.numericSize, this.shapeSquircleCurvature)
+    return getSquircleHTML(this.squircleID, this.shapeSquircleSize ?? this.numericSize, this.shapeSquircleCurvature)
   }
 
   get shapeStyleInfo(): StyleInfo {

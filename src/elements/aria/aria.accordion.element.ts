@@ -142,7 +142,7 @@ export class AriaAccordionSectionElement extends BaseElement {
   panelElement?: AriaAccordionPanelElement
 
   collapse(): void {
-    if (!this.collapsable) {
+    if (this.collapsable === false) {
       return
     }
 
@@ -209,7 +209,7 @@ export class AriaAccordionButtonElement extends BaseElement {
   }
 
   onClick = (): void => {
-    if (!this.sectionElement.collapsable && this.sectionElement.expanded) {
+    if (this.sectionElement.collapsable === false && this.sectionElement.expanded) {
       WebElementLogger.verbose(this.sectionElement.uid, 'onClick', `The section isn't collapsable.`)
       return
     }
@@ -243,8 +243,17 @@ export class AriaAccordionButtonElement extends BaseElement {
 export class AriaAccordionPanelElement extends BaseElement {
   protected aria: AriaAccordionPanelController = new AriaAccordionPanelController(this)
 
+  /**
+   * QUERIES
+   */
+  sectionElement!: AriaAccordionSectionElement
+
   get name(): ElementName {
     return ElementName.ARIA_ACCORDION_PANEL
+  }
+
+  static queries: QueryDeclarations = {
+    sectionElement: { selector: 'q-aria-accordion-section', closest: true }
   }
 }
 
