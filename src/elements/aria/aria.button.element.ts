@@ -41,7 +41,15 @@ export class AriaButtonElement extends BaseElement {
     this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onClick = (): void => {}
+  click(): void {
+    if (this.disabled) {
+      return
+    }
+
+    super.click()
+  }
+
+  onClick(): void {}
 
   onKeyDown = (event: KeyboardEvent): void => {
     if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {

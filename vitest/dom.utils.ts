@@ -35,6 +35,18 @@ export async function render<T extends HTMLElement>(
   return waitForElementRender(element.tagName)
 }
 
+export function dispatchEvent<T extends HTMLElement, U extends Event>(element: T | null, event: U): void {
+  if (!element) {
+    return
+  }
+
+  element.dispatchEvent(event)
+}
+
+export function dispatchBlurEvent<T extends HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new FocusEvent('blur'))
+}
+
 export function dispatchChangeEvent(input: HTMLInputElement | HTMLSelectElement | null, value: string): void {
   if (!input) {
     return
@@ -42,6 +54,10 @@ export function dispatchChangeEvent(input: HTMLInputElement | HTMLSelectElement 
 
   input.value = value
   input.dispatchEvent(new InputEvent('change'))
+}
+
+export function dispatchFocusEvent<T extends HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new FocusEvent('focus'))
 }
 
 export function dispatchInputEvent(input: HTMLInputElement | HTMLTextAreaElement | null, value: string): void {
@@ -69,17 +85,17 @@ export function dispatchInputFileEvent(input: HTMLInputElement | null, files: Fi
 }
 
 export function dispatchKeyUpEvent<T extends HTMLElement>(element: T | null, key: string): void {
-  if (!element) {
-    return
-  }
-
-  element.dispatchEvent(new KeyboardEvent('keyup', { key }))
+  return dispatchEvent(element, new KeyboardEvent('keyup', { key }))
 }
 
 export function dispatchKeyDownEvent<T extends HTMLElement>(element: T | null, key: string): void {
-  if (!element) {
-    return
-  }
+  return dispatchEvent(element, new KeyboardEvent('keydown', { key }))
+}
 
-  element.dispatchEvent(new KeyboardEvent('keydown', { key }))
+export function dispatchMouseEnterEvent<T extends HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new MouseEvent('mouseenter'))
+}
+
+export function dispatchMouseLeaveEvent<T extends HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new MouseEvent('mouseleave'))
 }

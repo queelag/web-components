@@ -30,6 +30,20 @@ export class AriaCarouselController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'role', 'region')
 
     setImmutableElementAttribute(this.host.slidesElement, 'aria-live', this.host.live ?? (this.host.automaticRotation ? 'off' : 'polite'))
+
+    if (this.host.rotationControlElement) {
+      setImmutableElementAttribute(
+        this.host.rotationControlElement,
+        'aria-label',
+        this.host.live
+          ? this.host.live === 'off'
+            ? 'Stop Automatic Slide Show'
+            : 'Start Automatic Slide Show'
+          : this.host.automaticRotation
+          ? 'Stop Automatic Slide Show'
+          : 'Start Automatic Slide Show'
+      )
+    }
   }
 }
 
@@ -89,7 +103,6 @@ export class AriaCarouselRotationControlController implements ReactiveController
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-label', this.host.rootElement.live === 'polite' ? 'Start Automatic Slide Show' : 'Stop Automatic Slide Show')
     setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.slidesElement.id)
     setImmutableElementAttribute(this.host, 'role', 'button')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
@@ -134,8 +147,6 @@ export class AriaCarouselSlidesController implements ReactiveController {
   }
 
   setAttributes(): void {
-    // setImmutableElementAttribute(this.host, 'aria-live', this.host.rootElement.live ?? (this.host.rootElement.automaticRotation ? 'off' : 'polite'))
-
     if (this.host.id.length <= 0) {
       setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
@@ -157,12 +168,8 @@ export class AriaCarouselTabController implements ReactiveController {
 
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.slideElements[this.host.index]?.id)
-    setImmutableElementAttribute(this.host, 'aria-label', `Slide ${this.host.index}`)
-    setImmutableElementAttribute(
-      this.host,
-      'aria-selected',
-      this.host.active && this.host.index === this.host.rootElement.activeSlideElementIndex ? 'true' : undefined
-    )
+    setImmutableElementAttribute(this.host, 'aria-label', `Slide ${this.host.index + 1}`)
+    setImmutableElementAttribute(this.host, 'aria-selected', this.host.active ? 'true' : undefined)
     setImmutableElementAttribute(this.host, 'role', 'tab')
     setImmutableElementAttribute(this.host, 'tabindex', this.host.active ? '0' : '-1')
   }

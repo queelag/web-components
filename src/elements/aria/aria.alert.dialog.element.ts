@@ -1,4 +1,4 @@
-import { ElementName } from '@queelag/web'
+import { ElementName, QueryDeclarations } from '@queelag/web'
 import { AriaDialogController } from '../../controllers/aria.dialog.controller'
 import { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from './aria.dialog.element'
 
@@ -18,6 +18,11 @@ export class AriaAlertDialogElement extends AriaDialogElement {
 
   get name(): ElementName {
     return ElementName.ARIA_ALERT_DIALOG
+  }
+
+  static queries: QueryDeclarations = {
+    descriptionElement: { selector: 'q-aria-alert-dialog-description' },
+    labelElement: { selector: 'q-aria-alert-dialog-label' }
   }
 }
 

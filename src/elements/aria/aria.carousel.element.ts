@@ -44,18 +44,24 @@ export class AriaCarouselElement extends BaseElement {
    */
   automaticRotation?: boolean
   automaticRotationIntervalTime?: number
-  forceAutomaticRotation?: boolean
   infiniteRotation?: boolean
+  reverseRotation?: boolean
 
   /**
    * QUERIES
    */
   activeSlideElement?: AriaCarouselSlideElement
   activeTabElement?: AriaCarouselSlideElement
+  rotationControlElement?: AriaCarouselRotationControlElement
   slideElements!: AriaCarouselSlideElement[]
   slidesElement!: AriaCarouselSlidesElement
   tabElements!: AriaCarouselTabElement[]
   tabsElement?: AriaCarouselTabsElement
+
+  /**
+   * INTERNAL
+   */
+  forceAutomaticRotation?: boolean
 
   /**
    * STATES
@@ -71,7 +77,7 @@ export class AriaCarouselElement extends BaseElement {
     this.addEventListener('mouseleave', this.onMouseLeave)
 
     if (this.automaticRotation) {
-      Interval.start(this.uid, this.activateNextSlide, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+      Interval.start(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
       WebElementLogger.verbose(this.uid, 'connectedCallback', `The automatic rotation has been started.`)
 
       return
@@ -90,37 +96,37 @@ export class AriaCarouselElement extends BaseElement {
     WebElementLogger.verbose(this.uid, 'disconnectedCallback', `The automatic rotation has been stopped.`)
   }
 
-  onBlur = (): void => {
+  onBlur(): void {
     this.onBlurOrMouseLeave()
   }
 
-  onFocus = (): void => {
+  onFocus(): void {
     this.onFocusOrMouseEnter()
   }
 
-  onMouseEnter = (): void => {
+  onMouseEnter(): void {
     this.onFocusOrMouseEnter()
   }
 
-  onMouseLeave = (): void => {
+  onMouseLeave(): void {
     this.onBlurOrMouseLeave()
   }
 
-  onBlurOrMouseLeave = (): void => {
+  onBlurOrMouseLeave(): void {
     if (this.forceAutomaticRotation || !this.automaticRotation) {
       return
     }
 
     Interval.stop(this.uid)
 
-    Interval.start(this.uid, this.activateNextSlide, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+    Interval.start(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
     WebElementLogger.verbose(this.uid, 'onBlur', `The automatic rotation has been started.`)
 
     this.live = undefined
     WebElementLogger.verbose(this.uid, 'onBlur', `The temporary live state has been unset.`)
   }
 
-  onFocusOrMouseEnter = (): void => {
+  onFocusOrMouseEnter(): void {
     if (this.forceAutomaticRotation || !this.automaticRotation) {
       return
     }
@@ -132,7 +138,15 @@ export class AriaCarouselElement extends BaseElement {
     WebElementLogger.verbose(this.uid, 'onFocus', `The automatic rotation has been stopped.`)
   }
 
-  activateNextSlide = (): void => {
+  onAutomaticRotation = (): void => {
+    if (this.reverseRotation) {
+      return this.activatePreviousSlide()
+    }
+
+    return this.activateNextSlide()
+  }
+
+  activateNextSlide(): void {
     if (this.slideElements.length <= 0) {
       return
     }
@@ -172,7 +186,7 @@ export class AriaCarouselElement extends BaseElement {
     WebElementLogger.verbose(this.uid, 'activateNextSlide', `The next tab has been activated.`)
   }
 
-  activatePreviousSlide = (): void => {
+  activatePreviousSlide(): void {
     if (this.slideElements.length <= 0) {
       return
     }
@@ -183,17 +197,33 @@ export class AriaCarouselElement extends BaseElement {
       }
 
       this.activeSlideElement?.deactivate()
+      this.activeTabElement?.deactivate()
 
       this.slideElements[this.slideElements.length - 1].activate()
       WebElementLogger.verbose(this.uid, 'activatePreviousSlide', `The last slide has been activated.`)
+
+      if (this.tabElements.length <= 0) {
+        return
+      }
+
+      this.tabElements[this.tabElements.length - 1].activate()
+      WebElementLogger.verbose(this.uid, 'activatePreviousSlide', `The last tab has been activated.`)
 
       return
     }
 
     this.activeSlideElement?.deactivate()
+    this.activeTabElement?.deactivate()
 
     this.slideElements[this.activeSlideElementIndex - 1].activate()
     WebElementLogger.verbose(this.uid, 'activatePreviousSlide', `The previous slide has been activated.`)
+
+    if (this.tabElements.length <= 0) {
+      return
+    }
+
+    this.tabElements[this.activeSlideElementIndex - 1].activate()
+    WebElementLogger.verbose(this.uid, 'activatePreviousSlide', `The previous tab has been activated.`)
   }
 
   get activeSlideElementIndex(): number {
@@ -208,12 +238,14 @@ export class AriaCarouselElement extends BaseElement {
     automaticRotation: { type: Boolean, attribute: 'automatic-rotation', reflect: true },
     automaticRotationIntervalTime: { type: Number, attribute: 'automatic-rotation-interval-time', reflect: true },
     infiniteRotation: { type: Boolean, attribute: 'infinite-rotation', reflect: true },
+    reverseRotation: { type: Boolean, attribute: 'reverse-rotation', reflect: true },
     live: { state: true }
   }
 
   static queries: QueryDeclarations = {
     activeSlideElement: { selector: 'q-aria-carousel-slide[active]' },
     activeTabElement: { selector: 'q-aria-carousel-tab[active]' },
+    rotationControlElement: { selector: 'q-aria-carousel-rotation-control' },
     slideElements: { selector: 'q-aria-carousel-slide', all: true },
     slidesElement: { selector: 'q-aria-carousel-slides' },
     tabElements: { selector: 'q-aria-carousel-tab', all: true },
@@ -292,7 +324,7 @@ export class AriaCarouselRotationControlElement extends AriaButtonElement {
    */
   rootElement!: AriaCarouselElement
 
-  onClick = (): void => {
+  onClick(): void {
     this.rootElement.forceAutomaticRotation = true
     this.rootElement.live = undefined
 
@@ -306,7 +338,7 @@ export class AriaCarouselRotationControlElement extends AriaButtonElement {
     if (this.rootElement.automaticRotation) {
       Interval.start(
         this.rootElement.uid,
-        this.rootElement.activateNextSlide,
+        this.rootElement.onAutomaticRotation,
         this.rootElement.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION
       )
       WebElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been started.`)
@@ -330,7 +362,7 @@ export class AriaCarouselNextSlideControlElement extends AriaButtonElement {
    */
   rootElement!: AriaCarouselElement
 
-  onClick = (): void => {
+  onClick(): void {
     this.rootElement.activateNextSlide()
   }
 
@@ -351,7 +383,7 @@ export class AriaCarouselPreviousSlideControlElement extends AriaButtonElement {
    */
   rootElement!: AriaCarouselElement
 
-  onClick = (): void => {
+  onClick(): void {
     this.rootElement.activatePreviousSlide()
   }
 
@@ -384,7 +416,7 @@ export class AriaCarouselTabsElement extends BaseElement {
     this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onKeyDown = (event: KeyboardEvent): void => {
+  onKeyDown(event: KeyboardEvent): void {
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
       case KeyboardEventKey.ARROW_RIGHT:
@@ -392,57 +424,19 @@ export class AriaCarouselTabsElement extends BaseElement {
       case KeyboardEventKey.HOME:
         event.preventDefault()
         event.stopPropagation()
-
-        this.activeTabElement?.deactivate()
-        this.rootElement.activeSlideElement?.deactivate()
     }
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
-        if (this.activeTabElementIndex <= 0) {
-          this.tabElements[this.tabElements.length - 1].focus()
-
-          this.tabElements[this.tabElements.length - 1].activate()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The last tab has been activated.`)
-
-          this.rootElement.slideElements[this.tabElements.length - 1].activate()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The last slide has been activated.`)
-
-          break
-        }
-
-        this.tabElements[this.activeTabElementIndex - 1].focus()
-
-        this.tabElements[this.activeTabElementIndex - 1].activate()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous tab has been activated.`)
-
-        this.rootElement.slideElements[this.activeTabElementIndex - 1].activate()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous slide has been activated.`)
-
+        this.rootElement.activatePreviousSlide()
         break
       case KeyboardEventKey.ARROW_RIGHT:
-        if (this.activeTabElementIndex >= this.tabElements.length - 1) {
-          this.tabElements[0].focus()
-
-          this.tabElements[0].activate()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The first tab has been activated.`)
-
-          this.rootElement.slideElements[0].activate()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The first slide has been activated.`)
-
-          break
-        }
-
-        this.tabElements[this.activeTabElementIndex + 1].focus()
-
-        this.tabElements[this.activeTabElementIndex + 1].activate()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The next tab has been activated.`)
-
-        this.rootElement.slideElements[this.activeTabElementIndex + 1].activate()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The next slide has been activated.`)
-
+        this.rootElement.activateNextSlide()
         break
       case KeyboardEventKey.END:
+        this.activeTabElement?.deactivate()
+        this.rootElement.activeSlideElement?.deactivate()
+
         this.tabElements[this.tabElements.length - 1].focus()
 
         this.tabElements[this.tabElements.length - 1].activate()
@@ -453,6 +447,9 @@ export class AriaCarouselTabsElement extends BaseElement {
 
         break
       case KeyboardEventKey.HOME:
+        this.activeTabElement?.deactivate()
+        this.rootElement.activeSlideElement?.deactivate()
+
         this.tabElements[0].focus()
 
         this.tabElements[0].activate()
@@ -504,7 +501,7 @@ export class AriaCarouselTabElement extends BaseElement {
     this.removeEventListener('click', this.onClick)
   }
 
-  onClick = (): void => {
+  onClick(): void {
     this.tabsElement.activeTabElement?.deactivate()
     this.rootElement.activeSlideElement?.deactivate()
 

@@ -19,7 +19,7 @@ describe('ButtonElement', () => {
   it('has aria attributes', async () => {
     await render(button)
 
-    expect(button.getAttribute('aria-disabled')).toBeNull()
+    expect(button.getAttribute('aria-disabled')).toBe('false')
     expect(button.getAttribute('aria-pressed')).toBeNull()
     expect(button.getAttribute('role')).toBe('button')
     expect(button.getAttribute('tabindex')).toBe('0')

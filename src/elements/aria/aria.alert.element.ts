@@ -1,5 +1,6 @@
 import { AriaAlertSeverity, AriaAlertVariant, ElementName } from '@queelag/web'
-import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
+import { PropertyDeclarations } from 'lit'
+import { AriaAlertController } from '../../controllers/aria.alert.controller'
 import { BaseElement } from '../core/base.element'
 
 declare global {
@@ -9,6 +10,8 @@ declare global {
 }
 
 export class AriaAlertElement extends BaseElement {
+  protected aria: AriaAlertController = new AriaAlertController(this)
+
   /**
    * PROPERTIES
    */
@@ -18,14 +21,6 @@ export class AriaAlertElement extends BaseElement {
   severity?: AriaAlertSeverity
   text?: string
   variant?: AriaAlertVariant
-
-  render() {
-    return html`
-      <div role="alert">
-        <slot></slot>
-      </div>
-    `
-  }
 
   get name(): ElementName {
     return ElementName.ARIA_ALERT
@@ -38,17 +33,6 @@ export class AriaAlertElement extends BaseElement {
     severity: { type: String, reflect: true },
     text: { type: String, reflect: true }
   }
-
-  static styles: CSSResultGroup = [
-    super.styles,
-    css`
-      div {
-        display: inline-flex;
-        height: 100%;
-        width: 100%;
-      }
-    `
-  ]
 }
 
 customElements.define('q-aria-alert', AriaAlertElement)

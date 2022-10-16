@@ -18,8 +18,8 @@ describe('CheckBoxElement', () => {
     await render(checkbox)
 
     expect(checkbox.getAttribute('aria-checked')).toBe('false')
-    expect(checkbox.getAttribute('aria-disabled')).toBeNull()
-    expect(checkbox.getAttribute('aria-readonly')).toBeNull()
+    expect(checkbox.getAttribute('aria-disabled')).toBe('false')
+    expect(checkbox.getAttribute('aria-readonly')).toBe('false')
     expect(checkbox.getAttribute('role')).toBe('checkbox')
     expect(checkbox.getAttribute('tabindex')).toBe('0')
   })

@@ -6,11 +6,12 @@ import {
   FocusTrapCheckCanReturnFocus,
   FocusTrapClickOutsideDeactivates,
   FocusTrapDisplayCheck,
+  FocusTrapElementState,
   FocusTrapEscapeDeactivates,
   FocusTrapSetReturnFocus,
   WebElementLogger
 } from '@queelag/web'
-import { createFocusTrap, FocusTarget, FocusTargetOrFalse, FocusTrap, Options } from 'focus-trap'
+import { ActivateOptions, createFocusTrap, DeactivateOptions, FocusTarget, FocusTargetOrFalse, FocusTrap, Options } from 'focus-trap'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base.element'
 
@@ -37,6 +38,7 @@ export class FocusTrapElement extends BaseElement {
    * INTERNAL
    */
   protected focusTrap!: FocusTrap
+  focusTrapState?: FocusTrapElementState
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -53,30 +55,46 @@ export class FocusTrapElement extends BaseElement {
     WebElementLogger.verbose(this.uid, 'createFocusTrap', `The focus trap has been created.`, this.focusTrap, this.focusTrapOptions)
   }
 
-  activateFocusTrap(): void {
-    tc(() => this.focusTrap.activate())
+  activateFocusTrap(options?: ActivateOptions): void {
+    tc(() => this.focusTrap.activate(options))
     WebElementLogger.verbose(this.uid, 'activateFocusTrap', `The focus trap has been activated.`)
   }
 
-  deactivateFocusTrap(): void {
-    tc(() => this.focusTrap.deactivate())
+  deactivateFocusTrap(options?: DeactivateOptions): void {
+    tc(() => this.focusTrap.deactivate(options))
     WebElementLogger.verbose(this.uid, 'deactivateFocusTrap', `The focus trap has been deactivated.`)
   }
 
-  onFocusTrapActivate = (): void => {
+  onFocusTrapActivate(): void {
+    this.focusTrapState = 'activating'
+    WebElementLogger.verbose(this.uid, 'onFocusTrapActivate', `The focus trap state has been set to activating.`)
+
     this.dispatchEvent(new Event('focus-trap-activate'))
+    WebElementLogger.verbose(this.uid, 'onFocusTrapActivate', `The focus-trap-activate event has been dispatched.`)
   }
 
-  onFocusTrapDeactivate = (): void => {
+  onFocusTrapDeactivate(): void {
+    this.focusTrapState = 'deactivating'
+    WebElementLogger.verbose(this.uid, 'onFocusTrapDeactivate', `The focus trap state has been set to deactivating.`)
+
     this.dispatchEvent(new Event('focus-trap-deactivate'))
+    WebElementLogger.verbose(this.uid, 'onFocusTrapDeactivate', `The focus-trap-deactivate event has been dispatched.`)
   }
 
-  onFocusTrapPostActivate = (): void => {
+  onFocusTrapPostActivate(): void {
+    this.focusTrapState = 'activated'
+    WebElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The focus trap state has been set to activated.`)
+
     this.dispatchEvent(new Event('focus-trap-post-activate'))
+    WebElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The focus-trap-post-activate event has been dispatched.`)
   }
 
-  onFocusTrapPostDeactivate = (): void => {
+  onFocusTrapPostDeactivate(): void {
+    this.focusTrapState = 'deactivated'
+    WebElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The focus trap state has been set to deactivated.`)
+
     this.dispatchEvent(new Event('focus-trap-post-deactivate'))
+    WebElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The focus-trap-post-deactivate event has been dispatched.`)
   }
 
   get focusTrapOptions(): Options {
@@ -92,10 +110,10 @@ export class FocusTrapElement extends BaseElement {
       escapeDeactivates: this.escapeDeactivates,
       fallbackFocus: this.fallbackFocus,
       initialFocus: this.initialFocus,
-      onActivate: this.onFocusTrapActivate,
-      onDeactivate: this.onFocusTrapDeactivate,
-      onPostActivate: this.onFocusTrapPostActivate,
-      onPostDeactivate: this.onFocusTrapPostDeactivate,
+      onActivate: () => this.onFocusTrapActivate(),
+      onDeactivate: () => this.onFocusTrapDeactivate(),
+      onPostActivate: () => this.onFocusTrapPostActivate(),
+      onPostDeactivate: () => this.onFocusTrapPostDeactivate(),
       preventScroll: this.preventScroll,
       returnFocusOnDeactivate: this.returnFocusOnDeactivate,
       setReturnFocus: this.setReturnFocus,

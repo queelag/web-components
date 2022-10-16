@@ -20,6 +20,7 @@ export class AriaDialogElement extends FocusTrapElement {
    */
   description?: string
   label?: string
+  lockBodyScroll?: boolean
   visible?: boolean
 
   /**
@@ -35,20 +36,45 @@ export class AriaDialogElement extends FocusTrapElement {
       return
     }
 
-    if (value !== null) {
+    if (typeof value === 'string') {
       this.activateFocusTrap()
-      document.body.style.overflow = 'hidden'
+      this.setBodyStyle()
 
       return
     }
 
     this.deactivateFocusTrap()
+    this.removeBodyStyle()
+  }
+
+  private setBodyStyle(): void {
+    if (!this.lockBodyScroll) {
+      return
+    }
+
+    document.body.style.overflow = 'hidden'
+  }
+
+  private removeBodyStyle(): void {
+    if (!this.lockBodyScroll) {
+      return
+    }
+
     document.body.style.overflow = ''
   }
 
-  onFocusTrapPostDeactivate = (): void => {
+  onFocusTrapPostActivate(): void {
+    super.onFocusTrapPostActivate()
+
+    this.dispatchEvent(new Event('open'))
+    WebElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The open event has been dispatched.`)
+  }
+
+  onFocusTrapPostDeactivate(): void {
+    super.onFocusTrapPostDeactivate()
+
     this.dispatchEvent(new Event('close'))
-    WebElementLogger.verbose(this.uid, 'onPostDeactive', `The close event has been dispatched.`)
+    WebElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The close event has been dispatched.`)
   }
 
   get name(): ElementName {
@@ -58,6 +84,7 @@ export class AriaDialogElement extends FocusTrapElement {
   static properties: PropertyDeclarations = {
     description: { type: String, reflect: true },
     label: { type: String, reflect: true },
+    lockBodyScroll: { type: Boolean, attribute: 'lock-body-scroll', reflect: true },
     visible: { type: Boolean, reflect: true }
   }
 

@@ -21,7 +21,7 @@ export class AriaButtonController implements ReactiveController {
       return
     }
 
-    setImmutableElementAttribute(this.host, 'aria-disabled', this.host.disabled ? 'true' : undefined)
+    setImmutableElementAttribute(this.host, 'aria-disabled', this.host.disabled ? 'true' : 'false')
     // setImmutableElementAttribute(this.host, 'aria-label', this.host.label)
     setImmutableElementAttribute(this.host, 'aria-pressed', this.host.pressed)
     setImmutableElementAttribute(this.host, 'role', 'button')

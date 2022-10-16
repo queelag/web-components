@@ -33,8 +33,8 @@ describe('SelectElement', () => {
   it('has aria attributes', async () => {
     await render(select)
 
-    expect(select.getAttribute('aria-disabled')).toBeNull()
-    expect(select.getAttribute('aria-readonly')).toBeNull()
+    expect(select.getAttribute('aria-disabled')).toBe('false')
+    expect(select.getAttribute('aria-readonly')).toBe('false')
   })
 
   it('works', async () => {
