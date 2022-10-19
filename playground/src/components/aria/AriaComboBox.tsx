@@ -66,10 +66,10 @@ export function AriaComboBox() {
     <div>
       <q-aria-combobox {...props} ref={ref} autocomplete='list' className='w-64'>
         <q-aria-combobox-group className='w-full rounded-sm border border-gray-400'>
-          <q-aria-combobox-input className='w-full'>
+          {/* <q-aria-combobox-input className='w-full'>
             <input className='appearance-none w-full h-8 px-2 text-xs' placeholder='ARIA Combobox' type='text' />
-          </q-aria-combobox-input>
-          {/* <q-aria-combobox-button className='w-full flex justify-between items-center p-2'>
+          </q-aria-combobox-input> */}
+          <q-aria-combobox-button className='w-full flex justify-between items-center p-2'>
             <span className='text-xs'>{element?.selectedOptionElement ? options[element.selectedOptionElementIndex] : 'Pick an animal (combobox)'}</span>
             <q-icon
               fill='none'
@@ -82,7 +82,7 @@ export function AriaComboBox() {
               stroke='black'
               stroke-width={2}
             />
-          </q-aria-combobox-button> */}
+          </q-aria-combobox-button>
         </q-aria-combobox-group>
         <q-aria-combobox-list
           className={joinElementClasses(
@@ -92,7 +92,7 @@ export function AriaComboBox() {
           middlewares={[offset(4)]}
         >
           {element
-            ?.filterOptions(options, (option: string) => option.toLowerCase().includes(element?.inputElement?.value.toLowerCase() || ''))
+            ?.filterOptions(options, (option: string) => option.toLowerCase().includes(element?.inputElement?.value?.toLowerCase() || ''))
             .map((option: string) => (
               <AriaComboBoxOption key={option} option={option} />
             ))}

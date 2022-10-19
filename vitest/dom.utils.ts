@@ -11,7 +11,7 @@ function waitForElementRender(selectors: string): Promise<void> {
 
       clearInterval(interval)
       resolve()
-    }, 100)
+    }, 10)
   })
 }
 
@@ -84,12 +84,12 @@ export function dispatchInputFileEvent(input: HTMLInputElement | null, files: Fi
   input.dispatchEvent(new InputEvent('change'))
 }
 
-export function dispatchKeyUpEvent<T extends HTMLElement>(element: T | null, key: string): void {
-  return dispatchEvent(element, new KeyboardEvent('keyup', { key }))
+export function dispatchKeyUpEvent<T extends HTMLElement>(element: T | null, key: string, init?: KeyboardEventInit): void {
+  return dispatchEvent(element, new KeyboardEvent('keyup', { key, ...init }))
 }
 
-export function dispatchKeyDownEvent<T extends HTMLElement>(element: T | null, key: string): void {
-  return dispatchEvent(element, new KeyboardEvent('keydown', { key }))
+export function dispatchKeyDownEvent<T extends HTMLElement>(element: T | null, key: string, init?: KeyboardEventInit): void {
+  return dispatchEvent(element, new KeyboardEvent('keydown', { key, ...init }))
 }
 
 export function dispatchMouseEnterEvent<T extends HTMLElement>(element: T | null): void {

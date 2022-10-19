@@ -45,7 +45,7 @@ describe('AriaBreadcrumbElement', () => {
     li1.current = true
     await li1.updateComplete
 
-    expect(li1.querySelector('a')?.getAttribute('aria-current')).toBeDefined()
+    expect(li1.querySelector('a')?.getAttribute('aria-current')).not.toBeNull()
     expect(li2.querySelector('a')?.getAttribute('aria-current')).toBeNull()
 
     li1.current = false
@@ -54,6 +54,6 @@ describe('AriaBreadcrumbElement', () => {
     await li2.updateComplete
 
     expect(li1.querySelector('a')?.getAttribute('aria-current')).toBeNull()
-    expect(li2.querySelector('a')?.getAttribute('aria-current')).toBeDefined()
+    expect(li2.querySelector('a')?.getAttribute('aria-current')).not.toBeNull()
   })
 })

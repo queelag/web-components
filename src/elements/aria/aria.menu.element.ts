@@ -1,4 +1,13 @@
-import { ElementName, KeyboardEventKey, QueryDeclarations, scrollElementIntoView, Typeahead, WebElementLogger } from '@queelag/web'
+import {
+  DEFAULT_MENU_TYPEAHEAD_PREDICATE,
+  ElementName,
+  KeyboardEventKey,
+  QueryDeclarations,
+  scrollElementIntoView,
+  Typeahead,
+  TypeaheadPredicate,
+  WebElementLogger
+} from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaMenuButtonController, AriaMenuController, AriaMenuItemController, AriaMenuListController } from '../../controllers/aria.menu.controller'
 import { BaseElement } from '../core/base.element'
@@ -21,6 +30,8 @@ export class AriaMenuElement extends BaseElement {
    */
   expanded?: boolean
   // navigation?: boolean
+  typeaheadDebounceTime?: number
+  typeaheadPredicate?: TypeaheadPredicate<AriaMenuItemElement>
 
   /**
    * QUERIES
@@ -175,7 +186,10 @@ export class AriaMenuElement extends BaseElement {
           return
         }
 
-        this.typeahead.handle(event, this.itemElements)
+        this.typeahead.handle(event, this.itemElements, this.typeaheadPredicate ?? DEFAULT_MENU_TYPEAHEAD_PREDICATE, {
+          debounceTime: this.typeaheadDebounceTime
+        })
+
         break
     }
   }
@@ -193,8 +207,10 @@ export class AriaMenuElement extends BaseElement {
   }
 
   static properties: PropertyDeclarations = {
-    expanded: { type: Boolean, reflect: true }
-    // navigation: {type: Boolean, reflect: true}
+    expanded: { type: Boolean, reflect: true },
+    // navigation: {type: Boolean, reflect: true},
+    typeaheadDebounceTime: { type: Number, attribute: 'typeahead-debounce-time', reflect: true },
+    typeaheadPredicate: { type: Function, attribute: 'typeahead-predicate' }
   }
 
   static queries: QueryDeclarations = {
@@ -296,6 +312,7 @@ export class AriaMenuItemElement extends BaseElement {
    * PROPERTIES
    */
   focused?: boolean
+  label?: string
 
   /**
    * QUERIES
@@ -353,7 +370,8 @@ export class AriaMenuItemElement extends BaseElement {
   }
 
   static properties: PropertyDeclarations = {
-    focused: { type: Boolean, reflect: true }
+    focused: { type: Boolean, reflect: true },
+    label: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {

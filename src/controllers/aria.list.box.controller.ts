@@ -17,8 +17,7 @@ export class AriaListBoxController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-activedescendant', this.host.focusedOptionElement?.id)
-    setImmutableElementAttribute(this.host, 'aria-multiselectable', this.host.multiple ? 'true' : undefined)
+    setImmutableElementAttribute(this.host, 'aria-multiselectable', this.host.multiple ? 'true' : 'false')
     setImmutableElementAttribute(this.host, 'role', 'listbox')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
   }
@@ -43,6 +42,10 @@ export class AriaListBoxOptionController implements ReactiveController {
 
     if (this.host.id.length <= 0) {
       setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+    }
+
+    if (this.host.focused) {
+      setImmutableElementAttribute(this.host.rootElement, 'aria-activedescendant', this.host.id)
     }
   }
 }

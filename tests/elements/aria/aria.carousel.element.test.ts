@@ -137,36 +137,54 @@ describe('AriaCarouselElement', () => {
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeFalsy()
 
+    /**
+     * Click the next slide control and expect the first slide to be active
+     */
     nsc.click()
     await nsc.updateComplete
 
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
 
+    /**
+     * Click the previous slide control and nothing happens since there is no infinite rotation
+     */
     psc.click()
     await psc.updateComplete
 
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
 
+    /**
+     * Click the next slide control and expect the second slide to be active
+     */
     nsc.click()
     await nsc.updateComplete
 
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
 
+    /**
+     * Click the next slide control and nothing happens since there is no infinite rotation
+     */
     nsc.click()
     await nsc.updateComplete
 
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
 
+    /**
+     * Click the previous slide control and expect the first slide to be active
+     */
     psc.click()
     await psc.updateComplete
 
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
 
+    /**
+     * Click the rotation control and expect the automatic rotation to start
+     */
     rc.click()
     await rc.updateComplete
 
@@ -174,10 +192,16 @@ describe('AriaCarouselElement', () => {
     expect(slides.getAttribute('aria-live')).toBe('off')
     expect(rc.getAttribute('aria-label')).toBe('Stop Automatic Slide Show')
 
+    /**
+     * Sleep for 100ms to wait for the automatic rotation to go to the next slide
+     */
     await sleep(100)
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
 
+    /**
+     * Click the rotation control and expect the automatic rotation to stop
+     */
     rc.click()
     await rc.updateComplete
 
@@ -185,6 +209,9 @@ describe('AriaCarouselElement', () => {
     expect(slides.getAttribute('aria-live')).toBe('polite')
     expect(rc.getAttribute('aria-label')).toBe('Start Automatic Slide Show')
 
+    /**
+     * Sleep for 100ms to assert that the automatic rotation was stopped for real
+     */
     await sleep(100)
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
@@ -199,6 +226,9 @@ describe('AriaCarouselElement', () => {
     expect(t1.getAttribute('aria-selected')).toBeNull()
     expect(t2.getAttribute('aria-selected')).toBeNull()
 
+    /**
+     * Click the first tab and expect the first tab and slide to be active
+     */
     t1.click()
     await t1.updateComplete
 
@@ -207,6 +237,9 @@ describe('AriaCarouselElement', () => {
     expect(t1.getAttribute('aria-selected')).toBeDefined()
     expect(t2.getAttribute('aria-selected')).toBeNull()
 
+    /**
+     * Click the second tab and expect the second tab and slide to be active
+     */
     t2.click()
     await t2.updateComplete
 
@@ -220,6 +253,9 @@ describe('AriaCarouselElement', () => {
     carousel.append(tabs)
     await render(carousel)
 
+    /**
+     * Make the first slide and tab active and expect them to be active
+     */
     s1.active = true
     t1.active = true
     await s1.updateComplete
@@ -230,7 +266,9 @@ describe('AriaCarouselElement', () => {
     expect(t1.getAttribute('aria-selected')).toBeDefined()
     expect(t2.getAttribute('aria-selected')).toBeNull()
 
-    t1.focus()
+    /**
+     * Press ARROW_RIGHT and expect the second slide and tab to be active
+     */
     dispatchKeyDownEvent(tabs, KeyboardEventKey.ARROW_RIGHT)
     await tabs.updateComplete
 
@@ -239,6 +277,9 @@ describe('AriaCarouselElement', () => {
     expect(t1.getAttribute('aria-selected')).toBeNull()
     expect(t2.getAttribute('aria-selected')).toBeDefined()
 
+    /**
+     * Press ARROW_RIGHT and nothing happens since there is no infinite rotation
+     */
     dispatchKeyDownEvent(tabs, KeyboardEventKey.ARROW_RIGHT)
     await tabs.updateComplete
 
@@ -247,6 +288,9 @@ describe('AriaCarouselElement', () => {
     expect(t1.getAttribute('aria-selected')).toBeNull()
     expect(t2.getAttribute('aria-selected')).toBeDefined()
 
+    /**
+     * Press ARROW_LEFT and expect the first slide and tab to be active
+     */
     dispatchKeyDownEvent(tabs, KeyboardEventKey.ARROW_LEFT)
     await tabs.updateComplete
 
@@ -255,6 +299,9 @@ describe('AriaCarouselElement', () => {
     expect(t1.getAttribute('aria-selected')).toBeDefined()
     expect(t2.getAttribute('aria-selected')).toBeNull()
 
+    /**
+     * Press ARROW_LEFT and nothing happens since there is no infinite rotation
+     */
     dispatchKeyDownEvent(tabs, KeyboardEventKey.ARROW_LEFT)
     await tabs.updateComplete
 
@@ -263,6 +310,9 @@ describe('AriaCarouselElement', () => {
     expect(t1.getAttribute('aria-selected')).toBeDefined()
     expect(t2.getAttribute('aria-selected')).toBeNull()
 
+    /**
+     * Press END and expect the last slide and tab to be active
+     */
     dispatchKeyDownEvent(tabs, KeyboardEventKey.END)
     await tabs.updateComplete
 
@@ -271,6 +321,9 @@ describe('AriaCarouselElement', () => {
     expect(t1.getAttribute('aria-selected')).toBeNull()
     expect(t2.getAttribute('aria-selected')).toBeDefined()
 
+    /**
+     * Press HOME and expect the first slide and tab to be active
+     */
     dispatchKeyDownEvent(tabs, KeyboardEventKey.HOME)
     await tabs.updateComplete
 
@@ -283,17 +336,26 @@ describe('AriaCarouselElement', () => {
   it('supports automatic rotation', async () => {
     await render(carousel, { 'automatic-rotation': 'true' })
 
+    /**
+     * Mark the first slide as active and expect it to be active
+     */
     s1.active = true
     await s1.updateComplete
 
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
 
+    /**
+     * Sleep for 100ms to wait for the automatic rotation to activate the next slide
+     */
     await sleep(100)
 
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
 
+    /**
+     * Sleep for 100ms but nothing happens since there is no infinite rotation
+     */
     await sleep(100)
 
     expect(s1.active).toBeFalsy()
@@ -303,17 +365,26 @@ describe('AriaCarouselElement', () => {
   it('supports reverse automatic rotation', async () => {
     await render(carousel, { 'automatic-rotation': 'true', 'reverse-rotation': 'true' })
 
+    /**
+     * Mark the last slide as active and expect it to be active
+     */
     s2.active = true
     await s2.updateComplete
 
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
 
+    /**
+     * Sleep for 100ms to wait for the automatic rotation to activate the previous slide
+     */
     await sleep(100)
 
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
 
+    /**
+     * Sleep for 100ms but nothing happens since there is no infinite rotation
+     */
     await sleep(100)
 
     expect(s1.active).toBeTruthy()
@@ -323,17 +394,26 @@ describe('AriaCarouselElement', () => {
   it('supports infinite rotation', async () => {
     await render(carousel, { 'automatic-rotation': 'true', 'infinite-rotation': 'true' })
 
+    /**
+     * Mark the first slide as active and expect it to be active
+     */
     s1.active = true
     await s1.updateComplete
 
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
 
+    /**
+     * Sleep for 100ms to wait for the automatic rotation to activate the next slide
+     */
     await sleep(100)
 
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
 
+    /**
+     * Sleep for 100ms to wait for the automatic rotation to activate the first slide
+     */
     await sleep(100)
 
     expect(s1.active).toBeTruthy()
@@ -343,6 +423,9 @@ describe('AriaCarouselElement', () => {
   it('stops on focus or on mouse enter and resumes on blur or mouse leave', async () => {
     await render(carousel, { 'automatic-rotation': 'true', 'infinite-rotation': 'true' })
 
+    /**
+     * Mark the first slide as active and expect it to be active
+     */
     s1.active = true
     await s1.updateComplete
 
@@ -350,6 +433,9 @@ describe('AriaCarouselElement', () => {
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
 
+    /**
+     * Focus the carousel and sleep for 100ms to assert that the automatic rotation was stopped
+     */
     dispatchFocusEvent(carousel)
     await sleep(100)
 
@@ -357,6 +443,9 @@ describe('AriaCarouselElement', () => {
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
 
+    /**
+     * Blur the carousel and sleep for 100ms to assert that the automatic rotation was resumed
+     */
     dispatchBlurEvent(carousel)
     await sleep(100)
 
@@ -364,6 +453,9 @@ describe('AriaCarouselElement', () => {
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
 
+    /**
+     * Enter the carousel with the mouse and sleep for 100ms to assert that the automatic rotation was stopped
+     */
     dispatchMouseEnterEvent(carousel)
     await sleep(100)
 
@@ -371,6 +463,9 @@ describe('AriaCarouselElement', () => {
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
 
+    /**
+     * Leave the carousel with the mouse and sleep for 100ms to assert that the automatic rotation was resumed
+     */
     dispatchMouseLeaveEvent(carousel)
     await sleep(100)
 
@@ -383,9 +478,15 @@ describe('AriaCarouselElement', () => {
     carousel.append(rc)
     await render(carousel, { 'infinite-rotation': 'true' })
 
+    /**
+     * Mark the first slide as active and expect it to be active
+     */
     s1.active = true
     await s1.updateComplete
 
+    /**
+     * Click the rotation control and expect the automatic rotation to start and to ignore focus/mouseenter events
+     */
     rc.click()
     await rc.updateComplete
 
@@ -393,6 +494,9 @@ describe('AriaCarouselElement', () => {
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
 
+    /**
+     * Focus the carousel and sleep for 100ms to assert that the automatic rotation is still running
+     */
     dispatchFocusEvent(carousel)
     await sleep(100)
 
@@ -400,6 +504,9 @@ describe('AriaCarouselElement', () => {
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
 
+    /**
+     * Blur the carousel and sleep for 100ms to assert that the automatic rotation is still running
+     */
     dispatchBlurEvent(carousel)
     await sleep(100)
 

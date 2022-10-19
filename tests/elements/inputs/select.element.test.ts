@@ -1,5 +1,4 @@
-import ResizeObserver from 'resize-observer-polyfill'
-import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/inputs/select.element'
 import type {
   SelectButtonElement,
@@ -13,10 +12,6 @@ import { dispatchChangeEvent, render } from '../../../vitest/dom.utils'
 
 describe('SelectElement', () => {
   let select: SelectElement, group: SelectGroupElement, button: SelectButtonElement, input: SelectInputElement, list: SelectListElement
-
-  beforeAll(() => {
-    window.ResizeObserver = ResizeObserver
-  })
 
   beforeEach(() => {
     select = document.createElement('q-select')

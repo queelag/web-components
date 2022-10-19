@@ -68,6 +68,9 @@ describe('AriaAccordionElement', () => {
   it('expands and collapses sections on click', async () => {
     await render(accordion)
 
+    /**
+     * Click the first section button and expect the first section to be expanded
+     */
     b1.click()
     await b1.updateComplete
 
@@ -76,6 +79,9 @@ describe('AriaAccordionElement', () => {
     expect(p1.getAttribute('aria-expanded')).toBe('true')
     expect(p2.getAttribute('aria-expanded')).toBe('false')
 
+    /**
+     * Click the second section button and expect the second section to be expanded
+     */
     b2.click()
     await b2.updateComplete
 
@@ -84,6 +90,9 @@ describe('AriaAccordionElement', () => {
     expect(p1.getAttribute('aria-expanded')).toBe('true')
     expect(p2.getAttribute('aria-expanded')).toBe('true')
 
+    /**
+     * Click the first section button and expect the first section to be collapsed
+     */
     b1.click()
     await b1.updateComplete
 
@@ -96,6 +105,9 @@ describe('AriaAccordionElement', () => {
   it('can allow only one section to be expanded at once', async () => {
     await render(accordion, { 'allow-only-one-expanded-section': 'true' })
 
+    /**
+     * Click the first section button and expect the first section to be expanded
+     */
     b1.click()
     await b1.updateComplete
 
@@ -104,6 +116,9 @@ describe('AriaAccordionElement', () => {
     expect(p1.getAttribute('aria-expanded')).toBe('true')
     expect(p2.getAttribute('aria-expanded')).toBe('false')
 
+    /**
+     * Click the second section button and expect the first section to be collapsed and the second section to be expanded
+     */
     b2.click()
     await b2.updateComplete
 
@@ -116,6 +131,9 @@ describe('AriaAccordionElement', () => {
   it('supports keyboard usage', async () => {
     await render(accordion)
 
+    /**
+     * Focus the first section button and press ENTER, expect the first section to be expanded
+     */
     b1.focus()
     dispatchKeyDownEvent(accordion, KeyboardEventKey.ENTER)
     await accordion.updateComplete
@@ -125,6 +143,9 @@ describe('AriaAccordionElement', () => {
     expect(p1.getAttribute('aria-expanded')).toBe('true')
     expect(p2.getAttribute('aria-expanded')).toBe('false')
 
+    /**
+     * Press ARROW_DOWN and expect the second section to be focused, press SPACE and expect the second section to be expanded
+     */
     dispatchKeyDownEvent(accordion, KeyboardEventKey.ARROW_DOWN)
     dispatchKeyDownEvent(accordion, KeyboardEventKey.SPACE)
     await accordion.updateComplete
@@ -134,6 +155,9 @@ describe('AriaAccordionElement', () => {
     expect(p1.getAttribute('aria-expanded')).toBe('true')
     expect(p2.getAttribute('aria-expanded')).toBe('true')
 
+    /**
+     * Press ARROW_UP and expect the first section to be focused, press SPACE and expect the first section to be collapsed
+     */
     dispatchKeyDownEvent(accordion, KeyboardEventKey.ARROW_UP)
     dispatchKeyDownEvent(accordion, KeyboardEventKey.ENTER)
     await accordion.updateComplete
@@ -143,6 +167,9 @@ describe('AriaAccordionElement', () => {
     expect(p1.getAttribute('aria-expanded')).toBe('false')
     expect(p2.getAttribute('aria-expanded')).toBe('true')
 
+    /**
+     * Press END and expect the last section to be focused, press ENTER and expect the last section to be collapsed
+     */
     dispatchKeyDownEvent(accordion, KeyboardEventKey.END)
     dispatchKeyDownEvent(accordion, KeyboardEventKey.ENTER)
     await accordion.updateComplete
@@ -152,6 +179,9 @@ describe('AriaAccordionElement', () => {
     expect(p1.getAttribute('aria-expanded')).toBe('false')
     expect(p2.getAttribute('aria-expanded')).toBe('false')
 
+    /**
+     * Press HOME and expect the first section to be focused, press ENTER and expect the first section to be expanded
+     */
     dispatchKeyDownEvent(accordion, KeyboardEventKey.HOME)
     dispatchKeyDownEvent(accordion, KeyboardEventKey.ENTER)
     await accordion.updateComplete

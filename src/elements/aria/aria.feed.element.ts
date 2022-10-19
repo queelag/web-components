@@ -107,6 +107,8 @@ export class AriaFeedElement extends BaseElement {
     focusable = tabbable(document.body, { getShadowRoot: true, includeContainer: true })
     previous = focusable[focusable.indexOf(this.articleElements[0]) - 1]
 
+    console.log(focusable)
+
     return previous || null
   }
 

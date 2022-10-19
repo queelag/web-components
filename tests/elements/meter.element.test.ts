@@ -36,8 +36,14 @@ describe('MeterElement', () => {
     expect(meter.renderRoot.querySelector('meter')?.getAttribute('style')).toBe('')
     expect(meter.renderRoot.querySelector('meter')?.getAttribute('value')).toBeNull()
 
-    meter.remove()
-    await render(meter, { low: '0', high: '1', max: '1', min: '0', native: 'true', optimum: '0.5', value: '0' })
+    meter.low = 0
+    meter.high = 1
+    meter.max = 1
+    meter.min = 0
+    meter.native = true
+    meter.optimum = 0.5
+    meter.value = 0
+    await meter.updateComplete
 
     expect(meter.renderRoot.querySelector('meter')?.getAttribute('low')).toBe('0')
     expect(meter.renderRoot.querySelector('meter')?.getAttribute('high')).toBe('1')
@@ -52,7 +58,10 @@ describe('MeterElement', () => {
     await render(meter, { value: '0.5' })
     expect(meter.percentage).toBe(50)
 
-    await render(meter, { round: 'true', value: '0.507' })
+    meter.round = true
+    meter.value = 0.507
+    await meter.updateComplete
+
     expect(meter.percentage).toBe(51)
   })
 })

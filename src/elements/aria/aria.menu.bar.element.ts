@@ -1,5 +1,14 @@
 import { debounce } from '@queelag/core'
-import { ElementName, KeyboardEventKey, QueryDeclarations, setImmutableElementAttribute, Typeahead, WebElementLogger } from '@queelag/web'
+import {
+  DEFAULT_MENUBAR_TYPEAHEAD_PREDICATE,
+  ElementName,
+  KeyboardEventKey,
+  QueryDeclarations,
+  setImmutableElementAttribute,
+  Typeahead,
+  TypeaheadPredicate,
+  WebElementLogger
+} from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaMenuBarController, AriaMenuBarItemController, AriaMenuBarSubMenuController } from '../../controllers/aria.menu.bar.controller'
 import { BaseElement } from '../core/base.element'
@@ -16,6 +25,12 @@ declare global {
 
 export class AriaMenuBarElement extends BaseElement {
   protected aria: AriaMenuBarController = new AriaMenuBarController(this)
+
+  /**
+   * PROPERTIES
+   */
+  typeaheadDebounceTime?: number
+  typeaheadPredicate?: TypeaheadPredicate<AriaMenuBarItemElement>
 
   /**
    * QUERIES
@@ -211,7 +226,9 @@ export class AriaMenuBarElement extends BaseElement {
 
         break
       default:
-        this.typeahead.handle(event, this.shallowItemElements)
+        this.typeahead.handle(event, this.shallowItemElements, this.typeaheadPredicate ?? DEFAULT_MENUBAR_TYPEAHEAD_PREDICATE, {
+          debounceTime: this.typeaheadDebounceTime
+        })
         break
     }
   }
@@ -234,6 +251,11 @@ export class AriaMenuBarElement extends BaseElement {
     return this.shallowFocusedItemElement ? this.shallowItemElements.indexOf(this.shallowFocusedItemElement) : -1
   }
 
+  static properties: PropertyDeclarations = {
+    typeaheadDebounceTime: { type: Number, attribute: 'typeahead-debounce-time', reflect: true },
+    typeaheadPredicate: { type: Function, attribute: 'typeahead-predicate' }
+  }
+
   static queries: QueryDeclarations = {
     expandedSubMenuElement: { selector: 'q-aria-menubar-submenu[expanded]' },
     expandedSubMenuElements: { selector: 'q-aria-menubar-submenu[expanded]', all: true },
@@ -252,6 +274,7 @@ export class AriaMenuBarItemElement extends BaseElement {
    * PROPERTIES
    */
   focused?: boolean
+  label?: string
 
   /**
    * QUERIES
@@ -417,7 +440,8 @@ export class AriaMenuBarItemElement extends BaseElement {
   }
 
   static properties: PropertyDeclarations = {
-    focused: { type: Boolean, reflect: true }
+    focused: { type: Boolean, reflect: true },
+    label: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {
@@ -449,9 +473,13 @@ export class AriaMenuBarSubMenuElement extends FloatingElement {
    * QUERIES
    */
   itemElement!: AriaMenuBarItemElement
+  rootElement!: AriaMenuBarElement
   subMenuElement?: AriaMenuBarSubMenuElement
 
-  typeahead: Typeahead<AriaMenuBarItemElement> = new Typeahead((item: AriaMenuBarItemElement) => {
+  /**
+   * INTERNAL
+   */
+  private typeahead: Typeahead<AriaMenuBarItemElement> = new Typeahead((item: AriaMenuBarItemElement) => {
     this.shallowFocusedItemElement?.blur()
 
     item.focus()
@@ -575,7 +603,9 @@ export class AriaMenuBarSubMenuElement extends FloatingElement {
 
         break
       default:
-        this.typeahead.handle(event, [...this.shallowItemElements])
+        this.typeahead.handle(event, [...this.shallowItemElements], this.rootElement.typeaheadPredicate ?? DEFAULT_MENUBAR_TYPEAHEAD_PREDICATE, {
+          debounceTime: this.rootElement.typeaheadDebounceTime
+        })
         break
     }
   }
@@ -632,6 +662,7 @@ export class AriaMenuBarSubMenuElement extends FloatingElement {
 
   static queries: QueryDeclarations = {
     itemElement: { selector: 'q-aria-menubar-item', closest: true },
+    rootElement: { selector: 'q-aria-menubar', closest: true },
     subMenuElement: { selector: 'q-aria-menubar-submenu', closest: true }
   }
 

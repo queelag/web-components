@@ -7,6 +7,7 @@ export default defineConfig({
     },
     environment: 'jsdom',
     globals: true,
-    include: ['tests/**/*.test.ts']
+    include: ['tests/**/*.test.ts'],
+    setupFiles: ['vitest/stubs/resize.observer.stub.ts', 'vitest/stubs/scroll.to.stub.ts']
   }
 })

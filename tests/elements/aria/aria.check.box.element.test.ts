@@ -50,6 +50,9 @@ describe('AriaCheckBoxElement', () => {
     expect(checkbox.checked).toBeFalsy()
     expect(checkbox.getAttribute('aria-checked')).toBe('false')
 
+    /**
+     * Press SPACE and expected the checkbox to be checked
+     */
     dispatchKeyDownEvent(checkbox, KeyboardEventKey.SPACE)
     await checkbox.updateComplete
 

@@ -1,4 +1,12 @@
-import { ElementName, KeyboardEventKey, QueryDeclarations, Typeahead, WebElementLogger } from '@queelag/web'
+import {
+  DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE,
+  ElementName,
+  KeyboardEventKey,
+  QueryDeclarations,
+  Typeahead,
+  TypeaheadPredicate,
+  WebElementLogger
+} from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaListBoxController, AriaListBoxOptionController } from '../../controllers/aria.list.box.controller'
 import { BaseElement } from '../core/base.element'
@@ -16,9 +24,11 @@ export class AriaListBoxElement extends BaseElement {
   /**
    * PROPERTIES
    */
-  selectionFollowsFocus?: boolean
   multiple?: boolean
+  selectionFollowsFocus?: boolean
   selectFirstOptionOnFocus?: boolean
+  typeaheadDebounceTime?: number
+  typeaheadPredicate?: TypeaheadPredicate<AriaListBoxOptionElement>
 
   /**
    * QUERIES
@@ -31,9 +41,9 @@ export class AriaListBoxElement extends BaseElement {
    * INTERNAL
    */
   private typeahead: Typeahead<AriaListBoxOptionElement> = new Typeahead((element: AriaListBoxOptionElement) => {
-    this.blurFocusedOptionElement()
+    this.focusedOptionElement?.blur()
 
-    element.focused = true
+    element.focus()
     WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
   })
 
@@ -54,25 +64,23 @@ export class AriaListBoxElement extends BaseElement {
   }
 
   onBlur = (): void => {
-    if (this.focusedOptionElement) {
-      this.focusedOptionElement.focused = false
-      WebElementLogger.verbose(this.uid, 'onBlur', `The focused option has been blurred.`)
-    }
+    this.focusedOptionElement?.blur()
+    WebElementLogger.verbose(this.uid, 'onBlur', `The focused option has been blurred.`)
   }
 
   onFocus = (): void => {
     if (this.selectedOptionElement) {
-      this.selectedOptionElement.focused = true
+      this.selectedOptionElement.focus()
       WebElementLogger.verbose(this.uid, 'onFocus', `The selected option has been focused.`)
 
       return
     }
 
-    this.optionElements[0].focused = true
+    this.optionElements[0].focus()
     WebElementLogger.verbose(this.uid, 'onFocus', `The first option has been focused.`)
 
     if (this.selectFirstOptionOnFocus && this.single) {
-      this.optionElements[0].selected = true
+      this.optionElements[0].select()
       WebElementLogger.verbose(this.uid, 'onFocus', `The first option has been selected.`)
     }
   }
@@ -100,10 +108,10 @@ export class AriaListBoxElement extends BaseElement {
       case KeyboardEventKey.ARROW_UP:
       case KeyboardEventKey.END:
       case KeyboardEventKey.HOME:
-        this.blurFocusedOptionElement()
+        this.focusedOptionElement?.blur()
 
         if (this.selectionFollowsFocus && this.single) {
-          this.unselectSelectedOptionElement()
+          this.selectedOptionElement?.unselect()
         }
 
         break
@@ -117,7 +125,7 @@ export class AriaListBoxElement extends BaseElement {
 
         if (this.optionElements.every((element: AriaListBoxOptionElement) => element.selected)) {
           for (let element of this.optionElements) {
-            element.selected = false
+            element.unselect()
           }
           WebElementLogger.verbose(this.uid, 'onKeyDown', `Every option has been unselected.`)
 
@@ -125,7 +133,7 @@ export class AriaListBoxElement extends BaseElement {
         }
 
         for (let element of this.optionElements) {
-          element.selected = true
+          element.select()
         }
         WebElementLogger.verbose(this.uid, 'onKeyDown', `Every option has been selected.`)
 
@@ -133,21 +141,21 @@ export class AriaListBoxElement extends BaseElement {
       case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_RIGHT:
         if (this.focusedOptionElementIndex >= this.optionElements.length - 1) {
-          this.optionElements[0].focused = true
+          this.optionElements[0].focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', `The first option has been focused.`)
 
           if (this.selectionFollowsFocus && this.single) {
-            this.optionElements[0].selected = true
+            this.optionElements[0].select()
           }
 
           break
         }
 
-        this.optionElements[this.focusedOptionElementIndex + 1].focused = true
+        this.optionElements[this.focusedOptionElementIndex + 1].focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', `The next option has been focused.`)
 
         if (this.selectionFollowsFocus && this.single) {
-          this.optionElements[this.focusedOptionElementIndex + 1].selected = true
+          this.optionElements[this.focusedOptionElementIndex + 1].select()
         }
 
         if (this.multiple && event.ctrlKey && this.focusedOptionElement) {
@@ -159,21 +167,21 @@ export class AriaListBoxElement extends BaseElement {
       case KeyboardEventKey.ARROW_UP:
       case KeyboardEventKey.ARROW_LEFT:
         if (this.focusedOptionElementIndex <= 0) {
-          this.optionElements[this.optionElements.length - 1].focused = true
+          this.optionElements[this.optionElements.length - 1].focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', `The last option has been focused.`)
 
           if (this.selectionFollowsFocus && this.single) {
-            this.optionElements[this.optionElements.length - 1].selected = true
+            this.optionElements[this.optionElements.length - 1].select()
           }
 
           break
         }
 
-        this.optionElements[this.focusedOptionElementIndex - 1].focused = true
+        this.optionElements[this.focusedOptionElementIndex - 1].focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', `The previous option has been focused.`)
 
         if (this.selectionFollowsFocus && this.single) {
-          this.optionElements[this.focusedOptionElementIndex - 1].selected = true
+          this.optionElements[this.focusedOptionElementIndex - 1].select()
         }
 
         if (this.multiple && event.ctrlKey && this.focusedOptionElement) {
@@ -183,24 +191,24 @@ export class AriaListBoxElement extends BaseElement {
 
         break
       case KeyboardEventKey.END:
-        this.optionElements[this.optionElements.length - 1].focused = true
+        this.optionElements[this.optionElements.length - 1].focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', `The last option has been focused.`)
 
         if (this.multiple && event.ctrlKey && event.shiftKey) {
           for (let i = this.focusedOptionElementIndex; i < this.optionElements.length; i++) {
-            this.optionElements[i].selected = true
+            this.optionElements[i].select()
           }
           WebElementLogger.verbose(this.uid, 'onKeyDown', `Every option from the focused one to the last one has been selected.`)
         }
 
         break
       case KeyboardEventKey.HOME:
-        this.optionElements[0].focused = true
+        this.optionElements[0].focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', `The first option has been focused.`)
 
         if (this.multiple && event.ctrlKey && event.shiftKey) {
           for (let i = 0; i < this.focusedOptionElementIndex; i++) {
-            this.optionElements[i].selected = true
+            this.optionElements[i].select()
           }
           WebElementLogger.verbose(this.uid, 'onKeyDown', `Every option from the first one to the focused one has been selected.`)
         }
@@ -210,26 +218,10 @@ export class AriaListBoxElement extends BaseElement {
         this.focusedOptionElement?.click()
         break
       default:
-        this.typeahead.handle(event, this.optionElements)
+        this.typeahead.handle(event, this.optionElements, this.typeaheadPredicate ?? DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE, {
+          debounceTime: this.typeaheadDebounceTime
+        })
         break
-    }
-  }
-
-  blurFocusedOptionElement(): void {
-    if (this.focusedOptionElement) {
-      this.focusedOptionElement.focused = false
-    }
-  }
-
-  selectFocusedOptionElement(): void {
-    if (this.focusedOptionElement) {
-      this.focusedOptionElement.selected = true
-    }
-  }
-
-  unselectSelectedOptionElement(): void {
-    if (this.selectedOptionElement) {
-      this.selectedOptionElement.selected = false
     }
   }
 
@@ -252,7 +244,9 @@ export class AriaListBoxElement extends BaseElement {
   static properties: PropertyDeclarations = {
     selectionFollowsFocus: { type: Boolean, attribute: 'selection-follows-focus', reflect: true },
     multiple: { type: Boolean, reflect: true },
-    selectFirstOptionOnFocus: { type: Boolean, attribute: 'select-first-option-on-focus', reflect: true }
+    selectFirstOptionOnFocus: { type: Boolean, attribute: 'select-first-option-on-focus', reflect: true },
+    typeaheadDebounceTime: { type: Number, attribute: 'typeahead-debounce-time', reflect: true },
+    typeaheadPredicate: { type: Function, attribute: 'typeahead-predicate' }
   }
 
   static queries: QueryDeclarations = {
@@ -270,6 +264,7 @@ export class AriaListBoxOptionElement extends BaseElement {
    */
   focused?: boolean
   selected?: boolean
+  value?: any
 
   /**
    * QUERIES
@@ -297,22 +292,36 @@ export class AriaListBoxOptionElement extends BaseElement {
     }
 
     if (this.rootElement.single) {
-      for (let element of this.rootElement.optionElements) {
-        element.selected = false
-      }
+      this.rootElement.selectedOptionElement?.unselect()
 
-      this.selected = true
+      this.select()
       WebElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
     }
 
-    this.rootElement.blurFocusedOptionElement()
+    this.rootElement.focusedOptionElement?.blur()
 
-    this.focused = true
+    this.focus()
     WebElementLogger.verbose(this.uid, 'onClick', `The option has been focused.`)
   }
 
   onMouseDown = (event: MouseEvent): void => {
     // event.preventDefault()
+  }
+
+  blur(): void {
+    this.focused = false
+  }
+
+  focus(): void {
+    this.focused = true
+  }
+
+  select(): void {
+    this.selected = true
+  }
+
+  unselect(): void {
+    this.selected = false
   }
 
   get name(): ElementName {
@@ -321,7 +330,8 @@ export class AriaListBoxOptionElement extends BaseElement {
 
   static properties: PropertyDeclarations = {
     focused: { type: Boolean, reflect: true },
-    selected: { type: Boolean, reflect: true }
+    selected: { type: Boolean, reflect: true },
+    value: {}
   }
 
   static queries: QueryDeclarations = {

@@ -1,12 +1,14 @@
 import { getLimitedNumber } from '@queelag/core'
 import {
   AriaComboBoxElementAutoComplete,
+  DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE,
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
   scrollElementIntoView,
   StateChangeEvent,
   Typeahead,
+  TypeaheadPredicate,
   WebElementLogger
 } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
@@ -42,6 +44,8 @@ export class AriaComboBoxElement extends FormFieldElement {
   expanded?: boolean
   multiple?: boolean
   scrollIntoViewOptions?: ScrollIntoViewOptions
+  typeaheadDebounceTime?: number
+  typeaheadPredicate?: TypeaheadPredicate<AriaComboBoxOptionElement>
 
   /**
    * QUERIES
@@ -60,7 +64,7 @@ export class AriaComboBoxElement extends FormFieldElement {
   private typeahead: Typeahead<AriaComboBoxOptionElement> = new Typeahead((element: AriaComboBoxOptionElement) => {
     this.focusedOptionElement?.blur()
 
-    element.focused = true
+    element.focus()
     WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
   })
 
@@ -121,11 +125,11 @@ export class AriaComboBoxElement extends FormFieldElement {
           }
 
           if (this.inputElement && event.key === KeyboardEventKey.ARROW_DOWN) {
-            this.optionElements[0].focused = true
+            this.optionElements[0].focus()
           }
 
           if (this.inputElement && event.key === KeyboardEventKey.ARROW_UP) {
-            this.optionElements[this.optionElements.length - 1].focused = true
+            this.optionElements[this.optionElements.length - 1].focus()
           }
 
           return
@@ -138,7 +142,7 @@ export class AriaComboBoxElement extends FormFieldElement {
           if (this.inputElement) {
             this.focusedOptionElement?.blur()
 
-            this.optionElements[0].focused = true
+            this.optionElements[0].focus()
             WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The first option has been focused.`)
           }
 
@@ -147,7 +151,7 @@ export class AriaComboBoxElement extends FormFieldElement {
 
         this.focusedOptionElement?.blur()
 
-        this.optionElements[this.focusedOptionElementIndex + 1].focused = true
+        this.optionElements[this.focusedOptionElementIndex + 1].focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The next option has been focused.`)
 
         break
@@ -156,7 +160,7 @@ export class AriaComboBoxElement extends FormFieldElement {
           if (this.inputElement) {
             this.focusedOptionElement?.blur()
 
-            this.optionElements[this.optionElements.length - 1].focused = true
+            this.optionElements[this.optionElements.length - 1].focus()
             WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The last option has been focused.`)
           }
 
@@ -165,27 +169,31 @@ export class AriaComboBoxElement extends FormFieldElement {
 
         this.focusedOptionElement?.blur()
 
-        this.optionElements[this.focusedOptionElementIndex - 1].focused = true
+        this.optionElements[this.focusedOptionElementIndex - 1].focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The previous option has been focused.`)
 
         break
       case KeyboardEventKey.END:
+        this.focusedOptionElement?.blur()
+
         if (this.collapsed) {
           this.expand()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The combobox has been expanded.`)
         }
 
-        this.optionElements[this.optionElements.length - 1].focused = true
+        this.optionElements[this.optionElements.length - 1].focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last option has been focused.`)
 
         break
       case KeyboardEventKey.HOME:
+        this.focusedOptionElement?.blur()
+
         if (this.collapsed) {
           this.expand()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The combobox has been expanded.`)
         }
 
-        this.optionElements[0].focused = true
+        this.optionElements[0].focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first option has been focused.`)
 
         break
@@ -242,14 +250,14 @@ export class AriaComboBoxElement extends FormFieldElement {
       case KeyboardEventKey.PAGE_DOWN:
         this.focusedOptionElement?.blur()
 
-        this.optionElements[getLimitedNumber(getLimitedNumber(this.focusedOptionElementIndex, 0) + 10, 0)].focused = true
+        this.optionElements[getLimitedNumber(getLimitedNumber(this.focusedOptionElementIndex, 0) + 10, 0)].focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The option focus has jumped ~10 options ahead.`)
 
         break
       case KeyboardEventKey.PAGE_UP:
         this.focusedOptionElement?.blur()
 
-        this.optionElements[getLimitedNumber(this.focusedOptionElementIndex - 10, 0)].focused = true
+        this.optionElements[getLimitedNumber(this.focusedOptionElementIndex - 10, 0)].focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The option focus has jumped ~10 options behind.`)
 
         break
@@ -263,7 +271,9 @@ export class AriaComboBoxElement extends FormFieldElement {
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'DEFAULT', `The combobox has been expanded.`)
         }
 
-        this.typeahead.handle(event, this.optionElements)
+        this.typeahead.handle(event, this.optionElements, this.typeaheadPredicate ?? DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE, {
+          debounceTime: this.typeaheadDebounceTime
+        })
 
         break
     }
@@ -316,7 +326,9 @@ export class AriaComboBoxElement extends FormFieldElement {
     autocomplete: { type: String, reflect: true },
     expanded: { type: Boolean, reflect: true },
     multiple: { type: Boolean, reflect: true },
-    scrollIntoViewOptions: { type: Object, attribute: 'scroll-into-view-options' }
+    scrollIntoViewOptions: { type: Object, attribute: 'scroll-into-view-options' },
+    typeaheadDebounceTime: { type: Number, attribute: 'typeahead-debounce-time', reflect: true },
+    typeaheadPredicate: { type: Function, attribute: 'typeahead-predicate' }
   }
 
   static queries: QueryDeclarations = {
@@ -425,14 +437,13 @@ export class AriaComboBoxInputElement extends BaseElement {
   /**
    * STATES
    */
-  value: string = ''
+  value?: string
 
   connectedCallback(): void {
     super.connectedCallback()
 
     this.inputElement?.addEventListener('blur', this.onBlur)
     this.inputElement?.addEventListener('click', this.onClick)
-    this.inputElement?.addEventListener('focus', this.onFocus)
     this.inputElement?.addEventListener('input', this.onInput)
   }
 
@@ -441,7 +452,6 @@ export class AriaComboBoxInputElement extends BaseElement {
 
     this.inputElement?.removeEventListener('blur', this.onBlur)
     this.inputElement?.removeEventListener('click', this.onClick)
-    this.inputElement?.removeEventListener('focus', this.onFocus)
     this.inputElement?.removeEventListener('input', this.onInput)
   }
 
@@ -470,16 +480,7 @@ export class AriaComboBoxInputElement extends BaseElement {
     WebElementLogger.verbose(this.uid, 'onFocus', `The selected option has been focused.`)
   }
 
-  onFocus = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
-      return WebElementLogger.warn(this.uid, 'onFocus', `The combobox is disabled or readonly.`)
-    }
-
-    this.rootElement.expand()
-    WebElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded.`)
-  }
-
-  onInput = (event: Event): void => {
+  onInput = (): void => {
     if (this.rootElement.disabled || this.rootElement.readonly) {
       return WebElementLogger.warn(this.uid, 'onInput', `The combobox is disabled or readonly.`)
     }
@@ -491,8 +492,7 @@ export class AriaComboBoxInputElement extends BaseElement {
       WebElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded and the selected option has been focused.`)
     }
 
-    // @ts-ignore
-    this.value = event.target.value
+    this.value = this.inputElement?.value
     WebElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
 
     this.rootElement.dispatchEvent(new StateChangeEvent('value', undefined, this.value))
@@ -564,6 +564,7 @@ export class AriaComboBoxOptionElement extends BaseElement {
    */
   focused?: boolean
   selected?: boolean
+  value?: any
 
   /**
    * QUERIES
@@ -628,7 +629,7 @@ export class AriaComboBoxOptionElement extends BaseElement {
     this.rootElement.focusedOptionElement?.blur()
     this.rootElement.selectedOptionElement?.unselect()
 
-    this.selected = true
+    this.select()
     WebElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
 
     this.rootElement.expanded = false
@@ -652,7 +653,8 @@ export class AriaComboBoxOptionElement extends BaseElement {
 
   static properties: PropertyDeclarations = {
     focused: { type: Boolean, reflect: true },
-    selected: { type: Boolean, reflect: true }
+    selected: { type: Boolean, reflect: true },
+    value: {}
   }
 
   static queries: QueryDeclarations = {
