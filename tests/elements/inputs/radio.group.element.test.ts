@@ -19,8 +19,8 @@ describe('RadioGroupElement', () => {
     await render(radio)
 
     expect(radio.getAttribute('aria-activedescendant')).toBeNull()
-    expect(radio.getAttribute('aria-disabled')).toBeNull()
-    expect(radio.getAttribute('aria-readonly')).toBeNull()
+    expect(radio.getAttribute('aria-disabled')).toBe('false')
+    expect(radio.getAttribute('aria-readonly')).toBe('false')
     expect(radio.getAttribute('role')).toBe('radiogroup')
     expect(radio.getAttribute('tabindex')).toBe('0')
   })

@@ -18,8 +18,8 @@ describe('SwitchElement', () => {
     await render(switche)
 
     expect(switche.getAttribute('aria-checked')).toBe('false')
-    expect(switche.getAttribute('aria-disabled')).toBeNull()
-    expect(switche.getAttribute('aria-readonly')).toBeNull()
+    expect(switche.getAttribute('aria-disabled')).toBe('false')
+    expect(switche.getAttribute('aria-readonly')).toBe('false')
     expect(switche.getAttribute('role')).toBe('switch')
     expect(switche.getAttribute('tabindex')).toBe('0')
   })

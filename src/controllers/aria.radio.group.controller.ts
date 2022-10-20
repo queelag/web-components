@@ -22,9 +22,8 @@ export class AriaRadioGroupController implements ReactiveController {
     }
 
     // setImmutableElementAttribute(this.host, 'aria-labelledby', '')
-    setImmutableElementAttribute(this.host, 'aria-activedescendant', this.host.focusedButtonElement?.id)
-    setImmutableElementAttribute(this.host, 'aria-disabled', this.host.disabled ? 'true' : undefined)
-    setImmutableElementAttribute(this.host, 'aria-readonly', this.host.readonly ? 'true' : undefined)
+    setImmutableElementAttribute(this.host, 'aria-disabled', this.host.disabled ? 'true' : 'false')
+    setImmutableElementAttribute(this.host, 'aria-readonly', this.host.readonly ? 'true' : 'false')
     setImmutableElementAttribute(this.host, 'role', 'radiogroup')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
   }
@@ -49,6 +48,10 @@ export class AriaRadioButtonController implements ReactiveController {
 
     if (this.host.id.length <= 0) {
       setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+    }
+
+    if (this.host.focused) {
+      setImmutableElementAttribute(this.host.rootElement, 'aria-activedescendant', this.host.id)
     }
   }
 }

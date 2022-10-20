@@ -46,10 +46,8 @@ export class AriaRadioGroupElement extends FormFieldElement {
   }
 
   onBlur = (): void => {
-    if (this.focusedButtonElement) {
-      this.focusedButtonElement.focused = false
-      WebElementLogger.verbose(this.uid, 'onBlur', `The focused button has been blurred.`)
-    }
+    this.focusedButtonElement?.blur()
+    WebElementLogger.verbose(this.uid, 'onBlur', `The focused button has been blurred.`)
   }
 
   onFocus = (): void => {
@@ -58,7 +56,7 @@ export class AriaRadioGroupElement extends FormFieldElement {
     }
 
     if (this.checkedButtonElement) {
-      this.checkedButtonElement.focused = true
+      this.checkedButtonElement.focus()
       WebElementLogger.verbose(this.uid, 'onFocus', `The checked button has been focused.`)
 
       return
@@ -185,17 +183,15 @@ export class AriaRadioButtonElement extends BaseElement {
 
     this.rootElement.focusedButtonElement?.blur()
 
-    this.focused = true
+    this.focus()
     WebElementLogger.verbose(this.uid, 'onClick', `The button has been focused.`)
   }
 
   blur(): void {
-    // super.blur()
     this.focused = false
   }
 
   focus(options?: FocusOptions | undefined): void {
-    // super.focus(options)
     this.focused = true
   }
 

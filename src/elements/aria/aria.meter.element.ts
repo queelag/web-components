@@ -4,6 +4,12 @@ import { PropertyDeclarations } from 'lit'
 import { AriaMeterController } from '../../controllers/aria.meter.controller'
 import { BaseElement } from '../core/base.element'
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'q-aria-meter': AriaMeterElement
+  }
+}
+
 export class AriaMeterElement extends BaseElement {
   protected aria: AriaMeterController = new AriaMeterController(this)
 
@@ -39,3 +45,5 @@ export class AriaMeterElement extends BaseElement {
     value: { type: Number, reflect: true }
   }
 }
+
+customElements.define('q-aria-meter', AriaMeterElement)

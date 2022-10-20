@@ -10,7 +10,6 @@ import { AriaDisclosure } from '../components/aria/AriaDisclosure'
 import { AriaFeed } from '../components/aria/AriaFeed'
 import { AriaListBox } from '../components/aria/AriaListBox'
 import { AriaMenu } from '../components/aria/AriaMenu'
-import { AriaMenuBar } from '../components/aria/AriaMenuBar'
 import { AriaRadioGroup } from '../components/aria/AriaRadioGroup'
 import { AriaSlider } from '../components/aria/AriaSlider'
 import { AriaTabs } from '../components/aria/AriaTabs'
@@ -44,7 +43,7 @@ import './index.css'
     <title>Queelag Web - Playground</title>
   </head>
   <body class='flex flex-col items-start gap-4 p-6 pb-32'>
-    <AriaMenuBar client:load />
+    <AriaMenu client:load />
     <AriaAccordion client:load />
     <AriaAlertDialog client:load />
     <AriaBreadcrumb client:load />
@@ -55,7 +54,6 @@ import './index.css'
     <AriaDisclosure client:load />
     <AriaFeed client:load />
     <AriaListBox client:load />
-    <AriaMenu client:load />
     <AriaRadioGroup client:load />
     <AriaSlider client:load />
     <AriaTabs client:load />
