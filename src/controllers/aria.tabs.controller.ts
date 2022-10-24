@@ -36,6 +36,7 @@ export class AriaTabsPanelController implements ReactiveController {
   }
 
   setAttributes(): void {
+    setImmutableElementAttribute(this.host, 'aria-labelledby', this.host.rootElement.tabElements[this.host.index].id)
     setImmutableElementAttribute(this.host, 'role', 'tabpanel')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
 
@@ -59,14 +60,10 @@ export class AriaTabsTabController implements ReactiveController {
   }
 
   setAttributes(): void {
+    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.panelElements[this.host.index].id)
     setImmutableElementAttribute(this.host, 'aria-selected', this.host.selected ? 'true' : undefined)
-    setImmutableElementAttribute(this.host, 'aria-controls', this.host.selected ? this.host.rootElement.panelElement.id : undefined)
     setImmutableElementAttribute(this.host, 'role', 'tab')
     setImmutableElementAttribute(this.host, 'tabindex', this.host.selected ? '0' : '-1')
-
-    if (this.host.selected) {
-      setImmutableElementAttribute(this.host.rootElement.panelElement, 'aria-labelledby', this.host.id)
-    }
 
     if (this.host.id.length <= 0) {
       setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))

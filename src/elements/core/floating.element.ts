@@ -10,7 +10,7 @@ import {
   Platform,
   Strategy
 } from '@floating-ui/dom'
-import { tcp } from '@queelag/core'
+import { deleteShallowObjectUndefinedProperties, tcp } from '@queelag/core'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base.element'
 
@@ -108,12 +108,7 @@ export class FloatingElement extends BaseElement {
       elementResize: this.elementResize
     }
 
-    for (let key in options) {
-      // @ts-ignore
-      typeof options[key] === 'undefined' && delete options[key]
-    }
-
-    return options
+    return deleteShallowObjectUndefinedProperties(options)
   }
 
   get computePositionConfig(): Partial<ComputePositionConfig> {
@@ -126,17 +121,12 @@ export class FloatingElement extends BaseElement {
       strategy: this.strategy
     }
 
-    for (let key in options) {
-      // @ts-ignore
-      typeof options[key] === 'undefined' && delete options[key]
-    }
-
     if (this.arrowElement) {
       options.middleware = options.middleware || []
       options.middleware.push(arrow({ element: this.arrowElement, padding: this.arrowPadding }))
     }
 
-    return options
+    return deleteShallowObjectUndefinedProperties(options)
   }
 
   get arrowElement(): HTMLElement | undefined {

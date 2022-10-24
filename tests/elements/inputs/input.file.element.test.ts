@@ -85,7 +85,7 @@ describe('InputFileElement', () => {
     await wf(() => input.file)
 
     expect(input.file?.arrayBuffer).toStrictEqual(new ArrayBuffer(0))
-    expect(input.file?.base64).toBe('')
+    expect(input.file?.base64).toBe(Base64.encode(TextCodec.encode('hello')))
     expect(input.file?.blob).toStrictEqual(file)
     expect(input.file?.file).toStrictEqual(file)
     expect(input.file?.lastModified).toBe(file.lastModified)

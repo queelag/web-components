@@ -22,7 +22,7 @@ export class AriaTabsElement extends BaseElement {
   /**
    * QUERIES
    */
-  panelElement!: AriaTabsPanelElement
+  panelElements!: AriaTabsPanelElement[]
   selectedTabElement?: AriaTabsTabElement
   tabElements!: AriaTabsTabElement[]
 
@@ -38,8 +38,10 @@ export class AriaTabsElement extends BaseElement {
 
   onKeyDown = (event: KeyboardEvent): void => {
     switch (event.key) {
+      case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_LEFT:
       case KeyboardEventKey.ARROW_RIGHT:
+      case KeyboardEventKey.ARROW_UP:
       case KeyboardEventKey.END:
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.HOME:
@@ -50,10 +52,7 @@ export class AriaTabsElement extends BaseElement {
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
-        if (this.focusedTabElementIndex < 0) {
-          break
-        }
-
+      case KeyboardEventKey.ARROW_UP:
         if (this.focusedTabElementIndex === 0) {
           if (this.automaticActivation) {
             this.tabElements[this.tabElements.length - 1].select()
@@ -79,11 +78,8 @@ export class AriaTabsElement extends BaseElement {
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous tab has been focused.`)
 
         break
+      case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_RIGHT:
-        if (this.focusedTabElementIndex < 0) {
-          break
-        }
-
         if (this.focusedTabElementIndex >= this.tabElements.length - 1) {
           if (this.automaticActivation) {
             this.tabElements[0].select()
@@ -109,7 +105,7 @@ export class AriaTabsElement extends BaseElement {
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The next tab has been focused.`)
 
         break
-      case KeyboardEventKey.END:
+      case KeyboardEventKey.HOME:
         if (this.automaticActivation) {
           this.tabElements[0].select()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been selected.`)
@@ -121,16 +117,16 @@ export class AriaTabsElement extends BaseElement {
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been focused.`)
 
         break
-      case KeyboardEventKey.HOME:
+      case KeyboardEventKey.END:
         if (this.automaticActivation) {
           this.tabElements[this.tabElements.length - 1].select()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The last tab has been selected.`)
+          WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been selected.`)
 
           break
         }
 
         this.tabElements[this.tabElements.length - 1].focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The last tab has been focused.`)
+        WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been focused.`)
 
         break
       case KeyboardEventKey.ENTER:
@@ -171,7 +167,7 @@ export class AriaTabsElement extends BaseElement {
   }
 
   static queries: QueryDeclarations = {
-    panelElement: { selector: 'q-aria-tabs-panel' },
+    panelElements: { selector: 'q-aria-tabs-panel', all: true },
     selectedTabElement: { selector: 'q-aria-tabs-tab[selected]' },
     tabElements: { selector: 'q-aria-tabs-tab', all: true }
   }
@@ -226,6 +222,10 @@ export class AriaTabsTabElement extends BaseElement {
     this.selected = false
   }
 
+  get index(): number {
+    return this.rootElement.tabElements.indexOf(this)
+  }
+
   get name(): ElementName {
     return ElementName.ARIA_TABS_TAB
   }
@@ -251,8 +251,21 @@ export class AriaTabsTabElement extends BaseElement {
 export class AriaTabsPanelElement extends BaseElement {
   protected aria: AriaTabsPanelController = new AriaTabsPanelController(this)
 
+  /**
+   * QUERIES
+   */
+  rootElement!: AriaTabsElement
+
+  get index(): number {
+    return this.rootElement.panelElements.indexOf(this)
+  }
+
   get name(): ElementName {
     return ElementName.ARIA_TABS_PANEL
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-tabs', closest: true }
   }
 }
 

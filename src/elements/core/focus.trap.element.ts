@@ -1,4 +1,4 @@
-import { tc } from '@queelag/core'
+import { deleteDeepObjectUndefinedProperties, tc } from '@queelag/core'
 import {
   ElementName,
   FocusTrapAllowOutsideClick,
@@ -124,17 +124,7 @@ export class FocusTrapElement extends BaseElement {
       }
     }
 
-    for (let key in options) {
-      // @ts-ignore
-      typeof options[key] === 'undefined' && delete options[key]
-    }
-
-    for (let key in options.tabbableOptions) {
-      // @ts-ignore
-      typeof options.tabbableOptions[key] === 'undefined' && delete options.tabbableOptions[key]
-    }
-
-    return options
+    return deleteDeepObjectUndefinedProperties(options)
   }
 
   get name(): ElementName {
