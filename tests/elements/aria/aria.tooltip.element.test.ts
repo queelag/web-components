@@ -35,4 +35,36 @@ describe('AriaTooltipElement', () => {
     expect(trigger.getAttribute('aria-describedby')).toBe(content.id)
     expect(trigger.getAttribute('tabindex')).toBeNull()
   })
+
+  it('shows and hides on focus events if focusable', async () => {
+    await render(tooltip, { focusable: 'true' })
+
+    expect(tooltip.getAttribute('visible')).toBeNull()
+    expect(trigger.getAttribute('tabindex')).toBe('0')
+
+    trigger.focus()
+    await trigger.updateComplete
+
+    expect(tooltip.getAttribute('visible')).not.toBeNull()
+    expect(trigger.getAttribute('tabindex')).toBe('0')
+
+    trigger.blur()
+    await trigger.updateComplete
+
+    expect(tooltip.getAttribute('visible')).toBeNull()
+    expect(trigger.getAttribute('tabindex')).toBe('0')
+  })
+
+  it('does not show on focus if not focusable', async () => {
+    await render(tooltip)
+
+    expect(tooltip.getAttribute('visible')).toBeNull()
+    expect(trigger.getAttribute('tabindex')).toBeNull()
+
+    trigger.focus()
+    await trigger.updateComplete
+
+    expect(tooltip.getAttribute('visible')).toBeNull()
+    expect(trigger.getAttribute('tabindex')).toBeNull()
+  })
 })
