@@ -33,7 +33,7 @@ export class RadioGroupElement extends AriaRadioGroupElement {
   render() {
     if (this.native) {
       return map(
-        this.buttons,
+        this.buttons || [],
         (button: RadioButton) => html`
           <div>
             <input

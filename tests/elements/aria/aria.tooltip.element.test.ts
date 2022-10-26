@@ -1,3 +1,4 @@
+import { KeyboardEventKey } from '@queelag/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.tooltip.element'
 import type {
@@ -6,7 +7,7 @@ import type {
   AriaTooltipElement,
   AriaTooltipTriggerElement
 } from '../../../src/elements/aria/aria.tooltip.element'
-import { render } from '../../../vitest/dom.utils'
+import { dispatchKeyDownEvent, dispatchMouseEnterEvent, dispatchMouseLeaveEvent, render } from '../../../vitest/dom.utils'
 
 describe('AriaTooltipElement', () => {
   let tooltip: AriaTooltipElement, arrow: AriaTooltipArrowElement, content: AriaTooltipContentElement, trigger: AriaTooltipTriggerElement
@@ -66,5 +67,43 @@ describe('AriaTooltipElement', () => {
 
     expect(tooltip.getAttribute('visible')).toBeNull()
     expect(trigger.getAttribute('tabindex')).toBeNull()
+  })
+
+  it('shows and hides on mouse events', async () => {
+    await render(tooltip)
+
+    expect(tooltip.getAttribute('visible')).toBeNull()
+
+    dispatchMouseEnterEvent(trigger)
+    await trigger.updateComplete
+
+    expect(tooltip.getAttribute('visible')).not.toBeNull()
+
+    dispatchMouseLeaveEvent(trigger)
+    await trigger.updateComplete
+
+    expect(tooltip.getAttribute('visible')).toBeNull()
+  })
+
+  it('shows on click', async () => {
+    await render(tooltip)
+
+    expect(tooltip.getAttribute('visible')).toBeNull()
+
+    trigger.click()
+    await trigger.updateComplete
+
+    expect(tooltip.getAttribute('visible')).not.toBeNull()
+  })
+
+  it('hides when the ESCAPE key is pressed', async () => {
+    await render(tooltip, { visible: 'true' })
+
+    expect(tooltip.getAttribute('visible')).not.toBeNull()
+
+    dispatchKeyDownEvent(tooltip, KeyboardEventKey.ESCAPE)
+    await trigger.updateComplete
+
+    expect(tooltip.getAttribute('visible')).toBeNull()
   })
 })

@@ -65,7 +65,7 @@ export class AriaAccordionPanelController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-labelledby', this.host.sectionElement.buttonElement.id)
+    setImmutableElementAttribute(this.host, 'aria-labelledby', this.host.sectionElement.buttonElement?.id)
     setImmutableElementAttribute(this.host, 'role', 'region')
 
     if (this.host.id.length <= 0) {
@@ -88,7 +88,9 @@ export class AriaAccordionSectionController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host.buttonElement, 'aria-disabled', !this.host.collapsable && this.host.expanded ? 'true' : 'false')
+    if (this.host.buttonElement) {
+      setImmutableElementAttribute(this.host.buttonElement, 'aria-disabled', !this.host.collapsable && this.host.expanded ? 'true' : 'false')
+    }
 
     if (this.host.panelElement) {
       setImmutableElementAttribute(this.host.panelElement, 'aria-expanded', this.host.expanded ? 'true' : 'false')

@@ -141,7 +141,7 @@ export class AriaTooltipTriggerElement extends BaseElement {
     this.addEventListener('click', this.onClick)
     this.addEventListener('focus', this.onFocus)
     this.addEventListener('mouseenter', this.onMouseEnter)
-    this.addEventListener('mouseout', this.onMouseOut)
+    this.addEventListener('mouseleave', this.onMouseLeave)
   }
 
   disconnectedCallback(): void {
@@ -151,7 +151,7 @@ export class AriaTooltipTriggerElement extends BaseElement {
     this.removeEventListener('click', this.onClick)
     this.removeEventListener('focus', this.onFocus)
     this.removeEventListener('mouseenter', this.onMouseEnter)
-    this.removeEventListener('mouseout', this.onMouseOut)
+    this.removeEventListener('mouseleave', this.onMouseLeave)
   }
 
   onBlur = (): void => {
@@ -174,9 +174,9 @@ export class AriaTooltipTriggerElement extends BaseElement {
     WebElementLogger.verbose(this.uid, 'onMouseEnter', `The tooltip has been shown.`)
   }
 
-  onMouseOut = (): void => {
+  onMouseLeave = (): void => {
     this.rootElement.visible = false
-    WebElementLogger.verbose(this.uid, 'onMouseOut', `The tooltip has been hidden.`)
+    WebElementLogger.verbose(this.uid, 'onMouseLeave', `The tooltip has been hidden.`)
   }
 
   get name(): ElementName {

@@ -22,20 +22,12 @@ export class AriaButtonElement extends BaseElement {
   connectedCallback(): void {
     super.connectedCallback()
 
-    if (this.native) {
-      return
-    }
-
     this.addEventListener('click', this.onClick)
     this.addEventListener('keydown', this.onKeyDown)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
-
-    if (this.native) {
-      return
-    }
 
     this.removeEventListener('click', this.onClick)
     this.removeEventListener('keydown', this.onKeyDown)

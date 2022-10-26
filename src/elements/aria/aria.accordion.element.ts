@@ -138,7 +138,7 @@ export class AriaAccordionSectionElement extends BaseElement {
   /**
    * QUERIES
    */
-  buttonElement!: AriaAccordionButtonElement
+  buttonElement?: AriaAccordionButtonElement
   panelElement?: AriaAccordionPanelElement
 
   collapse(): void {

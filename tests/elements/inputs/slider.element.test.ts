@@ -18,8 +18,8 @@ describe('SliderElement', () => {
   it('has aria attributes', async () => {
     await render(slider)
 
-    expect(slider.getAttribute('aria-disabled')).toBeNull()
-    expect(slider.getAttribute('aria-readonly')).toBeNull()
+    expect(slider.getAttribute('aria-disabled')).toBe('false')
+    expect(slider.getAttribute('aria-readonly')).toBe('false')
     expect(slider.getAttribute('role')).toBe('group')
   })
 
