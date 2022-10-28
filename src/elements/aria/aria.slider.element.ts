@@ -47,7 +47,7 @@ export class AriaSliderElement extends FormFieldElement {
   /**
    * QUERIES
    */
-  thumbElements!: AriaSliderThumbElement[]
+  thumbElements!: [AriaSliderThumbElement] | [AriaSliderThumbElement, AriaSliderThumbElement]
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -78,7 +78,7 @@ export class AriaSliderElement extends FormFieldElement {
       return
     }
 
-    this.thumbElements[0].setValueByCoordinates(event.clientX, event.clientY, true)
+    this.thumbElements[0].setValueByCoordinates(event.clientX, event.clientY)
     WebElementLogger.verbose(this.uid, 'onClick', `The value has been set through the coordinates.`, [
       event.clientX,
       event.clientY,
@@ -106,12 +106,12 @@ export class AriaSliderElement extends FormFieldElement {
     return this.thumbElements.map((thumb: AriaSliderThumbElement) => thumb.value ?? thumb.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE)
   }
 
-  get hasSingleThumb(): boolean {
-    return this.thumbElements.length === 1
-  }
-
   get hasMultipleThumbs(): boolean {
     return this.thumbElements.length > 1
+  }
+
+  get hasSingleThumb(): boolean {
+    return this.thumbElements.length === 1
   }
 
   get isOrientationHorizontal(): boolean {
@@ -187,6 +187,8 @@ export class AriaSliderThumbElement extends BaseElement {
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
+    let decimals: number, max: number, min: number, step: number, value: number
+
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
       case KeyboardEventKey.ARROW_DOWN:
@@ -204,52 +206,42 @@ export class AriaSliderThumbElement extends BaseElement {
       return WebElementLogger.warn(this.uid, 'onKeyDown', `The slider is disabled or readonly.`)
     }
 
+    decimals = this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS
+    max = this.rootElement.max ?? DEFAULT_SLIDER_MAX
+    min = this.rootElement.min ?? DEFAULT_SLIDER_MIN
+    step = this.rootElement.step ?? DEFAULT_SLIDER_STEP
+    value = this.value ?? DEFAULT_SLIDER_THUMB_VALUE
+
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_UP:
-        this.value = getLimitedNumber(
-          (this.value ?? DEFAULT_SLIDER_THUMB_VALUE) - (this.rootElement.step ?? DEFAULT_SLIDER_STEP),
-          this.rootElement.min ?? DEFAULT_SLIDER_MIN,
-          this.rootElement.max ?? DEFAULT_SLIDER_MAX
-        )
+      case KeyboardEventKey.ARROW_DOWN:
+        this.setValue(value - step)
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT or ARROW_DOWN', `The value has been decreased.`, [this.value])
 
         break
       case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ARROW_DOWN:
-        this.value = getLimitedNumber(
-          (this.value ?? DEFAULT_SLIDER_THUMB_VALUE) + (this.rootElement.step ?? DEFAULT_SLIDER_STEP),
-          this.rootElement.min ?? DEFAULT_SLIDER_MIN,
-          this.rootElement.max ?? DEFAULT_SLIDER_MAX
-        )
+      case KeyboardEventKey.ARROW_UP:
+        this.setValue(value + step)
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT or ARROW_UP', `The value has been increased.`, [this.value])
 
         break
       case KeyboardEventKey.PAGE_DOWN:
-        this.value = getLimitedNumber(
-          (this.value ?? DEFAULT_SLIDER_THUMB_VALUE) - (this.rootElement.step ?? DEFAULT_SLIDER_STEP) * 10,
-          this.rootElement.min ?? DEFAULT_SLIDER_MIN,
-          this.rootElement.max ?? DEFAULT_SLIDER_MAX
-        )
+        this.setValue(value - step * 10)
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The value has been decreased.`, [this.value])
 
         break
       case KeyboardEventKey.PAGE_UP:
-        this.value = getLimitedNumber(
-          (this.value ?? DEFAULT_SLIDER_THUMB_VALUE) + (this.rootElement.step ?? DEFAULT_SLIDER_STEP) * 10,
-          this.rootElement.min ?? DEFAULT_SLIDER_MIN,
-          this.rootElement.max ?? DEFAULT_SLIDER_MAX
-        )
+        this.setValue(value + step * 10)
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The value has been increased.`, [this.value])
 
         break
       case KeyboardEventKey.HOME:
-        this.value = this.rootElement.min ?? DEFAULT_SLIDER_MIN
+        this.setValue(min)
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the min.`, [this.value])
 
         break
       case KeyboardEventKey.END:
-        this.value = this.rootElement.max ?? DEFAULT_SLIDER_MAX
+        this.setValue(max)
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the max.`, [this.value])
 
         break
@@ -272,12 +264,7 @@ export class AriaSliderThumbElement extends BaseElement {
   }
 
   onMouseDown = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
-      return WebElementLogger.warn(this.uid, 'onMouseDown', `The slider is disabled or readonly.`)
-    }
-
-    this.movable = true
-    WebElementLogger.verbose(this.uid, 'onMouseDown', `The thumb has been unlocked.`)
+    this.onMouseDownOrTouchStart()
 
     document.addEventListener('mousemove', this.onMouseMove)
     document.addEventListener('mouseup', this.onMouseUp)
@@ -286,20 +273,28 @@ export class AriaSliderThumbElement extends BaseElement {
   }
 
   onTouchStart = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
-      return WebElementLogger.warn(this.uid, 'onTouchStart', `The slider is disabled or readonly.`)
-    }
-
-    this.movable = true
-    WebElementLogger.debug(this.uid, 'onTouchStart', `The thumb has been unlocked.`)
+    this.onMouseDownOrTouchStart()
   }
 
   onTouchMove = (event: TouchEvent): void => {
+    if (!event.touches[0]) {
+      return
+    }
+
     this.onMouseMoveOrTouchMove(event.touches[0].clientX, event.touches[0].clientY)
   }
 
   onTouchEnd = (): void => {
     this.onMouseUpOrTouchEnd()
+  }
+
+  onMouseDownOrTouchStart = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return WebElementLogger.warn(this.uid, 'onMouseDownOrTouchStart', `The slider is disabled or readonly.`)
+    }
+
+    this.movable = true
+    WebElementLogger.debug(this.uid, 'onMouseDownOrTouchStart', `The thumb has been unlocked.`)
   }
 
   onMouseMove = (event: MouseEvent): void => {
@@ -348,10 +343,10 @@ export class AriaSliderThumbElement extends BaseElement {
     this.style.top = getSliderThumbElementStyleTop(this.percentage, this.rootElement.orientation)
   }
 
-  setValueByCoordinates(x: number, y: number, round: boolean = false): void {
+  setValueByCoordinates(x: number, y: number): void {
     let percentage: number
 
-    percentage = this.getPercentageByCoordinates(x, y, round)
+    percentage = this.getPercentageByCoordinates(x, y)
     if (percentage < 0) return
 
     this.setValueByPercentage(percentage)
@@ -366,12 +361,39 @@ export class AriaSliderThumbElement extends BaseElement {
     step = this.rootElement.step ?? DEFAULT_SLIDER_STEP
 
     value = getLimitedNumber(toFixedNumber(((max - min) * percentage) / 100 + min, decimals), min, max)
-    if (!isNumberMultipleOf(value, step)) return
+    if (!isNumberMultipleOf(value * 10 ** decimals, step * 10 ** decimals)) return
 
-    this.value = value
+    this.setValue(value)
   }
 
-  getPercentageByCoordinates(x: number, y: number, round: boolean = false): number {
+  setValue(value: number): void {
+    let decimals: number, max: number, min: number, fvalue: number
+
+    decimals = this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS
+    max = this.rootElement.max ?? DEFAULT_SLIDER_MAX
+    min = this.rootElement.min ?? DEFAULT_SLIDER_MIN
+    fvalue = toFixedNumber(value, this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS)
+
+    if (this.rootElement.disableSwap && this.rootElement.hasMultipleThumbs) {
+      let pthumb: AriaSliderThumbElement | undefined, nthumb: AriaSliderThumbElement | undefined, mdistance: number
+
+      pthumb = this.rootElement.thumbElements[this.index - 1]
+      nthumb = this.rootElement.thumbElements[this.index + 1]
+      mdistance = this.rootElement.minDistance ?? DEFAULT_SLIDER_MIN_DISTANCE
+
+      if (pthumb && fvalue < (pthumb.value ?? pthumb.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE) + mdistance) {
+        return
+      }
+
+      if (nthumb && fvalue > (nthumb.value ?? nthumb.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE) - mdistance) {
+        return
+      }
+    }
+
+    this.value = getLimitedNumber(fvalue, min, max)
+  }
+
+  getPercentageByCoordinates(x: number, y: number): number {
     let decimals: number, orientation: Orientation, rect: DOMRect, step: number, percentage: number
 
     decimals = this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS
@@ -389,11 +411,7 @@ export class AriaSliderThumbElement extends BaseElement {
     }
 
     percentage = getLimitedNumber(toFixedNumber(percentage, decimals), 0, 100)
-    if (!isNumberMultipleOf(percentage, step) && !round) return -1
-
-    if (round) {
-      percentage = getLimitedNumber(toFixedNumber(Math[percentage > this.percentage ? 'floor' : 'ceil'](percentage / step) * step, decimals), 0, 100)
-    }
+    // if (!isNumberMultipleOf(percentage, step)) return -1
 
     return percentage
   }
@@ -423,23 +441,6 @@ export class AriaSliderThumbElement extends BaseElement {
 
   set value(value: number | undefined) {
     let old: number | undefined
-
-    if (this.rootElement.disableSwap && this.rootElement.hasMultipleThumbs) {
-      let pthumb: AriaSliderThumbElement | undefined, nthumb: AriaSliderThumbElement | undefined, svalue: number, mdistance: number
-
-      pthumb = this.rootElement.thumbElements[this.index - 1]
-      nthumb = this.rootElement.thumbElements[this.index + 1]
-      svalue = value ?? DEFAULT_SLIDER_THUMB_VALUE
-      mdistance = this.rootElement.minDistance ?? DEFAULT_SLIDER_MIN_DISTANCE
-
-      if (pthumb && svalue < (pthumb.value ?? Number.MIN_SAFE_INTEGER) + mdistance) {
-        return
-      }
-
-      if (nthumb && svalue > (nthumb.value ?? Number.MAX_SAFE_INTEGER) - mdistance) {
-        return
-      }
-    }
 
     old = this._value
     this._value = value

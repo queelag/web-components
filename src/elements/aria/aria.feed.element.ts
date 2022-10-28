@@ -68,7 +68,7 @@ export class AriaFeedElement extends BaseElement {
           return
         }
 
-        this.articleElements[this.focusedArticleElementIndex + 1].focus()
+        this.articleElements[this.focusedArticleElementIndex + 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The next article has been focused.`)
 
         break
@@ -77,7 +77,7 @@ export class AriaFeedElement extends BaseElement {
           return
         }
 
-        this.articleElements[this.focusedArticleElementIndex - 1].focus()
+        this.articleElements[this.focusedArticleElementIndex - 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The previous article has been focused.`)
 
         break
@@ -93,19 +93,25 @@ export class AriaFeedElement extends BaseElement {
   }
 
   get nextTabbableElementSibling(): FocusableElement | null {
-    let focusable: FocusableElement[], next: FocusableElement | undefined
+    let focusable: FocusableElement[], last: AriaFeedArticleElement | undefined, next: FocusableElement | undefined
+
+    last = this.articleElements[this.articleElements.length - 1]
+    if (!last) return null
 
     focusable = tabbable(document.body, { getShadowRoot: true, includeContainer: true })
-    next = focusable[focusable.indexOf(this.articleElements[this.articleElements.length - 1]) + 1]
+    next = focusable[focusable.indexOf(last) + 1]
 
     return next || null
   }
 
   get previousTabbableElementSibling(): FocusableElement | null {
-    let focusable: FocusableElement[], previous: FocusableElement | undefined
+    let focusable: FocusableElement[], first: AriaFeedArticleElement | undefined, previous: FocusableElement | undefined
+
+    first = this.articleElements[0]
+    if (!first) return null
 
     focusable = tabbable(document.body, { getShadowRoot: true, includeContainer: true })
-    previous = focusable[focusable.indexOf(this.articleElements[0]) - 1]
+    previous = focusable[focusable.indexOf(first) - 1]
 
     console.log(focusable)
 

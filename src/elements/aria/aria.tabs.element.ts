@@ -55,26 +55,26 @@ export class AriaTabsElement extends BaseElement {
       case KeyboardEventKey.ARROW_UP:
         if (this.focusedTabElementIndex === 0) {
           if (this.automaticActivation) {
-            this.tabElements[this.tabElements.length - 1].select()
+            this.tabElements[this.tabElements.length - 1]?.select()
             WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The last tab has been selected.`)
 
             break
           }
 
-          this.tabElements[this.tabElements.length - 1].focus()
+          this.tabElements[this.tabElements.length - 1]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The last tab has been focused.`)
 
           break
         }
 
         if (this.automaticActivation) {
-          this.tabElements[this.focusedTabElementIndex - 1].select()
+          this.tabElements[this.focusedTabElementIndex - 1]?.select()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous tab has been selected.`)
 
           break
         }
 
-        this.tabElements[this.focusedTabElementIndex - 1].focus()
+        this.tabElements[this.focusedTabElementIndex - 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous tab has been focused.`)
 
         break
@@ -82,50 +82,50 @@ export class AriaTabsElement extends BaseElement {
       case KeyboardEventKey.ARROW_RIGHT:
         if (this.focusedTabElementIndex >= this.tabElements.length - 1) {
           if (this.automaticActivation) {
-            this.tabElements[0].select()
+            this.tabElements[0]?.select()
             WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The first tab has been selected.`)
 
             break
           }
 
-          this.tabElements[0].focus()
+          this.tabElements[0]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The first tab has been focused.`)
 
           break
         }
 
         if (this.automaticActivation) {
-          this.tabElements[this.focusedTabElementIndex + 1].select()
+          this.tabElements[this.focusedTabElementIndex + 1]?.select()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The next tab has been selected.`)
 
           break
         }
 
-        this.tabElements[this.focusedTabElementIndex + 1].focus()
+        this.tabElements[this.focusedTabElementIndex + 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The next tab has been focused.`)
 
         break
       case KeyboardEventKey.HOME:
         if (this.automaticActivation) {
-          this.tabElements[0].select()
+          this.tabElements[0]?.select()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been selected.`)
 
           break
         }
 
-        this.tabElements[0].focus()
+        this.tabElements[0]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been focused.`)
 
         break
       case KeyboardEventKey.END:
         if (this.automaticActivation) {
-          this.tabElements[this.tabElements.length - 1].select()
+          this.tabElements[this.tabElements.length - 1]?.select()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been selected.`)
 
           break
         }
 
-        this.tabElements[this.tabElements.length - 1].focus()
+        this.tabElements[this.tabElements.length - 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been focused.`)
 
         break

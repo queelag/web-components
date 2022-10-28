@@ -159,14 +159,14 @@ export class AriaCarouselElement extends BaseElement {
       this.activeSlideElement?.deactivate()
       this.activeTabElement?.deactivate()
 
-      this.slideElements[0].activate()
+      this.slideElements[0]?.activate()
       WebElementLogger.verbose(this.uid, 'activateNextSlide', `The first slide has been activated.`)
 
       if (this.tabElements.length <= 0) {
         return
       }
 
-      this.tabElements[0].activate()
+      this.tabElements[0]?.activate()
       WebElementLogger.verbose(this.uid, 'activateNextSlide', `The first tab has been activated.`)
 
       return
@@ -175,14 +175,14 @@ export class AriaCarouselElement extends BaseElement {
     this.activeSlideElement?.deactivate()
     this.activeTabElement?.deactivate()
 
-    this.slideElements[this.activeSlideElementIndex + 1].activate()
+    this.slideElements[this.activeSlideElementIndex + 1]?.activate()
     WebElementLogger.verbose(this.uid, 'activateNextSlide', `The next slide has been activated.`)
 
     if (this.tabElements.length <= 0) {
       return
     }
 
-    this.tabElements[this.activeSlideElementIndex + 1].activate()
+    this.tabElements[this.activeSlideElementIndex + 1]?.activate()
     WebElementLogger.verbose(this.uid, 'activateNextSlide', `The next tab has been activated.`)
   }
 
@@ -199,14 +199,14 @@ export class AriaCarouselElement extends BaseElement {
       this.activeSlideElement?.deactivate()
       this.activeTabElement?.deactivate()
 
-      this.slideElements[this.slideElements.length - 1].activate()
+      this.slideElements[this.slideElements.length - 1]?.activate()
       WebElementLogger.verbose(this.uid, 'activatePreviousSlide', `The last slide has been activated.`)
 
       if (this.tabElements.length <= 0) {
         return
       }
 
-      this.tabElements[this.tabElements.length - 1].activate()
+      this.tabElements[this.tabElements.length - 1]?.activate()
       WebElementLogger.verbose(this.uid, 'activatePreviousSlide', `The last tab has been activated.`)
 
       return
@@ -215,14 +215,14 @@ export class AriaCarouselElement extends BaseElement {
     this.activeSlideElement?.deactivate()
     this.activeTabElement?.deactivate()
 
-    this.slideElements[this.activeSlideElementIndex - 1].activate()
+    this.slideElements[this.activeSlideElementIndex - 1]?.activate()
     WebElementLogger.verbose(this.uid, 'activatePreviousSlide', `The previous slide has been activated.`)
 
     if (this.tabElements.length <= 0) {
       return
     }
 
-    this.tabElements[this.activeSlideElementIndex - 1].activate()
+    this.tabElements[this.activeSlideElementIndex - 1]?.activate()
     WebElementLogger.verbose(this.uid, 'activatePreviousSlide', `The previous tab has been activated.`)
   }
 
@@ -437,12 +437,12 @@ export class AriaCarouselTabsElement extends BaseElement {
         this.activeTabElement?.deactivate()
         this.rootElement.activeSlideElement?.deactivate()
 
-        this.tabElements[this.tabElements.length - 1].focus()
+        this.tabElements[this.tabElements.length - 1]?.focus()
 
-        this.tabElements[this.tabElements.length - 1].activate()
+        this.tabElements[this.tabElements.length - 1]?.activate()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been activated.`)
 
-        this.rootElement.slideElements[this.tabElements.length - 1].activate()
+        this.rootElement.slideElements[this.tabElements.length - 1]?.activate()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last slide has been activated.`)
 
         break
@@ -450,12 +450,12 @@ export class AriaCarouselTabsElement extends BaseElement {
         this.activeTabElement?.deactivate()
         this.rootElement.activeSlideElement?.deactivate()
 
-        this.tabElements[0].focus()
+        this.tabElements[0]?.focus()
 
-        this.tabElements[0].activate()
+        this.tabElements[0]?.activate()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been activated.`)
 
-        this.rootElement.slideElements[0].activate()
+        this.rootElement.slideElements[0]?.activate()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first slide has been activated.`)
 
         break
@@ -508,7 +508,7 @@ export class AriaCarouselTabElement extends BaseElement {
     this.active = true
     WebElementLogger.verbose(this.uid, 'onClick', `The tab has been activated.`)
 
-    this.rootElement.slideElements[this.index].activate()
+    this.rootElement.slideElements[this.index]?.activate()
     WebElementLogger.verbose(this.uid, 'onClick', `The matching slide has been activated.`)
   }
 

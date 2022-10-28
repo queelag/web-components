@@ -65,13 +65,13 @@ export class AriaAccordionElement extends BaseElement {
         }
 
         if (this.focusedButtonElementIndex >= this.buttonElements.length - 1) {
-          this.buttonElements[0].focus()
+          this.buttonElements[0]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', `The first header button has been focused.`)
 
           break
         }
 
-        this.buttonElements[this.focusedButtonElementIndex + 1].focus()
+        this.buttonElements[this.focusedButtonElementIndex + 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', `The next header button has been focused.`)
 
         break
@@ -81,23 +81,23 @@ export class AriaAccordionElement extends BaseElement {
         }
 
         if (this.focusedButtonElementIndex === 0) {
-          this.buttonElements[this.buttonElements.length - 1].focus()
+          this.buttonElements[this.buttonElements.length - 1]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', `The last header button has been focused.`)
 
           break
         }
 
-        this.buttonElements[this.focusedButtonElementIndex - 1].focus()
+        this.buttonElements[this.focusedButtonElementIndex - 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', `The previous header button has been focused.`)
 
         break
       case KeyboardEventKey.HOME:
-        this.buttonElements[0].focus()
+        this.buttonElements[0]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', `The first header button has been focused.`)
 
         break
       case KeyboardEventKey.END:
-        this.buttonElements[this.buttonElements.length - 1].focus()
+        this.buttonElements[this.buttonElements.length - 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', `The last header button has been focused.`)
 
         break

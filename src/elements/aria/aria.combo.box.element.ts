@@ -125,11 +125,11 @@ export class AriaComboBoxElement extends FormFieldElement {
           }
 
           if (this.inputElement && event.key === KeyboardEventKey.ARROW_DOWN) {
-            this.optionElements[0].focus()
+            this.optionElements[0]?.focus()
           }
 
           if (this.inputElement && event.key === KeyboardEventKey.ARROW_UP) {
-            this.optionElements[this.optionElements.length - 1].focus()
+            this.optionElements[this.optionElements.length - 1]?.focus()
           }
 
           return
@@ -142,7 +142,7 @@ export class AriaComboBoxElement extends FormFieldElement {
           if (this.inputElement) {
             this.focusedOptionElement?.blur()
 
-            this.optionElements[0].focus()
+            this.optionElements[0]?.focus()
             WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The first option has been focused.`)
           }
 
@@ -151,7 +151,7 @@ export class AriaComboBoxElement extends FormFieldElement {
 
         this.focusedOptionElement?.blur()
 
-        this.optionElements[this.focusedOptionElementIndex + 1].focus()
+        this.optionElements[this.focusedOptionElementIndex + 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The next option has been focused.`)
 
         break
@@ -160,7 +160,7 @@ export class AriaComboBoxElement extends FormFieldElement {
           if (this.inputElement) {
             this.focusedOptionElement?.blur()
 
-            this.optionElements[this.optionElements.length - 1].focus()
+            this.optionElements[this.optionElements.length - 1]?.focus()
             WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The last option has been focused.`)
           }
 
@@ -169,7 +169,7 @@ export class AriaComboBoxElement extends FormFieldElement {
 
         this.focusedOptionElement?.blur()
 
-        this.optionElements[this.focusedOptionElementIndex - 1].focus()
+        this.optionElements[this.focusedOptionElementIndex - 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The previous option has been focused.`)
 
         break
@@ -181,7 +181,7 @@ export class AriaComboBoxElement extends FormFieldElement {
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The combobox has been expanded.`)
         }
 
-        this.optionElements[this.optionElements.length - 1].focus()
+        this.optionElements[this.optionElements.length - 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last option has been focused.`)
 
         break
@@ -193,7 +193,7 @@ export class AriaComboBoxElement extends FormFieldElement {
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The combobox has been expanded.`)
         }
 
-        this.optionElements[0].focus()
+        this.optionElements[0]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first option has been focused.`)
 
         break
@@ -250,14 +250,14 @@ export class AriaComboBoxElement extends FormFieldElement {
       case KeyboardEventKey.PAGE_DOWN:
         this.focusedOptionElement?.blur()
 
-        this.optionElements[getLimitedNumber(getLimitedNumber(this.focusedOptionElementIndex, 0) + 10, 0)].focus()
+        this.optionElements[getLimitedNumber(getLimitedNumber(this.focusedOptionElementIndex, 0) + 10, 0)]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The option focus has jumped ~10 options ahead.`)
 
         break
       case KeyboardEventKey.PAGE_UP:
         this.focusedOptionElement?.blur()
 
-        this.optionElements[getLimitedNumber(this.focusedOptionElementIndex - 10, 0)].focus()
+        this.optionElements[getLimitedNumber(this.focusedOptionElementIndex - 10, 0)]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The option focus has jumped ~10 options behind.`)
 
         break

@@ -62,7 +62,7 @@ export class AriaRadioGroupElement extends FormFieldElement {
       return
     }
 
-    this.buttonElements[0].focused = true
+    this.buttonElements[0]?.focus()
     WebElementLogger.verbose(this.uid, 'onFocus', `The first button has been focused.`)
   }
 
@@ -94,29 +94,29 @@ export class AriaRadioGroupElement extends FormFieldElement {
       case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_RIGHT:
         if (this.focusedButtonElementIndex >= this.buttonElements.length - 1) {
-          this.buttonElements[0].check()
-          this.buttonElements[0].focus()
+          this.buttonElements[0]?.check()
+          this.buttonElements[0]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `The first button has been checked and focused.`)
 
           return
         }
 
-        this.buttonElements[this.focusedButtonElementIndex + 1].check()
-        this.buttonElements[this.focusedButtonElementIndex + 1].focus()
+        this.buttonElements[this.focusedButtonElementIndex + 1]?.check()
+        this.buttonElements[this.focusedButtonElementIndex + 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `The next button has been checked and focused.`)
 
         break
       case KeyboardEventKey.ARROW_UP:
       case KeyboardEventKey.ARROW_LEFT:
         if (this.focusedButtonElementIndex <= 0) {
-          this.buttonElements[this.buttonElements.length - 1].check()
-          this.buttonElements[this.buttonElements.length - 1].focus()
+          this.buttonElements[this.buttonElements.length - 1]?.check()
+          this.buttonElements[this.buttonElements.length - 1]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `The last button has been checked and focused.`)
 
           return
         }
 
-        this.buttonElements[this.focusedButtonElementIndex - 1].click()
+        this.buttonElements[this.focusedButtonElementIndex - 1]?.click()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `The previous button has been checked and focused.`)
 
         break

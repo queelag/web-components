@@ -76,11 +76,11 @@ export class AriaListBoxElement extends BaseElement {
       return
     }
 
-    this.optionElements[0].focus()
+    this.optionElements[0]?.focus()
     WebElementLogger.verbose(this.uid, 'onFocus', `The first option has been focused.`)
 
     if (this.selectFirstOptionOnFocus && this.single) {
-      this.optionElements[0].select()
+      this.optionElements[0]?.select()
       WebElementLogger.verbose(this.uid, 'onFocus', `The first option has been selected.`)
     }
   }
@@ -141,21 +141,21 @@ export class AriaListBoxElement extends BaseElement {
       case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_RIGHT:
         if (this.focusedOptionElementIndex >= this.optionElements.length - 1) {
-          this.optionElements[0].focus()
+          this.optionElements[0]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', `The first option has been focused.`)
 
           if (this.selectionFollowsFocus && this.single) {
-            this.optionElements[0].select()
+            this.optionElements[0]?.select()
           }
 
           break
         }
 
-        this.optionElements[this.focusedOptionElementIndex + 1].focus()
+        this.optionElements[this.focusedOptionElementIndex + 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', `The next option has been focused.`)
 
         if (this.selectionFollowsFocus && this.single) {
-          this.optionElements[this.focusedOptionElementIndex + 1].select()
+          this.optionElements[this.focusedOptionElementIndex + 1]?.select()
         }
 
         if (this.multiple && event.ctrlKey && this.focusedOptionElement) {
@@ -167,21 +167,21 @@ export class AriaListBoxElement extends BaseElement {
       case KeyboardEventKey.ARROW_UP:
       case KeyboardEventKey.ARROW_LEFT:
         if (this.focusedOptionElementIndex <= 0) {
-          this.optionElements[this.optionElements.length - 1].focus()
+          this.optionElements[this.optionElements.length - 1]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', `The last option has been focused.`)
 
           if (this.selectionFollowsFocus && this.single) {
-            this.optionElements[this.optionElements.length - 1].select()
+            this.optionElements[this.optionElements.length - 1]?.select()
           }
 
           break
         }
 
-        this.optionElements[this.focusedOptionElementIndex - 1].focus()
+        this.optionElements[this.focusedOptionElementIndex - 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', `The previous option has been focused.`)
 
         if (this.selectionFollowsFocus && this.single) {
-          this.optionElements[this.focusedOptionElementIndex - 1].select()
+          this.optionElements[this.focusedOptionElementIndex - 1]?.select()
         }
 
         if (this.multiple && event.ctrlKey && this.focusedOptionElement) {
@@ -191,24 +191,24 @@ export class AriaListBoxElement extends BaseElement {
 
         break
       case KeyboardEventKey.END:
-        this.optionElements[this.optionElements.length - 1].focus()
+        this.optionElements[this.optionElements.length - 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', `The last option has been focused.`)
 
         if (this.multiple && event.ctrlKey && event.shiftKey) {
           for (let i = this.focusedOptionElementIndex; i < this.optionElements.length; i++) {
-            this.optionElements[i].select()
+            this.optionElements[i]?.select()
           }
           WebElementLogger.verbose(this.uid, 'onKeyDown', `Every option from the focused one to the last one has been selected.`)
         }
 
         break
       case KeyboardEventKey.HOME:
-        this.optionElements[0].focus()
+        this.optionElements[0]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', `The first option has been focused.`)
 
         if (this.multiple && event.ctrlKey && event.shiftKey) {
           for (let i = 0; i < this.focusedOptionElementIndex; i++) {
-            this.optionElements[i].select()
+            this.optionElements[i]?.select()
           }
           WebElementLogger.verbose(this.uid, 'onKeyDown', `Every option from the first one to the focused one has been selected.`)
         }

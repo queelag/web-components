@@ -35,7 +35,7 @@ export async function render<T extends HTMLElement>(
   return waitForElementRender(element.tagName)
 }
 
-export function dispatchEvent<T extends HTMLElement, U extends Event>(element: T | null, event: U): void {
+export function dispatchEvent<T extends Document | HTMLElement, U extends Event>(element: T | null, event: U): void {
   if (!element) {
     return
   }
@@ -43,9 +43,21 @@ export function dispatchEvent<T extends HTMLElement, U extends Event>(element: T
   element.dispatchEvent(event)
 }
 
+/**
+ * FOCUS EVENTS
+ */
+
 export function dispatchBlurEvent<T extends HTMLElement>(element: T | null): void {
   return dispatchEvent(element, new FocusEvent('blur'))
 }
+
+export function dispatchFocusEvent<T extends HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new FocusEvent('focus'))
+}
+
+/**
+ * INPUT EVENTS
+ */
 
 export function dispatchChangeEvent(input: HTMLInputElement | HTMLSelectElement | null, value: string): void {
   if (!input) {
@@ -54,10 +66,6 @@ export function dispatchChangeEvent(input: HTMLInputElement | HTMLSelectElement 
 
   input.value = value
   input.dispatchEvent(new InputEvent('change'))
-}
-
-export function dispatchFocusEvent<T extends HTMLElement>(element: T | null): void {
-  return dispatchEvent(element, new FocusEvent('focus'))
 }
 
 export function dispatchInputEvent(input: HTMLInputElement | HTMLTextAreaElement | null, value: string): void {
@@ -84,12 +92,28 @@ export function dispatchInputFileEvent(input: HTMLInputElement | null, files: Fi
   input.dispatchEvent(new InputEvent('change'))
 }
 
+/**
+ * KEYBOARD EVENTS
+ */
+
+export function dispatchKeyDownEvent<T extends HTMLElement>(element: T | null, key: string, init?: KeyboardEventInit): void {
+  return dispatchEvent(element, new KeyboardEvent('keydown', { key, ...init }))
+}
+
 export function dispatchKeyUpEvent<T extends HTMLElement>(element: T | null, key: string, init?: KeyboardEventInit): void {
   return dispatchEvent(element, new KeyboardEvent('keyup', { key, ...init }))
 }
 
-export function dispatchKeyDownEvent<T extends HTMLElement>(element: T | null, key: string, init?: KeyboardEventInit): void {
-  return dispatchEvent(element, new KeyboardEvent('keydown', { key, ...init }))
+/**
+ * MOUSE EVENTS
+ */
+
+export function dispatchClickEvent<T extends HTMLElement>(element: T | null, init?: MouseEventInit): void {
+  return dispatchEvent(element, new MouseEvent('click', init))
+}
+
+export function dispatchMouseDownEvent<T extends HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new MouseEvent('mousedown'))
 }
 
 export function dispatchMouseEnterEvent<T extends HTMLElement>(element: T | null): void {
@@ -98,4 +122,28 @@ export function dispatchMouseEnterEvent<T extends HTMLElement>(element: T | null
 
 export function dispatchMouseLeaveEvent<T extends HTMLElement>(element: T | null): void {
   return dispatchEvent(element, new MouseEvent('mouseleave'))
+}
+
+export function dispatchMouseMoveEvent<T extends Document | HTMLElement>(element: T | null, init?: MouseEventInit): void {
+  return dispatchEvent(element, new MouseEvent('mousemove', init))
+}
+
+export function dispatchMouseUpEvent<T extends Document | HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new MouseEvent('mouseup'))
+}
+
+/**
+ * TOUCH EVENTS
+ */
+
+export function dispatchTouchEndEvent<T extends HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new TouchEvent('touchend'))
+}
+
+export function dispatchTouchMoveEvent<T extends HTMLElement>(element: T | null, init?: TouchEventInit): void {
+  return dispatchEvent(element, new TouchEvent('touchmove', init))
+}
+
+export function dispatchTouchStartEvent<T extends HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new TouchEvent('touchstart'))
 }

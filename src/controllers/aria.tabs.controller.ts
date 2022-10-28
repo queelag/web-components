@@ -36,7 +36,7 @@ export class AriaTabsPanelController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-labelledby', this.host.rootElement.tabElements[this.host.index].id)
+    setImmutableElementAttribute(this.host, 'aria-labelledby', this.host.rootElement.tabElements[this.host.index]?.id)
     setImmutableElementAttribute(this.host, 'role', 'tabpanel')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
 

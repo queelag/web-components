@@ -9,6 +9,11 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     include: ['tests/**/*.test.ts'],
-    setupFiles: ['vitest/stubs/resize.observer.stub.ts', 'vitest/stubs/scroll.to.stub.ts']
+    setupFiles: [
+      'vitest/stubs/get.bounding.client.rect.stub.ts',
+      'vitest/stubs/resize.observer.stub.ts',
+      'vitest/stubs/scroll.to.stub.ts',
+      'vitest/stubs/touch.stub.ts'
+    ]
   }
 })
