@@ -766,6 +766,10 @@ export class AriaMenuSubMenuElement extends FloatingElement {
     return this === this.subMenuElement ? this.itemElement || this.rootElement.buttonElement : this.subMenuElement
   }
 
+  get shallow(): boolean {
+    return this.closest('q-aria-menu-item') === null
+  }
+
   get shallowFocusedItemElement(): AriaMenuItemElement | null {
     return this.querySelector(`q-aria-menu-item[depth="${this.depth}"][focused]`)
   }

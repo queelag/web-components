@@ -68,7 +68,7 @@ export class AriaMenuItemController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'depth', String(this.host.depth))
 
     // setImmutableElementAttribute(this.host.anchorElement || this.host, 'aria-label', '')
-    setImmutableElementAttribute(this.host.anchorElement || this.host, 'aria-haspopup', 'true')
+    setImmutableElementAttribute(this.host.anchorElement || this.host, 'aria-haspopup', this.host.subMenuElement ? 'true' : 'false')
     setImmutableElementAttribute(this.host.anchorElement || this.host, 'role', 'menuitem')
 
     if (this.host.anchorElement) {
@@ -108,7 +108,7 @@ export class AriaMenuSubMenuController implements ReactiveController {
       setImmutableElementAttribute(this.host.itemElement.anchorElement || this.host.itemElement, 'aria-expanded', this.host.expanded ? 'true' : 'false')
     }
 
-    if (this.host.rootElement.buttonElement) {
+    if (this.host.rootElement.buttonElement && this.host.shallow) {
       setImmutableElementAttribute(this.host, 'aria-labelledby', this.host.rootElement.buttonElement.id)
       setImmutableElementAttribute(this.host.rootElement.buttonElement, 'aria-expanded', this.host.expanded ? 'true' : 'false')
     }
