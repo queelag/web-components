@@ -504,5 +504,28 @@ describe('AriaMenuElement', () => {
     expect(i6.getAttribute('aria-expanded')).toBe('false')
     expect(sm3.getAttribute('expanded')).toBeNull()
     expect(document.activeElement).toBe(i2)
+
+    dispatchMouseLeaveEvent(i2)
+    await i2.updateComplete
+    await sleep(100)
+
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    i2.click()
+    await i2.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(document.body)
   })
 })

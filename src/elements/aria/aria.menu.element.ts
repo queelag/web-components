@@ -52,9 +52,9 @@ export class AriaMenuElement extends BaseElement {
   /**
    * INTERNAL
    */
-  private expanded?: boolean
-  private focused?: boolean = true
-  private typeahead: Typeahead<AriaMenuItemElement> = new Typeahead((item: AriaMenuItemElement) => {
+  expanded?: boolean
+  focused?: boolean = true
+  typeahead: Typeahead<AriaMenuItemElement> = new Typeahead((item: AriaMenuItemElement) => {
     this.shallowFocusedItemElement?.blur()
 
     item.focus()
@@ -96,6 +96,9 @@ export class AriaMenuElement extends BaseElement {
     for (let submenu of this.expandedSubMenuElements) {
       submenu.collapse()
     }
+
+    this.expanded = false
+    WebElementLogger.verbose(this.uid, 'onFocusOutDebounce', `The menu has been collapsed.`)
 
     if (this.shallowItemElements.length <= 0) {
       return
@@ -298,7 +301,7 @@ export class AriaMenuButtonElement extends BaseElement {
   /**
    * INTERNAL
    */
-  private mouseEntered?: boolean
+  mouseEntered?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -363,7 +366,7 @@ export class AriaMenuButtonElement extends BaseElement {
     }
 
     for (let item of this.rootElement.subMenuElement.itemElements) {
-      if (item['mouseEntered']) {
+      if (item.mouseEntered) {
         return
       }
     }
@@ -400,7 +403,7 @@ export class AriaMenuItemElement extends BaseElement {
   /**
    * INTERNAL
    */
-  private mouseEntered?: boolean
+  mouseEntered?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -436,8 +439,8 @@ export class AriaMenuItemElement extends BaseElement {
     if (this.subMenuElement) {
       event.preventDefault()
 
-      this.subMenuElement?.expand()
-      WebElementLogger.verbose(this.uid, 'onClick', `The submenu has been expanded.`)
+      this.subMenuElement.expanded ? this.subMenuElement.collapse() : this.subMenuElement.expand()
+      WebElementLogger.verbose(this.uid, 'onClick', `The submenu has been ${this.subMenuElement.expanded ? 'collapsed' : 'expanded'}.`)
     }
   }
 
@@ -456,9 +459,15 @@ export class AriaMenuItemElement extends BaseElement {
     }
 
     if (this.subMenuElement) {
-      if ((this.rootElement.expandOnMouseEnter && this.shallow) || this.deep || this.sameDepthExpandedSubMenuElement) {
-        this.subMenuElement.expand()
-        WebElementLogger.verbose(this.uid, 'onMouseEnter', `The submenu has been expanded.`)
+      switch (true) {
+        case this.rootElement.expandOnMouseEnter && this.shallow:
+        case this.deep:
+        case this.sameDepthExpandedSubMenuElement !== null:
+        case this.rootElement.expanded:
+          this.subMenuElement.expand()
+          WebElementLogger.verbose(this.uid, 'onMouseEnter', `The submenu has been expanded.`)
+
+          break
       }
     }
 
@@ -482,7 +491,7 @@ export class AriaMenuItemElement extends BaseElement {
       return
     }
 
-    if (this.rootElement.buttonElement && this.rootElement.buttonElement['mouseEntered']) {
+    if (this.rootElement.buttonElement && this.rootElement.buttonElement.mouseEntered) {
       return
     }
 
@@ -616,7 +625,7 @@ export class AriaMenuSubMenuElement extends FloatingElement {
   /**
    * INTERNAL
    */
-  private typeahead: Typeahead<AriaMenuItemElement> = new Typeahead((item: AriaMenuItemElement) => {
+  typeahead: Typeahead<AriaMenuItemElement> = new Typeahead((item: AriaMenuItemElement) => {
     this.shallowFocusedItemElement?.blur()
 
     item.focus()
@@ -753,6 +762,7 @@ export class AriaMenuSubMenuElement extends FloatingElement {
 
   expand(): void {
     this.expanded = true
+    this.rootElement.expanded = true
   }
 
   get collapsed(): boolean {
