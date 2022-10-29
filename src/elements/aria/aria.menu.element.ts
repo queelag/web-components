@@ -1,5 +1,6 @@
 import { debounce, parseNumber } from '@queelag/core'
 import {
+  DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME,
   DEFAULT_MENU_TYPEAHEAD_PREDICATE,
   ElementName,
   KeyboardEventKey,
@@ -29,6 +30,7 @@ export class AriaMenuElement extends BaseElement {
   /**
    * PROPERTIES
    */
+  collapseDebounceTime?: number
   collapseOnMouseLeave?: boolean
   expandOnMouseEnter?: boolean
   typeaheadDebounceTime?: number
@@ -75,13 +77,13 @@ export class AriaMenuElement extends BaseElement {
     this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onFocusIn = (): void => {
+  onFocusIn(): void {
     this.focused = true
   }
 
-  onFocusOut = (): void => {
+  onFocusOut(): void {
     this.focused = false
-    debounce(this.uid, this.onFocusOutDebounce, 200)
+    debounce(this.uid, this.onFocusOutDebounce, this.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME)
   }
 
   onFocusOutDebounce = (): void => {
@@ -105,7 +107,7 @@ export class AriaMenuElement extends BaseElement {
     setImmutableElementAttribute(firstShallowItemElement.anchorElement || firstShallowItemElement, 'tabindex', '0')
   }
 
-  onKeyDown = (event: KeyboardEvent): void => {
+  onKeyDown(event: KeyboardEvent): void {
     switch (event.key) {
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.ARROW_RIGHT:
@@ -265,6 +267,7 @@ export class AriaMenuElement extends BaseElement {
   }
 
   static properties: PropertyDeclarations = {
+    collapseDebounceTime: { type: Number, attribute: 'collapse-debounce-time', reflect: true },
     collapseOnMouseLeave: { type: Boolean, attribute: 'collapse-on-mouse-leave', reflect: true },
     expandOnMouseEnter: { type: Boolean, attribute: 'expand-on-mouse-enter', reflect: true },
     typeaheadDebounceTime: { type: Number, attribute: 'typeahead-debounce-time', reflect: true },
@@ -343,7 +346,7 @@ export class AriaMenuButtonElement extends BaseElement {
     this.mouseEntered = false
     WebElementLogger.verbose(this.uid, 'onMouseEnter', `The mouse has left.`)
 
-    debounce(this.uid, this.onMouseLeaveDebounce, 200)
+    debounce(this.uid, this.onMouseLeaveDebounce, this.rootElement.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME)
   }
 
   onMouseLeaveDebounce = (): void => {
@@ -384,7 +387,7 @@ export class AriaMenuItemElement extends BaseElement {
   /**
    * PROPERTIES
    */
-  focused?: boolean
+  // focused?: boolean
   label?: string
 
   /**
@@ -423,7 +426,7 @@ export class AriaMenuItemElement extends BaseElement {
     }
   }
 
-  onClick = (event: MouseEvent): void => {
+  onClick(event: MouseEvent): void {
     event.stopPropagation()
 
     if (this.depth > 0) {
@@ -438,12 +441,14 @@ export class AriaMenuItemElement extends BaseElement {
     }
   }
 
-  onMouseEnter = (): void => {
+  onMouseEnter(): void {
     this.mouseEntered = true
     WebElementLogger.verbose(this.uid, 'onMouseEnter', `The mouse has entered.`)
 
     this.sameDepthFocusedItemElement?.blur()
     WebElementLogger.verbose(this.uid, 'onMouseEnter', `The same depth focused item has been blurred.`)
+
+    console.log(this.sameDepthExpandedSubMenuElement?.uid)
 
     if (this.sameDepthExpandedSubMenuElement) {
       this.sameDepthExpandedSubMenuElement.collapse()
@@ -461,11 +466,11 @@ export class AriaMenuItemElement extends BaseElement {
     WebElementLogger.verbose(this.uid, 'onMouseEnter', `The item has been focused.`)
   }
 
-  onMouseLeave = (): void => {
+  onMouseLeave(): void {
     this.mouseEntered = false
     WebElementLogger.verbose(this.uid, 'onMouseLeave', `The mouse has left.`)
 
-    debounce(this.uid, this.onMouseLeaveDebounce, 200)
+    debounce(this.uid, this.onMouseLeaveDebounce, this.rootElement.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME)
   }
 
   onMouseLeaveDebounce = (): void => {
@@ -482,7 +487,9 @@ export class AriaMenuItemElement extends BaseElement {
     }
 
     if (this.subMenuElement) {
-      this.subMenuElement?.collapse()
+      console.log('collapsing')
+
+      this.subMenuElement.collapse()
       WebElementLogger.verbose(this.uid, 'onMouseLeave', `The submenu has been collapsed.`)
     }
 
@@ -493,7 +500,7 @@ export class AriaMenuItemElement extends BaseElement {
   }
 
   blur(): void {
-    this.focused = false
+    // this.focused = false
 
     if (this.anchorElement) {
       this.anchorElement.blur()
@@ -504,7 +511,7 @@ export class AriaMenuItemElement extends BaseElement {
   }
 
   focus(options?: FocusOptions | undefined): void {
-    this.focused = true
+    // this.focused = true
 
     if (this.anchorElement) {
       this.anchorElement.focus()
@@ -532,6 +539,10 @@ export class AriaMenuItemElement extends BaseElement {
     return n
   }
 
+  get focused(): boolean {
+    return document.activeElement === (this.anchorElement || this)
+  }
+
   get index(): number {
     return [...this.rootElement.itemElements].indexOf(this)
   }
@@ -553,6 +564,10 @@ export class AriaMenuItemElement extends BaseElement {
   }
 
   get sameDepthExpandedSubMenuElement(): AriaMenuSubMenuElement | null {
+    if (this.rootElement.buttonElement) {
+      return this.rootElement.querySelector(`q-aria-menu-submenu[depth="${this.depth}"][expanded]`)
+    }
+
     return this.rootElement.querySelector(`q-aria-menu-submenu[depth="${parseNumber(this.depth as any) + 1}"][expanded]`)
   }
 
@@ -561,7 +576,7 @@ export class AriaMenuItemElement extends BaseElement {
   }
 
   static properties: PropertyDeclarations = {
-    focused: { type: Boolean, reflect: true },
+    // focused: { type: Boolean, reflect: true },
     label: { type: String, reflect: true }
   }
 
@@ -593,10 +608,10 @@ export class AriaMenuSubMenuElement extends FloatingElement {
   /**
    * QUERIES
    */
-  itemElement?: AriaMenuItemElement
   itemElements!: AriaMenuItemElement[]
+  parentItemElement?: AriaMenuItemElement
+  parentSubMenuElement?: AriaMenuSubMenuElement
   rootElement!: AriaMenuElement
-  subMenuElement?: AriaMenuSubMenuElement
 
   /**
    * INTERNAL
@@ -618,7 +633,7 @@ export class AriaMenuSubMenuElement extends FloatingElement {
     this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onKeyDown = (event: KeyboardEvent): void => {
+  onKeyDown(event: KeyboardEvent): void {
     switch (event.key) {
       case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_UP:
@@ -674,7 +689,7 @@ export class AriaMenuSubMenuElement extends FloatingElement {
           this.collapse()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The submenu has been collapsed.`)
 
-          this.itemElement?.focus()
+          this.parentItemElement?.focus()
         }
 
         break
@@ -721,7 +736,7 @@ export class AriaMenuSubMenuElement extends FloatingElement {
         this.shallowFocusedItemElement?.blur()
 
         this.collapse()
-        this.itemElement?.focus()
+        this.parentItemElement?.focus()
 
         break
       default:
@@ -763,7 +778,7 @@ export class AriaMenuSubMenuElement extends FloatingElement {
   }
 
   get referenceElement(): HTMLElement | undefined {
-    return this === this.subMenuElement ? this.itemElement || this.rootElement.buttonElement : this.subMenuElement
+    return this === this.parentSubMenuElement ? this.parentItemElement || this.rootElement.buttonElement : this.parentSubMenuElement
   }
 
   get shallow(): boolean {
@@ -787,10 +802,10 @@ export class AriaMenuSubMenuElement extends FloatingElement {
   }
 
   static queries: QueryDeclarations = {
-    itemElement: { selector: 'q-aria-menu-item', closest: true },
     itemElements: { selector: 'q-aria-menu-item', all: true },
-    rootElement: { selector: 'q-aria-menu', closest: true },
-    subMenuElement: { selector: 'q-aria-menu-submenu', closest: true }
+    parentItemElement: { selector: 'q-aria-menu-item', closest: true },
+    parentSubMenuElement: { selector: 'q-aria-menu-submenu', closest: true },
+    rootElement: { selector: 'q-aria-menu', closest: true }
   }
 
   static styles: CSSResultGroup = [

@@ -101,11 +101,12 @@ export class AriaMenuSubMenuController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'depth', String(this.host.depth))
     setImmutableElementAttribute(this.host, 'role', 'menu')
 
-    if (this.host.itemElement) {
-      /**
-       * Set aria-expanded to parent item.
-       */
-      setImmutableElementAttribute(this.host.itemElement.anchorElement || this.host.itemElement, 'aria-expanded', this.host.expanded ? 'true' : 'false')
+    if (this.host.parentItemElement) {
+      setImmutableElementAttribute(
+        this.host.parentItemElement.anchorElement || this.host.parentItemElement,
+        'aria-expanded',
+        this.host.expanded ? 'true' : 'false'
+      )
     }
 
     if (this.host.rootElement.buttonElement && this.host.shallow) {

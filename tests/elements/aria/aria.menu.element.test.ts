@@ -1,7 +1,8 @@
+import { sleep } from '@queelag/core'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.menu.element'
 import type { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../../../src/elements/aria/aria.menu.element'
-import { render } from '../../../vitest/dom.utils'
+import { dispatchMouseEnterEvent, dispatchMouseLeaveEvent, render } from '../../../vitest/dom.utils'
 
 /**
  * button
@@ -67,6 +68,8 @@ describe('AriaMenuElement', () => {
     sm1 = document.createElement('q-aria-menu-submenu')
     sm2 = document.createElement('q-aria-menu-submenu')
     sm3 = document.createElement('q-aria-menu-submenu')
+
+    menu.collapseDebounceTime = 100
   })
 
   afterEach(() => {
@@ -202,5 +205,304 @@ describe('AriaMenuElement', () => {
     expect(i7.getAttribute('depth')).toBe('3')
     expect(i7.getAttribute('role')).toBe('menuitem')
     expect(i7.getAttribute('tabindex')).toBe('-1')
+  })
+
+  it('expands and collapses submenus with button', async () => {
+    prepareMenuWithButton()
+    await render(menu)
+
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(document.body)
+
+    dispatchMouseEnterEvent(button)
+    await button.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(document.body)
+
+    button.click()
+    await button.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    dispatchMouseLeaveEvent(button)
+    await button.updateComplete
+    dispatchMouseEnterEvent(i1)
+    await i1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    dispatchMouseLeaveEvent(i1)
+    await i1.updateComplete
+    dispatchMouseEnterEvent(i2)
+    await i2.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    dispatchMouseLeaveEvent(i2)
+    await i2.updateComplete
+    dispatchMouseEnterEvent(i3)
+    await i3.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i3)
+
+    dispatchMouseLeaveEvent(i3)
+    await i3.updateComplete
+    dispatchMouseEnterEvent(i4)
+    await i4.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('true')
+    expect(sm3.getAttribute('expanded')).not.toBeNull()
+    expect(document.activeElement).toBe(i4)
+
+    dispatchMouseLeaveEvent(i4)
+    await i4.updateComplete
+    dispatchMouseEnterEvent(i5)
+    await i5.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('true')
+    expect(sm3.getAttribute('expanded')).not.toBeNull()
+    expect(document.activeElement).toBe(i5)
+
+    dispatchMouseLeaveEvent(i5)
+    await i5.updateComplete
+    dispatchMouseEnterEvent(i4)
+    await i4.updateComplete
+    dispatchMouseLeaveEvent(i4)
+    await i4.updateComplete
+    dispatchMouseEnterEvent(i3)
+    await i3.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i3)
+
+    dispatchMouseLeaveEvent(i3)
+    await i3.updateComplete
+    dispatchMouseEnterEvent(i2)
+    await i2.updateComplete
+    dispatchMouseLeaveEvent(i2)
+    await i2.updateComplete
+    dispatchMouseEnterEvent(i1)
+    await i1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    dispatchMouseLeaveEvent(i1)
+    await i1.updateComplete
+    dispatchMouseEnterEvent(button)
+    await button.updateComplete
+    dispatchMouseLeaveEvent(button)
+    await button.updateComplete
+    await sleep(100)
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    button.click()
+    await button.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+  })
+
+  it('expands and collapses submenus without button', async () => {
+    prepareMenuWithoutButton()
+    await render(menu)
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(document.body)
+
+    dispatchMouseEnterEvent(i2)
+    await i2.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    i2.click()
+    await i2.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    dispatchMouseLeaveEvent(i2)
+    await i2.updateComplete
+    dispatchMouseEnterEvent(i4)
+    await i4.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i4)
+
+    dispatchMouseLeaveEvent(i4)
+    await i4.updateComplete
+    dispatchMouseEnterEvent(i6)
+    await i6.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('true')
+    expect(sm3.getAttribute('expanded')).not.toBeNull()
+    expect(document.activeElement).toBe(i6)
+
+    dispatchMouseLeaveEvent(i6)
+    await i6.updateComplete
+    dispatchMouseEnterEvent(i7)
+    await i7.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('true')
+    expect(sm3.getAttribute('expanded')).not.toBeNull()
+    expect(document.activeElement).toBe(i7)
+
+    dispatchMouseLeaveEvent(i7)
+    await i7.updateComplete
+    dispatchMouseEnterEvent(i6)
+    await i6.updateComplete
+    dispatchMouseLeaveEvent(i6)
+    await i6.updateComplete
+    dispatchMouseEnterEvent(i5)
+    await i5.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i5)
+
+    dispatchMouseLeaveEvent(i5)
+    await i5.updateComplete
+    dispatchMouseEnterEvent(i4)
+    await i4.updateComplete
+    dispatchMouseLeaveEvent(i4)
+    await i4.updateComplete
+    dispatchMouseEnterEvent(i3)
+    await i3.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i3)
+
+    dispatchMouseLeaveEvent(i3)
+    await i3.updateComplete
+    dispatchMouseEnterEvent(i2)
+    await i2.updateComplete
+    dispatchMouseLeaveEvent(i2)
+    await i2.updateComplete
+    dispatchMouseEnterEvent(i1)
+    await i1.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    dispatchMouseLeaveEvent(i1)
+    await i1.updateComplete
+    dispatchMouseEnterEvent(i2)
+    await i2.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
   })
 })
