@@ -43,7 +43,6 @@ export class AriaMenuElement extends BaseElement {
   expandedSubMenuElement?: AriaMenuSubMenuElement
   expandedSubMenuElements!: AriaMenuSubMenuElement[]
   focusedItemElement?: AriaMenuItemElement
-  focusedItemElements!: AriaMenuItemElement[]
   itemElements!: AriaMenuItemElement[]
   shallowFocusedItemElement?: AriaMenuItemElement
   shallowItemElements!: AriaMenuItemElement[]
@@ -112,13 +111,13 @@ export class AriaMenuElement extends BaseElement {
 
   onKeyDown(event: KeyboardEvent): void {
     switch (event.key) {
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ARROW_LEFT:
       case KeyboardEventKey.ARROW_DOWN:
+      case KeyboardEventKey.ARROW_LEFT:
+      case KeyboardEventKey.ARROW_RIGHT:
       case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.HOME:
       case KeyboardEventKey.END:
+      case KeyboardEventKey.ENTER:
+      case KeyboardEventKey.HOME:
       case KeyboardEventKey.SPACE:
         event.preventDefault()
         event.stopPropagation()
@@ -126,7 +125,11 @@ export class AriaMenuElement extends BaseElement {
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
-        this.blurFocusedItemElements()
+        if (this.buttonElement) {
+          break
+        }
+
+        this.focusedItemElement?.blur()
 
         if (this.shallowFocusedItemElementIndex <= 0) {
           this.shallowItemElements[this.shallowItemElements.length - 1]?.focus()
@@ -150,7 +153,11 @@ export class AriaMenuElement extends BaseElement {
 
         break
       case KeyboardEventKey.ARROW_RIGHT:
-        this.blurFocusedItemElements()
+        if (this.buttonElement) {
+          break
+        }
+
+        this.focusedItemElement?.blur()
 
         if (this.shallowFocusedItemElementIndex >= this.shallowItemElements.length - 1) {
           this.shallowItemElements[0]?.focus()
@@ -174,56 +181,107 @@ export class AriaMenuElement extends BaseElement {
 
         break
       case KeyboardEventKey.ARROW_DOWN:
-        if (!this.shallowFocusedItemElement?.subMenuElement) {
+        if (this.buttonElement && this.subMenuElement) {
+          if (this.collapsed) {
+            this.subMenuElement.expand()
+            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The submenu has been expanded.`)
+
+            this.subMenuElement.shallowItemElements[0]?.focus()
+            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The first item of the submenu has been focused.`)
+
+            this.expanded = true
+            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The menu has been marked as expanded.`)
+
+            break
+          }
+
+          this.subMenuElement.shallowItemElements[0]?.focus()
+          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The first item of the submenu has been focused.`)
+
           break
         }
 
-        if (this.collapsed) {
-          this.shallowFocusedItemElement.subMenuElement.expand()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The submenu has been expanded.`)
+        if (this.shallowFocusedItemElement?.subMenuElement) {
+          if (this.collapsed) {
+            this.shallowFocusedItemElement.subMenuElement.expand()
+            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The submenu has been expanded.`)
+
+            this.shallowFocusedItemElement.subMenuElement.shallowItemElements[0]?.focus()
+            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The first item of the submenu has been focused.`)
+
+            this.expanded = true
+
+            break
+          }
 
           this.shallowFocusedItemElement.subMenuElement.shallowItemElements[0]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The first item of the submenu has been focused.`)
 
-          this.expanded = true
-
           break
         }
-
-        this.shallowFocusedItemElement.subMenuElement.shallowItemElements[0]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The first item of the submenu has been focused.`)
 
         break
       case KeyboardEventKey.ARROW_UP:
-        if (!this.shallowFocusedItemElement?.subMenuElement) {
+        if (this.buttonElement && this.subMenuElement) {
+          if (this.collapsed) {
+            this.subMenuElement.expand()
+            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The submenu has been expanded.`)
+
+            this.subMenuElement.shallowItemElements[this.subMenuElement.shallowItemElements.length - 1]?.focus()
+            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The last item of the submenu has been focused.`)
+
+            this.expanded = true
+            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The menu has been marked as expanded.`)
+
+            break
+          }
+
+          this.subMenuElement.shallowItemElements[this.subMenuElement.shallowItemElements.length - 1]?.focus()
+          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The last item of the submenu has been focused.`)
+
           break
         }
 
-        if (this.collapsed) {
-          this.shallowFocusedItemElement.subMenuElement.expand()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The submenu has been expanded.`)
+        if (this.shallowFocusedItemElement?.subMenuElement) {
+          if (this.collapsed) {
+            this.shallowFocusedItemElement.subMenuElement.expand()
+            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The submenu has been expanded.`)
+
+            this.shallowFocusedItemElement.subMenuElement.shallowItemElements[
+              this.shallowFocusedItemElement.subMenuElement.shallowItemElements.length - 1
+            ]?.focus()
+            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The last item of the submenu has been focused.`)
+
+            this.expanded = true
+
+            break
+          }
 
           this.shallowFocusedItemElement.subMenuElement.shallowItemElements[
             this.shallowFocusedItemElement.subMenuElement.shallowItemElements.length - 1
           ]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The last item of the submenu has been focused.`)
 
-          this.expanded = true
-
           break
         }
-
-        this.shallowFocusedItemElement.subMenuElement.shallowItemElements[this.shallowFocusedItemElement.subMenuElement.shallowItemElements.length - 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The last item of the submenu has been focused.`)
 
         break
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.SPACE:
+        if (this.buttonElement && this.subMenuElement) {
+          this.subMenuElement.expand()
+          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The submenu has been expanded.`)
+
+          this.expanded = true
+          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The menu has been marked as expanded.`)
+        }
+
         if (this.shallowFocusedItemElement?.subMenuElement) {
           this.shallowFocusedItemElement.subMenuElement.expand()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The submenu has been expanded.`)
 
           this.expanded = true
+          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The menu has been marked as expanded.`)
 
           break
         }
@@ -244,16 +302,18 @@ export class AriaMenuElement extends BaseElement {
 
         break
       default:
+        if (this.buttonElement && this.subMenuElement) {
+          this.typeahead.handle(event, [...this.subMenuElement.shallowItemElements], this.typeaheadPredicate ?? DEFAULT_MENU_TYPEAHEAD_PREDICATE, {
+            debounceTime: this.typeaheadDebounceTime
+          })
+
+          break
+        }
+
         this.typeahead.handle(event, this.shallowItemElements, this.typeaheadPredicate ?? DEFAULT_MENU_TYPEAHEAD_PREDICATE, {
           debounceTime: this.typeaheadDebounceTime
         })
         break
-    }
-  }
-
-  blurFocusedItemElements(): void {
-    for (let item of this.focusedItemElements) {
-      item.blur()
     }
   }
 
@@ -281,10 +341,9 @@ export class AriaMenuElement extends BaseElement {
     buttonElement: { selector: 'q-aria-menu-button' },
     expandedSubMenuElement: { selector: 'q-aria-menu-submenu[expanded]' },
     expandedSubMenuElements: { selector: 'q-aria-menu-submenu[expanded]', all: true },
-    focusedItemElement: { selector: 'q-aria-menu-item[focused]' },
-    focusedItemElements: { selector: 'q-aria-menu-item[focused]', all: true },
+    focusedItemElement: { selector: 'q-aria-menu-item:focus' },
     itemElements: { selector: 'q-aria-menu-item', all: true },
-    shallowFocusedItemElement: { selector: 'q-aria-menu-item[depth="0"][focused]' },
+    shallowFocusedItemElement: { selector: 'q-aria-menu-item[depth="0"]:focus' },
     shallowItemElements: { selector: 'q-aria-menu-item[depth="0"]', all: true },
     subMenuElement: { selector: 'q-aria-menu-submenu' }
   }
@@ -324,14 +383,17 @@ export class AriaMenuButtonElement extends BaseElement {
       return
     }
 
-    this.rootElement.focusedItemElement?.blur()
-
     this.rootElement.subMenuElement.expanded = !this.rootElement.subMenuElement.expanded
     WebElementLogger.verbose(this.uid, 'onClick', `The menu has been ${this.rootElement.subMenuElement.expanded ? 'expanded' : 'collapsed'}.`)
 
     if (this.rootElement.subMenuElement.expanded) {
       this.rootElement.itemElements[0]?.focus()
       WebElementLogger.verbose(this.uid, 'onClick', `The first item has been focused.`)
+    }
+
+    if (this.rootElement.subMenuElement.collapsed) {
+      this.focus()
+      WebElementLogger.verbose(this.uid, 'onClick', `The button has been focused.`)
     }
   }
 
@@ -342,6 +404,9 @@ export class AriaMenuButtonElement extends BaseElement {
     if (this.rootElement.expandOnMouseEnter) {
       this.rootElement.subMenuElement?.expand()
       WebElementLogger.verbose(this.uid, 'onMouseEnter', `The submenu has been expanded.`)
+
+      this.focus()
+      WebElementLogger.verbose(this.uid, 'onMouseEnter', `The button has been focused.`)
     }
   }
 
@@ -373,6 +438,9 @@ export class AriaMenuButtonElement extends BaseElement {
 
     this.rootElement.subMenuElement.collapse()
     WebElementLogger.verbose(this.uid, 'onMouseLeave', `The submenu has been collapsed.`)
+
+    this.focus()
+    WebElementLogger.verbose(this.uid, 'onMouseLeave', `The button has been focused.`)
   }
 
   get name(): ElementName {
@@ -451,8 +519,6 @@ export class AriaMenuItemElement extends BaseElement {
     this.sameDepthFocusedItemElement?.blur()
     WebElementLogger.verbose(this.uid, 'onMouseEnter', `The same depth focused item has been blurred.`)
 
-    console.log(this.sameDepthExpandedSubMenuElement?.uid)
-
     if (this.sameDepthExpandedSubMenuElement) {
       this.sameDepthExpandedSubMenuElement.collapse()
       WebElementLogger.verbose(this.uid, 'onMouseEnter', `The same depth expanded submenu has been collapsed.`)
@@ -496,8 +562,6 @@ export class AriaMenuItemElement extends BaseElement {
     }
 
     if (this.subMenuElement) {
-      console.log('collapsing')
-
       this.subMenuElement.collapse()
       WebElementLogger.verbose(this.uid, 'onMouseLeave', `The submenu has been collapsed.`)
     }

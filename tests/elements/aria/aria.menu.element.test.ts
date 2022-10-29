@@ -1,8 +1,9 @@
 import { sleep } from '@queelag/core'
+import { KeyboardEventKey } from '@queelag/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.menu.element'
 import type { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../../../src/elements/aria/aria.menu.element'
-import { dispatchMouseEnterEvent, dispatchMouseLeaveEvent, render } from '../../../vitest/dom.utils'
+import { dispatchKeyDownEvent, dispatchMouseEnterEvent, dispatchMouseLeaveEvent, render } from '../../../vitest/dom.utils'
 
 /**
  * button
@@ -365,7 +366,7 @@ describe('AriaMenuElement', () => {
     expect(sm2.getAttribute('expanded')).toBeNull()
     expect(i4.getAttribute('aria-expanded')).toBe('false')
     expect(sm3.getAttribute('expanded')).toBeNull()
-    expect(document.activeElement).toBe(i1)
+    expect(document.activeElement).toBe(button)
   })
 
   it('expands and collapses submenus without button', async () => {
@@ -526,6 +527,114 @@ describe('AriaMenuElement', () => {
     expect(sm2.getAttribute('expanded')).toBeNull()
     expect(i6.getAttribute('aria-expanded')).toBe('false')
     expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+  })
+
+  it('can expand on mouse enter with button', async () => {
+    prepareMenuWithButton()
+    await render(menu, { 'expand-on-mouse-enter': 'true' })
+
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
     expect(document.activeElement).toBe(document.body)
+
+    dispatchMouseEnterEvent(button)
+    await button.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(button)
+  })
+
+  it('can expand on mouse enter without button', async () => {
+    prepareMenuWithoutButton()
+    await render(menu, { 'expand-on-mouse-enter': 'true' })
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(document.body)
+
+    dispatchMouseEnterEvent(i2)
+    await i2.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+  })
+
+  it('can collapse on mouse leave with button', async () => {
+    prepareMenuWithButton()
+    await render(menu, { 'collapse-on-mouse-leave': 'true' })
+
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(document.body)
+
+    button.click()
+    await button.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    dispatchMouseLeaveEvent(button)
+    await button.updateComplete
+    await sleep(100)
+
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(button)
+  })
+
+  it('supports keyboard usage with button', async () => {
+    prepareMenuWithButton()
+    await render(menu)
+
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(document.body)
+
+    dispatchKeyDownEvent(menu, KeyboardEventKey.ARROW_DOWN)
+    await menu.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
   })
 })
