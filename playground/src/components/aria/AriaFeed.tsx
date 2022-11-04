@@ -11,7 +11,7 @@ import '../../../../src/elements/aria/aria.feed.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-aria-feed': AriaFeedProps
       'q-aria-feed-article': AriaFeedArticleProps

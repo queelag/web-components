@@ -90,12 +90,16 @@ export class FloatingElement extends BaseElement {
   }
 
   getArrowStaticSide(position: ComputePositionReturn): string | undefined {
-    return {
-      top: 'bottom',
-      right: 'left',
-      bottom: 'top',
-      left: 'right'
-    }[position.placement.split('-')[0]]
+    switch (position.placement.split('-')[0]) {
+      case 'bottom':
+        return 'top'
+      case 'left':
+        return 'left'
+      case 'right':
+        return 'left'
+      case 'top':
+        return 'bottom'
+    }
   }
 
   get autoUpdateOptions(): Partial<AutoUpdateOptions> {

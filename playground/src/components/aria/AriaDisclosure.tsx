@@ -12,7 +12,7 @@ import '../../../../src/elements/aria/aria.disclosure.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-aria-disclosure': AriaDisclosureProps
       'q-aria-disclosure-button': AriaDisclosureButtonProps

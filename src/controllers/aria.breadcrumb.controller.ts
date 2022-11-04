@@ -1,6 +1,6 @@
 import { setImmutableElementAttribute } from '@queelag/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaBreadcrumbListItemElement } from '../elements/aria/aria.breadcrumb.element'
+import type { AriaBreadcrumbItemElement } from '../elements/aria/aria.breadcrumb.element'
 
 export class AriaBreadcrumbController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & HTMLElement) {
@@ -40,7 +40,7 @@ export class AriaBreadcrumbListController implements ReactiveController {
 }
 
 export class AriaBreadcrumbListItemController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & AriaBreadcrumbListItemElement) {
+  constructor(private host: ReactiveControllerHost & AriaBreadcrumbItemElement) {
     this.host.addController(this)
   }
 

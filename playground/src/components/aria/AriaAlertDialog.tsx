@@ -5,14 +5,14 @@ import {
   joinElementClasses
 } from '@queelag/web'
 import { useState } from 'preact/hooks'
-import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import type { AriaAlertDialogDescriptionElement, AriaAlertDialogElement, AriaAlertDialogLabelElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.alert.dialog.element'
+import type { ElementProps } from '../../definitions/types'
 import { useEventListener } from '../../hooks/use.event.listener'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-aria-alert-dialog': AriaAlertDialogProps
       'q-aria-alert-dialog-description': AriaAlertDialogDescriptionProps
@@ -21,15 +21,9 @@ declare global {
   }
 }
 
-interface AriaAlertDialogProps extends AriaAlertDialogElementAttributes, DetailedHTMLProps<HTMLAttributes<AriaAlertDialogElement>, AriaAlertDialogElement> {}
-
-interface AriaAlertDialogDescriptionProps
-  extends AriaAlertDialogDescriptionElementAttributes,
-    DetailedHTMLProps<HTMLAttributes<AriaAlertDialogDescriptionElement>, AriaAlertDialogDescriptionElement> {}
-
-interface AriaAlertDialogLabelProps
-  extends AriaAlertDialogLabelElementAttributes,
-    DetailedHTMLProps<HTMLAttributes<AriaAlertDialogLabelElement>, AriaAlertDialogLabelElement> {}
+interface AriaAlertDialogProps extends ElementProps<AriaAlertDialogElement, AriaAlertDialogElementAttributes> {}
+interface AriaAlertDialogDescriptionProps extends ElementProps<AriaAlertDialogDescriptionElement, AriaAlertDialogDescriptionElementAttributes> {}
+interface AriaAlertDialogLabelProps extends ElementProps<AriaAlertDialogLabelElement, AriaAlertDialogLabelElementAttributes> {}
 
 export function AriaAlertDialog() {
   const { element, ref } = useQueelagElement('q-aria-alert-dialog')

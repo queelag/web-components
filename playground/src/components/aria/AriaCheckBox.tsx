@@ -6,7 +6,7 @@ import '../../../../src/elements/aria/aria.check.box.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-aria-checkbox': AriaCheckBoxProps
     }

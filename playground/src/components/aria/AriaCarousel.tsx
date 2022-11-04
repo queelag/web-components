@@ -25,7 +25,7 @@ import '../../../../src/elements/aria/aria.carousel.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-aria-carousel': AriaCarouselProps
       'q-aria-carousel-next-slide-control': AriaCarouselNextSlideControlProps

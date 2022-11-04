@@ -6,8 +6,8 @@ import { BaseElement } from '../core/base.element'
 declare global {
   interface HTMLElementTagNameMap {
     'q-aria-breadcrumb': AriaBreadcrumbElement
+    'q-aria-breadcrumb-item': AriaBreadcrumbItemElement
     'q-aria-breadcrumb-list': AriaBreadcrumbListElement
-    'q-aria-breadcrumb-list-item': AriaBreadcrumbListItemElement
   }
 }
 
@@ -27,7 +27,7 @@ export class AriaBreadcrumbListElement extends BaseElement {
   }
 }
 
-export class AriaBreadcrumbListItemElement extends BaseElement {
+export class AriaBreadcrumbItemElement extends BaseElement {
   protected aria: AriaBreadcrumbListItemController = new AriaBreadcrumbListItemController(this)
 
   /**
@@ -41,7 +41,7 @@ export class AriaBreadcrumbListItemElement extends BaseElement {
   anchorElement!: HTMLAnchorElement
 
   get name(): ElementName {
-    return ElementName.ARIA_BREADCRUMB_LIST_ITEM
+    return ElementName.ARIA_BREADCRUMB_ITEM
   }
 
   static queries: QueryDeclarations = {
@@ -54,5 +54,5 @@ export class AriaBreadcrumbListItemElement extends BaseElement {
 }
 
 customElements.define('q-aria-breadcrumb', AriaBreadcrumbElement)
+customElements.define('q-aria-breadcrumb-item', AriaBreadcrumbItemElement)
 customElements.define('q-aria-breadcrumb-list', AriaBreadcrumbListElement)
-customElements.define('q-aria-breadcrumb-list-item', AriaBreadcrumbListItemElement)

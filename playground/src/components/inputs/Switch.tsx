@@ -6,7 +6,7 @@ import '../../../../src/elements/inputs/switch.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-switch': SwitchProps
     }

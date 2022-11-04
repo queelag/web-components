@@ -1,13 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.breadcrumb.element'
-import type { AriaBreadcrumbElement, AriaBreadcrumbListElement, AriaBreadcrumbListItemElement } from '../../../src/elements/aria/aria.breadcrumb.element'
+import type { AriaBreadcrumbElement, AriaBreadcrumbItemElement, AriaBreadcrumbListElement } from '../../../src/elements/aria/aria.breadcrumb.element'
 import { render } from '../../../vitest/dom.utils'
 
 describe('AriaBreadcrumbElement', () => {
   let breadcrumb: AriaBreadcrumbElement,
     list: AriaBreadcrumbListElement,
-    li1: AriaBreadcrumbListItemElement,
-    li2: AriaBreadcrumbListItemElement,
+    li1: AriaBreadcrumbItemElement,
+    li2: AriaBreadcrumbItemElement,
     a1: HTMLAnchorElement,
     a2: HTMLAnchorElement
 

@@ -144,7 +144,7 @@ export class AriaMenuElement extends BaseElement {
 
         if (this.expanded) {
           this.expandedSubMenuElement?.collapse()
-          this.shallowItemElements[this.shallowFocusedItemElementIndex - 1]?.subMenuElement?.expand()
+          this.shallowFocusedItemElement?.subMenuElement?.expand()
         }
 
         break
@@ -170,7 +170,7 @@ export class AriaMenuElement extends BaseElement {
 
         if (this.expanded) {
           this.expandedSubMenuElement?.collapse()
-          this.shallowItemElements[this.shallowFocusedItemElementIndex + 1]?.subMenuElement?.expand()
+          this.shallowFocusedItemElement?.subMenuElement?.expand()
         }
 
         break
@@ -644,10 +644,6 @@ export class AriaMenuItemElement extends BaseElement {
   }
 
   get sameDepthExpandedSubMenuElement(): AriaMenuSubMenuElement | null {
-    // if (this.rootElement.buttonElement) {
-    //   return this.rootElement.querySelector(`q-aria-menu-submenu[depth="${parseNumber(this.depth as any) + 1}"][expanded]`)
-    // }
-
     return this.rootElement.querySelector(`q-aria-menu-submenu[depth="${this.depth}"][expanded]`)
   }
 
@@ -745,7 +741,7 @@ export class AriaMenuSubMenuElement extends FloatingElement {
         }
 
         this.shallowItemElements[this.shallowFocusedItemElementIndex - 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_Up', `The previous item has been focused.`)
+        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The previous item has been focused.`)
 
         break
       case KeyboardEventKey.ARROW_LEFT:
@@ -876,7 +872,6 @@ export class AriaMenuSubMenuElement extends FloatingElement {
   }
 
   get shallowFocusedItemElement(): AriaMenuItemElement | null {
-    // return this.querySelector(`q-aria-menu-item[depth="${this.depth}"]:focus`)
     return this.querySelector(`q-aria-menu-item[depth="${parseNumber(this.depth) + 1}"]:focus`)
   }
 
@@ -885,7 +880,6 @@ export class AriaMenuSubMenuElement extends FloatingElement {
   }
 
   get shallowItemElements(): NodeListOf<AriaMenuItemElement> {
-    // return this.querySelectorAll(`q-aria-menu-item[depth="${this.depth}"]`)
     return this.querySelectorAll(`q-aria-menu-item[depth="${parseNumber(this.depth) + 1}"]`)
   }
 

@@ -6,7 +6,7 @@ import '../../../../src/elements/aria/aria.list.box.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-aria-listbox': AriaListBoxProps
       'q-aria-listbox-option': AriaListBoxOptionProps

@@ -23,7 +23,7 @@ import { FRUITS } from '../../definitions/constants'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-aria-combobox': AriaComboBoxProps
       'q-aria-combobox-button': AriaComboBoxButtonProps

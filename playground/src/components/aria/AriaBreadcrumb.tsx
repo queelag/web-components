@@ -1,13 +1,14 @@
-import type { AriaBreadcrumbElementAttributes, AriaBreadcrumbListElementAttributes, AriaBreadcrumbListItemElementAttributes } from '@queelag/web'
+import type { AriaBreadcrumbElementAttributes, AriaBreadcrumbItemElementAttributes, AriaBreadcrumbListElementAttributes } from '@queelag/web'
 import { Fragment } from 'preact'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import type { AriaBreadcrumbElement, AriaBreadcrumbListElement, AriaBreadcrumbListItemElement } from '../../../../src'
+import type { AriaBreadcrumbElement, AriaBreadcrumbItemElement, AriaBreadcrumbListElement } from '../../../../src'
 import '../../../../src/elements/aria/aria.breadcrumb.element'
+import type { ElementProps } from '../../definitions/types'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-aria-breadcrumb': AriaBreadcrumbProps
       'q-aria-breadcrumb-list': AriaBreadcrumbListProps
@@ -16,15 +17,15 @@ declare global {
   }
 }
 
-interface AriaBreadcrumbProps extends AriaBreadcrumbElementAttributes, DetailedHTMLProps<HTMLAttributes<AriaBreadcrumbElement>, AriaBreadcrumbElement> {}
+interface AriaBreadcrumbProps extends ElementProps<AriaBreadcrumbElement, AriaBreadcrumbElementAttributes> {}
 
 interface AriaBreadcrumbListProps
   extends AriaBreadcrumbListElementAttributes,
     DetailedHTMLProps<HTMLAttributes<AriaBreadcrumbListElement>, AriaBreadcrumbListElement> {}
 
 interface AriaBreadcrumbListItemProps
-  extends AriaBreadcrumbListItemElementAttributes,
-    DetailedHTMLProps<HTMLAttributes<AriaBreadcrumbListItemElement>, AriaBreadcrumbListItemElement> {}
+  extends AriaBreadcrumbItemElementAttributes,
+    DetailedHTMLProps<HTMLAttributes<AriaBreadcrumbItemElement>, AriaBreadcrumbItemElement> {}
 
 export function AriaBreadcrumb() {
   const { element, ref } = useQueelagElement('q-aria-breadcrumb')

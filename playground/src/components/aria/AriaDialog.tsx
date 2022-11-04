@@ -7,7 +7,7 @@ import { useEventListener } from '../../hooks/use.event.listener'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-aria-dialog': AriaDialogProps
       'q-aria-dialog-description': AriaDialogDescriptionProps

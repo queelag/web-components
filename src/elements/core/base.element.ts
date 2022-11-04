@@ -37,7 +37,7 @@ export class BaseElement extends LitElement {
   /**
    * INTERNAL
    */
-  squircleID: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.SQUIRCLE })
+  // squircleID: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.SQUIRCLE })
   uid: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.name })
 
   constructor() {
@@ -106,14 +106,14 @@ export class BaseElement extends LitElement {
       return
     }
 
-    return getSquircleHTML(this.squircleID, this.shapeSquircleSize ?? this.numericSize, this.shapeSquircleCurvature)
+    return getSquircleHTML('squircle-clip-path', this.shapeSquircleSize ?? this.numericSize, this.shapeSquircleCurvature)
   }
 
   get shapeStyleInfo(): StyleInfo {
     return getShapeStyleInfo(this.shape, {
       rectangle: { radius: this.shapeRectangleRadius },
       square: { radius: this.shapeSquareRadius },
-      squircle: { id: this.squircleID }
+      squircle: { id: 'squircle-clip-path' }
     })
   }
 

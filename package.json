@@ -2,7 +2,6 @@
   "author": "Dario Sechi",
   "devDependencies": {
     "@astrojs/lit": "^1.0.0",
-    "@astrojs/preact": "^1.0.2",
     "@astrojs/tailwind": "^1.0.0",
     "@floating-ui/dom": "^1.0.1",
     "@microsoft/api-extractor": "^7.29.3",
@@ -11,7 +10,6 @@
     "@rollup/plugin-strip": "^2.1.0",
     "@rollup/plugin-typescript": "^8.3.4",
     "@types/dompurify": "^2.3.4",
-    "@types/react": "^18.0.17",
     "@vitest/coverage-c8": "^0.24.1",
     "@vitest/ui": "^0.24.1",
     "@webcomponents/template-shadowroot": "^0.1.0",
@@ -21,7 +19,6 @@
     "jsdom": "^20.0.1",
     "lit": "^2.3.1",
     "lit-html": "^2.3.1",
-    "preact": "^10.10.6",
     "prettier": "^2.7.1",
     "resize-observer-polyfill": "^1.5.1",
     "rollup": "^2.78.1",

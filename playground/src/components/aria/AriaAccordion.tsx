@@ -7,7 +7,6 @@ import {
   joinElementClasses
 } from '@queelag/web'
 import { useState } from 'preact/hooks'
-import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import type {
   AriaAccordionButtonElement,
   AriaAccordionElement,
@@ -16,10 +15,11 @@ import type {
   AriaAccordionSectionElement
 } from '../../../../src'
 import '../../../../src/elements/aria/aria.accordion.element'
+import type { ElementProps } from '../../definitions/types'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-aria-accordion': AriaAccordionProps
       'q-aria-accordion-header': AriaAccordionHeaderProps
@@ -30,23 +30,11 @@ declare global {
   }
 }
 
-interface AriaAccordionProps extends AriaAccordionElementAttributes, DetailedHTMLProps<HTMLAttributes<AriaAccordionElement>, AriaAccordionElement> {}
-
-interface AriaAccordionHeaderProps
-  extends AriaAccordionHeaderElementAttributes,
-    DetailedHTMLProps<HTMLAttributes<AriaAccordionHeaderElement>, AriaAccordionHeaderElement> {}
-
-interface AriaAccordionButtonProps
-  extends AriaAccordionButtonElementAttributes,
-    DetailedHTMLProps<HTMLAttributes<AriaAccordionButtonElement>, AriaAccordionButtonElement> {}
-
-interface AriaAccordionPanelProps
-  extends AriaAccordionPanelElementAttributes,
-    DetailedHTMLProps<HTMLAttributes<AriaAccordionPanelElement>, AriaAccordionPanelElement> {}
-
-interface AriaAccordionSectionProps
-  extends AriaAccordionSectionElementAttributes,
-    DetailedHTMLProps<HTMLAttributes<AriaAccordionSectionElement>, AriaAccordionSectionElement> {}
+interface AriaAccordionProps extends ElementProps<AriaAccordionElement, AriaAccordionElementAttributes> {}
+interface AriaAccordionHeaderProps extends ElementProps<AriaAccordionHeaderElement, AriaAccordionHeaderElementAttributes> {}
+interface AriaAccordionButtonProps extends ElementProps<AriaAccordionButtonElement, AriaAccordionButtonElementAttributes> {}
+interface AriaAccordionPanelProps extends ElementProps<AriaAccordionPanelElement, AriaAccordionPanelElementAttributes> {}
+interface AriaAccordionSectionProps extends ElementProps<AriaAccordionSectionElement, AriaAccordionSectionElementAttributes> {}
 
 export function AriaAccordion() {
   const { element, ref } = useQueelagElement('q-aria-accordion')

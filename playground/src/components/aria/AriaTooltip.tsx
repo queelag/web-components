@@ -13,7 +13,7 @@ import '../../../../src/elements/aria/aria.tooltip.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-aria-tooltip': AriaTooltipProps
       'q-aria-tooltip-arrow': AriaTooltipArrowProps

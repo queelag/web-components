@@ -13,7 +13,7 @@ import '../../../../src/elements/aria/aria.menu.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-aria-menu': AriaMenuProps
       'q-aria-menu-button': AriaMenuButtonProps

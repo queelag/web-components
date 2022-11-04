@@ -7,7 +7,7 @@ import '../../../../src/elements/inputs/input.file.element'
 import { useQueelagElement } from '../../hooks/use.queelag.element'
 
 declare global {
-  namespace JSX {
+  namespace preact.createElement.JSX {
     interface IntrinsicElements {
       'q-input-file': InputFileProps
     }
