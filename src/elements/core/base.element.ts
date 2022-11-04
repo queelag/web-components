@@ -75,7 +75,7 @@ export class BaseElement extends LitElement {
     for (let key in declarations) {
       let declaration: QueryDeclaration, get: () => any
 
-      declaration = declarations[key]
+      declaration = declarations[key] as QueryDeclaration
       get = () => this.querySelector(declaration.selector) || undefined
 
       if (declaration.all) {

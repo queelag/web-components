@@ -1,6 +1,6 @@
 import { sleep } from '@queelag/core'
 import { KeyboardEventKey } from '@queelag/web'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
 import '../../../src/elements/aria/aria.menu.element'
 import type { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../../../src/elements/aria/aria.menu.element'
 import { dispatchKeyDownEvent, dispatchMouseEnterEvent, dispatchMouseLeaveEvent, render } from '../../../vitest/dom.utils'
@@ -34,9 +34,17 @@ describe('AriaMenuElement', () => {
     i7: AriaMenuItemElement,
     sm1: AriaMenuSubMenuElement,
     sm2: AriaMenuSubMenuElement,
-    sm3: AriaMenuSubMenuElement
+    sm3: AriaMenuSubMenuElement,
+    oc1: Mock,
+    oc3: Mock,
+    oc5: Mock,
+    oc7: Mock
 
   function prepareMenuWithButton() {
+    i1.addEventListener('click', oc1)
+    i3.addEventListener('click', oc3)
+    i5.addEventListener('click', oc5)
+
     sm3.append(i5)
     i4.append(sm3)
     sm2.append(i3, i4)
@@ -46,6 +54,11 @@ describe('AriaMenuElement', () => {
   }
 
   function prepareMenuWithoutButton() {
+    i1.addEventListener('click', oc1)
+    i3.addEventListener('click', oc3)
+    i5.addEventListener('click', oc5)
+    i7.addEventListener('click', oc7)
+
     sm3.append(i7)
     i6.append(sm3)
     sm2.append(i5, i6)
@@ -71,6 +84,11 @@ describe('AriaMenuElement', () => {
     sm3 = document.createElement('q-aria-menu-submenu')
 
     menu.collapseDebounceTime = 100
+
+    oc1 = vi.fn()
+    oc3 = vi.fn()
+    oc5 = vi.fn()
+    oc7 = vi.fn()
   })
 
   afterEach(() => {
@@ -161,7 +179,7 @@ describe('AriaMenuElement', () => {
     expect(i2.getAttribute('tabindex')).toBe('-1')
 
     expect(sm1.getAttribute('aria-labelledby')).toBeNull()
-    expect(sm1.getAttribute('depth')).toBe('1')
+    expect(sm1.getAttribute('depth')).toBe('0')
     expect(sm1.getAttribute('role')).toBe('menu')
 
     expect(i3.getAttribute('aria-expanded')).toBeNull()
@@ -179,7 +197,7 @@ describe('AriaMenuElement', () => {
     expect(i4.getAttribute('tabindex')).toBe('-1')
 
     expect(sm2.getAttribute('aria-labelledby')).toBeNull()
-    expect(sm2.getAttribute('depth')).toBe('2')
+    expect(sm2.getAttribute('depth')).toBe('1')
     expect(sm2.getAttribute('role')).toBe('menu')
 
     expect(i5.getAttribute('aria-expanded')).toBeNull()
@@ -197,7 +215,7 @@ describe('AriaMenuElement', () => {
     expect(i6.getAttribute('tabindex')).toBe('-1')
 
     expect(sm3.getAttribute('aria-labelledby')).toBeNull()
-    expect(sm3.getAttribute('depth')).toBe('3')
+    expect(sm3.getAttribute('depth')).toBe('2')
     expect(sm3.getAttribute('role')).toBe('menu')
 
     expect(i7.getAttribute('aria-expanded')).toBeNull()
@@ -618,6 +636,9 @@ describe('AriaMenuElement', () => {
     prepareMenuWithButton()
     await render(menu)
 
+    /**
+     * Expect all submenus to be collapsed and no focused items.
+     */
     expect(button.getAttribute('aria-expanded')).toBe('false')
     expect(sm1.getAttribute('expanded')).toBeNull()
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -626,6 +647,9 @@ describe('AriaMenuElement', () => {
     expect(sm3.getAttribute('expanded')).toBeNull()
     expect(document.activeElement).toBe(document.body)
 
+    /**
+     * Press ARROW_DOWN and expect the first submenu to be expanded, the first item should be focused.
+     */
     dispatchKeyDownEvent(menu, KeyboardEventKey.ARROW_DOWN)
     await menu.updateComplete
 
@@ -634,6 +658,460 @@ describe('AriaMenuElement', () => {
     expect(i2.getAttribute('aria-expanded')).toBe('false')
     expect(sm2.getAttribute('expanded')).toBeNull()
     expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    /**
+     * Press ARROW_UP and expect the previous (second) item to be focused.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.ARROW_UP)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    /**
+     * Press ARROW_DOWN and expect the next (first) item to be focused.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.ARROW_DOWN)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    /**
+     * Press ARROW_DOWN and expect the next (second) item to be focused.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.ARROW_DOWN)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    /**
+     * Press ARROW_UP and expect the previous (first) item to be focused.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.ARROW_UP)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    /**
+     * Press END and expect the last (second) item to be focused.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.END)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    /**
+     * Press HOME and expect the first item to be focused.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.HOME)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    /**
+     * Press ARROW_LEFT and expect nothing to happen.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.ARROW_LEFT)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    /**
+     * Press ARROW_RIGHT and expect nothing to happen.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.ARROW_RIGHT)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    /**
+     * Press ARROW_DOWN and expect the next (second) item to be focused.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.ARROW_DOWN)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    /**
+     * Press ARROW_LEFT and expect nothing to happen.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.ARROW_LEFT)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    /**
+     * Press ARROW_RIGHT and expect the second submenu to be expanded, the first (third) item of the second submenu should be focused.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.ARROW_RIGHT)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i3)
+
+    /**
+     * Press ARROW_DOWN and expect the second (fourth) item of the second submenu to be focused.
+     */
+    dispatchKeyDownEvent(sm2, KeyboardEventKey.ARROW_DOWN)
+    await sm2.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i4)
+
+    /**
+     * Press ENTER and expect the third submenu to be expanded, the first (fifth) item of the third submenu should be focused.
+     */
+    dispatchKeyDownEvent(sm2, KeyboardEventKey.ENTER)
+    await sm2.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('true')
+    expect(sm3.getAttribute('expanded')).not.toBeNull()
+    expect(document.activeElement).toBe(i5)
+
+    /**
+     * Press ENTER and expect the first (fifth) item of the third submenu to be clicked.
+     */
+    dispatchKeyDownEvent(sm3, KeyboardEventKey.ENTER)
+    await sm3.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('true')
+    expect(sm3.getAttribute('expanded')).not.toBeNull()
+    expect(document.activeElement).toBe(i5)
+    expect(oc5).toBeCalledTimes(1)
+
+    /**
+     * Press ARROW_LEFT and expect the third submenu to be collapsed, the parent (fourth) item should be focused.
+     */
+    dispatchKeyDownEvent(sm3, KeyboardEventKey.ARROW_LEFT)
+    await sm3.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm2.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i4)
+
+    /**
+     * Press ARROW_LEFT and expect the second submenu to be collapsed, the parent (second) item should be focused.
+     */
+    dispatchKeyDownEvent(sm2, KeyboardEventKey.ARROW_LEFT)
+    await sm2.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    /**
+     * Press ARROW_LEFT and expect nothing to happen.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.ARROW_LEFT)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    /**
+     * Press ESCAPE and expect the first submenu to be collapsed.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.ESCAPE)
+    await sm1.updateComplete
+
+    expect(button.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(button)
+  })
+
+  it('supports keyboard usage without button', async () => {
+    prepareMenuWithoutButton()
+    await render(menu)
+
+    /**
+     * Expect all submenus to be collapsed and no item to be focused.
+     */
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(document.body)
+
+    /**
+     * Focus the first item and expect it to be focused.
+     */
+    i1.focus()
+    await i1.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    /**
+     * Press ARROW_LEFT and expect the previous (second) item to be focused.
+     */
+    dispatchKeyDownEvent(menu, KeyboardEventKey.ARROW_LEFT)
+    await menu.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    /**
+     * Press ARROW_RIGHT and expect the next (first) item to be focused.
+     */
+    dispatchKeyDownEvent(menu, KeyboardEventKey.ARROW_RIGHT)
+    await menu.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    /**
+     * Press ARROW_RIGHT and expect the next (second) item to be focused.
+     */
+    dispatchKeyDownEvent(menu, KeyboardEventKey.ARROW_RIGHT)
+    await menu.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    /**
+     * Press ARROW_LEFT and expect the previous (first) item to be focused.
+     */
+    dispatchKeyDownEvent(menu, KeyboardEventKey.ARROW_LEFT)
+    await menu.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    /**
+     * Press END and expect the last (second) item to be focused.
+     */
+    dispatchKeyDownEvent(menu, KeyboardEventKey.END)
+    await menu.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    /**
+     * Press HOME and expect the first (first) item to be focused.
+     */
+    dispatchKeyDownEvent(menu, KeyboardEventKey.HOME)
+    await menu.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    /**
+     * Press ARROW_UP and expect nothing to happen.
+     */
+    dispatchKeyDownEvent(menu, KeyboardEventKey.ARROW_UP)
+    await menu.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    /**
+     * Press ARROW_DOWN and expect nothing to happen.
+     */
+    dispatchKeyDownEvent(menu, KeyboardEventKey.ARROW_DOWN)
+    await menu.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+
+    /**
+     * Press ENTER and expect the first item to be clicked.
+     */
+    dispatchKeyDownEvent(menu, KeyboardEventKey.ENTER)
+    await menu.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i1)
+    expect(oc1).toBeCalledTimes(1)
+
+    /**
+     * Press ARROW_RIGHT and expect the next (second) item to be focused.
+     */
+    dispatchKeyDownEvent(menu, KeyboardEventKey.ARROW_RIGHT)
+    await menu.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i2)
+
+    /**
+     * Press ARROW_DOWN and expect the first submenu to be expanded, the first (third) item of the submenu should be focused.
+     */
+    dispatchKeyDownEvent(menu, KeyboardEventKey.ARROW_DOWN)
+    await menu.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('true')
+    expect(sm1.getAttribute('expanded')).not.toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
+    expect(sm3.getAttribute('expanded')).toBeNull()
+    expect(document.activeElement).toBe(i3)
+
+    /**
+     * Press ARROW_LEFT and expect the first submenu to be collapsed, the first item should be focused.
+     */
+    dispatchKeyDownEvent(sm1, KeyboardEventKey.ARROW_LEFT)
+    await sm1.updateComplete
+    dispatchKeyDownEvent(menu, KeyboardEventKey.ARROW_LEFT)
+    await menu.updateComplete
+
+    expect(i2.getAttribute('aria-expanded')).toBe('false')
+    expect(sm1.getAttribute('expanded')).toBeNull()
+    expect(i4.getAttribute('aria-expanded')).toBe('false')
+    expect(sm2.getAttribute('expanded')).toBeNull()
+    expect(i6.getAttribute('aria-expanded')).toBe('false')
     expect(sm3.getAttribute('expanded')).toBeNull()
     expect(document.activeElement).toBe(i1)
   })

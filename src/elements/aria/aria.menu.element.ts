@@ -54,8 +54,6 @@ export class AriaMenuElement extends BaseElement {
   expanded?: boolean
   focused?: boolean = true
   typeahead: Typeahead<AriaMenuItemElement> = new Typeahead((item: AriaMenuItemElement) => {
-    this.shallowFocusedItemElement?.blur()
-
     item.focus()
     WebElementLogger.verbose(this.uid, 'onMatch', `The matched item has been focused.`)
   })
@@ -129,8 +127,6 @@ export class AriaMenuElement extends BaseElement {
           break
         }
 
-        this.focusedItemElement?.blur()
-
         if (this.shallowFocusedItemElementIndex <= 0) {
           this.shallowItemElements[this.shallowItemElements.length - 1]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The last item has been focused.`)
@@ -156,8 +152,6 @@ export class AriaMenuElement extends BaseElement {
         if (this.buttonElement) {
           break
         }
-
-        this.focusedItemElement?.blur()
 
         if (this.shallowFocusedItemElementIndex >= this.shallowItemElements.length - 1) {
           this.shallowItemElements[0]?.focus()
@@ -286,17 +280,16 @@ export class AriaMenuElement extends BaseElement {
           break
         }
 
+        this.shallowFocusedItemElement?.click()
+        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The focused item has been clicked.`)
+
         break
       case KeyboardEventKey.HOME:
-        this.shallowFocusedItemElement?.blur()
-
         this.shallowItemElements[0]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first item has been focused.`)
 
         break
       case KeyboardEventKey.END:
-        this.shallowFocusedItemElement?.blur()
-
         this.shallowItemElements[this.shallowItemElements.length - 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last item has been focused.`)
 
@@ -326,7 +319,17 @@ export class AriaMenuElement extends BaseElement {
   }
 
   get shallowFocusedItemElementIndex(): number {
-    return this.shallowFocusedItemElement ? this.shallowItemElements.indexOf(this.shallowFocusedItemElement) : -1
+    return this.shallowItemElements.findIndex((item: AriaMenuItemElement) => {
+      if (this.shallowFocusedItemElement) {
+        return item === this.shallowFocusedItemElement
+      }
+
+      if (this.focusedItemElement) {
+        return item.contains(this.focusedItemElement)
+      }
+
+      return false
+    })
   }
 
   static properties: PropertyDeclarations = {
@@ -458,7 +461,6 @@ export class AriaMenuItemElement extends BaseElement {
   /**
    * PROPERTIES
    */
-  // focused?: boolean
   label?: string
 
   /**
@@ -500,7 +502,14 @@ export class AriaMenuItemElement extends BaseElement {
   onClick(event: MouseEvent): void {
     event.stopPropagation()
 
-    if (this.depth > 0) {
+    if (this.anchorElement) {
+      this.anchorElement.click()
+      WebElementLogger.verbose(this.uid, 'onClick', `The anchor has been clicked.`)
+
+      return
+    }
+
+    if (this.deep) {
       return
     }
 
@@ -516,9 +525,6 @@ export class AriaMenuItemElement extends BaseElement {
     this.mouseEntered = true
     WebElementLogger.verbose(this.uid, 'onMouseEnter', `The mouse has entered.`)
 
-    this.sameDepthFocusedItemElement?.blur()
-    WebElementLogger.verbose(this.uid, 'onMouseEnter', `The same depth focused item has been blurred.`)
-
     if (this.sameDepthExpandedSubMenuElement) {
       this.sameDepthExpandedSubMenuElement.collapse()
       WebElementLogger.verbose(this.uid, 'onMouseEnter', `The same depth expanded submenu has been collapsed.`)
@@ -526,10 +532,10 @@ export class AriaMenuItemElement extends BaseElement {
 
     if (this.subMenuElement) {
       switch (true) {
-        case this.rootElement.expandOnMouseEnter && this.shallow:
-        case this.deep:
-        case this.sameDepthExpandedSubMenuElement !== null:
         case this.rootElement.expanded:
+        case this.rootElement.expandOnMouseEnter && this.shallow:
+        // case this.sameDepthExpandedSubMenuElement !== null:
+        case this.subMenuElement.deep:
           this.subMenuElement.expand()
           WebElementLogger.verbose(this.uid, 'onMouseEnter', `The submenu has been expanded.`)
 
@@ -566,15 +572,13 @@ export class AriaMenuItemElement extends BaseElement {
       WebElementLogger.verbose(this.uid, 'onMouseLeave', `The submenu has been collapsed.`)
     }
 
-    if (this.depth > 0) {
+    if (this.deep) {
       this.blur()
       WebElementLogger.verbose(this.uid, ' onMouseLeave', `The item has been blurred.`)
     }
   }
 
   blur(): void {
-    // this.focused = false
-
     if (this.anchorElement) {
       this.anchorElement.blur()
       return
@@ -584,8 +588,6 @@ export class AriaMenuItemElement extends BaseElement {
   }
 
   focus(options?: FocusOptions | undefined): void {
-    // this.focused = true
-
     if (this.anchorElement) {
       this.anchorElement.focus()
       return
@@ -595,18 +597,23 @@ export class AriaMenuItemElement extends BaseElement {
   }
 
   get deep(): boolean {
-    return this.closest('q-aria-menu-submenu') !== null
+    let closest: AriaMenuItemElement | null | undefined
+
+    closest = this.parentElement?.closest('q-aria-menu-item')
+    if (!closest) return false
+
+    return true
   }
 
   get depth(): number {
-    let n: number, closest: AriaMenuSubMenuElement | null | undefined
+    let n: number, closest: AriaMenuItemElement | null | undefined
 
-    n = 0
-    closest = this.closest('q-aria-menu-submenu')
+    n = this.rootElement.buttonElement ? 1 : 0
+    closest = this.parentElement?.closest('q-aria-menu-item')
 
-    while (typeof closest === 'object' && closest !== null) {
+    while (typeof closest === 'object' && closest !== null && closest !== this) {
       n++
-      closest = closest.parentElement?.closest('q-aria-menu-submenu')
+      closest = closest.parentElement?.closest('q-aria-menu-item')
     }
 
     return n
@@ -625,31 +632,30 @@ export class AriaMenuItemElement extends BaseElement {
   }
 
   get sameDepthItemElements(): NodeListOf<AriaMenuItemElement> {
-    return this.rootElement.querySelectorAll(`q-aria-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement.querySelectorAll(`q-aria-menu-item[depth="${this.depth}"]:focus`)
   }
 
   get sameDepthFocusedItemElement(): AriaMenuItemElement | null {
-    return this.rootElement.querySelector(`q-aria-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement.querySelector(`q-aria-menu-item[depth="${this.depth}"]:focus`)
   }
 
   get sameDepthFocusedItemElements(): NodeListOf<AriaMenuItemElement> {
-    return this.rootElement.querySelectorAll(`q-aria-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement.querySelectorAll(`q-aria-menu-item[depth="${this.depth}"]:focus`)
   }
 
   get sameDepthExpandedSubMenuElement(): AriaMenuSubMenuElement | null {
-    if (this.rootElement.buttonElement) {
-      return this.rootElement.querySelector(`q-aria-menu-submenu[depth="${this.depth}"][expanded]`)
-    }
+    // if (this.rootElement.buttonElement) {
+    //   return this.rootElement.querySelector(`q-aria-menu-submenu[depth="${parseNumber(this.depth as any) + 1}"][expanded]`)
+    // }
 
-    return this.rootElement.querySelector(`q-aria-menu-submenu[depth="${parseNumber(this.depth as any) + 1}"][expanded]`)
+    return this.rootElement.querySelector(`q-aria-menu-submenu[depth="${this.depth}"][expanded]`)
   }
 
   get shallow(): boolean {
-    return this.closest('q-aria-menu-submenu') === null
+    return !this.deep
   }
 
   static properties: PropertyDeclarations = {
-    // focused: { type: Boolean, reflect: true },
     label: { type: String, reflect: true }
   }
 
@@ -690,8 +696,6 @@ export class AriaMenuSubMenuElement extends FloatingElement {
    * INTERNAL
    */
   typeahead: Typeahead<AriaMenuItemElement> = new Typeahead((item: AriaMenuItemElement) => {
-    this.shallowFocusedItemElement?.blur()
-
     item.focus()
     WebElementLogger.verbose(this.uid, 'onMatch', `The matched item has been focused.`)
   })
@@ -721,8 +725,6 @@ export class AriaMenuSubMenuElement extends FloatingElement {
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_DOWN:
-        this.shallowFocusedItemElement?.blur()
-
         if (this.shallowFocusedItemElementIndex >= this.shallowItemElements.length - 1) {
           this.shallowItemElements[0]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The first item has been focused.`)
@@ -735,8 +737,6 @@ export class AriaMenuSubMenuElement extends FloatingElement {
 
         break
       case KeyboardEventKey.ARROW_UP:
-        this.shallowFocusedItemElement?.blur()
-
         if (this.shallowFocusedItemElementIndex <= 0) {
           this.shallowItemElements[this.shallowItemElements.length - 1]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The last item has been focused.`)
@@ -749,15 +749,13 @@ export class AriaMenuSubMenuElement extends FloatingElement {
 
         break
       case KeyboardEventKey.ARROW_LEFT:
-        if (this.depth <= 1) {
+        if (this.shallow) {
           break
         }
 
         if (this.expanded) {
           event.preventDefault()
           event.stopPropagation()
-
-          this.shallowFocusedItemElement?.blur()
 
           this.collapse()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The submenu has been collapsed.`)
@@ -769,11 +767,15 @@ export class AriaMenuSubMenuElement extends FloatingElement {
       case KeyboardEventKey.ARROW_RIGHT:
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.SPACE:
-        if (this.depth <= 0) {
-          break
-        }
+        // if (this.shallow) {
+        //   break
+        // }
 
-        if (this.shallowFocusedItemElement?.subMenuElement && this.shallowFocusedItemElement.subMenuElement.collapsed) {
+        if (this.shallowFocusedItemElement?.subMenuElement) {
+          if (this.shallowFocusedItemElement.subMenuElement.expanded) {
+            break
+          }
+
           event.preventDefault()
           event.stopPropagation()
 
@@ -782,34 +784,39 @@ export class AriaMenuSubMenuElement extends FloatingElement {
 
           this.shallowFocusedItemElement.subMenuElement.shallowItemElements[0]?.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT or ENTER or SPACE', `The first item of the focused item submenu has been expanded.`)
+
+          break
+        }
+
+        if (event.key !== KeyboardEventKey.ARROW_RIGHT) {
+          this.shallowFocusedItemElement?.click()
+          WebElementLogger.verbose(this.uid, 'onClick', 'ENTER or SPACE', `The focused item has been clicked.`)
         }
 
         break
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.SPACE:
-        this.shallowFocusedItemElement?.anchorElement?.click()
-        WebElementLogger.verbose(this.uid, 'onClick', 'ENTER or SPACE', `The focused item has been clicked.`)
-
-        break
       case KeyboardEventKey.END:
-        this.shallowFocusedItemElement?.blur()
-
         this.shallowItemElements[this.shallowItemElements.length - 1]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last item has been focused.`)
 
         break
       case KeyboardEventKey.HOME:
-        this.shallowFocusedItemElement?.blur()
-
         this.shallowItemElements[0]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first item has been focused.`)
 
         break
       case KeyboardEventKey.ESCAPE:
-        this.shallowFocusedItemElement?.blur()
-
         this.collapse()
+        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The submenu has been collapsed.`)
+
+        if (this.shallow && this.rootElement.buttonElement) {
+          this.rootElement.buttonElement.focus()
+          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The button has been focused.`)
+
+          break
+        }
+
         this.parentItemElement?.focus()
+        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The parent item has been focused.`)
 
         break
       default:
@@ -833,15 +840,24 @@ export class AriaMenuSubMenuElement extends FloatingElement {
     return !this.expanded
   }
 
+  get deep(): boolean {
+    let closest: AriaMenuSubMenuElement | null | undefined
+
+    closest = this.parentElement?.closest('q-aria-menu-submenu')
+    if (!closest) return false
+
+    return true
+  }
+
   get depth(): number {
-    let n: number, closest: AriaMenuItemElement | null | undefined
+    let n: number, closest: AriaMenuSubMenuElement | null | undefined
 
     n = 0
-    closest = this.closest('q-aria-menu-item')
+    closest = this.parentElement?.closest('q-aria-menu-submenu')
 
     while (typeof closest === 'object' && closest !== null) {
       n++
-      closest = closest.parentElement?.closest('q-aria-menu-item')
+      closest = closest.parentElement?.closest('q-aria-menu-submenu')
     }
 
     return n
@@ -856,11 +872,12 @@ export class AriaMenuSubMenuElement extends FloatingElement {
   }
 
   get shallow(): boolean {
-    return this.closest('q-aria-menu-item') === null
+    return !this.deep
   }
 
   get shallowFocusedItemElement(): AriaMenuItemElement | null {
-    return this.querySelector(`q-aria-menu-item[depth="${this.depth}"][focused]`)
+    // return this.querySelector(`q-aria-menu-item[depth="${this.depth}"]:focus`)
+    return this.querySelector(`q-aria-menu-item[depth="${parseNumber(this.depth) + 1}"]:focus`)
   }
 
   get shallowFocusedItemElementIndex(): number {
@@ -868,7 +885,8 @@ export class AriaMenuSubMenuElement extends FloatingElement {
   }
 
   get shallowItemElements(): NodeListOf<AriaMenuItemElement> {
-    return this.querySelectorAll(`q-aria-menu-item[depth="${this.depth}"]`)
+    // return this.querySelectorAll(`q-aria-menu-item[depth="${this.depth}"]`)
+    return this.querySelectorAll(`q-aria-menu-item[depth="${parseNumber(this.depth) + 1}"]`)
   }
 
   static properties: PropertyDeclarations = {
