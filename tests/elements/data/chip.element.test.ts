@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import '../../src/elements/chip.element'
-import type { ChipElement } from '../../src/elements/chip.element'
-import { render } from '../../vitest/dom.utils'
+import '../../../src/elements/data/chip.element'
+import type { ChipElement } from '../../../src/elements/data/chip.element'
+import { render } from '../../../vitest/dom.utils'
 
 describe('ChipElement', () => {
   let chip: ChipElement

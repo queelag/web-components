@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import '../../src/elements/meter.element'
-import type { MeterElement } from '../../src/elements/meter.element'
-import { render } from '../../vitest/dom.utils'
+import '../../../src/elements/feedback/meter.element'
+import type { MeterElement } from '../../../src/elements/feedback/meter.element'
+import { render } from '../../../vitest/dom.utils'
 
 describe('MeterElement', () => {
   let meter: MeterElement

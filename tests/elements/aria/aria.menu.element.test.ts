@@ -196,7 +196,7 @@ describe('AriaMenuElement', () => {
     expect(i1.getAttribute('aria-haspopup')).toBe('false')
     expect(i1.getAttribute('depth')).toBe('0')
     expect(i1.getAttribute('role')).toBe('menuitem')
-    expect(i1.getAttribute('tabindex')).toBe('-1')
+    expect(i1.getAttribute('tabindex')).toBe('0')
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
     // expect(i2.getAttribute('aria-label')).toBe('label')

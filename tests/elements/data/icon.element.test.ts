@@ -1,9 +1,9 @@
 import { wf } from '@queelag/core'
 import { SVG_NAMESPACE_URI } from '@queelag/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import '../../src/elements/icon.element'
-import type { IconElement } from '../../src/elements/icon.element'
-import { render } from '../../vitest/dom.utils'
+import '../../../src/elements/data/icon.element'
+import type { IconElement } from '../../../src/elements/data/icon.element'
+import { render } from '../../../vitest/dom.utils'
 
 const COMPASS_SRC: string = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-compass"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>`
 const MALICIOUS_SRC: string = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-compass"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/><script>window.alert('bad')</script></svg>`
@@ -59,7 +59,7 @@ describe('IconElement', () => {
     await render(icon, { size: '24' })
 
     expect(icon.shadowRoot?.querySelector('svg')?.getAttribute('style')).toBe(
-      'height:24px;max-height:24px;max-width:24px;min-height:24px;min-width:24px;width:24px;'
+      'height: 24px; max-height: 24px; max-width: 24px; min-height: 24px; min-width: 24px; width: 24px;'
     )
   })
 

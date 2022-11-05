@@ -102,14 +102,14 @@ describe('BaseElement', () => {
     test.shape = 'squircle'
     await test.updateComplete
 
-    expect(test.shapeHTML).toStrictEqual(getSquircleHTML(test.squircleID, 0))
-    expect(test.shapeStyleInfo).toStrictEqual({ clipPath: `url(#${test.squircleID})` })
+    expect(test.shapeHTML).toStrictEqual(getSquircleHTML('squircle-clip-path', 0))
+    expect(test.shapeStyleInfo).toStrictEqual({ clipPath: `url(#squircle-clip-path)` })
 
     test.shapeSquircleCurvature = 0.5
     test.shapeSquircleSize = 24
 
-    expect(test.shapeHTML).toStrictEqual(getSquircleHTML(test.squircleID, 24, 0.5))
-    expect(test.shapeStyleInfo).toStrictEqual({ clipPath: `url(#${test.squircleID})` })
+    expect(test.shapeHTML).toStrictEqual(getSquircleHTML('squircle-clip-path', 24, 0.5))
+    expect(test.shapeStyleInfo).toStrictEqual({ clipPath: `url(#squircle-clip-path)` })
   })
 
   it('generates the correct size styles', async () => {

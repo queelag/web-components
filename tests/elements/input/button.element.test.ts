@@ -1,9 +1,9 @@
 import { sleep } from '@queelag/core'
 import { ButtonClickEvent } from '@queelag/web'
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
-import '../../src/elements/button.element'
-import type { ButtonElement } from '../../src/elements/button.element'
-import { render } from '../../vitest/dom.utils'
+import '../../../src/elements/input/button.element'
+import type { ButtonElement } from '../../../src/elements/input/button.element'
+import { render } from '../../../vitest/dom.utils'
 
 describe('ButtonElement', () => {
   let button: ButtonElement

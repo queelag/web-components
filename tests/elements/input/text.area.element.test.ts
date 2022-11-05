@@ -1,7 +1,7 @@
 import { KeyboardEventKey } from '@queelag/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import '../../../src/elements/inputs/text.area.element'
-import type { TextAreaElement } from '../../../src/elements/inputs/text.area.element'
+import '../../../src/elements/input/text.area.element'
+import type { TextAreaElement } from '../../../src/elements/input/text.area.element'
 import { dispatchInputEvent, dispatchKeyUpEvent, render } from '../../../vitest/dom.utils'
 
 describe('TextAreaElement', () => {

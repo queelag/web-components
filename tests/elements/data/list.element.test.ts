@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, it } from 'vitest'
-import '../../src/elements/list.element'
-import type { ListElement } from '../../src/elements/list.element'
-import { render } from '../../vitest/dom.utils'
+import '../../../src/elements/data/list.element'
+import type { ListElement } from '../../../src/elements/data/list.element'
+import { render } from '../../../vitest/dom.utils'
 
 describe('ListElement', () => {
   let list: ListElement

@@ -1,8 +1,8 @@
 import { TextCodec } from '@queelag/core'
 import { KeyboardEventKey } from '@queelag/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import '../../../src/elements/inputs/input.element'
-import type { InputElement } from '../../../src/elements/inputs/input.element'
+import '../../../src/elements/input/input.element'
+import type { InputElement } from '../../../src/elements/input/input.element'
 import { dispatchInputEvent, dispatchKeyUpEvent, render } from '../../../vitest/dom.utils'
 
 describe('InputElement', () => {

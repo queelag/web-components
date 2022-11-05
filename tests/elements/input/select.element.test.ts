@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import '../../../src/elements/inputs/select.element'
+import '../../../src/elements/input/select.element'
 import type {
   SelectButtonElement,
   SelectElement,
@@ -7,7 +7,7 @@ import type {
   SelectInputElement,
   SelectListElement,
   SelectOptionElement
-} from '../../../src/elements/inputs/select.element'
+} from '../../../src/elements/input/select.element'
 import { dispatchChangeEvent, render } from '../../../vitest/dom.utils'
 
 describe('SelectElement', () => {

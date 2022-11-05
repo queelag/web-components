@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import '../../src/elements/navigation.bar.element'
-import type { NavigationBarElement } from '../../src/elements/navigation.bar.element'
-import { render } from '../../vitest/dom.utils'
+import '../../../src/elements/navigation/navigation.bar.element'
+import type { NavigationBarElement } from '../../../src/elements/navigation/navigation.bar.element'
+import { render } from '../../../vitest/dom.utils'
 
 describe('NavigationBarElement', () => {
   let bar: NavigationBarElement

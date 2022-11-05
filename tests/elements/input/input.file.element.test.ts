@@ -1,7 +1,7 @@
 import { Base64, Polyfill, QueelagFile, TextCodec, wf } from '@queelag/core'
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
-import '../../../src/elements/inputs/input.file.element'
-import type { InputFileElement } from '../../../src/elements/inputs/input.file.element'
+import '../../../src/elements/input/input.file.element'
+import type { InputFileElement } from '../../../src/elements/input/input.file.element'
 import { dispatchInputFileEvent, render } from '../../../vitest/dom.utils'
 
 describe('InputFileElement', () => {

@@ -28,8 +28,6 @@ export class AriaRadioGroupElement extends FormFieldElement {
       return
     }
 
-    this.addEventListener('blur', this.onBlur)
-    this.addEventListener('focus', this.onFocus)
     this.addEventListener('keydown', this.onKeyDown)
   }
 
@@ -40,30 +38,7 @@ export class AriaRadioGroupElement extends FormFieldElement {
       return
     }
 
-    this.removeEventListener('blur', this.onBlur)
-    this.removeEventListener('focus', this.onFocus)
     this.removeEventListener('keydown', this.onKeyDown)
-  }
-
-  onBlur = (): void => {
-    this.focusedButtonElement?.blur()
-    WebElementLogger.verbose(this.uid, 'onBlur', `The focused button has been blurred.`)
-  }
-
-  onFocus = (): void => {
-    if (this.disabled || this.readonly) {
-      return WebElementLogger.warn(this.uid, 'onClick', `The group is disabled or readonly.`)
-    }
-
-    if (this.checkedButtonElement) {
-      this.checkedButtonElement.focus()
-      WebElementLogger.verbose(this.uid, 'onFocus', `The checked button has been focused.`)
-
-      return
-    }
-
-    this.buttonElements[0]?.focus()
-    WebElementLogger.verbose(this.uid, 'onFocus', `The first button has been focused.`)
   }
 
   onKeyDown = (event: KeyboardEvent): void => {

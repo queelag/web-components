@@ -1,7 +1,7 @@
 import { DEFAULT_SLIDER_MAX, DEFAULT_SLIDER_MIN, DEFAULT_SLIDER_STEP, KeyboardEventKey } from '@queelag/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import '../../../src/elements/inputs/slider.element'
-import type { SliderElement, SliderThumbElement } from '../../../src/elements/inputs/slider.element'
+import '../../../src/elements/input/slider.element'
+import type { SliderElement, SliderThumbElement } from '../../../src/elements/input/slider.element'
 import { dispatchInputEvent, dispatchKeyDownEvent, render } from '../../../vitest/dom.utils'
 
 describe('SliderElement', () => {

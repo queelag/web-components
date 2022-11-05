@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import '../../src/elements/badge.element'
-import type { BadgeElement } from '../../src/elements/badge.element'
-import { render } from '../../vitest/dom.utils'
+import '../../../src/elements/data/badge.element'
+import type { BadgeElement } from '../../../src/elements/data/badge.element'
+import { render } from '../../../vitest/dom.utils'
 
 describe('BadgeElement', () => {
   let badge: BadgeElement

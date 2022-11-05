@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import '../../../src/elements/inputs/check.box.element'
-import type { CheckBoxElement } from '../../../src/elements/inputs/check.box.element'
+import '../../../src/elements/input/check.box.element'
+import type { CheckBoxElement } from '../../../src/elements/input/check.box.element'
 import { render } from '../../../vitest/dom.utils'
 
 describe('CheckBoxElement', () => {

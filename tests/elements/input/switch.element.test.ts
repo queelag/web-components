@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import '../../../src/elements/inputs/switch.element'
-import type { SwitchElement } from '../../../src/elements/inputs/switch.element'
+import '../../../src/elements/input/switch.element'
+import type { SwitchElement } from '../../../src/elements/input/switch.element'
 import { render } from '../../../vitest/dom.utils'
 
 describe('SwitchElement', () => {

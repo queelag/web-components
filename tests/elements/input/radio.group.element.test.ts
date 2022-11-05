@@ -1,7 +1,7 @@
 import { RadioButton } from '@queelag/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import '../../../src/elements/inputs/radio.group.element'
-import type { RadioButtonElement, RadioGroupElement } from '../../../src/elements/inputs/radio.group.element'
+import '../../../src/elements/input/radio.group.element'
+import type { RadioButtonElement, RadioGroupElement } from '../../../src/elements/input/radio.group.element'
 import { render } from '../../../vitest/dom.utils'
 
 describe('RadioGroupElement', () => {
@@ -18,11 +18,9 @@ describe('RadioGroupElement', () => {
   it('has aria attributes', async () => {
     await render(radio)
 
-    expect(radio.getAttribute('aria-activedescendant')).toBeNull()
     expect(radio.getAttribute('aria-disabled')).toBe('false')
     expect(radio.getAttribute('aria-readonly')).toBe('false')
     expect(radio.getAttribute('role')).toBe('radiogroup')
-    expect(radio.getAttribute('tabindex')).toBe('0')
   })
 
   it('works with children buttons', async () => {

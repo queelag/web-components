@@ -2,25 +2,25 @@ import { sleep } from '@queelag/core'
 import { FormSubmitEvent } from '@queelag/web'
 import { size, string } from 'superstruct'
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
-import '../../src/elements/form.element'
-import { FormElement } from '../../src/elements/form.element'
-import '../../src/elements/inputs/check.box.element'
-import { CheckBoxElement } from '../../src/elements/inputs/check.box.element'
-import '../../src/elements/inputs/input.element'
-import { InputElement } from '../../src/elements/inputs/input.element'
-import '../../src/elements/inputs/input.file.element'
-import { InputFileElement } from '../../src/elements/inputs/input.file.element'
-import '../../src/elements/inputs/radio.group.element'
-import { RadioGroupElement } from '../../src/elements/inputs/radio.group.element'
-import '../../src/elements/inputs/select.element'
-import { SelectElement } from '../../src/elements/inputs/select.element'
-import '../../src/elements/inputs/slider.element'
-import { SliderElement } from '../../src/elements/inputs/slider.element'
-import '../../src/elements/inputs/switch.element'
-import { SwitchElement } from '../../src/elements/inputs/switch.element'
-import '../../src/elements/inputs/text.area.element'
-import { TextAreaElement } from '../../src/elements/inputs/text.area.element'
-import { render } from '../../vitest/dom.utils'
+import '../../../src/elements/input/check.box.element'
+import { CheckBoxElement } from '../../../src/elements/input/check.box.element'
+import '../../../src/elements/input/form.element'
+import { FormElement } from '../../../src/elements/input/form.element'
+import '../../../src/elements/input/input.element'
+import { InputElement } from '../../../src/elements/input/input.element'
+import '../../../src/elements/input/input.file.element'
+import { InputFileElement } from '../../../src/elements/input/input.file.element'
+import '../../../src/elements/input/radio.group.element'
+import { RadioGroupElement } from '../../../src/elements/input/radio.group.element'
+import '../../../src/elements/input/select.element'
+import { SelectElement } from '../../../src/elements/input/select.element'
+import '../../../src/elements/input/slider.element'
+import { SliderElement } from '../../../src/elements/input/slider.element'
+import '../../../src/elements/input/switch.element'
+import { SwitchElement } from '../../../src/elements/input/switch.element'
+import '../../../src/elements/input/text.area.element'
+import { TextAreaElement } from '../../../src/elements/input/text.area.element'
+import { render } from '../../../vitest/dom.utils'
 
 describe('FormElement', () => {
   let form: FormElement,
@@ -50,7 +50,7 @@ describe('FormElement', () => {
   it('submits asynchronously', async () => {
     onSubmit = vi.fn(async (event: FormSubmitEvent) => {
       await sleep(100)
-      event.detail.finalize()
+      event.detail?.finalize()
     })
 
     await render(form, { async: 'true' }, { 'form-submit': onSubmit })

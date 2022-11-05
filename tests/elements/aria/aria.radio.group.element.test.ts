@@ -23,103 +23,78 @@ describe('AriaRadioGroupElement', () => {
   it('has correct aria', async () => {
     await render(radio)
 
-    expect(radio.getAttribute('aria-activedescendant')).toBeNull()
     expect(radio.getAttribute('aria-disabled')).toBe('false')
     // expect(radio.getAttribute('aria-labelledby')).toBe('label')
     expect(radio.getAttribute('aria-readonly')).toBe('false')
     expect(radio.getAttribute('role')).toBe('radiogroup')
-    expect(radio.getAttribute('tabindex')).toBe('0')
 
     expect(b1.getAttribute('aria-checked')).toBeNull()
     expect(b1.getAttribute('id')).not.toBeNull()
     expect(b1.getAttribute('role')).toBe('radio')
+    expect(b1.getAttribute('tabindex')).toBe('0')
 
     expect(b2.getAttribute('aria-checked')).toBeNull()
     expect(b2.getAttribute('id')).not.toBeNull()
     expect(b2.getAttribute('role')).toBe('radio')
+    expect(b2.getAttribute('tabindex')).toBe('-1')
   })
 
   it('works', async () => {
     await render(radio)
 
-    expect(radio.getAttribute('aria-activedescendant')).toBeNull()
     expect(b1.getAttribute('aria-checked')).toBeNull()
     expect(b1.getAttribute('checked')).toBeNull()
-    expect(b1.getAttribute('focused')).toBeNull()
     expect(b2.getAttribute('aria-checked')).toBeNull()
     expect(b2.getAttribute('checked')).toBeNull()
-    expect(b2.getAttribute('focused')).toBeNull()
+    expect(document.activeElement).toBe(document.body)
 
     b1.click()
     await b1.updateComplete
 
-    expect(radio.getAttribute('aria-activedescendant')).toBe(b1.id)
     expect(b1.getAttribute('aria-checked')).toBe('true')
     expect(b1.getAttribute('checked')).not.toBeNull()
-    expect(b1.getAttribute('focused')).not.toBeNull()
     expect(b2.getAttribute('aria-checked')).toBeNull()
     expect(b2.getAttribute('checked')).toBeNull()
-    expect(b2.getAttribute('focused')).toBeNull()
+    expect(document.activeElement).toBe(b1)
 
     b2.click()
     await b2.updateComplete
 
-    expect(radio.getAttribute('aria-activedescendant')).toBe(b2.id)
     expect(b1.getAttribute('aria-checked')).toBeNull()
     expect(b1.getAttribute('checked')).toBeNull()
-    expect(b1.getAttribute('focused')).toBeNull()
     expect(b2.getAttribute('aria-checked')).toBe('true')
     expect(b2.getAttribute('checked')).not.toBeNull()
-    expect(b2.getAttribute('focused')).not.toBeNull()
+    expect(document.activeElement).toBe(b2)
   })
 
   it('focuses first button on focus and blurs focused button on blur', async () => {
     await render(radio)
 
-    expect(radio.getAttribute('aria-activedescendant')).toBeNull()
-    expect(b1.getAttribute('focused')).toBeNull()
-    expect(b2.getAttribute('focused')).toBeNull()
+    expect(document.activeElement).toBe(document.body)
 
-    radio.focus()
-    await radio.updateComplete
+    b1.focus()
+    await b1.updateComplete
+    expect(document.activeElement).toBe(b1)
 
-    expect(radio.getAttribute('aria-activedescendant')).toBe(b1.id)
-    expect(b1.getAttribute('focused')).not.toBeNull()
-    expect(b2.getAttribute('focused')).toBeNull()
-
-    radio.blur()
-    await radio.updateComplete
-
-    expect(radio.getAttribute('aria-activedescendant')).toBe(b1.id)
-    expect(b1.getAttribute('focused')).toBeNull()
-    expect(b2.getAttribute('focused')).toBeNull()
-
-    b2.click()
-    await b2.updateComplete
-    radio.blur()
-    await radio.updateComplete
-
-    expect(radio.getAttribute('aria-activedescendant')).toBe(b2.id)
-    expect(b1.getAttribute('focused')).toBeNull()
-    expect(b2.getAttribute('focused')).not.toBeNull()
+    b1.blur()
+    await b1.updateComplete
+    expect(document.activeElement).toBe(document.body)
   })
 
   it('supports keyboard usage', async () => {
     await render(radio)
 
     /**
-     * Focus the radio and expect the first button to be focused
+     * Focus the first button and expect it to be focused
      */
-    radio.focus()
-    await radio.updateComplete
+    b1.focus()
+    await b1.updateComplete
 
-    expect(radio.getAttribute('aria-activedescendant')).toBe(b1.id)
     expect(b1.getAttribute('aria-checked')).toBeNull()
     expect(b1.getAttribute('checked')).toBeNull()
-    expect(b1.getAttribute('focused')).not.toBeNull()
     expect(b2.getAttribute('aria-checked')).toBeNull()
     expect(b2.getAttribute('checked')).toBeNull()
-    expect(b2.getAttribute('focused')).toBeNull()
+    expect(document.activeElement).toBe(b1)
 
     /**
      * Press SPACE and expect the first button to be checked
@@ -127,13 +102,11 @@ describe('AriaRadioGroupElement', () => {
     dispatchKeyDownEvent(radio, KeyboardEventKey.SPACE)
     await radio.updateComplete
 
-    expect(radio.getAttribute('aria-activedescendant')).toBe(b1.id)
     expect(b1.getAttribute('aria-checked')).toBe('true')
     expect(b1.getAttribute('checked')).not.toBeNull()
-    expect(b1.getAttribute('focused')).not.toBeNull()
     expect(b2.getAttribute('aria-checked')).toBeNull()
     expect(b2.getAttribute('checked')).toBeNull()
-    expect(b2.getAttribute('focused')).toBeNull()
+    expect(document.activeElement).toBe(b1)
 
     /**
      * Press ARROW_DOWN and expect the second button to be focused
@@ -141,13 +114,11 @@ describe('AriaRadioGroupElement', () => {
     dispatchKeyDownEvent(radio, KeyboardEventKey.ARROW_DOWN)
     await radio.updateComplete
 
-    expect(radio.getAttribute('aria-activedescendant')).toBe(b2.id)
     expect(b1.getAttribute('aria-checked')).toBeNull()
     expect(b1.getAttribute('checked')).toBeNull()
-    expect(b1.getAttribute('focused')).toBeNull()
     expect(b2.getAttribute('aria-checked')).toBe('true')
     expect(b2.getAttribute('checked')).not.toBeNull()
-    expect(b2.getAttribute('focused')).not.toBeNull()
+    expect(document.activeElement).toBe(b2)
 
     /**
      * Press ARROW_RIGHT and expect the first button to be focused
@@ -155,13 +126,11 @@ describe('AriaRadioGroupElement', () => {
     dispatchKeyDownEvent(radio, KeyboardEventKey.ARROW_RIGHT)
     await radio.updateComplete
 
-    expect(radio.getAttribute('aria-activedescendant')).toBe(b1.id)
     expect(b1.getAttribute('aria-checked')).toBe('true')
     expect(b1.getAttribute('checked')).not.toBeNull()
-    expect(b1.getAttribute('focused')).not.toBeNull()
     expect(b2.getAttribute('aria-checked')).toBeNull()
     expect(b2.getAttribute('checked')).toBeNull()
-    expect(b2.getAttribute('focused')).toBeNull()
+    expect(document.activeElement).toBe(b1)
 
     /**
      * Press ARROW_LEFT and expect the second button to be focused
@@ -169,13 +138,11 @@ describe('AriaRadioGroupElement', () => {
     dispatchKeyDownEvent(radio, KeyboardEventKey.ARROW_DOWN)
     await radio.updateComplete
 
-    expect(radio.getAttribute('aria-activedescendant')).toBe(b2.id)
     expect(b1.getAttribute('aria-checked')).toBeNull()
     expect(b1.getAttribute('checked')).toBeNull()
-    expect(b1.getAttribute('focused')).toBeNull()
     expect(b2.getAttribute('aria-checked')).toBe('true')
     expect(b2.getAttribute('checked')).not.toBeNull()
-    expect(b2.getAttribute('focused')).not.toBeNull()
+    expect(document.activeElement).toBe(b2)
 
     /**
      * Press ARROW_UP and expect the first button to be focused
@@ -183,12 +150,10 @@ describe('AriaRadioGroupElement', () => {
     dispatchKeyDownEvent(radio, KeyboardEventKey.ARROW_UP)
     await radio.updateComplete
 
-    expect(radio.getAttribute('aria-activedescendant')).toBe(b1.id)
     expect(b1.getAttribute('aria-checked')).toBe('true')
     expect(b1.getAttribute('checked')).not.toBeNull()
-    expect(b1.getAttribute('focused')).not.toBeNull()
     expect(b2.getAttribute('aria-checked')).toBeNull()
     expect(b2.getAttribute('checked')).toBeNull()
-    expect(b2.getAttribute('focused')).toBeNull()
+    expect(document.activeElement).toBe(b1)
   })
 })
