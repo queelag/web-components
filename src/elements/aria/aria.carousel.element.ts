@@ -514,6 +514,7 @@ export class AriaCarouselTabElement extends BaseElement {
 
   activate(): void {
     this.active = true
+    this.focus()
   }
 
   deactivate(): void {

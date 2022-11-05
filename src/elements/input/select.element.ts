@@ -143,6 +143,11 @@ export class SelectButtonElement extends AriaComboBoxButtonElement {
 }
 
 export class SelectInputElement extends AriaComboBoxInputElement {
+  clear(): void {
+    super.clear()
+    this.rootElement.clear()
+  }
+
   get name(): ElementName {
     return ElementName.SELECT_INPUT
   }

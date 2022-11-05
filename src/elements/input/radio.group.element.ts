@@ -82,7 +82,7 @@ export class RadioGroupElement extends AriaRadioGroupElement {
   static queries: QueryDeclarations = {
     buttonElements: { selector: 'q-radio-button', all: true },
     checkedButtonElement: { selector: 'q-radio-button[checked]' },
-    focusedButtonElement: { selector: 'q-radio-button[focused]' }
+    focusedButtonElement: { selector: 'q-radio-button:focus' }
   }
 }
 

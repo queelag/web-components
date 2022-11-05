@@ -87,7 +87,6 @@ export class AriaRadioGroupElement extends FormFieldElement {
       case KeyboardEventKey.ARROW_RIGHT:
       case KeyboardEventKey.ARROW_UP:
         this.checkedButtonElement?.uncheck()
-        this.focusedButtonElement?.blur()
     }
 
     switch (event.key) {
@@ -143,7 +142,7 @@ export class AriaRadioGroupElement extends FormFieldElement {
   static queries: QueryDeclarations = {
     buttonElements: { selector: 'q-aria-radio-button', all: true },
     checkedButtonElement: { selector: 'q-aria-radio-button[checked]' },
-    focusedButtonElement: { selector: 'q-aria-radio-button[focused]' }
+    focusedButtonElement: { selector: 'q-aria-radio-button:focus' }
   }
 }
 
@@ -154,7 +153,6 @@ export class AriaRadioButtonElement extends BaseElement {
    * PROPERTIES
    */
   checked?: boolean
-  focused?: boolean
 
   /**
    * QUERIES
@@ -187,14 +185,6 @@ export class AriaRadioButtonElement extends BaseElement {
     WebElementLogger.verbose(this.uid, 'onClick', `The button has been focused.`)
   }
 
-  blur(): void {
-    this.focused = false
-  }
-
-  focus(options?: FocusOptions | undefined): void {
-    this.focused = true
-  }
-
   check(): void {
     this.checked = true
   }
@@ -203,13 +193,20 @@ export class AriaRadioButtonElement extends BaseElement {
     this.checked = false
   }
 
+  get focused(): boolean {
+    return this === document.activeElement
+  }
+
+  get index(): number {
+    return this.rootElement.buttonElements.indexOf(this)
+  }
+
   get name(): ElementName {
     return ElementName.ARIA_RADIO_BUTTON
   }
 
   static properties: PropertyDeclarations = {
-    checked: { type: Boolean, reflect: true },
-    focused: { type: Boolean, reflect: true }
+    checked: { type: Boolean, reflect: true }
   }
 
   static queries: QueryDeclarations = {

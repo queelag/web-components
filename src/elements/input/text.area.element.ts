@@ -161,7 +161,7 @@ export class TextAreaElement extends FormFieldElement {
         placeholder=${ifdef(this.placeholder)}
         rows=${ifdef(this.rows)}
         style=${this.textAreaElementStyle}
-        .value=${ifdef(this.textAreaElementValue)}
+        value=${ifdef(this.textAreaElementValue)}
       ></textarea>
       <span></span>
     `
@@ -196,10 +196,9 @@ export class TextAreaElement extends FormFieldElement {
   }
 
   static properties: PropertyDeclarations = {
-    ...super.properties,
     autosize: { type: Boolean, reflect: true },
     cols: { type: Number, reflect: true },
-    computedHeight: { state: true },
+    computedHeight: { type: String, state: true },
     multiple: { type: Boolean, reflect: true },
     padding: { type: String, reflect: true },
     placeholder: { type: String, reflect: true },

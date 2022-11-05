@@ -99,7 +99,7 @@ export class AriaTooltipContentElement extends FloatingElement {
   rootElement!: AriaTooltipElement
 
   get arrowElement(): AriaTooltipArrowElement | undefined {
-    return this.querySelector('q-aria-tooltip-arrow') || undefined
+    return this.rootElement.arrowElement
   }
 
   get name(): ElementName {

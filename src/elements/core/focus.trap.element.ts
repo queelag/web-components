@@ -101,13 +101,13 @@ export class FocusTrapElement extends BaseElement {
     let options: Options
 
     options = {
-      allowOutsideClick: typeof this.allowOutsideClick !== 'undefined' ? this.allowOutsideClick : true,
+      allowOutsideClick: typeof this.allowOutsideClick === 'string' || this.allowOutsideClick,
       checkCanFocusTrap: this.checkCanFocusTrap,
       checkCanReturnFocus: this.checkCanReturnFocus,
-      clickOutsideDeactivates: this.clickOutsideDeactivates,
+      clickOutsideDeactivates: typeof this.clickOutsideDeactivates === 'string' || this.clickOutsideDeactivates,
       delayInitialFocus: this.delayInitialFocus,
       // document: this.document,
-      escapeDeactivates: this.escapeDeactivates,
+      escapeDeactivates: typeof this.escapeDeactivates === 'string' || this.escapeDeactivates,
       fallbackFocus: this.fallbackFocus,
       initialFocus: this.initialFocus,
       onActivate: () => this.onFocusTrapActivate(),
@@ -123,6 +123,8 @@ export class FocusTrapElement extends BaseElement {
         getShadowRoot: true
       }
     }
+
+    console.log(options)
 
     return deleteDeepObjectUndefinedProperties(options)
   }

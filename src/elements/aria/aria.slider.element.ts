@@ -1,7 +1,5 @@
 import { getLimitedNumber, isNumberMultipleOf, toFixedNumber } from '@queelag/core'
 import {
-  AriaSliderChangeEvent,
-  AriaSliderThumbMoveEvent,
   DEFAULT_SLIDER_DECIMALS,
   DEFAULT_SLIDER_MAX,
   DEFAULT_SLIDER_MIN,
@@ -16,6 +14,8 @@ import {
   KeyboardEventKey,
   Orientation,
   QueryDeclarations,
+  SliderChangeEvent,
+  SliderThumbMoveEvent,
   WebElementLogger
 } from '@queelag/web'
 import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
@@ -69,7 +69,7 @@ export class AriaSliderElement extends FormFieldElement {
     this.removeEventListener('click', this.onClick)
   }
 
-  onClick = (event: MouseEvent): void => {
+  onClick(event: MouseEvent): void {
     if (this.disabled || this.readonly) {
       return WebElementLogger.warn(this.uid, 'onClick', `The slider is disabled or readonly.`)
     }
@@ -90,8 +90,8 @@ export class AriaSliderElement extends FormFieldElement {
 
     this.thumbElements[0].computePosition()
 
-    this.dispatchEvent(new AriaSliderThumbMoveEvent(this.thumbElements[0].value, this.thumbElements[0].percentage))
-    this.dispatchEvent(new AriaSliderChangeEvent(this.values, this.percentages))
+    this.dispatchEvent(new SliderThumbMoveEvent(this.thumbElements[0].value, this.thumbElements[0].percentage))
+    this.dispatchEvent(new SliderChangeEvent(this.values, this.percentages))
   }
 
   get name(): ElementName {
@@ -174,6 +174,8 @@ export class AriaSliderThumbElement extends BaseElement {
     this.addEventListener('touchend', this.onTouchEnd)
     this.addEventListener('touchmove', this.onTouchMove, { passive: true })
     this.addEventListener('touchstart', this.onTouchStart, { passive: true })
+
+    this.computePosition()
   }
 
   disconnectedCallback(): void {
@@ -187,7 +189,7 @@ export class AriaSliderThumbElement extends BaseElement {
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
-    let decimals: number, max: number, min: number, step: number, value: number
+    let max: number, min: number, step: number, value: number
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
@@ -206,7 +208,6 @@ export class AriaSliderThumbElement extends BaseElement {
       return WebElementLogger.warn(this.uid, 'onKeyDown', `The slider is disabled or readonly.`)
     }
 
-    decimals = this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS
     max = this.rootElement.max ?? DEFAULT_SLIDER_MAX
     min = this.rootElement.min ?? DEFAULT_SLIDER_MIN
     step = this.rootElement.step ?? DEFAULT_SLIDER_STEP
@@ -258,8 +259,8 @@ export class AriaSliderThumbElement extends BaseElement {
       case KeyboardEventKey.END:
         this.computePosition()
 
-        this.dispatchEvent(new AriaSliderThumbMoveEvent(this.value ?? DEFAULT_SLIDER_THUMB_VALUE, this.percentage))
-        this.rootElement.dispatchEvent(new AriaSliderChangeEvent(this.rootElement.values, this.rootElement.percentages))
+        this.dispatchEvent(new SliderThumbMoveEvent(this.value ?? DEFAULT_SLIDER_THUMB_VALUE, this.percentage))
+        this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.values, this.rootElement.percentages))
     }
   }
 
@@ -314,8 +315,8 @@ export class AriaSliderThumbElement extends BaseElement {
     this.setValueByCoordinates(x, y)
     this.computePosition()
 
-    this.dispatchEvent(new AriaSliderThumbMoveEvent(this.value ?? DEFAULT_SLIDER_THUMB_VALUE, this.percentage))
-    this.rootElement.dispatchEvent(new AriaSliderChangeEvent(this.rootElement.values, this.rootElement.percentages))
+    this.dispatchEvent(new SliderThumbMoveEvent(this.value ?? DEFAULT_SLIDER_THUMB_VALUE, this.percentage))
+    this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.values, this.rootElement.percentages))
   }
 
   onMouseUpOrTouchEnd(): void {
@@ -372,7 +373,7 @@ export class AriaSliderThumbElement extends BaseElement {
     decimals = this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS
     max = this.rootElement.max ?? DEFAULT_SLIDER_MAX
     min = this.rootElement.min ?? DEFAULT_SLIDER_MIN
-    fvalue = toFixedNumber(value, this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS)
+    fvalue = toFixedNumber(value, decimals)
 
     if (this.rootElement.disableSwap && this.rootElement.hasMultipleThumbs) {
       let pthumb: AriaSliderThumbElement | undefined, nthumb: AriaSliderThumbElement | undefined, mdistance: number
@@ -391,6 +392,9 @@ export class AriaSliderThumbElement extends BaseElement {
     }
 
     this.value = getLimitedNumber(fvalue, min, max)
+
+    this.dispatchEvent(new SliderThumbMoveEvent(this.value, this.percentage))
+    this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.values, this.rootElement.percentages))
   }
 
   getPercentageByCoordinates(x: number, y: number): number {

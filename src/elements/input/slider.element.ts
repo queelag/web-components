@@ -69,8 +69,8 @@ export class SliderThumbElement extends AriaSliderThumbElement {
     return ElementName.SLIDER_THUMB
   }
 
-  set value(value: number | undefined) {
-    super.value = value
+  setValue(value: number): void {
+    super.setValue(value)
 
     if (this.rootElement.hasMultipleThumbs) {
       this.rootElement.value = this.rootElement.value || this.rootElement.values

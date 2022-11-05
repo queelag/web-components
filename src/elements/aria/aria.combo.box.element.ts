@@ -287,7 +287,7 @@ export class AriaComboBoxElement extends FormFieldElement {
     this.expanded = true
   }
 
-  filterOptions<T>(options: T[], predicate: (value: T, index: number, array: T[]) => unknown): T[] {
+  filterOptions<T>(options: T[], predicate: (option: T, index: number, options: T[]) => unknown): T[] {
     switch (this.autocomplete) {
       case 'both':
       case 'inline':
@@ -462,10 +462,10 @@ export class AriaComboBoxInputElement extends BaseElement {
     /**
      * REFACTOR TO NOT USE INNERTEXT
      */
-    if (this.inputElement && this.rootElement.selectedOptionElement) {
-      this.inputElement.value = this.rootElement.selectedOptionElement.innerText
-      WebElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option inner text.`)
-    }
+    // if (this.inputElement && this.rootElement.selectedOptionElement) {
+    //   this.inputElement.value = this.rootElement.selectedOptionElement.innerText
+    //   WebElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option inner text.`)
+    // }
   }
 
   onClick = (): void => {
@@ -594,14 +594,9 @@ export class AriaComboBoxOptionElement extends BaseElement {
       WebElementLogger.verbose(this.uid, ' attributeChangedCallback', `The option has been scrolled into view.`)
     }
 
-    /**
-     * REFACTOR TO NOT USE INNERTEXT
-     */
-    if (name === 'selected' && value !== null) {
-      if (this.rootElement.inputElement?.inputElement) {
-        this.rootElement.inputElement.inputElement.value = this.innerText
-        WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The input value has been set to the inner text of this option.`, [this.innerText])
-      }
+    if (name === 'selected' && value !== null && this.rootElement.inputElement?.inputElement) {
+      this.rootElement.inputElement.inputElement.value = this.value
+      WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The input value has been set to the value of this option.`, [this.value])
     }
   }
 
