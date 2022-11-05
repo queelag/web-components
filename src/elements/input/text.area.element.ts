@@ -176,7 +176,12 @@ export class TextAreaElement extends FormFieldElement {
   }
 
   private get textAreaElementStyle(): DirectiveResult {
-    return styleMap({ ...this.styleInfo, minHeight: this.computedHeight, padding: this.padding, resize: this.resize })
+    return styleMap({
+      ...this.styleInfo,
+      minHeight: this.computedHeight,
+      padding: this.padding,
+      resize: this.resize
+    })
   }
 
   private get textAreaElementValue(): string | undefined {

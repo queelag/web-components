@@ -35,6 +35,10 @@ export default class AlertDialog extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-alert-dialog {
       width: 256px;
 

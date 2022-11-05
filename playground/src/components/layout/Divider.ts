@@ -12,6 +12,10 @@ export default class Divider extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     :host,
     q-divider {
       width: 100%;

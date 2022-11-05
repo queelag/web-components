@@ -1,4 +1,4 @@
-import { AttributeChangeEvent, ElementName, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import { AttributeChangeEvent, ElementName, KeyboardEventKey, QueryDeclarations, TabsSelectionChangeEvent, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaTabsController, AriaTabsPanelController, AriaTabsTabController } from '../../controllers/aria.tabs.controller'
 import { BaseElement } from '../core/base.element'
@@ -22,6 +22,7 @@ export class AriaTabsElement extends BaseElement {
   /**
    * QUERIES
    */
+  focusedTabElement?: AriaTabsTabElement
   panelElements!: AriaTabsPanelElement[]
   selectedTabElement?: AriaTabsTabElement
   tabElements!: AriaTabsTabElement[]
@@ -142,12 +143,8 @@ export class AriaTabsElement extends BaseElement {
     }
   }
 
-  get focusedTabElement(): AriaTabsTabElement | undefined {
-    return this.tabElements.find((tab: AriaTabsTabElement) => tab === document.activeElement)
-  }
-
   get focusedTabElementIndex(): number {
-    return this.tabElements.indexOf(document.activeElement as AriaTabsTabElement)
+    return this.focusedTabElement ? this.tabElements.indexOf(this.focusedTabElement) : -1
   }
 
   get manualActivation(): boolean {
@@ -167,6 +164,7 @@ export class AriaTabsElement extends BaseElement {
   }
 
   static queries: QueryDeclarations = {
+    focusedTabElement: { selector: 'q-aria-tabs-tab:focus' },
     panelElements: { selector: 'q-aria-tabs-panel', all: true },
     selectedTabElement: { selector: 'q-aria-tabs-tab[selected]' },
     tabElements: { selector: 'q-aria-tabs-tab', all: true }
@@ -216,6 +214,8 @@ export class AriaTabsTabElement extends BaseElement {
 
     this.selected = true
     this.focus()
+
+    this.rootElement.dispatchEvent(new TabsSelectionChangeEvent(this, this.index))
   }
 
   unselect(): void {

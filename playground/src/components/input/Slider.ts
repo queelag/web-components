@@ -19,7 +19,7 @@ export default class Slider extends LitElement {
 
   protected render(): unknown {
     return html`
-      <q-slider minimum-distance="20" orientation="horizontal" @slider-change=${this.onChange} disable-swap>
+      <q-slider orientation="horizontal" @slider-change=${this.onChange}>
         <div class="background"></div>
         <q-slider-thumb background="green" shape="circle" size="20" value="25"></q-slider-thumb>
         ${when(
@@ -41,6 +41,10 @@ export default class Slider extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-slider {
       position: relative;
 

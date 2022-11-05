@@ -14,19 +14,23 @@ export default class NavigationBar extends LitElement {
     return html`
       <q-navigation-bar ${ref(this.ref)} active-item="Home" @attribute-change=${this.onAttributeChange}>
         <q-navigation-bar-item ?active=${this.ref.value?.isItemActive('Discover')} @click=${() => this.ref.value?.activateItem('Discover')}>
-          Discover
+          Navigation
         </q-navigation-bar-item>
         <q-navigation-bar-item ?active=${this.ref.value?.isItemActive('Home') ?? true} @click=${() => this.ref.value?.activateItem('Home')}>
-          Home
+          Bar
         </q-navigation-bar-item>
         <q-navigation-bar-item ?active=${this.ref.value?.isItemActive('Settings')} @click=${() => this.ref.value?.activateItem('Settings')}>
-          Settings
+          Demo
         </q-navigation-bar-item>
       </q-navigation-bar>
     `
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-navigation-bar {
       display: flex;
 

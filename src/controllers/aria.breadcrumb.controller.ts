@@ -39,7 +39,7 @@ export class AriaBreadcrumbListController implements ReactiveController {
   }
 }
 
-export class AriaBreadcrumbListItemController implements ReactiveController {
+export class AriaBreadcrumbItemController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaBreadcrumbItemElement) {
     this.host.addController(this)
   }

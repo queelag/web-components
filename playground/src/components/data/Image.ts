@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit'
+import { css, CSSResultGroup, html, LitElement } from 'lit'
 import '../../../../src/elements/data/image.element'
 
 export default class Image extends LitElement {
@@ -14,6 +14,12 @@ export default class Image extends LitElement {
       ></q-image>
     `
   }
+
+  static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+  `
 }
 
 customElements.define('my-image', Image)

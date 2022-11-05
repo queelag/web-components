@@ -1,6 +1,6 @@
 import { sleep } from '@queelag/core'
 import type { FormSubmitEvent } from '@queelag/web'
-import { html, LitElement } from 'lit'
+import { css, CSSResultGroup, html, LitElement } from 'lit'
 import '../../../../src/elements/input/form.element'
 import '../../../../src/elements/input/input.element'
 
@@ -17,6 +17,12 @@ export default class Form extends LitElement {
       </q-form>
     `
   }
+
+  static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+  `
 }
 
 customElements.define('my-form', Form)

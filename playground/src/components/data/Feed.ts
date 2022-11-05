@@ -22,6 +22,10 @@ export default class Feed extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-feed {
       display: flex;
       flex-direction: column;

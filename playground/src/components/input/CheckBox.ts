@@ -20,6 +20,10 @@ export default class CheckBox extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-checkbox > div {
       width: 24px;
       height: 24px;

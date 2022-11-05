@@ -19,6 +19,10 @@ export default class Tooltip extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-tooltip-content {
       padding: 4px 8px;
       border-radius: 4px;

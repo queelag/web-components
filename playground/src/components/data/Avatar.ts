@@ -23,6 +23,10 @@ export default class Avatar extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     :host {
       display: flex;
       align-items: center;

@@ -20,6 +20,10 @@ export default class Chip extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-chip {
       display: flex;
       align-items: center;

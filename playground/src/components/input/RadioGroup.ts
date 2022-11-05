@@ -68,6 +68,10 @@ export default class RadioGroup extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-radio-group {
       width: 256px;
 

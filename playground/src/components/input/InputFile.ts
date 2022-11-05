@@ -47,6 +47,10 @@ export default class InputFile extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     :host {
       display: flex;
       flex-direction: column;

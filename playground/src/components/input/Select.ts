@@ -113,6 +113,10 @@ export default class Select extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-select {
       width: 256px;
     }

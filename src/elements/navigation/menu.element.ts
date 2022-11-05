@@ -20,9 +20,9 @@ export class MenuElement extends AriaMenuElement {
     buttonElement: { selector: 'q-menu-button' },
     expandedSubMenuElement: { selector: 'q-menu-submenu[expanded]' },
     expandedSubMenuElements: { selector: 'q-menu-submenu[expanded]', all: true },
-    focusedItemElement: { selector: 'q-menu-item:focus' },
+    focusedItemElement: { selector: 'q-menu-item[focused]' },
     itemElements: { selector: 'q-menu-item', all: true },
-    shallowFocusedItemElement: { selector: 'q-menu-item[depth="0"]:focus' },
+    shallowFocusedItemElement: { selector: 'q-menu-item[depth="0"][focused]' },
     shallowItemElements: { selector: 'q-menu-item[depth="0"]', all: true },
     subMenuElement: { selector: 'q-menu-submenu' }
   }
@@ -40,7 +40,7 @@ export class MenuButtonElement extends AriaMenuButtonElement {
 
 export class MenuItemElement extends AriaMenuItemElement {
   get deep(): boolean {
-    let closest: AriaMenuItemElement | null | undefined
+    let closest: MenuItemElement | null | undefined
 
     closest = this.parentElement?.closest('q-menu-item')
     if (!closest) return false
@@ -49,7 +49,7 @@ export class MenuItemElement extends AriaMenuItemElement {
   }
 
   get depth(): number {
-    let n: number, closest: AriaMenuItemElement | null | undefined
+    let n: number, closest: MenuItemElement | null | undefined
 
     n = this.rootElement.buttonElement ? 1 : 0
     closest = this.parentElement?.closest('q-menu-item')
@@ -66,24 +66,24 @@ export class MenuItemElement extends AriaMenuItemElement {
     return ElementName.MENU_ITEM
   }
 
-  get sameDepthItemElements(): NodeListOf<AriaMenuItemElement> {
-    return this.rootElement.querySelectorAll(`q-menu-item[depth="${this.depth}"]:focus`)
+  get sameDepthItemElements(): NodeListOf<MenuItemElement> {
+    return this.rootElement.querySelectorAll(`q-menu-item[depth="${this.depth}"][focused]`)
   }
 
-  get sameDepthFocusedItemElement(): AriaMenuItemElement | null {
-    return this.rootElement.querySelector(`q-menu-item[depth="${this.depth}"]:focus`)
+  get sameDepthFocusedItemElement(): MenuItemElement | null {
+    return this.rootElement.querySelector(`q-menu-item[depth="${this.depth}"][focused]`)
   }
 
-  get sameDepthFocusedItemElements(): NodeListOf<AriaMenuItemElement> {
-    return this.rootElement.querySelectorAll(`q-menu-item[depth="${this.depth}"]:focus`)
+  get sameDepthFocusedItemElements(): NodeListOf<MenuItemElement> {
+    return this.rootElement.querySelectorAll(`q-menu-item[depth="${this.depth}"][focused]`)
   }
 
-  get sameDepthExpandedSubMenuElement(): AriaMenuSubMenuElement | null {
+  get sameDepthExpandedSubMenuElement(): MenuSubMenuElement | null {
     return this.rootElement.querySelector(`q-menu-submenu[depth="${this.depth}"][expanded]`)
   }
 
   static queries: QueryDeclarations = {
-    anchorElement: { selector: 'a' },
+    anchorElement: { selector: ':scope > a' },
     rootElement: { selector: 'q-menu', closest: true },
     subMenuElement: { selector: 'q-menu-submenu' }
   }
@@ -91,7 +91,7 @@ export class MenuItemElement extends AriaMenuItemElement {
 
 export class MenuSubMenuElement extends AriaMenuSubMenuElement {
   get deep(): boolean {
-    let closest: AriaMenuSubMenuElement | null | undefined
+    let closest: MenuSubMenuElement | null | undefined
 
     closest = this.parentElement?.closest('q-menu-submenu')
     if (!closest) return false
@@ -100,7 +100,7 @@ export class MenuSubMenuElement extends AriaMenuSubMenuElement {
   }
 
   get depth(): number {
-    let n: number, closest: AriaMenuSubMenuElement | null | undefined
+    let n: number, closest: MenuSubMenuElement | null | undefined
 
     n = 0
     closest = this.parentElement?.closest('q-menu-submenu')
@@ -117,11 +117,11 @@ export class MenuSubMenuElement extends AriaMenuSubMenuElement {
     return ElementName.MENU_SUBMENU
   }
 
-  get shallowFocusedItemElement(): AriaMenuItemElement | null {
-    return this.querySelector(`q-menu-item[depth="${parseNumber(this.depth) + 1}"]:focus`)
+  get shallowFocusedItemElement(): MenuItemElement | null {
+    return this.querySelector(`q-menu-item[depth="${parseNumber(this.depth) + 1}"][focused]`)
   }
 
-  get shallowItemElements(): NodeListOf<AriaMenuItemElement> {
+  get shallowItemElements(): NodeListOf<MenuItemElement> {
     return this.querySelectorAll(`q-menu-item[depth="${parseNumber(this.depth) + 1}"]`)
   }
 

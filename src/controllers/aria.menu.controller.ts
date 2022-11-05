@@ -1,4 +1,4 @@
-import { ID } from '@queelag/core'
+import { ID, parseNumber } from '@queelag/core'
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@queelag/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import type { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../elements/aria/aria.menu.element'
@@ -73,13 +73,22 @@ export class AriaMenuItemController implements ReactiveController {
 
     if (this.host.anchorElement) {
       setImmutableElementAttribute(this.host, 'role', 'none')
+      setImmutableElementAttribute(this.host.anchorElement, 'tabindex', '-1')
 
       if (this.host.shallow) {
         setImmutableElementAttribute(this.host.anchorElement, 'aria-current', this.host.anchorElement.href === window.location.href ? 'page' : undefined)
       }
     }
 
-    setImmutableElementAttribute(this.host.anchorElement || this.host, 'tabindex', this.host.focused ? '0' : '-1')
+    switch (true) {
+      case this.host.focused:
+      case parseNumber(this.host.depth) === 0 && this.host.index === 0 && !this.host.rootElement.focusedItemElement:
+        setImmutableElementAttribute(this.host, 'tabindex', '0')
+        break
+      default:
+        setImmutableElementAttribute(this.host, 'tabindex', '-1')
+        break
+    }
   }
 }
 

@@ -7,6 +7,10 @@ export default class Alert extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-alert {
       width: 256px;
 

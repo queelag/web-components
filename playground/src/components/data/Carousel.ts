@@ -96,6 +96,10 @@ export default class Carousel extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-carousel {
       width: 384px;
       aspect-ratio: 16/9;

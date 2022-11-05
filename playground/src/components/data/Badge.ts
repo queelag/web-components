@@ -11,6 +11,10 @@ export default class Badge extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     :host {
       position: relative;
     }

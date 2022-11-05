@@ -1,6 +1,6 @@
 import { ElementName, QueryDeclarations } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
-import { AriaBreadcrumbController, AriaBreadcrumbListController, AriaBreadcrumbListItemController } from '../../controllers/aria.breadcrumb.controller'
+import { AriaBreadcrumbController, AriaBreadcrumbItemController, AriaBreadcrumbListController } from '../../controllers/aria.breadcrumb.controller'
 import { BaseElement } from '../core/base.element'
 
 declare global {
@@ -28,7 +28,7 @@ export class AriaBreadcrumbListElement extends BaseElement {
 }
 
 export class AriaBreadcrumbItemElement extends BaseElement {
-  protected aria: AriaBreadcrumbListItemController = new AriaBreadcrumbListItemController(this)
+  protected aria: AriaBreadcrumbItemController = new AriaBreadcrumbItemController(this)
 
   /**
    * PROPERTIES

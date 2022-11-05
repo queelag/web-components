@@ -1,8 +1,14 @@
 ---
+import Breadcrumb from '../../components/navigation/Breadcrumb'
+import Menu from '../../components/navigation/Menu'
 import NavigationBar from '../../components/navigation/NavigationBar'
+import Tabs from '../../components/navigation/Tabs'
 import Layout from '../../layouts/Layout.astro'
 ---
 
 <Layout>
+  <Breadcrumb client:load />
+  <Menu client:load />
   <NavigationBar client:load />
+  <Tabs client:load />
 </Layout>

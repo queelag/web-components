@@ -15,6 +15,7 @@ export class TabsElement extends AriaTabsElement {
   }
 
   static queries: QueryDeclarations = {
+    focusedTabElement: { selector: 'q-tabs-tab:focus' },
     panelElements: { selector: 'q-tabs-panel', all: true },
     selectedTabElement: { selector: 'q-tabs-tab[selected]' },
     tabElements: { selector: 'q-tabs-tab', all: true }

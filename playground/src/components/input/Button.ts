@@ -19,6 +19,10 @@ export default class Button extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-button[spinning] span.idle {
       display: none;
     }

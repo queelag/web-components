@@ -45,6 +45,10 @@ export default class Input extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     div.field {
       display: flex;
       flex-direction: column;

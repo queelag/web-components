@@ -1,5 +1,15 @@
-import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/core'
-import { arrow, autoUpdate, AutoUpdateOptions, computePosition, ComputePositionConfig, ComputePositionReturn } from '@floating-ui/dom'
+import {
+  arrow,
+  autoUpdate,
+  AutoUpdateOptions,
+  computePosition,
+  ComputePositionConfig,
+  ComputePositionReturn,
+  Middleware,
+  Placement,
+  Platform,
+  Strategy
+} from '@floating-ui/dom'
 import { deleteShallowObjectUndefinedProperties, tcp } from '@queelag/core'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base.element'

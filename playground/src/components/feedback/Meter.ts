@@ -29,6 +29,10 @@ export default class Meter extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     div.background {
       width: 100%;
       height: 100%;

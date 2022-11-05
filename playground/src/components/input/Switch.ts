@@ -13,6 +13,10 @@ export default class Switch extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-switch {
       width: 64px;
       height: 32px;

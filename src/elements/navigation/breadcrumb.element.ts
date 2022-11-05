@@ -3,9 +3,9 @@ import { AriaBreadcrumbElement, AriaBreadcrumbItemElement, AriaBreadcrumbListEle
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-breadcrumb': AriaBreadcrumbElement
-    'q-aria-breadcrumb-item': AriaBreadcrumbItemElement
-    'q-aria-breadcrumb-list': AriaBreadcrumbListElement
+    'q-breadcrumb': BreadcrumbElement
+    'q-breadcrumb-item': BreadcrumbItemElement
+    'q-breadcrumb-list': BreadcrumbListElement
   }
 }
 
@@ -27,6 +27,6 @@ export class BreadcrumbItemElement extends AriaBreadcrumbItemElement {
   }
 }
 
-customElements.define('q-aria-breadcrumb', AriaBreadcrumbElement)
-customElements.define('q-aria-breadcrumb-item', AriaBreadcrumbItemElement)
-customElements.define('q-aria-breadcrumb-list', AriaBreadcrumbListElement)
+customElements.define('q-breadcrumb', BreadcrumbElement)
+customElements.define('q-breadcrumb-item', BreadcrumbItemElement)
+customElements.define('q-breadcrumb-list', BreadcrumbListElement)

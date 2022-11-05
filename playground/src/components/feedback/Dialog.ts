@@ -36,6 +36,10 @@ export default class Dialog extends LitElement {
   }
 
   static styles?: CSSResultGroup | undefined = css`
+    * {
+      box-sizing: border-box;
+    }
+
     q-dialog {
       width: 256px;
 

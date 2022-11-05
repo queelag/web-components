@@ -1,5 +1,10 @@
 ---
+import Accordion from '../../components/surface/Accordion'
+import Disclosure from '../../components/surface/Disclosure'
 import Layout from '../../layouts/Layout.astro'
 ---
 
-<Layout />
+<Layout>
+  <Accordion client:load />
+  <Disclosure client:load />
+</Layout>

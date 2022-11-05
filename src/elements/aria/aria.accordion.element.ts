@@ -1,5 +1,5 @@
 import { ElementName, HeadingLevel, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
-import { PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import {
   AriaAccordionButtonController,
   AriaAccordionHeaderController,
@@ -132,8 +132,8 @@ export class AriaAccordionSectionElement extends BaseElement {
   /**
    * PROPERTIES
    */
-  collapsable?: boolean
   expanded?: boolean
+  noncollapsible?: boolean
 
   /**
    * QUERIES
@@ -142,7 +142,7 @@ export class AriaAccordionSectionElement extends BaseElement {
   panelElement?: AriaAccordionPanelElement
 
   collapse(): void {
-    if (this.collapsable === false) {
+    if (this.noncollapsible) {
       return
     }
 
@@ -167,8 +167,8 @@ export class AriaAccordionSectionElement extends BaseElement {
   }
 
   static properties: PropertyDeclarations = {
-    collapsable: { type: Boolean, reflect: true },
-    expanded: { type: Boolean, reflect: true }
+    expanded: { type: Boolean, reflect: true },
+    noncollapsible: { type: Boolean, reflect: true }
   }
 }
 
@@ -200,16 +200,32 @@ export class AriaAccordionButtonElement extends BaseElement {
 
   connectedCallback(): void {
     super.connectedCallback()
+
     this.addEventListener('click', this.onClick)
+    this.addEventListener('keydown', this.onKeyDown)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
+
     this.removeEventListener('click', this.onClick)
+    this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onClick = (): void => {
-    if (this.sectionElement.collapsable === false && this.sectionElement.expanded) {
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {
+      return
+    }
+
+    event.preventDefault()
+    event.stopPropagation()
+
+    this.click()
+    WebElementLogger.verbose(this.uid, 'onKeyDown', `The button has been clicked.`)
+  }
+
+  onClick(): void {
+    if (this.sectionElement.noncollapsible && this.sectionElement.expanded) {
       WebElementLogger.verbose(this.sectionElement.uid, 'onClick', `The section isn't collapsable.`)
       return
     }
@@ -238,6 +254,15 @@ export class AriaAccordionButtonElement extends BaseElement {
     rootElement: { selector: 'q-aria-accordion', closest: true },
     sectionElement: { selector: 'q-aria-accordion-section', closest: true }
   }
+
+  static styles: CSSResultGroup = [
+    super.styles,
+    css`
+      :host {
+        cursor: pointer;
+      }
+    `
+  ]
 }
 
 export class AriaAccordionPanelElement extends BaseElement {

@@ -68,6 +68,6 @@ export class AccordionPanelElement extends AriaAccordionPanelElement {
 
 customElements.define('q-accordion', AccordionElement)
 customElements.define('q-accordion-button', AccordionButtonElement)
-customElements.define('q-accordion-header', AriaAccordionHeaderElement)
+customElements.define('q-accordion-header', AccordionHeaderElement)
 customElements.define('q-accordion-panel', AccordionPanelElement)
 customElements.define('q-accordion-section', AccordionSectionElement)

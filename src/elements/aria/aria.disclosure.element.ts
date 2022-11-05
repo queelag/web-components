@@ -1,5 +1,5 @@
 import { ElementName, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
-import { PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaDisclosureButtonController, AriaDisclosurePanelController, AriaDisclosureSectionController } from '../../controllers/aria.disclosure.controller'
 import { BaseElement } from '../core/base.element'
 
@@ -99,17 +99,33 @@ export class AriaDisclosureButtonElement extends BaseElement {
 
   connectedCallback(): void {
     super.connectedCallback()
+
     this.addEventListener('click', this.onClick)
+    this.addEventListener('keydown', this.onKeyDown)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
+
     this.addEventListener('click', this.onClick)
+    this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onClick = (): void => {
+  onClick(): void {
     this.sectionElement.expanded = !this.sectionElement.expanded
     WebElementLogger.verbose(this.uid, 'onClick', `The section has been ${this.sectionElement.expanded ? 'expanded' : 'collapsed'}.`)
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {
+      return
+    }
+
+    event.preventDefault()
+    event.stopPropagation()
+
+    this.click()
+    WebElementLogger.verbose(this.uid, 'onKeyDown', `The button has been clicked.`)
   }
 
   get name(): ElementName {
@@ -119,6 +135,15 @@ export class AriaDisclosureButtonElement extends BaseElement {
   static queries: QueryDeclarations = {
     sectionElement: { selector: 'q-aria-disclosure-section', closest: true }
   }
+
+  static styles: CSSResultGroup = [
+    super.styles,
+    css`
+      :host {
+        cursor: pointer;
+      }
+    `
+  ]
 }
 
 export class AriaDisclosurePanelElement extends BaseElement {
