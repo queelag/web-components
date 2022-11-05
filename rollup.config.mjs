@@ -35,5 +35,5 @@ export default defineConfig({
       format: 'esm'
     }
   ],
-  plugins: [minifyHTML(), strip({ include: ['src/**/*.ts'], functions: ['[a-zA-Z]+Logger.(verbose|debug|info)'] }), terser(), typescript()]
+  plugins: [minifyHTML.default(), strip({ include: ['src/**/*.ts'], functions: ['[a-zA-Z]+Logger.(verbose|debug|info)'] }), terser(), typescript()]
 })
