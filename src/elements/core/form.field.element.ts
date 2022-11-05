@@ -1,4 +1,11 @@
-import { FormFieldElementCollector, FormFieldElementSchema, FormFieldElementTarget, FormFieldElementValidation, WebElementLogger } from '@queelag/web'
+import {
+  FormFieldElementCollector,
+  FormFieldElementSchema,
+  FormFieldElementTarget,
+  FormFieldElementValidation,
+  StateChangeEvent,
+  WebElementLogger
+} from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base.element'
 
@@ -47,12 +54,18 @@ export class FormFieldElement extends BaseElement {
   }
 
   validate(): void {
+    let old: FormFieldElementValidation | undefined
+
     if (!this.schema) {
       return
     }
 
+    old = this.validation
+
     this.validation = this.schema.validate(this.value)
-    WebElementLogger.verbose(this.uid, 'validate', `The value has been validated against the schema.`, this.validation)
+    // WebElementLogger.verbose(this.uid, 'validate', `The value has been validated against the schema.`, this.validation)
+
+    this.dispatchEvent(new StateChangeEvent('validation', old, this.validation))
   }
 
   clear(): void {
@@ -115,7 +128,8 @@ export class FormFieldElement extends BaseElement {
 
     this.validate()
     this.requestUpdate('value', old, value)
-    // this.dispatchEvent(new StateChangeEvent('value', old, value))
+
+    this.dispatchEvent(new StateChangeEvent('value', old, value))
   }
 
   get isErrorVisible(): boolean {

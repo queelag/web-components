@@ -1,7 +1,7 @@
 import { css, CSSResultGroup, html, LitElement } from 'lit'
-import '../../../src/elements/data/avatar.element'
-import '../../../src/elements/data/icon.element'
-import '../../../src/elements/data/image.element'
+import '../../../../src/elements/data/avatar.element'
+import '../../../../src/elements/data/icon.element'
+import '../../../../src/elements/data/image.element'
 
 export default class Avatar extends LitElement {
   protected render(): unknown {

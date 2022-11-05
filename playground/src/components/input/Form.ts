@@ -1,8 +1,8 @@
 import { sleep } from '@queelag/core'
 import type { FormSubmitEvent } from '@queelag/web'
 import { html, LitElement } from 'lit'
-import '../../../src/elements/input/form.element'
-import '../../../src/elements/input/input.element'
+import '../../../../src/elements/input/form.element'
+import '../../../../src/elements/input/input.element'
 
 export default class Form extends LitElement {
   async onSubmit(event: FormSubmitEvent): Promise<void> {

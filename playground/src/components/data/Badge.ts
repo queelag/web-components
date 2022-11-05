@@ -1,6 +1,6 @@
 import { css, CSSResultGroup, html, LitElement } from 'lit'
-import '../../../src/elements/data/avatar.element'
-import '../../../src/elements/data/badge.element'
+import '../../../../src/elements/data/avatar.element'
+import '../../../../src/elements/data/badge.element'
 
 export default class Badge extends LitElement {
   protected render(): unknown {

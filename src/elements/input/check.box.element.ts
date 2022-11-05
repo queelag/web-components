@@ -16,8 +16,6 @@ export class CheckBoxElement extends AriaCheckBoxElement {
   }
 
   onClick(): void {
-    super.onClick()
-
     if (this.disabled || this.readonly) {
       return WebElementLogger.warn(this.id, 'onClick', `Execution stopped, disabled is truthy.`)
     }
@@ -34,7 +32,7 @@ export class CheckBoxElement extends AriaCheckBoxElement {
     }
 
     return html`
-      <div @click=${this.onClick} style=${this.styleMap}>
+      <div style=${this.styleMap}>
         <slot></slot>
       </div>
       ${this.shapeHTML}
@@ -51,6 +49,7 @@ export class CheckBoxElement extends AriaCheckBoxElement {
 
   set value(value: boolean | undefined) {
     super.value = value
+    this.checked = value
   }
 
   static styles: CSSResultGroup = [

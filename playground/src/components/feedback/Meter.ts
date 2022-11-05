@@ -1,7 +1,7 @@
 import { getNumberPercentage } from '@queelag/core'
 import type { StateChangeEvent } from '@queelag/web'
 import { css, CSSResultGroup, html, LitElement, PropertyDeclarations } from 'lit'
-import '../../../src/elements/feedback/meter.element'
+import '../../../../src/elements/feedback/meter.element'
 
 export default class Meter extends LitElement {
   percentage: number = getNumberPercentage(50, 0, 100)

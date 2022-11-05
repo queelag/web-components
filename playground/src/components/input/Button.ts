@@ -1,7 +1,7 @@
 import { sleep } from '@queelag/core'
 import type { ButtonClickEvent } from '@queelag/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
-import '../../../src/elements/input/button.element'
+import '../../../../src/elements/input/button.element'
 
 export default class Button extends LitElement {
   async onClick(event: ButtonClickEvent): Promise<void> {

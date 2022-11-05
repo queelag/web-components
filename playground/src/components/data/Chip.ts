@@ -1,6 +1,6 @@
 import { css, CSSResultGroup, html, LitElement } from 'lit'
-import '../../../src/elements/data/chip.element'
-import '../../../src/elements/data/icon.element'
+import '../../../../src/elements/data/chip.element'
+import '../../../../src/elements/data/icon.element'
 
 export default class Chip extends LitElement {
   protected render(): unknown {

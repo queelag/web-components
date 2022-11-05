@@ -1,7 +1,7 @@
 import { css, CSSResultGroup, html, LitElement } from 'lit'
 import { createRef, ref, Ref } from 'lit/directives/ref.js'
-import type { NavigationBarElement } from '../../../src'
-import '../../../src/elements/navigation/navigation.bar.element'
+import type { NavigationBarElement } from '../../../../src'
+import '../../../../src/elements/navigation/navigation.bar.element'
 
 export default class NavigationBar extends LitElement {
   ref: Ref<NavigationBarElement> = createRef()
