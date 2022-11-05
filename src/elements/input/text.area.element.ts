@@ -161,7 +161,7 @@ export class TextAreaElement extends FormFieldElement {
         placeholder=${ifdef(this.placeholder)}
         rows=${ifdef(this.rows)}
         style=${this.textAreaElementStyle}
-        value=${ifdef(this.textAreaElementValue)}
+        .value=${ifdef(this.textAreaElementValue)}
       ></textarea>
       <span></span>
     `
