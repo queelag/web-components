@@ -63,7 +63,7 @@
   },
   "repository": "https://github.com/queelag/web-components",
   "scripts": {
-    "test": "vitest --coverage",
+    "test": "vitest run --coverage",
     "test:elements": "yarn web-test-runner tests/**/*.test.ts --node-resolve",
     "build": "rm -rf dist && yarn rollup -c && yarn api-extractor run --local",
     "tarball": "yarn version && cp package.json dist/. && cd dist && yarn pack",
