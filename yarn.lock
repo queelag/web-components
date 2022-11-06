@@ -590,10 +590,10 @@
   dependencies:
     tsm "^2.1.4"
 
-"@queelag/core@^1.1.10":
-  version "1.1.10"
-  resolved "https://npm.pkg.github.com/download/@queelag/core/1.1.10/67232337b4f97e56aad6d0c1665a772862ba2abd#67232337b4f97e56aad6d0c1665a772862ba2abd"
-  integrity sha512-4qa/Bqm8TWJmJkMR4ztX2QEiwK3vNzzpB0BUnkciWZooKN0R9wjXioovViyaEMzLqlSdN1z8he8lewCt3JIjtg==
+"@queelag/core@^1.1.12":
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/@queelag/core/-/core-1.1.12.tgz#107a2b60bceb86d0c7202b7227262f611ebb8420"
+  integrity sha512-+ycr3eU9uhZlYt61OJKSWhO8AtwbpBTvjwhvjCQL4BegcNWiJHjfhEandUA0ej9+wngQRCav/ERqMc+hPSAnPA==
   dependencies:
     "@types/cookie" "^0.5.1"
     cookie "^0.5.0"
@@ -602,10 +602,10 @@
     node-fetch-cjs "^3.2.10"
     rfc4648 "^1.5.2"
 
-"@queelag/web@^1.0.8":
-  version "1.0.8"
-  resolved "https://npm.pkg.github.com/download/@queelag/web/1.0.8/65bcdfcefb6f768ce0feb935b106d5ad09633836#65bcdfcefb6f768ce0feb935b106d5ad09633836"
-  integrity sha512-VUX8D5LbQp7gOTDT8ygMvbeyDHLrYO34Kfdv9mWtlLze9zEQZ7b+SYkSV9SH7vYnnok2l7dNRtnXWgiWX2nKEQ==
+"@queelag/web@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@queelag/web/-/web-1.0.10.tgz#497d5f5f97f6abee33705be24b81645499a719e7"
+  integrity sha512-kx2AlgndjJdrfvbtCq+VPKg2ehScfWectJ839cvgiDeJjK4Wc8JzFZLjNcjVNQc0hmK8db63vgjDo6YE/an+ZQ==
 
 "@rollup/plugin-strip@^3.0.1":
   version "3.0.1"

@@ -4,7 +4,8 @@ export default defineConfig({
   test: {
     coverage: {
       exclude: ['src/index.ts'],
-      include: ['src/**/*.ts']
+      include: ['src/**/*.ts'],
+      reporter: ['lcov']
     },
     environment: 'jsdom',
     globals: true,

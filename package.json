@@ -5,8 +5,8 @@
     "@astrojs/tailwind": "^2.1.2",
     "@floating-ui/dom": "^1.0.4",
     "@microsoft/api-extractor": "^7.33.5",
-    "@queelag/core": "^1.1.10",
-    "@queelag/web": "^1.0.8",
+    "@queelag/core": "^1.1.12",
+    "@queelag/web": "^1.0.10",
     "@rollup/plugin-strip": "^3.0.1",
     "@rollup/plugin-typescript": "^9.0.2",
     "@types/dompurify": "^2.3.4",
@@ -37,12 +37,12 @@
   "main": "index.js",
   "name": "@queelag/web-components",
   "peerDependencies": {
-    "@floating-ui/dom": ">= 1.0.1",
-    "@queelag/core": ">= 1.1.0",
-    "@queelag/web": ">= 1.0.0",
+    "@floating-ui/dom": ">= 1.0.4",
+    "@queelag/core": ">= 1.1.12",
+    "@queelag/web": ">= 1.0.10",
     "dompurify": ">= 2.4.0",
     "focus-trap": ">= 7.0.0",
-    "tabbable": ">= 6.0.0"
+    "tabbable": ">= 6.0.1"
   },
   "peerDependenciesMeta": {
     "@floating-ui/dom": {
@@ -58,16 +58,12 @@
       "optional": true
     }
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "repository": "https://github.com/queelag/web-components",
   "scripts": {
     "test": "vitest run --coverage",
-    "test:elements": "yarn web-test-runner tests/**/*.test.ts --node-resolve",
     "build": "rm -rf dist && yarn rollup -c && yarn api-extractor run --local",
-    "tarball": "yarn version && cp package.json dist/. && cd dist && yarn pack",
-    "deploy": "yarn test && yarn build && yarn tarball && yarn publish dist/*.tgz --access public",
+    "tarball": "yarn version && cp package.json README.md dist/. && cd dist && yarn pack",
+    "deploy": "yarn test && yarn build && yarn tarball && yarn publish dist/*.tgz",
     "playground:dev": "yarn astro dev --root ./playground",
     "playground:build": "yarn astro build --root ./playground",
     "playground:preview": "yarn astro preview --root ./playground"
