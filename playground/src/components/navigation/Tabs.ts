@@ -10,7 +10,6 @@ export default class Tabs extends LitElement {
 
   onSelectionChange(event: TabsSelectionChangeEvent<TabsTabElement>): void {
     this.index = event.detail?.selectedTabIndex ?? 0
-    console.log(this.index)
   }
 
   protected render(): unknown {

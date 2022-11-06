@@ -124,8 +124,6 @@ export class FocusTrapElement extends BaseElement {
       }
     }
 
-    console.log(options)
-
     return deleteDeepObjectUndefinedProperties(options)
   }
 
