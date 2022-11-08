@@ -25,8 +25,8 @@ export class AriaListBoxElement extends BaseElement {
    * PROPERTIES
    */
   multiple?: boolean
-  selectionFollowsFocus?: boolean
   selectFirstOptionOnFocus?: boolean
+  selectionFollowsFocus?: boolean
   typeaheadDebounceTime?: number
   typeaheadPredicate?: TypeaheadPredicate<AriaListBoxOptionElement>
 

@@ -18,8 +18,6 @@ export class AriaDialogElement extends FocusTrapElement {
   /**
    * PROPERTIES
    */
-  description?: string
-  label?: string
   lockBodyScroll?: boolean
   visible?: boolean
 
@@ -82,8 +80,6 @@ export class AriaDialogElement extends FocusTrapElement {
   }
 
   static properties: PropertyDeclarations = {
-    description: { type: String, reflect: true },
-    label: { type: String, reflect: true },
     lockBodyScroll: { type: Boolean, attribute: 'lock-body-scroll', reflect: true },
     visible: { type: Boolean, reflect: true }
   }

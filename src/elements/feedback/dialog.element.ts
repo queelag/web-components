@@ -1,4 +1,5 @@
 import { ElementName, QueryDeclarations } from '@queelag/web'
+import { PropertyDeclarations } from 'lit'
 import { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../aria/aria.dialog.element'
 
 declare global {
@@ -10,8 +11,16 @@ declare global {
 }
 
 export class DialogElement extends AriaDialogElement {
+  description?: string
+  label?: string
+
   get name(): ElementName {
     return ElementName.DIALOG
+  }
+
+  static properties: PropertyDeclarations = {
+    description: { type: String, reflect: true },
+    label: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {

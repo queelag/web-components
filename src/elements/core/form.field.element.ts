@@ -10,9 +10,6 @@ import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base.element'
 
 export class FormFieldElement extends BaseElement {
-  private _schema?: FormFieldElementSchema
-  private _target?: FormFieldElementTarget
-
   /**
    * PROPERTIES
    */
@@ -32,6 +29,8 @@ export class FormFieldElement extends BaseElement {
   /**
    * INTERNAL
    */
+  private _schema?: FormFieldElementSchema
+  private _target?: FormFieldElementTarget
   private _value: any
 
   connectedCallback(): void {

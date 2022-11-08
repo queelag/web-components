@@ -170,7 +170,6 @@ export class SelectListElement extends AriaComboBoxListElement {
 
 export class SelectOptionElement extends AriaComboBoxOptionElement {
   label?: string
-  value?: any
 
   onClick(): void {
     super.onClick()
@@ -196,8 +195,7 @@ export class SelectOptionElement extends AriaComboBoxOptionElement {
   }
 
   static properties: PropertyDeclarations = {
-    label: { type: String, reflect: true },
-    value: {}
+    label: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {

@@ -20,6 +20,7 @@ export class AriaTooltipElement extends BaseElement {
    * PROPERTIES
    */
   focusable?: boolean
+  showOnMouseEnter?: boolean
   visible?: boolean
 
   /**
@@ -54,6 +55,7 @@ export class AriaTooltipElement extends BaseElement {
 
   static properties: PropertyDeclarations = {
     focusable: { type: Boolean, reflect: true },
+    showOnMouseEnter: { type: Boolean, attribute: 'show-on-mouse-enter', reflect: true },
     visible: { type: Boolean, reflect: true }
   }
 
@@ -170,6 +172,10 @@ export class AriaTooltipTriggerElement extends BaseElement {
   }
 
   onMouseEnter = (): void => {
+    if (!this.rootElement.showOnMouseEnter) {
+      return
+    }
+
     this.rootElement.visible = true
     WebElementLogger.verbose(this.uid, 'onMouseEnter', `The tooltip has been shown.`)
   }
