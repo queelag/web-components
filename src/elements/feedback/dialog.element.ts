@@ -1,4 +1,4 @@
-import { ElementName, QueryDeclarations } from '@queelag/web'
+import { DialogDescriptionElementEventMap, DialogElementEventMap, DialogLabelElementEventMap, ElementName, QueryDeclarations } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../aria/aria.dialog.element'
 
@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-export class DialogElement extends AriaDialogElement {
+export class DialogElement<E extends DialogElementEventMap = DialogElementEventMap> extends AriaDialogElement<E> {
   description?: string
   label?: string
 
@@ -29,13 +29,13 @@ export class DialogElement extends AriaDialogElement {
   }
 }
 
-export class DialogLabelElement extends AriaDialogLabelElement {
+export class DialogLabelElement<E extends DialogLabelElementEventMap = DialogElementEventMap> extends AriaDialogLabelElement<E> {
   get name(): ElementName {
     return ElementName.DIALOG_LABEL
   }
 }
 
-export class DialogDescriptionElement extends AriaDialogDescriptionElement {
+export class DialogDescriptionElement<E extends DialogDescriptionElementEventMap = DialogElementEventMap> extends AriaDialogDescriptionElement<E> {
   get name(): ElementName {
     return ElementName.DIALOG_DESCRIPTION
   }

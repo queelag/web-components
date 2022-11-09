@@ -1,4 +1,4 @@
-import { Orientation } from '@queelag/web'
+import { DividerElementEventMap, Orientation } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { choose } from '../../directives/choose'
@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-export class DividerElement extends BaseElement {
+export class DividerElement<E extends DividerElementEventMap = DividerElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */

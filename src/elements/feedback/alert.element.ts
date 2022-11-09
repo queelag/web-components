@@ -1,4 +1,4 @@
-import { AlertSeverity, AlertVariant, ElementName } from '@queelag/web'
+import { AlertElementEventMap, AlertSeverity, AlertVariant, ElementName } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaAlertElement } from '../aria/aria.alert.element'
 
@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-export class AlertElement extends AriaAlertElement {
+export class AlertElement<E extends AlertElementEventMap = AlertElementEventMap> extends AriaAlertElement<E> {
   /**
    * PROPERTIES
    */

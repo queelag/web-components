@@ -1,4 +1,4 @@
-import { WebElementLogger } from '@queelag/web'
+import { SwitchElementEventMap, WebElementLogger } from '@queelag/web'
 import { css, CSSResult, CSSResultGroup } from 'lit'
 import { html } from 'lit-html'
 import { AriaSwitchElement } from '../aria/aria.switch.element'
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class SwitchElement extends AriaSwitchElement {
+export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventMap> extends AriaSwitchElement<E> {
   private onChange(event: Event): void {
     // @ts-ignore
     this.value = event.target.value === '1'

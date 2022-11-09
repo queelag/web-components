@@ -1,5 +1,16 @@
 import { removeArrayItems } from '@queelag/core'
-import { ElementName, QueryDeclarations, SelectOption, WebElementLogger } from '@queelag/web'
+import {
+  ElementName,
+  QueryDeclarations,
+  SelectButtonElementEventMap,
+  SelectElementEventMap,
+  SelectGroupElementEventMap,
+  SelectInputElementEventMap,
+  SelectListElementEventMap,
+  SelectOption,
+  SelectOptionElementEventMap,
+  WebElementLogger
+} from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { map } from '../../directives/map'
@@ -23,7 +34,7 @@ declare global {
   }
 }
 
-export class SelectElement extends AriaComboBoxElement {
+export class SelectElement<E extends SelectElementEventMap = SelectElementEventMap> extends AriaComboBoxElement<E> {
   /**
    * PROPERTIES
    */
@@ -126,13 +137,13 @@ export class SelectElement extends AriaComboBoxElement {
   }
 }
 
-export class SelectGroupElement extends AriaComboBoxGroupElement {
+export class SelectGroupElement<E extends SelectGroupElementEventMap = SelectGroupElementEventMap> extends AriaComboBoxGroupElement<E> {
   get name(): ElementName {
     return ElementName.SELECT_GROUP
   }
 }
 
-export class SelectButtonElement extends AriaComboBoxButtonElement {
+export class SelectButtonElement<E extends SelectButtonElementEventMap = SelectButtonElementEventMap> extends AriaComboBoxButtonElement<E> {
   get name(): ElementName {
     return ElementName.SELECT_BUTTON
   }
@@ -142,7 +153,7 @@ export class SelectButtonElement extends AriaComboBoxButtonElement {
   }
 }
 
-export class SelectInputElement extends AriaComboBoxInputElement {
+export class SelectInputElement<E extends SelectInputElementEventMap = SelectInputElementEventMap> extends AriaComboBoxInputElement<E> {
   clear(): void {
     super.clear()
     this.rootElement.clear()
@@ -158,7 +169,7 @@ export class SelectInputElement extends AriaComboBoxInputElement {
   }
 }
 
-export class SelectListElement extends AriaComboBoxListElement {
+export class SelectListElement<E extends SelectListElementEventMap = SelectListElementEventMap> extends AriaComboBoxListElement<E> {
   get name(): ElementName {
     return ElementName.SELECT_LIST
   }
@@ -168,7 +179,7 @@ export class SelectListElement extends AriaComboBoxListElement {
   }
 }
 
-export class SelectOptionElement extends AriaComboBoxOptionElement {
+export class SelectOptionElement<E extends SelectOptionElementEventMap = SelectOptionElementEventMap> extends AriaComboBoxOptionElement<E> {
   label?: string
 
   onClick(): void {

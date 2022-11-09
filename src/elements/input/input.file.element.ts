@@ -1,5 +1,5 @@
 import { deserializeFile, DeserializeFileOptions, QueelagFile, removeArrayItems } from '@queelag/core'
-import { ElementName, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import { ElementName, InputFileElementEventMap, QueryDeclarations, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { FormFieldElement } from '../core/form.field.element'
@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-export class InputFileElement extends FormFieldElement {
+export class InputFileElement<E extends InputFileElementEventMap = InputFileElementEventMap> extends FormFieldElement<E> {
   /**
    * PROPERTIES
    */

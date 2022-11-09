@@ -6,6 +6,7 @@ import {
   DEFAULT_ICON_SVG_STRING,
   ElementName,
   getElementStyleCompatibleValue,
+  IconElementEventMap,
   IconElementSanitizeConfig,
   isStringSVG,
   SVG_NAMESPACE_URI,
@@ -27,7 +28,7 @@ declare global {
   }
 }
 
-export class IconElement extends BaseElement {
+export class IconElement<E extends IconElementEventMap = IconElementEventMap> extends BaseElement<E> {
   protected aria: AriaIconController = new AriaIconController(this)
 
   /**

@@ -1,4 +1,4 @@
-import { ElementName, WebElementLogger } from '@queelag/web'
+import { CheckBoxElementEventMap, ElementName, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup } from 'lit'
 import { html } from 'lit-html'
 import { AriaCheckBoxElement } from '../aria/aria.check.box.element'
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class CheckBoxElement extends AriaCheckBoxElement {
+export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElementEventMap> extends AriaCheckBoxElement<E> {
   private onChange(): void {
     this.value = !this.value
     this.touch()

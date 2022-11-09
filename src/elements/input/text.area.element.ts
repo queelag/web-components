@@ -1,5 +1,13 @@
 import { parseNumber, removeArrayItems } from '@queelag/core'
-import { ElementName, QueryDeclarations, TextAreaElementResize, TextAreaElementTouchTrigger, TextAreaElementValue, WebElementLogger } from '@queelag/web'
+import {
+  ElementName,
+  QueryDeclarations,
+  TextAreaElementEventMap,
+  TextAreaElementResize,
+  TextAreaElementTouchTrigger,
+  TextAreaElementValue,
+  WebElementLogger
+} from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
@@ -13,7 +21,7 @@ declare global {
   }
 }
 
-export class TextAreaElement extends FormFieldElement {
+export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMap> extends FormFieldElement<E> {
   /**
    * PROPERTIES
    */

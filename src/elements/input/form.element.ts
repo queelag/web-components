@@ -1,4 +1,4 @@
-import { ElementName, FormSubmitEvent, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import { ElementName, FormElementEventMap, FormSubmitEvent, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ifdef } from '../../directives/if.defined'
@@ -19,7 +19,7 @@ declare global {
   }
 }
 
-export class FormElement extends BaseElement {
+export class FormElement<E extends FormElementEventMap = FormElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */

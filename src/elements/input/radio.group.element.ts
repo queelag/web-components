@@ -1,4 +1,4 @@
-import { ElementName, QueryDeclarations, RadioButton, WebElementLogger } from '@queelag/web'
+import { ElementName, QueryDeclarations, RadioButton, RadioButtonElementEventMap, RadioGroupElementEventMap, WebElementLogger } from '@queelag/web'
 import { html, PropertyDeclarations } from 'lit'
 import { map } from '../../directives/map'
 import { AriaRadioButtonElement, AriaRadioGroupElement } from '../aria/aria.radio.group.element'
@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-export class RadioGroupElement extends AriaRadioGroupElement {
+export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupElementEventMap> extends AriaRadioGroupElement<E> {
   /**
    * PROPERTIES
    */
@@ -86,7 +86,7 @@ export class RadioGroupElement extends AriaRadioGroupElement {
   }
 }
 
-export class RadioButtonElement extends AriaRadioButtonElement {
+export class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButtonElementEventMap> extends AriaRadioButtonElement<E> {
   label?: string
   value?: any
 

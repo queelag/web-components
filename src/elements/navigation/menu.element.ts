@@ -1,5 +1,12 @@
 import { parseNumber } from '@queelag/core'
-import { ElementName, QueryDeclarations } from '@queelag/web'
+import {
+  ElementName,
+  MenuButtonElementEventMap,
+  MenuElementEventMap,
+  MenuItemElementEventMap,
+  MenuSubMenuElementEventMap,
+  QueryDeclarations
+} from '@queelag/web'
 import { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../aria/aria.menu.element'
 
 declare global {
@@ -11,7 +18,7 @@ declare global {
   }
 }
 
-export class MenuElement extends AriaMenuElement {
+export class MenuElement<E extends MenuElementEventMap = MenuElementEventMap> extends AriaMenuElement<E> {
   get name(): ElementName {
     return ElementName.MENU
   }
@@ -28,7 +35,7 @@ export class MenuElement extends AriaMenuElement {
   }
 }
 
-export class MenuButtonElement extends AriaMenuButtonElement {
+export class MenuButtonElement<E extends MenuButtonElementEventMap = MenuButtonElementEventMap> extends AriaMenuButtonElement<E> {
   get name(): ElementName {
     return ElementName.MENU_BUTTON
   }
@@ -38,7 +45,7 @@ export class MenuButtonElement extends AriaMenuButtonElement {
   }
 }
 
-export class MenuItemElement extends AriaMenuItemElement {
+export class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElementEventMap> extends AriaMenuItemElement<E> {
   get deep(): boolean {
     let closest: MenuItemElement | null | undefined
 
@@ -89,7 +96,7 @@ export class MenuItemElement extends AriaMenuItemElement {
   }
 }
 
-export class MenuSubMenuElement extends AriaMenuSubMenuElement {
+export class MenuSubMenuElement<E extends MenuSubMenuElementEventMap = MenuSubMenuElementEventMap> extends AriaMenuSubMenuElement<E> {
   get deep(): boolean {
     let closest: MenuSubMenuElement | null | undefined
 

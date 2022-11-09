@@ -6,6 +6,8 @@ import {
   DEFAULT_SLIDER_THUMB_VALUE,
   ElementName,
   QueryDeclarations,
+  SliderElementEventMap,
+  SliderThumbElementEventMap,
   WebElementLogger
 } from '@queelag/web'
 import { html } from 'lit-html'
@@ -18,7 +20,7 @@ declare global {
   }
 }
 
-export class SliderElement extends AriaSliderElement {
+export class SliderElement<E extends SliderElementEventMap = SliderElementEventMap> extends AriaSliderElement<E> {
   inputElement!: HTMLInputElement
 
   onInput(): void {
@@ -64,7 +66,7 @@ export class SliderElement extends AriaSliderElement {
   }
 }
 
-export class SliderThumbElement extends AriaSliderThumbElement {
+export class SliderThumbElement<E extends SliderThumbElementEventMap = SliderThumbElementEventMap> extends AriaSliderThumbElement<E> {
   get name(): ElementName {
     return ElementName.SLIDER_THUMB
   }

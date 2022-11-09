@@ -1,4 +1,4 @@
-import { ElementName, QueryDeclarations } from '@queelag/web'
+import { ElementName, QueryDeclarations, TabsElementEventMap, TabsPanelElementEventMap, TabsTabElementEventMap } from '@queelag/web'
 import { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../aria/aria.tabs.element'
 
 declare global {
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class TabsElement extends AriaTabsElement {
+export class TabsElement<E extends TabsElementEventMap = TabsElementEventMap> extends AriaTabsElement<E> {
   get name(): ElementName {
     return ElementName.TABS
   }
@@ -22,7 +22,7 @@ export class TabsElement extends AriaTabsElement {
   }
 }
 
-export class TabsTabElement extends AriaTabsTabElement {
+export class TabsTabElement<E extends TabsTabElementEventMap = TabsTabElementEventMap> extends AriaTabsTabElement<E> {
   get name(): ElementName {
     return ElementName.TABS_TAB
   }
@@ -32,7 +32,7 @@ export class TabsTabElement extends AriaTabsTabElement {
   }
 }
 
-export class TabsPanelElement extends AriaTabsPanelElement {
+export class TabsPanelElement<E extends TabsPanelElementEventMap = TabsPanelElementEventMap> extends AriaTabsPanelElement<E> {
   get name(): ElementName {
     return ElementName.TABS_PANEL
   }

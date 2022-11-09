@@ -2,6 +2,7 @@ import { parseNumber, removeArrayItems, TextCodec } from '@queelag/core'
 import {
   DEFAULT_INPUT_TYPE,
   ElementName,
+  InputElementEventMap,
   InputElementTouchTrigger,
   InputElementType,
   InputElementValue,
@@ -21,7 +22,7 @@ declare global {
   }
 }
 
-export class InputElement extends FormFieldElement {
+export class InputElement<E extends InputElementEventMap = InputElementEventMap> extends FormFieldElement<E> {
   /**
    * PROPERTIES
    */

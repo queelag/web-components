@@ -1,4 +1,10 @@
-import { ElementName, NavigationRailItemElementAttributes, WebElementLogger } from '@queelag/web'
+import {
+  ElementName,
+  NavigationRailElementEventMap,
+  NavigationRailItemElementAttributes,
+  NavigationRailItemElementEventMap,
+  WebElementLogger
+} from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
@@ -9,7 +15,7 @@ declare global {
   }
 }
 
-export class NavigationRailElement extends BaseElement {
+export class NavigationRailElement<E extends NavigationRailElementEventMap = NavigationRailElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -35,7 +41,7 @@ export class NavigationRailElement extends BaseElement {
   }
 }
 
-export class NavigationRailItemElement extends BaseElement {
+export class NavigationRailItemElement<E extends NavigationRailItemElementEventMap = NavigationRailItemElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */

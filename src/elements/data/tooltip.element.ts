@@ -1,4 +1,11 @@
-import { ElementName, QueryDeclarations } from '@queelag/web'
+import {
+  ElementName,
+  QueryDeclarations,
+  TooltipArrowElementEventMap,
+  TooltipContentElementEventMap,
+  TooltipElementEventMap,
+  TooltipTriggerElementEventMap
+} from '@queelag/web'
 import { AriaTooltipArrowElement, AriaTooltipContentElement, AriaTooltipElement, AriaTooltipTriggerElement } from '../aria/aria.tooltip.element'
 
 declare global {
@@ -10,7 +17,7 @@ declare global {
   }
 }
 
-export class TooltipElement extends AriaTooltipElement {
+export class TooltipElement<E extends TooltipElementEventMap = TooltipElementEventMap> extends AriaTooltipElement<E> {
   get name(): ElementName {
     return ElementName.TOOLTIP
   }
@@ -22,13 +29,13 @@ export class TooltipElement extends AriaTooltipElement {
   }
 }
 
-export class TooltipArrowElement extends AriaTooltipArrowElement {
+export class TooltipArrowElement<E extends TooltipArrowElementEventMap = TooltipArrowElementEventMap> extends AriaTooltipArrowElement<E> {
   get name(): ElementName {
     return ElementName.TOOLTIP_ARROW
   }
 }
 
-export class TooltipContentElement extends AriaTooltipContentElement {
+export class TooltipContentElement<E extends TooltipContentElementEventMap = TooltipContentElementEventMap> extends AriaTooltipContentElement<E> {
   get name(): ElementName {
     return ElementName.TOOLTIP_CONTENT
   }
@@ -38,7 +45,7 @@ export class TooltipContentElement extends AriaTooltipContentElement {
   }
 }
 
-export class TooltipTriggerElement extends AriaTooltipTriggerElement {
+export class TooltipTriggerElement<E extends TooltipTriggerElementEventMap = TooltipTriggerElementEventMap> extends AriaTooltipTriggerElement<E> {
   get name(): ElementName {
     return ElementName.TOOLTIP_TRIGGER
   }

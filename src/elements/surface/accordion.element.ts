@@ -1,4 +1,12 @@
-import { ElementName, QueryDeclarations } from '@queelag/web'
+import {
+  AccordionButtonElementEventMap,
+  AccordionElementEventMap,
+  AccordionHeaderElementEventMap,
+  AccordionPanelElementEventMap,
+  AccordionSectionElementEventMap,
+  ElementName,
+  QueryDeclarations
+} from '@queelag/web'
 import {
   AriaAccordionButtonElement,
   AriaAccordionElement,
@@ -17,7 +25,7 @@ declare global {
   }
 }
 
-export class AccordionElement extends AriaAccordionElement {
+export class AccordionElement<E extends AccordionElementEventMap = AccordionElementEventMap> extends AriaAccordionElement<E> {
   get name(): ElementName {
     return ElementName.ACCORDION
   }
@@ -28,7 +36,7 @@ export class AccordionElement extends AriaAccordionElement {
   }
 }
 
-export class AccordionSectionElement extends AriaAccordionSectionElement {
+export class AccordionSectionElement<E extends AccordionSectionElementEventMap = AccordionSectionElementEventMap> extends AriaAccordionSectionElement<E> {
   get name(): ElementName {
     return ElementName.ACCORDION_SECTION
   }
@@ -39,13 +47,13 @@ export class AccordionSectionElement extends AriaAccordionSectionElement {
   }
 }
 
-export class AccordionHeaderElement extends AriaAccordionHeaderElement {
+export class AccordionHeaderElement<E extends AccordionHeaderElementEventMap = AccordionHeaderElementEventMap> extends AriaAccordionHeaderElement<E> {
   get name(): ElementName {
     return ElementName.ACCORDION_HEADER
   }
 }
 
-export class AccordionButtonElement extends AriaAccordionButtonElement {
+export class AccordionButtonElement<E extends AccordionButtonElementEventMap = AccordionButtonElementEventMap> extends AriaAccordionButtonElement<E> {
   get name(): ElementName {
     return ElementName.ACCORDION_BUTTON
   }
@@ -56,7 +64,7 @@ export class AccordionButtonElement extends AriaAccordionButtonElement {
   }
 }
 
-export class AccordionPanelElement extends AriaAccordionPanelElement {
+export class AccordionPanelElement<E extends AccordionPanelElementEventMap = AccordionPanelElementEventMap> extends AriaAccordionPanelElement<E> {
   get name(): ElementName {
     return ElementName.ACCORDION_PANEL
   }

@@ -1,4 +1,11 @@
-import { ElementName, QueryDeclarations } from '@queelag/web'
+import {
+  DisclosureButtonElementEventMap,
+  DisclosureElementEventMap,
+  DisclosurePanelElementEventMap,
+  DisclosureSectionElementEventMap,
+  ElementName,
+  QueryDeclarations
+} from '@queelag/web'
 import { AriaDisclosureButtonElement, AriaDisclosureElement, AriaDisclosurePanelElement, AriaDisclosureSectionElement } from '../aria/aria.disclosure.element'
 
 declare global {
@@ -10,7 +17,7 @@ declare global {
   }
 }
 
-export class DisclosureElement extends AriaDisclosureElement {
+export class DisclosureElement<E extends DisclosureElementEventMap = DisclosureElementEventMap> extends AriaDisclosureElement<E> {
   get name(): ElementName {
     return ElementName.DISCLOSURE
   }
@@ -20,7 +27,7 @@ export class DisclosureElement extends AriaDisclosureElement {
   }
 }
 
-export class DisclosureSectionElement extends AriaDisclosureSectionElement {
+export class DisclosureSectionElement<E extends DisclosureSectionElementEventMap = DisclosureSectionElementEventMap> extends AriaDisclosureSectionElement<E> {
   get name(): ElementName {
     return ElementName.DISCLOSURE_SECTION
   }
@@ -31,7 +38,7 @@ export class DisclosureSectionElement extends AriaDisclosureSectionElement {
   }
 }
 
-export class DisclosureButtonElement extends AriaDisclosureButtonElement {
+export class DisclosureButtonElement<E extends DisclosureButtonElementEventMap = DisclosureButtonElementEventMap> extends AriaDisclosureButtonElement<E> {
   get name(): ElementName {
     return ElementName.DISCLOSURE_BUTTON
   }
@@ -41,7 +48,7 @@ export class DisclosureButtonElement extends AriaDisclosureButtonElement {
   }
 }
 
-export class DisclosurePanelElement extends AriaDisclosurePanelElement {
+export class DisclosurePanelElement<E extends DisclosurePanelElementEventMap = DisclosurePanelElementEventMap> extends AriaDisclosurePanelElement<E> {
   get name(): ElementName {
     return ElementName.DISCLOSURE_PANEL
   }

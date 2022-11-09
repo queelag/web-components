@@ -8,6 +8,7 @@ import {
   getImageElementBase64,
   ImageElementCacheType,
   ImageElementCrossOrigin,
+  ImageElementEventMap,
   QueryDeclarations,
   WebElementLogger
 } from '@queelag/web'
@@ -25,7 +26,7 @@ declare global {
   }
 }
 
-export class ImageElement extends BaseElement {
+export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */

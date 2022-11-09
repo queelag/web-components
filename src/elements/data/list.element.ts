@@ -1,4 +1,4 @@
-import { ElementName } from '@queelag/web'
+import { ElementName, ListElementEventMap, ListItemElementEventMap } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class ListElement extends BaseElement {
+export class ListElement<E extends ListElementEventMap = ListElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -32,7 +32,7 @@ export class ListElement extends BaseElement {
   }
 }
 
-export class ListItemElement extends BaseElement {
+export class ListItemElement<E extends ListItemElementEventMap = ListItemElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */

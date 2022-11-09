@@ -1,4 +1,15 @@
-import { ElementName, QueryDeclarations } from '@queelag/web'
+import {
+  CarouselElementEventMap,
+  CarouselNextSlideControlElementEventMap,
+  CarouselPreviousSlideControlElementEventMap,
+  CarouselRotationControlElementEventMap,
+  CarouselSlideElementEventMap,
+  CarouselSlidesElementEventMap,
+  CarouselTabElementEventMap,
+  CarouselTabsElementEventMap,
+  ElementName,
+  QueryDeclarations
+} from '@queelag/web'
 import {
   AriaCarouselElement,
   AriaCarouselNextSlideControlElement,
@@ -23,7 +34,7 @@ declare global {
   }
 }
 
-export class CarouselElement extends AriaCarouselElement {
+export class CarouselElement<E extends CarouselElementEventMap = CarouselElementEventMap> extends AriaCarouselElement<E> {
   get name(): ElementName {
     return ElementName.CAROUSEL
   }
@@ -39,7 +50,7 @@ export class CarouselElement extends AriaCarouselElement {
   }
 }
 
-export class CarouselSlidesElement extends AriaCarouselSlidesElement {
+export class CarouselSlidesElement<E extends CarouselSlidesElementEventMap = CarouselSlidesElementEventMap> extends AriaCarouselSlidesElement<E> {
   get name(): ElementName {
     return ElementName.CAROUSEL_SLIDES
   }
@@ -49,7 +60,7 @@ export class CarouselSlidesElement extends AriaCarouselSlidesElement {
   }
 }
 
-export class CarouselSlideElement extends AriaCarouselSlideElement {
+export class CarouselSlideElement<E extends CarouselSlideElementEventMap = CarouselSlideElementEventMap> extends AriaCarouselSlideElement<E> {
   get name(): ElementName {
     return ElementName.CAROUSEL_SLIDE
   }
@@ -60,7 +71,9 @@ export class CarouselSlideElement extends AriaCarouselSlideElement {
   }
 }
 
-export class CarouselRotationControlElement extends AriaCarouselRotationControlElement {
+export class CarouselRotationControlElement<
+  E extends CarouselRotationControlElementEventMap = CarouselRotationControlElementEventMap
+> extends AriaCarouselRotationControlElement<E> {
   get name(): ElementName {
     return ElementName.CAROUSEL_ROTATION_CONTROL
   }
@@ -70,7 +83,9 @@ export class CarouselRotationControlElement extends AriaCarouselRotationControlE
   }
 }
 
-export class CarouselNextSlideControlElement extends AriaCarouselNextSlideControlElement {
+export class CarouselNextSlideControlElement<
+  E extends CarouselNextSlideControlElementEventMap = CarouselNextSlideControlElementEventMap
+> extends AriaCarouselNextSlideControlElement<E> {
   get name(): ElementName {
     return ElementName.CAROUSEL_NEXT_SLIDE_CONTROL
   }
@@ -80,7 +95,9 @@ export class CarouselNextSlideControlElement extends AriaCarouselNextSlideContro
   }
 }
 
-export class CarouselPreviousSlideControlElement extends AriaCarouselPreviousSlideControlElement {
+export class CarouselPreviousSlideControlElement<
+  E extends CarouselPreviousSlideControlElementEventMap = CarouselPreviousSlideControlElementEventMap
+> extends AriaCarouselPreviousSlideControlElement<E> {
   get name(): ElementName {
     return ElementName.CAROUSEL_PREVIOUS_SLIDE_CONTROL
   }
@@ -90,7 +107,7 @@ export class CarouselPreviousSlideControlElement extends AriaCarouselPreviousSli
   }
 }
 
-export class CarouselTabsElement extends AriaCarouselTabsElement {
+export class CarouselTabsElement<E extends CarouselTabsElementEventMap = CarouselTabsElementEventMap> extends AriaCarouselTabsElement<E> {
   get name(): ElementName {
     return ElementName.CAROUSEL_TABS
   }
@@ -102,7 +119,7 @@ export class CarouselTabsElement extends AriaCarouselTabsElement {
   }
 }
 
-export class CarouselTabElement extends AriaCarouselTabElement {
+export class CarouselTabElement<E extends CarouselTabElementEventMap = CarouselTabElementEventMap> extends AriaCarouselTabElement<E> {
   get name(): ElementName {
     return ElementName.CAROUSEL_TAB
   }

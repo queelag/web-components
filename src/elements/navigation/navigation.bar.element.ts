@@ -1,4 +1,4 @@
-import { ElementName, NavigationBarItemElementAttributes, WebElementLogger } from '@queelag/web'
+import { ElementName, NavigationBarElementEventMap, NavigationBarItemElementAttributes, NavigationBarItemElementEventMap, WebElementLogger } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class NavigationBarElement extends BaseElement {
+export class NavigationBarElement<E extends NavigationBarElementEventMap = NavigationBarElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -35,7 +35,7 @@ export class NavigationBarElement extends BaseElement {
   }
 }
 
-export class NavigationBarItemElement extends BaseElement {
+export class NavigationBarItemElement<E extends NavigationBarItemElementEventMap = NavigationBarItemElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */

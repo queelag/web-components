@@ -1,4 +1,4 @@
-import { ButtonElementAttributes, ElementName } from '@queelag/web'
+import { ButtonElementAttributes, ButtonGroupElementEventMap, ElementName } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-export class ButtonGroupElement extends BaseElement {
+export class ButtonGroupElement<E extends ButtonGroupElementEventMap = ButtonGroupElementEventMap> extends BaseElement<E> {
   buttons?: ButtonElementAttributes[]
 
   get name(): ElementName {

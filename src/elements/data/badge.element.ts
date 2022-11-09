@@ -1,5 +1,5 @@
 import { getLimitedNumber, parseNumber } from '@queelag/core'
-import { DEFAULT_BADGE_MAX, DEFAULT_BADGE_MIN } from '@queelag/web'
+import { BadgeElementEventMap, DEFAULT_BADGE_MAX, DEFAULT_BADGE_MIN } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { BaseElement } from '../core/base.element'
@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-export class BadgeElement extends BaseElement {
+export class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */

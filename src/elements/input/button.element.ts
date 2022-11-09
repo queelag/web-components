@@ -1,4 +1,4 @@
-import { ButtonClickEvent, ButtonType, ButtonVariant, ElementName, WebElementLogger } from '@queelag/web'
+import { ButtonClickEvent, ButtonElementEventMap, ButtonType, ButtonVariant, ElementName, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
 import { ifdef } from '../../directives/if.defined'
 import { AriaButtonElement } from '../aria/aria.button.element'
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class ButtonElement extends AriaButtonElement {
+export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> extends AriaButtonElement<E> {
   /**
    * PROPERTIES
    */

@@ -1,4 +1,4 @@
-import { ChipElementVariant, ElementName } from '@queelag/web'
+import { ChipElementEventMap, ChipElementVariant, ElementName } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-export class ChipElement extends BaseElement {
+export class ChipElement<E extends ChipElementEventMap = ChipElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */

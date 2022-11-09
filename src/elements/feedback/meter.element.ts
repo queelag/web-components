@@ -1,5 +1,5 @@
 import { getNumberPercentage } from '@queelag/core'
-import { DEFAULT_METER_MAX, DEFAULT_METER_MIN } from '@queelag/web'
+import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, MeterElementEventMap } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ifdef } from '../../directives/if.defined'
@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-export class MeterElement extends AriaMeterElement {
+export class MeterElement<E extends MeterElementEventMap = MeterElementEventMap> extends AriaMeterElement<E> {
   /**
    * PROPERTIES
    */

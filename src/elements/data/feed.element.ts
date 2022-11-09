@@ -1,4 +1,11 @@
-import { ElementName, QueryDeclarations } from '@queelag/web'
+import {
+  ElementName,
+  FeedArticleDescriptionElementEventMap,
+  FeedArticleElementEventMap,
+  FeedArticleLabelElementEventMap,
+  FeedElementEventMap,
+  QueryDeclarations
+} from '@queelag/web'
 import { AriaFeedArticleDescriptionElement, AriaFeedArticleElement, AriaFeedArticleLabelElement, AriaFeedElement } from '../aria/aria.feed.element'
 
 declare global {
@@ -10,7 +17,7 @@ declare global {
   }
 }
 
-export class FeedElement extends AriaFeedElement {
+export class FeedElement<E extends FeedElementEventMap = FeedElementEventMap> extends AriaFeedElement<E> {
   get name(): ElementName {
     return ElementName.FEED
   }
@@ -21,7 +28,7 @@ export class FeedElement extends AriaFeedElement {
   }
 }
 
-export class FeedArticleElement extends AriaFeedArticleElement {
+export class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArticleElementEventMap> extends AriaFeedArticleElement<E> {
   get name(): ElementName {
     return ElementName.FEED_ARTICLE
   }
@@ -33,13 +40,15 @@ export class FeedArticleElement extends AriaFeedArticleElement {
   }
 }
 
-export class FeedArticleLabelElement extends AriaFeedArticleLabelElement {
+export class FeedArticleLabelElement<E extends FeedArticleLabelElementEventMap = FeedArticleLabelElementEventMap> extends AriaFeedArticleLabelElement<E> {
   get name(): ElementName {
     return ElementName.FEED_ARTICLE_LABEL
   }
 }
 
-export class FeedArticleDescriptionElement extends AriaFeedArticleDescriptionElement {
+export class FeedArticleDescriptionElement<
+  E extends FeedArticleDescriptionElementEventMap = FeedArticleDescriptionElementEventMap
+> extends AriaFeedArticleDescriptionElement<E> {
   get name(): ElementName {
     return ElementName.FEED_ARTICLE_DESCRIPTION
   }
