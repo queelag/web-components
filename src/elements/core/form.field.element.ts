@@ -1,5 +1,6 @@
 import {
   FormFieldElementCollector,
+  FormFieldElementEventMap,
   FormFieldElementSchema,
   FormFieldElementTarget,
   FormFieldElementValidation,
@@ -9,7 +10,7 @@ import {
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base.element'
 
-export class FormFieldElement extends BaseElement {
+export class FormFieldElement<E extends FormFieldElementEventMap = FormFieldElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */

@@ -1,5 +1,5 @@
 import { getLimitedNumber } from '@queelag/core'
-import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, DEFAULT_METER_VALUE } from '@queelag/web'
+import { AriaMeterElementEventMap, DEFAULT_METER_MAX, DEFAULT_METER_MIN, DEFAULT_METER_VALUE } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaMeterController } from '../../controllers/aria.meter.controller'
 import { BaseElement } from '../core/base.element'
@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-export class AriaMeterElement extends BaseElement {
+export class AriaMeterElement<E extends AriaMeterElementEventMap = AriaMeterElementEventMap> extends BaseElement<E> {
   protected aria: AriaMeterController = new AriaMeterController(this)
 
   /**

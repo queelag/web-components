@@ -1,4 +1,4 @@
-import { ElementName } from '@queelag/web'
+import { AvatarElementEventMap, ElementName } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { BaseElement } from '../core/base.element'
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class AvatarElement extends BaseElement {
+export class AvatarElement<E extends AvatarElementEventMap = AvatarElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */

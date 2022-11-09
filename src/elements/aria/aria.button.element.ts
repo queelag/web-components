@@ -1,4 +1,4 @@
-import { ButtonPressed, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
+import { AriaButtonElementEventMap, ButtonPressed, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaButtonController } from '../../controllers/aria.button.controller'
 import { BaseElement } from '../core/base.element'
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class AriaButtonElement extends BaseElement {
+export class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonElementEventMap> extends BaseElement<E> {
   protected aria: AriaButtonController = new AriaButtonController(this)
 
   /**

@@ -1,5 +1,9 @@
 import { debounce, parseNumber } from '@queelag/core'
 import {
+  AriaMenuButtonElementEventMap,
+  AriaMenuElementEventMap,
+  AriaMenuItemElementEventMap,
+  AriaMenuSubMenuElementEventMap,
   DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME,
   DEFAULT_MENU_TYPEAHEAD_PREDICATE,
   ElementName,
@@ -24,7 +28,7 @@ declare global {
   }
 }
 
-export class AriaMenuElement extends BaseElement {
+export class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMap> extends BaseElement<E> {
   protected aria: AriaMenuController = new AriaMenuController(this)
 
   /**
@@ -356,7 +360,7 @@ export class AriaMenuElement extends BaseElement {
   }
 }
 
-export class AriaMenuButtonElement extends BaseElement {
+export class AriaMenuButtonElement<E extends AriaMenuButtonElementEventMap = AriaMenuButtonElementEventMap> extends BaseElement<E> {
   protected arai: AriaMenuButtonController = new AriaMenuButtonController(this)
 
   /**
@@ -468,7 +472,7 @@ export class AriaMenuButtonElement extends BaseElement {
   ]
 }
 
-export class AriaMenuItemElement extends BaseElement {
+export class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemElementEventMap> extends BaseElement<E> {
   protected aria: AriaMenuItemController = new AriaMenuItemController(this)
 
   /**
@@ -702,7 +706,7 @@ export class AriaMenuItemElement extends BaseElement {
   ]
 }
 
-export class AriaMenuSubMenuElement extends FloatingElement {
+export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenuSubMenuElementEventMap> extends FloatingElement<E> {
   protected aria: AriaMenuSubMenuController = new AriaMenuSubMenuController(this)
 
   /**

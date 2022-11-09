@@ -1,5 +1,7 @@
 import { getLimitedNumber, isNumberMultipleOf, toFixedNumber } from '@queelag/core'
 import {
+  AriaSliderElementEventMap,
+  AriaSliderThumbElementEventMap,
   DEFAULT_SLIDER_DECIMALS,
   DEFAULT_SLIDER_MAX,
   DEFAULT_SLIDER_MIN,
@@ -30,7 +32,7 @@ declare global {
   }
 }
 
-export class AriaSliderElement extends FormFieldElement {
+export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementEventMap> extends FormFieldElement<E> {
   protected aria: AriaSliderController = new AriaSliderController(this)
 
   /**
@@ -146,7 +148,7 @@ export class AriaSliderElement extends FormFieldElement {
   ]
 }
 
-export class AriaSliderThumbElement extends BaseElement {
+export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSliderThumbElementEventMap> extends BaseElement<E> {
   protected aria: AriaSliderThumbController = new AriaSliderThumbController(this)
 
   /**

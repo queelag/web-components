@@ -11,10 +11,11 @@ import {
   Strategy
 } from '@floating-ui/dom'
 import { deleteShallowObjectUndefinedProperties, tcp } from '@queelag/core'
+import { FloatingElementEventMap } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base.element'
 
-export class FloatingElement extends BaseElement {
+export class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMap> extends BaseElement<E> {
   private _arrowElement?: HTMLElement
   private _referenceElement?: HTMLElement
 

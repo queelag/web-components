@@ -1,4 +1,6 @@
 import {
+  AriaListBoxElementEventMap,
+  AriaListBoxOptionElementEventMap,
   DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE,
   ElementName,
   KeyboardEventKey,
@@ -18,7 +20,7 @@ declare global {
   }
 }
 
-export class AriaListBoxElement extends BaseElement {
+export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxElementEventMap> extends BaseElement<E> {
   protected aria: AriaListBoxController = new AriaListBoxController(this)
 
   /**
@@ -256,7 +258,7 @@ export class AriaListBoxElement extends BaseElement {
   }
 }
 
-export class AriaListBoxOptionElement extends BaseElement {
+export class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = AriaListBoxOptionElementEventMap> extends BaseElement<E> {
   protected aria: AriaListBoxOptionController = new AriaListBoxOptionController(this)
 
   /**

@@ -6,6 +6,7 @@ import {
   FocusTrapCheckCanReturnFocus,
   FocusTrapClickOutsideDeactivates,
   FocusTrapDisplayCheck,
+  FocusTrapElementEventMap,
   FocusTrapElementState,
   FocusTrapEscapeDeactivates,
   FocusTrapSetReturnFocus,
@@ -15,7 +16,7 @@ import { ActivateOptions, createFocusTrap, DeactivateOptions, FocusTarget, Focus
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base.element'
 
-export class FocusTrapElement extends BaseElement {
+export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */

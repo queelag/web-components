@@ -1,4 +1,4 @@
-import { ElementName, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import { AriaRadioButtonElementEventMap, AriaRadioGroupElementEventMap, ElementName, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaRadioButtonController, AriaRadioGroupController } from '../../controllers/aria.radio.group.controller'
 import { BaseElement } from '../core/base.element'
@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-export class AriaRadioGroupElement extends FormFieldElement {
+export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioGroupElementEventMap> extends FormFieldElement<E> {
   protected aria: AriaRadioGroupController = new AriaRadioGroupController(this)
 
   /**
@@ -121,7 +121,7 @@ export class AriaRadioGroupElement extends FormFieldElement {
   }
 }
 
-export class AriaRadioButtonElement extends BaseElement {
+export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadioButtonElementEventMap> extends BaseElement<E> {
   protected aria: AriaRadioButtonController = new AriaRadioButtonController(this)
 
   /**

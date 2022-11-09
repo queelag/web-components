@@ -1,4 +1,13 @@
-import { ElementName, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import {
+  AriaTooltipArrowElementEventMap,
+  AriaTooltipContentElementEventMap,
+  AriaTooltipElementEventMap,
+  AriaTooltipTriggerElementEventMap,
+  ElementName,
+  KeyboardEventKey,
+  QueryDeclarations,
+  WebElementLogger
+} from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaTooltipContentController, AriaTooltipController, AriaTooltipTriggerController } from '../../controllers/aria.tooltip.controller'
 import { BaseElement } from '../core/base.element'
@@ -13,7 +22,7 @@ declare global {
   }
 }
 
-export class AriaTooltipElement extends BaseElement {
+export class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipElementEventMap> extends BaseElement<E> {
   protected aria: AriaTooltipController = new AriaTooltipController(this)
 
   /**
@@ -75,7 +84,7 @@ export class AriaTooltipElement extends BaseElement {
   ]
 }
 
-export class AriaTooltipArrowElement extends BaseElement {
+export class AriaTooltipArrowElement<E extends AriaTooltipArrowElementEventMap = AriaTooltipArrowElementEventMap> extends BaseElement<E> {
   get name(): ElementName {
     return ElementName.ARIA_TOOLTIP_ARROW
   }
@@ -92,7 +101,7 @@ export class AriaTooltipArrowElement extends BaseElement {
   ]
 }
 
-export class AriaTooltipContentElement extends FloatingElement {
+export class AriaTooltipContentElement<E extends AriaTooltipContentElementEventMap = AriaTooltipContentElementEventMap> extends FloatingElement<E> {
   protected aria: AriaTooltipContentController = new AriaTooltipContentController(this)
 
   /**
@@ -128,7 +137,7 @@ export class AriaTooltipContentElement extends FloatingElement {
   ]
 }
 
-export class AriaTooltipTriggerElement extends BaseElement {
+export class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = AriaTooltipTriggerElementEventMap> extends BaseElement<E> {
   protected aria: AriaTooltipTriggerController = new AriaTooltipTriggerController(this)
 
   /**

@@ -1,6 +1,7 @@
 import { ID, parseNumber } from '@queelag/core'
 import {
   AttributeChangeEvent,
+  BaseElementEventMap,
   ElementCollector,
   ElementName,
   ELEMENT_UID_GENERATE_OPTIONS,
@@ -19,7 +20,7 @@ import { styleMap } from '../../directives/style.map'
 import { getShapeStyleInfo } from '../../utils/shape.utils'
 import { getSquircleHTML } from '../../utils/squircle.utils'
 
-export class BaseElement extends LitElement {
+export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends LitElement {
   /**
    * PROPERTIES
    */
@@ -65,6 +66,18 @@ export class BaseElement extends LitElement {
     }
 
     this.dispatchEvent(new AttributeChangeEvent(name, _old, value))
+  }
+
+  addEventListener<K extends keyof E>(type: K, listener: (this: HTMLElement, ev: E[K]) => any, options?: boolean | AddEventListenerOptions | undefined): void
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions | undefined): void
+  addEventListener(type: any, listener: any, options?: any): void {
+    return super.addEventListener(type, listener, options)
+  }
+
+  removeEventListener<K extends keyof E>(type: K, listener: (this: HTMLElement, ev: E[K]) => any, options?: boolean | EventListenerOptions | undefined): void
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions | undefined): void
+  removeEventListener(type: any, listener: any, options?: any): void {
+    return super.removeEventListener(type, listener, options)
   }
 
   onSlotChange(): void {}

@@ -1,4 +1,4 @@
-import { ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
+import { AriaCheckBoxElementEventMap, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaCheckBoxController } from '../../controllers/aria.check.box.controller'
 import { FormFieldElement } from '../core/form.field.element'
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class AriaCheckBoxElement extends FormFieldElement {
+export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxElementEventMap> extends FormFieldElement<E> {
   protected aria: AriaCheckBoxController = new AriaCheckBoxController(this)
 
   /**

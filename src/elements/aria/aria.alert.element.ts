@@ -1,4 +1,4 @@
-import { ElementName } from '@queelag/web'
+import { AriaAlertElementEventMap, ElementName } from '@queelag/web'
 import { AriaAlertController } from '../../controllers/aria.alert.controller'
 import { BaseElement } from '../core/base.element'
 
@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-export class AriaAlertElement extends BaseElement {
+export class AriaAlertElement<E extends AriaAlertElementEventMap = AriaAlertElementEventMap> extends BaseElement<E> {
   protected aria: AriaAlertController = new AriaAlertController(this)
 
   get name(): ElementName {

@@ -1,4 +1,13 @@
-import { ElementName, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import {
+  AriaFeedArticleDescriptionElementEventMap,
+  AriaFeedArticleElementEventMap,
+  AriaFeedArticleLabelElementEventMap,
+  AriaFeedElementEventMap,
+  ElementName,
+  KeyboardEventKey,
+  QueryDeclarations,
+  WebElementLogger
+} from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { FocusableElement, tabbable } from 'tabbable'
 import {
@@ -18,7 +27,7 @@ declare global {
   }
 }
 
-export class AriaFeedElement extends BaseElement {
+export class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMap> extends BaseElement<E> {
   protected aria: AriaFeedController = new AriaFeedController(this)
 
   /**
@@ -126,7 +135,7 @@ export class AriaFeedElement extends BaseElement {
   }
 }
 
-export class AriaFeedArticleElement extends BaseElement {
+export class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = AriaFeedArticleElementEventMap> extends BaseElement<E> {
   protected aria: AriaFeedArticleController = new AriaFeedArticleController(this)
 
   /**
@@ -184,7 +193,7 @@ export class AriaFeedArticleElement extends BaseElement {
   }
 }
 
-export class AriaFeedArticleLabelElement extends BaseElement {
+export class AriaFeedArticleLabelElement<E extends AriaFeedArticleLabelElementEventMap = AriaFeedArticleLabelElementEventMap> extends BaseElement<E> {
   protected aria: AriaFeedArticleLabelController = new AriaFeedArticleLabelController(this)
 
   get name(): ElementName {
@@ -192,7 +201,9 @@ export class AriaFeedArticleLabelElement extends BaseElement {
   }
 }
 
-export class AriaFeedArticleDescriptionElement extends BaseElement {
+export class AriaFeedArticleDescriptionElement<
+  E extends AriaFeedArticleDescriptionElementEventMap = AriaFeedArticleDescriptionElementEventMap
+> extends BaseElement<E> {
   protected aria: AriaFeedArticleDescriptionController = new AriaFeedArticleDescriptionController(this)
 
   get name(): ElementName {

@@ -1,4 +1,13 @@
-import { ElementName, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import {
+  AriaDisclosureButtonElementEventMap,
+  AriaDisclosureElementEventMap,
+  AriaDisclosurePanelElementEventMap,
+  AriaDisclosureSectionElementEventMap,
+  ElementName,
+  KeyboardEventKey,
+  QueryDeclarations,
+  WebElementLogger
+} from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaDisclosureButtonController, AriaDisclosurePanelController, AriaDisclosureSectionController } from '../../controllers/aria.disclosure.controller'
 import { BaseElement } from '../core/base.element'
@@ -12,7 +21,7 @@ declare global {
   }
 }
 
-export class AriaDisclosureElement extends BaseElement {
+export class AriaDisclosureElement<E extends AriaDisclosureElementEventMap = AriaDisclosureElementEventMap> extends BaseElement<E> {
   /**
    * QUERIES
    */
@@ -53,7 +62,7 @@ export class AriaDisclosureElement extends BaseElement {
   }
 }
 
-export class AriaDisclosureSectionElement extends BaseElement {
+export class AriaDisclosureSectionElement<E extends AriaDisclosureSectionElementEventMap = AriaDisclosureSectionElementEventMap> extends BaseElement<E> {
   protected aria: AriaDisclosureSectionController = new AriaDisclosureSectionController(this)
 
   /**
@@ -89,7 +98,7 @@ export class AriaDisclosureSectionElement extends BaseElement {
   }
 }
 
-export class AriaDisclosureButtonElement extends BaseElement {
+export class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEventMap = AriaDisclosureButtonElementEventMap> extends BaseElement<E> {
   protected aria: AriaDisclosureButtonController = new AriaDisclosureButtonController(this)
 
   /**
@@ -146,7 +155,7 @@ export class AriaDisclosureButtonElement extends BaseElement {
   ]
 }
 
-export class AriaDisclosurePanelElement extends BaseElement {
+export class AriaDisclosurePanelElement<E extends AriaDisclosurePanelElementEventMap = AriaDisclosurePanelElementEventMap> extends BaseElement<E> {
   protected aria: AriaDisclosurePanelController = new AriaDisclosurePanelController(this)
 
   get name(): ElementName {

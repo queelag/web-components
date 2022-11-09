@@ -1,4 +1,10 @@
-import { ElementName, QueryDeclarations } from '@queelag/web'
+import {
+  AriaBreadcrumbElementEventMap,
+  AriaBreadcrumbItemElementEventMap,
+  AriaBreadcrumbListElementEventMap,
+  ElementName,
+  QueryDeclarations
+} from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaBreadcrumbController, AriaBreadcrumbItemController, AriaBreadcrumbListController } from '../../controllers/aria.breadcrumb.controller'
 import { BaseElement } from '../core/base.element'
@@ -11,7 +17,7 @@ declare global {
   }
 }
 
-export class AriaBreadcrumbElement extends BaseElement {
+export class AriaBreadcrumbElement<E extends AriaBreadcrumbElementEventMap = AriaBreadcrumbElementEventMap> extends BaseElement<E> {
   protected aria: AriaBreadcrumbController = new AriaBreadcrumbController(this)
 
   get name(): ElementName {
@@ -19,7 +25,7 @@ export class AriaBreadcrumbElement extends BaseElement {
   }
 }
 
-export class AriaBreadcrumbListElement extends BaseElement {
+export class AriaBreadcrumbListElement<E extends AriaBreadcrumbListElementEventMap = AriaBreadcrumbListElementEventMap> extends BaseElement<E> {
   protected aria: AriaBreadcrumbListController = new AriaBreadcrumbListController(this)
 
   get name(): ElementName {
@@ -27,7 +33,7 @@ export class AriaBreadcrumbListElement extends BaseElement {
   }
 }
 
-export class AriaBreadcrumbItemElement extends BaseElement {
+export class AriaBreadcrumbItemElement<E extends AriaBreadcrumbItemElementEventMap = AriaBreadcrumbItemElementEventMap> extends BaseElement<E> {
   protected aria: AriaBreadcrumbItemController = new AriaBreadcrumbItemController(this)
 
   /**

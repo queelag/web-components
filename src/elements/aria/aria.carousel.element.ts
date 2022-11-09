@@ -1,5 +1,13 @@
 import { Interval } from '@queelag/core'
 import {
+  AriaCarouselElementEventMap,
+  AriaCarouselNextSlideControlElementEventMap,
+  AriaCarouselPreviousSlideControlElementEventMap,
+  AriaCarouselRotationControlElementEventMap,
+  AriaCarouselSlideElementEventMap,
+  AriaCarouselSlidesElementEventMap,
+  AriaCarouselTabElementEventMap,
+  AriaCarouselTabsElementEventMap,
   AriaLive,
   CarouselSlideActivateEvent,
   CarouselSlideDeactivateEvent,
@@ -36,7 +44,7 @@ declare global {
   }
 }
 
-export class AriaCarouselElement extends BaseElement {
+export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselElementEventMap> extends BaseElement<E> {
   protected aria: AriaCarouselController = new AriaCarouselController(this)
 
   /**
@@ -253,7 +261,7 @@ export class AriaCarouselElement extends BaseElement {
   }
 }
 
-export class AriaCarouselSlidesElement extends BaseElement {
+export class AriaCarouselSlidesElement<E extends AriaCarouselSlidesElementEventMap = AriaCarouselSlidesElementEventMap> extends BaseElement<E> {
   protected aria: AriaCarouselSlidesController = new AriaCarouselSlidesController(this)
 
   /**
@@ -270,7 +278,7 @@ export class AriaCarouselSlidesElement extends BaseElement {
   }
 }
 
-export class AriaCarouselSlideElement extends BaseElement {
+export class AriaCarouselSlideElement<E extends AriaCarouselSlideElementEventMap = AriaCarouselSlideElementEventMap> extends BaseElement<E> {
   protected aria: AriaCarouselSlideController = new AriaCarouselSlideController(this)
 
   /**
@@ -316,7 +324,9 @@ export class AriaCarouselSlideElement extends BaseElement {
   }
 }
 
-export class AriaCarouselRotationControlElement extends AriaButtonElement {
+export class AriaCarouselRotationControlElement<
+  E extends AriaCarouselRotationControlElementEventMap = AriaCarouselRotationControlElementEventMap
+> extends AriaButtonElement<E> {
   protected aria2: AriaCarouselRotationControlController = new AriaCarouselRotationControlController(this)
 
   /**
@@ -354,7 +364,9 @@ export class AriaCarouselRotationControlElement extends AriaButtonElement {
   }
 }
 
-export class AriaCarouselNextSlideControlElement extends AriaButtonElement {
+export class AriaCarouselNextSlideControlElement<
+  E extends AriaCarouselNextSlideControlElementEventMap = AriaCarouselNextSlideControlElementEventMap
+> extends AriaButtonElement<E> {
   protected aria2: AriaCarouselNextSlideControlController = new AriaCarouselNextSlideControlController(this)
 
   /**
@@ -375,7 +387,9 @@ export class AriaCarouselNextSlideControlElement extends AriaButtonElement {
   }
 }
 
-export class AriaCarouselPreviousSlideControlElement extends AriaButtonElement {
+export class AriaCarouselPreviousSlideControlElement<
+  E extends AriaCarouselPreviousSlideControlElementEventMap = AriaCarouselPreviousSlideControlElementEventMap
+> extends AriaButtonElement<E> {
   protected aria2: AriaCarouselPreviousSlideControlController = new AriaCarouselPreviousSlideControlController(this)
 
   /**
@@ -396,7 +410,7 @@ export class AriaCarouselPreviousSlideControlElement extends AriaButtonElement {
   }
 }
 
-export class AriaCarouselTabsElement extends BaseElement {
+export class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap = AriaCarouselTabsElementEventMap> extends BaseElement<E> {
   protected aria: AriaCarouselTabsController = new AriaCarouselTabsController(this)
 
   /**
@@ -477,7 +491,7 @@ export class AriaCarouselTabsElement extends BaseElement {
   }
 }
 
-export class AriaCarouselTabElement extends BaseElement {
+export class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = AriaCarouselTabElementEventMap> extends BaseElement<E> {
   protected aria: AriaCarouselTabController = new AriaCarouselTabController(this)
 
   /**

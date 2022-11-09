@@ -1,4 +1,4 @@
-import { ElementName, KeyboardEventKey } from '@queelag/web'
+import { AriaLinkElementEventMap, ElementName, KeyboardEventKey } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaLinkController } from '../../controllers/aria.link.controller'
 import { BaseElement } from '../core/base.element'
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class AriaLinkElement extends BaseElement {
+export class AriaLinkElement<E extends AriaLinkElementEventMap = AriaLinkElementEventMap> extends BaseElement<E> {
   protected aria: AriaLinkController = new AriaLinkController(this)
 
   /**

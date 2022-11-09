@@ -1,4 +1,11 @@
-import { ElementName, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import {
+  AriaDialogDescriptionElementEventMap,
+  AriaDialogElementEventMap,
+  AriaDialogLabelElementEventMap,
+  ElementName,
+  QueryDeclarations,
+  WebElementLogger
+} from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaDialogController, AriaDialogDescriptionController, AriaDialogLabelController } from '../../controllers/aria.dialog.controller'
 import { BaseElement } from '../core/base.element'
@@ -12,7 +19,7 @@ declare global {
   }
 }
 
-export class AriaDialogElement extends FocusTrapElement {
+export class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogElementEventMap> extends FocusTrapElement<E> {
   protected aria: AriaDialogController = new AriaDialogController(this)
 
   /**
@@ -90,7 +97,7 @@ export class AriaDialogElement extends FocusTrapElement {
   }
 }
 
-export class AriaDialogDescriptionElement extends BaseElement {
+export class AriaDialogDescriptionElement<E extends AriaDialogDescriptionElementEventMap = AriaDialogDescriptionElementEventMap> extends BaseElement<E> {
   protected aria: AriaDialogDescriptionController = new AriaDialogDescriptionController(this)
 
   get name(): ElementName {
@@ -98,7 +105,7 @@ export class AriaDialogDescriptionElement extends BaseElement {
   }
 }
 
-export class AriaDialogLabelElement extends BaseElement {
+export class AriaDialogLabelElement<E extends AriaDialogLabelElementEventMap = AriaDialogLabelElementEventMap> extends BaseElement<E> {
   protected aria: AriaDialogLabelController = new AriaDialogLabelController(this)
 
   get name(): ElementName {

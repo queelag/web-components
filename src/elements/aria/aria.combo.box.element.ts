@@ -1,6 +1,12 @@
 import { getLimitedNumber } from '@queelag/core'
 import {
+  AriaComboBoxButtonElementEventMap,
   AriaComboBoxElementAutoComplete,
+  AriaComboBoxElementEventMap,
+  AriaComboBoxGroupElementEventMap,
+  AriaComboBoxInputElementEventMap,
+  AriaComboBoxListElementEventMap,
+  AriaComboBoxOptionElementEventMap,
   DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE,
   ElementName,
   KeyboardEventKey,
@@ -34,7 +40,7 @@ declare global {
   }
 }
 
-export class AriaComboBoxElement extends FormFieldElement {
+export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxElementEventMap> extends FormFieldElement<E> {
   protected aria: AriaComboBoxController = new AriaComboBoxController(this)
 
   /**
@@ -351,13 +357,13 @@ export class AriaComboBoxElement extends FormFieldElement {
   ]
 }
 
-export class AriaComboBoxGroupElement extends BaseElement {
+export class AriaComboBoxGroupElement<E extends AriaComboBoxGroupElementEventMap = AriaComboBoxGroupElementEventMap> extends BaseElement<E> {
   get name(): ElementName {
     return ElementName.ARIA_COMBOBOX_GROUP
   }
 }
 
-export class AriaComboBoxButtonElement extends BaseElement {
+export class AriaComboBoxButtonElement<E extends AriaComboBoxButtonElementEventMap = AriaComboBoxButtonElementEventMap> extends BaseElement<E> {
   protected aria: AriaComboBoxButtonController = new AriaComboBoxButtonController(this)
 
   /**
@@ -425,7 +431,7 @@ export class AriaComboBoxButtonElement extends BaseElement {
   ]
 }
 
-export class AriaComboBoxInputElement extends BaseElement {
+export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap = AriaComboBoxInputElementEventMap> extends BaseElement<E> {
   protected aria: AriaComboBoxInputController = new AriaComboBoxInputController(this)
 
   /**
@@ -522,7 +528,7 @@ export class AriaComboBoxInputElement extends BaseElement {
   }
 }
 
-export class AriaComboBoxListElement extends FloatingElement {
+export class AriaComboBoxListElement<E extends AriaComboBoxListElementEventMap = AriaComboBoxListElementEventMap> extends FloatingElement<E> {
   protected aria: AriaComboBoxListController = new AriaComboBoxListController(this)
 
   /**
@@ -556,7 +562,7 @@ export class AriaComboBoxListElement extends FloatingElement {
   ]
 }
 
-export class AriaComboBoxOptionElement extends BaseElement {
+export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = AriaComboBoxOptionElementEventMap> extends BaseElement<E> {
   protected aria: AriaComboBoxOptionController = new AriaComboBoxOptionController(this)
 
   /**

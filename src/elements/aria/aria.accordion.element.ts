@@ -1,4 +1,15 @@
-import { ElementName, HeadingLevel, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import {
+  AriaAccordionButtonElementEventMap,
+  AriaAccordionElementEventMap,
+  AriaAccordionHeaderElementEventMap,
+  AriaAccordionPanelElementEventMap,
+  AriaAccordionSectionElementEventMap,
+  ElementName,
+  HeadingLevel,
+  KeyboardEventKey,
+  QueryDeclarations,
+  WebElementLogger
+} from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import {
   AriaAccordionButtonController,
@@ -11,14 +22,14 @@ import { BaseElement } from '../core/base.element'
 declare global {
   interface HTMLElementTagNameMap {
     'q-aria-accordion': AriaAccordionElement
-    'q-aria-accordion-header': AriaAccordionHeaderElement
     'q-aria-accordion-button': AriaAccordionButtonElement
+    'q-aria-accordion-header': AriaAccordionHeaderElement
     'q-aria-accordion-panel': AriaAccordionPanelElement
     'q-aria-accordion-section': AriaAccordionSectionElement
   }
 }
 
-export class AriaAccordionElement extends BaseElement {
+export class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaAccordionElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -126,7 +137,7 @@ export class AriaAccordionElement extends BaseElement {
   }
 }
 
-export class AriaAccordionSectionElement extends BaseElement {
+export class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEventMap = AriaAccordionSectionElementEventMap> extends BaseElement<E> {
   protected aria: AriaAccordionSectionController = new AriaAccordionSectionController(this)
 
   /**
@@ -172,7 +183,7 @@ export class AriaAccordionSectionElement extends BaseElement {
   }
 }
 
-export class AriaAccordionHeaderElement extends BaseElement {
+export class AriaAccordionHeaderElement<E extends AriaAccordionHeaderElementEventMap = AriaAccordionHeaderElementEventMap> extends BaseElement<E> {
   protected aria: AriaAccordionHeaderController = new AriaAccordionHeaderController(this)
 
   /**
@@ -189,7 +200,7 @@ export class AriaAccordionHeaderElement extends BaseElement {
   }
 }
 
-export class AriaAccordionButtonElement extends BaseElement {
+export class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = AriaAccordionButtonElementEventMap> extends BaseElement<E> {
   protected aria: AriaAccordionButtonController = new AriaAccordionButtonController(this)
 
   /**
@@ -265,7 +276,7 @@ export class AriaAccordionButtonElement extends BaseElement {
   ]
 }
 
-export class AriaAccordionPanelElement extends BaseElement {
+export class AriaAccordionPanelElement<E extends AriaAccordionPanelElementEventMap = AriaAccordionPanelElementEventMap> extends BaseElement<E> {
   protected aria: AriaAccordionPanelController = new AriaAccordionPanelController(this)
 
   /**

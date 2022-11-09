@@ -1,4 +1,14 @@
-import { AttributeChangeEvent, ElementName, KeyboardEventKey, QueryDeclarations, TabsSelectionChangeEvent, WebElementLogger } from '@queelag/web'
+import {
+  AriaTabsElementEventMap,
+  AriaTabsPanelElementEventMap,
+  AriaTabsTabElementEventMap,
+  AttributeChangeEvent,
+  ElementName,
+  KeyboardEventKey,
+  QueryDeclarations,
+  TabsSelectionChangeEvent,
+  WebElementLogger
+} from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaTabsController, AriaTabsPanelController, AriaTabsTabController } from '../../controllers/aria.tabs.controller'
 import { BaseElement } from '../core/base.element'
@@ -11,7 +21,7 @@ declare global {
   }
 }
 
-export class AriaTabsElement extends BaseElement {
+export class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElementEventMap> extends BaseElement<E> {
   protected aria: AriaTabsController = new AriaTabsController(this)
 
   /**
@@ -171,7 +181,7 @@ export class AriaTabsElement extends BaseElement {
   }
 }
 
-export class AriaTabsTabElement extends BaseElement {
+export class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsTabElementEventMap> extends BaseElement<E> {
   protected aria: AriaTabsTabController = new AriaTabsTabController(this)
 
   /**
@@ -248,7 +258,7 @@ export class AriaTabsTabElement extends BaseElement {
   ]
 }
 
-export class AriaTabsPanelElement extends BaseElement {
+export class AriaTabsPanelElement<E extends AriaTabsPanelElementEventMap = AriaTabsPanelElementEventMap> extends BaseElement<E> {
   protected aria: AriaTabsPanelController = new AriaTabsPanelController(this)
 
   /**
