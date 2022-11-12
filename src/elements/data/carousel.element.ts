@@ -7,6 +7,7 @@ import {
   CarouselSlidesElementEventMap,
   CarouselTabElementEventMap,
   CarouselTabsElementEventMap,
+  defineCustomElement,
   ElementName,
   QueryDeclarations
 } from '@queelag/web'
@@ -130,11 +131,11 @@ export class CarouselTabElement<E extends CarouselTabElementEventMap = CarouselT
   }
 }
 
-customElements.define('q-carousel', CarouselElement)
-customElements.define('q-carousel-next-slide-control', CarouselNextSlideControlElement)
-customElements.define('q-carousel-previous-slide-control', CarouselPreviousSlideControlElement)
-customElements.define('q-carousel-rotation-control', CarouselRotationControlElement)
-customElements.define('q-carousel-slide', CarouselSlideElement)
-customElements.define('q-carousel-slides', CarouselSlidesElement)
-customElements.define('q-carousel-tab', CarouselTabElement)
-customElements.define('q-carousel-tabs', CarouselTabsElement)
+defineCustomElement('q-carousel', CarouselElement)
+defineCustomElement('q-carousel-next-slide-control', CarouselNextSlideControlElement)
+defineCustomElement('q-carousel-previous-slide-control', CarouselPreviousSlideControlElement)
+defineCustomElement('q-carousel-rotation-control', CarouselRotationControlElement)
+defineCustomElement('q-carousel-slide', CarouselSlideElement)
+defineCustomElement('q-carousel-slides', CarouselSlidesElement)
+defineCustomElement('q-carousel-tab', CarouselTabElement)
+defineCustomElement('q-carousel-tabs', CarouselTabsElement)

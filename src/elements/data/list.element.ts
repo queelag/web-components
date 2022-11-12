@@ -1,4 +1,4 @@
-import { ElementName, ListElementEventMap, ListItemElementEventMap } from '@queelag/web'
+import { defineCustomElement, ElementName, ListElementEventMap, ListItemElementEventMap } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
@@ -53,5 +53,5 @@ export class ListItemElement<E extends ListItemElementEventMap = ListItemElement
   }
 }
 
-customElements.define('q-list', ListElement)
-customElements.define('q-list-item', ListItemElement)
+defineCustomElement('q-list', ListElement)
+defineCustomElement('q-list-item', ListItemElement)

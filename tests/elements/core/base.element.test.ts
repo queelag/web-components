@@ -1,4 +1,4 @@
-import { ElementCollector, QueryDeclarations } from '@queelag/web'
+import { defineCustomElement, ElementCollector, QueryDeclarations } from '@queelag/web'
 import { html } from 'lit-html'
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
 import '../../../src/elements/core/base.element'
@@ -24,7 +24,7 @@ class TestElement extends BaseElement {
   }
 }
 
-customElements.define('q-test', TestElement)
+defineCustomElement('q-test', TestElement)
 
 describe('BaseElement', () => {
   let test: TestElement

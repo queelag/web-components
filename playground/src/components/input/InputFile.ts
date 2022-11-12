@@ -94,4 +94,4 @@ export default class InputFile extends LitElement {
   `
 }
 
-customElements.define('my-input-file', InputFile)
+defineCustomElement('my-input-file', InputFile)

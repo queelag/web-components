@@ -1,5 +1,6 @@
 import { removeArrayItems } from '@queelag/core'
 import {
+  defineCustomElement,
   ElementName,
   QueryDeclarations,
   SelectButtonElementEventMap,
@@ -215,9 +216,9 @@ export class SelectOptionElement<E extends SelectOptionElementEventMap = SelectO
   }
 }
 
-customElements.define('q-select', SelectElement)
-customElements.define('q-select-button', SelectButtonElement)
-customElements.define('q-select-group', SelectGroupElement)
-customElements.define('q-select-input', SelectInputElement)
-customElements.define('q-select-list', SelectListElement)
-customElements.define('q-select-option', SelectOptionElement)
+defineCustomElement('q-select', SelectElement)
+defineCustomElement('q-select-button', SelectButtonElement)
+defineCustomElement('q-select-group', SelectGroupElement)
+defineCustomElement('q-select-input', SelectInputElement)
+defineCustomElement('q-select-list', SelectListElement)
+defineCustomElement('q-select-option', SelectOptionElement)

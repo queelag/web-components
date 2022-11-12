@@ -143,4 +143,4 @@ export default class Accordion extends LitElement {
   `
 }
 
-customElements.define('my-accordion', Accordion)
+defineCustomElement('my-accordion', Accordion)

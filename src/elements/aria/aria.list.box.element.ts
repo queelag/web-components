@@ -2,6 +2,7 @@ import {
   AriaListBoxElementEventMap,
   AriaListBoxOptionElementEventMap,
   DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE,
+  defineCustomElement,
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
@@ -350,5 +351,5 @@ export class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap
   ]
 }
 
-customElements.define('q-aria-listbox', AriaListBoxElement)
-customElements.define('q-aria-listbox-option', AriaListBoxOptionElement)
+defineCustomElement('q-aria-listbox', AriaListBoxElement)
+defineCustomElement('q-aria-listbox-option', AriaListBoxOptionElement)

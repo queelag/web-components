@@ -42,4 +42,4 @@ export default class CheckBox extends LitElement {
   `
 }
 
-customElements.define('my-checkbox', CheckBox)
+defineCustomElement('my-checkbox', CheckBox)

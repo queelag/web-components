@@ -1,4 +1,11 @@
-import { ElementName, NavigationBarElementEventMap, NavigationBarItemElementAttributes, NavigationBarItemElementEventMap, WebElementLogger } from '@queelag/web'
+import {
+  defineCustomElement,
+  ElementName,
+  NavigationBarElementEventMap,
+  NavigationBarItemElementAttributes,
+  NavigationBarItemElementEventMap,
+  WebElementLogger
+} from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
@@ -54,5 +61,5 @@ export class NavigationBarItemElement<E extends NavigationBarItemElementEventMap
   }
 }
 
-customElements.define('q-navigation-bar', NavigationBarElement)
-customElements.define('q-navigation-bar-item', NavigationBarItemElement)
+defineCustomElement('q-navigation-bar', NavigationBarElement)
+defineCustomElement('q-navigation-bar-item', NavigationBarItemElement)

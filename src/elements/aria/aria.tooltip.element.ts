@@ -3,6 +3,7 @@ import {
   AriaTooltipContentElementEventMap,
   AriaTooltipElementEventMap,
   AriaTooltipTriggerElementEventMap,
+  defineCustomElement,
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
@@ -212,7 +213,7 @@ export class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventM
   ]
 }
 
-customElements.define('q-aria-tooltip', AriaTooltipElement)
-customElements.define('q-aria-tooltip-arrow', AriaTooltipArrowElement)
-customElements.define('q-aria-tooltip-content', AriaTooltipContentElement)
-customElements.define('q-aria-tooltip-trigger', AriaTooltipTriggerElement)
+defineCustomElement('q-aria-tooltip', AriaTooltipElement)
+defineCustomElement('q-aria-tooltip-arrow', AriaTooltipArrowElement)
+defineCustomElement('q-aria-tooltip-content', AriaTooltipContentElement)
+defineCustomElement('q-aria-tooltip-trigger', AriaTooltipTriggerElement)

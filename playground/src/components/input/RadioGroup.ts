@@ -111,4 +111,4 @@ export default class RadioGroup extends LitElement {
   `
 }
 
-customElements.define('my-radiogroup', RadioGroup)
+defineCustomElement('my-radiogroup', RadioGroup)

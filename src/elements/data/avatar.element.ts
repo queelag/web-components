@@ -1,4 +1,4 @@
-import { AvatarElementEventMap, ElementName } from '@queelag/web'
+import { AvatarElementEventMap, defineCustomElement, ElementName } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { BaseElement } from '../core/base.element'
@@ -49,4 +49,4 @@ export class AvatarElement<E extends AvatarElementEventMap = AvatarElementEventM
   ]
 }
 
-customElements.define('q-avatar', AvatarElement)
+defineCustomElement('q-avatar', AvatarElement)

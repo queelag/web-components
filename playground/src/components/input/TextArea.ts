@@ -13,4 +13,4 @@ export default class TextArea extends LitElement {
   `
 }
 
-customElements.define('my-textarea', TextArea)
+defineCustomElement('my-textarea', TextArea)

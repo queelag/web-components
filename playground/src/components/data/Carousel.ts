@@ -175,4 +175,4 @@ export default class Carousel extends LitElement {
   `
 }
 
-customElements.define('my-carousel', Carousel)
+defineCustomElement('my-carousel', Carousel)

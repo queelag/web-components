@@ -26,4 +26,4 @@ export default class Alert extends LitElement {
   `
 }
 
-customElements.define('my-alert', Alert)
+defineCustomElement('my-alert', Alert)

@@ -1,5 +1,5 @@
 import { getLimitedNumber } from '@queelag/core'
-import { AriaMeterElementEventMap, DEFAULT_METER_MAX, DEFAULT_METER_MIN, DEFAULT_METER_VALUE } from '@queelag/web'
+import { AriaMeterElementEventMap, DEFAULT_METER_MAX, DEFAULT_METER_MIN, DEFAULT_METER_VALUE, defineCustomElement } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaMeterController } from '../../controllers/aria.meter.controller'
 import { BaseElement } from '../core/base.element'
@@ -46,4 +46,4 @@ export class AriaMeterElement<E extends AriaMeterElementEventMap = AriaMeterElem
   }
 }
 
-customElements.define('q-aria-meter', AriaMeterElement)
+defineCustomElement('q-aria-meter', AriaMeterElement)

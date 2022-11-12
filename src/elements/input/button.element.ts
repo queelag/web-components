@@ -1,4 +1,4 @@
-import { ButtonClickEvent, ButtonElementEventMap, ButtonType, ButtonVariant, ElementName, WebElementLogger } from '@queelag/web'
+import { ButtonClickEvent, ButtonElementEventMap, ButtonType, ButtonVariant, defineCustomElement, ElementName, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
 import { ifdef } from '../../directives/if.defined'
 import { AriaButtonElement } from '../aria/aria.button.element'
@@ -113,4 +113,4 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
   ]
 }
 
-customElements.define('q-button', ButtonElement)
+defineCustomElement('q-button', ButtonElement)

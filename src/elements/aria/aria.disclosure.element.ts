@@ -3,6 +3,7 @@ import {
   AriaDisclosureElementEventMap,
   AriaDisclosurePanelElementEventMap,
   AriaDisclosureSectionElementEventMap,
+  defineCustomElement,
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
@@ -163,7 +164,7 @@ export class AriaDisclosurePanelElement<E extends AriaDisclosurePanelElementEven
   }
 }
 
-customElements.define('q-aria-disclosure', AriaDisclosureElement)
-customElements.define('q-aria-disclosure-button', AriaDisclosureButtonElement)
-customElements.define('q-aria-disclosure-panel', AriaDisclosurePanelElement)
-customElements.define('q-aria-disclosure-section', AriaDisclosureSectionElement)
+defineCustomElement('q-aria-disclosure', AriaDisclosureElement)
+defineCustomElement('q-aria-disclosure-button', AriaDisclosureButtonElement)
+defineCustomElement('q-aria-disclosure-panel', AriaDisclosurePanelElement)
+defineCustomElement('q-aria-disclosure-section', AriaDisclosureSectionElement)

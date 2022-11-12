@@ -2,6 +2,7 @@ import {
   AriaBreadcrumbElementEventMap,
   AriaBreadcrumbItemElementEventMap,
   AriaBreadcrumbListElementEventMap,
+  defineCustomElement,
   ElementName,
   QueryDeclarations
 } from '@queelag/web'
@@ -59,6 +60,6 @@ export class AriaBreadcrumbItemElement<E extends AriaBreadcrumbItemElementEventM
   }
 }
 
-customElements.define('q-aria-breadcrumb', AriaBreadcrumbElement)
-customElements.define('q-aria-breadcrumb-item', AriaBreadcrumbItemElement)
-customElements.define('q-aria-breadcrumb-list', AriaBreadcrumbListElement)
+defineCustomElement('q-aria-breadcrumb', AriaBreadcrumbElement)
+defineCustomElement('q-aria-breadcrumb-item', AriaBreadcrumbItemElement)
+defineCustomElement('q-aria-breadcrumb-list', AriaBreadcrumbListElement)

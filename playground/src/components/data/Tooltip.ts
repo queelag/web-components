@@ -50,4 +50,4 @@ export default class Tooltip extends LitElement {
   `
 }
 
-customElements.define('my-tooltip', Tooltip)
+defineCustomElement('my-tooltip', Tooltip)

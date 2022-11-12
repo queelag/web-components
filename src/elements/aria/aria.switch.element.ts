@@ -1,4 +1,4 @@
-import { AriaSwitchElementEventMap, KeyboardEventKey, WebElementLogger } from '@queelag/web'
+import { AriaSwitchElementEventMap, defineCustomElement, KeyboardEventKey, WebElementLogger } from '@queelag/web'
 import { css, CSSResult, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaSwitchController } from '../../controllers/aria.switch.controller'
 import { FormFieldElement } from '../core/form.field.element'
@@ -73,4 +73,4 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
   ]
 }
 
-customElements.define('q-aria-switch', AriaSwitchElement)
+defineCustomElement('q-aria-switch', AriaSwitchElement)

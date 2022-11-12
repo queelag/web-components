@@ -1,5 +1,6 @@
 import { parseNumber, removeArrayItems } from '@queelag/core'
 import {
+  defineCustomElement,
   ElementName,
   QueryDeclarations,
   TextAreaElementEventMap,
@@ -252,4 +253,4 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
   ]
 }
 
-customElements.define('q-textarea', TextAreaElement)
+defineCustomElement('q-textarea', TextAreaElement)

@@ -1,5 +1,5 @@
 import { getLimitedNumber, parseNumber } from '@queelag/core'
-import { BadgeElementEventMap, DEFAULT_BADGE_MAX, DEFAULT_BADGE_MIN } from '@queelag/web'
+import { BadgeElementEventMap, DEFAULT_BADGE_MAX, DEFAULT_BADGE_MIN, defineCustomElement } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { BaseElement } from '../core/base.element'
@@ -67,4 +67,4 @@ export class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap>
   ]
 }
 
-customElements.define('q-badge', BadgeElement)
+defineCustomElement('q-badge', BadgeElement)

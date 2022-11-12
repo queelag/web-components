@@ -50,4 +50,4 @@ export default class Breadcrumb extends LitElement {
   `
 }
 
-customElements.define('my-breadcrumb', Breadcrumb)
+defineCustomElement('my-breadcrumb', Breadcrumb)

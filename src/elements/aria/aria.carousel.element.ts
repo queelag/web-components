@@ -12,6 +12,7 @@ import {
   CarouselSlideActivateEvent,
   CarouselSlideDeactivateEvent,
   DEFAULT_CAROUSEL_ROTATION_DURATION,
+  defineCustomElement,
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
@@ -562,11 +563,11 @@ export class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = A
   ]
 }
 
-customElements.define('q-aria-carousel', AriaCarouselElement)
-customElements.define('q-aria-carousel-next-slide-control', AriaCarouselNextSlideControlElement)
-customElements.define('q-aria-carousel-previous-slide-control', AriaCarouselPreviousSlideControlElement)
-customElements.define('q-aria-carousel-rotation-control', AriaCarouselRotationControlElement)
-customElements.define('q-aria-carousel-slide', AriaCarouselSlideElement)
-customElements.define('q-aria-carousel-slides', AriaCarouselSlidesElement)
-customElements.define('q-aria-carousel-tab', AriaCarouselTabElement)
-customElements.define('q-aria-carousel-tabs', AriaCarouselTabsElement)
+defineCustomElement('q-aria-carousel', AriaCarouselElement)
+defineCustomElement('q-aria-carousel-next-slide-control', AriaCarouselNextSlideControlElement)
+defineCustomElement('q-aria-carousel-previous-slide-control', AriaCarouselPreviousSlideControlElement)
+defineCustomElement('q-aria-carousel-rotation-control', AriaCarouselRotationControlElement)
+defineCustomElement('q-aria-carousel-slide', AriaCarouselSlideElement)
+defineCustomElement('q-aria-carousel-slides', AriaCarouselSlidesElement)
+defineCustomElement('q-aria-carousel-tab', AriaCarouselTabElement)
+defineCustomElement('q-aria-carousel-tabs', AriaCarouselTabsElement)

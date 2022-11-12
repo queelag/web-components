@@ -33,4 +33,4 @@ export default class Button extends LitElement {
   `
 }
 
-customElements.define('my-button', Button)
+defineCustomElement('my-button', Button)

@@ -56,4 +56,4 @@ export default class NavigationBar extends LitElement {
   `
 }
 
-customElements.define('my-navigation-bar', NavigationBar)
+defineCustomElement('my-navigation-bar', NavigationBar)

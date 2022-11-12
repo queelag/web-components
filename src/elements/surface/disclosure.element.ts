@@ -1,4 +1,5 @@
 import {
+  defineCustomElement,
   DisclosureButtonElementEventMap,
   DisclosureElementEventMap,
   DisclosurePanelElementEventMap,
@@ -54,7 +55,7 @@ export class DisclosurePanelElement<E extends DisclosurePanelElementEventMap = D
   }
 }
 
-customElements.define('q-disclosure', DisclosureElement)
-customElements.define('q-disclosure-button', DisclosureButtonElement)
-customElements.define('q-disclosure-panel', DisclosurePanelElement)
-customElements.define('q-disclosure-section', DisclosureSectionElement)
+defineCustomElement('q-disclosure', DisclosureElement)
+defineCustomElement('q-disclosure-button', DisclosureButtonElement)
+defineCustomElement('q-disclosure-panel', DisclosurePanelElement)
+defineCustomElement('q-disclosure-section', DisclosureSectionElement)

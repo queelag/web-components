@@ -212,4 +212,4 @@ export default class Select extends LitElement {
   `
 }
 
-customElements.define('my-select', Select)
+defineCustomElement('my-select', Select)

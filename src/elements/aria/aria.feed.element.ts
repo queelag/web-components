@@ -3,6 +3,7 @@ import {
   AriaFeedArticleElementEventMap,
   AriaFeedArticleLabelElementEventMap,
   AriaFeedElementEventMap,
+  defineCustomElement,
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
@@ -211,7 +212,7 @@ export class AriaFeedArticleDescriptionElement<
   }
 }
 
-customElements.define('q-aria-feed', AriaFeedElement)
-customElements.define('q-aria-feed-article', AriaFeedArticleElement)
-customElements.define('q-aria-feed-article-description', AriaFeedArticleDescriptionElement)
-customElements.define('q-aria-feed-article-label', AriaFeedArticleLabelElement)
+defineCustomElement('q-aria-feed', AriaFeedElement)
+defineCustomElement('q-aria-feed-article', AriaFeedArticleElement)
+defineCustomElement('q-aria-feed-article-description', AriaFeedArticleDescriptionElement)
+defineCustomElement('q-aria-feed-article-label', AriaFeedArticleLabelElement)

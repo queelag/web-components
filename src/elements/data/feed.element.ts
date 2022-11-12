@@ -1,4 +1,5 @@
 import {
+  defineCustomElement,
   ElementName,
   FeedArticleDescriptionElementEventMap,
   FeedArticleElementEventMap,
@@ -54,7 +55,7 @@ export class FeedArticleDescriptionElement<
   }
 }
 
-customElements.define('q-feed', FeedElement)
-customElements.define('q-feed-article', FeedArticleElement)
-customElements.define('q-feed-article-description', FeedArticleDescriptionElement)
-customElements.define('q-feed-article-label', FeedArticleLabelElement)
+defineCustomElement('q-feed', FeedElement)
+defineCustomElement('q-feed-article', FeedArticleElement)
+defineCustomElement('q-feed-article-description', FeedArticleDescriptionElement)
+defineCustomElement('q-feed-article-label', FeedArticleLabelElement)

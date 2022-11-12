@@ -45,4 +45,4 @@ export default class Switch extends LitElement {
   `
 }
 
-customElements.define('my-switch', Switch)
+defineCustomElement('my-switch', Switch)

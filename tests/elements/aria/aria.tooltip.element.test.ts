@@ -69,8 +69,24 @@ describe('AriaTooltipElement', () => {
     expect(trigger.getAttribute('tabindex')).toBeNull()
   })
 
-  it('shows and hides on mouse events', async () => {
+  it('does not show on mouse enter', async () => {
     await render(tooltip)
+
+    expect(tooltip.getAttribute('visible')).toBeNull()
+
+    dispatchMouseEnterEvent(trigger)
+    await trigger.updateComplete
+
+    expect(tooltip.getAttribute('visible')).toBeNull()
+
+    dispatchMouseLeaveEvent(trigger)
+    await trigger.updateComplete
+
+    expect(tooltip.getAttribute('visible')).toBeNull()
+  })
+
+  it('shows and hides on mouse events if show on mouse enter is enabled', async () => {
+    await render(tooltip, { 'show-on-mouse-enter': 'true' })
 
     expect(tooltip.getAttribute('visible')).toBeNull()
 

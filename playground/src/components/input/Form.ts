@@ -25,4 +25,4 @@ export default class Form extends LitElement {
   `
 }
 
-customElements.define('my-form', Form)
+defineCustomElement('my-form', Form)

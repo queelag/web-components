@@ -45,4 +45,4 @@ export default class Chip extends LitElement {
   `
 }
 
-customElements.define('my-chip', Chip)
+defineCustomElement('my-chip', Chip)

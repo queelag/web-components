@@ -40,4 +40,4 @@ export default class Badge extends LitElement {
   `
 }
 
-customElements.define('my-badge', Badge)
+defineCustomElement('my-badge', Badge)

@@ -1,4 +1,4 @@
-import { ElementName, QueryDeclarations, TabsElementEventMap, TabsPanelElementEventMap, TabsTabElementEventMap } from '@queelag/web'
+import { defineCustomElement, ElementName, QueryDeclarations, TabsElementEventMap, TabsPanelElementEventMap, TabsTabElementEventMap } from '@queelag/web'
 import { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../aria/aria.tabs.element'
 
 declare global {
@@ -42,6 +42,6 @@ export class TabsPanelElement<E extends TabsPanelElementEventMap = TabsPanelElem
   }
 }
 
-customElements.define('q-tabs', TabsElement)
-customElements.define('q-tabs-tab', TabsTabElement)
-customElements.define('q-tabs-panel', TabsPanelElement)
+defineCustomElement('q-tabs', TabsElement)
+defineCustomElement('q-tabs-tab', TabsTabElement)
+defineCustomElement('q-tabs-panel', TabsPanelElement)

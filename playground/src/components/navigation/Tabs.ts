@@ -74,4 +74,4 @@ export default class Tabs extends LitElement {
   `
 }
 
-customElements.define('my-tabs', Tabs)
+defineCustomElement('my-tabs', Tabs)

@@ -35,4 +35,4 @@ export default class Divider extends LitElement {
   `
 }
 
-customElements.define('my-divider', Divider)
+defineCustomElement('my-divider', Divider)

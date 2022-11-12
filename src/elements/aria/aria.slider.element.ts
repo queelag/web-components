@@ -9,6 +9,7 @@ import {
   DEFAULT_SLIDER_ORIENTATION,
   DEFAULT_SLIDER_STEP,
   DEFAULT_SLIDER_THUMB_VALUE,
+  defineCustomElement,
   ElementName,
   getSliderThumbElementPercentage,
   getSliderThumbElementStyleLeft,
@@ -495,5 +496,5 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
   ]
 }
 
-customElements.define('q-aria-slider', AriaSliderElement)
-customElements.define('q-aria-slider-thumb', AriaSliderThumbElement)
+defineCustomElement('q-aria-slider', AriaSliderElement)
+defineCustomElement('q-aria-slider-thumb', AriaSliderThumbElement)

@@ -3,6 +3,7 @@ import {
   AriaTabsPanelElementEventMap,
   AriaTabsTabElementEventMap,
   AttributeChangeEvent,
+  defineCustomElement,
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
@@ -279,6 +280,6 @@ export class AriaTabsPanelElement<E extends AriaTabsPanelElementEventMap = AriaT
   }
 }
 
-customElements.define('q-aria-tabs', AriaTabsElement)
-customElements.define('q-aria-tabs-tab', AriaTabsTabElement)
-customElements.define('q-aria-tabs-panel', AriaTabsPanelElement)
+defineCustomElement('q-aria-tabs', AriaTabsElement)
+defineCustomElement('q-aria-tabs-tab', AriaTabsTabElement)
+defineCustomElement('q-aria-tabs-panel', AriaTabsPanelElement)

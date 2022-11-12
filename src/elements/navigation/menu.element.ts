@@ -1,5 +1,6 @@
 import { parseNumber } from '@queelag/core'
 import {
+  defineCustomElement,
   ElementName,
   MenuButtonElementEventMap,
   MenuElementEventMap,
@@ -140,7 +141,7 @@ export class MenuSubMenuElement<E extends MenuSubMenuElementEventMap = MenuSubMe
   }
 }
 
-customElements.define('q-menu', MenuElement)
-customElements.define('q-menu-button', MenuButtonElement)
-customElements.define('q-menu-item', MenuItemElement)
-customElements.define('q-menu-submenu', MenuSubMenuElement)
+defineCustomElement('q-menu', MenuElement)
+defineCustomElement('q-menu-button', MenuButtonElement)
+defineCustomElement('q-menu-item', MenuItemElement)
+defineCustomElement('q-menu-submenu', MenuSubMenuElement)

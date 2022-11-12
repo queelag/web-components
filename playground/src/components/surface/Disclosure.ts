@@ -135,4 +135,4 @@ export default class Disclosure extends LitElement {
   `
 }
 
-customElements.define('my-disclosure', Disclosure)
+defineCustomElement('my-disclosure', Disclosure)

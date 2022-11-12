@@ -1,4 +1,5 @@
 import {
+  defineCustomElement,
   ElementName,
   NavigationRailElementEventMap,
   NavigationRailItemElementAttributes,
@@ -60,5 +61,5 @@ export class NavigationRailItemElement<E extends NavigationRailItemElementEventM
   }
 }
 
-customElements.define('q-navigation-rail', NavigationRailElement)
-customElements.define('q-navigation-rail-item', NavigationRailItemElement)
+defineCustomElement('q-navigation-rail', NavigationRailElement)
+defineCustomElement('q-navigation-rail-item', NavigationRailItemElement)

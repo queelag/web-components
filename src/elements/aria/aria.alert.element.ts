@@ -1,4 +1,4 @@
-import { AriaAlertElementEventMap, ElementName } from '@queelag/web'
+import { AriaAlertElementEventMap, defineCustomElement, ElementName } from '@queelag/web'
 import { AriaAlertController } from '../../controllers/aria.alert.controller'
 import { BaseElement } from '../core/base.element'
 
@@ -16,4 +16,4 @@ export class AriaAlertElement<E extends AriaAlertElementEventMap = AriaAlertElem
   }
 }
 
-customElements.define('q-aria-alert', AriaAlertElement)
+defineCustomElement('q-aria-alert', AriaAlertElement)

@@ -1,4 +1,4 @@
-import { ChipElementEventMap, ChipElementVariant, ElementName } from '@queelag/web'
+import { ChipElementEventMap, ChipElementVariant, defineCustomElement, ElementName } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
@@ -33,4 +33,4 @@ export class ChipElement<E extends ChipElementEventMap = ChipElementEventMap> ex
   }
 }
 
-customElements.define('q-chip', ChipElement)
+defineCustomElement('q-chip', ChipElement)

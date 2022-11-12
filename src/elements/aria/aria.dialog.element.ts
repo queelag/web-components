@@ -2,6 +2,7 @@ import {
   AriaDialogDescriptionElementEventMap,
   AriaDialogElementEventMap,
   AriaDialogLabelElementEventMap,
+  defineCustomElement,
   ElementName,
   QueryDeclarations,
   WebElementLogger
@@ -113,6 +114,6 @@ export class AriaDialogLabelElement<E extends AriaDialogLabelElementEventMap = A
   }
 }
 
-customElements.define('q-aria-dialog', AriaDialogElement)
-customElements.define('q-aria-dialog-description', AriaDialogDescriptionElement)
-customElements.define('q-aria-dialog-label', AriaDialogLabelElement)
+defineCustomElement('q-aria-dialog', AriaDialogElement)
+defineCustomElement('q-aria-dialog-description', AriaDialogDescriptionElement)
+defineCustomElement('q-aria-dialog-label', AriaDialogLabelElement)

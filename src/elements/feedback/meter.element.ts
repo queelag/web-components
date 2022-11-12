@@ -1,5 +1,5 @@
 import { getNumberPercentage } from '@queelag/core'
-import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, MeterElementEventMap } from '@queelag/web'
+import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, defineCustomElement, MeterElementEventMap } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ifdef } from '../../directives/if.defined'
@@ -57,4 +57,4 @@ export class MeterElement<E extends MeterElementEventMap = MeterElementEventMap>
   }
 }
 
-customElements.define('q-meter', MeterElement)
+defineCustomElement('q-meter', MeterElement)

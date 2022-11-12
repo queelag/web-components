@@ -4,6 +4,7 @@ import {
   DEFAULT_SLIDER_MIN,
   DEFAULT_SLIDER_STEP,
   DEFAULT_SLIDER_THUMB_VALUE,
+  defineCustomElement,
   ElementName,
   QueryDeclarations,
   SliderElementEventMap,
@@ -89,5 +90,5 @@ export class SliderThumbElement<E extends SliderThumbElementEventMap = SliderThu
   }
 }
 
-customElements.define('q-slider', SliderElement)
-customElements.define('q-slider-thumb', SliderThumbElement)
+defineCustomElement('q-slider', SliderElement)
+defineCustomElement('q-slider-thumb', SliderThumbElement)

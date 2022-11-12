@@ -1,4 +1,4 @@
-import { ElementName, FormElementEventMap, FormSubmitEvent, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import { defineCustomElement, ElementName, FormElementEventMap, FormSubmitEvent, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ifdef } from '../../directives/if.defined'
@@ -127,4 +127,4 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
   }
 }
 
-customElements.define('q-form', FormElement)
+defineCustomElement('q-form', FormElement)

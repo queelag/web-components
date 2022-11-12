@@ -1,5 +1,5 @@
 import { deserializeFile, DeserializeFileOptions, QueelagFile, removeArrayItems } from '@queelag/core'
-import { ElementName, InputFileElementEventMap, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import { defineCustomElement, ElementName, InputFileElementEventMap, QueryDeclarations, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { FormFieldElement } from '../core/form.field.element'
@@ -166,4 +166,4 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
   ]
 }
 
-customElements.define('q-input-file', InputFileElement)
+defineCustomElement('q-input-file', InputFileElement)

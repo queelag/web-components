@@ -149,5 +149,3 @@ export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElem
     setReturnFocus: { attribute: 'set-return-focus' }
   }
 }
-
-customElements.define('q-focus-trap', FocusTrapElement)

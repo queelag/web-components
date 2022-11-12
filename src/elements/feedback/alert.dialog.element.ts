@@ -2,6 +2,7 @@ import {
   AlertDialogDescriptionElementEventMap,
   AlertDialogElementEventMap,
   AlertDialogLabelElementEventMap,
+  defineCustomElement,
   ElementName,
   QueryDeclarations
 } from '@queelag/web'
@@ -49,6 +50,6 @@ export class AlertDialogDescriptionElement<
   }
 }
 
-customElements.define('q-alert-dialog', AlertDialogElement)
-customElements.define('q-alert-dialog-description', AlertDialogDescriptionElement)
-customElements.define('q-alert-dialog-label', AlertDialogLabelElement)
+defineCustomElement('q-alert-dialog', AlertDialogElement)
+defineCustomElement('q-alert-dialog-description', AlertDialogDescriptionElement)
+defineCustomElement('q-alert-dialog-label', AlertDialogLabelElement)

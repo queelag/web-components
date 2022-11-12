@@ -1,4 +1,4 @@
-import { AriaCheckBoxElementEventMap, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
+import { AriaCheckBoxElementEventMap, defineCustomElement, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaCheckBoxController } from '../../controllers/aria.check.box.controller'
 import { FormFieldElement } from '../core/form.field.element'
@@ -82,4 +82,4 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
   ]
 }
 
-customElements.define('q-aria-checkbox', AriaCheckBoxElement)
+defineCustomElement('q-aria-checkbox', AriaCheckBoxElement)

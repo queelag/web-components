@@ -1,4 +1,4 @@
-import { BreadcrumbElementEventMap, BreadcrumbItemElementEventMap, BreadcrumbListElementEventMap, ElementName } from '@queelag/web'
+import { BreadcrumbElementEventMap, BreadcrumbItemElementEventMap, BreadcrumbListElementEventMap, defineCustomElement, ElementName } from '@queelag/web'
 import { AriaBreadcrumbElement, AriaBreadcrumbItemElement, AriaBreadcrumbListElement } from '../aria/aria.breadcrumb.element'
 
 declare global {
@@ -27,6 +27,6 @@ export class BreadcrumbItemElement<E extends BreadcrumbItemElementEventMap = Bre
   }
 }
 
-customElements.define('q-breadcrumb', BreadcrumbElement)
-customElements.define('q-breadcrumb-item', BreadcrumbItemElement)
-customElements.define('q-breadcrumb-list', BreadcrumbListElement)
+defineCustomElement('q-breadcrumb', BreadcrumbElement)
+defineCustomElement('q-breadcrumb-item', BreadcrumbItemElement)
+defineCustomElement('q-breadcrumb-list', BreadcrumbListElement)

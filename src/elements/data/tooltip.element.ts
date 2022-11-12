@@ -1,4 +1,5 @@
 import {
+  defineCustomElement,
   ElementName,
   QueryDeclarations,
   TooltipArrowElementEventMap,
@@ -55,7 +56,7 @@ export class TooltipTriggerElement<E extends TooltipTriggerElementEventMap = Too
   }
 }
 
-customElements.define('q-tooltip', TooltipElement)
-customElements.define('q-tooltip-arrow', TooltipArrowElement)
-customElements.define('q-tooltip-content', TooltipContentElement)
-customElements.define('q-tooltip-trigger', TooltipTriggerElement)
+defineCustomElement('q-tooltip', TooltipElement)
+defineCustomElement('q-tooltip-arrow', TooltipArrowElement)
+defineCustomElement('q-tooltip-content', TooltipContentElement)
+defineCustomElement('q-tooltip-trigger', TooltipTriggerElement)

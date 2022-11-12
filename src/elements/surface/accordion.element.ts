@@ -4,6 +4,7 @@ import {
   AccordionHeaderElementEventMap,
   AccordionPanelElementEventMap,
   AccordionSectionElementEventMap,
+  defineCustomElement,
   ElementName,
   QueryDeclarations
 } from '@queelag/web'
@@ -74,8 +75,8 @@ export class AccordionPanelElement<E extends AccordionPanelElementEventMap = Acc
   }
 }
 
-customElements.define('q-accordion', AccordionElement)
-customElements.define('q-accordion-button', AccordionButtonElement)
-customElements.define('q-accordion-header', AccordionHeaderElement)
-customElements.define('q-accordion-panel', AccordionPanelElement)
-customElements.define('q-accordion-section', AccordionSectionElement)
+defineCustomElement('q-accordion', AccordionElement)
+defineCustomElement('q-accordion-button', AccordionButtonElement)
+defineCustomElement('q-accordion-header', AccordionHeaderElement)
+defineCustomElement('q-accordion-panel', AccordionPanelElement)
+defineCustomElement('q-accordion-section', AccordionSectionElement)

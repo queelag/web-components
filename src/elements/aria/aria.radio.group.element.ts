@@ -1,4 +1,12 @@
-import { AriaRadioButtonElementEventMap, AriaRadioGroupElementEventMap, ElementName, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import {
+  AriaRadioButtonElementEventMap,
+  AriaRadioGroupElementEventMap,
+  defineCustomElement,
+  ElementName,
+  KeyboardEventKey,
+  QueryDeclarations,
+  WebElementLogger
+} from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaRadioButtonController, AriaRadioGroupController } from '../../controllers/aria.radio.group.controller'
 import { BaseElement } from '../core/base.element'
@@ -198,5 +206,5 @@ export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = A
   ]
 }
 
-customElements.define('q-aria-radio-group', AriaRadioGroupElement)
-customElements.define('q-aria-radio-button', AriaRadioButtonElement)
+defineCustomElement('q-aria-radio-group', AriaRadioGroupElement)
+defineCustomElement('q-aria-radio-button', AriaRadioButtonElement)

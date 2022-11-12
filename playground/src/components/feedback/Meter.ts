@@ -49,4 +49,4 @@ export default class Meter extends LitElement {
   `
 }
 
-customElements.define('my-meter', Meter)
+defineCustomElement('my-meter', Meter)

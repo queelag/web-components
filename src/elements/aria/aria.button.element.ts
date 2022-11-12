@@ -1,4 +1,4 @@
-import { AriaButtonElementEventMap, ButtonPressed, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
+import { AriaButtonElementEventMap, ButtonPressed, defineCustomElement, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaButtonController } from '../../controllers/aria.button.controller'
 import { BaseElement } from '../core/base.element'
@@ -79,4 +79,4 @@ export class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonE
   ]
 }
 
-customElements.define('q-aria-button', AriaButtonElement)
+defineCustomElement('q-aria-button', AriaButtonElement)

@@ -1,4 +1,11 @@
-import { DialogDescriptionElementEventMap, DialogElementEventMap, DialogLabelElementEventMap, ElementName, QueryDeclarations } from '@queelag/web'
+import {
+  defineCustomElement,
+  DialogDescriptionElementEventMap,
+  DialogElementEventMap,
+  DialogLabelElementEventMap,
+  ElementName,
+  QueryDeclarations
+} from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../aria/aria.dialog.element'
 
@@ -41,6 +48,6 @@ export class DialogDescriptionElement<E extends DialogDescriptionElementEventMap
   }
 }
 
-customElements.define('q-dialog', DialogElement)
-customElements.define('q-dialog-description', DialogDescriptionElement)
-customElements.define('q-dialog-label', DialogLabelElement)
+defineCustomElement('q-dialog', DialogElement)
+defineCustomElement('q-dialog-description', DialogDescriptionElement)
+defineCustomElement('q-dialog-label', DialogLabelElement)

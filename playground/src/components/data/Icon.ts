@@ -16,4 +16,4 @@ export default class Icon extends LitElement {
   `
 }
 
-customElements.define('my-icon', Icon)
+defineCustomElement('my-icon', Icon)

@@ -1,4 +1,4 @@
-import { ButtonElementAttributes, ButtonGroupElementEventMap, ElementName } from '@queelag/web'
+import { ButtonElementAttributes, ButtonGroupElementEventMap, defineCustomElement, ElementName } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
@@ -20,4 +20,4 @@ export class ButtonGroupElement<E extends ButtonGroupElementEventMap = ButtonGro
   }
 }
 
-customElements.define('q-button-group', ButtonGroupElement)
+defineCustomElement('q-button-group', ButtonGroupElement)

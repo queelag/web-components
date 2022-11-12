@@ -1,4 +1,4 @@
-import { DividerElementEventMap, Orientation } from '@queelag/web'
+import { defineCustomElement, DividerElementEventMap, Orientation } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { choose } from '../../directives/choose'
@@ -32,4 +32,4 @@ export class DividerElement<E extends DividerElementEventMap = DividerElementEve
   }
 }
 
-customElements.define('q-divider', DividerElement)
+defineCustomElement('q-divider', DividerElement)

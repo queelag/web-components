@@ -4,6 +4,7 @@ import {
   Color,
   DEFAULT_ICON_SANITIZE_CONFIG,
   DEFAULT_ICON_SVG_STRING,
+  defineCustomElement,
   ElementName,
   getElementStyleCompatibleValue,
   IconElementEventMap,
@@ -199,4 +200,4 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
   }
 }
 
-customElements.define('q-icon', IconElement)
+defineCustomElement('q-icon', IconElement)

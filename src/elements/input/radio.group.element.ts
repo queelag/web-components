@@ -1,4 +1,12 @@
-import { ElementName, QueryDeclarations, RadioButton, RadioButtonElementEventMap, RadioGroupElementEventMap, WebElementLogger } from '@queelag/web'
+import {
+  defineCustomElement,
+  ElementName,
+  QueryDeclarations,
+  RadioButton,
+  RadioButtonElementEventMap,
+  RadioGroupElementEventMap,
+  WebElementLogger
+} from '@queelag/web'
 import { html, PropertyDeclarations } from 'lit'
 import { map } from '../../directives/map'
 import { AriaRadioButtonElement, AriaRadioGroupElement } from '../aria/aria.radio.group.element'
@@ -111,5 +119,5 @@ export class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButt
   }
 }
 
-customElements.define('q-radio-group', RadioGroupElement)
-customElements.define('q-radio-button', RadioButtonElement)
+defineCustomElement('q-radio-group', RadioGroupElement)
+defineCustomElement('q-radio-button', RadioButtonElement)

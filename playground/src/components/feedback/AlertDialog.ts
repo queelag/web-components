@@ -71,4 +71,4 @@ export default class AlertDialog extends LitElement {
   `
 }
 
-customElements.define('my-alert-dialog', AlertDialog)
+defineCustomElement('my-alert-dialog', AlertDialog)

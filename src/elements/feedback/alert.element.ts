@@ -1,4 +1,4 @@
-import { AlertElementEventMap, AlertSeverity, AlertVariant, ElementName } from '@queelag/web'
+import { AlertElementEventMap, AlertSeverity, AlertVariant, defineCustomElement, ElementName } from '@queelag/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaAlertElement } from '../aria/aria.alert.element'
 
@@ -32,4 +32,4 @@ export class AlertElement<E extends AlertElementEventMap = AlertElementEventMap>
   }
 }
 
-customElements.define('q-alert', AlertElement)
+defineCustomElement('q-alert', AlertElement)

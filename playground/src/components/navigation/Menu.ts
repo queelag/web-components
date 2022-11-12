@@ -17,7 +17,7 @@ class IconChevronRight extends LitElement {
   }
 }
 
-customElements.define('my-menu-icon-chevron-right', IconChevronRight)
+defineCustomElement('my-menu-icon-chevron-right', IconChevronRight)
 
 export default class Menu extends LitElement {
   button: boolean = true
@@ -229,4 +229,4 @@ export default class Menu extends LitElement {
   `
 }
 
-customElements.define('my-menu', Menu)
+defineCustomElement('my-menu', Menu)

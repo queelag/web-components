@@ -2,6 +2,7 @@ import {
   AriaAlertDialogDescriptionElementEventMap,
   AriaAlertDialogElementEventMap,
   AriaAlertDialogLabelElementEventMap,
+  defineCustomElement,
   ElementName,
   QueryDeclarations
 } from '@queelag/web'
@@ -48,6 +49,6 @@ export class AriaAlertDialogLabelElement<
   }
 }
 
-customElements.define('q-aria-alert-dialog', AriaAlertDialogElement)
-customElements.define('q-aria-alert-dialog-description', AriaAlertDialogDescriptionElement)
-customElements.define('q-aria-alert-dialog-label', AriaAlertDialogLabelElement)
+defineCustomElement('q-aria-alert-dialog', AriaAlertDialogElement)
+defineCustomElement('q-aria-alert-dialog-description', AriaAlertDialogDescriptionElement)
+defineCustomElement('q-aria-alert-dialog-label', AriaAlertDialogLabelElement)

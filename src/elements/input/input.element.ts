@@ -1,6 +1,7 @@
 import { parseNumber, removeArrayItems, TextCodec } from '@queelag/core'
 import {
   DEFAULT_INPUT_TYPE,
+  defineCustomElement,
   ElementName,
   InputElementEventMap,
   InputElementTouchTrigger,
@@ -323,4 +324,4 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
   ]
 }
 
-customElements.define('q-input', InputElement)
+defineCustomElement('q-input', InputElement)

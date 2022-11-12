@@ -3,6 +3,7 @@ import {
   CACHE_IMAGES,
   DEFAULT_IMAGE_SIZE,
   DEFAULT_IMAGE_SRC,
+  defineCustomElement,
   ElementName,
   getElementStyleCompatibleValue,
   getImageElementBase64,
@@ -205,4 +206,4 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
   }
 }
 
-customElements.define('q-image', ImageElement)
+defineCustomElement('q-image', ImageElement)

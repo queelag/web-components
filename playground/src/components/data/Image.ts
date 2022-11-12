@@ -22,4 +22,4 @@ export default class Image extends LitElement {
   `
 }
 
-customElements.define('my-image', Image)
+defineCustomElement('my-image', Image)

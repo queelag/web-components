@@ -57,4 +57,4 @@ export default class Feed extends LitElement {
   `
 }
 
-customElements.define('my-feed', Feed)
+defineCustomElement('my-feed', Feed)

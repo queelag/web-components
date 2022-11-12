@@ -100,4 +100,4 @@ export default class Slider extends LitElement {
   `
 }
 
-customElements.define('my-slider', Slider)
+defineCustomElement('my-slider', Slider)

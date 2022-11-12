@@ -6,6 +6,7 @@ import {
   AriaMenuSubMenuElementEventMap,
   DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME,
   DEFAULT_MENU_TYPEAHEAD_PREDICATE,
+  defineCustomElement,
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
@@ -941,7 +942,7 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
   ]
 }
 
-customElements.define('q-aria-menu', AriaMenuElement)
-customElements.define('q-aria-menu-button', AriaMenuButtonElement)
-customElements.define('q-aria-menu-item', AriaMenuItemElement)
-customElements.define('q-aria-menu-submenu', AriaMenuSubMenuElement)
+defineCustomElement('q-aria-menu', AriaMenuElement)
+defineCustomElement('q-aria-menu-button', AriaMenuButtonElement)
+defineCustomElement('q-aria-menu-item', AriaMenuItemElement)
+defineCustomElement('q-aria-menu-submenu', AriaMenuSubMenuElement)

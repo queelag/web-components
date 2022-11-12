@@ -8,6 +8,7 @@ import {
   AriaComboBoxListElementEventMap,
   AriaComboBoxOptionElementEventMap,
   DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE,
+  defineCustomElement,
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
@@ -673,9 +674,9 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
   ]
 }
 
-customElements.define('q-aria-combobox', AriaComboBoxElement)
-customElements.define('q-aria-combobox-button', AriaComboBoxButtonElement)
-customElements.define('q-aria-combobox-group', AriaComboBoxGroupElement)
-customElements.define('q-aria-combobox-input', AriaComboBoxInputElement)
-customElements.define('q-aria-combobox-list', AriaComboBoxListElement)
-customElements.define('q-aria-combobox-option', AriaComboBoxOptionElement)
+defineCustomElement('q-aria-combobox', AriaComboBoxElement)
+defineCustomElement('q-aria-combobox-button', AriaComboBoxButtonElement)
+defineCustomElement('q-aria-combobox-group', AriaComboBoxGroupElement)
+defineCustomElement('q-aria-combobox-input', AriaComboBoxInputElement)
+defineCustomElement('q-aria-combobox-list', AriaComboBoxListElement)
+defineCustomElement('q-aria-combobox-option', AriaComboBoxOptionElement)

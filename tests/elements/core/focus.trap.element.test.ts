@@ -1,10 +1,11 @@
+import { defineCustomElement } from '@queelag/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/core/focus.trap.element'
 import { FocusTrapElement } from '../../../src/elements/core/focus.trap.element'
 import { render } from '../../../vitest/dom.utils'
 
 class TestElement extends FocusTrapElement {}
-customElements.define('q-test', TestElement)
+defineCustomElement('q-test', TestElement)
 
 describe('FocusTrapElement', () => {
   let test: TestElement

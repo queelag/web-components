@@ -40,4 +40,4 @@ export default class Avatar extends LitElement {
   `
 }
 
-customElements.define('my-avatar', Avatar)
+defineCustomElement('my-avatar', Avatar)

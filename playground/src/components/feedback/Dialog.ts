@@ -72,4 +72,4 @@ export default class Dialog extends LitElement {
   `
 }
 
-customElements.define('my-dialog', Dialog)
+defineCustomElement('my-dialog', Dialog)

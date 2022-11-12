@@ -1,4 +1,4 @@
-import { CheckBoxElementEventMap, ElementName, WebElementLogger } from '@queelag/web'
+import { CheckBoxElementEventMap, defineCustomElement, ElementName, WebElementLogger } from '@queelag/web'
 import { css, CSSResultGroup } from 'lit'
 import { html } from 'lit-html'
 import { AriaCheckBoxElement } from '../aria/aria.check.box.element'
@@ -72,4 +72,4 @@ export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElement
   ]
 }
 
-customElements.define('q-checkbox', CheckBoxElement)
+defineCustomElement('q-checkbox', CheckBoxElement)

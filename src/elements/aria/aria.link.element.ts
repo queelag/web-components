@@ -1,4 +1,4 @@
-import { AriaLinkElementEventMap, ElementName, KeyboardEventKey } from '@queelag/web'
+import { AriaLinkElementEventMap, defineCustomElement, ElementName, KeyboardEventKey } from '@queelag/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaLinkController } from '../../controllers/aria.link.controller'
 import { BaseElement } from '../core/base.element'
@@ -67,4 +67,4 @@ export class AriaLinkElement<E extends AriaLinkElementEventMap = AriaLinkElement
   ]
 }
 
-customElements.define('q-aria-link', AriaLinkElement)
+defineCustomElement('q-aria-link', AriaLinkElement)

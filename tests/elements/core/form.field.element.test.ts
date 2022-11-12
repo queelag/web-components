@@ -1,4 +1,4 @@
-import { FormFieldElementCollector } from '@queelag/web'
+import { defineCustomElement, FormFieldElementCollector } from '@queelag/web'
 import { number } from 'superstruct'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/core/form.field.element'
@@ -6,8 +6,7 @@ import { FormFieldElement } from '../../../src/elements/core/form.field.element'
 import { render } from '../../../vitest/dom.utils'
 
 class TestElement extends FormFieldElement {}
-
-customElements.define('q-test', TestElement)
+defineCustomElement('q-test', TestElement)
 
 describe('FormFieldElement', () => {
   let test: TestElement

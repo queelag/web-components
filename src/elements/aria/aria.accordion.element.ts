@@ -4,6 +4,7 @@ import {
   AriaAccordionHeaderElementEventMap,
   AriaAccordionPanelElementEventMap,
   AriaAccordionSectionElementEventMap,
+  defineCustomElement,
   ElementName,
   HeadingLevel,
   KeyboardEventKey,
@@ -293,8 +294,8 @@ export class AriaAccordionPanelElement<E extends AriaAccordionPanelElementEventM
   }
 }
 
-customElements.define('q-aria-accordion', AriaAccordionElement)
-customElements.define('q-aria-accordion-button', AriaAccordionButtonElement)
-customElements.define('q-aria-accordion-header', AriaAccordionHeaderElement)
-customElements.define('q-aria-accordion-panel', AriaAccordionPanelElement)
-customElements.define('q-aria-accordion-section', AriaAccordionSectionElement)
+defineCustomElement('q-aria-accordion', AriaAccordionElement)
+defineCustomElement('q-aria-accordion-button', AriaAccordionButtonElement)
+defineCustomElement('q-aria-accordion-header', AriaAccordionHeaderElement)
+defineCustomElement('q-aria-accordion-panel', AriaAccordionPanelElement)
+defineCustomElement('q-aria-accordion-section', AriaAccordionSectionElement)

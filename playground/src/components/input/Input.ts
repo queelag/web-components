@@ -68,4 +68,4 @@ export default class Input extends LitElement {
   `
 }
 
-customElements.define('my-input', Input)
+defineCustomElement('my-input', Input)
