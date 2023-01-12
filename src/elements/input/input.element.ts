@@ -320,6 +320,10 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
         outline: none;
         padding: 0;
       }
+
+      input {
+        all: inherit;
+      }
     `
   ]
 }

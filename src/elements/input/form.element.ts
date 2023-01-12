@@ -1,5 +1,5 @@
 import { defineCustomElement, ElementName, FormElementEventMap, FormSubmitEvent, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
-import { PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ifdef } from '../../directives/if.defined'
 import { BaseElement } from '../core/base.element'
@@ -125,6 +125,16 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
     switchElements: { selector: 'q-switch', all: true },
     textAreaElements: { selector: 'q-textarea', all: true }
   }
+
+  static styles: CSSResultGroup = [
+    super.styles,
+    css`
+      form {
+        height: 100%;
+        width: 100%;
+      }
+    `
+  ]
 }
 
 defineCustomElement('q-form', FormElement)
