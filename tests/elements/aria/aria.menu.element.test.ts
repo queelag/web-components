@@ -1,5 +1,5 @@
-import { sleep } from '@queelag/core'
-import { KeyboardEventKey } from '@queelag/web'
+import { sleep } from '@aracna/core'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
 import '../../../src/elements/aria/aria.menu.element'
 import type { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../../../src/elements/aria/aria.menu.element'
@@ -89,26 +89,26 @@ describe('AriaMenuElement', () => {
   }
 
   beforeEach(() => {
-    menu = document.createElement('q-aria-menu')
+    menu = document.createElement('aracna-aria-menu')
 
-    button = document.createElement('q-aria-menu-button')
-    i1 = document.createElement('q-aria-menu-item')
-    i2 = document.createElement('q-aria-menu-item')
-    i3 = document.createElement('q-aria-menu-item')
-    i4 = document.createElement('q-aria-menu-item')
-    i5 = document.createElement('q-aria-menu-item')
-    i6 = document.createElement('q-aria-menu-item')
-    i7 = document.createElement('q-aria-menu-item')
-    i8 = document.createElement('q-aria-menu-item')
-    i9 = document.createElement('q-aria-menu-item')
-    i10 = document.createElement('q-aria-menu-item')
-    i11 = document.createElement('q-aria-menu-item')
-    i12 = document.createElement('q-aria-menu-item')
-    sm1 = document.createElement('q-aria-menu-submenu')
-    sm2 = document.createElement('q-aria-menu-submenu')
-    sm3 = document.createElement('q-aria-menu-submenu')
-    sm4 = document.createElement('q-aria-menu-submenu')
-    sm5 = document.createElement('q-aria-menu-submenu')
+    button = document.createElement('aracna-aria-menu-button')
+    i1 = document.createElement('aracna-aria-menu-item')
+    i2 = document.createElement('aracna-aria-menu-item')
+    i3 = document.createElement('aracna-aria-menu-item')
+    i4 = document.createElement('aracna-aria-menu-item')
+    i5 = document.createElement('aracna-aria-menu-item')
+    i6 = document.createElement('aracna-aria-menu-item')
+    i7 = document.createElement('aracna-aria-menu-item')
+    i8 = document.createElement('aracna-aria-menu-item')
+    i9 = document.createElement('aracna-aria-menu-item')
+    i10 = document.createElement('aracna-aria-menu-item')
+    i11 = document.createElement('aracna-aria-menu-item')
+    i12 = document.createElement('aracna-aria-menu-item')
+    sm1 = document.createElement('aracna-aria-menu-submenu')
+    sm2 = document.createElement('aracna-aria-menu-submenu')
+    sm3 = document.createElement('aracna-aria-menu-submenu')
+    sm4 = document.createElement('aracna-aria-menu-submenu')
+    sm5 = document.createElement('aracna-aria-menu-submenu')
 
     menu.collapseDebounceTime = 100
 

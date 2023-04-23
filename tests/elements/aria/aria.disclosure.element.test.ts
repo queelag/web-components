@@ -18,14 +18,14 @@ describe('AriaDisclosureElement', () => {
     p2: AriaDisclosurePanelElement
 
   beforeEach(() => {
-    disclosure = document.createElement('q-aria-disclosure')
+    disclosure = document.createElement('aracna-aria-disclosure')
 
-    s1 = document.createElement('q-aria-disclosure-section')
-    s2 = document.createElement('q-aria-disclosure-section')
-    b1 = document.createElement('q-aria-disclosure-button')
-    b2 = document.createElement('q-aria-disclosure-button')
-    p1 = document.createElement('q-aria-disclosure-panel')
-    p2 = document.createElement('q-aria-disclosure-panel')
+    s1 = document.createElement('aracna-aria-disclosure-section')
+    s2 = document.createElement('aracna-aria-disclosure-section')
+    b1 = document.createElement('aracna-aria-disclosure-button')
+    b2 = document.createElement('aracna-aria-disclosure-button')
+    p1 = document.createElement('aracna-aria-disclosure-panel')
+    p2 = document.createElement('aracna-aria-disclosure-panel')
 
     s1.append(b1, p1)
     s2.append(b2, p2)

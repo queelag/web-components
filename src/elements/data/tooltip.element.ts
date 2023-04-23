@@ -6,15 +6,15 @@ import {
   TooltipContentElementEventMap,
   TooltipElementEventMap,
   TooltipTriggerElementEventMap
-} from '@queelag/web'
+} from '@aracna/web'
 import { AriaTooltipArrowElement, AriaTooltipContentElement, AriaTooltipElement, AriaTooltipTriggerElement } from '../aria/aria.tooltip.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-tooltip': TooltipElement
-    'q-tooltip-arrow': TooltipArrowElement
-    'q-tooltip-content': TooltipContentElement
-    'q-tooltip-trigger': TooltipTriggerElement
+    'aracna-tooltip': TooltipElement
+    'aracna-tooltip-arrow': TooltipArrowElement
+    'aracna-tooltip-content': TooltipContentElement
+    'aracna-tooltip-trigger': TooltipTriggerElement
   }
 }
 
@@ -24,9 +24,9 @@ export class TooltipElement<E extends TooltipElementEventMap = TooltipElementEve
   }
 
   static queries: QueryDeclarations = {
-    arrowElement: { selector: 'q-tooltip-arrow' },
-    contentElement: { selector: 'q-tooltip-content' },
-    triggerElement: { selector: 'q-tooltip-trigger' }
+    arrowElement: { selector: 'aracna-tooltip-arrow' },
+    contentElement: { selector: 'aracna-tooltip-content' },
+    triggerElement: { selector: 'aracna-tooltip-trigger' }
   }
 }
 
@@ -42,7 +42,7 @@ export class TooltipContentElement<E extends TooltipContentElementEventMap = Too
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-tooltip', closest: true }
+    rootElement: { selector: 'aracna-tooltip', closest: true }
   }
 }
 
@@ -52,11 +52,11 @@ export class TooltipTriggerElement<E extends TooltipTriggerElementEventMap = Too
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-tooltip', closest: true }
+    rootElement: { selector: 'aracna-tooltip', closest: true }
   }
 }
 
-defineCustomElement('q-tooltip', TooltipElement)
-defineCustomElement('q-tooltip-arrow', TooltipArrowElement)
-defineCustomElement('q-tooltip-content', TooltipContentElement)
-defineCustomElement('q-tooltip-trigger', TooltipTriggerElement)
+defineCustomElement('aracna-tooltip', TooltipElement)
+defineCustomElement('aracna-tooltip-arrow', TooltipArrowElement)
+defineCustomElement('aracna-tooltip-content', TooltipContentElement)
+defineCustomElement('aracna-tooltip-trigger', TooltipTriggerElement)

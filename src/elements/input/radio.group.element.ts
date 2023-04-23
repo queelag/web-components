@@ -6,15 +6,15 @@ import {
   RadioButtonElementEventMap,
   RadioGroupElementEventMap,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { html, PropertyDeclarations } from 'lit'
 import { map } from '../../directives/map'
 import { AriaRadioButtonElement, AriaRadioGroupElement } from '../aria/aria.radio.group.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-radio-group': RadioGroupElement
-    'q-radio-button': RadioButtonElement
+    'aracna-radio-group': RadioGroupElement
+    'aracna-radio-button': RadioButtonElement
   }
 }
 
@@ -88,9 +88,9 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
   }
 
   static queries: QueryDeclarations = {
-    buttonElements: { selector: 'q-radio-button', all: true },
-    checkedButtonElement: { selector: 'q-radio-button[checked]' },
-    focusedButtonElement: { selector: 'q-radio-button:focus' }
+    buttonElements: { selector: 'aracna-radio-button', all: true },
+    checkedButtonElement: { selector: 'aracna-radio-button[checked]' },
+    focusedButtonElement: { selector: 'aracna-radio-button:focus' }
   }
 }
 
@@ -115,9 +115,9 @@ export class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButt
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-radio-group', closest: true }
+    rootElement: { selector: 'aracna-radio-group', closest: true }
   }
 }
 
-defineCustomElement('q-radio-group', RadioGroupElement)
-defineCustomElement('q-radio-button', RadioButtonElement)
+defineCustomElement('aracna-radio-group', RadioGroupElement)
+defineCustomElement('aracna-radio-button', RadioButtonElement)

@@ -1,4 +1,4 @@
-import { defineCustomElement, ElementCollector, QueryDeclarations } from '@queelag/web'
+import { defineCustomElement, ElementCollector, QueryDeclarations } from '@aracna/web'
 import { html } from 'lit-html'
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
 import '../../../src/elements/core/base.element'
@@ -24,13 +24,13 @@ class TestElement extends BaseElement {
   }
 }
 
-defineCustomElement('q-test', TestElement)
+defineCustomElement('aracna-test', TestElement)
 
 describe('BaseElement', () => {
   let test: TestElement
 
   beforeEach(() => {
-    test = document.createElement('q-test') as any
+    test = document.createElement('aracna-test') as any
   })
 
   afterEach(() => {

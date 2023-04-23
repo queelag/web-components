@@ -1,17 +1,17 @@
-import { defineCustomElement } from '@queelag/web'
+import { defineCustomElement } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/core/floating.element'
 import { FloatingElement } from '../../../src/elements/core/floating.element'
 import { render } from '../../../vitest/dom.utils'
 
 class TestElement extends FloatingElement {}
-defineCustomElement('q-test', TestElement)
+defineCustomElement('aracna-test', TestElement)
 
 describe('FloatingElement', () => {
   let test: TestElement
 
   beforeEach(() => {
-    test = document.createElement('q-test') as any
+    test = document.createElement('aracna-test') as any
   })
 
   afterEach(() => {

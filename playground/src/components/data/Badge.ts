@@ -5,8 +5,8 @@ import '../../../../src/elements/data/badge.element'
 export default class Badge extends LitElement {
   protected render(): unknown {
     return html`
-      <q-avatar background="lightgray" shape="square" shape-square-radius="4" size="32">JD</q-avatar>
-      <q-badge background="red" shape="circle" size="14" value="7"></q-badge>
+      <aracna-avatar background="lightgray" shape="square" shape-square-radius="4" size="32">JD</aracna-avatar>
+      <aracna-badge background="red" shape="circle" size="14" value="7"></aracna-badge>
     `
   }
 
@@ -19,12 +19,12 @@ export default class Badge extends LitElement {
       position: relative;
     }
 
-    q-avatar {
+    aracna-avatar {
       font-size: 12px;
       font-weight: 500;
     }
 
-    q-badge {
+    aracna-badge {
       display: flex;
       align-items: center;
       justify-content: center;

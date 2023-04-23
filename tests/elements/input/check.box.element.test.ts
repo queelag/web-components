@@ -7,7 +7,7 @@ describe('CheckBoxElement', () => {
   let checkbox: CheckBoxElement
 
   beforeEach(() => {
-    checkbox = document.createElement('q-checkbox')
+    checkbox = document.createElement('aracna-checkbox')
   })
 
   afterEach(() => {

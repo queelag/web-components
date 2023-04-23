@@ -5,15 +5,15 @@ import {
   DialogLabelElementEventMap,
   ElementName,
   QueryDeclarations
-} from '@queelag/web'
+} from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../aria/aria.dialog.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-dialog': DialogElement
-    'q-dialog-description': DialogDescriptionElement
-    'q-dialog-label': DialogLabelElement
+    'aracna-dialog': DialogElement
+    'aracna-dialog-description': DialogDescriptionElement
+    'aracna-dialog-label': DialogLabelElement
   }
 }
 
@@ -31,8 +31,8 @@ export class DialogElement<E extends DialogElementEventMap = DialogElementEventM
   }
 
   static queries: QueryDeclarations = {
-    descriptionElement: { selector: 'q-dialog-description' },
-    labelElement: { selector: 'q-dialog-label' }
+    descriptionElement: { selector: 'aracna-dialog-description' },
+    labelElement: { selector: 'aracna-dialog-label' }
   }
 }
 
@@ -48,6 +48,6 @@ export class DialogDescriptionElement<E extends DialogDescriptionElementEventMap
   }
 }
 
-defineCustomElement('q-dialog', DialogElement)
-defineCustomElement('q-dialog-description', DialogDescriptionElement)
-defineCustomElement('q-dialog-label', DialogLabelElement)
+defineCustomElement('aracna-dialog', DialogElement)
+defineCustomElement('aracna-dialog-description', DialogDescriptionElement)
+defineCustomElement('aracna-dialog-label', DialogLabelElement)

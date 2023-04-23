@@ -1,4 +1,4 @@
-import { KeyboardEventKey } from '@queelag/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.accordion.element'
 import type {
@@ -22,17 +22,17 @@ describe('AriaAccordionElement', () => {
     p2: AriaAccordionPanelElement
 
   beforeEach(() => {
-    accordion = document.createElement('q-aria-accordion')
+    accordion = document.createElement('aracna-aria-accordion')
 
-    s1 = document.createElement('q-aria-accordion-section')
-    h1 = document.createElement('q-aria-accordion-header')
-    b1 = document.createElement('q-aria-accordion-button')
-    p1 = document.createElement('q-aria-accordion-panel')
+    s1 = document.createElement('aracna-aria-accordion-section')
+    h1 = document.createElement('aracna-aria-accordion-header')
+    b1 = document.createElement('aracna-aria-accordion-button')
+    p1 = document.createElement('aracna-aria-accordion-panel')
 
-    s2 = document.createElement('q-aria-accordion-section')
-    h2 = document.createElement('q-aria-accordion-header')
-    b2 = document.createElement('q-aria-accordion-button')
-    p2 = document.createElement('q-aria-accordion-panel')
+    s2 = document.createElement('aracna-aria-accordion-section')
+    h2 = document.createElement('aracna-aria-accordion-header')
+    b2 = document.createElement('aracna-aria-accordion-button')
+    p2 = document.createElement('aracna-aria-accordion-panel')
 
     h1.append(b1)
     s1.append(h1, p1)

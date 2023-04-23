@@ -1,4 +1,4 @@
-import { parseNumber } from '@queelag/core'
+import { parseNumber } from '@aracna/core'
 
 class StubDOMRect implements DOMRect {
   readonly bottom: number

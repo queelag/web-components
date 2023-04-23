@@ -6,7 +6,7 @@ import {
   FormFieldElementValidation,
   StateChangeEvent,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base.element'
 

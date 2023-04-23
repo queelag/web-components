@@ -7,7 +7,7 @@ describe('BadgeElement', () => {
   let badge: BadgeElement
 
   beforeEach(() => {
-    badge = document.createElement('q-badge')
+    badge = document.createElement('aracna-badge')
   })
 
   afterEach(() => {

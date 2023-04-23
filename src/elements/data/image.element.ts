@@ -1,4 +1,4 @@
-import { sleep } from '@queelag/core'
+import { sleep } from '@aracna/core'
 import {
   CACHE_IMAGES,
   DEFAULT_IMAGE_SIZE,
@@ -12,7 +12,7 @@ import {
   ImageElementEventMap,
   QueryDeclarations,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
@@ -23,7 +23,7 @@ import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-image': ImageElement
+    'aracna-image': ImageElement
   }
 }
 
@@ -206,4 +206,4 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
   }
 }
 
-defineCustomElement('q-image', ImageElement)
+defineCustomElement('aracna-image', ImageElement)

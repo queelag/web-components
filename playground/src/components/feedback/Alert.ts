@@ -3,7 +3,7 @@ import '../../../../src/elements/feedback/alert.element'
 
 export default class Alert extends LitElement {
   protected render(): unknown {
-    return html` <q-alert>Alert</q-alert> `
+    return html` <aracna-alert>Alert</aracna-alert> `
   }
 
   static styles?: CSSResultGroup | undefined = css`
@@ -11,7 +11,7 @@ export default class Alert extends LitElement {
       box-sizing: border-box;
     }
 
-    q-alert {
+    aracna-alert {
       width: 256px;
 
       padding: 4px 8px;

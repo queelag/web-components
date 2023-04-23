@@ -7,7 +7,7 @@ describe('ImageElement', () => {
   let image: ImageElement
 
   beforeEach(() => {
-    image = document.createElement('q-image')
+    image = document.createElement('aracna-image')
   })
 
   afterEach(() => {

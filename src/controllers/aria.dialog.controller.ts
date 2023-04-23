@@ -1,8 +1,8 @@
-import { ID } from '@queelag/core'
+import { ID } from '@aracna/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import type { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../elements/aria/aria.dialog.element'
 
-import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@queelag/web'
+import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 
 export class AriaDialogController implements ReactiveController {
   alert: boolean

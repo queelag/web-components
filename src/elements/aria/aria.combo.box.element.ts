@@ -1,4 +1,4 @@
-import { getLimitedNumber } from '@queelag/core'
+import { getLimitedNumber } from '@aracna/core'
 import {
   AriaComboBoxButtonElementEventMap,
   AriaComboBoxElementAutoComplete,
@@ -17,7 +17,7 @@ import {
   Typeahead,
   TypeaheadPredicate,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import {
   AriaComboBoxButtonController,
@@ -32,12 +32,12 @@ import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-combobox': AriaComboBoxElement
-    'q-aria-combobox-button': AriaComboBoxButtonElement
-    'q-aria-combobox-group': AriaComboBoxGroupElement
-    'q-aria-combobox-input': AriaComboBoxInputElement
-    'q-aria-combobox-list': AriaComboBoxListElement
-    'q-aria-combobox-option': AriaComboBoxOptionElement
+    'aracna-aria-combobox': AriaComboBoxElement
+    'aracna-aria-combobox-button': AriaComboBoxButtonElement
+    'aracna-aria-combobox-group': AriaComboBoxGroupElement
+    'aracna-aria-combobox-input': AriaComboBoxInputElement
+    'aracna-aria-combobox-list': AriaComboBoxListElement
+    'aracna-aria-combobox-option': AriaComboBoxOptionElement
   }
 }
 
@@ -339,13 +339,13 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
   }
 
   static queries: QueryDeclarations = {
-    buttonElement: { selector: 'q-aria-combobox-button' },
-    groupElement: { selector: 'q-aria-combobox-group' },
-    inputElement: { selector: 'q-aria-combobox-input' },
-    listElement: { selector: 'q-aria-combobox-list' },
-    focusedOptionElement: { selector: 'q-aria-combobox-option[focused]' },
-    optionElements: { selector: 'q-aria-combobox-option', all: true },
-    selectedOptionElement: { selector: 'q-aria-combobox-option[selected]' }
+    buttonElement: { selector: 'aracna-aria-combobox-button' },
+    groupElement: { selector: 'aracna-aria-combobox-group' },
+    inputElement: { selector: 'aracna-aria-combobox-input' },
+    listElement: { selector: 'aracna-aria-combobox-list' },
+    focusedOptionElement: { selector: 'aracna-aria-combobox-option[focused]' },
+    optionElements: { selector: 'aracna-aria-combobox-option', all: true },
+    selectedOptionElement: { selector: 'aracna-aria-combobox-option[selected]' }
   }
 
   static styles: CSSResultGroup = [
@@ -419,7 +419,7 @@ export class AriaComboBoxButtonElement<E extends AriaComboBoxButtonElementEventM
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-combobox', closest: true }
+    rootElement: { selector: 'aracna-aria-combobox', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -525,7 +525,7 @@ export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap
 
   static queries: QueryDeclarations = {
     inputElement: { selector: 'input' },
-    rootElement: { selector: 'q-aria-combobox', closest: true }
+    rootElement: { selector: 'aracna-aria-combobox', closest: true }
   }
 }
 
@@ -546,7 +546,7 @@ export class AriaComboBoxListElement<E extends AriaComboBoxListElementEventMap =
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-combobox', closest: true }
+    rootElement: { selector: 'aracna-aria-combobox', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -660,8 +660,8 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
   }
 
   static queries: QueryDeclarations = {
-    listElement: { selector: 'q-aria-combobox-list', closest: true },
-    rootElement: { selector: 'q-aria-combobox', closest: true }
+    listElement: { selector: 'aracna-aria-combobox-list', closest: true },
+    rootElement: { selector: 'aracna-aria-combobox', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -674,9 +674,9 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
   ]
 }
 
-defineCustomElement('q-aria-combobox', AriaComboBoxElement)
-defineCustomElement('q-aria-combobox-button', AriaComboBoxButtonElement)
-defineCustomElement('q-aria-combobox-group', AriaComboBoxGroupElement)
-defineCustomElement('q-aria-combobox-input', AriaComboBoxInputElement)
-defineCustomElement('q-aria-combobox-list', AriaComboBoxListElement)
-defineCustomElement('q-aria-combobox-option', AriaComboBoxOptionElement)
+defineCustomElement('aracna-aria-combobox', AriaComboBoxElement)
+defineCustomElement('aracna-aria-combobox-button', AriaComboBoxButtonElement)
+defineCustomElement('aracna-aria-combobox-group', AriaComboBoxGroupElement)
+defineCustomElement('aracna-aria-combobox-input', AriaComboBoxInputElement)
+defineCustomElement('aracna-aria-combobox-list', AriaComboBoxListElement)
+defineCustomElement('aracna-aria-combobox-option', AriaComboBoxOptionElement)

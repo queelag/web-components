@@ -1,4 +1,4 @@
-import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, setImmutableElementAttribute } from '@queelag/web'
+import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { AriaMeterElement } from '../elements/aria/aria.meter.element'
 

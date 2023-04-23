@@ -5,14 +5,14 @@ import {
   NavigationRailItemElementAttributes,
   NavigationRailItemElementEventMap,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-navigation-rail': NavigationRailElement
-    'q-navigation-rail-item': NavigationRailItemElement
+    'aracna-navigation-rail': NavigationRailElement
+    'aracna-navigation-rail-item': NavigationRailItemElement
   }
 }
 
@@ -61,5 +61,5 @@ export class NavigationRailItemElement<E extends NavigationRailItemElementEventM
   }
 }
 
-defineCustomElement('q-navigation-rail', NavigationRailElement)
-defineCustomElement('q-navigation-rail-item', NavigationRailItemElement)
+defineCustomElement('aracna-navigation-rail', NavigationRailElement)
+defineCustomElement('aracna-navigation-rail-item', NavigationRailItemElement)

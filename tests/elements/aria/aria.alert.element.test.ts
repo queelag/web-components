@@ -7,7 +7,7 @@ describe('AriaAlertElement', () => {
   let alert: AriaAlertElement
 
   beforeEach(() => {
-    alert = document.createElement('q-aria-alert')
+    alert = document.createElement('aracna-aria-alert')
   })
 
   afterEach(() => {

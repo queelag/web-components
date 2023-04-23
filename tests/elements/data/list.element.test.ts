@@ -7,7 +7,7 @@ describe('ListElement', () => {
   let list: ListElement
 
   beforeEach(() => {
-    list = document.createElement('q-list')
+    list = document.createElement('aracna-list')
   })
 
   afterEach(() => {

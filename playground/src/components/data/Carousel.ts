@@ -8,90 +8,90 @@ export default class Carousel extends LitElement {
 
   protected render(): unknown {
     return html`
-      <q-carousel automatic-rotation-interval-time="2000" infinite-rotation>
-        <q-carousel-slides>
-          <q-carousel-slide active>
-            <q-image src="https://images.unsplash.com/photo-1533883355737-25ab4d1fbefb?w=768"></q-image>
-          </q-carousel-slide>
-          <q-carousel-slide>
-            <q-image src="https://images.unsplash.com/photo-1462688681110-15bc88b1497c?w=768"></q-image>
-          </q-carousel-slide>
-          <q-carousel-slide>
-            <q-image src="https://images.unsplash.com/photo-1571774367564-5037461020a3?w=768"></q-image>
-          </q-carousel-slide>
-        </q-carousel-slides>
+      <aracna-carousel automatic-rotation-interval-time="2000" infinite-rotation>
+        <aracna-carousel-slides>
+          <aracna-carousel-slide active>
+            <aracna-image src="https://images.unsplash.com/photo-1533883355737-25ab4d1fbefb?w=768"></aracna-image>
+          </aracna-carousel-slide>
+          <aracna-carousel-slide>
+            <aracna-image src="https://images.unsplash.com/photo-1462688681110-15bc88b1497c?w=768"></aracna-image>
+          </aracna-carousel-slide>
+          <aracna-carousel-slide>
+            <aracna-image src="https://images.unsplash.com/photo-1571774367564-5037461020a3?w=768"></aracna-image>
+          </aracna-carousel-slide>
+        </aracna-carousel-slides>
         ${when(
           this.tabs,
           () => html`
-            <q-carousel-tabs>
-              <q-carousel-tab active>
-                <q-icon
+            <aracna-carousel-tabs>
+              <aracna-carousel-tab active>
+                <aracna-icon
                   class="circle"
                   fill="white"
                   size="14"
                   src="https://raw.githubusercontent.com/feathericons/feather/master/icons/circle.svg"
                   stroke="black"
                   stroke-width="2"
-                ></q-icon>
-                <q-icon
+                ></aracna-icon>
+                <aracna-icon
                   class="disc"
                   fill="white"
                   size="14"
                   src="https://raw.githubusercontent.com/feathericons/feather/master/icons/disc.svg"
                   stroke="black"
                   stroke-width="2"
-                ></q-icon>
-              </q-carousel-tab>
-              <q-carousel-tab>
-                <q-icon
+                ></aracna-icon>
+              </aracna-carousel-tab>
+              <aracna-carousel-tab>
+                <aracna-icon
                   class="circle"
                   fill="white"
                   size="14"
                   src="https://raw.githubusercontent.com/feathericons/feather/master/icons/circle.svg"
                   stroke="black"
                   stroke-width="2"
-                ></q-icon>
-                <q-icon
+                ></aracna-icon>
+                <aracna-icon
                   class="disc"
                   fill="white"
                   size="14"
                   src="https://raw.githubusercontent.com/feathericons/feather/master/icons/disc.svg"
                   stroke="black"
                   stroke-width="2"
-                ></q-icon>
-              </q-carousel-tab>
-              <q-carousel-tab>
-                <q-icon
+                ></aracna-icon>
+              </aracna-carousel-tab>
+              <aracna-carousel-tab>
+                <aracna-icon
                   class="circle"
                   fill="white"
                   size="14"
                   src="https://raw.githubusercontent.com/feathericons/feather/master/icons/circle.svg"
                   stroke="black"
                   stroke-width="2"
-                ></q-icon>
-                <q-icon
+                ></aracna-icon>
+                <aracna-icon
                   class="disc"
                   fill="white"
                   size="14"
                   src="https://raw.githubusercontent.com/feathericons/feather/master/icons/disc.svg"
                   stroke="black"
                   stroke-width="2"
-                ></q-icon>
-              </q-carousel-tab>
-            </q-carousel-tabs>
+                ></aracna-icon>
+              </aracna-carousel-tab>
+            </aracna-carousel-tabs>
           `
         )}
         ${when(
           !this.tabs,
           () => html`
             <div class="controls">
-              <q-carousel-rotation-control>{element?.automaticRotation ? 'Stop' : 'Start'}</q-carousel-rotation-control>
-              <q-carousel-previous-slide-control>Prev</q-carousel-previous-slide-control>
-              <q-carousel-next-slide-control>Next</q-carousel-next-slide-control>
+              <aracna-carousel-rotation-control>{element?.automaticRotation ? 'Stop' : 'Start'}</aracna-carousel-rotation-control>
+              <aracna-carousel-previous-slide-control>Prev</aracna-carousel-previous-slide-control>
+              <aracna-carousel-next-slide-control>Next</aracna-carousel-next-slide-control>
             </div>
           `
         )}
-      </q-carousel>
+      </aracna-carousel>
     `
   }
 
@@ -100,7 +100,7 @@ export default class Carousel extends LitElement {
       box-sizing: border-box;
     }
 
-    q-carousel {
+    aracna-carousel {
       width: 384px;
       aspect-ratio: 16/9;
 
@@ -110,7 +110,7 @@ export default class Carousel extends LitElement {
       position: relative;
     }
 
-    q-carousel-slides {
+    aracna-carousel-slides {
       width: 100%;
 
       border-radius: 4px;
@@ -119,7 +119,7 @@ export default class Carousel extends LitElement {
       position: relative;
     }
 
-    q-carousel-slide {
+    aracna-carousel-slide {
       position: absolute;
       top: 0;
       left: 0;
@@ -127,11 +127,11 @@ export default class Carousel extends LitElement {
       bottom: 0;
     }
 
-    q-carousel-slide:not([active]) {
+    aracna-carousel-slide:not([active]) {
       display: none;
     }
 
-    q-carousel-slide q-image {
+    aracna-carousel-slide aracna-image {
       width: 100%;
     }
 
@@ -149,9 +149,9 @@ export default class Carousel extends LitElement {
       font-size: 12px;
     }
 
-    q-carousel-next-slide-control,
-    q-carousel-previous-slide-control,
-    q-carousel-rotation-control {
+    aracna-carousel-next-slide-control,
+    aracna-carousel-previous-slide-control,
+    aracna-carousel-rotation-control {
       padding: 4px 8px;
       background: lightgray;
 
@@ -160,16 +160,16 @@ export default class Carousel extends LitElement {
       text-transform: uppercase;
     }
 
-    q-carousel-tabs {
+    aracna-carousel-tabs {
       position: absolute;
       bottom: 8px;
     }
 
-    q-carousel-tab[active] q-icon.circle {
+    aracna-carousel-tab[active] aracna-icon.circle {
       display: none;
     }
 
-    q-carousel-tab:not([active]) q-icon.disc {
+    aracna-carousel-tab:not([active]) aracna-icon.disc {
       display: none;
     }
   `

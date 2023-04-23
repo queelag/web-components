@@ -1,4 +1,4 @@
-import { DEFAULT_SLIDER_MAX, DEFAULT_SLIDER_MIN, DEFAULT_SLIDER_STEP, KeyboardEventKey } from '@queelag/web'
+import { DEFAULT_SLIDER_MAX, DEFAULT_SLIDER_MIN, DEFAULT_SLIDER_STEP, KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/slider.element'
 import type { SliderElement, SliderThumbElement } from '../../../src/elements/input/slider.element'
@@ -8,7 +8,7 @@ describe('SliderElement', () => {
   let slider: SliderElement
 
   beforeEach(() => {
-    slider = document.createElement('q-slider')
+    slider = document.createElement('aracna-slider')
   })
 
   afterEach(() => {
@@ -26,7 +26,7 @@ describe('SliderElement', () => {
   it('works with single thumb', async () => {
     let thumb: SliderThumbElement
 
-    thumb = document.createElement('q-slider-thumb')
+    thumb = document.createElement('aracna-slider-thumb')
     slider.append(thumb)
 
     await render(slider)
@@ -44,8 +44,8 @@ describe('SliderElement', () => {
   it('works with multiple thumbs', async () => {
     let thumb1: SliderThumbElement, thumb2: SliderThumbElement
 
-    thumb1 = document.createElement('q-slider-thumb')
-    thumb2 = document.createElement('q-slider-thumb')
+    thumb1 = document.createElement('aracna-slider-thumb')
+    thumb2 = document.createElement('aracna-slider-thumb')
 
     slider.append(thumb1, thumb2)
 

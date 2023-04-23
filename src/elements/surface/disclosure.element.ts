@@ -6,15 +6,15 @@ import {
   DisclosureSectionElementEventMap,
   ElementName,
   QueryDeclarations
-} from '@queelag/web'
+} from '@aracna/web'
 import { AriaDisclosureButtonElement, AriaDisclosureElement, AriaDisclosurePanelElement, AriaDisclosureSectionElement } from '../aria/aria.disclosure.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-disclosure': DisclosureElement
-    'q-disclosure-button': DisclosureButtonElement
-    'q-disclosure-panel': DisclosurePanelElement
-    'q-disclosure-section': DisclosureSectionElement
+    'aracna-disclosure': DisclosureElement
+    'aracna-disclosure-button': DisclosureButtonElement
+    'aracna-disclosure-panel': DisclosurePanelElement
+    'aracna-disclosure-section': DisclosureSectionElement
   }
 }
 
@@ -24,7 +24,7 @@ export class DisclosureElement<E extends DisclosureElementEventMap = DisclosureE
   }
 
   static queries: QueryDeclarations = {
-    buttonElements: { selector: 'q-disclosure-button', all: true }
+    buttonElements: { selector: 'aracna-disclosure-button', all: true }
   }
 }
 
@@ -34,8 +34,8 @@ export class DisclosureSectionElement<E extends DisclosureSectionElementEventMap
   }
 
   static queries: QueryDeclarations = {
-    buttonElement: { selector: 'q-disclosure-button' },
-    panelElement: { selector: 'q-disclosure-panel' }
+    buttonElement: { selector: 'aracna-disclosure-button' },
+    panelElement: { selector: 'aracna-disclosure-panel' }
   }
 }
 
@@ -45,7 +45,7 @@ export class DisclosureButtonElement<E extends DisclosureButtonElementEventMap =
   }
 
   static queries: QueryDeclarations = {
-    sectionElement: { selector: 'q-disclosure-section', closest: true }
+    sectionElement: { selector: 'aracna-disclosure-section', closest: true }
   }
 }
 
@@ -55,7 +55,7 @@ export class DisclosurePanelElement<E extends DisclosurePanelElementEventMap = D
   }
 }
 
-defineCustomElement('q-disclosure', DisclosureElement)
-defineCustomElement('q-disclosure-button', DisclosureButtonElement)
-defineCustomElement('q-disclosure-panel', DisclosurePanelElement)
-defineCustomElement('q-disclosure-section', DisclosureSectionElement)
+defineCustomElement('aracna-disclosure', DisclosureElement)
+defineCustomElement('aracna-disclosure-button', DisclosureButtonElement)
+defineCustomElement('aracna-disclosure-panel', DisclosurePanelElement)
+defineCustomElement('aracna-disclosure-section', DisclosureSectionElement)

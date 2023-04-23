@@ -1,11 +1,11 @@
-import { defineCustomElement, SwitchElementEventMap, WebElementLogger } from '@queelag/web'
+import { defineCustomElement, SwitchElementEventMap, WebElementLogger } from '@aracna/web'
 import { css, CSSResult, CSSResultGroup } from 'lit'
 import { html } from 'lit-html'
 import { AriaSwitchElement } from '../aria/aria.switch.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-switch': SwitchElement
+    'aracna-switch': SwitchElement
   }
 }
 
@@ -55,4 +55,4 @@ export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventM
   ]
 }
 
-defineCustomElement('q-switch', SwitchElement)
+defineCustomElement('aracna-switch', SwitchElement)

@@ -1,4 +1,4 @@
-import { defineCustomElement, FormFieldElementCollector } from '@queelag/web'
+import { defineCustomElement, FormFieldElementCollector } from '@aracna/web'
 import { number } from 'superstruct'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/core/form.field.element'
@@ -6,13 +6,13 @@ import { FormFieldElement } from '../../../src/elements/core/form.field.element'
 import { render } from '../../../vitest/dom.utils'
 
 class TestElement extends FormFieldElement {}
-defineCustomElement('q-test', TestElement)
+defineCustomElement('aracna-test', TestElement)
 
 describe('FormFieldElement', () => {
   let test: TestElement
 
   beforeEach(() => {
-    test = document.createElement('q-test') as any
+    test = document.createElement('aracna-test') as any
   })
 
   afterEach(() => {

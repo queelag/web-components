@@ -1,5 +1,5 @@
-import { ID, parseNumber } from '@queelag/core'
-import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@queelag/web'
+import { ID, parseNumber } from '@aracna/core'
+import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import type { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../elements/aria/aria.menu.element'
 

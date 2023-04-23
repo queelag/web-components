@@ -1,11 +1,11 @@
-import { ButtonClickEvent, ButtonElementEventMap, ButtonType, ButtonVariant, defineCustomElement, ElementName, WebElementLogger } from '@queelag/web'
+import { ButtonClickEvent, ButtonElementEventMap, ButtonType, ButtonVariant, defineCustomElement, ElementName, WebElementLogger } from '@aracna/web'
 import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
 import { ifdef } from '../../directives/if.defined'
 import { AriaButtonElement } from '../aria/aria.button.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-button': ButtonElement
+    'aracna-button': ButtonElement
   }
 }
 
@@ -113,4 +113,4 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
   ]
 }
 
-defineCustomElement('q-button', ButtonElement)
+defineCustomElement('aracna-button', ButtonElement)

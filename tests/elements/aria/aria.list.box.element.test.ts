@@ -1,4 +1,4 @@
-import { KeyboardEventKey } from '@queelag/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.list.box.element'
 import type { AriaListBoxElement, AriaListBoxOptionElement } from '../../../src/elements/aria/aria.list.box.element'
@@ -8,10 +8,10 @@ describe('AriaListBoxElement', () => {
   let listbox: AriaListBoxElement, o1: AriaListBoxOptionElement, o2: AriaListBoxOptionElement
 
   beforeEach(() => {
-    listbox = document.createElement('q-aria-listbox')
+    listbox = document.createElement('aracna-aria-listbox')
 
-    o1 = document.createElement('q-aria-listbox-option')
-    o2 = document.createElement('q-aria-listbox-option')
+    o1 = document.createElement('aracna-aria-listbox-option')
+    o2 = document.createElement('aracna-aria-listbox-option')
 
     listbox.append(o1, o2)
   })

@@ -1,3 +1,3 @@
-import { noop } from '@queelag/core'
+import { noop } from '@aracna/core'
 
 Element.prototype.scrollTo = noop

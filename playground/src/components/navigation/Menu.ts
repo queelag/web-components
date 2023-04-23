@@ -1,18 +1,18 @@
 import { Middleware, offset } from '@floating-ui/dom'
-import { css, CSSResultGroup, html, LitElement } from 'lit'
+import { CSSResultGroup, LitElement, css, html } from 'lit'
 import '../../../../src/elements/data/icon.element'
 import '../../../../src/elements/navigation/menu.element'
 
 class IconChevronRight extends LitElement {
   protected render(): unknown {
     return html`
-      <q-icon
+      <aracna-icon
         fill="none"
         src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-right.svg"
         size="16"
         stroke="black"
         stroke-width="2"
-      ></q-icon>
+      ></aracna-icon>
     `
   }
 }
@@ -26,131 +26,131 @@ export default class Menu extends LitElement {
   protected render(): unknown {
     if (this.button) {
       return html`
-        <q-menu>
-          <q-menu-button>Menu Button</q-menu-button>
-          <q-menu-submenu .middlewares=${this.middlewares} placement="bottom-start">
-            <q-menu-item>
+        <aracna-menu>
+          <aracna-menu-button>Menu Button</aracna-menu-button>
+          <aracna-menu-submenu .middlewares=${this.middlewares} placement="bottom-start">
+            <aracna-menu-item>
               <a href="#">Home</a>
-            </q-menu-item>
-            <q-menu-item>
+            </aracna-menu-item>
+            <aracna-menu-item>
               <span>About</span>
               <my-menu-icon-chevron-right></my-menu-icon-chevron-right>
-              <q-menu-submenu .middlewares=${this.middlewares} placement="right-start">
-                <q-menu-item>
+              <aracna-menu-submenu .middlewares=${this.middlewares} placement="right-start">
+                <aracna-menu-item>
                   <a href="#">Overview</a>
-                </q-menu-item>
-                <q-menu-item>
+                </aracna-menu-item>
+                <aracna-menu-item>
                   <a href="#">Administration</a>
-                </q-menu-item>
-                <q-menu-item>
+                </aracna-menu-item>
+                <aracna-menu-item>
                   <span>Facts</span>
                   <my-menu-icon-chevron-right></my-menu-icon-chevron-right>
-                  <q-menu-submenu .middlewares=${this.middlewares} placement="right-start">
-                    <q-menu-item>
+                  <aracna-menu-submenu .middlewares=${this.middlewares} placement="right-start">
+                    <aracna-menu-item>
                       <a href="#">History</a>
-                    </q-menu-item>
-                    <q-menu-item>
+                    </aracna-menu-item>
+                    <aracna-menu-item>
                       <a href="#">Current Statistics</a>
-                    </q-menu-item>
-                    <q-menu-item>
+                    </aracna-menu-item>
+                    <aracna-menu-item>
                       <a href="#">Awards</a>
-                    </q-menu-item>
-                  </q-menu-submenu>
-                </q-menu-item>
-                <q-menu-item>
+                    </aracna-menu-item>
+                  </aracna-menu-submenu>
+                </aracna-menu-item>
+                <aracna-menu-item>
                   <span>Campus Tours</span>
                   <my-menu-icon-chevron-right></my-menu-icon-chevron-right>
-                  <q-menu-submenu .middlewares=${this.middlewares} placement="right-start">
-                    <q-menu-item>
+                  <aracna-menu-submenu .middlewares=${this.middlewares} placement="right-start">
+                    <aracna-menu-item>
                       <a href="#">For prospective students</a>
-                    </q-menu-item>
-                    <q-menu-item>
+                    </aracna-menu-item>
+                    <aracna-menu-item>
                       <a href="#">For alumni</a>
-                    </q-menu-item>
-                    <q-menu-item>
+                    </aracna-menu-item>
+                    <aracna-menu-item>
                       <a href="#">For visitors</a>
-                    </q-menu-item>
-                  </q-menu-submenu>
-                </q-menu-item>
-              </q-menu-submenu>
-            </q-menu-item>
-            <q-menu-item>
+                    </aracna-menu-item>
+                  </aracna-menu-submenu>
+                </aracna-menu-item>
+              </aracna-menu-submenu>
+            </aracna-menu-item>
+            <aracna-menu-item>
               <span>Admissions</span>
               <my-menu-icon-chevron-right></my-menu-icon-chevron-right>
-              <q-menu-submenu .middlewares=${this.middlewares} placement="right-start">
-                <q-menu-item>
+              <aracna-menu-submenu .middlewares=${this.middlewares} placement="right-start">
+                <aracna-menu-item>
                   <a href="#">Apply</a>
-                </q-menu-item>
-                <q-menu-item>
+                </aracna-menu-item>
+                <aracna-menu-item>
                   <a href="#">Tuition</a>
-                </q-menu-item>
-              </q-menu-submenu>
-            </q-menu-item>
-          </q-menu-submenu>
-        </q-menu>
+                </aracna-menu-item>
+              </aracna-menu-submenu>
+            </aracna-menu-item>
+          </aracna-menu-submenu>
+        </aracna-menu>
       `
     }
 
     return html`
-      <q-menu>
-        <q-menu-item>
+      <aracna-menu>
+        <aracna-menu-item>
           <a href="#">Home</a>
-        </q-menu-item>
+        </aracna-menu-item>
         <span class="divider">•</span>
-        <q-menu-item>
+        <aracna-menu-item>
           <span>About</span>
-          <q-menu-submenu .middlewares=${this.middlewares} placement="bottom-start">
-            <q-menu-item>
+          <aracna-menu-submenu .middlewares=${this.middlewares} placement="bottom-start">
+            <aracna-menu-item>
               <a href="#">Overview</a>
-            </q-menu-item>
-            <q-menu-item>
+            </aracna-menu-item>
+            <aracna-menu-item>
               <a href="#">Administration</a>
-            </q-menu-item>
-            <q-menu-item>
+            </aracna-menu-item>
+            <aracna-menu-item>
               <span>Facts</span>
               <my-menu-icon-chevron-right></my-menu-icon-chevron-right>
-              <q-menu-submenu .middlewares=${this.middlewares} placement="right-start">
-                <q-menu-item>
+              <aracna-menu-submenu .middlewares=${this.middlewares} placement="right-start">
+                <aracna-menu-item>
                   <a href="#">History</a>
-                </q-menu-item>
-                <q-menu-item>
+                </aracna-menu-item>
+                <aracna-menu-item>
                   <a href="#">Current Statistics</a>
-                </q-menu-item>
-                <q-menu-item>
+                </aracna-menu-item>
+                <aracna-menu-item>
                   <a href="#">Awards</a>
-                </q-menu-item>
-              </q-menu-submenu>
-            </q-menu-item>
-            <q-menu-item>
+                </aracna-menu-item>
+              </aracna-menu-submenu>
+            </aracna-menu-item>
+            <aracna-menu-item>
               <span>Campus Tours</span>
               <my-menu-icon-chevron-right></my-menu-icon-chevron-right>
-              <q-menu-submenu .middlewares=${this.middlewares} placement="right-start">
-                <q-menu-item>
+              <aracna-menu-submenu .middlewares=${this.middlewares} placement="right-start">
+                <aracna-menu-item>
                   <a href="#">For prospective students</a>
-                </q-menu-item>
-                <q-menu-item>
+                </aracna-menu-item>
+                <aracna-menu-item>
                   <a href="#">For alumni</a>
-                </q-menu-item>
-                <q-menu-item>
+                </aracna-menu-item>
+                <aracna-menu-item>
                   <a href="#">For visitors</a>
-                </q-menu-item>
-              </q-menu-submenu>
-            </q-menu-item>
-          </q-menu-submenu>
-        </q-menu-item>
+                </aracna-menu-item>
+              </aracna-menu-submenu>
+            </aracna-menu-item>
+          </aracna-menu-submenu>
+        </aracna-menu-item>
         <span class="divider">•</span>
-        <q-menu-item>
+        <aracna-menu-item>
           <span>Admissions</span>
-          <q-menu-submenu .middlewares=${this.middlewares} placement="bottom-start">
-            <q-menu-item>
+          <aracna-menu-submenu .middlewares=${this.middlewares} placement="bottom-start">
+            <aracna-menu-item>
               <a href="#">Apply</a>
-            </q-menu-item>
-            <q-menu-item>
+            </aracna-menu-item>
+            <aracna-menu-item>
               <a href="#">Tuition</a>
-            </q-menu-item>
-          </q-menu-submenu>
-        </q-menu-item>
-      </q-menu>
+            </aracna-menu-item>
+          </aracna-menu-submenu>
+        </aracna-menu-item>
+      </aracna-menu>
     `
   }
 
@@ -159,14 +159,14 @@ export default class Menu extends LitElement {
       box-sizing: border-box;
     }
 
-    q-menu {
+    aracna-menu {
       display: flex;
 
       border: 1px solid gray;
       border-radius: 4px;
     }
 
-    q-menu-button {
+    aracna-menu-button {
       width: 196px;
 
       padding: 4px 8px;
@@ -175,7 +175,7 @@ export default class Menu extends LitElement {
       font-weight: 500;
     }
 
-    q-menu-submenu {
+    aracna-menu-submenu {
       width: 196px;
 
       display: flex;
@@ -187,16 +187,16 @@ export default class Menu extends LitElement {
       background: white;
     }
 
-    q-menu-submenu:not([expanded]) {
+    aracna-menu-submenu:not([expanded]) {
       opacity: 0;
       pointer-events: none;
     }
 
-    q-menu-submenu > * + * {
+    aracna-menu-submenu > * + * {
       border-top: 1px solid gray;
     }
 
-    q-menu-item {
+    aracna-menu-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -204,23 +204,23 @@ export default class Menu extends LitElement {
       outline: none;
     }
 
-    q-menu-item a {
+    aracna-menu-item a {
       outline: none;
     }
 
-    q-menu-item a,
-    q-menu-item span {
+    aracna-menu-item a,
+    aracna-menu-item span {
       padding: 4px 8px;
 
       font-size: 12px;
       font-weight: 500;
     }
 
-    q-menu-item[focused] {
+    aracna-menu-item[focused] {
       background: lightgray;
     }
 
-    q-menu-item a {
+    aracna-menu-item a {
       color: black;
       font-size: 12px;
       font-weight: 500;

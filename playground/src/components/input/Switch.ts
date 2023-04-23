@@ -4,11 +4,11 @@ import '../../../../src/elements/input/switch.element'
 export default class Switch extends LitElement {
   protected render(): unknown {
     return html`
-      <q-switch>
+      <aracna-switch>
         <div class="slider">
           <div class="thumb"></div>
         </div>
-      </q-switch>
+      </aracna-switch>
     `
   }
 
@@ -17,12 +17,12 @@ export default class Switch extends LitElement {
       box-sizing: border-box;
     }
 
-    q-switch {
+    aracna-switch {
       width: 64px;
       height: 32px;
     }
 
-    q-switch div.slider {
+    aracna-switch div.slider {
       width: 100%;
       padding: 1px;
 
@@ -30,7 +30,7 @@ export default class Switch extends LitElement {
       border-radius: 64px;
     }
 
-    q-switch div.thumb {
+    aracna-switch div.thumb {
       width: 50%;
       height: 100%;
 
@@ -38,7 +38,7 @@ export default class Switch extends LitElement {
       background: lightgray;
     }
 
-    q-switch[on] div.thumb {
+    aracna-switch[on] div.thumb {
       transform: translateX(100%);
       background: green;
     }

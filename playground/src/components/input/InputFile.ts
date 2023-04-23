@@ -1,4 +1,4 @@
-import type { QueelagFile } from '@queelag/core'
+import type { AracnaFile } from '@aracna/core'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
 import { map } from 'lit-html/directives/map.js'
 import { createRef, Ref, ref } from 'lit-html/directives/ref.js'
@@ -15,31 +15,31 @@ export default class InputFile extends LitElement {
 
   protected render(): unknown {
     return html`
-      <q-input-file ${ref(this.ref)} @state-change=${this.onStateChange} multiple>
+      <aracna-input-file ${ref(this.ref)} @state-change=${this.onStateChange} multiple>
         <div class="dropzone">File Dropzone</div>
-      </q-input-file>
+      </aracna-input-file>
       ${when(
         this.ref.value?.isFilesNotEmpty,
         () => html`
           <div class="files">
             ${map(
               this.ref.value?.files,
-              (file: QueelagFile) => html`
+              (file: AracnaFile) => html`
                 <div class="file" key="${file.id}">
                   <span class="name">${file.name}</span>
-                  <q-button @click=${() => this.ref.value?.removeFile(file)}>
-                    <q-icon
+                  <aracna-button @click=${() => this.ref.value?.removeFile(file)}>
+                    <aracna-icon
                       fill="none"
                       size="12"
                       src="https://raw.githubusercontent.com/feathericons/feather/master/icons/x.svg"
                       stroke="black"
                       stroke-width="2"
-                    ></q-icon>
-                  </q-button>
+                    ></aracna-icon>
+                  </aracna-button>
                 </div>
               `
             )}
-            <q-button @click=${() => this.ref.value?.clear()} native>Clear</q-button>
+            <aracna-button @click=${() => this.ref.value?.clear()} native>Clear</aracna-button>
           </div>
         `
       )}

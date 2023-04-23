@@ -1,12 +1,12 @@
-import { deserializeFile, DeserializeFileOptions, QueelagFile, removeArrayItems } from '@queelag/core'
-import { defineCustomElement, ElementName, InputFileElementEventMap, QueryDeclarations, WebElementLogger } from '@queelag/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
+import { AracnaFile, DeserializeFileOptions, deserializeFile, removeArrayItems } from '@aracna/core'
+import { ElementName, InputFileElementEventMap, QueryDeclarations, WebElementLogger, defineCustomElement } from '@aracna/web'
+import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { html } from 'lit-html'
 import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-input-file': InputFileElement
+    'aracna-input-file': InputFileElement
   }
 }
 
@@ -24,7 +24,7 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
   private inputElement!: HTMLInputElement
 
   private async onChange(): Promise<void> {
-    let files: QueelagFile[] = []
+    let files: AracnaFile[] = []
 
     for (let file of this.inputElement.files || []) {
       files.push(await deserializeFile(file, this.deserializeFileOptions))
@@ -37,30 +37,30 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
     }
 
     if (this.single && files.length <= 0) {
-      this.value = QueelagFile.EMPTY
+      this.value = AracnaFile.EMPTY
       WebElementLogger.verbose(this.id, 'onChange', `The files are empty, setting empty file as the value.`, files, this.value)
     }
 
     if (this.single && files.length > 0) {
-      this.value = files[0] || QueelagFile.EMPTY
+      this.value = files[0] || AracnaFile.EMPTY
       WebElementLogger.verbose(this.id, 'onChange', `The first file has been set as the value.`, files, this.value)
     }
 
     this.touch()
   }
 
-  removeFile(file: QueelagFile): void {
+  removeFile(file: AracnaFile): void {
     this.inputElement.value = ''
     WebElementLogger.verbose(this.uid, 'removeFile', `The input element value has been reset.`)
 
     if (this.multiple) {
       this.value = this.value || []
-      this.value = removeArrayItems(this.value as QueelagFile[], (_, { id }: QueelagFile) => id === file.id)
+      this.value = removeArrayItems(this.value as AracnaFile[], (_, { id }: AracnaFile) => id === file.id)
       WebElementLogger.verbose(this.uid, 'onClickRemoveFile', `The file has been removed.`, file, this.value)
     }
 
     if (this.single) {
-      this.value = QueelagFile.EMPTY
+      this.value = AracnaFile.EMPTY
       WebElementLogger.verbose(this.uid, 'onClickRemoveFile', `The value has been emptied.`, this.value)
     }
 
@@ -72,7 +72,7 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
   }
 
   clear = (): void => {
-    this.value = this.multiple ? [] : QueelagFile.EMPTY
+    this.value = this.multiple ? [] : AracnaFile.EMPTY
     WebElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, this.value)
 
     this.inputElement.value = ''
@@ -103,31 +103,31 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
     return ElementName.INPUT_FILE
   }
 
-  get file(): QueelagFile | undefined {
+  get file(): AracnaFile | undefined {
     if (this.multiple) {
       return undefined
     }
 
-    return this.value as QueelagFile | undefined
+    return this.value as AracnaFile | undefined
   }
 
-  get files(): QueelagFile[] {
+  get files(): AracnaFile[] {
     if (this.multiple) {
-      return (this.value as QueelagFile[]) || []
+      return (this.value as AracnaFile[]) || []
     }
 
-    return (this.value as QueelagFile)?.name ? [this.value as QueelagFile] : []
+    return (this.value as AracnaFile)?.name ? [this.value as AracnaFile] : []
   }
 
   get single(): boolean {
     return !this.multiple
   }
 
-  get value(): QueelagFile | QueelagFile[] | undefined {
+  get value(): AracnaFile | AracnaFile[] | undefined {
     return super.value
   }
 
-  set value(value: QueelagFile | QueelagFile[] | undefined) {
+  set value(value: AracnaFile | AracnaFile[] | undefined) {
     super.value = value
   }
 
@@ -166,4 +166,4 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
   ]
 }
 
-defineCustomElement('q-input-file', InputFileElement)
+defineCustomElement('aracna-input-file', InputFileElement)

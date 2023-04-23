@@ -1,4 +1,4 @@
-import { KeyboardEventKey } from '@queelag/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.radio.group.element'
 import type { AriaRadioButtonElement, AriaRadioGroupElement } from '../../../src/elements/aria/aria.radio.group.element'
@@ -8,10 +8,10 @@ describe('AriaRadioGroupElement', () => {
   let radio: AriaRadioGroupElement, b1: AriaRadioButtonElement, b2: AriaRadioButtonElement
 
   beforeEach(() => {
-    radio = document.createElement('q-aria-radio-group')
+    radio = document.createElement('aracna-aria-radio-group')
 
-    b1 = document.createElement('q-aria-radio-button')
-    b2 = document.createElement('q-aria-radio-button')
+    b1 = document.createElement('aracna-aria-radio-button')
+    b2 = document.createElement('aracna-aria-radio-button')
 
     radio.append(b1, b2)
   })

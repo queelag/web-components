@@ -1,4 +1,4 @@
-import { RadioButton } from '@queelag/web'
+import { RadioButton } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/radio.group.element'
 import type { RadioButtonElement, RadioGroupElement } from '../../../src/elements/input/radio.group.element'
@@ -8,7 +8,7 @@ describe('RadioGroupElement', () => {
   let radio: RadioGroupElement
 
   beforeEach(() => {
-    radio = document.createElement('q-radio-group')
+    radio = document.createElement('aracna-radio-group')
   })
 
   afterEach(() => {
@@ -26,9 +26,9 @@ describe('RadioGroupElement', () => {
   it('works with children buttons', async () => {
     let button1: RadioButtonElement, button2: RadioButtonElement
 
-    button1 = document.createElement('q-radio-button')
+    button1 = document.createElement('aracna-radio-button')
     button1.value = 'cat'
-    button2 = document.createElement('q-radio-button')
+    button2 = document.createElement('aracna-radio-button')
     button2.value = 'dog'
 
     radio.append(button1, button2)
@@ -89,7 +89,7 @@ describe('RadioGroupElement', () => {
   })
 
   it('does not work if disabled or readonly', async () => {
-    let button: RadioButtonElement = document.createElement('q-radio-button')
+    let button: RadioButtonElement = document.createElement('aracna-radio-button')
 
     button.value = 'cat'
     radio.append(button)

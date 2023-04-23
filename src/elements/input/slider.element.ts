@@ -1,4 +1,4 @@
-import { parseNumber } from '@queelag/core'
+import { parseNumber } from '@aracna/core'
 import {
   DEFAULT_SLIDER_MAX,
   DEFAULT_SLIDER_MIN,
@@ -10,14 +10,14 @@ import {
   SliderElementEventMap,
   SliderThumbElementEventMap,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { html } from 'lit-html'
 import { AriaSliderElement, AriaSliderThumbElement } from '../aria/aria.slider.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-slider': SliderElement
-    'q-slider-thumb': SliderThumbElement
+    'aracna-slider': SliderElement
+    'aracna-slider-thumb': SliderThumbElement
   }
 }
 
@@ -63,7 +63,7 @@ export class SliderElement<E extends SliderElementEventMap = SliderElementEventM
 
   static queries: QueryDeclarations = {
     inputElement: { selector: 'input', shadow: true },
-    thumbElements: { selector: 'q-slider-thumb', all: true }
+    thumbElements: { selector: 'aracna-slider-thumb', all: true }
   }
 }
 
@@ -86,9 +86,9 @@ export class SliderThumbElement<E extends SliderThumbElementEventMap = SliderThu
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-slider', closest: true }
+    rootElement: { selector: 'aracna-slider', closest: true }
   }
 }
 
-defineCustomElement('q-slider', SliderElement)
-defineCustomElement('q-slider-thumb', SliderThumbElement)
+defineCustomElement('aracna-slider', SliderElement)
+defineCustomElement('aracna-slider-thumb', SliderThumbElement)

@@ -7,7 +7,7 @@ describe('SwitchElement', () => {
   let switche: SwitchElement
 
   beforeEach(() => {
-    switche = document.createElement('q-switch')
+    switche = document.createElement('aracna-switch')
   })
 
   afterEach(() => {

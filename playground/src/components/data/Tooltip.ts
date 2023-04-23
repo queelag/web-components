@@ -6,15 +6,15 @@ import '../../../../src/elements/input/button.element'
 export default class Tooltip extends LitElement {
   protected render(): unknown {
     return html`
-      <q-tooltip focusable>
-        <q-tooltip-content .middlewares=${[offset(8)]}>
+      <aracna-tooltip focusable>
+        <aracna-tooltip-content .middlewares=${[offset(8)]}>
           <span>ARIA Tooltip Content</span>
-          <q-tooltip-arrow></q-tooltip-arrow>
-        </q-tooltip-content>
-        <q-tooltip-trigger>
-          <q-button tabindex="-1" native> ARIA Tooltip Trigger </q-button>
-        </q-tooltip-trigger>
-      </q-tooltip>
+          <aracna-tooltip-arrow></aracna-tooltip-arrow>
+        </aracna-tooltip-content>
+        <aracna-tooltip-trigger>
+          <aracna-button tabindex="-1" native> ARIA Tooltip Trigger </aracna-button>
+        </aracna-tooltip-trigger>
+      </aracna-tooltip>
     `
   }
 
@@ -23,23 +23,23 @@ export default class Tooltip extends LitElement {
       box-sizing: border-box;
     }
 
-    q-tooltip-content {
+    aracna-tooltip-content {
       padding: 4px 8px;
       border-radius: 4px;
       background: lightgray;
     }
 
-    q-tooltip:not([visible]) q-tooltip-content {
+    aracna-tooltip:not([visible]) aracna-tooltip-content {
       opacity: 0;
       pointer-events: none;
     }
 
-    q-tooltip-content span {
+    aracna-tooltip-content span {
       font-size: 12px;
       white-space: nowrap;
     }
 
-    q-tooltip-arrow {
+    aracna-tooltip-arrow {
       height: 0px;
       width: 0px;
 

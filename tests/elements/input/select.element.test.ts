@@ -14,11 +14,11 @@ describe('SelectElement', () => {
   let select: SelectElement, group: SelectGroupElement, button: SelectButtonElement, input: SelectInputElement, list: SelectListElement
 
   beforeEach(() => {
-    select = document.createElement('q-select')
-    group = document.createElement('q-select-group')
-    button = document.createElement('q-select-button')
-    input = document.createElement('q-select-input')
-    list = document.createElement('q-select-list')
+    select = document.createElement('aracna-select')
+    group = document.createElement('aracna-select-group')
+    button = document.createElement('aracna-select-button')
+    input = document.createElement('aracna-select-input')
+    list = document.createElement('aracna-select-list')
   })
 
   afterEach(() => {
@@ -35,8 +35,8 @@ describe('SelectElement', () => {
   it('works', async () => {
     let option1: SelectOptionElement, option2: SelectOptionElement
 
-    option1 = document.createElement('q-select-option')
-    option2 = document.createElement('q-select-option')
+    option1 = document.createElement('aracna-select-option')
+    option2 = document.createElement('aracna-select-option')
 
     option1.value = 'cat'
     option2.value = 'dog'
@@ -90,8 +90,8 @@ describe('SelectElement', () => {
   it('supports multiple mode', async () => {
     let option1: SelectOptionElement, option2: SelectOptionElement
 
-    option1 = document.createElement('q-select-option')
-    option2 = document.createElement('q-select-option')
+    option1 = document.createElement('aracna-select-option')
+    option2 = document.createElement('aracna-select-option')
 
     option1.value = 'cat'
     option2.value = 'dog'

@@ -1,4 +1,4 @@
-import { setImmutableElementAttribute } from '@queelag/web'
+import { setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { AriaCheckBoxElement } from '../elements/aria/aria.check.box.element'
 

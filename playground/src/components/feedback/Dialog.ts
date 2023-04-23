@@ -16,18 +16,18 @@ export default class Dialog extends LitElement {
 
   protected render(): unknown {
     return html`
-      <q-button @click=${() => this.open()} native>Open ARIA Dialog</q-button>
-      <q-dialog @close=${() => this.close()} ?visible=${this.visible} click-outside-deactivates>
-        <q-dialog-label>ARIA Dialog</q-dialog-label>
-        <q-dialog-description>
+      <aracna-button @click=${() => this.open()} native>Open ARIA Dialog</aracna-button>
+      <aracna-dialog @close=${() => this.close()} ?visible=${this.visible} click-outside-deactivates>
+        <aracna-dialog-label>ARIA Dialog</aracna-dialog-label>
+        <aracna-dialog-description>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </q-dialog-description>
-        <q-input placeholder="input inside dialog" type="text"></q-input>
+        </aracna-dialog-description>
+        <aracna-input placeholder="input inside dialog" type="text"></aracna-input>
         <div class="buttons">
-          <q-button @click=${() => this.close()} native>Close</q-button>
-          <q-button @click=${() => this.close()} native>Ok</q-button>
+          <aracna-button @click=${() => this.close()} native>Close</aracna-button>
+          <aracna-button @click=${() => this.close()} native>Ok</aracna-button>
         </div>
-      </q-dialog>
+      </aracna-dialog>
     `
   }
 
@@ -40,7 +40,7 @@ export default class Dialog extends LitElement {
       box-sizing: border-box;
     }
 
-    q-dialog {
+    aracna-dialog {
       width: 256px;
 
       display: flex;
@@ -60,11 +60,11 @@ export default class Dialog extends LitElement {
       transform: translateX(-50%);
     }
 
-    q-dialog:not([visible]) {
+    aracna-dialog:not([visible]) {
       display: none;
     }
 
-    q-dialog div.buttons {
+    aracna-dialog div.buttons {
       display: flex;
       align-self: flex-end;
       gap: 8px;

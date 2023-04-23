@@ -9,16 +9,16 @@ import {
   QueryDeclarations,
   TabsSelectionChangeEvent,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaTabsController, AriaTabsPanelController, AriaTabsTabController } from '../../controllers/aria.tabs.controller'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-tabs': AriaTabsElement
-    'q-aria-tabs-panel': AriaTabsPanelElement
-    'q-aria-tabs-tab': AriaTabsTabElement
+    'aracna-aria-tabs': AriaTabsElement
+    'aracna-aria-tabs-panel': AriaTabsPanelElement
+    'aracna-aria-tabs-tab': AriaTabsTabElement
   }
 }
 
@@ -175,10 +175,10 @@ export class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElement
   }
 
   static queries: QueryDeclarations = {
-    focusedTabElement: { selector: 'q-aria-tabs-tab:focus' },
-    panelElements: { selector: 'q-aria-tabs-panel', all: true },
-    selectedTabElement: { selector: 'q-aria-tabs-tab[selected]' },
-    tabElements: { selector: 'q-aria-tabs-tab', all: true }
+    focusedTabElement: { selector: 'aracna-aria-tabs-tab:focus' },
+    panelElements: { selector: 'aracna-aria-tabs-panel', all: true },
+    selectedTabElement: { selector: 'aracna-aria-tabs-tab[selected]' },
+    tabElements: { selector: 'aracna-aria-tabs-tab', all: true }
   }
 }
 
@@ -246,7 +246,7 @@ export class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsT
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-tabs', closest: true }
+    rootElement: { selector: 'aracna-aria-tabs', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -276,10 +276,10 @@ export class AriaTabsPanelElement<E extends AriaTabsPanelElementEventMap = AriaT
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-tabs', closest: true }
+    rootElement: { selector: 'aracna-aria-tabs', closest: true }
   }
 }
 
-defineCustomElement('q-aria-tabs', AriaTabsElement)
-defineCustomElement('q-aria-tabs-tab', AriaTabsTabElement)
-defineCustomElement('q-aria-tabs-panel', AriaTabsPanelElement)
+defineCustomElement('aracna-aria-tabs', AriaTabsElement)
+defineCustomElement('aracna-aria-tabs-tab', AriaTabsTabElement)
+defineCustomElement('aracna-aria-tabs-panel', AriaTabsPanelElement)

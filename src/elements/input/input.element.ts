@@ -1,4 +1,4 @@
-import { parseNumber, removeArrayItems, TextCodec } from '@queelag/core'
+import { parseNumber, removeArrayItems, TextCodec } from '@aracna/core'
 import {
   DEFAULT_INPUT_TYPE,
   defineCustomElement,
@@ -9,7 +9,7 @@ import {
   InputElementValue,
   QueryDeclarations,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
@@ -19,7 +19,7 @@ import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-input': InputElement
+    'aracna-input': InputElement
   }
 }
 
@@ -328,4 +328,4 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
   ]
 }
 
-defineCustomElement('q-input', InputElement)
+defineCustomElement('aracna-input', InputElement)

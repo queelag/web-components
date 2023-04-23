@@ -1,12 +1,12 @@
-import { getLimitedNumber } from '@queelag/core'
-import { AriaMeterElementEventMap, DEFAULT_METER_MAX, DEFAULT_METER_MIN, DEFAULT_METER_VALUE, defineCustomElement } from '@queelag/web'
+import { getLimitedNumber } from '@aracna/core'
+import { AriaMeterElementEventMap, DEFAULT_METER_MAX, DEFAULT_METER_MIN, DEFAULT_METER_VALUE, defineCustomElement } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaMeterController } from '../../controllers/aria.meter.controller'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-meter': AriaMeterElement
+    'aracna-aria-meter': AriaMeterElement
   }
 }
 
@@ -46,4 +46,4 @@ export class AriaMeterElement<E extends AriaMeterElementEventMap = AriaMeterElem
   }
 }
 
-defineCustomElement('q-aria-meter', AriaMeterElement)
+defineCustomElement('aracna-aria-meter', AriaMeterElement)

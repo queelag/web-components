@@ -1,5 +1,5 @@
-import { sleep } from '@queelag/core'
-import { KeyboardEventKey } from '@queelag/web'
+import { sleep } from '@aracna/core'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.carousel.element'
 import type {
@@ -34,18 +34,18 @@ describe('AriaCarouselElement', () => {
     t2: AriaCarouselTabElement
 
   beforeEach(() => {
-    carousel = document.createElement('q-aria-carousel')
+    carousel = document.createElement('aracna-aria-carousel')
     carousel.automaticRotationIntervalTime = 100
 
-    slides = document.createElement('q-aria-carousel-slides')
-    s1 = document.createElement('q-aria-carousel-slide')
-    s2 = document.createElement('q-aria-carousel-slide')
-    rc = document.createElement('q-aria-carousel-rotation-control')
-    nsc = document.createElement('q-aria-carousel-next-slide-control')
-    psc = document.createElement('q-aria-carousel-previous-slide-control')
-    tabs = document.createElement('q-aria-carousel-tabs')
-    t1 = document.createElement('q-aria-carousel-tab')
-    t2 = document.createElement('q-aria-carousel-tab')
+    slides = document.createElement('aracna-aria-carousel-slides')
+    s1 = document.createElement('aracna-aria-carousel-slide')
+    s2 = document.createElement('aracna-aria-carousel-slide')
+    rc = document.createElement('aracna-aria-carousel-rotation-control')
+    nsc = document.createElement('aracna-aria-carousel-next-slide-control')
+    psc = document.createElement('aracna-aria-carousel-previous-slide-control')
+    tabs = document.createElement('aracna-aria-carousel-tabs')
+    t1 = document.createElement('aracna-aria-carousel-tab')
+    t2 = document.createElement('aracna-aria-carousel-tab')
 
     slides.append(s1, s2)
     tabs.append(t1, t2)

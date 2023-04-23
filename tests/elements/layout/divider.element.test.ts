@@ -7,7 +7,7 @@ describe('DividerElement', () => {
   let divider: DividerElement
 
   beforeEach(() => {
-    divider = document.createElement('q-divider')
+    divider = document.createElement('aracna-divider')
     divider.innerHTML = '<div slot="horizontal">horizontal</div><div slot="vertical">vertical</div><div>default</div>'
   })
 

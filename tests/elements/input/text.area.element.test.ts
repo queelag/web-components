@@ -1,4 +1,4 @@
-import { KeyboardEventKey } from '@queelag/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/text.area.element'
 import type { TextAreaElement } from '../../../src/elements/input/text.area.element'
@@ -8,7 +8,7 @@ describe('TextAreaElement', () => {
   let textarea: TextAreaElement
 
   beforeEach(() => {
-    textarea = document.createElement('q-textarea')
+    textarea = document.createElement('aracna-textarea')
   })
 
   afterEach(() => {

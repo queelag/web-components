@@ -8,7 +8,7 @@ import {
   KeyboardEventKey,
   QueryDeclarations,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaTooltipContentController, AriaTooltipController, AriaTooltipTriggerController } from '../../controllers/aria.tooltip.controller'
 import { BaseElement } from '../core/base.element'
@@ -16,10 +16,10 @@ import { FloatingElement } from '../core/floating.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-tooltip': AriaTooltipElement
-    'q-aria-tooltip-arrow': AriaTooltipArrowElement
-    'q-aria-tooltip-content': AriaTooltipContentElement
-    'q-aria-tooltip-trigger': AriaTooltipTriggerElement
+    'aracna-aria-tooltip': AriaTooltipElement
+    'aracna-aria-tooltip-arrow': AriaTooltipArrowElement
+    'aracna-aria-tooltip-content': AriaTooltipContentElement
+    'aracna-aria-tooltip-trigger': AriaTooltipTriggerElement
   }
 }
 
@@ -70,9 +70,9 @@ export class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaToolt
   }
 
   static queries: QueryDeclarations = {
-    arrowElement: { selector: 'q-aria-tooltip-arrow' },
-    contentElement: { selector: 'q-aria-tooltip-content' },
-    triggerElement: { selector: 'q-aria-tooltip-trigger' }
+    arrowElement: { selector: 'aracna-aria-tooltip-arrow' },
+    contentElement: { selector: 'aracna-aria-tooltip-content' },
+    triggerElement: { selector: 'aracna-aria-tooltip-trigger' }
   }
 
   static styles: CSSResultGroup = [
@@ -123,7 +123,7 @@ export class AriaTooltipContentElement<E extends AriaTooltipContentElementEventM
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-tooltip', closest: true }
+    rootElement: { selector: 'aracna-aria-tooltip', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -200,7 +200,7 @@ export class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventM
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-tooltip', closest: true }
+    rootElement: { selector: 'aracna-aria-tooltip', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -213,7 +213,7 @@ export class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventM
   ]
 }
 
-defineCustomElement('q-aria-tooltip', AriaTooltipElement)
-defineCustomElement('q-aria-tooltip-arrow', AriaTooltipArrowElement)
-defineCustomElement('q-aria-tooltip-content', AriaTooltipContentElement)
-defineCustomElement('q-aria-tooltip-trigger', AriaTooltipTriggerElement)
+defineCustomElement('aracna-aria-tooltip', AriaTooltipElement)
+defineCustomElement('aracna-aria-tooltip-arrow', AriaTooltipArrowElement)
+defineCustomElement('aracna-aria-tooltip-content', AriaTooltipContentElement)
+defineCustomElement('aracna-aria-tooltip-trigger', AriaTooltipTriggerElement)

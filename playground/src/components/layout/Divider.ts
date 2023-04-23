@@ -4,10 +4,10 @@ import '../../../../src/elements/layout/divider.element'
 export default class Divider extends LitElement {
   protected render(): unknown {
     return html`
-      <q-divider orientation="horizontal">
+      <aracna-divider orientation="horizontal">
         <div className="w-full h-px bg-gray-200" slot="horizontal"></div>
         <div className="w-px h-full bg-gray-200" slot="vertical"></div>
-      </q-divider>
+      </aracna-divider>
     `
   }
 
@@ -17,7 +17,7 @@ export default class Divider extends LitElement {
     }
 
     :host,
-    q-divider {
+    aracna-divider {
       width: 100%;
     }
 

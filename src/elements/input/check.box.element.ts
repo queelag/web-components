@@ -1,11 +1,11 @@
-import { CheckBoxElementEventMap, defineCustomElement, ElementName, WebElementLogger } from '@queelag/web'
+import { CheckBoxElementEventMap, defineCustomElement, ElementName, WebElementLogger } from '@aracna/web'
 import { css, CSSResultGroup } from 'lit'
 import { html } from 'lit-html'
 import { AriaCheckBoxElement } from '../aria/aria.check.box.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-checkbox': CheckBoxElement
+    'aracna-checkbox': CheckBoxElement
   }
 }
 
@@ -72,4 +72,4 @@ export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElement
   ]
 }
 
-defineCustomElement('q-checkbox', CheckBoxElement)
+defineCustomElement('aracna-checkbox', CheckBoxElement)

@@ -1,4 +1,4 @@
-import type { StateChangeEvent } from '@queelag/web'
+import type { StateChangeEvent } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
 import { createRef, Ref, ref } from 'lit-html/directives/ref.js'
 import { when } from 'lit-html/directives/when.js'
@@ -17,9 +17,15 @@ export default class Input extends LitElement {
     return html`
       <div class="field">
         <div class="controls">
-          <q-input ${ref(this.ref)} @state-change=${this.onStateChange} placeholder="input" .schema=${size(string(), 0, 5)} touch-trigger="input"></q-input>
-          <q-button @click=${() => (this.ref.value?.obscured ? this.ref.value.reveal() : this.ref.value?.obscure())}>
-            <q-icon
+          <aracna-input
+            ${ref(this.ref)}
+            @state-change=${this.onStateChange}
+            placeholder="input"
+            .schema=${size(string(), 0, 5)}
+            touch-trigger="input"
+          ></aracna-input>
+          <aracna-button @click=${() => (this.ref.value?.obscured ? this.ref.value.reveal() : this.ref.value?.obscure())}>
+            <aracna-icon
               fill="none"
               size="12"
               src=${this.ref.value?.obscured
@@ -27,17 +33,17 @@ export default class Input extends LitElement {
                 : 'https://raw.githubusercontent.com/feathericons/feather/master/icons/eye-off.svg'}
               stroke="black"
               stroke-width="2.5"
-            ></q-icon>
-          </q-button>
-          <q-button @click=${() => this.ref.value?.clear()}>
-            <q-icon
+            ></aracna-icon>
+          </aracna-button>
+          <aracna-button @click=${() => this.ref.value?.clear()}>
+            <aracna-icon
               fill="none"
               size="16"
               src="https://raw.githubusercontent.com/feathericons/feather/master/icons/x.svg"
               stroke="black"
               stroke-width="2"
-            ></q-icon>
-          </q-button>
+            ></aracna-icon>
+          </aracna-button>
         </div>
         ${when(this.ref.value?.isErrorVisible, () => html`<span class="error">${this.ref.value?.error}</span>`)}
       </div>

@@ -1,4 +1,4 @@
-import { defineCustomElement, ElementName, FormElementEventMap, FormSubmitEvent, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@queelag/web'
+import { defineCustomElement, ElementName, FormElementEventMap, FormSubmitEvent, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ifdef } from '../../directives/if.defined'
@@ -15,7 +15,7 @@ import type { TextAreaElement } from './text.area.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-form': FormElement
+    'aracna-form': FormElement
   }
 }
 
@@ -116,14 +116,14 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
 
   static queries: QueryDeclarations = {
     formElement: { selector: 'form', shadow: true },
-    checkBoxElements: { selector: 'q-checkbox', all: true },
-    inputElements: { selector: 'q-input', all: true },
-    inputFileElements: { selector: 'q-input-file', all: true },
-    radioGroupElements: { selector: 'q-radio-group', all: true },
-    selectElements: { selector: 'q-select', all: true },
-    sliderElements: { selector: 'q-slider', all: true },
-    switchElements: { selector: 'q-switch', all: true },
-    textAreaElements: { selector: 'q-textarea', all: true }
+    checkBoxElements: { selector: 'aracna-checkbox', all: true },
+    inputElements: { selector: 'aracna-input', all: true },
+    inputFileElements: { selector: 'aracna-input-file', all: true },
+    radioGroupElements: { selector: 'aracna-radio-group', all: true },
+    selectElements: { selector: 'aracna-select', all: true },
+    sliderElements: { selector: 'aracna-slider', all: true },
+    switchElements: { selector: 'aracna-switch', all: true },
+    textAreaElements: { selector: 'aracna-textarea', all: true }
   }
 
   static styles: CSSResultGroup = [
@@ -137,4 +137,4 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
   ]
 }
 
-defineCustomElement('q-form', FormElement)
+defineCustomElement('aracna-form', FormElement)

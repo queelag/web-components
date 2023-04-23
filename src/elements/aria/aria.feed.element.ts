@@ -8,7 +8,7 @@ import {
   KeyboardEventKey,
   QueryDeclarations,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { FocusableElement, tabbable } from 'tabbable'
 import {
@@ -21,10 +21,10 @@ import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-feed': AriaFeedElement
-    'q-aria-feed-article': AriaFeedArticleElement
-    'q-aria-feed-article-description': AriaFeedArticleDescriptionElement
-    'q-aria-feed-article-label': AriaFeedArticleLabelElement
+    'aracna-aria-feed': AriaFeedElement
+    'aracna-aria-feed-article': AriaFeedArticleElement
+    'aracna-aria-feed-article-description': AriaFeedArticleDescriptionElement
+    'aracna-aria-feed-article-label': AriaFeedArticleLabelElement
   }
 }
 
@@ -131,8 +131,8 @@ export class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElement
   }
 
   static queries: QueryDeclarations = {
-    articleElements: { selector: 'q-aria-feed-article', all: true },
-    focusedArticleElement: { selector: 'q-aria-feed-article[focused]' }
+    articleElements: { selector: 'aracna-aria-feed-article', all: true },
+    focusedArticleElement: { selector: 'aracna-aria-feed-article[focused]' }
   }
 }
 
@@ -188,9 +188,9 @@ export class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = A
   }
 
   static queries: QueryDeclarations = {
-    descriptionElement: { selector: 'q-aria-feed-article-description' },
-    labelElement: { selector: 'q-aria-feed-article-label' },
-    rootElement: { selector: 'q-aria-feed', closest: true }
+    descriptionElement: { selector: 'aracna-aria-feed-article-description' },
+    labelElement: { selector: 'aracna-aria-feed-article-label' },
+    rootElement: { selector: 'aracna-aria-feed', closest: true }
   }
 }
 
@@ -212,7 +212,7 @@ export class AriaFeedArticleDescriptionElement<
   }
 }
 
-defineCustomElement('q-aria-feed', AriaFeedElement)
-defineCustomElement('q-aria-feed-article', AriaFeedArticleElement)
-defineCustomElement('q-aria-feed-article-description', AriaFeedArticleDescriptionElement)
-defineCustomElement('q-aria-feed-article-label', AriaFeedArticleLabelElement)
+defineCustomElement('aracna-aria-feed', AriaFeedElement)
+defineCustomElement('aracna-aria-feed-article', AriaFeedArticleElement)
+defineCustomElement('aracna-aria-feed-article-description', AriaFeedArticleDescriptionElement)
+defineCustomElement('aracna-aria-feed-article-label', AriaFeedArticleLabelElement)

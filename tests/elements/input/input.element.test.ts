@@ -1,5 +1,5 @@
-import { TextCodec } from '@queelag/core'
-import { KeyboardEventKey } from '@queelag/web'
+import { TextCodec } from '@aracna/core'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/input.element'
 import type { InputElement } from '../../../src/elements/input/input.element'
@@ -9,7 +9,7 @@ describe('InputElement', () => {
   let input: InputElement
 
   beforeEach(() => {
-    input = document.createElement('q-input')
+    input = document.createElement('aracna-input')
   })
 
   afterEach(() => {

@@ -4,21 +4,21 @@ import '../../../../src/elements/navigation/breadcrumb.element'
 export default class Breadcrumb extends LitElement {
   protected render(): unknown {
     return html`
-      <q-breadcrumb>
-        <q-breadcrumb-list>
-          <q-breadcrumb-item>
+      <aracna-breadcrumb>
+        <aracna-breadcrumb-list>
+          <aracna-breadcrumb-item>
             <a href="#" target="_blank">Breadcrumb</a>
-          </q-breadcrumb-item>
+          </aracna-breadcrumb-item>
           <span>/</span>
-          <q-breadcrumb-item>
+          <aracna-breadcrumb-item>
             <a href="#" target="_blank">Shop</a>
-          </q-breadcrumb-item>
+          </aracna-breadcrumb-item>
           <span>/</span>
-          <q-breadcrumb-item current>
+          <aracna-breadcrumb-item current>
             <a href="#" target="_blank">Article</a>
-          </q-breadcrumb-item>
-        </q-breadcrumb-list>
-      </q-breadcrumb>
+          </aracna-breadcrumb-item>
+        </aracna-breadcrumb-list>
+      </aracna-breadcrumb>
     `
   }
 
@@ -27,7 +27,7 @@ export default class Breadcrumb extends LitElement {
       box-sizing: border-box;
     }
 
-    q-breadcrumb {
+    aracna-breadcrumb {
       display: flex;
       padding: 4px 8px;
 
@@ -35,7 +35,7 @@ export default class Breadcrumb extends LitElement {
       border-radius: 4px;
     }
 
-    q-breadcrumb-list {
+    aracna-breadcrumb-list {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -44,7 +44,7 @@ export default class Breadcrumb extends LitElement {
       font-weight: 500;
     }
 
-    q-breadcrumb-item:hover {
+    aracna-breadcrumb-item:hover {
       text-decoration: underline;
     }
   `

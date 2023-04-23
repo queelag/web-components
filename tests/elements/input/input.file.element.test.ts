@@ -1,4 +1,4 @@
-import { Base64, Polyfill, QueelagFile, TextCodec, wf } from '@queelag/core'
+import { AracnaFile, Base64, Polyfill, TextCodec, wf } from '@aracna/core'
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/input.file.element'
 import type { InputFileElement } from '../../../src/elements/input/input.file.element'
@@ -18,7 +18,7 @@ describe('InputFileElement', () => {
   })
 
   beforeEach(() => {
-    input = document.createElement('q-input-file')
+    input = document.createElement('aracna-input-file')
     file = new File(['hello'], 'file', { lastModified: Date.now(), type: 'text/plain' })
   })
 
@@ -54,8 +54,8 @@ describe('InputFileElement', () => {
 
     expect(input.file?.arrayBuffer).toStrictEqual(new ArrayBuffer(0))
     expect(input.file?.base64).toBe('')
-    expect(input.file?.blob).toStrictEqual(QueelagFile.EMPTY.blob)
-    expect(input.file?.file).toStrictEqual(QueelagFile.EMPTY.file)
+    expect(input.file?.blob).toStrictEqual(AracnaFile.EMPTY.blob)
+    expect(input.file?.file).toStrictEqual(AracnaFile.EMPTY.file)
     expect(input.file?.lastModified).toBeDefined()
     expect(input.file?.lastModifiedDate).toBeDefined()
     expect(input.file?.text).toBe('')
@@ -100,13 +100,13 @@ describe('InputFileElement', () => {
     dispatchInputFileEvent(input.renderRoot.querySelector('input'), [file])
     await wf(() => input.files.length > 0)
 
-    expect(input.files[0]).toBeInstanceOf(QueelagFile)
+    expect(input.files[0]).toBeInstanceOf(AracnaFile)
 
     dispatchInputFileEvent(input.renderRoot.querySelector('input'), [file, file])
     await wf(() => input.files.length > 1)
 
-    expect(input.files[0]).toBeInstanceOf(QueelagFile)
-    expect(input.files[1]).toBeInstanceOf(QueelagFile)
+    expect(input.files[0]).toBeInstanceOf(AracnaFile)
+    expect(input.files[1]).toBeInstanceOf(AracnaFile)
 
     input.removeFile(input.files[0])
     expect(input.files).toHaveLength(1)

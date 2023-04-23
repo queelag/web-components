@@ -1,11 +1,11 @@
-import { AvatarElementEventMap, defineCustomElement, ElementName } from '@queelag/web'
+import { AvatarElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-avatar': AvatarElement
+    'aracna-avatar': AvatarElement
   }
 }
 
@@ -49,4 +49,4 @@ export class AvatarElement<E extends AvatarElementEventMap = AvatarElementEventM
   ]
 }
 
-defineCustomElement('q-avatar', AvatarElement)
+defineCustomElement('aracna-avatar', AvatarElement)

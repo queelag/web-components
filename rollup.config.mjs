@@ -7,8 +7,8 @@ import { terser } from 'rollup-plugin-terser'
 export default defineConfig({
   external: [
     '@floating-ui/dom',
-    '@queelag/core',
-    '@queelag/web',
+    '@aracna/core',
+    '@aracna/web',
     'dompurify',
     'focus-trap',
     'lit',

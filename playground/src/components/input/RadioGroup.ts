@@ -5,65 +5,65 @@ import '../../../../src/elements/input/radio.group.element'
 export default class RadioGroup extends LitElement {
   protected render(): unknown {
     return html`
-      <q-radio-group className="w-32 flex flex-col gap-1 outline-none">
-        <q-radio-button>
-          <q-icon
+      <aracna-radio-group className="w-32 flex flex-col gap-1 outline-none">
+        <aracna-radio-button>
+          <aracna-icon
             class="circle"
             fill="none"
             size="14"
             src="https://raw.githubusercontent.com/feathericons/feather/master/icons/circle.svg"
             stroke="black"
             stroke-width="2"
-          ></q-icon>
-          <q-icon
+          ></aracna-icon>
+          <aracna-icon
             class="disc"
             fill="none"
             size="14"
             src="https://raw.githubusercontent.com/feathericons/feather/master/icons/disc.svg"
             stroke="black"
             stroke-width="2"
-          ></q-icon>
+          ></aracna-icon>
           <span>Apple</span>
-        </q-radio-button>
-        <q-radio-button>
-          <q-icon
+        </aracna-radio-button>
+        <aracna-radio-button>
+          <aracna-icon
             class="circle"
             fill="none"
             size="14"
             src="https://raw.githubusercontent.com/feathericons/feather/master/icons/circle.svg"
             stroke="black"
             stroke-width="2"
-          ></q-icon>
-          <q-icon
+          ></aracna-icon>
+          <aracna-icon
             class="disc"
             fill="none"
             size="14"
             src="https://raw.githubusercontent.com/feathericons/feather/master/icons/disc.svg"
             stroke="black"
             stroke-width="2"
-          ></q-icon>
+          ></aracna-icon>
           <span>Banana</span>
-        </q-radio-button>
-        <q-radio-button>
-          <q-icon
+        </aracna-radio-button>
+        <aracna-radio-button>
+          <aracna-icon
             class="circle"
             fill="none"
             size="14"
             src="https://raw.githubusercontent.com/feathericons/feather/master/icons/circle.svg"
             stroke="black"
             stroke-width="2"
-          ></q-icon>
-          <q-icon
+          ></aracna-icon>
+          <aracna-icon
             class="disc"
             fill="none"
             size="14"
             src="https://raw.githubusercontent.com/feathericons/feather/master/icons/disc.svg"
             stroke="black"
             stroke-width="2"
-          ></q-icon>
+          ></aracna-icon>
           <span>Cherry</span>
-        </q-radio-button>
-      </q-radio-group>
+        </aracna-radio-button>
+      </aracna-radio-group>
     `
   }
 
@@ -72,7 +72,7 @@ export default class RadioGroup extends LitElement {
       box-sizing: border-box;
     }
 
-    q-radio-group {
+    aracna-radio-group {
       width: 256px;
 
       display: flex;
@@ -82,7 +82,7 @@ export default class RadioGroup extends LitElement {
       outline: none;
     }
 
-    q-radio-button {
+    aracna-radio-button {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -92,20 +92,20 @@ export default class RadioGroup extends LitElement {
       border-radius: 4px;
     }
 
-    /* q-radio-button[focused] {
+    /* aracna-radio-button[focused] {
       box-shadow: 0 0 0 1px white, 0 0 0 2px green;
     } */
 
-    q-radio-button span {
+    aracna-radio-button span {
       font-size: 12px;
       font-weight: 500;
     }
 
-    q-radio-button[checked] q-icon.circle {
+    aracna-radio-button[checked] aracna-icon.circle {
       display: none;
     }
 
-    q-radio-button:not([checked]) q-icon.disc {
+    aracna-radio-button:not([checked]) aracna-icon.disc {
       display: none;
     }
   `

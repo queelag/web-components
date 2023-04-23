@@ -10,7 +10,7 @@ import {
   KeyboardEventKey,
   QueryDeclarations,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import {
   AriaAccordionButtonController,
@@ -22,11 +22,11 @@ import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-accordion': AriaAccordionElement
-    'q-aria-accordion-button': AriaAccordionButtonElement
-    'q-aria-accordion-header': AriaAccordionHeaderElement
-    'q-aria-accordion-panel': AriaAccordionPanelElement
-    'q-aria-accordion-section': AriaAccordionSectionElement
+    'aracna-aria-accordion': AriaAccordionElement
+    'aracna-aria-accordion-button': AriaAccordionButtonElement
+    'aracna-aria-accordion-header': AriaAccordionHeaderElement
+    'aracna-aria-accordion-panel': AriaAccordionPanelElement
+    'aracna-aria-accordion-section': AriaAccordionSectionElement
   }
 }
 
@@ -129,8 +129,8 @@ export class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaA
   }
 
   static queries: QueryDeclarations = {
-    buttonElements: { selector: 'q-aria-accordion-button', all: true },
-    expandedSectionElements: { selector: 'q-aria-accordion-section[expanded]', all: true }
+    buttonElements: { selector: 'aracna-aria-accordion-button', all: true },
+    expandedSectionElements: { selector: 'aracna-aria-accordion-section[expanded]', all: true }
   }
 
   static properties: PropertyDeclarations = {
@@ -174,8 +174,8 @@ export class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEv
   }
 
   static queries: QueryDeclarations = {
-    buttonElement: { selector: 'q-aria-accordion-button' },
-    panelElement: { selector: 'q-aria-accordion-panel' }
+    buttonElement: { selector: 'aracna-aria-accordion-button' },
+    panelElement: { selector: 'aracna-aria-accordion-panel' }
   }
 
   static properties: PropertyDeclarations = {
@@ -263,8 +263,8 @@ export class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEven
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-accordion', closest: true },
-    sectionElement: { selector: 'q-aria-accordion-section', closest: true }
+    rootElement: { selector: 'aracna-aria-accordion', closest: true },
+    sectionElement: { selector: 'aracna-aria-accordion-section', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -290,12 +290,12 @@ export class AriaAccordionPanelElement<E extends AriaAccordionPanelElementEventM
   }
 
   static queries: QueryDeclarations = {
-    sectionElement: { selector: 'q-aria-accordion-section', closest: true }
+    sectionElement: { selector: 'aracna-aria-accordion-section', closest: true }
   }
 }
 
-defineCustomElement('q-aria-accordion', AriaAccordionElement)
-defineCustomElement('q-aria-accordion-button', AriaAccordionButtonElement)
-defineCustomElement('q-aria-accordion-header', AriaAccordionHeaderElement)
-defineCustomElement('q-aria-accordion-panel', AriaAccordionPanelElement)
-defineCustomElement('q-aria-accordion-section', AriaAccordionSectionElement)
+defineCustomElement('aracna-aria-accordion', AriaAccordionElement)
+defineCustomElement('aracna-aria-accordion-button', AriaAccordionButtonElement)
+defineCustomElement('aracna-aria-accordion-header', AriaAccordionHeaderElement)
+defineCustomElement('aracna-aria-accordion-panel', AriaAccordionPanelElement)
+defineCustomElement('aracna-aria-accordion-section', AriaAccordionSectionElement)

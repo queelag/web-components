@@ -6,15 +6,15 @@ import {
   FeedArticleLabelElementEventMap,
   FeedElementEventMap,
   QueryDeclarations
-} from '@queelag/web'
+} from '@aracna/web'
 import { AriaFeedArticleDescriptionElement, AriaFeedArticleElement, AriaFeedArticleLabelElement, AriaFeedElement } from '../aria/aria.feed.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-feed': FeedElement
-    'q-feed-article': FeedArticleElement
-    'q-feed-article-description': FeedArticleDescriptionElement
-    'q-feed-article-label': FeedArticleLabelElement
+    'aracna-feed': FeedElement
+    'aracna-feed-article': FeedArticleElement
+    'aracna-feed-article-description': FeedArticleDescriptionElement
+    'aracna-feed-article-label': FeedArticleLabelElement
   }
 }
 
@@ -24,8 +24,8 @@ export class FeedElement<E extends FeedElementEventMap = FeedElementEventMap> ex
   }
 
   static queries: QueryDeclarations = {
-    articleElements: { selector: 'q-feed-article', all: true },
-    focusedArticleElement: { selector: 'q-feed-article[focused]' }
+    articleElements: { selector: 'aracna-feed-article', all: true },
+    focusedArticleElement: { selector: 'aracna-feed-article[focused]' }
   }
 }
 
@@ -35,9 +35,9 @@ export class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArtic
   }
 
   static queries: QueryDeclarations = {
-    descriptionElement: { selector: 'q-feed-article-description' },
-    labelElement: { selector: 'q-feed-article-label' },
-    rootElement: { selector: 'q-feed', closest: true }
+    descriptionElement: { selector: 'aracna-feed-article-description' },
+    labelElement: { selector: 'aracna-feed-article-label' },
+    rootElement: { selector: 'aracna-feed', closest: true }
   }
 }
 
@@ -55,7 +55,7 @@ export class FeedArticleDescriptionElement<
   }
 }
 
-defineCustomElement('q-feed', FeedElement)
-defineCustomElement('q-feed-article', FeedArticleElement)
-defineCustomElement('q-feed-article-description', FeedArticleDescriptionElement)
-defineCustomElement('q-feed-article-label', FeedArticleLabelElement)
+defineCustomElement('aracna-feed', FeedElement)
+defineCustomElement('aracna-feed-article', FeedArticleElement)
+defineCustomElement('aracna-feed-article-description', FeedArticleDescriptionElement)
+defineCustomElement('aracna-feed-article-label', FeedArticleLabelElement)

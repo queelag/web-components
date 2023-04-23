@@ -1,4 +1,4 @@
-import { getElementStyleCompatibleValue, Shape, ShapeOptions } from '@queelag/web'
+import { getElementStyleCompatibleValue, Shape, ShapeOptions } from '@aracna/web'
 import { StyleInfo } from 'lit-html/directives/style-map'
 
 export function getShapeStyleInfo(shape?: Shape, options?: ShapeOptions): StyleInfo {

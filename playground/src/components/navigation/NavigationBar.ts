@@ -12,17 +12,17 @@ export default class NavigationBar extends LitElement {
 
   protected render(): unknown {
     return html`
-      <q-navigation-bar ${ref(this.ref)} active-item="Home" @attribute-change=${this.onAttributeChange}>
-        <q-navigation-bar-item ?active=${this.ref.value?.isItemActive('Discover')} @click=${() => this.ref.value?.activateItem('Discover')}>
+      <aracna-navigation-bar ${ref(this.ref)} active-item="Home" @attribute-change=${this.onAttributeChange}>
+        <aracna-navigation-bar-item ?active=${this.ref.value?.isItemActive('Discover')} @click=${() => this.ref.value?.activateItem('Discover')}>
           Navigation
-        </q-navigation-bar-item>
-        <q-navigation-bar-item ?active=${this.ref.value?.isItemActive('Home') ?? true} @click=${() => this.ref.value?.activateItem('Home')}>
+        </aracna-navigation-bar-item>
+        <aracna-navigation-bar-item ?active=${this.ref.value?.isItemActive('Home') ?? true} @click=${() => this.ref.value?.activateItem('Home')}>
           Bar
-        </q-navigation-bar-item>
-        <q-navigation-bar-item ?active=${this.ref.value?.isItemActive('Settings')} @click=${() => this.ref.value?.activateItem('Settings')}>
+        </aracna-navigation-bar-item>
+        <aracna-navigation-bar-item ?active=${this.ref.value?.isItemActive('Settings')} @click=${() => this.ref.value?.activateItem('Settings')}>
           Demo
-        </q-navigation-bar-item>
-      </q-navigation-bar>
+        </aracna-navigation-bar-item>
+      </aracna-navigation-bar>
     `
   }
 
@@ -31,18 +31,18 @@ export default class NavigationBar extends LitElement {
       box-sizing: border-box;
     }
 
-    q-navigation-bar {
+    aracna-navigation-bar {
       display: flex;
 
       border-radius: 4px;
       border: 1px solid gray;
     }
 
-    q-navigation-bar > * + * {
+    aracna-navigation-bar > * + * {
       border-left: 1px solid gray;
     }
 
-    q-navigation-bar-item {
+    aracna-navigation-bar-item {
       cursor: pointer;
       padding: 4px 8px;
 
@@ -50,7 +50,7 @@ export default class NavigationBar extends LitElement {
       font-weight: 500;
     }
 
-    q-navigation-bar-item[active] {
+    aracna-navigation-bar-item[active] {
       background: lightgray;
     }
   `

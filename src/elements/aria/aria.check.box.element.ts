@@ -1,11 +1,11 @@
-import { AriaCheckBoxElementEventMap, defineCustomElement, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
+import { AriaCheckBoxElementEventMap, defineCustomElement, ElementName, KeyboardEventKey, WebElementLogger } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaCheckBoxController } from '../../controllers/aria.check.box.controller'
 import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-checkbox': AriaCheckBoxElement
+    'aracna-aria-checkbox': AriaCheckBoxElement
   }
 }
 
@@ -82,4 +82,4 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
   ]
 }
 
-defineCustomElement('q-aria-checkbox', AriaCheckBoxElement)
+defineCustomElement('aracna-aria-checkbox', AriaCheckBoxElement)

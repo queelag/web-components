@@ -7,7 +7,7 @@ describe('AriaMeterElement', () => {
   let meter: AriaMeterElement
 
   beforeEach(() => {
-    meter = document.createElement('q-aria-meter')
+    meter = document.createElement('aracna-aria-meter')
   })
 
   afterEach(() => {

@@ -1,4 +1,4 @@
-import { KeyboardEventKey } from '@queelag/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.switch.element'
 import type { AriaSwitchElement } from '../../../src/elements/aria/aria.switch.element'
@@ -8,7 +8,7 @@ describe('AriaSwitchElement', () => {
   let switche: AriaSwitchElement
 
   beforeEach(() => {
-    switche = document.createElement('q-aria-switch')
+    switche = document.createElement('aracna-aria-switch')
   })
 
   afterEach(() => {

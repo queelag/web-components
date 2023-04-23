@@ -10,7 +10,7 @@ import {
   defineCustomElement,
   ElementName,
   QueryDeclarations
-} from '@queelag/web'
+} from '@aracna/web'
 import {
   AriaCarouselElement,
   AriaCarouselNextSlideControlElement,
@@ -24,14 +24,14 @@ import {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-carousel': AriaCarouselElement
-    'q-carousel-next-slide-control': AriaCarouselNextSlideControlElement
-    'q-carousel-previous-slide-control': AriaCarouselPreviousSlideControlElement
-    'q-carousel-rotation-control': AriaCarouselRotationControlElement
-    'q-carousel-slide': AriaCarouselSlideElement
-    'q-carousel-slides': AriaCarouselSlidesElement
-    'q-carousel-tab': AriaCarouselTabElement
-    'q-carousel-tabs': AriaCarouselTabsElement
+    'aracna-carousel': AriaCarouselElement
+    'aracna-carousel-next-slide-control': AriaCarouselNextSlideControlElement
+    'aracna-carousel-previous-slide-control': AriaCarouselPreviousSlideControlElement
+    'aracna-carousel-rotation-control': AriaCarouselRotationControlElement
+    'aracna-carousel-slide': AriaCarouselSlideElement
+    'aracna-carousel-slides': AriaCarouselSlidesElement
+    'aracna-carousel-tab': AriaCarouselTabElement
+    'aracna-carousel-tabs': AriaCarouselTabsElement
   }
 }
 
@@ -41,13 +41,13 @@ export class CarouselElement<E extends CarouselElementEventMap = CarouselElement
   }
 
   static queries: QueryDeclarations = {
-    activeSlideElement: { selector: 'q-carousel-slide[active]' },
-    activeTabElement: { selector: 'q-carousel-tab[active]' },
-    rotationControlElement: { selector: 'q-carousel-rotation-control' },
-    slideElements: { selector: 'q-carousel-slide', all: true },
-    slidesElement: { selector: 'q-carousel-slides' },
-    tabElements: { selector: 'q-carousel-tab', all: true },
-    tabsElement: { selector: 'q-carousel-tabs' }
+    activeSlideElement: { selector: 'aracna-carousel-slide[active]' },
+    activeTabElement: { selector: 'aracna-carousel-tab[active]' },
+    rotationControlElement: { selector: 'aracna-carousel-rotation-control' },
+    slideElements: { selector: 'aracna-carousel-slide', all: true },
+    slidesElement: { selector: 'aracna-carousel-slides' },
+    tabElements: { selector: 'aracna-carousel-tab', all: true },
+    tabsElement: { selector: 'aracna-carousel-tabs' }
   }
 }
 
@@ -57,7 +57,7 @@ export class CarouselSlidesElement<E extends CarouselSlidesElementEventMap = Car
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-carousel', closest: true }
+    rootElement: { selector: 'aracna-carousel', closest: true }
   }
 }
 
@@ -67,8 +67,8 @@ export class CarouselSlideElement<E extends CarouselSlideElementEventMap = Carou
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-carousel', closest: true },
-    slidesElement: { selector: 'q-carousel-slides', closest: true }
+    rootElement: { selector: 'aracna-carousel', closest: true },
+    slidesElement: { selector: 'aracna-carousel-slides', closest: true }
   }
 }
 
@@ -80,7 +80,7 @@ export class CarouselRotationControlElement<
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-carousel', closest: true }
+    rootElement: { selector: 'aracna-carousel', closest: true }
   }
 }
 
@@ -92,7 +92,7 @@ export class CarouselNextSlideControlElement<
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-carousel', closest: true }
+    rootElement: { selector: 'aracna-carousel', closest: true }
   }
 }
 
@@ -104,7 +104,7 @@ export class CarouselPreviousSlideControlElement<
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-carousel', closest: true }
+    rootElement: { selector: 'aracna-carousel', closest: true }
   }
 }
 
@@ -114,9 +114,9 @@ export class CarouselTabsElement<E extends CarouselTabsElementEventMap = Carouse
   }
 
   static queries: QueryDeclarations = {
-    activeTabElement: { selector: 'q-carousel-tab[active]' },
-    rootElement: { selector: 'q-carousel', closest: true },
-    tabElements: { selector: 'q-carousel-tab', all: true }
+    activeTabElement: { selector: 'aracna-carousel-tab[active]' },
+    rootElement: { selector: 'aracna-carousel', closest: true },
+    tabElements: { selector: 'aracna-carousel-tab', all: true }
   }
 }
 
@@ -126,16 +126,16 @@ export class CarouselTabElement<E extends CarouselTabElementEventMap = CarouselT
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-carousel', closest: true },
-    tabsElement: { selector: 'q-carousel-tabs', closest: true }
+    rootElement: { selector: 'aracna-carousel', closest: true },
+    tabsElement: { selector: 'aracna-carousel-tabs', closest: true }
   }
 }
 
-defineCustomElement('q-carousel', CarouselElement)
-defineCustomElement('q-carousel-next-slide-control', CarouselNextSlideControlElement)
-defineCustomElement('q-carousel-previous-slide-control', CarouselPreviousSlideControlElement)
-defineCustomElement('q-carousel-rotation-control', CarouselRotationControlElement)
-defineCustomElement('q-carousel-slide', CarouselSlideElement)
-defineCustomElement('q-carousel-slides', CarouselSlidesElement)
-defineCustomElement('q-carousel-tab', CarouselTabElement)
-defineCustomElement('q-carousel-tabs', CarouselTabsElement)
+defineCustomElement('aracna-carousel', CarouselElement)
+defineCustomElement('aracna-carousel-next-slide-control', CarouselNextSlideControlElement)
+defineCustomElement('aracna-carousel-previous-slide-control', CarouselPreviousSlideControlElement)
+defineCustomElement('aracna-carousel-rotation-control', CarouselRotationControlElement)
+defineCustomElement('aracna-carousel-slide', CarouselSlideElement)
+defineCustomElement('aracna-carousel-slides', CarouselSlidesElement)
+defineCustomElement('aracna-carousel-tab', CarouselTabElement)
+defineCustomElement('aracna-carousel-tabs', CarouselTabsElement)

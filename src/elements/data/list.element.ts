@@ -1,11 +1,11 @@
-import { defineCustomElement, ElementName, ListElementEventMap, ListItemElementEventMap } from '@queelag/web'
+import { defineCustomElement, ElementName, ListElementEventMap, ListItemElementEventMap } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-list': ListElement
-    'q-list-item': ListItemElement
+    'aracna-list': ListElement
+    'aracna-list-item': ListItemElement
   }
 }
 
@@ -53,5 +53,5 @@ export class ListItemElement<E extends ListItemElementEventMap = ListItemElement
   }
 }
 
-defineCustomElement('q-list', ListElement)
-defineCustomElement('q-list-item', ListItemElement)
+defineCustomElement('aracna-list', ListElement)
+defineCustomElement('aracna-list-item', ListItemElement)

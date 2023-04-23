@@ -1,4 +1,4 @@
-import type { TabsSelectionChangeEvent } from '@queelag/web'
+import type { TabsSelectionChangeEvent } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement, PropertyDeclarations } from 'lit'
 import '../../../../src/elements/navigation/tabs.element'
 import type { TabsTabElement } from '../../../../src/elements/navigation/tabs.element'
@@ -14,14 +14,14 @@ export default class Tabs extends LitElement {
 
   protected render(): unknown {
     return html`
-      <q-tabs @selection-change=${this.onSelectionChange}>
+      <aracna-tabs @selection-change=${this.onSelectionChange}>
         <div>
-          <q-tabs-tab selected>ARIA Tab 1</q-tabs-tab>
-          <q-tabs-tab>ARIA Tab 2</q-tabs-tab>
-          <q-tabs-tab>ARIA Tab 3</q-tabs-tab>
+          <aracna-tabs-tab selected>ARIA Tab 1</aracna-tabs-tab>
+          <aracna-tabs-tab>ARIA Tab 2</aracna-tabs-tab>
+          <aracna-tabs-tab>ARIA Tab 3</aracna-tabs-tab>
         </div>
-        <q-tabs-panel>Content of ARIA Tab ${TABS[this.index]}</q-tabs-panel>
-      </q-tabs>
+        <aracna-tabs-panel>Content of ARIA Tab ${TABS[this.index]}</aracna-tabs-panel>
+      </aracna-tabs>
     `
   }
 
@@ -34,24 +34,24 @@ export default class Tabs extends LitElement {
       box-sizing: border-box;
     }
 
-    q-tabs {
+    aracna-tabs {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       gap: 8px;
     }
 
-    q-tabs > div {
+    aracna-tabs > div {
       display: flex;
 
       border: 1px solid gray;
     }
 
-    q-tabs > div > * + * {
+    aracna-tabs > div > * + * {
       border-left: 1px solid gray;
     }
 
-    q-tabs-panel {
+    aracna-tabs-panel {
       width: 384px;
       height: 128px;
       padding: 8px;
@@ -61,14 +61,14 @@ export default class Tabs extends LitElement {
       font-size: 12px;
     }
 
-    q-tabs-tab {
+    aracna-tabs-tab {
       padding: 8px 12px;
 
       font-size: 12px;
       font-weight: 500;
     }
 
-    q-tabs-tab[selected] {
+    aracna-tabs-tab[selected] {
       background: lightgray;
     }
   `

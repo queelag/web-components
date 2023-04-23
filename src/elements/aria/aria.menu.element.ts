@@ -1,4 +1,4 @@
-import { debounce, parseNumber } from '@queelag/core'
+import { debounce, parseNumber } from '@aracna/core'
 import {
   AriaMenuButtonElementEventMap,
   AriaMenuElementEventMap,
@@ -6,26 +6,26 @@ import {
   AriaMenuSubMenuElementEventMap,
   DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME,
   DEFAULT_MENU_TYPEAHEAD_PREDICATE,
-  defineCustomElement,
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
-  setImmutableElementAttribute,
   Typeahead,
   TypeaheadPredicate,
-  WebElementLogger
-} from '@queelag/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
+  WebElementLogger,
+  defineCustomElement,
+  setImmutableElementAttribute
+} from '@aracna/web'
+import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { AriaMenuButtonController, AriaMenuController, AriaMenuItemController, AriaMenuSubMenuController } from '../../controllers/aria.menu.controller'
 import { BaseElement } from '../core/base.element'
 import { FloatingElement } from '../core/floating.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-menu': AriaMenuElement
-    'q-aria-menu-button': AriaMenuButtonElement
-    'q-aria-menu-item': AriaMenuItemElement
-    'q-aria-menu-submenu': AriaMenuSubMenuElement
+    'aracna-aria-menu': AriaMenuElement
+    'aracna-aria-menu-button': AriaMenuButtonElement
+    'aracna-aria-menu-item': AriaMenuItemElement
+    'aracna-aria-menu-submenu': AriaMenuSubMenuElement
   }
 }
 
@@ -350,14 +350,14 @@ export class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElement
   }
 
   static queries: QueryDeclarations = {
-    buttonElement: { selector: 'q-aria-menu-button' },
-    expandedSubMenuElement: { selector: 'q-aria-menu-submenu[expanded]' },
-    expandedSubMenuElements: { selector: 'q-aria-menu-submenu[expanded]', all: true },
-    focusedItemElement: { selector: 'q-aria-menu-item[focused]' },
-    itemElements: { selector: 'q-aria-menu-item', all: true },
-    shallowFocusedItemElement: { selector: 'q-aria-menu-item[depth="0"][focused]' },
-    shallowItemElements: { selector: 'q-aria-menu-item[depth="0"]', all: true },
-    subMenuElement: { selector: 'q-aria-menu-submenu' }
+    buttonElement: { selector: 'aracna-aria-menu-button' },
+    expandedSubMenuElement: { selector: 'aracna-aria-menu-submenu[expanded]' },
+    expandedSubMenuElements: { selector: 'aracna-aria-menu-submenu[expanded]', all: true },
+    focusedItemElement: { selector: 'aracna-aria-menu-item[focused]' },
+    itemElements: { selector: 'aracna-aria-menu-item', all: true },
+    shallowFocusedItemElement: { selector: 'aracna-aria-menu-item[depth="0"][focused]' },
+    shallowItemElements: { selector: 'aracna-aria-menu-item[depth="0"]', all: true },
+    subMenuElement: { selector: 'aracna-aria-menu-submenu' }
   }
 }
 
@@ -460,7 +460,7 @@ export class AriaMenuButtonElement<E extends AriaMenuButtonElementEventMap = Ari
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-menu', closest: true }
+    rootElement: { selector: 'aracna-aria-menu', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -637,7 +637,7 @@ export class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMen
   get deep(): boolean {
     let closest: AriaMenuItemElement | null | undefined
 
-    closest = this.parentElement?.closest('q-aria-menu-item')
+    closest = this.parentElement?.closest('aracna-aria-menu-item')
     if (!closest) return false
 
     return true
@@ -647,11 +647,11 @@ export class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMen
     let n: number, closest: AriaMenuItemElement | null | undefined
 
     n = this.rootElement.buttonElement ? 1 : 0
-    closest = this.parentElement?.closest('q-aria-menu-item')
+    closest = this.parentElement?.closest('aracna-aria-menu-item')
 
     while (typeof closest === 'object' && closest !== null && closest !== this) {
       n++
-      closest = closest.parentElement?.closest('q-aria-menu-item')
+      closest = closest.parentElement?.closest('aracna-aria-menu-item')
     }
 
     return n
@@ -666,19 +666,19 @@ export class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMen
   }
 
   get sameDepthItemElements(): NodeListOf<AriaMenuItemElement> {
-    return this.rootElement.querySelectorAll(`q-aria-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement.querySelectorAll(`aracna-aria-menu-item[depth="${this.depth}"][focused]`)
   }
 
   get sameDepthFocusedItemElement(): AriaMenuItemElement | null {
-    return this.rootElement.querySelector(`q-aria-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement.querySelector(`aracna-aria-menu-item[depth="${this.depth}"][focused]`)
   }
 
   get sameDepthFocusedItemElements(): NodeListOf<AriaMenuItemElement> {
-    return this.rootElement.querySelectorAll(`q-aria-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement.querySelectorAll(`aracna-aria-menu-item[depth="${this.depth}"][focused]`)
   }
 
   get sameDepthExpandedSubMenuElement(): AriaMenuSubMenuElement | null {
-    return this.rootElement.querySelector(`q-aria-menu-submenu[depth="${this.depth}"][expanded]`)
+    return this.rootElement.querySelector(`aracna-aria-menu-submenu[depth="${this.depth}"][expanded]`)
   }
 
   get shallow(): boolean {
@@ -692,8 +692,8 @@ export class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMen
 
   static queries: QueryDeclarations = {
     anchorElement: { selector: ':scope > a' },
-    rootElement: { selector: 'q-aria-menu', closest: true },
-    subMenuElement: { selector: 'q-aria-menu-submenu' }
+    rootElement: { selector: 'aracna-aria-menu', closest: true },
+    subMenuElement: { selector: 'aracna-aria-menu-submenu' }
   }
 
   static styles: CSSResultGroup = [
@@ -874,7 +874,7 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
   get deep(): boolean {
     let closest: AriaMenuSubMenuElement | null | undefined
 
-    closest = this.parentElement?.closest('q-aria-menu-submenu')
+    closest = this.parentElement?.closest('aracna-aria-menu-submenu')
     if (!closest) return false
 
     return true
@@ -884,11 +884,11 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
     let n: number, closest: AriaMenuSubMenuElement | null | undefined
 
     n = 0
-    closest = this.parentElement?.closest('q-aria-menu-submenu')
+    closest = this.parentElement?.closest('aracna-aria-menu-submenu')
 
     while (typeof closest === 'object' && closest !== null) {
       n++
-      closest = closest.parentElement?.closest('q-aria-menu-submenu')
+      closest = closest.parentElement?.closest('aracna-aria-menu-submenu')
     }
 
     return n
@@ -907,7 +907,7 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
   }
 
   get shallowFocusedItemElement(): AriaMenuItemElement | null {
-    return this.querySelector(`q-aria-menu-item[depth="${parseNumber(this.depth) + 1}"][focused]`)
+    return this.querySelector(`aracna-aria-menu-item[depth="${parseNumber(this.depth) + 1}"][focused]`)
   }
 
   get shallowFocusedItemElementIndex(): number {
@@ -915,7 +915,7 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
   }
 
   get shallowItemElements(): NodeListOf<AriaMenuItemElement> {
-    return this.querySelectorAll(`q-aria-menu-item[depth="${parseNumber(this.depth) + 1}"]`)
+    return this.querySelectorAll(`aracna-aria-menu-item[depth="${parseNumber(this.depth) + 1}"]`)
   }
 
   static properties: PropertyDeclarations = {
@@ -923,10 +923,10 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
   }
 
   static queries: QueryDeclarations = {
-    itemElements: { selector: 'q-aria-menu-item', all: true },
-    parentItemElement: { selector: 'q-aria-menu-item', closest: true },
-    parentSubMenuElement: { selector: 'q-aria-menu-submenu', closest: true },
-    rootElement: { selector: 'q-aria-menu', closest: true }
+    itemElements: { selector: 'aracna-aria-menu-item', all: true },
+    parentItemElement: { selector: 'aracna-aria-menu-item', closest: true },
+    parentSubMenuElement: { selector: 'aracna-aria-menu-submenu', closest: true },
+    rootElement: { selector: 'aracna-aria-menu', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -942,7 +942,7 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
   ]
 }
 
-defineCustomElement('q-aria-menu', AriaMenuElement)
-defineCustomElement('q-aria-menu-button', AriaMenuButtonElement)
-defineCustomElement('q-aria-menu-item', AriaMenuItemElement)
-defineCustomElement('q-aria-menu-submenu', AriaMenuSubMenuElement)
+defineCustomElement('aracna-aria-menu', AriaMenuElement)
+defineCustomElement('aracna-aria-menu-button', AriaMenuButtonElement)
+defineCustomElement('aracna-aria-menu-item', AriaMenuItemElement)
+defineCustomElement('aracna-aria-menu-submenu', AriaMenuSubMenuElement)

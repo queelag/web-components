@@ -1,4 +1,4 @@
-import { SVG_NAMESPACE_URI } from '@queelag/web'
+import { SVG_NAMESPACE_URI } from '@aracna/web'
 import { html, TemplateResult } from 'lit-html'
 
 export function getSquircleHTML(id: string, size: number, curvature: number = 0.75): TemplateResult {

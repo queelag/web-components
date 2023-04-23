@@ -1,4 +1,4 @@
-import { KeyboardEventKey } from '@queelag/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
 import '../../../src/elements/aria/aria.button.element'
 import type { AriaButtonElement } from '../../../src/elements/aria/aria.button.element'
@@ -8,7 +8,7 @@ describe('AriaButtonElement', () => {
   let button: AriaButtonElement
 
   beforeEach(() => {
-    button = document.createElement('q-aria-button')
+    button = document.createElement('aracna-aria-button')
   })
 
   afterEach(() => {

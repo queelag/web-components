@@ -1,4 +1,4 @@
-import { KeyboardEventKey } from '@queelag/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.tabs.element'
 import type { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../../../src/elements/aria/aria.tabs.element'
@@ -8,12 +8,12 @@ describe('AriaTabsElement', () => {
   let tabs: AriaTabsElement, t1: AriaTabsTabElement, t2: AriaTabsTabElement, p1: AriaTabsPanelElement, p2: AriaTabsPanelElement
 
   beforeEach(() => {
-    tabs = document.createElement('q-aria-tabs')
+    tabs = document.createElement('aracna-aria-tabs')
 
-    t1 = document.createElement('q-aria-tabs-tab')
-    t2 = document.createElement('q-aria-tabs-tab')
-    p1 = document.createElement('q-aria-tabs-panel')
-    p2 = document.createElement('q-aria-tabs-panel')
+    t1 = document.createElement('aracna-aria-tabs-tab')
+    t2 = document.createElement('aracna-aria-tabs-tab')
+    p1 = document.createElement('aracna-aria-tabs-panel')
+    p2 = document.createElement('aracna-aria-tabs-panel')
 
     tabs.append(t1, t2, p1, p2)
   })

@@ -1,4 +1,4 @@
-import { KeyboardEventKey } from '@queelag/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.slider.element'
 import type { AriaSliderElement, AriaSliderThumbElement } from '../../../src/elements/aria/aria.slider.element'
@@ -18,12 +18,12 @@ describe('AriaSliderElement', () => {
   let slider: AriaSliderElement, t1: AriaSliderThumbElement, t2: AriaSliderThumbElement
 
   beforeEach(() => {
-    slider = document.createElement('q-aria-slider')
+    slider = document.createElement('aracna-aria-slider')
     slider.style.height = '100px'
     slider.style.width = '100px'
 
-    t1 = document.createElement('q-aria-slider-thumb')
-    t2 = document.createElement('q-aria-slider-thumb')
+    t1 = document.createElement('aracna-aria-slider-thumb')
+    t2 = document.createElement('aracna-aria-slider-thumb')
 
     slider.append(t1)
   })

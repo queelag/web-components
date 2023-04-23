@@ -6,7 +6,7 @@ import {
   ElementName,
   QueryDeclarations,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaDialogController, AriaDialogDescriptionController, AriaDialogLabelController } from '../../controllers/aria.dialog.controller'
 import { BaseElement } from '../core/base.element'
@@ -14,9 +14,9 @@ import { FocusTrapElement } from '../core/focus.trap.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-dialog': AriaDialogElement
-    'q-aria-dialog-description': AriaDialogDescriptionElement
-    'q-aria-dialog-label': AriaDialogLabelElement
+    'aracna-aria-dialog': AriaDialogElement
+    'aracna-aria-dialog-description': AriaDialogDescriptionElement
+    'aracna-aria-dialog-label': AriaDialogLabelElement
   }
 }
 
@@ -93,8 +93,8 @@ export class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogE
   }
 
   static queries: QueryDeclarations = {
-    descriptionElement: { selector: 'q-aria-dialog-description' },
-    labelElement: { selector: 'q-aria-dialog-label' }
+    descriptionElement: { selector: 'aracna-aria-dialog-description' },
+    labelElement: { selector: 'aracna-aria-dialog-label' }
   }
 }
 
@@ -114,6 +114,6 @@ export class AriaDialogLabelElement<E extends AriaDialogLabelElementEventMap = A
   }
 }
 
-defineCustomElement('q-aria-dialog', AriaDialogElement)
-defineCustomElement('q-aria-dialog-description', AriaDialogDescriptionElement)
-defineCustomElement('q-aria-dialog-label', AriaDialogLabelElement)
+defineCustomElement('aracna-aria-dialog', AriaDialogElement)
+defineCustomElement('aracna-aria-dialog-description', AriaDialogDescriptionElement)
+defineCustomElement('aracna-aria-dialog-label', AriaDialogLabelElement)

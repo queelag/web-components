@@ -1,4 +1,4 @@
-import { deleteDeepObjectUndefinedProperties, tc } from '@queelag/core'
+import { deleteDeepObjectUndefinedProperties, tc } from '@aracna/core'
 import {
   ElementName,
   FocusTrapAllowOutsideClick,
@@ -11,7 +11,7 @@ import {
   FocusTrapEscapeDeactivates,
   FocusTrapSetReturnFocus,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { ActivateOptions, createFocusTrap, DeactivateOptions, FocusTarget, FocusTargetOrFalse, FocusTrap, Options } from 'focus-trap'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base.element'

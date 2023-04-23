@@ -1,5 +1,5 @@
+import type { StateChangeEvent } from '@aracna/web'
 import { offset } from '@floating-ui/dom'
-import type { StateChangeEvent } from '@queelag/web'
 import { css, CSSResultGroup, html, LitElement, PropertyDeclarations } from 'lit'
 import { when } from 'lit-html/directives/when.js'
 import '../../../../src/elements/data/icon.element'
@@ -31,79 +31,79 @@ export default class Select extends LitElement {
    */
   protected render(): unknown {
     return html`
-      <q-select @state-change=${this.onStateChange} autocomplete="list">
-        <q-select-group>
-          <q-select-input>
+      <aracna-select @state-change=${this.onStateChange} autocomplete="list">
+        <aracna-select-group>
+          <aracna-select-input>
             <input @input=${this.onInput} placeholder="Select (a fruit)" type="text" />
-          </q-select-input>
-          <!-- <q-select-button>
+          </aracna-select-input>
+          <!-- <aracna-select-button>
             
-            <q-icon
+            <aracna-icon
               class="up"
               fill="none"
               size="16"
               src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-up.svg"
               stroke="black"
               stroke-width="2"
-            ></q-icon>
-            <q-icon
+            ></aracna-icon>
+            <aracna-icon
               class="down"
               fill="none"
               size="16"
               src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-down.svg"
               stroke="black"
               stroke-width="2"
-            ></q-icon>
-          </q-select-button> -->
-        </q-select-group>
-        <q-select-list .middlewares=${[offset(4)]}>
+            ></aracna-icon>
+          </aracna-select-button> -->
+        </aracna-select-group>
+        <aracna-select-list .middlewares=${[offset(4)]}>
           ${when(
             'apple'.includes(this.filter.toLowerCase().trim()),
             () => html`
-              <q-select-option value="Apple">
+              <aracna-select-option value="Apple">
                 <span className="text-xs">Apple</span>
-                <q-icon
+                <aracna-icon
                   fill="none"
                   size="14"
                   src="https://raw.githubusercontent.com/feathericons/feather/master/icons/check.svg"
                   stroke="black"
                   stroke-width="2"
-                ></q-icon>
-              </q-select-option>
+                ></aracna-icon>
+              </aracna-select-option>
             `
           )}
           ${when(
             'banana'.includes(this.filter.toLowerCase().trim()),
             () => html`
-              <q-select-option value="Banana">
+              <aracna-select-option value="Banana">
                 <span className="text-xs">Banana</span>
-                <q-icon
+                <aracna-icon
                   fill="none"
                   size="14"
                   src="https://raw.githubusercontent.com/feathericons/feather/master/icons/check.svg"
                   stroke="black"
                   stroke-width="2"
-                ></q-icon>
-              </q-select-option>
+                ></aracna-icon>
+              </aracna-select-option>
             `
           )}
           ${when(
             'cherry'.includes(this.filter.toLowerCase().trim()),
             () => html`
-              <q-select-option value="Cherry">
+              <aracna-select-option value="Cherry">
                 <span className="text-xs">Cherry</span>
-                <q-icon
+                <aracna-icon
                   fill="none"
                   size="14"
                   src="https://raw.githubusercontent.com/feathericons/feather/master/icons/check.svg"
                   stroke="black"
                   stroke-width="2"
-                ></q-icon>
-              </q-select-option>
+                ></aracna-icon>
+              </aracna-select-option>
             `
           )}
-        </q-select-list>
-      </q-select>
+        </aracna-select-list>
+      </aracna-select>
     `
   }
 
@@ -117,11 +117,11 @@ export default class Select extends LitElement {
       box-sizing: border-box;
     }
 
-    q-select {
+    aracna-select {
       width: 256px;
     }
 
-    q-select-group {
+    aracna-select-group {
       width: 100%;
       height: 32px;
 
@@ -129,12 +129,12 @@ export default class Select extends LitElement {
       border-radius: 4px;
     }
 
-    q-select-input {
+    aracna-select-input {
       width: 100%;
       height: 100%;
     }
 
-    q-select-input input {
+    aracna-select-input input {
       width: 100%;
 
       padding: 8px;
@@ -145,7 +145,7 @@ export default class Select extends LitElement {
       font-size: 12px;
     }
 
-    q-select-button {
+    aracna-select-button {
       width: 100%;
       height: 100%;
 
@@ -155,20 +155,20 @@ export default class Select extends LitElement {
       padding: 8px;
     }
 
-    q-select-button span {
+    aracna-select-button span {
       font-size: 12px;
       font-weight: 500;
     }
 
-    q-select[expanded] q-icon.down {
+    aracna-select[expanded] aracna-icon.down {
       display: none;
     }
 
-    q-select:not([expanded]) q-icon.up {
+    aracna-select:not([expanded]) aracna-icon.up {
       display: none;
     }
 
-    q-select-list {
+    aracna-select-list {
       max-height: 256px;
       z-index: 10;
 
@@ -181,32 +181,32 @@ export default class Select extends LitElement {
       background: white;
     }
 
-    q-select-list > * + * {
+    aracna-select-list > * + * {
       border-top: 1px solid gray;
     }
 
-    q-select:not([expanded]) q-select-list {
+    aracna-select:not([expanded]) aracna-select-list {
       opacity: 0;
       pointer-events: none;
     }
 
-    q-select-option {
+    aracna-select-option {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 8px;
     }
 
-    q-select-option[focused] {
+    aracna-select-option[focused] {
       background: lightgray;
     }
 
-    q-select-option span {
+    aracna-select-option span {
       font-size: 12px;
       font-weight: 500;
     }
 
-    q-select-option:not([selected]) q-icon {
+    aracna-select-option:not([selected]) aracna-icon {
       display: none;
     }
   `

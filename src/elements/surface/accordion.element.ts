@@ -7,7 +7,7 @@ import {
   defineCustomElement,
   ElementName,
   QueryDeclarations
-} from '@queelag/web'
+} from '@aracna/web'
 import {
   AriaAccordionButtonElement,
   AriaAccordionElement,
@@ -18,11 +18,11 @@ import {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-accordion': AriaAccordionElement
-    'q-accordion-button': AriaAccordionButtonElement
-    'q-accordion-header': AriaAccordionHeaderElement
-    'q-accordion-panel': AriaAccordionPanelElement
-    'q-accordion-section': AriaAccordionSectionElement
+    'aracna-accordion': AriaAccordionElement
+    'aracna-accordion-button': AriaAccordionButtonElement
+    'aracna-accordion-header': AriaAccordionHeaderElement
+    'aracna-accordion-panel': AriaAccordionPanelElement
+    'aracna-accordion-section': AriaAccordionSectionElement
   }
 }
 
@@ -32,8 +32,8 @@ export class AccordionElement<E extends AccordionElementEventMap = AccordionElem
   }
 
   static queries: QueryDeclarations = {
-    buttonElements: { selector: 'q-accordion-button', all: true },
-    expandedSectionElements: { selector: 'q-accordion-section[expanded]', all: true }
+    buttonElements: { selector: 'aracna-accordion-button', all: true },
+    expandedSectionElements: { selector: 'aracna-accordion-section[expanded]', all: true }
   }
 }
 
@@ -43,8 +43,8 @@ export class AccordionSectionElement<E extends AccordionSectionElementEventMap =
   }
 
   static queries: QueryDeclarations = {
-    buttonElement: { selector: 'q-accordion-button' },
-    panelElement: { selector: 'q-accordion-panel' }
+    buttonElement: { selector: 'aracna-accordion-button' },
+    panelElement: { selector: 'aracna-accordion-panel' }
   }
 }
 
@@ -60,8 +60,8 @@ export class AccordionButtonElement<E extends AccordionButtonElementEventMap = A
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-accordion', closest: true },
-    sectionElement: { selector: 'q-accordion-section', closest: true }
+    rootElement: { selector: 'aracna-accordion', closest: true },
+    sectionElement: { selector: 'aracna-accordion-section', closest: true }
   }
 }
 
@@ -71,12 +71,12 @@ export class AccordionPanelElement<E extends AccordionPanelElementEventMap = Acc
   }
 
   static queries: QueryDeclarations = {
-    sectionElement: { selector: 'q-accordion-section', closest: true }
+    sectionElement: { selector: 'aracna-accordion-section', closest: true }
   }
 }
 
-defineCustomElement('q-accordion', AccordionElement)
-defineCustomElement('q-accordion-button', AccordionButtonElement)
-defineCustomElement('q-accordion-header', AccordionHeaderElement)
-defineCustomElement('q-accordion-panel', AccordionPanelElement)
-defineCustomElement('q-accordion-section', AccordionSectionElement)
+defineCustomElement('aracna-accordion', AccordionElement)
+defineCustomElement('aracna-accordion-button', AccordionButtonElement)
+defineCustomElement('aracna-accordion-header', AccordionHeaderElement)
+defineCustomElement('aracna-accordion-panel', AccordionPanelElement)
+defineCustomElement('aracna-accordion-section', AccordionSectionElement)

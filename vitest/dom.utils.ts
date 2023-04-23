@@ -1,4 +1,4 @@
-import { ElementAttributeValue, setElementAttributes } from '@queelag/web'
+import { ElementAttributeValue, setElementAttributes } from '@aracna/web'
 
 function waitForElementRender(selectors: string): Promise<void> {
   return new Promise((resolve) => {

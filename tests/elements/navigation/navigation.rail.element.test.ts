@@ -7,7 +7,7 @@ describe('NavigationRailElement', () => {
   let rail: NavigationRailElement
 
   beforeEach(() => {
-    rail = document.createElement('q-navigation-rail')
+    rail = document.createElement('aracna-navigation-rail')
   })
 
   afterEach(() => {

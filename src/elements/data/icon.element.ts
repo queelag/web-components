@@ -1,20 +1,20 @@
-import { Fetch, FetchResponse, isStringURL, rvp, sleep, tcp } from '@queelag/core'
+import { Fetch, FetchResponse, isStringURL, rvp, sleep, tcp } from '@aracna/core'
 import {
   CACHE_ICONS,
   Color,
   DEFAULT_ICON_SANITIZE_CONFIG,
   DEFAULT_ICON_SVG_STRING,
-  defineCustomElement,
   ElementName,
-  getElementStyleCompatibleValue,
   IconElementEventMap,
   IconElementSanitizeConfig,
-  isStringSVG,
   SVG_NAMESPACE_URI,
-  WebElementLogger
-} from '@queelag/web'
+  WebElementLogger,
+  defineCustomElement,
+  getElementStyleCompatibleValue,
+  isStringSVG
+} from '@aracna/web'
 import DOMPurify from 'dompurify'
-import { html, PropertyDeclarations, svg, TemplateResult } from 'lit'
+import { PropertyDeclarations, TemplateResult, html, svg } from 'lit'
 import { DirectiveResult } from 'lit-html/directive'
 import { StyleMapDirective } from 'lit-html/directives/style-map'
 import { AriaIconController } from '../../controllers/aria.icon.controller'
@@ -25,7 +25,7 @@ import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-icon': IconElement
+    'aracna-icon': IconElement
   }
 }
 
@@ -200,4 +200,4 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
   }
 }
 
-defineCustomElement('q-icon', IconElement)
+defineCustomElement('aracna-icon', IconElement)

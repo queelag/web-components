@@ -16,17 +16,17 @@ export default class AlertDialog extends LitElement {
 
   protected render(): unknown {
     return html`
-      <q-button @click=${() => this.open()} native>Open ARIA Alert Dialog</q-button>
-      <q-alert-dialog @close=${() => this.close()} ?visible=${this.visible} click-outside-deactivates>
-        <q-alert-dialog-label>ARIA Alert Dialog</q-alert-dialog-label>
-        <q-alert-dialog-description>
+      <aracna-button @click=${() => this.open()} native>Open ARIA Alert Dialog</aracna-button>
+      <aracna-alert-dialog @close=${() => this.close()} ?visible=${this.visible} click-outside-deactivates>
+        <aracna-alert-dialog-label>ARIA Alert Dialog</aracna-alert-dialog-label>
+        <aracna-alert-dialog-description>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </q-alert-dialog-description>
+        </aracna-alert-dialog-description>
         <div class="buttons">
-          <q-button @click=${() => this.close()} native>Close</q-button>
-          <q-button @click=${() => this.close()} native>Ok</q-button>
+          <aracna-button @click=${() => this.close()} native>Close</aracna-button>
+          <aracna-button @click=${() => this.close()} native>Ok</aracna-button>
         </div>
-      </q-alert-dialog>
+      </aracna-alert-dialog>
     `
   }
 
@@ -39,7 +39,7 @@ export default class AlertDialog extends LitElement {
       box-sizing: border-box;
     }
 
-    q-alert-dialog {
+    aracna-alert-dialog {
       width: 256px;
 
       display: flex;
@@ -59,11 +59,11 @@ export default class AlertDialog extends LitElement {
       transform: translateX(-50%);
     }
 
-    q-alert-dialog:not([visible]) {
+    aracna-alert-dialog:not([visible]) {
       display: none;
     }
 
-    q-alert-dialog div.buttons {
+    aracna-alert-dialog div.buttons {
       display: flex;
       align-self: flex-end;
       gap: 8px;

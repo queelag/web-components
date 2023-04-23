@@ -1,4 +1,4 @@
-import { setImmutableElementAttribute } from '@queelag/web'
+import { setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 
 export class AriaIconController implements ReactiveController {

@@ -1,4 +1,4 @@
-import { removeArrayItems } from '@queelag/core'
+import { removeArrayItems } from '@aracna/core'
 import {
   defineCustomElement,
   ElementName,
@@ -11,7 +11,7 @@ import {
   SelectOption,
   SelectOptionElementEventMap,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { map } from '../../directives/map'
@@ -26,12 +26,12 @@ import {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-select': SelectElement
-    'q-select-button': SelectButtonElement
-    'q-select-group': SelectGroupElement
-    'q-select-input': SelectInputElement
-    'q-select-list': SelectListElement
-    'q-select-option': SelectOptionElement
+    'aracna-select': SelectElement
+    'aracna-select-button': SelectButtonElement
+    'aracna-select-group': SelectGroupElement
+    'aracna-select-input': SelectInputElement
+    'aracna-select-list': SelectListElement
+    'aracna-select-option': SelectOptionElement
   }
 }
 
@@ -128,13 +128,13 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
   }
 
   static queries: QueryDeclarations = {
-    buttonElement: { selector: 'q-select-button' },
-    groupElement: { selector: 'q-select-group' },
-    inputElement: { selector: 'q-select-input' },
-    listElement: { selector: 'q-select-list' },
-    focusedOptionElement: { selector: 'q-select-option[focused]' },
-    optionElements: { selector: 'q-select-option', all: true },
-    selectedOptionElement: { selector: 'q-select-option[selected]' }
+    buttonElement: { selector: 'aracna-select-button' },
+    groupElement: { selector: 'aracna-select-group' },
+    inputElement: { selector: 'aracna-select-input' },
+    listElement: { selector: 'aracna-select-list' },
+    focusedOptionElement: { selector: 'aracna-select-option[focused]' },
+    optionElements: { selector: 'aracna-select-option', all: true },
+    selectedOptionElement: { selector: 'aracna-select-option[selected]' }
   }
 }
 
@@ -150,7 +150,7 @@ export class SelectButtonElement<E extends SelectButtonElementEventMap = SelectB
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-select', closest: true }
+    rootElement: { selector: 'aracna-select', closest: true }
   }
 }
 
@@ -166,7 +166,7 @@ export class SelectInputElement<E extends SelectInputElementEventMap = SelectInp
 
   static queries: QueryDeclarations = {
     inputElement: { selector: 'input' },
-    rootElement: { selector: 'q-select', closest: true }
+    rootElement: { selector: 'aracna-select', closest: true }
   }
 }
 
@@ -176,7 +176,7 @@ export class SelectListElement<E extends SelectListElementEventMap = SelectListE
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-select', closest: true }
+    rootElement: { selector: 'aracna-select', closest: true }
   }
 }
 
@@ -211,14 +211,14 @@ export class SelectOptionElement<E extends SelectOptionElementEventMap = SelectO
   }
 
   static queries: QueryDeclarations = {
-    listElement: { selector: 'q-select-list', closest: true },
-    rootElement: { selector: 'q-select', closest: true }
+    listElement: { selector: 'aracna-select-list', closest: true },
+    rootElement: { selector: 'aracna-select', closest: true }
   }
 }
 
-defineCustomElement('q-select', SelectElement)
-defineCustomElement('q-select-button', SelectButtonElement)
-defineCustomElement('q-select-group', SelectGroupElement)
-defineCustomElement('q-select-input', SelectInputElement)
-defineCustomElement('q-select-list', SelectListElement)
-defineCustomElement('q-select-option', SelectOptionElement)
+defineCustomElement('aracna-select', SelectElement)
+defineCustomElement('aracna-select-button', SelectButtonElement)
+defineCustomElement('aracna-select-group', SelectGroupElement)
+defineCustomElement('aracna-select-input', SelectInputElement)
+defineCustomElement('aracna-select-list', SelectListElement)
+defineCustomElement('aracna-select-option', SelectOptionElement)

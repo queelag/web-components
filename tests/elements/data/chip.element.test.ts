@@ -7,7 +7,7 @@ describe('ChipElement', () => {
   let chip: ChipElement
 
   beforeEach(() => {
-    chip = document.createElement('q-chip')
+    chip = document.createElement('aracna-chip')
   })
 
   afterEach(() => {

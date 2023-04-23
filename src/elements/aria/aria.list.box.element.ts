@@ -9,15 +9,15 @@ import {
   Typeahead,
   TypeaheadPredicate,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaListBoxController, AriaListBoxOptionController } from '../../controllers/aria.list.box.controller'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-listbox': AriaListBoxElement
-    'q-aria-listbox-option': AriaListBoxOptionElement
+    'aracna-aria-listbox': AriaListBoxElement
+    'aracna-aria-listbox-option': AriaListBoxOptionElement
   }
 }
 
@@ -253,9 +253,9 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
   }
 
   static queries: QueryDeclarations = {
-    focusedOptionElement: { selector: 'q-aria-listbox-option[focused]' },
-    optionElements: { selector: 'q-aria-listbox-option', all: true },
-    selectedOptionElement: { selector: 'q-aria-listbox-option[selected]' }
+    focusedOptionElement: { selector: 'aracna-aria-listbox-option[focused]' },
+    optionElements: { selector: 'aracna-aria-listbox-option', all: true },
+    selectedOptionElement: { selector: 'aracna-aria-listbox-option[selected]' }
   }
 }
 
@@ -338,7 +338,7 @@ export class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-listbox', closest: true }
+    rootElement: { selector: 'aracna-aria-listbox', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -351,5 +351,5 @@ export class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap
   ]
 }
 
-defineCustomElement('q-aria-listbox', AriaListBoxElement)
-defineCustomElement('q-aria-listbox-option', AriaListBoxOptionElement)
+defineCustomElement('aracna-aria-listbox', AriaListBoxElement)
+defineCustomElement('aracna-aria-listbox-option', AriaListBoxOptionElement)

@@ -1,5 +1,5 @@
-import { sleep } from '@queelag/core'
-import type { FormSubmitEvent } from '@queelag/web'
+import { sleep } from '@aracna/core'
+import type { FormSubmitEvent } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
 import '../../../../src/elements/input/form.element'
 import '../../../../src/elements/input/input.element'
@@ -12,9 +12,9 @@ export default class Form extends LitElement {
 
   protected render(): unknown {
     return html`
-      <q-form @form-submit=${this.onSubmit} async>
-        <q-input placeholder="input inside form" type="text"></q-input>
-      </q-form>
+      <aracna-form @form-submit=${this.onSubmit} async>
+        <aracna-input placeholder="input inside form" type="text"></aracna-input>
+      </aracna-form>
     `
   }
 

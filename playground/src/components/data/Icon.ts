@@ -6,7 +6,7 @@ const SRC: string = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="
 
 export default class Icon extends LitElement {
   protected render(): unknown {
-    return html`<q-icon fill="none" size="24" src=${SRC} stroke="black" stroke-width="1"></q-icon>`
+    return html`<aracna-icon fill="none" size="24" src=${SRC} stroke="black" stroke-width="1"></aracna-icon>`
   }
 
   static styles?: CSSResultGroup | undefined = css`

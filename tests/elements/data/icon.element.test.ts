@@ -1,5 +1,5 @@
-import { wf } from '@queelag/core'
-import { SVG_NAMESPACE_URI } from '@queelag/web'
+import { wf } from '@aracna/core'
+import { SVG_NAMESPACE_URI } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/data/icon.element'
 import type { IconElement } from '../../../src/elements/data/icon.element'
@@ -12,7 +12,7 @@ describe('IconElement', () => {
   let icon: IconElement
 
   beforeEach(() => {
-    icon = document.createElement('q-icon')
+    icon = document.createElement('aracna-icon')
   })
 
   afterEach(() => {

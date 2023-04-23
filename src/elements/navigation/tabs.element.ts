@@ -1,11 +1,11 @@
-import { defineCustomElement, ElementName, QueryDeclarations, TabsElementEventMap, TabsPanelElementEventMap, TabsTabElementEventMap } from '@queelag/web'
+import { defineCustomElement, ElementName, QueryDeclarations, TabsElementEventMap, TabsPanelElementEventMap, TabsTabElementEventMap } from '@aracna/web'
 import { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../aria/aria.tabs.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-tabs': TabsElement
-    'q-tabs-panel': TabsPanelElement
-    'q-tabs-tab': TabsTabElement
+    'aracna-tabs': TabsElement
+    'aracna-tabs-panel': TabsPanelElement
+    'aracna-tabs-tab': TabsTabElement
   }
 }
 
@@ -15,10 +15,10 @@ export class TabsElement<E extends TabsElementEventMap = TabsElementEventMap> ex
   }
 
   static queries: QueryDeclarations = {
-    focusedTabElement: { selector: 'q-tabs-tab:focus' },
-    panelElements: { selector: 'q-tabs-panel', all: true },
-    selectedTabElement: { selector: 'q-tabs-tab[selected]' },
-    tabElements: { selector: 'q-tabs-tab', all: true }
+    focusedTabElement: { selector: 'aracna-tabs-tab:focus' },
+    panelElements: { selector: 'aracna-tabs-panel', all: true },
+    selectedTabElement: { selector: 'aracna-tabs-tab[selected]' },
+    tabElements: { selector: 'aracna-tabs-tab', all: true }
   }
 }
 
@@ -28,7 +28,7 @@ export class TabsTabElement<E extends TabsTabElementEventMap = TabsTabElementEve
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-tabs', closest: true }
+    rootElement: { selector: 'aracna-tabs', closest: true }
   }
 }
 
@@ -38,10 +38,10 @@ export class TabsPanelElement<E extends TabsPanelElementEventMap = TabsPanelElem
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-tabs', closest: true }
+    rootElement: { selector: 'aracna-tabs', closest: true }
   }
 }
 
-defineCustomElement('q-tabs', TabsElement)
-defineCustomElement('q-tabs-tab', TabsTabElement)
-defineCustomElement('q-tabs-panel', TabsPanelElement)
+defineCustomElement('aracna-tabs', TabsElement)
+defineCustomElement('aracna-tabs-tab', TabsTabElement)
+defineCustomElement('aracna-tabs-panel', TabsPanelElement)

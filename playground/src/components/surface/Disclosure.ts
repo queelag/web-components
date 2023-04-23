@@ -5,74 +5,74 @@ import '../../../../src/elements/surface/disclosure.element'
 export default class Disclosure extends LitElement {
   protected render(): unknown {
     return html`
-      <q-disclosure>
-        <q-disclosure-section>
-          <q-disclosure-button>
+      <aracna-disclosure>
+        <aracna-disclosure-section>
+          <aracna-disclosure-button>
             <span>Disclosure Section 1</span>
-            <q-icon
+            <aracna-icon
               class="down"
               fill="none"
               src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-down.svg"
               size="16"
               stroke="black"
               stroke-width="2"
-            ></q-icon>
-            <q-icon
+            ></aracna-icon>
+            <aracna-icon
               class="up"
               fill="none"
               src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-up.svg"
               size="16"
               stroke="black"
               stroke-width="2"
-            ></q-icon>
-          </q-disclosure-button>
-          <q-disclosure-panel>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</q-disclosure-panel>
-        </q-disclosure-section>
-        <q-disclosure-section>
-          <q-disclosure-button>
+            ></aracna-icon>
+          </aracna-disclosure-button>
+          <aracna-disclosure-panel>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</aracna-disclosure-panel>
+        </aracna-disclosure-section>
+        <aracna-disclosure-section>
+          <aracna-disclosure-button>
             <span>Disclosure Section 2</span>
-            <q-icon
+            <aracna-icon
               class="down"
               fill="none"
               src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-down.svg"
               size="16"
               stroke="black"
               stroke-width="2"
-            ></q-icon>
-            <q-icon
+            ></aracna-icon>
+            <aracna-icon
               class="up"
               fill="none"
               src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-up.svg"
               size="16"
               stroke="black"
               stroke-width="2"
-            ></q-icon>
-          </q-disclosure-button>
-          <q-disclosure-panel>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</q-disclosure-panel>
-        </q-disclosure-section>
-        <q-disclosure-section>
-          <q-disclosure-button>
+            ></aracna-icon>
+          </aracna-disclosure-button>
+          <aracna-disclosure-panel>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</aracna-disclosure-panel>
+        </aracna-disclosure-section>
+        <aracna-disclosure-section>
+          <aracna-disclosure-button>
             <span>Disclosure Section 3</span>
-            <q-icon
+            <aracna-icon
               class="down"
               fill="none"
               src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-down.svg"
               size="16"
               stroke="black"
               stroke-width="2"
-            ></q-icon>
-            <q-icon
+            ></aracna-icon>
+            <aracna-icon
               class="up"
               fill="none"
               src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-up.svg"
               size="16"
               stroke="black"
               stroke-width="2"
-            ></q-icon>
-          </q-disclosure-button>
-          <q-disclosure-panel>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</q-disclosure-panel>
-        </q-disclosure-section>
-      </q-disclosure>
+            ></aracna-icon>
+          </aracna-disclosure-button>
+          <aracna-disclosure-panel>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</aracna-disclosure-panel>
+        </aracna-disclosure-section>
+      </aracna-disclosure>
     `
   }
 
@@ -81,7 +81,7 @@ export default class Disclosure extends LitElement {
       box-sizing: border-box;
     }
 
-    q-disclosure {
+    aracna-disclosure {
       width: 256px;
 
       display: flex;
@@ -91,11 +91,11 @@ export default class Disclosure extends LitElement {
       border-radius: 4px;
     }
 
-    q-disclosure > * + * {
+    aracna-disclosure > * + * {
       border-top: 1px solid gray;
     }
 
-    q-disclosure-section {
+    aracna-disclosure-section {
       display: flex;
       flex-direction: column;
       padding: 8px 0;
@@ -105,22 +105,22 @@ export default class Disclosure extends LitElement {
       font-weight: 500;
     }
 
-    q-disclosure-button {
+    aracna-disclosure-button {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0 8px;
     }
 
-    q-disclosure-section[expanded] q-icon.down {
+    aracna-disclosure-section[expanded] aracna-icon.down {
       display: none;
     }
 
-    q-disclosure-section:not([expanded]) q-icon.up {
+    aracna-disclosure-section:not([expanded]) aracna-icon.up {
       display: none;
     }
 
-    q-disclosure-panel {
+    aracna-disclosure-panel {
       padding: 8px;
       padding-bottom: 0;
 
@@ -129,7 +129,7 @@ export default class Disclosure extends LitElement {
       color: gray;
     }
 
-    q-disclosure-section:not([expanded]) q-disclosure-panel {
+    aracna-disclosure-section:not([expanded]) aracna-disclosure-panel {
       display: none;
     }
   `

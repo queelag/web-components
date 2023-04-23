@@ -1,4 +1,4 @@
-import { parseNumber } from '@queelag/core'
+import { parseNumber } from '@aracna/core'
 import {
   defineCustomElement,
   ElementName,
@@ -7,15 +7,15 @@ import {
   MenuItemElementEventMap,
   MenuSubMenuElementEventMap,
   QueryDeclarations
-} from '@queelag/web'
+} from '@aracna/web'
 import { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../aria/aria.menu.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-menu': MenuElement
-    'q-menu-button': MenuButtonElement
-    'q-menu-item': MenuItemElement
-    'q-menu-submenu': MenuSubMenuElement
+    'aracna-menu': MenuElement
+    'aracna-menu-button': MenuButtonElement
+    'aracna-menu-item': MenuItemElement
+    'aracna-menu-submenu': MenuSubMenuElement
   }
 }
 
@@ -25,14 +25,14 @@ export class MenuElement<E extends MenuElementEventMap = MenuElementEventMap> ex
   }
 
   static queries: QueryDeclarations = {
-    buttonElement: { selector: 'q-menu-button' },
-    expandedSubMenuElement: { selector: 'q-menu-submenu[expanded]' },
-    expandedSubMenuElements: { selector: 'q-menu-submenu[expanded]', all: true },
-    focusedItemElement: { selector: 'q-menu-item[focused]' },
-    itemElements: { selector: 'q-menu-item', all: true },
-    shallowFocusedItemElement: { selector: 'q-menu-item[depth="0"][focused]' },
-    shallowItemElements: { selector: 'q-menu-item[depth="0"]', all: true },
-    subMenuElement: { selector: 'q-menu-submenu' }
+    buttonElement: { selector: 'aracna-menu-button' },
+    expandedSubMenuElement: { selector: 'aracna-menu-submenu[expanded]' },
+    expandedSubMenuElements: { selector: 'aracna-menu-submenu[expanded]', all: true },
+    focusedItemElement: { selector: 'aracna-menu-item[focused]' },
+    itemElements: { selector: 'aracna-menu-item', all: true },
+    shallowFocusedItemElement: { selector: 'aracna-menu-item[depth="0"][focused]' },
+    shallowItemElements: { selector: 'aracna-menu-item[depth="0"]', all: true },
+    subMenuElement: { selector: 'aracna-menu-submenu' }
   }
 }
 
@@ -42,7 +42,7 @@ export class MenuButtonElement<E extends MenuButtonElementEventMap = MenuButtonE
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-menu', closest: true }
+    rootElement: { selector: 'aracna-menu', closest: true }
   }
 }
 
@@ -50,7 +50,7 @@ export class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElement
   get deep(): boolean {
     let closest: MenuItemElement | null | undefined
 
-    closest = this.parentElement?.closest('q-menu-item')
+    closest = this.parentElement?.closest('aracna-menu-item')
     if (!closest) return false
 
     return true
@@ -60,11 +60,11 @@ export class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElement
     let n: number, closest: MenuItemElement | null | undefined
 
     n = this.rootElement.buttonElement ? 1 : 0
-    closest = this.parentElement?.closest('q-menu-item')
+    closest = this.parentElement?.closest('aracna-menu-item')
 
     while (typeof closest === 'object' && closest !== null && closest !== this) {
       n++
-      closest = closest.parentElement?.closest('q-menu-item')
+      closest = closest.parentElement?.closest('aracna-menu-item')
     }
 
     return n
@@ -75,25 +75,25 @@ export class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElement
   }
 
   get sameDepthItemElements(): NodeListOf<MenuItemElement> {
-    return this.rootElement.querySelectorAll(`q-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement.querySelectorAll(`aracna-menu-item[depth="${this.depth}"][focused]`)
   }
 
   get sameDepthFocusedItemElement(): MenuItemElement | null {
-    return this.rootElement.querySelector(`q-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement.querySelector(`aracna-menu-item[depth="${this.depth}"][focused]`)
   }
 
   get sameDepthFocusedItemElements(): NodeListOf<MenuItemElement> {
-    return this.rootElement.querySelectorAll(`q-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement.querySelectorAll(`aracna-menu-item[depth="${this.depth}"][focused]`)
   }
 
   get sameDepthExpandedSubMenuElement(): MenuSubMenuElement | null {
-    return this.rootElement.querySelector(`q-menu-submenu[depth="${this.depth}"][expanded]`)
+    return this.rootElement.querySelector(`aracna-menu-submenu[depth="${this.depth}"][expanded]`)
   }
 
   static queries: QueryDeclarations = {
     anchorElement: { selector: ':scope > a' },
-    rootElement: { selector: 'q-menu', closest: true },
-    subMenuElement: { selector: 'q-menu-submenu' }
+    rootElement: { selector: 'aracna-menu', closest: true },
+    subMenuElement: { selector: 'aracna-menu-submenu' }
   }
 }
 
@@ -101,7 +101,7 @@ export class MenuSubMenuElement<E extends MenuSubMenuElementEventMap = MenuSubMe
   get deep(): boolean {
     let closest: MenuSubMenuElement | null | undefined
 
-    closest = this.parentElement?.closest('q-menu-submenu')
+    closest = this.parentElement?.closest('aracna-menu-submenu')
     if (!closest) return false
 
     return true
@@ -111,11 +111,11 @@ export class MenuSubMenuElement<E extends MenuSubMenuElementEventMap = MenuSubMe
     let n: number, closest: MenuSubMenuElement | null | undefined
 
     n = 0
-    closest = this.parentElement?.closest('q-menu-submenu')
+    closest = this.parentElement?.closest('aracna-menu-submenu')
 
     while (typeof closest === 'object' && closest !== null) {
       n++
-      closest = closest.parentElement?.closest('q-menu-submenu')
+      closest = closest.parentElement?.closest('aracna-menu-submenu')
     }
 
     return n
@@ -126,22 +126,22 @@ export class MenuSubMenuElement<E extends MenuSubMenuElementEventMap = MenuSubMe
   }
 
   get shallowFocusedItemElement(): MenuItemElement | null {
-    return this.querySelector(`q-menu-item[depth="${parseNumber(this.depth) + 1}"][focused]`)
+    return this.querySelector(`aracna-menu-item[depth="${parseNumber(this.depth) + 1}"][focused]`)
   }
 
   get shallowItemElements(): NodeListOf<MenuItemElement> {
-    return this.querySelectorAll(`q-menu-item[depth="${parseNumber(this.depth) + 1}"]`)
+    return this.querySelectorAll(`aracna-menu-item[depth="${parseNumber(this.depth) + 1}"]`)
   }
 
   static queries: QueryDeclarations = {
-    itemElements: { selector: 'q-menu-item', all: true },
-    parentItemElement: { selector: 'q-menu-item', closest: true },
-    parentSubMenuElement: { selector: 'q-menu-submenu', closest: true },
-    rootElement: { selector: 'q-menu', closest: true }
+    itemElements: { selector: 'aracna-menu-item', all: true },
+    parentItemElement: { selector: 'aracna-menu-item', closest: true },
+    parentSubMenuElement: { selector: 'aracna-menu-submenu', closest: true },
+    rootElement: { selector: 'aracna-menu', closest: true }
   }
 }
 
-defineCustomElement('q-menu', MenuElement)
-defineCustomElement('q-menu-button', MenuButtonElement)
-defineCustomElement('q-menu-item', MenuItemElement)
-defineCustomElement('q-menu-submenu', MenuSubMenuElement)
+defineCustomElement('aracna-menu', MenuElement)
+defineCustomElement('aracna-menu-button', MenuButtonElement)
+defineCustomElement('aracna-menu-item', MenuItemElement)
+defineCustomElement('aracna-menu-submenu', MenuSubMenuElement)

@@ -1,15 +1,15 @@
-import { parseNumber, removeArrayItems } from '@queelag/core'
+import { parseNumber, removeArrayItems } from '@aracna/core'
 import {
-  defineCustomElement,
   ElementName,
   QueryDeclarations,
   TextAreaElementEventMap,
   TextAreaElementResize,
   TextAreaElementTouchTrigger,
   TextAreaElementValue,
-  WebElementLogger
-} from '@queelag/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
+  WebElementLogger,
+  defineCustomElement
+} from '@aracna/web'
+import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
 import { ifdef } from '../../directives/if.defined'
@@ -18,7 +18,7 @@ import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-textarea': TextAreaElement
+    'aracna-textarea': TextAreaElement
   }
 }
 
@@ -253,4 +253,4 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
   ]
 }
 
-defineCustomElement('q-textarea', TextAreaElement)
+defineCustomElement('aracna-textarea', TextAreaElement)

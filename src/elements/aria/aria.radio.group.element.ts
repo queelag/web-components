@@ -6,7 +6,7 @@ import {
   KeyboardEventKey,
   QueryDeclarations,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaRadioButtonController, AriaRadioGroupController } from '../../controllers/aria.radio.group.controller'
 import { BaseElement } from '../core/base.element'
@@ -14,8 +14,8 @@ import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-radio-button': AriaRadioButtonElement
-    'q-aria-radio-group': AriaRadioGroupElement
+    'aracna-aria-radio-button': AriaRadioButtonElement
+    'aracna-aria-radio-group': AriaRadioGroupElement
   }
 }
 
@@ -123,9 +123,9 @@ export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = Ari
   }
 
   static queries: QueryDeclarations = {
-    buttonElements: { selector: 'q-aria-radio-button', all: true },
-    checkedButtonElement: { selector: 'q-aria-radio-button[checked]' },
-    focusedButtonElement: { selector: 'q-aria-radio-button:focus' }
+    buttonElements: { selector: 'aracna-aria-radio-button', all: true },
+    checkedButtonElement: { selector: 'aracna-aria-radio-button[checked]' },
+    focusedButtonElement: { selector: 'aracna-aria-radio-button:focus' }
   }
 }
 
@@ -193,7 +193,7 @@ export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = A
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-radio-group', closest: true }
+    rootElement: { selector: 'aracna-aria-radio-group', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -206,5 +206,5 @@ export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = A
   ]
 }
 
-defineCustomElement('q-aria-radio-group', AriaRadioGroupElement)
-defineCustomElement('q-aria-radio-button', AriaRadioButtonElement)
+defineCustomElement('aracna-aria-radio-group', AriaRadioGroupElement)
+defineCustomElement('aracna-aria-radio-button', AriaRadioButtonElement)

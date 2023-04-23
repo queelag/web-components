@@ -7,7 +7,7 @@ describe('ButtonGroupElement', () => {
   let group: ButtonGroupElement
 
   beforeEach(() => {
-    group = document.createElement('q-button-group')
+    group = document.createElement('aracna-button-group')
   })
 
   afterEach(() => {

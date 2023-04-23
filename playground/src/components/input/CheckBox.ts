@@ -5,17 +5,17 @@ import '../../../../src/elements/input/check.box.element'
 export default class CheckBox extends LitElement {
   protected render(): unknown {
     return html`
-      <q-checkbox>
+      <aracna-checkbox>
         <div>
-          <q-icon
+          <aracna-icon
             fill="none"
             size="16"
             src="https://raw.githubusercontent.com/feathericons/feather/master/icons/check.svg"
             stroke="black"
             stroke-width="2"
-          ></q-icon>
+          ></aracna-icon>
         </div>
-      </q-checkbox>
+      </aracna-checkbox>
     `
   }
 
@@ -24,7 +24,7 @@ export default class CheckBox extends LitElement {
       box-sizing: border-box;
     }
 
-    q-checkbox > div {
+    aracna-checkbox > div {
       width: 24px;
       height: 24px;
 
@@ -36,7 +36,7 @@ export default class CheckBox extends LitElement {
       border-radius: 4px;
     }
 
-    q-checkbox:not([checked]) q-icon {
+    aracna-checkbox:not([checked]) aracna-icon {
       opacity: 0;
     }
   `

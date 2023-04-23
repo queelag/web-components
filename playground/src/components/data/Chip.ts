@@ -5,17 +5,17 @@ import '../../../../src/elements/data/icon.element'
 export default class Chip extends LitElement {
   protected render(): unknown {
     return html`
-      <q-chip>
+      <aracna-chip>
         <span>chip</span>
-        <q-icon
+        <aracna-icon
           className="mt-px cursor-pointer"
           fill="none"
           size="12"
           src="https://raw.githubusercontent.com/feathericons/feather/master/icons/x.svg"
           stroke="black"
           stroke-width="2"
-        ></q-icon>
-      </q-chip>
+        ></aracna-icon>
+      </aracna-chip>
     `
   }
 
@@ -24,7 +24,7 @@ export default class Chip extends LitElement {
       box-sizing: border-box;
     }
 
-    q-chip {
+    aracna-chip {
       display: flex;
       align-items: center;
       gap: 4px;
@@ -39,7 +39,7 @@ export default class Chip extends LitElement {
       font-weight: 500;
     }
 
-    q-icon {
+    aracna-icon {
       cursor: pointer;
     }
   `

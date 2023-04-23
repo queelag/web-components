@@ -1,7 +1,7 @@
-import { sleep } from '@queelag/core'
-import { FormSubmitEvent } from '@queelag/web'
+import { sleep } from '@aracna/core'
+import { FormSubmitEvent } from '@aracna/web'
 import { size, string } from 'superstruct'
-import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
+import { Mock, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import '../../../src/elements/input/check.box.element'
 import { CheckBoxElement } from '../../../src/elements/input/check.box.element'
 import '../../../src/elements/input/form.element'
@@ -27,7 +27,7 @@ describe('FormElement', () => {
     onSubmit: Mock = vi.fn()
 
   beforeEach(() => {
-    form = document.createElement('q-form')
+    form = document.createElement('aracna-form')
     onSubmit = vi.fn()
   })
 
@@ -84,14 +84,14 @@ describe('FormElement', () => {
       switche: SwitchElement,
       textarea: TextAreaElement
 
-    checkbox = document.createElement('q-checkbox')
-    input = document.createElement('q-input')
-    inputfile = document.createElement('q-input-file')
-    radiogroup = document.createElement('q-radio-group')
-    select = document.createElement('q-select')
-    slider = document.createElement('q-slider')
-    switche = document.createElement('q-switch')
-    textarea = document.createElement('q-textarea')
+    checkbox = document.createElement('aracna-checkbox')
+    input = document.createElement('aracna-input')
+    inputfile = document.createElement('aracna-input-file')
+    radiogroup = document.createElement('aracna-radio-group')
+    select = document.createElement('aracna-select')
+    slider = document.createElement('aracna-slider')
+    switche = document.createElement('aracna-switch')
+    textarea = document.createElement('aracna-textarea')
 
     form.append(checkbox, input, inputfile, radiogroup, select, slider, switche, textarea)
     await render(form, {}, { 'form-submit': onSubmit })
@@ -110,7 +110,7 @@ describe('FormElement', () => {
   })
 
   it('does not submit if one of the fields is not valid', async () => {
-    let input: InputElement = document.createElement('q-input')
+    let input: InputElement = document.createElement('aracna-input')
 
     input.schema = size(string(), 1, 1)
     form.append(input)

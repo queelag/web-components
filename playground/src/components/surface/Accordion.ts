@@ -5,80 +5,80 @@ import '../../../../src/elements/surface/accordion.element'
 export default class Accordion extends LitElement {
   protected render(): unknown {
     return html`
-      <q-accordion allow-only-one-expanded-section>
-        <q-accordion-section>
-          <q-accordion-header>
-            <q-accordion-button>
+      <aracna-accordion allow-only-one-expanded-section>
+        <aracna-accordion-section>
+          <aracna-accordion-header>
+            <aracna-accordion-button>
               <span>Accordion Section 1</span>
-              <q-icon
+              <aracna-icon
                 class="down"
                 fill="none"
                 src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-down.svg"
                 size="16"
                 stroke="black"
                 stroke-width="2"
-              ></q-icon>
-              <q-icon
+              ></aracna-icon>
+              <aracna-icon
                 class="up"
                 fill="none"
                 src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-up.svg"
                 size="16"
                 stroke="black"
                 stroke-width="2"
-              ></q-icon>
-            </q-accordion-button>
-          </q-accordion-header>
-          <q-accordion-panel>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</q-accordion-panel>
-        </q-accordion-section>
-        <q-accordion-section>
-          <q-accordion-header>
-            <q-accordion-button>
+              ></aracna-icon>
+            </aracna-accordion-button>
+          </aracna-accordion-header>
+          <aracna-accordion-panel>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</aracna-accordion-panel>
+        </aracna-accordion-section>
+        <aracna-accordion-section>
+          <aracna-accordion-header>
+            <aracna-accordion-button>
               <span>Accordion Section 2</span>
-              <q-icon
+              <aracna-icon
                 class="down"
                 fill="none"
                 src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-down.svg"
                 size="16"
                 stroke="black"
                 stroke-width="2"
-              ></q-icon>
-              <q-icon
+              ></aracna-icon>
+              <aracna-icon
                 class="up"
                 fill="none"
                 src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-up.svg"
                 size="16"
                 stroke="black"
                 stroke-width="2"
-              ></q-icon>
-            </q-accordion-button>
-          </q-accordion-header>
-          <q-accordion-panel>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</q-accordion-panel>
-        </q-accordion-section>
-        <q-accordion-section noncollapsible>
-          <q-accordion-header>
-            <q-accordion-button>
+              ></aracna-icon>
+            </aracna-accordion-button>
+          </aracna-accordion-header>
+          <aracna-accordion-panel>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</aracna-accordion-panel>
+        </aracna-accordion-section>
+        <aracna-accordion-section noncollapsible>
+          <aracna-accordion-header>
+            <aracna-accordion-button>
               <span>Accordion Section 3</span>
-              <q-icon
+              <aracna-icon
                 class="down"
                 fill="none"
                 src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-down.svg"
                 size="16"
                 stroke="black"
                 stroke-width="2"
-              ></q-icon>
-              <q-icon
+              ></aracna-icon>
+              <aracna-icon
                 class="up"
                 fill="none"
                 src="https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-up.svg"
                 size="16"
                 stroke="black"
                 stroke-width="2"
-              ></q-icon>
-            </q-accordion-button>
-          </q-accordion-header>
-          <q-accordion-panel>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</q-accordion-panel>
-        </q-accordion-section>
-      </q-accordion>
+              ></aracna-icon>
+            </aracna-accordion-button>
+          </aracna-accordion-header>
+          <aracna-accordion-panel>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</aracna-accordion-panel>
+        </aracna-accordion-section>
+      </aracna-accordion>
     `
   }
 
@@ -87,7 +87,7 @@ export default class Accordion extends LitElement {
       box-sizing: border-box;
     }
 
-    q-accordion {
+    aracna-accordion {
       width: 256px;
 
       display: flex;
@@ -97,11 +97,11 @@ export default class Accordion extends LitElement {
       border-radius: 4px;
     }
 
-    q-accordion > * + * {
+    aracna-accordion > * + * {
       border-top: 1px solid gray;
     }
 
-    q-accordion-section {
+    aracna-accordion-section {
       display: flex;
       flex-direction: column;
       padding: 8px 0;
@@ -111,7 +111,7 @@ export default class Accordion extends LitElement {
       font-weight: 500;
     }
 
-    q-accordion-button {
+    aracna-accordion-button {
       width: 100%;
 
       display: flex;
@@ -120,15 +120,15 @@ export default class Accordion extends LitElement {
       padding: 0 8px;
     }
 
-    q-accordion-section[expanded] q-icon.down {
+    aracna-accordion-section[expanded] aracna-icon.down {
       display: none;
     }
 
-    q-accordion-section:not([expanded]) q-icon.up {
+    aracna-accordion-section:not([expanded]) aracna-icon.up {
       display: none;
     }
 
-    q-accordion-panel {
+    aracna-accordion-panel {
       padding: 8px;
       padding-bottom: 0;
 
@@ -137,7 +137,7 @@ export default class Accordion extends LitElement {
       color: gray;
     }
 
-    q-accordion-section:not([expanded]) q-accordion-panel {
+    aracna-accordion-section:not([expanded]) aracna-accordion-panel {
       display: none;
     }
   `

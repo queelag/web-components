@@ -7,7 +7,7 @@ describe('AvatarElement', () => {
   let avatar: AvatarElement
 
   beforeEach(() => {
-    avatar = document.createElement('q-avatar')
+    avatar = document.createElement('aracna-avatar')
   })
 
   afterEach(() => {

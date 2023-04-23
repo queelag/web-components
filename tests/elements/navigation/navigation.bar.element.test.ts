@@ -7,7 +7,7 @@ describe('NavigationBarElement', () => {
   let bar: NavigationBarElement
 
   beforeEach(() => {
-    bar = document.createElement('q-navigation-bar')
+    bar = document.createElement('aracna-navigation-bar')
   })
 
   afterEach(() => {

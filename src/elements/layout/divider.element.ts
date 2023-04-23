@@ -1,4 +1,4 @@
-import { defineCustomElement, DividerElementEventMap, Orientation } from '@queelag/web'
+import { defineCustomElement, DividerElementEventMap, Orientation } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { choose } from '../../directives/choose'
@@ -6,7 +6,7 @@ import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-divider': DividerElement
+    'aracna-divider': DividerElement
   }
 }
 
@@ -32,4 +32,4 @@ export class DividerElement<E extends DividerElementEventMap = DividerElementEve
   }
 }
 
-defineCustomElement('q-divider', DividerElement)
+defineCustomElement('aracna-divider', DividerElement)

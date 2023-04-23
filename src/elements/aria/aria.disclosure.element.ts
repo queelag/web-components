@@ -8,17 +8,17 @@ import {
   KeyboardEventKey,
   QueryDeclarations,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaDisclosureButtonController, AriaDisclosurePanelController, AriaDisclosureSectionController } from '../../controllers/aria.disclosure.controller'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-disclosure': AriaDisclosureElement
-    'q-aria-disclosure-button': AriaDisclosureButtonElement
-    'q-aria-disclosure-panel': AriaDisclosurePanelElement
-    'q-aria-disclosure-section': AriaDisclosureSectionElement
+    'aracna-aria-disclosure': AriaDisclosureElement
+    'aracna-aria-disclosure-button': AriaDisclosureButtonElement
+    'aracna-aria-disclosure-panel': AriaDisclosurePanelElement
+    'aracna-aria-disclosure-section': AriaDisclosureSectionElement
   }
 }
 
@@ -59,7 +59,7 @@ export class AriaDisclosureElement<E extends AriaDisclosureElementEventMap = Ari
   }
 
   static queries: QueryDeclarations = {
-    buttonElements: { selector: 'q-aria-disclosure-button', all: true }
+    buttonElements: { selector: 'aracna-aria-disclosure-button', all: true }
   }
 }
 
@@ -94,8 +94,8 @@ export class AriaDisclosureSectionElement<E extends AriaDisclosureSectionElement
   }
 
   static queries: QueryDeclarations = {
-    buttonElement: { selector: 'q-aria-disclosure-button' },
-    panelElement: { selector: 'q-aria-disclosure-panel' }
+    buttonElement: { selector: 'aracna-aria-disclosure-button' },
+    panelElement: { selector: 'aracna-aria-disclosure-panel' }
   }
 }
 
@@ -143,7 +143,7 @@ export class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEv
   }
 
   static queries: QueryDeclarations = {
-    sectionElement: { selector: 'q-aria-disclosure-section', closest: true }
+    sectionElement: { selector: 'aracna-aria-disclosure-section', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -164,7 +164,7 @@ export class AriaDisclosurePanelElement<E extends AriaDisclosurePanelElementEven
   }
 }
 
-defineCustomElement('q-aria-disclosure', AriaDisclosureElement)
-defineCustomElement('q-aria-disclosure-button', AriaDisclosureButtonElement)
-defineCustomElement('q-aria-disclosure-panel', AriaDisclosurePanelElement)
-defineCustomElement('q-aria-disclosure-section', AriaDisclosureSectionElement)
+defineCustomElement('aracna-aria-disclosure', AriaDisclosureElement)
+defineCustomElement('aracna-aria-disclosure-button', AriaDisclosureButtonElement)
+defineCustomElement('aracna-aria-disclosure-panel', AriaDisclosurePanelElement)
+defineCustomElement('aracna-aria-disclosure-section', AriaDisclosureSectionElement)

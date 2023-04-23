@@ -1,4 +1,4 @@
-import { KeyboardEventKey } from '@queelag/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.check.box.element'
 import type { AriaCheckBoxElement } from '../../../src/elements/aria/aria.check.box.element'
@@ -8,7 +8,7 @@ describe('AriaCheckBoxElement', () => {
   let checkbox: AriaCheckBoxElement
 
   beforeEach(() => {
-    checkbox = document.createElement('q-aria-checkbox')
+    checkbox = document.createElement('aracna-aria-checkbox')
   })
 
   afterEach(() => {

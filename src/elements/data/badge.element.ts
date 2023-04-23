@@ -1,12 +1,12 @@
-import { getLimitedNumber, parseNumber } from '@queelag/core'
-import { BadgeElementEventMap, DEFAULT_BADGE_MAX, DEFAULT_BADGE_MIN, defineCustomElement } from '@queelag/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
+import { getLimitedNumber, parseNumber } from '@aracna/core'
+import { BadgeElementEventMap, DEFAULT_BADGE_MAX, DEFAULT_BADGE_MIN, defineCustomElement } from '@aracna/web'
+import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { html } from 'lit-html'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-badge': BadgeElement
+    'aracna-badge': BadgeElement
   }
 }
 
@@ -67,4 +67,4 @@ export class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap>
   ]
 }
 
-defineCustomElement('q-badge', BadgeElement)
+defineCustomElement('aracna-badge', BadgeElement)

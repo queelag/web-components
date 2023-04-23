@@ -1,10 +1,10 @@
-import { ChipElementEventMap, ChipElementVariant, defineCustomElement, ElementName } from '@queelag/web'
+import { ChipElementEventMap, ChipElementVariant, defineCustomElement, ElementName } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-chip': ChipElement
+    'aracna-chip': ChipElement
   }
 }
 
@@ -33,4 +33,4 @@ export class ChipElement<E extends ChipElementEventMap = ChipElementEventMap> ex
   }
 }
 
-defineCustomElement('q-chip', ChipElement)
+defineCustomElement('aracna-chip', ChipElement)

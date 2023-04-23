@@ -1,5 +1,5 @@
-import { getNumberPercentage } from '@queelag/core'
-import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, defineCustomElement, MeterElementEventMap } from '@queelag/web'
+import { getNumberPercentage } from '@aracna/core'
+import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, defineCustomElement, MeterElementEventMap } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ifdef } from '../../directives/if.defined'
@@ -7,7 +7,7 @@ import { AriaMeterElement } from '../aria/aria.meter.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-meter': MeterElement
+    'aracna-meter': MeterElement
   }
 }
 
@@ -57,4 +57,4 @@ export class MeterElement<E extends MeterElementEventMap = MeterElementEventMap>
   }
 }
 
-defineCustomElement('q-meter', MeterElement)
+defineCustomElement('aracna-meter', MeterElement)

@@ -1,4 +1,4 @@
-import { KeyboardEventKey } from '@queelag/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import '../../../src/elements/aria/aria.link.element'
 import type { AriaLinkElement } from '../../../src/elements/aria/aria.link.element'
@@ -8,7 +8,7 @@ describe('AriaLinkElement', () => {
   let link: AriaLinkElement
 
   beforeEach(() => {
-    link = document.createElement('q-aria-link')
+    link = document.createElement('aracna-aria-link')
   })
 
   afterEach(() => {

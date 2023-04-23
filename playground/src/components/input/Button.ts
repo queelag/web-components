@@ -1,5 +1,5 @@
-import { sleep } from '@queelag/core'
-import type { ButtonClickEvent } from '@queelag/web'
+import { sleep } from '@aracna/core'
+import type { ButtonClickEvent } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
 import '../../../../src/elements/input/button.element'
 
@@ -11,10 +11,10 @@ export default class Button extends LitElement {
 
   protected render(): unknown {
     return html`
-      <q-button @button-click=${this.onClick} async native>
+      <aracna-button @button-click=${this.onClick} async native>
         <span class="idle">button</span>
         <span class="spinning">spinning</span>
-      </q-button>
+      </aracna-button>
     `
   }
 
@@ -23,11 +23,11 @@ export default class Button extends LitElement {
       box-sizing: border-box;
     }
 
-    q-button[spinning] span.idle {
+    aracna-button[spinning] span.idle {
       display: none;
     }
 
-    q-button:not([spinning]) span.spinning {
+    aracna-button:not([spinning]) span.spinning {
       display: none;
     }
   `

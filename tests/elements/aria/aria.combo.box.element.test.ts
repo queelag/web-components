@@ -1,5 +1,5 @@
-import { sleep } from '@queelag/core'
-import { KeyboardEventKey } from '@queelag/web'
+import { sleep } from '@aracna/core'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.combo.box.element'
 import type {
@@ -23,15 +23,15 @@ describe('AriaComboBoxElement', () => {
     o2: AriaComboBoxOptionElement
 
   beforeEach(() => {
-    combobox = document.createElement('q-aria-combobox')
+    combobox = document.createElement('aracna-aria-combobox')
 
-    group = document.createElement('q-aria-combobox-group')
-    button = document.createElement('q-aria-combobox-button')
-    input = document.createElement('q-aria-combobox-input')
+    group = document.createElement('aracna-aria-combobox-group')
+    button = document.createElement('aracna-aria-combobox-button')
+    input = document.createElement('aracna-aria-combobox-input')
     ninput = document.createElement('input')
-    list = document.createElement('q-aria-combobox-list')
-    o1 = document.createElement('q-aria-combobox-option')
-    o2 = document.createElement('q-aria-combobox-option')
+    list = document.createElement('aracna-aria-combobox-list')
+    o1 = document.createElement('aracna-aria-combobox-option')
+    o2 = document.createElement('aracna-aria-combobox-option')
 
     o1.value = 'cat'
     o2.value = 'dog'

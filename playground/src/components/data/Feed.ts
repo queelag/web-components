@@ -4,20 +4,20 @@ import '../../../../src/elements/data/feed.element'
 export default class Feed extends LitElement {
   protected render(): unknown {
     return html`
-      <q-feed>
-        <q-feed-article>
-          <q-feed-article-label>ARIA Article 1</q-feed-article-label>
-          <q-feed-article-description>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</q-feed-article-description>
-        </q-feed-article>
-        <q-feed-article>
-          <q-feed-article-label>ARIA Article 2</q-feed-article-label>
-          <q-feed-article-description>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</q-feed-article-description>
-        </q-feed-article>
-        <q-feed-article>
-          <q-feed-article-label>ARIA Article 3</q-feed-article-label>
-          <q-feed-article-description>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</q-feed-article-description>
-        </q-feed-article>
-      </q-feed>
+      <aracna-feed>
+        <aracna-feed-article>
+          <aracna-feed-article-label>ARIA Article 1</aracna-feed-article-label>
+          <aracna-feed-article-description>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</aracna-feed-article-description>
+        </aracna-feed-article>
+        <aracna-feed-article>
+          <aracna-feed-article-label>ARIA Article 2</aracna-feed-article-label>
+          <aracna-feed-article-description>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</aracna-feed-article-description>
+        </aracna-feed-article>
+        <aracna-feed-article>
+          <aracna-feed-article-label>ARIA Article 3</aracna-feed-article-label>
+          <aracna-feed-article-description>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</aracna-feed-article-description>
+        </aracna-feed-article>
+      </aracna-feed>
     `
   }
 
@@ -26,7 +26,7 @@ export default class Feed extends LitElement {
       box-sizing: border-box;
     }
 
-    q-feed {
+    aracna-feed {
       display: flex;
       flex-direction: column;
 
@@ -34,11 +34,11 @@ export default class Feed extends LitElement {
       border-radius: 4px;
     }
 
-    q-feed > * + * {
+    aracna-feed > * + * {
       border-top: 1px solid gray;
     }
 
-    q-feed-article {
+    aracna-feed-article {
       display: flex;
       flex-direction: column;
       padding: 8px;
@@ -47,11 +47,11 @@ export default class Feed extends LitElement {
       font-size: 12px;
     }
 
-    q-feed-article-label {
+    aracna-feed-article-label {
       font-weight: 500;
     }
 
-    q-feed-article-description {
+    aracna-feed-article-description {
       color: gray;
     }
   `

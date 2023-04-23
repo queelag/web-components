@@ -5,14 +5,14 @@ import {
   NavigationBarItemElementAttributes,
   NavigationBarItemElementEventMap,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-navigation-bar': NavigationBarElement
-    'q-navigation-bar-item': NavigationBarItemElement
+    'aracna-navigation-bar': NavigationBarElement
+    'aracna-navigation-bar-item': NavigationBarItemElement
   }
 }
 
@@ -61,5 +61,5 @@ export class NavigationBarItemElement<E extends NavigationBarItemElementEventMap
   }
 }
 
-defineCustomElement('q-navigation-bar', NavigationBarElement)
-defineCustomElement('q-navigation-bar-item', NavigationBarItemElement)
+defineCustomElement('aracna-navigation-bar', NavigationBarElement)
+defineCustomElement('aracna-navigation-bar-item', NavigationBarItemElement)

@@ -1,10 +1,10 @@
-import { ButtonElementAttributes, ButtonGroupElementEventMap, defineCustomElement, ElementName } from '@queelag/web'
+import { ButtonElementAttributes, ButtonGroupElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-button-group': ButtonGroupElement
+    'aracna-button-group': ButtonGroupElement
   }
 }
 
@@ -20,4 +20,4 @@ export class ButtonGroupElement<E extends ButtonGroupElementEventMap = ButtonGro
   }
 }
 
-defineCustomElement('q-button-group', ButtonGroupElement)
+defineCustomElement('aracna-button-group', ButtonGroupElement)

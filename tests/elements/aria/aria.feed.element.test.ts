@@ -1,4 +1,4 @@
-import { KeyboardEventKey } from '@queelag/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.feed.element'
 import type {
@@ -21,14 +21,14 @@ describe('AriaFeedElement', () => {
     ntabbable: HTMLButtonElement
 
   beforeEach(() => {
-    feed = document.createElement('q-aria-feed')
+    feed = document.createElement('aracna-aria-feed')
 
-    a1 = document.createElement('q-aria-feed-article')
-    a2 = document.createElement('q-aria-feed-article')
-    al1 = document.createElement('q-aria-feed-article-label')
-    al2 = document.createElement('q-aria-feed-article-label')
-    ad1 = document.createElement('q-aria-feed-article-description')
-    ad2 = document.createElement('q-aria-feed-article-description')
+    a1 = document.createElement('aracna-aria-feed-article')
+    a2 = document.createElement('aracna-aria-feed-article')
+    al1 = document.createElement('aracna-aria-feed-article-label')
+    al2 = document.createElement('aracna-aria-feed-article-label')
+    ad1 = document.createElement('aracna-aria-feed-article-description')
+    ad2 = document.createElement('aracna-aria-feed-article-description')
 
     a1.append(al1, ad1)
     a2.append(al2, ad2)

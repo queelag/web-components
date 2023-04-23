@@ -1,5 +1,5 @@
-import { sleep } from '@queelag/core'
-import { ButtonClickEvent } from '@queelag/web'
+import { sleep } from '@aracna/core'
+import { ButtonClickEvent } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
 import '../../../src/elements/input/button.element'
 import type { ButtonElement } from '../../../src/elements/input/button.element'
@@ -9,7 +9,7 @@ describe('ButtonElement', () => {
   let button: ButtonElement
 
   beforeEach(() => {
-    button = document.createElement('q-button')
+    button = document.createElement('aracna-button')
   })
 
   afterEach(() => {

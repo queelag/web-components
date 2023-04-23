@@ -1,4 +1,4 @@
-import { DEFAULT_SLIDER_MAX, DEFAULT_SLIDER_MIN, DEFAULT_SLIDER_ORIENTATION, DEFAULT_SLIDER_THUMB_VALUE, setImmutableElementAttribute } from '@queelag/web'
+import { DEFAULT_SLIDER_MAX, DEFAULT_SLIDER_MIN, DEFAULT_SLIDER_ORIENTATION, DEFAULT_SLIDER_THUMB_VALUE, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import type { AriaSliderElement, AriaSliderThumbElement } from '../elements/aria/aria.slider.element'
 

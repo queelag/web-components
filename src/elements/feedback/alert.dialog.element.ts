@@ -5,15 +5,15 @@ import {
   defineCustomElement,
   ElementName,
   QueryDeclarations
-} from '@queelag/web'
+} from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaAlertDialogDescriptionElement, AriaAlertDialogElement, AriaAlertDialogLabelElement } from '../aria/aria.alert.dialog.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-alert-dialog': AlertDialogElement
-    'q-alert-dialog-description': AlertDialogDescriptionElement
-    'q-alert-dialog-label': AlertDialogLabelElement
+    'aracna-alert-dialog': AlertDialogElement
+    'aracna-alert-dialog-description': AlertDialogDescriptionElement
+    'aracna-alert-dialog-label': AlertDialogLabelElement
   }
 }
 
@@ -31,8 +31,8 @@ export class AlertDialogElement<E extends AlertDialogElementEventMap = AlertDial
   }
 
   static queries: QueryDeclarations = {
-    descriptionElement: { selector: 'q-alert-dialog-description' },
-    labelElement: { selector: 'q-alert-dialog-label' }
+    descriptionElement: { selector: 'aracna-alert-dialog-description' },
+    labelElement: { selector: 'aracna-alert-dialog-label' }
   }
 }
 
@@ -50,6 +50,6 @@ export class AlertDialogDescriptionElement<
   }
 }
 
-defineCustomElement('q-alert-dialog', AlertDialogElement)
-defineCustomElement('q-alert-dialog-description', AlertDialogDescriptionElement)
-defineCustomElement('q-alert-dialog-label', AlertDialogLabelElement)
+defineCustomElement('aracna-alert-dialog', AlertDialogElement)
+defineCustomElement('aracna-alert-dialog-description', AlertDialogDescriptionElement)
+defineCustomElement('aracna-alert-dialog-label', AlertDialogLabelElement)

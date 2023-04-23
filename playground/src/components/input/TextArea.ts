@@ -3,7 +3,7 @@ import '../../../../src/elements/input/text.area.element'
 
 export default class TextArea extends LitElement {
   protected render(): unknown {
-    return html`<q-textarea placeholder="textarea"></q-textarea>`
+    return html`<aracna-textarea placeholder="textarea"></aracna-textarea>`
   }
 
   static styles?: CSSResultGroup | undefined = css`

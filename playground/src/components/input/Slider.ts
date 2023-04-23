@@ -1,6 +1,6 @@
-import { getLowestNumber, getNumberPercentage, getNumbersDistance } from '@queelag/core'
-import type { SliderChangeEvent } from '@queelag/web'
-import { css, CSSResultGroup, html, LitElement } from 'lit'
+import { getLowestNumber, getNumberPercentage, getNumbersDistance } from '@aracna/core'
+import type { SliderChangeEvent } from '@aracna/web'
+import { CSSResultGroup, LitElement, css, html } from 'lit'
 import type { DirectiveResult } from 'lit-html/directive'
 import { styleMap } from 'lit-html/directives/style-map.js'
 import { when } from 'lit-html/directives/when.js'
@@ -19,17 +19,17 @@ export default class Slider extends LitElement {
 
   protected render(): unknown {
     return html`
-      <q-slider orientation="horizontal" @slider-change=${this.onChange}>
+      <aracna-slider orientation="horizontal" @slider-change=${this.onChange}>
         <div class="background"></div>
-        <q-slider-thumb background="green" shape="circle" size="20" value="25"></q-slider-thumb>
+        <aracna-slider-thumb background="green" shape="circle" size="20" value="25"></aracna-slider-thumb>
         ${when(
           this.multiple,
           () => html`
-            <q-slider-thumb background="green" shape="circle" size="20" value="75"></q-slider-thumb>
+            <aracna-slider-thumb background="green" shape="circle" size="20" value="75"></aracna-slider-thumb>
             <div class="foreground" style=${this.foregroundStyleMap}></div>
           `
         )}
-      </q-slider>
+      </aracna-slider>
     `
   }
 
@@ -45,7 +45,7 @@ export default class Slider extends LitElement {
       box-sizing: border-box;
     }
 
-    q-slider {
+    aracna-slider {
       position: relative;
 
       display: flex;
@@ -53,12 +53,12 @@ export default class Slider extends LitElement {
       align-items: center;
     }
 
-    q-slider[orientation='horizontal'] {
+    aracna-slider[orientation='horizontal'] {
       width: 256px;
       height: 20px;
     }
 
-    q-slider[orientation='vertical'] {
+    aracna-slider[orientation='vertical'] {
       width: 20px;
       height: 256px;
     }
@@ -68,12 +68,12 @@ export default class Slider extends LitElement {
       border-radius: 4px;
     }
 
-    q-slider[orientation='horizontal'] div.background {
+    aracna-slider[orientation='horizontal'] div.background {
       width: 100%;
       height: 4px;
     }
 
-    q-slider[orientation='vertical'] div.background {
+    aracna-slider[orientation='vertical'] div.background {
       width: 4px;
       height: 100%;
     }
@@ -83,15 +83,15 @@ export default class Slider extends LitElement {
       background: green;
     }
 
-    q-slider[orientation='horizontal'] div.foreground {
+    aracna-slider[orientation='horizontal'] div.foreground {
       height: 4px;
     }
 
-    q-slider[orientation='vertical'] div.foreground {
+    aracna-slider[orientation='vertical'] div.foreground {
       width: 4px;
     }
 
-    q-slider-thumb {
+    aracna-slider-thumb {
       width: 20px;
       height: 20px;
 

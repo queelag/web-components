@@ -1,10 +1,10 @@
-import { AlertElementEventMap, AlertSeverity, AlertVariant, defineCustomElement, ElementName } from '@queelag/web'
+import { AlertElementEventMap, AlertSeverity, AlertVariant, defineCustomElement, ElementName } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaAlertElement } from '../aria/aria.alert.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-alert': AriaAlertElement
+    'aracna-alert': AriaAlertElement
   }
 }
 
@@ -32,4 +32,4 @@ export class AlertElement<E extends AlertElementEventMap = AlertElementEventMap>
   }
 }
 
-defineCustomElement('q-alert', AlertElement)
+defineCustomElement('aracna-alert', AlertElement)

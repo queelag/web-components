@@ -1,4 +1,4 @@
-import { wf } from '@queelag/core'
+import { wf } from '@aracna/core'
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
 import '../../../src/elements/aria/aria.dialog.element'
 import type { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../../../src/elements/aria/aria.dialog.element'
@@ -8,11 +8,11 @@ describe('AriaDialogElement', () => {
   let dialog: AriaDialogElement, label: AriaDialogLabelElement, description: AriaDialogDescriptionElement, input: HTMLInputElement
 
   beforeEach(() => {
-    dialog = document.createElement('q-aria-dialog')
+    dialog = document.createElement('aracna-aria-dialog')
     dialog.displayCheck = 'none'
 
-    label = document.createElement('q-aria-dialog-label')
-    description = document.createElement('q-aria-dialog-description')
+    label = document.createElement('aracna-aria-dialog-label')
+    description = document.createElement('aracna-aria-dialog-description')
     input = document.createElement('input')
 
     dialog.append(label, description, input)

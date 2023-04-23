@@ -12,11 +12,11 @@ describe('AriaBreadcrumbElement', () => {
     a2: HTMLAnchorElement
 
   beforeEach(() => {
-    breadcrumb = document.createElement('q-aria-breadcrumb')
+    breadcrumb = document.createElement('aracna-aria-breadcrumb')
 
-    list = document.createElement('q-aria-breadcrumb-list')
-    li1 = document.createElement('q-aria-breadcrumb-item')
-    li2 = document.createElement('q-aria-breadcrumb-item')
+    list = document.createElement('aracna-aria-breadcrumb-list')
+    li1 = document.createElement('aracna-aria-breadcrumb-item')
+    li2 = document.createElement('aracna-aria-breadcrumb-item')
     a1 = document.createElement('a')
     a2 = document.createElement('a')
 

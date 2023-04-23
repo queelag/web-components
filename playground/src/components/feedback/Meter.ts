@@ -1,5 +1,5 @@
-import { getNumberPercentage } from '@queelag/core'
-import type { StateChangeEvent } from '@queelag/web'
+import { getNumberPercentage } from '@aracna/core'
+import type { StateChangeEvent } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement, PropertyDeclarations } from 'lit'
 import '../../../../src/elements/feedback/meter.element'
 
@@ -15,11 +15,11 @@ export default class Meter extends LitElement {
 
   protected render(): unknown {
     return html`
-      <q-meter @state-change=${this.onStateChange} height="16" min="0" max="100" value=${this.value} width="256">
+      <aracna-meter @state-change=${this.onStateChange} height="16" min="0" max="100" value=${this.value} width="256">
         <div class="background">
           <div class="fill" style="width: ${this.percentage ?? 0}%"></div>
         </div>
-      </q-meter>
+      </aracna-meter>
     `
   }
 

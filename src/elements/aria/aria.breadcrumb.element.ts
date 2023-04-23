@@ -5,16 +5,16 @@ import {
   defineCustomElement,
   ElementName,
   QueryDeclarations
-} from '@queelag/web'
+} from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaBreadcrumbController, AriaBreadcrumbItemController, AriaBreadcrumbListController } from '../../controllers/aria.breadcrumb.controller'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-breadcrumb': AriaBreadcrumbElement
-    'q-aria-breadcrumb-item': AriaBreadcrumbItemElement
-    'q-aria-breadcrumb-list': AriaBreadcrumbListElement
+    'aracna-aria-breadcrumb': AriaBreadcrumbElement
+    'aracna-aria-breadcrumb-item': AriaBreadcrumbItemElement
+    'aracna-aria-breadcrumb-list': AriaBreadcrumbListElement
   }
 }
 
@@ -60,6 +60,6 @@ export class AriaBreadcrumbItemElement<E extends AriaBreadcrumbItemElementEventM
   }
 }
 
-defineCustomElement('q-aria-breadcrumb', AriaBreadcrumbElement)
-defineCustomElement('q-aria-breadcrumb-item', AriaBreadcrumbItemElement)
-defineCustomElement('q-aria-breadcrumb-list', AriaBreadcrumbListElement)
+defineCustomElement('aracna-aria-breadcrumb', AriaBreadcrumbElement)
+defineCustomElement('aracna-aria-breadcrumb-item', AriaBreadcrumbItemElement)
+defineCustomElement('aracna-aria-breadcrumb-list', AriaBreadcrumbListElement)

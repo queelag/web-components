@@ -1,4 +1,4 @@
-import { getLimitedNumber, isNumberMultipleOf, toFixedNumber } from '@queelag/core'
+import { getLimitedNumber, isNumberMultipleOf, toFixedNumber } from '@aracna/core'
 import {
   AriaSliderElementEventMap,
   AriaSliderThumbElementEventMap,
@@ -9,27 +9,27 @@ import {
   DEFAULT_SLIDER_ORIENTATION,
   DEFAULT_SLIDER_STEP,
   DEFAULT_SLIDER_THUMB_VALUE,
-  defineCustomElement,
   ElementName,
-  getSliderThumbElementPercentage,
-  getSliderThumbElementStyleLeft,
-  getSliderThumbElementStyleTop,
   KeyboardEventKey,
   Orientation,
   QueryDeclarations,
   SliderChangeEvent,
   SliderThumbMoveEvent,
-  WebElementLogger
-} from '@queelag/web'
-import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
+  WebElementLogger,
+  defineCustomElement,
+  getSliderThumbElementPercentage,
+  getSliderThumbElementStyleLeft,
+  getSliderThumbElementStyleTop
+} from '@aracna/web'
+import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
 import { AriaSliderController, AriaSliderThumbController } from '../../controllers/aria.slider.controller'
 import { BaseElement } from '../core/base.element'
 import { FormFieldElement } from '../core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-slider': AriaSliderElement
-    'q-aria-slider-thumb': AriaSliderThumbElement
+    'aracna-aria-slider': AriaSliderElement
+    'aracna-aria-slider-thumb': AriaSliderThumbElement
   }
 }
 
@@ -136,7 +136,7 @@ export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderE
   }
 
   static queries: QueryDeclarations = {
-    thumbElements: { selector: 'q-aria-slider-thumb', all: true }
+    thumbElements: { selector: 'aracna-aria-slider-thumb', all: true }
   }
 
   static styles: CSSResultGroup = [
@@ -463,7 +463,7 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-slider', closest: true }
+    rootElement: { selector: 'aracna-aria-slider', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -496,5 +496,5 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
   ]
 }
 
-defineCustomElement('q-aria-slider', AriaSliderElement)
-defineCustomElement('q-aria-slider-thumb', AriaSliderThumbElement)
+defineCustomElement('aracna-aria-slider', AriaSliderElement)
+defineCustomElement('aracna-aria-slider-thumb', AriaSliderThumbElement)

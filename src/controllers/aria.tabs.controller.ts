@@ -1,5 +1,5 @@
-import { ID } from '@queelag/core'
-import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@queelag/web'
+import { ID } from '@aracna/core'
+import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import type { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../elements/aria/aria.tabs.element'
 

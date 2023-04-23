@@ -1,11 +1,11 @@
-import { AriaButtonElementEventMap, ButtonPressed, defineCustomElement, ElementName, KeyboardEventKey, WebElementLogger } from '@queelag/web'
+import { AriaButtonElementEventMap, ButtonPressed, defineCustomElement, ElementName, KeyboardEventKey, WebElementLogger } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaButtonController } from '../../controllers/aria.button.controller'
 import { BaseElement } from '../core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-button': AriaButtonElement
+    'aracna-aria-button': AriaButtonElement
   }
 }
 
@@ -79,4 +79,4 @@ export class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonE
   ]
 }
 
-defineCustomElement('q-aria-button', AriaButtonElement)
+defineCustomElement('aracna-aria-button', AriaButtonElement)

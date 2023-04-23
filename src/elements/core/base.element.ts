@@ -1,4 +1,4 @@
-import { ID, parseNumber } from '@queelag/core'
+import { ID, parseNumber } from '@aracna/core'
 import {
   AttributeChangeEvent,
   BaseElementEventMap,
@@ -12,7 +12,7 @@ import {
   setImmutableElementAttribute,
   Shape,
   Size
-} from '@queelag/web'
+} from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement, PropertyDeclarations, TemplateResult } from 'lit'
 import { DirectiveResult } from 'lit-html/directive'
 import { StyleInfo } from 'lit-html/directives/style-map'

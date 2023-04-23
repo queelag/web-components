@@ -1,4 +1,4 @@
-import { Interval } from '@queelag/core'
+import { Interval } from '@aracna/core'
 import {
   AriaCarouselElementEventMap,
   AriaCarouselNextSlideControlElementEventMap,
@@ -17,7 +17,7 @@ import {
   KeyboardEventKey,
   QueryDeclarations,
   WebElementLogger
-} from '@queelag/web'
+} from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import {
   AriaCarouselController,
@@ -34,14 +34,14 @@ import { AriaButtonElement } from './aria.button.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-carousel': AriaCarouselElement
-    'q-aria-carousel-next-slide-control': AriaCarouselNextSlideControlElement
-    'q-aria-carousel-previous-slide-control': AriaCarouselPreviousSlideControlElement
-    'q-aria-carousel-rotation-control': AriaCarouselRotationControlElement
-    'q-aria-carousel-slide': AriaCarouselSlideElement
-    'q-aria-carousel-slides': AriaCarouselSlidesElement
-    'q-aria-carousel-tab': AriaCarouselTabElement
-    'q-aria-carousel-tabs': AriaCarouselTabsElement
+    'aracna-aria-carousel': AriaCarouselElement
+    'aracna-aria-carousel-next-slide-control': AriaCarouselNextSlideControlElement
+    'aracna-aria-carousel-previous-slide-control': AriaCarouselPreviousSlideControlElement
+    'aracna-aria-carousel-rotation-control': AriaCarouselRotationControlElement
+    'aracna-aria-carousel-slide': AriaCarouselSlideElement
+    'aracna-aria-carousel-slides': AriaCarouselSlidesElement
+    'aracna-aria-carousel-tab': AriaCarouselTabElement
+    'aracna-aria-carousel-tabs': AriaCarouselTabsElement
   }
 }
 
@@ -252,13 +252,13 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
   }
 
   static queries: QueryDeclarations = {
-    activeSlideElement: { selector: 'q-aria-carousel-slide[active]' },
-    activeTabElement: { selector: 'q-aria-carousel-tab[active]' },
-    rotationControlElement: { selector: 'q-aria-carousel-rotation-control' },
-    slideElements: { selector: 'q-aria-carousel-slide', all: true },
-    slidesElement: { selector: 'q-aria-carousel-slides' },
-    tabElements: { selector: 'q-aria-carousel-tab', all: true },
-    tabsElement: { selector: 'q-aria-carousel-tabs' }
+    activeSlideElement: { selector: 'aracna-aria-carousel-slide[active]' },
+    activeTabElement: { selector: 'aracna-aria-carousel-tab[active]' },
+    rotationControlElement: { selector: 'aracna-aria-carousel-rotation-control' },
+    slideElements: { selector: 'aracna-aria-carousel-slide', all: true },
+    slidesElement: { selector: 'aracna-aria-carousel-slides' },
+    tabElements: { selector: 'aracna-aria-carousel-tab', all: true },
+    tabsElement: { selector: 'aracna-aria-carousel-tabs' }
   }
 }
 
@@ -275,7 +275,7 @@ export class AriaCarouselSlidesElement<E extends AriaCarouselSlidesElementEventM
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-carousel', closest: true }
+    rootElement: { selector: 'aracna-aria-carousel', closest: true }
   }
 }
 
@@ -320,8 +320,8 @@ export class AriaCarouselSlideElement<E extends AriaCarouselSlideElementEventMap
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-carousel', closest: true },
-    slidesElement: { selector: 'q-aria-carousel-slides', closest: true }
+    rootElement: { selector: 'aracna-aria-carousel', closest: true },
+    slidesElement: { selector: 'aracna-aria-carousel-slides', closest: true }
   }
 }
 
@@ -361,7 +361,7 @@ export class AriaCarouselRotationControlElement<
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-carousel', closest: true }
+    rootElement: { selector: 'aracna-aria-carousel', closest: true }
   }
 }
 
@@ -384,7 +384,7 @@ export class AriaCarouselNextSlideControlElement<
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-carousel', closest: true }
+    rootElement: { selector: 'aracna-aria-carousel', closest: true }
   }
 }
 
@@ -407,7 +407,7 @@ export class AriaCarouselPreviousSlideControlElement<
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-carousel', closest: true }
+    rootElement: { selector: 'aracna-aria-carousel', closest: true }
   }
 }
 
@@ -486,9 +486,9 @@ export class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap =
   }
 
   static queries: QueryDeclarations = {
-    activeTabElement: { selector: 'q-aria-carousel-tab[active]' },
-    rootElement: { selector: 'q-aria-carousel', closest: true },
-    tabElements: { selector: 'q-aria-carousel-tab', all: true }
+    activeTabElement: { selector: 'aracna-aria-carousel-tab[active]' },
+    rootElement: { selector: 'aracna-aria-carousel', closest: true },
+    tabElements: { selector: 'aracna-aria-carousel-tab', all: true }
   }
 }
 
@@ -549,8 +549,8 @@ export class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = A
   }
 
   static queries: QueryDeclarations = {
-    rootElement: { selector: 'q-aria-carousel', closest: true },
-    tabsElement: { selector: 'q-aria-carousel-tabs', closest: true }
+    rootElement: { selector: 'aracna-aria-carousel', closest: true },
+    tabsElement: { selector: 'aracna-aria-carousel-tabs', closest: true }
   }
 
   static styles: CSSResultGroup = [
@@ -563,11 +563,11 @@ export class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = A
   ]
 }
 
-defineCustomElement('q-aria-carousel', AriaCarouselElement)
-defineCustomElement('q-aria-carousel-next-slide-control', AriaCarouselNextSlideControlElement)
-defineCustomElement('q-aria-carousel-previous-slide-control', AriaCarouselPreviousSlideControlElement)
-defineCustomElement('q-aria-carousel-rotation-control', AriaCarouselRotationControlElement)
-defineCustomElement('q-aria-carousel-slide', AriaCarouselSlideElement)
-defineCustomElement('q-aria-carousel-slides', AriaCarouselSlidesElement)
-defineCustomElement('q-aria-carousel-tab', AriaCarouselTabElement)
-defineCustomElement('q-aria-carousel-tabs', AriaCarouselTabsElement)
+defineCustomElement('aracna-aria-carousel', AriaCarouselElement)
+defineCustomElement('aracna-aria-carousel-next-slide-control', AriaCarouselNextSlideControlElement)
+defineCustomElement('aracna-aria-carousel-previous-slide-control', AriaCarouselPreviousSlideControlElement)
+defineCustomElement('aracna-aria-carousel-rotation-control', AriaCarouselRotationControlElement)
+defineCustomElement('aracna-aria-carousel-slide', AriaCarouselSlideElement)
+defineCustomElement('aracna-aria-carousel-slides', AriaCarouselSlidesElement)
+defineCustomElement('aracna-aria-carousel-tab', AriaCarouselTabElement)
+defineCustomElement('aracna-aria-carousel-tabs', AriaCarouselTabsElement)

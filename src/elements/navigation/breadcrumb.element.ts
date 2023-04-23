@@ -1,11 +1,11 @@
-import { BreadcrumbElementEventMap, BreadcrumbItemElementEventMap, BreadcrumbListElementEventMap, defineCustomElement, ElementName } from '@queelag/web'
+import { BreadcrumbElementEventMap, BreadcrumbItemElementEventMap, BreadcrumbListElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
 import { AriaBreadcrumbElement, AriaBreadcrumbItemElement, AriaBreadcrumbListElement } from '../aria/aria.breadcrumb.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-breadcrumb': BreadcrumbElement
-    'q-breadcrumb-item': BreadcrumbItemElement
-    'q-breadcrumb-list': BreadcrumbListElement
+    'aracna-breadcrumb': BreadcrumbElement
+    'aracna-breadcrumb-item': BreadcrumbItemElement
+    'aracna-breadcrumb-list': BreadcrumbListElement
   }
 }
 
@@ -27,6 +27,6 @@ export class BreadcrumbItemElement<E extends BreadcrumbItemElementEventMap = Bre
   }
 }
 
-defineCustomElement('q-breadcrumb', BreadcrumbElement)
-defineCustomElement('q-breadcrumb-item', BreadcrumbItemElement)
-defineCustomElement('q-breadcrumb-list', BreadcrumbListElement)
+defineCustomElement('aracna-breadcrumb', BreadcrumbElement)
+defineCustomElement('aracna-breadcrumb-item', BreadcrumbItemElement)
+defineCustomElement('aracna-breadcrumb-list', BreadcrumbListElement)

@@ -1,4 +1,4 @@
-import { KeyboardEventKey } from '@queelag/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria.tooltip.element'
 import type {
@@ -13,11 +13,11 @@ describe('AriaTooltipElement', () => {
   let tooltip: AriaTooltipElement, arrow: AriaTooltipArrowElement, content: AriaTooltipContentElement, trigger: AriaTooltipTriggerElement
 
   beforeEach(() => {
-    tooltip = document.createElement('q-aria-tooltip')
+    tooltip = document.createElement('aracna-aria-tooltip')
 
-    arrow = document.createElement('q-aria-tooltip-arrow')
-    content = document.createElement('q-aria-tooltip-content')
-    trigger = document.createElement('q-aria-tooltip-trigger')
+    arrow = document.createElement('aracna-aria-tooltip-arrow')
+    content = document.createElement('aracna-aria-tooltip-content')
+    trigger = document.createElement('aracna-aria-tooltip-trigger')
 
     tooltip.append(content, trigger)
   })
