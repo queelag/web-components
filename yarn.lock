@@ -10,6 +10,23 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
+"@aracna/core@^1.1.18":
+  version "1.1.18"
+  resolved "https://registry.yarnpkg.com/@aracna/core/-/core-1.1.18.tgz#119d9954729f22b49c402fc9905f4fa01d084cbf"
+  integrity sha512-SZgGnJOrFqtC3eCqrsfQq+2dD+f14zN3kpxyEAuJkA72LeHS5/gbktndDbQNSRABP3T+MxIYc6rl0wnLPw710A==
+  dependencies:
+    "@types/cookie" "^0.5.1"
+    cookie "^0.5.0"
+    nanoid "^3.3.4"
+    node-fetch "^3.2.10"
+    node-fetch-cjs "^3.2.10"
+    rfc4648 "^1.5.2"
+
+"@aracna/web@^1.0.14":
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/@aracna/web/-/web-1.0.14.tgz#a77c501c19995686cd4810638f27ee2402c45e87"
+  integrity sha512-cINnOrbAOFKU0QzXrRlRAGeFhrBoBiM4wZAffb6rlOAkkjsmbFSlFxDnay0S0ft7GSRaZbQtWaFHf+hitumXLQ==
+
 "@astrojs/compiler@^0.23.4":
   version "0.23.5"
   resolved "https://registry.yarnpkg.com/@astrojs/compiler/-/compiler-0.23.5.tgz#ea57a2b994b2930e3b3d2d524f10866698fef4f1"
@@ -590,22 +607,17 @@
   dependencies:
     tsm "^2.1.4"
 
-"@aracna/core@^1.1.12":
-  version "1.1.12"
-  resolved "https://registry.yarnpkg.com/@aracna/core/-/core-1.1.12.tgz#107a2b60bceb86d0c7202b7227262f611ebb8420"
-  integrity sha512-+ycr3eU9uhZlYt61OJKSWhO8AtwbpBTvjwhvjCQL4BegcNWiJHjfhEandUA0ej9+wngQRCav/ERqMc+hPSAnPA==
+"@rollup/plugin-node-resolve@^15.0.2":
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-15.0.2.tgz#8183a80c2cbf7b471f5ac86b16747997f3b5d185"
+  integrity sha512-Y35fRGUjC3FaurG722uhUuG8YHOJRJQbI6/CkbRkdPotSpDj9NtIN85z1zrcyDcCQIW4qp5mgG72U+gJ0TAFEg==
   dependencies:
-    "@types/cookie" "^0.5.1"
-    cookie "^0.5.0"
-    nanoid "^3.3.4"
-    node-fetch "^3.2.10"
-    node-fetch-cjs "^3.2.10"
-    rfc4648 "^1.5.2"
-
-"@aracna/web@^1.0.10":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@aracna/web/-/web-1.0.10.tgz#497d5f5f97f6abee33705be24b81645499a719e7"
-  integrity sha512-kx2AlgndjJdrfvbtCq+VPKg2ehScfWectJ839cvgiDeJjK4Wc8JzFZLjNcjVNQc0hmK8db63vgjDo6YE/an+ZQ==
+    "@rollup/pluginutils" "^5.0.1"
+    "@types/resolve" "1.20.2"
+    deepmerge "^4.2.2"
+    is-builtin-module "^3.2.1"
+    is-module "^1.0.0"
+    resolve "^1.22.1"
 
 "@rollup/plugin-strip@^3.0.1":
   version "3.0.1"
@@ -848,7 +860,7 @@
   resolved "https://registry.yarnpkg.com/@types/relateurl/-/relateurl-0.2.29.tgz#68ccecec3d4ffdafb9c577fe764f912afc050fe6"
   integrity sha512-QSvevZ+IRww2ldtfv1QskYsqVVVwCKQf1XbwtcyyoRvLIQzfyPhj/C+3+PKzSDRdiyejaiLgnq//XTkleorpLg==
 
-"@types/resolve@^1.17.0":
+"@types/resolve@1.20.2", "@types/resolve@^1.17.0":
   version "1.20.2"
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-1.20.2.tgz#97d26e00cd4a0423b4af620abecf3e6f442b7975"
   integrity sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==
@@ -1280,6 +1292,11 @@ buffer@^6.0.3:
   dependencies:
     base64-js "^1.3.1"
     ieee754 "^1.2.1"
+
+builtin-modules@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-3.3.0.tgz#cae62812b89801e9656336e46223e030386be7b6"
+  integrity sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==
 
 c8@^7.12.0:
   version "7.12.0"
@@ -2842,6 +2859,13 @@ is-buffer@^2.0.0:
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-2.0.5.tgz#ebc252e400d22ff8d77fa09888821a24a658c191"
   integrity sha512-i2R6zNFDwgEHJyQUtJEk0XFi1i0dPFn/oqjK3/vPCcDeJvW5NQ83V8QbicfF1SupOaB0h8ntgBC2YiE7dfyctQ==
 
+is-builtin-module@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/is-builtin-module/-/is-builtin-module-3.2.1.tgz#f03271717d8654cfcaf07ab0463faa3571581169"
+  integrity sha512-BSLE3HnV2syZ0FK0iMA/yUGplUeMmNz4AW5fnTunbCIqZi4vG3WjJT9FHMy5D69xmAYBHXQhJdALdpwVxV501A==
+  dependencies:
+    builtin-modules "^3.3.0"
+
 is-core-module@^2.1.0, is-core-module@^2.9.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.11.0.tgz#ad4cb3e3863e814523c96f3f58d26cc570ff0144"
@@ -2941,6 +2965,11 @@ is-interactive@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/is-interactive/-/is-interactive-2.0.0.tgz#40c57614593826da1100ade6059778d597f16e90"
   integrity sha512-qP1vozQRI+BMOPcjFzrjXuQvdak2pHNUMZoeG2eRbiSqyvbEf/wQtEOTOX1guk6E3t36RkaqiSt8A/6YElNxLQ==
+
+is-module@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/is-module/-/is-module-1.0.0.tgz#3258fb69f78c14d5b815d664336b4cffb6441591"
+  integrity sha512-51ypPSPCoTEIN9dy5Oy+h4pShgJmPCygKfyRCISBI+JoWT/2oJvK8QPxmwv7b/p239jXrm9M1mlQbyKJ5A152g==
 
 is-number@^3.0.0:
   version "3.0.0"
