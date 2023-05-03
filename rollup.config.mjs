@@ -1,7 +1,6 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import strip from '@rollup/plugin-strip'
 import typescript from '@rollup/plugin-typescript'
-import { readdirSync } from 'fs'
 import { defineConfig } from 'rollup'
 import minifyHTML from 'rollup-plugin-minify-html-literals'
 import { terser } from 'rollup-plugin-terser'
@@ -11,6 +10,15 @@ const INPUT = 'src/index.ts'
 const PLUGINS = [minifyHTML.default(), strip({ include: ['src/**/*.ts'], functions: ['[a-zA-Z]+Logger.(verbose|debug|info)'] }), terser(), typescript()]
 
 export default [
+  defineConfig({
+    external: EXTERNAL,
+    input: INPUT,
+    output: {
+      file: 'dist/index.cjs',
+      format: 'cjs'
+    },
+    plugins: [...PLUGINS, nodeResolve()]
+  }),
   defineConfig({
     external: [
       ...EXTERNAL,
@@ -30,14 +38,5 @@ export default [
       format: 'esm'
     },
     plugins: PLUGINS
-  }),
-  defineConfig({
-    external: EXTERNAL,
-    input: INPUT,
-    output: {
-      file: 'dist/index.cjs',
-      format: 'cjs'
-    },
-    plugins: [...PLUGINS, nodeResolve()]
   })
 ]
