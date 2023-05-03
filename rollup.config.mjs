@@ -10,11 +10,6 @@ const EXTERNAL = ['@floating-ui/dom', '@aracna/core', '@aracna/web', 'dompurify'
 const INPUT = 'src/index.ts'
 const PLUGINS = [minifyHTML.default(), strip({ include: ['src/**/*.ts'], functions: ['[a-zA-Z]+Logger.(verbose|debug|info)'] }), terser(), typescript()]
 
-const ELEMENTS = readdirSync('src/elements').reduce(
-  (elements, folder) => [...elements, ...readdirSync(`src/elements/${folder}`).map((name) => `src/elements/${folder}/${name}`)],
-  []
-)
-
 export default [
   defineConfig({
     external: [
@@ -44,16 +39,5 @@ export default [
       format: 'cjs'
     },
     plugins: [...PLUGINS, nodeResolve()]
-  }),
-  ...ELEMENTS.map((input) =>
-    defineConfig({
-      external: EXTERNAL,
-      input: input,
-      output: {
-        file: input.replace('src', 'dist').replace('.ts', '.cjs'),
-        format: 'cjs'
-      },
-      plugins: [...PLUGINS, nodeResolve()]
-    })
-  )
+  })
 ]
