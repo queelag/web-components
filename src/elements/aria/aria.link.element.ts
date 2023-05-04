@@ -1,7 +1,7 @@
 import { AriaLinkElementEventMap, defineCustomElement, ElementName, KeyboardEventKey } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { AriaLinkController } from '../../controllers/aria.link.controller'
-import { BaseElement } from '../core/base.element'
+import { AriaLinkController } from '../../controllers/aria.link.controller.js'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

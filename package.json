@@ -21,7 +21,6 @@
     "lit-html": "latest",
     "prettier": "latest",
     "resize-observer-polyfill": "latest",
-    "superstruct": "latest",
     "tabbable": "latest",
     "tailwindcss": "latest",
     "ts-lit-plugin": "latest",

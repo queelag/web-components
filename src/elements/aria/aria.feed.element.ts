@@ -16,8 +16,8 @@ import {
   AriaFeedArticleDescriptionController,
   AriaFeedArticleLabelController,
   AriaFeedController
-} from '../../controllers/aria.feed.controller'
-import { BaseElement } from '../core/base.element'
+} from '../../controllers/aria.feed.controller.js'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

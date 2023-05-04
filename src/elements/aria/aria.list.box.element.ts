@@ -11,8 +11,8 @@ import {
   WebElementLogger
 } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { AriaListBoxController, AriaListBoxOptionController } from '../../controllers/aria.list.box.controller'
-import { BaseElement } from '../core/base.element'
+import { AriaListBoxController, AriaListBoxOptionController } from '../../controllers/aria.list.box.controller.js'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

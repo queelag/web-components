@@ -1,8 +1,8 @@
 import { getLimitedNumber } from '@aracna/core'
 import { AriaMeterElementEventMap, DEFAULT_METER_MAX, DEFAULT_METER_MIN, DEFAULT_METER_VALUE, defineCustomElement } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
-import { AriaMeterController } from '../../controllers/aria.meter.controller'
-import { BaseElement } from '../core/base.element'
+import { AriaMeterController } from '../../controllers/aria.meter.controller.js'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

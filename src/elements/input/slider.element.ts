@@ -12,7 +12,7 @@ import {
   WebElementLogger
 } from '@aracna/web'
 import { html } from 'lit-html'
-import { AriaSliderElement, AriaSliderThumbElement } from '../aria/aria.slider.element'
+import { AriaSliderElement, AriaSliderThumbElement } from '../aria/aria.slider.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

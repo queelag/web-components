@@ -1,7 +1,7 @@
 import { ID, parseNumber } from '@aracna/core'
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../elements/aria/aria.menu.element'
+import type { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../elements/aria/aria.menu.element.js'
 
 export class AriaMenuController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaMenuElement) {

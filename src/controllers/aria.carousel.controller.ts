@@ -9,7 +9,7 @@ import type {
   AriaCarouselSlideElement,
   AriaCarouselSlidesElement,
   AriaCarouselTabElement
-} from '../elements/aria/aria.carousel.element'
+} from '../elements/aria/aria.carousel.element.js'
 
 export class AriaCarouselController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaCarouselElement) {

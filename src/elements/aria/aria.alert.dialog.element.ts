@@ -6,8 +6,8 @@ import {
   ElementName,
   QueryDeclarations
 } from '@aracna/web'
-import { AriaDialogController } from '../../controllers/aria.dialog.controller'
-import { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from './aria.dialog.element'
+import { AriaDialogController } from '../../controllers/aria.dialog.controller.js'
+import { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from './aria.dialog.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

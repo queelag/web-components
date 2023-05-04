@@ -7,7 +7,7 @@ import {
   QueryDeclarations
 } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
-import { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../aria/aria.dialog.element'
+import { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../aria/aria.dialog.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

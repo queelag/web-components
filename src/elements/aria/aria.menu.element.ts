@@ -16,9 +16,9 @@ import {
   setImmutableElementAttribute
 } from '@aracna/web'
 import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
-import { AriaMenuButtonController, AriaMenuController, AriaMenuItemController, AriaMenuSubMenuController } from '../../controllers/aria.menu.controller'
-import { BaseElement } from '../core/base.element'
-import { FloatingElement } from '../core/floating.element'
+import { AriaMenuButtonController, AriaMenuController, AriaMenuItemController, AriaMenuSubMenuController } from '../../controllers/aria.menu.controller.js'
+import { BaseElement } from '../core/base.element.js'
+import { FloatingElement } from '../core/floating.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -15,13 +15,13 @@ import {
 } from '@aracna/web'
 import DOMPurify from 'dompurify'
 import { PropertyDeclarations, TemplateResult, html, svg } from 'lit'
-import { DirectiveResult } from 'lit-html/directive'
-import { StyleMapDirective } from 'lit-html/directives/style-map'
-import { AriaIconController } from '../../controllers/aria.icon.controller'
-import { ifdef } from '../../directives/if.defined'
-import { styleMap } from '../../directives/style.map'
-import { unsafeSVG } from '../../directives/unsafe.svg'
-import { BaseElement } from '../core/base.element'
+import { DirectiveResult } from 'lit-html/directive.js'
+import { StyleMapDirective } from 'lit-html/directives/style-map.js'
+import { AriaIconController } from '../../controllers/aria.icon.controller.js'
+import { ifdef } from '../../directives/if.defined.js'
+import { styleMap } from '../../directives/style.map.js'
+import { unsafeSVG } from '../../directives/unsafe.svg.js'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

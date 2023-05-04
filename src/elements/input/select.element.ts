@@ -14,7 +14,7 @@ import {
 } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { map } from '../../directives/map'
+import { map } from '../../directives/map.js'
 import {
   AriaComboBoxButtonElement,
   AriaComboBoxElement,
@@ -22,7 +22,7 @@ import {
   AriaComboBoxInputElement,
   AriaComboBoxListElement,
   AriaComboBoxOptionElement
-} from '../aria/aria.combo.box.element'
+} from '../aria/aria.combo.box.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -1,6 +1,6 @@
 import { AriaAlertElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
-import { AriaAlertController } from '../../controllers/aria.alert.controller'
-import { BaseElement } from '../core/base.element'
+import { AriaAlertController } from '../../controllers/aria.alert.controller.js'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -8,9 +8,9 @@ import {
   WebElementLogger
 } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
-import { AriaDialogController, AriaDialogDescriptionController, AriaDialogLabelController } from '../../controllers/aria.dialog.controller'
-import { BaseElement } from '../core/base.element'
-import { FocusTrapElement } from '../core/focus.trap.element'
+import { AriaDialogController, AriaDialogDescriptionController, AriaDialogLabelController } from '../../controllers/aria.dialog.controller.js'
+import { BaseElement } from '../core/base.element.js'
+import { FocusTrapElement } from '../core/focus.trap.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

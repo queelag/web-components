@@ -1,7 +1,7 @@
 import { ButtonClickEvent, ButtonElementEventMap, ButtonType, ButtonVariant, defineCustomElement, ElementName, WebElementLogger } from '@aracna/web'
 import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
-import { ifdef } from '../../directives/if.defined'
-import { AriaButtonElement } from '../aria/aria.button.element'
+import { ifdef } from '../../directives/if.defined.js'
+import { AriaButtonElement } from '../aria/aria.button.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

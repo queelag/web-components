@@ -7,7 +7,7 @@ import {
   TooltipElementEventMap,
   TooltipTriggerElementEventMap
 } from '@aracna/web'
-import { AriaTooltipArrowElement, AriaTooltipContentElement, AriaTooltipElement, AriaTooltipTriggerElement } from '../aria/aria.tooltip.element'
+import { AriaTooltipArrowElement, AriaTooltipContentElement, AriaTooltipElement, AriaTooltipTriggerElement } from '../aria/aria.tooltip.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

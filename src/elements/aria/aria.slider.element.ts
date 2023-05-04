@@ -22,9 +22,9 @@ import {
   getSliderThumbElementStyleTop
 } from '@aracna/web'
 import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
-import { AriaSliderController, AriaSliderThumbController } from '../../controllers/aria.slider.controller'
-import { BaseElement } from '../core/base.element'
-import { FormFieldElement } from '../core/form.field.element'
+import { AriaSliderController, AriaSliderThumbController } from '../../controllers/aria.slider.controller.js'
+import { BaseElement } from '../core/base.element.js'
+import { FormFieldElement } from '../core/form.field.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

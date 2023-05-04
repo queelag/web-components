@@ -12,10 +12,10 @@ import {
 } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { DirectiveResult } from 'lit-html/directive'
-import { ifdef } from '../../directives/if.defined'
-import { styleMap } from '../../directives/style.map'
-import { FormFieldElement } from '../core/form.field.element'
+import { DirectiveResult } from 'lit-html/directive.js'
+import { ifdef } from '../../directives/if.defined.js'
+import { styleMap } from '../../directives/style.map.js'
+import { FormFieldElement } from '../core/form.field.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

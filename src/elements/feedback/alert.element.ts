@@ -1,6 +1,6 @@
 import { AlertElementEventMap, AlertSeverity, AlertVariant, defineCustomElement, ElementName } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
-import { AriaAlertElement } from '../aria/aria.alert.element'
+import { AriaAlertElement } from '../aria/aria.alert.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

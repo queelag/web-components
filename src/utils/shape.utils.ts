@@ -1,5 +1,5 @@
 import { getElementStyleCompatibleValue, Shape, ShapeOptions } from '@aracna/web'
-import { StyleInfo } from 'lit-html/directives/style-map'
+import { StyleInfo } from 'lit-html/directives/style-map.js'
 
 export function getShapeStyleInfo(shape?: Shape, options?: ShapeOptions): StyleInfo {
   switch (shape) {

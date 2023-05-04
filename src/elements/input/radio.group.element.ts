@@ -8,8 +8,8 @@ import {
   WebElementLogger
 } from '@aracna/web'
 import { html, PropertyDeclarations } from 'lit'
-import { map } from '../../directives/map'
-import { AriaRadioButtonElement, AriaRadioGroupElement } from '../aria/aria.radio.group.element'
+import { map } from '../../directives/map.js'
+import { AriaRadioButtonElement, AriaRadioGroupElement } from '../aria/aria.radio.group.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

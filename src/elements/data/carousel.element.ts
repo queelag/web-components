@@ -20,7 +20,7 @@ import {
   AriaCarouselSlidesElement,
   AriaCarouselTabElement,
   AriaCarouselTabsElement
-} from '../aria/aria.carousel.element'
+} from '../aria/aria.carousel.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

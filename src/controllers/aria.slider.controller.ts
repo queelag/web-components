@@ -1,6 +1,6 @@
 import { DEFAULT_SLIDER_MAX, DEFAULT_SLIDER_MIN, DEFAULT_SLIDER_ORIENTATION, DEFAULT_SLIDER_THUMB_VALUE, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaSliderElement, AriaSliderThumbElement } from '../elements/aria/aria.slider.element'
+import type { AriaSliderElement, AriaSliderThumbElement } from '../elements/aria/aria.slider.element.js'
 
 export class AriaSliderController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaSliderElement) {

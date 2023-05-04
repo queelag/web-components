@@ -1,7 +1,7 @@
 import { ID } from '@aracna/core'
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../elements/aria/aria.tabs.element'
+import type { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../elements/aria/aria.tabs.element.js'
 
 export class AriaTabsController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaTabsElement) {

@@ -1,8 +1,8 @@
 import { defineCustomElement, DividerElementEventMap, Orientation } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { choose } from '../../directives/choose'
-import { BaseElement } from '../core/base.element'
+import { choose } from '../../directives/choose.js'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

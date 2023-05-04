@@ -15,11 +15,11 @@ import {
 } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { DirectiveResult } from 'lit-html/directive'
-import { StyleMapDirective } from 'lit-html/directives/style-map'
-import { ifdef } from '../../directives/if.defined'
-import { styleMap } from '../../directives/style.map'
-import { BaseElement } from '../core/base.element'
+import { DirectiveResult } from 'lit-html/directive.js'
+import { StyleMapDirective } from 'lit-html/directives/style-map.js'
+import { ifdef } from '../../directives/if.defined.js'
+import { styleMap } from '../../directives/style.map.js'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

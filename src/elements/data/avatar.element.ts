@@ -1,7 +1,7 @@
 import { AvatarElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { BaseElement } from '../core/base.element'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

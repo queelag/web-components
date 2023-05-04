@@ -28,9 +28,9 @@ import {
   AriaCarouselSlidesController,
   AriaCarouselTabController,
   AriaCarouselTabsController
-} from '../../controllers/aria.carousel.controller'
-import { BaseElement } from '../core/base.element'
-import { AriaButtonElement } from './aria.button.element'
+} from '../../controllers/aria.carousel.controller.js'
+import { BaseElement } from '../core/base.element.js'
+import { AriaButtonElement } from './aria.button.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

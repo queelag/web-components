@@ -2,8 +2,8 @@ import { getNumberPercentage } from '@aracna/core'
 import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, defineCustomElement, MeterElementEventMap } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { ifdef } from '../../directives/if.defined'
-import { AriaMeterElement } from '../aria/aria.meter.element'
+import { ifdef } from '../../directives/if.defined.js'
+import { AriaMeterElement } from '../aria/aria.meter.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

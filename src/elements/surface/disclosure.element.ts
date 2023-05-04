@@ -7,7 +7,12 @@ import {
   ElementName,
   QueryDeclarations
 } from '@aracna/web'
-import { AriaDisclosureButtonElement, AriaDisclosureElement, AriaDisclosurePanelElement, AriaDisclosureSectionElement } from '../aria/aria.disclosure.element'
+import {
+  AriaDisclosureButtonElement,
+  AriaDisclosureElement,
+  AriaDisclosurePanelElement,
+  AriaDisclosureSectionElement
+} from '../aria/aria.disclosure.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

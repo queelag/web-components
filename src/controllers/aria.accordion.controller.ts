@@ -6,7 +6,7 @@ import type {
   AriaAccordionHeaderElement,
   AriaAccordionPanelElement,
   AriaAccordionSectionElement
-} from '../elements/aria/aria.accordion.element'
+} from '../elements/aria/aria.accordion.element.js'
 
 export class AriaAccordionButtonController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaAccordionButtonElement) {

@@ -1,3 +1,5 @@
+import { deleteShallowObjectUndefinedProperties, tcp } from '@aracna/core'
+import { FloatingElementEventMap } from '@aracna/web'
 import {
   arrow,
   autoUpdate,
@@ -10,10 +12,8 @@ import {
   Platform,
   Strategy
 } from '@floating-ui/dom'
-import { deleteShallowObjectUndefinedProperties, tcp } from '@aracna/core'
-import { FloatingElementEventMap } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
-import { BaseElement } from './base.element'
+import { BaseElement } from './base.element.js'
 
 export class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMap> extends BaseElement<E> {
   private _arrowElement?: HTMLElement

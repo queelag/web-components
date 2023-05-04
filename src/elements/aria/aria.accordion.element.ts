@@ -17,8 +17,8 @@ import {
   AriaAccordionHeaderController,
   AriaAccordionPanelController,
   AriaAccordionSectionController
-} from '../../controllers/aria.accordion.controller'
-import { BaseElement } from '../core/base.element'
+} from '../../controllers/aria.accordion.controller.js'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

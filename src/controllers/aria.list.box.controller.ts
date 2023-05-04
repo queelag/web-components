@@ -1,7 +1,7 @@
 import { ID } from '@aracna/core'
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaListBoxElement, AriaListBoxOptionElement } from '../elements/aria/aria.list.box.element'
+import type { AriaListBoxElement, AriaListBoxOptionElement } from '../elements/aria/aria.list.box.element.js'
 
 export class AriaListBoxController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaListBoxElement) {

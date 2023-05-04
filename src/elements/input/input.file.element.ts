@@ -2,7 +2,7 @@ import { AracnaFile, DeserializeFileOptions, deserializeFile, removeArrayItems }
 import { ElementName, InputFileElementEventMap, QueryDeclarations, WebElementLogger, defineCustomElement } from '@aracna/web'
 import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { html } from 'lit-html'
-import { FormFieldElement } from '../core/form.field.element'
+import { FormFieldElement } from '../core/form.field.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

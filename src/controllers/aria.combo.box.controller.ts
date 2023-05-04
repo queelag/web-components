@@ -7,7 +7,7 @@ import type {
   AriaComboBoxInputElement,
   AriaComboBoxListElement,
   AriaComboBoxOptionElement
-} from '../elements/aria/aria.combo.box.element'
+} from '../elements/aria/aria.combo.box.element.js'
 
 export class AriaComboBoxController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaComboBoxElement) {

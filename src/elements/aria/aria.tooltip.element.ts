@@ -10,9 +10,9 @@ import {
   WebElementLogger
 } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { AriaTooltipContentController, AriaTooltipController, AriaTooltipTriggerController } from '../../controllers/aria.tooltip.controller'
-import { BaseElement } from '../core/base.element'
-import { FloatingElement } from '../core/floating.element'
+import { AriaTooltipContentController, AriaTooltipController, AriaTooltipTriggerController } from '../../controllers/aria.tooltip.controller.js'
+import { BaseElement } from '../core/base.element.js'
+import { FloatingElement } from '../core/floating.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

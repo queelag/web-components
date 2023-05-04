@@ -7,8 +7,8 @@ import {
   QueryDeclarations
 } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
-import { AriaBreadcrumbController, AriaBreadcrumbItemController, AriaBreadcrumbListController } from '../../controllers/aria.breadcrumb.controller'
-import { BaseElement } from '../core/base.element'
+import { AriaBreadcrumbController, AriaBreadcrumbItemController, AriaBreadcrumbListController } from '../../controllers/aria.breadcrumb.controller.js'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

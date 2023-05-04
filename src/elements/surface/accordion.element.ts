@@ -14,7 +14,7 @@ import {
   AriaAccordionHeaderElement,
   AriaAccordionPanelElement,
   AriaAccordionSectionElement
-} from '../aria/aria.accordion.element'
+} from '../aria/aria.accordion.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -1,7 +1,7 @@
 import { ID } from '@aracna/core'
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaRadioButtonElement, AriaRadioGroupElement } from '../elements/aria/aria.radio.group.element'
+import type { AriaRadioButtonElement, AriaRadioGroupElement } from '../elements/aria/aria.radio.group.element.js'
 
 export class AriaRadioGroupController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaRadioGroupElement) {

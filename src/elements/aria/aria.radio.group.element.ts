@@ -8,9 +8,9 @@ import {
   WebElementLogger
 } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { AriaRadioButtonController, AriaRadioGroupController } from '../../controllers/aria.radio.group.controller'
-import { BaseElement } from '../core/base.element'
-import { FormFieldElement } from '../core/form.field.element'
+import { AriaRadioButtonController, AriaRadioGroupController } from '../../controllers/aria.radio.group.controller.js'
+import { BaseElement } from '../core/base.element.js'
+import { FormFieldElement } from '../core/form.field.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

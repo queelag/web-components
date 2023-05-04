@@ -12,9 +12,9 @@ import {
   FocusTrapSetReturnFocus,
   WebElementLogger
 } from '@aracna/web'
-import { ActivateOptions, createFocusTrap, DeactivateOptions, FocusTarget, FocusTargetOrFalse, FocusTrap, Options } from 'focus-trap'
+import { ActivateOptions, DeactivateOptions, FocusTarget, FocusTargetOrFalse, FocusTrap, Options, createFocusTrap } from 'focus-trap'
 import { PropertyDeclarations } from 'lit'
-import { BaseElement } from './base.element'
+import { BaseElement } from './base.element.js'
 
 export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElementEventMap> extends BaseElement<E> {
   /**

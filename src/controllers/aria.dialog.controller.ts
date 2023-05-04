@@ -1,6 +1,6 @@
 import { ID } from '@aracna/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../elements/aria/aria.dialog.element'
+import type { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../elements/aria/aria.dialog.element.js'
 
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 

@@ -1,6 +1,6 @@
 import { setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import { AriaButtonElement } from '../elements/aria/aria.button.element'
+import { AriaButtonElement } from '../elements/aria/aria.button.element.js'
 
 export class AriaButtonController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaButtonElement) {

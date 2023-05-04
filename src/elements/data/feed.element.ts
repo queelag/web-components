@@ -7,7 +7,7 @@ import {
   FeedElementEventMap,
   QueryDeclarations
 } from '@aracna/web'
-import { AriaFeedArticleDescriptionElement, AriaFeedArticleElement, AriaFeedArticleLabelElement, AriaFeedElement } from '../aria/aria.feed.element'
+import { AriaFeedArticleDescriptionElement, AriaFeedArticleElement, AriaFeedArticleLabelElement, AriaFeedElement } from '../aria/aria.feed.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -1,7 +1,7 @@
 import { AriaButtonElementEventMap, ButtonPressed, defineCustomElement, ElementName, KeyboardEventKey, WebElementLogger } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { AriaButtonController } from '../../controllers/aria.button.controller'
-import { BaseElement } from '../core/base.element'
+import { AriaButtonController } from '../../controllers/aria.button.controller.js'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

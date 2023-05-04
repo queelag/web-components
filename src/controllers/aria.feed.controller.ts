@@ -6,7 +6,7 @@ import type {
   AriaFeedArticleElement,
   AriaFeedArticleLabelElement,
   AriaFeedElement
-} from '../elements/aria/aria.feed.element'
+} from '../elements/aria/aria.feed.element.js'
 
 export class AriaFeedController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaFeedElement) {

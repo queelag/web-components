@@ -7,7 +7,7 @@ import {
   WebElementLogger
 } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
-import { BaseElement } from '../core/base.element'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

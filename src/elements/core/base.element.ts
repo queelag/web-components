@@ -2,23 +2,23 @@ import { ID, parseNumber } from '@aracna/core'
 import {
   AttributeChangeEvent,
   BaseElementEventMap,
+  ELEMENT_UID_GENERATE_OPTIONS,
   ElementCollector,
   ElementName,
-  ELEMENT_UID_GENERATE_OPTIONS,
-  getElementStyleCompatibleValue,
   Layer,
   QueryDeclaration,
   QueryDeclarations,
-  setImmutableElementAttribute,
   Shape,
-  Size
+  Size,
+  getElementStyleCompatibleValue,
+  setImmutableElementAttribute
 } from '@aracna/web'
-import { css, CSSResultGroup, html, LitElement, PropertyDeclarations, TemplateResult } from 'lit'
-import { DirectiveResult } from 'lit-html/directive'
-import { StyleInfo } from 'lit-html/directives/style-map'
-import { styleMap } from '../../directives/style.map'
-import { getShapeStyleInfo } from '../../utils/shape.utils'
-import { getSquircleHTML } from '../../utils/squircle.utils'
+import { CSSResultGroup, LitElement, PropertyDeclarations, TemplateResult, css, html } from 'lit'
+import { DirectiveResult } from 'lit-html/directive.js'
+import { StyleInfo } from 'lit-html/directives/style-map.js'
+import { styleMap } from '../../directives/style.map.js'
+import { getShapeStyleInfo } from '../../utils/shape.utils.js'
+import { getSquircleHTML } from '../../utils/squircle.utils.js'
 
 export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends LitElement {
   /**

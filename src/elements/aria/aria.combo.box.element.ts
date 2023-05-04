@@ -25,10 +25,10 @@ import {
   AriaComboBoxInputController,
   AriaComboBoxListController,
   AriaComboBoxOptionController
-} from '../../controllers/aria.combo.box.controller'
-import { BaseElement } from '../core/base.element'
-import { FloatingElement } from '../core/floating.element'
-import { FormFieldElement } from '../core/form.field.element'
+} from '../../controllers/aria.combo.box.controller.js'
+import { BaseElement } from '../core/base.element.js'
+import { FloatingElement } from '../core/floating.element.js'
+import { FormFieldElement } from '../core/form.field.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

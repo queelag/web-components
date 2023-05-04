@@ -2,7 +2,7 @@ import { getLimitedNumber, parseNumber } from '@aracna/core'
 import { BadgeElementEventMap, DEFAULT_BADGE_MAX, DEFAULT_BADGE_MIN, defineCustomElement } from '@aracna/web'
 import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { html } from 'lit-html'
-import { BaseElement } from '../core/base.element'
+import { BaseElement } from '../core/base.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {

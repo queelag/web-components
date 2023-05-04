@@ -1,7 +1,7 @@
 import { ID } from '@aracna/core'
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaDisclosureButtonElement, AriaDisclosurePanelElement, AriaDisclosureSectionElement } from '../elements/aria/aria.disclosure.element'
+import type { AriaDisclosureButtonElement, AriaDisclosurePanelElement, AriaDisclosureSectionElement } from '../elements/aria/aria.disclosure.element.js'
 
 export class AriaDisclosureButtonController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaDisclosureButtonElement) {

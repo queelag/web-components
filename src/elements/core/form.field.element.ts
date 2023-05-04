@@ -8,7 +8,7 @@ import {
   WebElementLogger
 } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
-import { BaseElement } from './base.element'
+import { BaseElement } from './base.element.js'
 
 export class FormFieldElement<E extends FormFieldElementEventMap = FormFieldElementEventMap> extends BaseElement<E> {
   /**

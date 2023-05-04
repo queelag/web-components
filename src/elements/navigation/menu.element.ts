@@ -8,7 +8,7 @@ import {
   MenuSubMenuElementEventMap,
   QueryDeclarations
 } from '@aracna/web'
-import { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../aria/aria.menu.element'
+import { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../aria/aria.menu.element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
