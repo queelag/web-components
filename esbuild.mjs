@@ -16,6 +16,7 @@ build({
   entryPoints: await glob('./src/**/*.ts'),
   format: 'esm',
   outdir: 'dist',
+  outExtension: { '.js': '.mjs' },
   packages: 'external',
   platform: 'neutral'
 }).catch(() => process.exit(1))
@@ -29,7 +30,7 @@ for (let element of await glob('./src/elements/**/*.ts')) {
     bundle: true,
     entryPoints: [element],
     format: 'cjs',
-    outfile: element.replace('src', 'dist').replace('.ts', '.cjs.js'),
+    outfile: element.replace('src', 'dist').replace('.ts', '.js'),
     platform: 'browser',
     treeShaking: true
   }).catch(() => process.exit(1))
@@ -43,7 +44,7 @@ build({
   bundle: true,
   entryPoints: ['src/index.ts'],
   format: 'iife',
-  globalName: 'AracnaCore',
+  globalName: 'AracnaWebComponents',
   outfile: 'dist/index.iife.js',
   platform: 'browser',
   treeShaking: true

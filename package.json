@@ -31,7 +31,8 @@
     "vitest": "latest"
   },
   "license": "MIT",
-  "main": "index.js",
+  "main": "index.mjs",
+  "module": "index.mjs",
   "name": "@aracna/web-components",
   "peerDependencies": {
     "@aracna/core": ">= 1.1.0",
@@ -66,5 +67,6 @@
     "playground:preview": "yarn astro preview --root ./playground"
   },
   "sideEffects": false,
+  "type": "module",
   "version": "1.0.15"
 }
