@@ -67,5 +67,5 @@
     "playground:preview": "yarn astro preview --root ./playground"
   },
   "sideEffects": false,
-  "version": "1.0.16"
+  "version": "1.0.17"
 }
