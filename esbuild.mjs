@@ -29,7 +29,7 @@ for (let element of await glob('./src/elements/**/*.ts')) {
     entryPoints: [element],
     format: 'cjs',
     outfile: element.replace('src', 'dist').replace('.ts', '.cjs'),
-    platform: 'neutral',
+    platform: 'browser',
     treeShaking: true
   }).catch(() => process.exit(1))
 }
