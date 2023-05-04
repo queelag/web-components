@@ -1,3 +1,4 @@
+import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
 import { when } from 'lit-html/directives/when.js'
 import '../../../../src/elements/data/carousel.element'
@@ -132,6 +133,7 @@ export default class Carousel extends LitElement {
     }
 
     aracna-carousel-slide aracna-image {
+      filter: invert(1);
       width: 100%;
     }
 

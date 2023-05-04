@@ -1,5 +1,6 @@
 import { sleep } from '@aracna/core'
 import type { FormSubmitEvent } from '@aracna/web'
+import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
 import '../../../../src/elements/input/form.element'
 import '../../../../src/elements/input/input.element'

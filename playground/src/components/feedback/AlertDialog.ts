@@ -1,3 +1,4 @@
+import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement, PropertyDeclarations } from 'lit'
 import '../../../../src/elements/feedback/alert.dialog.element'
 import '../../../../src/elements/input/button.element'

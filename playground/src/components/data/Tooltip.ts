@@ -1,3 +1,4 @@
+import { defineCustomElement } from '@aracna/web'
 import { offset } from '@floating-ui/dom'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
 import '../../../../src/elements/data/tooltip.element'

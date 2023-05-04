@@ -1,4 +1,5 @@
 import type { AracnaFile } from '@aracna/core'
+import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
 import { map } from 'lit-html/directives/map.js'
 import { createRef, Ref, ref } from 'lit-html/directives/ref.js'

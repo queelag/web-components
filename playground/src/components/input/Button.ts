@@ -1,5 +1,6 @@
 import { sleep } from '@aracna/core'
 import type { ButtonClickEvent } from '@aracna/web'
+import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
 import '../../../../src/elements/input/button.element'
 

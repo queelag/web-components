@@ -1,3 +1,4 @@
+import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
 import '../../../../src/elements/data/image.element'
 
@@ -18,6 +19,10 @@ export default class Image extends LitElement {
   static styles?: CSSResultGroup | undefined = css`
     * {
       box-sizing: border-box;
+    }
+
+    aracna-image {
+      filter: invert(1);
     }
   `
 }

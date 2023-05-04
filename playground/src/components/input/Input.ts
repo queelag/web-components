@@ -1,4 +1,5 @@
 import type { StateChangeEvent } from '@aracna/web'
+import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
 import { createRef, Ref, ref } from 'lit-html/directives/ref.js'
 import { when } from 'lit-html/directives/when.js'

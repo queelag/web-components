@@ -1,3 +1,4 @@
+import { defineCustomElement } from '@aracna/web'
 import { Middleware, offset } from '@floating-ui/dom'
 import { CSSResultGroup, LitElement, css, html } from 'lit'
 import '../../../../src/elements/data/icon.element'

@@ -1,8 +1,7 @@
 import { getLowestNumber, getNumberPercentage, getNumbersDistance } from '@aracna/core'
 import type { SliderChangeEvent } from '@aracna/web'
+import { defineCustomElement } from '@aracna/web'
 import { CSSResultGroup, LitElement, css, html } from 'lit'
-import type { DirectiveResult } from 'lit-html/directive'
-import { styleMap } from 'lit-html/directives/style-map.js'
 import { when } from 'lit-html/directives/when.js'
 import '../../../../src/elements/input/slider.element'
 
@@ -26,19 +25,22 @@ export default class Slider extends LitElement {
           this.multiple,
           () => html`
             <aracna-slider-thumb background="green" shape="circle" size="20" value="75"></aracna-slider-thumb>
-            <div class="foreground" style=${this.foregroundStyleMap}></div>
+            <div
+              class="foreground"
+              style="left: ${getLowestNumber(this.percentages) + '%'}; width: ${getNumbersDistance(this.percentages[0], this.percentages[1]) + '%'}"
+            ></div>
           `
         )}
       </aracna-slider>
     `
   }
 
-  get foregroundStyleMap(): DirectiveResult {
-    return styleMap({
-      left: getLowestNumber(this.percentages) + '%',
-      width: getNumbersDistance(this.percentages[0], this.percentages[1]) + '%'
-    })
-  }
+  // get foregroundStyleMap(): DirectiveResult {
+  //   return styleMap({
+  //     left: getLowestNumber(this.percentages) + '%',
+  //     width: getNumbersDistance(this.percentages[0], this.percentages[1]) + '%'
+  //   })
+  // }
 
   static styles?: CSSResultGroup | undefined = css`
     * {

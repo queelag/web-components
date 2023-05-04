@@ -42,6 +42,8 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
   sanitizeConfig?: IconElementSanitizeConfig
   src?: string
   stroke?: string
+  strokeLineCap?: string
+  strokeLineJoin?: string
   strokeWidth?: string
 
   /**
@@ -151,6 +153,8 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     return html`<svg
       fill=${ifdef(this.fill)}
       stroke=${ifdef(this.stroke)}
+      stroke-linecap=${ifdef(this.strokeLineCap)}
+      stroke-linejoin=${ifdef(this.strokeLineJoin)}
       stroke-width=${ifdef(this.strokeWidth)}
       style=${this.svgElementStyle}
       viewBox=${this.svgElementViewBox}
@@ -195,6 +199,8 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     sanitizeConfig: { type: Object, attribute: 'sanitize-config' },
     src: { type: String, reflect: true },
     stroke: { type: String, reflect: true },
+    strokeLineCap: { type: String, reflect: true, attribute: 'stroke-linecap' },
+    strokeLineJoin: { type: String, reflect: true, attribute: 'stroke-linejoin' },
     strokeWidth: { type: String, attribute: 'stroke-width', reflect: true },
     svgElement: { state: true }
   }
