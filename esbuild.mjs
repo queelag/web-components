@@ -23,17 +23,26 @@ build({
 /**
  * CJS
  */
-for (let element of await glob('./src/elements/**/*.ts')) {
-  build({
-    ...OPTIONS,
-    bundle: true,
-    entryPoints: [element],
-    format: 'cjs',
-    outfile: element.replace('src', 'dist').replace('.ts', '.js'),
-    platform: 'browser',
-    treeShaking: true
-  }).catch(() => process.exit(1))
-}
+build({
+  ...OPTIONS,
+  entryPoints: await glob('./src/**/*.ts'),
+  format: 'cjs',
+  outdir: 'dist',
+  packages: 'external',
+  platform: 'neutral'
+}).catch(() => process.exit(1))
+
+// for (let element of await glob('./src/elements/**/*.ts')) {
+//   build({
+//     ...OPTIONS,
+//     bundle: true,
+//     entryPoints: [element],
+//     format: 'cjs',
+//     outfile: element.replace('src', 'dist').replace('.ts', '.js'),
+//     platform: 'browser',
+//     treeShaking: true
+//   }).catch(() => process.exit(1))
+// }
 
 /**
  * IIFE
