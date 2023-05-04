@@ -4,7 +4,6 @@ import { glob } from 'glob'
 /** @type {import('esbuild').BuildOptions} */
 const OPTIONS = {
   logLevel: 'info',
-  logOverride: { 'import-is-undefined': 'silent' },
   minify: true
 }
 
