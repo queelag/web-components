@@ -1,36 +1,440 @@
 {
   "author": "Dario Sechi",
   "devDependencies": {
-    "@aracna/core": "latest",
-    "@aracna/web": "latest",
-    "@astrojs/lit": "latest",
-    "@astrojs/tailwind": "latest",
-    "@floating-ui/dom": "latest",
-    "@microsoft/api-extractor": "latest",
-    "@types/dompurify": "latest",
-    "@vitest/coverage-c8": "latest",
-    "@vitest/ui": "latest",
-    "@webcomponents/template-shadowroot": "latest",
-    "astro": "latest",
-    "dompurify": "latest",
-    "esbuild": "latest",
-    "focus-trap": "latest",
-    "glob": "latest",
-    "jsdom": "latest",
-    "lit": "latest",
-    "lit-html": "latest",
-    "prettier": "latest",
-    "resize-observer-polyfill": "latest",
-    "tabbable": "latest",
-    "tailwindcss": "latest",
-    "ts-lit-plugin": "latest",
-    "tslib": "latest",
-    "typedoc": "latest",
-    "typescript": "latest",
-    "vitest": "latest"
+    "@aracna/core": "^1.1.25",
+    "@aracna/web": "^1.0.24",
+    "@astrojs/lit": "^2.0.1",
+    "@astrojs/tailwind": "^3.1.2",
+    "@floating-ui/dom": "^1.2.7",
+    "@microsoft/api-extractor": "^7.34.8",
+    "@types/dompurify": "^3.0.2",
+    "@vitest/coverage-c8": "^0.31.0",
+    "@vitest/ui": "^0.31.0",
+    "@webcomponents/template-shadowroot": "^0.2.1",
+    "astro": "^2.4.1",
+    "dompurify": "^3.0.2",
+    "esbuild": "^0.17.18",
+    "esbuild-plugin-minify-html-literals": "^1.0.4",
+    "focus-trap": "^7.4.0",
+    "glob": "^10.2.2",
+    "jsdom": "^22.0.0",
+    "lit": "^2.7.4",
+    "lit-html": "^2.7.3",
+    "prettier": "^2.8.8",
+    "resize-observer-polyfill": "^1.5.1",
+    "superstruct": "^1.0.3",
+    "tabbable": "^6.1.2",
+    "tailwindcss": "^3.3.2",
+    "ts-lit-plugin": "^1.2.1",
+    "tslib": "^2.5.0",
+    "typedoc": "^0.24.6",
+    "typescript": "^5.0.4",
+    "vitest": "^0.31.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": {
+        "default": "./index.cjs.js",
+        "types": "./index.d.ts"
+      }
+    },
+    "./surface/disclosure": {
+      "import": "./elements/surface/disclosure-element.js",
+      "require": {
+        "default": "./elements/surface/disclosure-element.cjs.js",
+        "types": "./elements/surface/disclosure-element.d.ts"
+      }
+    },
+    "./surface/accordion": {
+      "import": "./elements/surface/accordion-element.js",
+      "require": {
+        "default": "./elements/surface/accordion-element.cjs.js",
+        "types": "./elements/surface/accordion-element.d.ts"
+      }
+    },
+    "./navigation/tabs": {
+      "import": "./elements/navigation/tabs-element.js",
+      "require": {
+        "default": "./elements/navigation/tabs-element.cjs.js",
+        "types": "./elements/navigation/tabs-element.d.ts"
+      }
+    },
+    "./navigation/navigation-rail": {
+      "import": "./elements/navigation/navigation-rail-element.js",
+      "require": {
+        "default": "./elements/navigation/navigation-rail-element.cjs.js",
+        "types": "./elements/navigation/navigation-rail-element.d.ts"
+      }
+    },
+    "./navigation/navigation-bar": {
+      "import": "./elements/navigation/navigation-bar-element.js",
+      "require": {
+        "default": "./elements/navigation/navigation-bar-element.cjs.js",
+        "types": "./elements/navigation/navigation-bar-element.d.ts"
+      }
+    },
+    "./navigation/menu": {
+      "import": "./elements/navigation/menu-element.js",
+      "require": {
+        "default": "./elements/navigation/menu-element.cjs.js",
+        "types": "./elements/navigation/menu-element.d.ts"
+      }
+    },
+    "./navigation/breadcrumb": {
+      "import": "./elements/navigation/breadcrumb-element.js",
+      "require": {
+        "default": "./elements/navigation/breadcrumb-element.cjs.js",
+        "types": "./elements/navigation/breadcrumb-element.d.ts"
+      }
+    },
+    "./layout/divider": {
+      "import": "./elements/layout/divider-element.js",
+      "require": {
+        "default": "./elements/layout/divider-element.cjs.js",
+        "types": "./elements/layout/divider-element.d.ts"
+      }
+    },
+    "./input/text-area": {
+      "import": "./elements/input/text-area-element.js",
+      "require": {
+        "default": "./elements/input/text-area-element.cjs.js",
+        "types": "./elements/input/text-area-element.d.ts"
+      }
+    },
+    "./input/switch": {
+      "import": "./elements/input/switch-element.js",
+      "require": {
+        "default": "./elements/input/switch-element.cjs.js",
+        "types": "./elements/input/switch-element.d.ts"
+      }
+    },
+    "./input/slider": {
+      "import": "./elements/input/slider-element.js",
+      "require": {
+        "default": "./elements/input/slider-element.cjs.js",
+        "types": "./elements/input/slider-element.d.ts"
+      }
+    },
+    "./input/select": {
+      "import": "./elements/input/select-element.js",
+      "require": {
+        "default": "./elements/input/select-element.cjs.js",
+        "types": "./elements/input/select-element.d.ts"
+      }
+    },
+    "./input/radio-group": {
+      "import": "./elements/input/radio-group-element.js",
+      "require": {
+        "default": "./elements/input/radio-group-element.cjs.js",
+        "types": "./elements/input/radio-group-element.d.ts"
+      }
+    },
+    "./input/input-file": {
+      "import": "./elements/input/input-file-element.js",
+      "require": {
+        "default": "./elements/input/input-file-element.cjs.js",
+        "types": "./elements/input/input-file-element.d.ts"
+      }
+    },
+    "./input/input": {
+      "import": "./elements/input/input-element.js",
+      "require": {
+        "default": "./elements/input/input-element.cjs.js",
+        "types": "./elements/input/input-element.d.ts"
+      }
+    },
+    "./input/form": {
+      "import": "./elements/input/form-element.js",
+      "require": {
+        "default": "./elements/input/form-element.cjs.js",
+        "types": "./elements/input/form-element.d.ts"
+      }
+    },
+    "./input/check-box": {
+      "import": "./elements/input/check-box-element.js",
+      "require": {
+        "default": "./elements/input/check-box-element.cjs.js",
+        "types": "./elements/input/check-box-element.d.ts"
+      }
+    },
+    "./input/button-group": {
+      "import": "./elements/input/button-group-element.js",
+      "require": {
+        "default": "./elements/input/button-group-element.cjs.js",
+        "types": "./elements/input/button-group-element.d.ts"
+      }
+    },
+    "./input/button": {
+      "import": "./elements/input/button-element.js",
+      "require": {
+        "default": "./elements/input/button-element.cjs.js",
+        "types": "./elements/input/button-element.d.ts"
+      }
+    },
+    "./feedback/meter": {
+      "import": "./elements/feedback/meter-element.js",
+      "require": {
+        "default": "./elements/feedback/meter-element.cjs.js",
+        "types": "./elements/feedback/meter-element.d.ts"
+      }
+    },
+    "./feedback/dialog": {
+      "import": "./elements/feedback/dialog-element.js",
+      "require": {
+        "default": "./elements/feedback/dialog-element.cjs.js",
+        "types": "./elements/feedback/dialog-element.d.ts"
+      }
+    },
+    "./feedback/alert": {
+      "import": "./elements/feedback/alert-element.js",
+      "require": {
+        "default": "./elements/feedback/alert-element.cjs.js",
+        "types": "./elements/feedback/alert-element.d.ts"
+      }
+    },
+    "./feedback/alert-dialog": {
+      "import": "./elements/feedback/alert-dialog-element.js",
+      "require": {
+        "default": "./elements/feedback/alert-dialog-element.cjs.js",
+        "types": "./elements/feedback/alert-dialog-element.d.ts"
+      }
+    },
+    "./data/tooltip": {
+      "import": "./elements/data/tooltip-element.js",
+      "require": {
+        "default": "./elements/data/tooltip-element.cjs.js",
+        "types": "./elements/data/tooltip-element.d.ts"
+      }
+    },
+    "./data/list": {
+      "import": "./elements/data/list-element.js",
+      "require": {
+        "default": "./elements/data/list-element.cjs.js",
+        "types": "./elements/data/list-element.d.ts"
+      }
+    },
+    "./data/image": {
+      "import": "./elements/data/image-element.js",
+      "require": {
+        "default": "./elements/data/image-element.cjs.js",
+        "types": "./elements/data/image-element.d.ts"
+      }
+    },
+    "./data/icon": {
+      "import": "./elements/data/icon-element.js",
+      "require": {
+        "default": "./elements/data/icon-element.cjs.js",
+        "types": "./elements/data/icon-element.d.ts"
+      }
+    },
+    "./data/feed": {
+      "import": "./elements/data/feed-element.js",
+      "require": {
+        "default": "./elements/data/feed-element.cjs.js",
+        "types": "./elements/data/feed-element.d.ts"
+      }
+    },
+    "./data/chip": {
+      "import": "./elements/data/chip-element.js",
+      "require": {
+        "default": "./elements/data/chip-element.cjs.js",
+        "types": "./elements/data/chip-element.d.ts"
+      }
+    },
+    "./data/carousel": {
+      "import": "./elements/data/carousel-element.js",
+      "require": {
+        "default": "./elements/data/carousel-element.cjs.js",
+        "types": "./elements/data/carousel-element.d.ts"
+      }
+    },
+    "./data/badge": {
+      "import": "./elements/data/badge-element.js",
+      "require": {
+        "default": "./elements/data/badge-element.cjs.js",
+        "types": "./elements/data/badge-element.d.ts"
+      }
+    },
+    "./data/avatar": {
+      "import": "./elements/data/avatar-element.js",
+      "require": {
+        "default": "./elements/data/avatar-element.cjs.js",
+        "types": "./elements/data/avatar-element.d.ts"
+      }
+    },
+    "./core/form-field": {
+      "import": "./elements/core/form-field-element.js",
+      "require": {
+        "default": "./elements/core/form-field-element.cjs.js",
+        "types": "./elements/core/form-field-element.d.ts"
+      }
+    },
+    "./core/focus-trap": {
+      "import": "./elements/core/focus-trap-element.js",
+      "require": {
+        "default": "./elements/core/focus-trap-element.cjs.js",
+        "types": "./elements/core/focus-trap-element.d.ts"
+      }
+    },
+    "./core/floating": {
+      "import": "./elements/core/floating-element.js",
+      "require": {
+        "default": "./elements/core/floating-element.cjs.js",
+        "types": "./elements/core/floating-element.d.ts"
+      }
+    },
+    "./core/base": {
+      "import": "./elements/core/base-element.js",
+      "require": {
+        "default": "./elements/core/base-element.cjs.js",
+        "types": "./elements/core/base-element.d.ts"
+      }
+    },
+    "./aria/aria-tooltip": {
+      "import": "./elements/aria/aria-tooltip-element.js",
+      "require": {
+        "default": "./elements/aria/aria-tooltip-element.cjs.js",
+        "types": "./elements/aria/aria-tooltip-element.d.ts"
+      }
+    },
+    "./aria/aria-tabs": {
+      "import": "./elements/aria/aria-tabs-element.js",
+      "require": {
+        "default": "./elements/aria/aria-tabs-element.cjs.js",
+        "types": "./elements/aria/aria-tabs-element.d.ts"
+      }
+    },
+    "./aria/aria-switch": {
+      "import": "./elements/aria/aria-switch-element.js",
+      "require": {
+        "default": "./elements/aria/aria-switch-element.cjs.js",
+        "types": "./elements/aria/aria-switch-element.d.ts"
+      }
+    },
+    "./aria/aria-slider": {
+      "import": "./elements/aria/aria-slider-element.js",
+      "require": {
+        "default": "./elements/aria/aria-slider-element.cjs.js",
+        "types": "./elements/aria/aria-slider-element.d.ts"
+      }
+    },
+    "./aria/aria-radio-group": {
+      "import": "./elements/aria/aria-radio-group-element.js",
+      "require": {
+        "default": "./elements/aria/aria-radio-group-element.cjs.js",
+        "types": "./elements/aria/aria-radio-group-element.d.ts"
+      }
+    },
+    "./aria/aria-meter": {
+      "import": "./elements/aria/aria-meter-element.js",
+      "require": {
+        "default": "./elements/aria/aria-meter-element.cjs.js",
+        "types": "./elements/aria/aria-meter-element.d.ts"
+      }
+    },
+    "./aria/aria-menu": {
+      "import": "./elements/aria/aria-menu-element.js",
+      "require": {
+        "default": "./elements/aria/aria-menu-element.cjs.js",
+        "types": "./elements/aria/aria-menu-element.d.ts"
+      }
+    },
+    "./aria/aria-list-box": {
+      "import": "./elements/aria/aria-list-box-element.js",
+      "require": {
+        "default": "./elements/aria/aria-list-box-element.cjs.js",
+        "types": "./elements/aria/aria-list-box-element.d.ts"
+      }
+    },
+    "./aria/aria-link": {
+      "import": "./elements/aria/aria-link-element.js",
+      "require": {
+        "default": "./elements/aria/aria-link-element.cjs.js",
+        "types": "./elements/aria/aria-link-element.d.ts"
+      }
+    },
+    "./aria/aria-feed": {
+      "import": "./elements/aria/aria-feed-element.js",
+      "require": {
+        "default": "./elements/aria/aria-feed-element.cjs.js",
+        "types": "./elements/aria/aria-feed-element.d.ts"
+      }
+    },
+    "./aria/aria-disclosure": {
+      "import": "./elements/aria/aria-disclosure-element.js",
+      "require": {
+        "default": "./elements/aria/aria-disclosure-element.cjs.js",
+        "types": "./elements/aria/aria-disclosure-element.d.ts"
+      }
+    },
+    "./aria/aria-dialog": {
+      "import": "./elements/aria/aria-dialog-element.js",
+      "require": {
+        "default": "./elements/aria/aria-dialog-element.cjs.js",
+        "types": "./elements/aria/aria-dialog-element.d.ts"
+      }
+    },
+    "./aria/aria-combo-box": {
+      "import": "./elements/aria/aria-combo-box-element.js",
+      "require": {
+        "default": "./elements/aria/aria-combo-box-element.cjs.js",
+        "types": "./elements/aria/aria-combo-box-element.d.ts"
+      }
+    },
+    "./aria/aria-check-box": {
+      "import": "./elements/aria/aria-check-box-element.js",
+      "require": {
+        "default": "./elements/aria/aria-check-box-element.cjs.js",
+        "types": "./elements/aria/aria-check-box-element.d.ts"
+      }
+    },
+    "./aria/aria-carousel": {
+      "import": "./elements/aria/aria-carousel-element.js",
+      "require": {
+        "default": "./elements/aria/aria-carousel-element.cjs.js",
+        "types": "./elements/aria/aria-carousel-element.d.ts"
+      }
+    },
+    "./aria/aria-button": {
+      "import": "./elements/aria/aria-button-element.js",
+      "require": {
+        "default": "./elements/aria/aria-button-element.cjs.js",
+        "types": "./elements/aria/aria-button-element.d.ts"
+      }
+    },
+    "./aria/aria-breadcrumb": {
+      "import": "./elements/aria/aria-breadcrumb-element.js",
+      "require": {
+        "default": "./elements/aria/aria-breadcrumb-element.cjs.js",
+        "types": "./elements/aria/aria-breadcrumb-element.d.ts"
+      }
+    },
+    "./aria/aria-alert": {
+      "import": "./elements/aria/aria-alert-element.js",
+      "require": {
+        "default": "./elements/aria/aria-alert-element.cjs.js",
+        "types": "./elements/aria/aria-alert-element.d.ts"
+      }
+    },
+    "./aria/aria-alert-dialog": {
+      "import": "./elements/aria/aria-alert-dialog-element.js",
+      "require": {
+        "default": "./elements/aria/aria-alert-dialog-element.cjs.js",
+        "types": "./elements/aria/aria-alert-dialog-element.d.ts"
+      }
+    },
+    "./aria/aria-accordion": {
+      "import": "./elements/aria/aria-accordion-element.js",
+      "require": {
+        "default": "./elements/aria/aria-accordion-element.cjs.js",
+        "types": "./elements/aria/aria-accordion-element.d.ts"
+      }
+    }
   },
   "license": "MIT",
-  "main": "index.js",
+  "main": "index.cjs.js",
+  "module": "index.js",
   "name": "@aracna/web-components",
   "peerDependencies": {
     "@aracna/core": ">= 1.1.0",
@@ -38,6 +442,8 @@
     "@floating-ui/dom": ">= 1.0.0",
     "dompurify": ">= 2.4.0",
     "focus-trap": ">= 7.0.0",
+    "lit": ">= 2.7.0",
+    "lit-html": ">= 2.7.0",
     "tabbable": ">= 6.0.0"
   },
   "peerDependenciesMeta": {
@@ -57,7 +463,7 @@
   "repository": "https://github.com/aracna/web-components",
   "scripts": {
     "test": "vitest run",
-    "build": "rm -rf dist && node esbuild.mjs && yarn tsc && node scripts/emit.cjs.declarations.mjs && yarn api-extractor run --local",
+    "build": "rm -rf dist && node esbuild.mjs && yarn tsc && yarn api-extractor run --local",
     "tarball": "yarn version && cp LICENSE package.json README.md dist/. && cd dist && yarn pack",
     "deploy": "yarn test && yarn build && yarn tarball && yarn publish dist/*.tgz",
     "playground:dev": "yarn astro dev --root ./playground",

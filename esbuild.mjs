@@ -1,10 +1,12 @@
 import { build } from 'esbuild'
+import { minifyHTMLLiteralsPlugin } from 'esbuild-plugin-minify-html-literals'
 import { glob } from 'glob'
 
 /** @type {import('esbuild').BuildOptions} */
 const OPTIONS = {
   logLevel: 'info',
-  minify: true
+  minify: true,
+  plugins: [minifyHTMLLiteralsPlugin()]
 }
 
 /**
@@ -22,17 +24,16 @@ build({
 /**
  * CJS
  */
-for (let element of await glob('./src/elements/**/*.ts')) {
-  build({
-    ...OPTIONS,
-    bundle: true,
-    entryPoints: [element],
-    format: 'cjs',
-    outfile: element.replace('src', 'dist').replace('.ts', '.cjs.js'),
-    platform: 'browser',
-    treeShaking: true
-  }).catch(() => process.exit(1))
-}
+build({
+  ...OPTIONS,
+  bundle: true,
+  entryPoints: ['src/index.ts'],
+  external: ['@aracna/core', '@aracna/web', '@floating-ui/dom', 'dompurify', 'focus-trap', 'tabbable'],
+  format: 'cjs',
+  outfile: 'dist/index.cjs.js',
+  platform: 'neutral',
+  treeShaking: true
+}).catch(() => process.exit(1))
 
 /**
  * IIFE
@@ -42,8 +43,26 @@ build({
   bundle: true,
   entryPoints: ['src/index.ts'],
   format: 'iife',
-  globalName: 'AracnaWebComponents',
   outfile: 'dist/index.iife.js',
   platform: 'browser',
   treeShaking: true
 }).catch(() => process.exit(1))
+
+/**
+ * ELEMENTS
+ */
+for (let element of await glob('./src/elements/**/*.ts')) {
+  /**
+   * CJS
+   */
+  build({
+    ...OPTIONS,
+    bundle: true,
+    entryPoints: [element],
+    external: ['@aracna/core', '@aracna/web', '@floating-ui/dom', 'dompurify', 'focus-trap', 'tabbable'],
+    format: 'cjs',
+    outfile: element.replace('src', 'dist').replace('.ts', '.cjs.js'),
+    platform: 'neutral',
+    treeShaking: true
+  }).catch(() => process.exit(1))
+}
