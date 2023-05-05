@@ -2,15 +2,7 @@ import { writeFile } from 'fs/promises'
 import { glob } from 'glob'
 import PACKAGE from '../package.json' assert { type: 'json' }
 
-PACKAGE.exports = {
-  '.': {
-    import: './index.js',
-    require: {
-      default: './index.cjs.js',
-      types: './index.d.ts'
-    }
-  }
-}
+PACKAGE.exports = {}
 
 for (let path of await glob('src/elements/**/*.ts')) {
   let folder, name
@@ -21,7 +13,7 @@ for (let path of await glob('src/elements/**/*.ts')) {
   PACKAGE.exports[`./elements/${folder}/${name}.js`] = {
     import: `./elements/${folder}/${name}.js`,
     require: {
-      default: `./elements/${folder}/${name}.cjs.js`,
+      default: `./elements/${folder}/${name}.cjs`,
       types: `./elements/${folder}/${name}.d.ts`
     }
   }

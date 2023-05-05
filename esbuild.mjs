@@ -30,7 +30,7 @@ build({
   entryPoints: ['src/index.ts'],
   external: ['@aracna/core', '@aracna/web', '@floating-ui/dom', 'dompurify', 'focus-trap', 'tabbable'],
   format: 'cjs',
-  outfile: 'dist/index.cjs.js',
+  outfile: 'dist/index.cjs',
   platform: 'neutral',
   treeShaking: true
 }).catch(() => process.exit(1))
@@ -61,7 +61,7 @@ for (let element of await glob('./src/elements/**/*.ts')) {
     entryPoints: [element],
     external: ['@aracna/core', '@aracna/web', '@floating-ui/dom', 'dompurify', 'focus-trap', 'tabbable'],
     format: 'cjs',
-    outfile: element.replace('src', 'dist').replace('.ts', '.cjs.js'),
+    outfile: element.replace('src', 'dist').replace('.ts', '.cjs'),
     platform: 'neutral',
     treeShaking: true
   }).catch(() => process.exit(1))
