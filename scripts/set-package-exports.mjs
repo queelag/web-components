@@ -18,7 +18,7 @@ for (let path of await glob('src/elements/**/*.ts')) {
   folder = path.replace('src/elements/', '').split('/')[0]
   name = path.replace('src/elements/').split('/')[1].replace('.ts', '')
 
-  PACKAGE.exports[`./${folder}/${name.replace('-element', '')}`] = {
+  PACKAGE.exports[`./elements/${folder}/${name}.js`] = {
     import: `./elements/${folder}/${name}.js`,
     require: {
       default: `./elements/${folder}/${name}.cjs.js`,
