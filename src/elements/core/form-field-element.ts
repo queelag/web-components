@@ -148,6 +148,7 @@ export class FormFieldElement<E extends FormFieldElementEventMap = FormFieldElem
     path: { type: String, reflect: true },
     readonly: { type: Boolean, reflect: true },
     schema: { type: Object },
+    target: { type: Object },
     touched: { type: Boolean, reflect: true },
     validation: { state: true },
     value: {}
