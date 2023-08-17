@@ -42,6 +42,7 @@ build({
   ...OPTIONS,
   bundle: true,
   entryPoints: ['src/index.ts'],
+  external: ['node-fetch'],
   format: 'iife',
   outfile: 'dist/index.iife.js',
   platform: 'browser',
