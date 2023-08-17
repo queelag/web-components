@@ -42,7 +42,13 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
   /**
    * INTERNAL
    */
-  private typeahead: Typeahead<AriaListBoxOptionElement> = new Typeahead(this.onTypeaheadMatch, DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE)
+  onTypeaheadMatch = (element: AriaListBoxOptionElement) => {
+    this.focusedOptionElement?.blur()
+
+    element.focus()
+    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
+  }
+  typeahead: Typeahead<AriaListBoxOptionElement> = new Typeahead(this.onTypeaheadMatch, DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE)
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -66,13 +72,6 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
     if (name === 'typeaheadPredicate') {
       this.typeahead = new Typeahead(this.onTypeaheadMatch, this.typeaheadPredicate ?? DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE)
     }
-  }
-
-  onTypeaheadMatch(element: AriaListBoxOptionElement) {
-    this.focusedOptionElement?.blur()
-
-    element.focus()
-    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
   }
 
   onBlur = (): void => {

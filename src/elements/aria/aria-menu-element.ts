@@ -56,6 +56,10 @@ export class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElement
    */
   expanded?: boolean
   focused?: boolean = true
+  onTypeaheadMatch = (item: AriaMenuItemElement) => {
+    item.focus()
+    WebElementLogger.verbose(this.uid, 'onMatch', `The matched item has been focused.`)
+  }
   typeahead: Typeahead<AriaMenuItemElement> = new Typeahead(this.onTypeaheadMatch, DEFAULT_MENU_TYPEAHEAD_PREDICATE)
 
   connectedCallback(): void {
@@ -80,11 +84,6 @@ export class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElement
     if (name === 'typeaheadPredicate') {
       this.typeahead = new Typeahead(this.onTypeaheadMatch, this.typeaheadPredicate ?? DEFAULT_MENU_TYPEAHEAD_PREDICATE)
     }
-  }
-
-  onTypeaheadMatch(item: AriaMenuItemElement) {
-    item.focus()
-    WebElementLogger.verbose(this.uid, 'onMatch', `The matched item has been focused.`)
   }
 
   onFocusIn(): void {
@@ -732,6 +731,10 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
   /**
    * INTERNAL
    */
+  onTypeaheadMatch = (item: AriaMenuItemElement) => {
+    item.focus()
+    WebElementLogger.verbose(this.uid, 'onMatch', `The matched item has been focused.`)
+  }
   typeahead: Typeahead<AriaMenuItemElement> = new Typeahead(this.onTypeaheadMatch, DEFAULT_MENU_TYPEAHEAD_PREDICATE)
 
   connectedCallback(): void {
@@ -750,11 +753,6 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
     if (name === 'typeaheadPredicate') {
       this.typeahead = new Typeahead(this.onTypeaheadMatch, this.rootElement.typeaheadPredicate ?? DEFAULT_MENU_TYPEAHEAD_PREDICATE)
     }
-  }
-
-  onTypeaheadMatch(item: AriaMenuItemElement) {
-    item.focus()
-    WebElementLogger.verbose(this.uid, 'onMatch', `The matched item has been focused.`)
   }
 
   onKeyDown(event: KeyboardEvent): void {

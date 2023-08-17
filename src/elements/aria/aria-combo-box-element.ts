@@ -66,7 +66,13 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
   /**
    * INTERNAL
    */
-  private typeahead: Typeahead<AriaComboBoxOptionElement> = new Typeahead(this.onTypeaheadMatch, DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE)
+  onTypeaheadMatch = (element: AriaComboBoxOptionElement) => {
+    this.focusedOptionElement?.blur()
+
+    element.focus()
+    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
+  }
+  typeahead: Typeahead<AriaComboBoxOptionElement> = new Typeahead(this.onTypeaheadMatch, DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE)
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -95,13 +101,6 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     if (name === 'typeaheadPredicate') {
       this.typeahead = new Typeahead(this.onTypeaheadMatch, this.typeaheadPredicate ?? DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE)
     }
-  }
-
-  onTypeaheadMatch(element: AriaComboBoxOptionElement) {
-    this.focusedOptionElement?.blur()
-
-    element.focus()
-    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
