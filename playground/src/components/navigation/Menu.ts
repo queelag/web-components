@@ -1,8 +1,8 @@
 import { defineCustomElement } from '@aracna/web'
 import { Middleware, offset } from '@floating-ui/dom'
 import { CSSResultGroup, LitElement, css, html } from 'lit'
-import '../../../../src/elements/data/icon.element'
-import '../../../../src/elements/navigation/menu.element'
+import '../../../../src/elements/data/icon-element'
+import '../../../../src/elements/navigation/menu-element'
 
 class IconChevronRight extends LitElement {
   protected render(): unknown {

@@ -5,7 +5,7 @@ import { map } from 'lit-html/directives/map.js'
 import { createRef, Ref, ref } from 'lit-html/directives/ref.js'
 import { when } from 'lit-html/directives/when.js'
 import type { InputFileElement } from '../../../../src'
-import '../../../../src/elements/input/input.file.element'
+import '../../../../src/elements/input/input-file-element'
 
 export default class InputFile extends LitElement {
   ref: Ref<InputFileElement> = createRef()

@@ -1,4 +1,4 @@
-import { getLimitedNumber } from '@aracna/core'
+import { getLimitedNumber, Typeahead, TypeaheadPredicate } from '@aracna/core'
 import {
   AriaComboBoxButtonElementEventMap,
   AriaComboBoxElementAutoComplete,
@@ -14,8 +14,6 @@ import {
   QueryDeclarations,
   scrollElementIntoView,
   StateChangeEvent,
-  Typeahead,
-  TypeaheadPredicate,
   WebElementLogger
 } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
@@ -68,12 +66,7 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
   /**
    * INTERNAL
    */
-  private typeahead: Typeahead<AriaComboBoxOptionElement> = new Typeahead((element: AriaComboBoxOptionElement) => {
-    this.focusedOptionElement?.blur()
-
-    element.focus()
-    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
-  })
+  private typeahead: Typeahead<AriaComboBoxOptionElement> = new Typeahead(this.onTypeaheadMatch, DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE)
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -98,6 +91,17 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
     this.listElement?.computePosition && this.listElement?.computePosition()
+
+    if (name === 'typeaheadPredicate') {
+      this.typeahead = new Typeahead(this.onTypeaheadMatch, this.typeaheadPredicate ?? DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE)
+    }
+  }
+
+  onTypeaheadMatch(element: AriaComboBoxOptionElement) {
+    this.focusedOptionElement?.blur()
+
+    element.focus()
+    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
@@ -269,18 +273,19 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
 
         break
       default:
-        if (this.inputElement || event.key.length > 1) {
+        if (this.inputElement || event.key.length !== 1) {
           break
         }
+
+        event.preventDefault()
+        event.stopPropagation()
 
         if (this.collapsed) {
           this.expand()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'DEFAULT', `The combobox has been expanded.`)
         }
 
-        this.typeahead.handle(event, this.optionElements, this.typeaheadPredicate ?? DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE, {
-          debounceTime: this.typeaheadDebounceTime
-        })
+        this.typeahead.handle(event.key, this.optionElements, this.typeaheadDebounceTime)
 
         break
     }

@@ -3,8 +3,8 @@ import { defineCustomElement } from '@aracna/web'
 import { offset } from '@floating-ui/dom'
 import { css, CSSResultGroup, html, LitElement, PropertyDeclarations } from 'lit'
 import { when } from 'lit-html/directives/when.js'
-import '../../../../src/elements/data/icon.element'
-import '../../../../src/elements/input/select.element'
+import '../../../../src/elements/data/icon-element'
+import '../../../../src/elements/input/select-element'
 
 export default class Select extends LitElement {
   filter: string = ''

@@ -1,7 +1,7 @@
 import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
-import '../../../../src/elements/data/icon.element'
-import '../../../../src/elements/surface/disclosure.element'
+import '../../../../src/elements/data/icon-element'
+import '../../../../src/elements/surface/disclosure-element'
 
 export default class Disclosure extends LitElement {
   protected render(): unknown {

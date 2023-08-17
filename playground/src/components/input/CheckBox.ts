@@ -1,7 +1,7 @@
 import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
-import '../../../../src/elements/data/icon.element'
-import '../../../../src/elements/input/check.box.element'
+import '../../../../src/elements/data/icon-element'
+import '../../../../src/elements/input/check-box-element'
 
 export default class CheckBox extends LitElement {
   protected render(): unknown {

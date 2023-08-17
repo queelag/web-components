@@ -1,7 +1,7 @@
 import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
-import '../../../../src/elements/data/icon.element'
-import '../../../../src/elements/input/radio.group.element'
+import '../../../../src/elements/data/icon-element'
+import '../../../../src/elements/input/radio-group-element'
 
 export default class RadioGroup extends LitElement {
   protected render(): unknown {

@@ -1,16 +1,15 @@
+import { Typeahead, TypeaheadPredicate } from '@aracna/core'
 import {
   AriaListBoxElementEventMap,
   AriaListBoxOptionElementEventMap,
   DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE,
-  defineCustomElement,
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
-  Typeahead,
-  TypeaheadPredicate,
-  WebElementLogger
+  WebElementLogger,
+  defineCustomElement
 } from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
+import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { AriaListBoxController, AriaListBoxOptionController } from '../../controllers/aria-list-box-controller.js'
 import { BaseElement } from '../core/base-element.js'
 
@@ -43,12 +42,7 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
   /**
    * INTERNAL
    */
-  private typeahead: Typeahead<AriaListBoxOptionElement> = new Typeahead((element: AriaListBoxOptionElement) => {
-    this.focusedOptionElement?.blur()
-
-    element.focus()
-    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
-  })
+  private typeahead: Typeahead<AriaListBoxOptionElement> = new Typeahead(this.onTypeaheadMatch, DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE)
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -64,6 +58,21 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
     this.removeEventListener('blur', this.onBlur)
     this.removeEventListener('focus', this.onFocus)
     this.removeEventListener('keydown', this.onKeyDown)
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (name === 'typeaheadPredicate') {
+      this.typeahead = new Typeahead(this.onTypeaheadMatch, this.typeaheadPredicate ?? DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE)
+    }
+  }
+
+  onTypeaheadMatch(element: AriaListBoxOptionElement) {
+    this.focusedOptionElement?.blur()
+
+    element.focus()
+    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
   }
 
   onBlur = (): void => {
@@ -221,9 +230,10 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
         this.focusedOptionElement?.click()
         break
       default:
-        this.typeahead.handle(event, this.optionElements, this.typeaheadPredicate ?? DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE, {
-          debounceTime: this.typeaheadDebounceTime
-        })
+        event.preventDefault()
+        event.stopPropagation()
+
+        this.typeahead.handle(event.key, this.optionElements, this.typeaheadDebounceTime)
         break
     }
   }

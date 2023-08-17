@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
-import '../../../../src/elements/data/image.element'
+import '../../../../src/elements/data/image-element'
 
 export default class Image extends LitElement {
   protected render(): unknown {

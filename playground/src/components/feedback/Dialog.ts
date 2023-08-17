@@ -1,8 +1,8 @@
 import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement, PropertyDeclarations } from 'lit'
-import '../../../../src/elements/feedback/dialog.element'
-import '../../../../src/elements/input/button.element'
-import '../../../../src/elements/input/input.element'
+import '../../../../src/elements/feedback/dialog-element'
+import '../../../../src/elements/input/button-element'
+import '../../../../src/elements/input/input-element'
 
 export default class Dialog extends LitElement {
   visible?: boolean

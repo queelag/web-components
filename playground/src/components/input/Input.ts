@@ -4,8 +4,8 @@ import { css, CSSResultGroup, html, LitElement } from 'lit'
 import { createRef, Ref, ref } from 'lit-html/directives/ref.js'
 import { when } from 'lit-html/directives/when.js'
 import { size, string } from 'superstruct'
-import '../../../../src/elements/input/input.element'
-import type { InputElement } from '../../../../src/elements/input/input.element'
+import '../../../../src/elements/input/input-element'
+import type { InputElement } from '../../../../src/elements/input/input-element'
 
 export default class Input extends LitElement {
   ref: Ref<InputElement> = createRef()

@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
-import '../../../../src/elements/feedback/alert.element'
+import '../../../../src/elements/feedback/alert-element'
 
 export default class Alert extends LitElement {
   protected render(): unknown {

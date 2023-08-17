@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
-import '../../../../src/elements/data/feed.element'
+import '../../../../src/elements/data/feed-element'
 
 export default class Feed extends LitElement {
   protected render(): unknown {

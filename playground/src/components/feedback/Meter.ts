@@ -2,7 +2,7 @@ import { getNumberPercentage } from '@aracna/core'
 import type { StateChangeEvent } from '@aracna/web'
 import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement, PropertyDeclarations } from 'lit'
-import '../../../../src/elements/feedback/meter.element'
+import '../../../../src/elements/feedback/meter-element'
 
 export default class Meter extends LitElement {
   percentage: number = getNumberPercentage(50, 0, 100)

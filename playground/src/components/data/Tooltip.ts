@@ -1,8 +1,8 @@
 import { defineCustomElement } from '@aracna/web'
 import { offset } from '@floating-ui/dom'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
-import '../../../../src/elements/data/tooltip.element'
-import '../../../../src/elements/input/button.element'
+import '../../../../src/elements/data/tooltip-element'
+import '../../../../src/elements/input/button-element'
 
 export default class Tooltip extends LitElement {
   protected render(): unknown {

@@ -1,8 +1,8 @@
 import type { TabsSelectionChangeEvent } from '@aracna/web'
 import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement, PropertyDeclarations } from 'lit'
-import '../../../../src/elements/navigation/tabs.element'
-import type { TabsTabElement } from '../../../../src/elements/navigation/tabs.element'
+import '../../../../src/elements/navigation/tabs-element'
+import type { TabsTabElement } from '../../../../src/elements/navigation/tabs-element'
 
 const TABS: number[] = [1, 2, 3]
 

@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import { css, CSSResultGroup, html, LitElement } from 'lit'
-import '../../../../src/elements/input/switch.element'
+import '../../../../src/elements/input/switch-element'
 
 export default class Switch extends LitElement {
   protected render(): unknown {

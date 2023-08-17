@@ -3,7 +3,7 @@ import type { SliderChangeEvent } from '@aracna/web'
 import { defineCustomElement } from '@aracna/web'
 import { CSSResultGroup, LitElement, css, html } from 'lit'
 import { when } from 'lit-html/directives/when.js'
-import '../../../../src/elements/input/slider.element'
+import '../../../../src/elements/input/slider-element'
 
 export default class Slider extends LitElement {
   multiple: boolean = true
