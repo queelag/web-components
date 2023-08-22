@@ -1,4 +1,4 @@
-import { AracnaFile, Base64, Polyfill, TextCodec, wf } from '@aracna/core'
+import { AracnaFile, Base64, TextCodec, useNodeFetch, wf } from '@aracna/core'
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/input-file-element'
 import type { InputFileElement } from '../../../src/elements/input/input-file-element'
@@ -13,10 +13,7 @@ describe('InputFileElement', () => {
     // @ts-ignore
     delete global.File
 
-    console.log(typeof Blob)
-
-    await Polyfill.blob()
-    await Polyfill.file()
+    await useNodeFetch(await import('node-fetch'))
   })
 
   beforeEach(() => {
