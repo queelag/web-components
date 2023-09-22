@@ -109,7 +109,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
   }
 
   private onLoad(): void {
-    let base64: string
+    let base64: string | Error
 
     WebElementLogger.verbose(this.uid, 'onLoad', `The src has been loaded.`, [this.src])
 
@@ -129,7 +129,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
     }
 
     base64 = getImageElementBase64(this.imgElement, { quality: this.cacheQuality, type: this.cacheType })
-    if (!base64) return WebElementLogger.warn(this.uid, 'onLoad', `The base64 is empty.`, [base64])
+    if (base64 instanceof Error || !base64) return WebElementLogger.warn(this.uid, 'onLoad', `Failed to get the image base64 or it is empty.`, [base64])
 
     CACHE_IMAGES.set(this.src, base64)
     WebElementLogger.verbose(this.uid, 'onLoad', `The image has been cached.`, [this.src, base64])
