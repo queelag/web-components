@@ -1,4 +1,4 @@
-import { Interval } from '@aracna/core'
+import { Interval, parseNumber } from '@aracna/core'
 import {
   AriaCarouselElementEventMap,
   AriaCarouselNextSlideControlElementEventMap,
@@ -12,13 +12,13 @@ import {
   CarouselSlideActivateEvent,
   CarouselSlideDeactivateEvent,
   DEFAULT_CAROUSEL_ROTATION_DURATION,
-  defineCustomElement,
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
-  WebElementLogger
+  WebElementLogger,
+  defineCustomElement
 } from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
+import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import {
   AriaCarouselController,
   AriaCarouselNextSlideControlController,
@@ -76,6 +76,26 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
    * STATES
    */
   live?: AriaLive
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (name === 'automatic-rotation' && typeof value === 'string') {
+      Interval.start(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+    }
+
+    if (name === 'automatic-rotation' && value === null) {
+      Interval.stop(this.uid)
+    }
+
+    if (name === 'automatic-rotation-interval-time' && this.automaticRotation) {
+      Interval.start(this.uid, this.onAutomaticRotation, parseNumber(value) ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+    }
+  }
 
   connectedCallback(): void {
     super.connectedCallback()
