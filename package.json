@@ -464,7 +464,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "dependencies": {
     "@vitest/coverage-v8": "^0.34.2"
   }
