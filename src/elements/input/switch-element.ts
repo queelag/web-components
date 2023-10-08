@@ -10,11 +10,6 @@ declare global {
 }
 
 export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventMap> extends AriaSwitchElement<E> {
-  connectedCallback(): void {
-    super.connectedCallback()
-    this.on = this.value
-  }
-
   private onChange(event: Event): void {
     // @ts-ignore
     this.on = event.target.value === '1'
@@ -44,6 +39,10 @@ export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventM
   }
 
   get on(): boolean | undefined {
+    if (this.target && typeof this.path === 'string') {
+      return super.value
+    }
+
     return super.on
   }
 
