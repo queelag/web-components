@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/check-box-element'
 import type { CheckBoxElement } from '../../../src/elements/input/check-box-element'
-import { render } from '../../../vitest/dom-utils'
+import { cleanup, render } from '../../../vitest/dom-utils'
 
 describe('CheckBoxElement', () => {
   let checkbox: CheckBoxElement
@@ -57,5 +57,31 @@ describe('CheckBoxElement', () => {
 
     checkbox.click()
     expect(checkbox.checked).toBeUndefined()
+  })
+
+  it('works with target and path', async () => {
+    let target: Record<string, boolean | undefined>, path: string
+
+    target = { value: undefined }
+    path = 'value'
+
+    checkbox.target = target
+    await render(checkbox, { path })
+
+    expect(checkbox.checked).toBeFalsy()
+    expect(checkbox.value).toBeFalsy()
+
+    checkbox.click()
+    expect(checkbox.checked).toBeTruthy()
+    expect(checkbox.value).toBeTruthy()
+
+    checkbox = document.createElement('aracna-checkbox')
+    checkbox.target = target
+
+    await cleanup()
+    await render(checkbox, { path })
+
+    expect(checkbox.checked).toBeTruthy()
+    expect(checkbox.value).toBeTruthy()
   })
 })

@@ -10,19 +10,20 @@ declare global {
 }
 
 export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElementEventMap> extends AriaCheckBoxElement<E> {
+  connectedCallback(): void {
+    super.connectedCallback()
+    this.checked = this.value
+  }
+
   private onChange(): void {
-    this.value = !this.value
+    this.checked = !this.checked
+    WebElementLogger.verbose(this.uid, 'onChange', `The checkbox has been ${this.checked ? 'checked' : 'unchecked'}.`)
+
     this.touch()
   }
 
   onClick(): void {
-    if (this.disabled || this.readonly) {
-      return WebElementLogger.warn(this.id, 'onClick', `Execution stopped, disabled is truthy.`)
-    }
-
-    this.value = !this.value
-    WebElementLogger.verbose(this.uid, 'onClick', `The checkbox has been ${this.value ? 'checked' : 'unchecked'}.`)
-
+    super.onClick()
     this.touch()
   }
 
@@ -43,13 +44,13 @@ export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElement
     return ElementName.CHECKBOX
   }
 
-  get value(): boolean | undefined {
-    return super.value
+  get checked(): boolean | undefined {
+    return super.checked
   }
 
-  set value(value: boolean | undefined) {
-    super.value = value
-    this.checked = value
+  set checked(checked: boolean | undefined) {
+    super.checked = checked
+    super.value = checked
   }
 
   static styles: CSSResultGroup = [

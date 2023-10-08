@@ -53,14 +53,6 @@ export class SliderElement<E extends SliderElementEventMap = SliderElementEventM
     return ElementName.SLIDER
   }
 
-  get value(): number | number[] | undefined {
-    return super.value
-  }
-
-  set value(value: number | number[] | undefined) {
-    super.value = value
-  }
-
   static queries: QueryDeclarations = {
     inputElement: { selector: 'input', shadow: true },
     thumbElements: { selector: 'aracna-slider-thumb', all: true }
@@ -77,6 +69,7 @@ export class SliderThumbElement<E extends SliderThumbElementEventMap = SliderThu
 
     if (this.rootElement.hasMultipleThumbs) {
       this.rootElement.value = this.rootElement.value || this.rootElement.values
+      // @ts-ignore
       this.rootElement.value[this.index] = value
 
       return

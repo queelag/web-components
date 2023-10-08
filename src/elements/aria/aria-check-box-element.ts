@@ -15,9 +15,13 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
   /**
    * PROPERTIES
    */
-  checked?: boolean
   disabled?: boolean
   readonly?: boolean
+
+  /**
+   * INTERNAL
+   */
+  _checked?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -61,8 +65,29 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
     this.onClick()
   }
 
+  get checked(): boolean | undefined {
+    return this._checked
+  }
+
+  set checked(checked: boolean | undefined) {
+    let old: boolean | undefined
+
+    old = this._checked
+    this._checked = checked
+
+    this.requestUpdate('checked', old)
+  }
+
   get name(): ElementName {
     return ElementName.ARIA_CHECKBOX
+  }
+
+  get value(): boolean | undefined {
+    return super.value
+  }
+
+  set value(value: boolean | undefined) {
+    super.value = value
   }
 
   static properties: PropertyDeclarations = {

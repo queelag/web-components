@@ -122,6 +122,14 @@ export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = Ari
     return ElementName.ARIA_RADIO_GROUP
   }
 
+  get value(): any | undefined {
+    return super.value
+  }
+
+  set value(value: any | undefined) {
+    super.value = value
+  }
+
   static queries: QueryDeclarations = {
     buttonElements: { selector: 'aracna-aria-radio-button', all: true },
     checkedButtonElement: { selector: 'aracna-aria-radio-button[checked]' },

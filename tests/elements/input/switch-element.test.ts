@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/switch-element'
 import type { SwitchElement } from '../../../src/elements/input/switch-element'
-import { render } from '../../../vitest/dom-utils'
+import { cleanup, render } from '../../../vitest/dom-utils'
 
 describe('SwitchElement', () => {
   let switche: SwitchElement
@@ -57,5 +57,31 @@ describe('SwitchElement', () => {
 
     switche.click()
     expect(switche.on).toBeUndefined()
+  })
+
+  it('works with target and path', async () => {
+    let target: Record<string, boolean | undefined>, path: string
+
+    target = { value: undefined }
+    path = 'value'
+
+    switche.target = target
+    await render(switche, { path })
+
+    expect(switche.on).toBeFalsy()
+    expect(switche.value).toBeFalsy()
+
+    switche.click()
+    expect(switche.on).toBeTruthy()
+    expect(switche.value).toBeTruthy()
+
+    switche = document.createElement('aracna-switch')
+    switche.target = target
+
+    await cleanup()
+    await render(switche, { path })
+
+    expect(switche.on).toBeTruthy()
+    expect(switche.value).toBeTruthy()
   })
 })

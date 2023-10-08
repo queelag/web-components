@@ -13,9 +13,9 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
   protected aria: AriaSwitchController = new AriaSwitchController(this)
 
   /**
-   * PROPERTIES
+   * INTERNAL
    */
-  on?: boolean
+  _on?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -57,6 +57,27 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
     event.stopPropagation()
 
     this.onClick()
+  }
+
+  get on(): boolean | undefined {
+    return this._on
+  }
+
+  set on(on: boolean | undefined) {
+    let old: boolean | undefined
+
+    old = this._on
+    this._on = on
+
+    this.requestUpdate('on', old)
+  }
+
+  get value(): boolean | undefined {
+    return super.value
+  }
+
+  set value(value: boolean | undefined) {
+    super.value = value
   }
 
   static properties: PropertyDeclarations = {

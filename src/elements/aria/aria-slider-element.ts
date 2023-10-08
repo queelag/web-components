@@ -105,6 +105,14 @@ export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderE
     return this.thumbElements.map((thumb: AriaSliderThumbElement) => thumb.percentage)
   }
 
+  get value(): number | number[] | undefined {
+    return super.value
+  }
+
+  set value(value: number | number[] | undefined) {
+    super.value = value
+  }
+
   get values(): number[] {
     return this.thumbElements.map((thumb: AriaSliderThumbElement) => thumb.value ?? thumb.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE)
   }

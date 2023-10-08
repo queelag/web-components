@@ -75,14 +75,6 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
     return ElementName.RADIO_GROUP
   }
 
-  get value(): any | undefined {
-    return super.value
-  }
-
-  set value(value: any | undefined) {
-    super.value = value
-  }
-
   static properties: PropertyDeclarations = {
     buttons: { type: Array }
   }

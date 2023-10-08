@@ -10,21 +10,20 @@ declare global {
 }
 
 export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventMap> extends AriaSwitchElement<E> {
+  connectedCallback(): void {
+    super.connectedCallback()
+    this.on = this.value
+  }
+
   private onChange(event: Event): void {
     // @ts-ignore
-    this.value = event.target.value === '1'
-    WebElementLogger.verbose(this.uid, 'onChange', `The switch has been turned ${this.value ? 'on' : 'off'}.`)
+    this.on = event.target.value === '1'
+    WebElementLogger.verbose(this.uid, 'onChange', `The switch has been turned ${this.on ? 'on' : 'off'}.`)
   }
 
   onClick(): void {
     super.onClick()
-
-    if (this.disabled || this.readonly) {
-      return WebElementLogger.warn(this.id, 'onClick', `Execution stopped, disabled is truthy.`)
-    }
-
-    this.value = !this.value
-    WebElementLogger.verbose(this.uid, 'onClick', `The switch has been turned ${this.value ? 'on' : 'off'}.`)
+    this.touch()
   }
 
   render() {
@@ -42,6 +41,15 @@ export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventM
     }
 
     return super.render()
+  }
+
+  get on(): boolean | undefined {
+    return super.on
+  }
+
+  set on(on: boolean | undefined) {
+    super.on = on
+    super.value = on
   }
 
   static styles: CSSResultGroup = [

@@ -333,6 +333,14 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     return this.selectedOptionElement ? this.optionElements.indexOf(this.selectedOptionElement) : -1
   }
 
+  get value(): any | any[] {
+    return super.value
+  }
+
+  set value(value: any | any[]) {
+    super.value = value
+  }
+
   static properties: PropertyDeclarations = {
     autocomplete: { type: String, reflect: true },
     expanded: { type: Boolean, reflect: true },

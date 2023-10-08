@@ -2,7 +2,7 @@ import { ElementAttributeValue, setElementAttributes } from '@aracna/web'
 
 function waitForElementRender(selectors: string): Promise<void> {
   return new Promise((resolve) => {
-    let interval: NodeJS.Timer
+    let interval: NodeJS.Timeout
 
     interval = setInterval(() => {
       if (!document.querySelector(selectors)?.shadowRoot) {
@@ -13,6 +13,10 @@ function waitForElementRender(selectors: string): Promise<void> {
       resolve()
     }, 10)
   })
+}
+
+export async function cleanup() {
+  document.body.innerHTML = ''
 }
 
 export async function render<T extends HTMLElement>(

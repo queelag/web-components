@@ -115,14 +115,6 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
     return !this.multiple
   }
 
-  get value(): any | any[] {
-    return super.value
-  }
-
-  set value(value: any | any[]) {
-    super.value = value
-  }
-
   static properties: PropertyDeclarations = {
     options: { type: Array }
   }
