@@ -26,7 +26,7 @@ describe('IconElement', () => {
     expect(icon.shadowRoot?.querySelector('svg')?.getAttribute('stroke')).toBeNull()
     expect(icon.shadowRoot?.querySelector('svg')?.getAttribute('stroke-width')).toBeNull()
     expect(icon.shadowRoot?.querySelector('svg')?.getAttribute('style')).toBe('')
-    expect(icon.shadowRoot?.querySelector('svg')?.getAttribute('viewBox')).toBe('0 0 0 0')
+    expect(icon.shadowRoot?.querySelector('svg')?.getAttribute('viewBox')).toBeNull()
     expect(icon.shadowRoot?.querySelector('svg')?.getAttribute('xmlns')).toBe(SVG_NAMESPACE_URI)
   })
 
@@ -61,7 +61,7 @@ describe('IconElement', () => {
     await render(icon, { size: '24' })
 
     expect(icon.shadowRoot?.querySelector('svg')?.getAttribute('style')).toBe(
-      'height: 24px; max-height: 24px; max-width: 24px; min-height: 24px; min-width: 24px; width: 24px;'
+      'height:24px;max-height:24px;max-width:24px;min-height:24px;min-width:24px;width:24px;'
     )
   })
 

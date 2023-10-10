@@ -59,14 +59,16 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
 
-    if (name !== 'src' || Object.is(_old, value)) {
+    if (Object.is(_old, value)) {
       return
     }
 
-    this.load()
+    if (['cache', 'cache-quality', 'cache-type', 'src'].includes(name)) {
+      this.load(value ?? undefined)
+    }
   }
 
-  private async load(): Promise<void> {
+  private async load(src?: string): Promise<void> {
     let cache: string | undefined
 
     /**
@@ -74,30 +76,30 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
      */
     await sleep(1)
 
-    if (typeof this.src !== 'string') {
+    if (typeof src !== 'string') {
       return
     }
 
-    // if (FETCHING_IMAGES.has(this.src)) {
+    // if (FETCHING_IMAGES.has(src)) {
     //   await sleep(100)
-    //   WebElementLogger.verbose(this.uid, 'load', `The src is already being fetched, will try again in 100ms.`, [this.src])
+    //   WebElementLogger.verbose(this.uid, 'load', `The src is already being fetched, will try again in 100ms.`, [src])
 
     //   return this.load()
     // }
 
-    cache = CACHE_IMAGES.get(this.src)
+    cache = CACHE_IMAGES.get(src)
     if (this.cache && cache) {
       this.imgElementSrc = cache
-      WebElementLogger.verbose(this.uid, 'load', `Cached base64 found for this image, will use it.`, [this.src, cache])
+      WebElementLogger.verbose(this.uid, 'load', `Cached base64 found for this image, will use it.`, [src, cache])
 
       return
     }
 
-    // FETCHING_IMAGES.add(this.src)
-    // WebElementLogger.verbose(this.uid, 'load', `The src has been marked as fetching.`, [this.src])
+    // FETCHING_IMAGES.add(src)
+    // WebElementLogger.verbose(this.uid, 'load', `The src has been marked as fetching.`, [src])
 
-    this.imgElementSrc = this.src
-    WebElementLogger.verbose(this.uid, 'load', `Loading the src.`, [this.src])
+    this.imgElementSrc = src
+    WebElementLogger.verbose(this.uid, 'load', `Loading the src.`, [src])
   }
 
   private onError(event: ErrorEvent): void {

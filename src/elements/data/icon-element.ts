@@ -59,68 +59,70 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
 
-    if (name !== 'src' || Object.is(_old, value)) {
+    if (Object.is(_old, value)) {
       return
     }
 
-    this.generateSVGElement()
+    if (['cache', 'sanitize', 'sanitize-config', 'src'].includes(name)) {
+      this.generateSVGElement(value ?? undefined)
+    }
   }
 
-  private async generateSVGElement(): Promise<void> {
-    if (typeof this.src !== 'string') {
-      return this.parseSVGString(DEFAULT_ICON_SVG_STRING)
+  private async generateSVGElement(src?: string): Promise<void> {
+    if (typeof src !== 'string') {
+      return
     }
 
-    if (isStringURL(this.src)) {
-      WebElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is an URL, will try to fetch.`, [this.src])
-      return this.fetchSource()
+    if (isStringURL(src)) {
+      WebElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is an URL, will try to fetch.`, [src])
+      return this.fetchSource(src)
     }
 
-    if (isStringSVG(this.src)) {
-      WebElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is a SVG, will try to parse.`, [this.src])
-      return this.parseSVGString(this.src)
+    if (isStringSVG(src)) {
+      WebElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is a SVG, will try to parse.`, [src])
+      return this.parseSVGString(src)
     }
 
-    WebElementLogger.warn(this.uid, 'generateSVGElement', `The value is nor URL nor SVG, falling back to empty SVG.`, [this.src])
+    WebElementLogger.warn(this.uid, 'generateSVGElement', `The value is nor URL nor SVG, falling back to empty SVG.`, [src])
     this.parseSVGString(DEFAULT_ICON_SVG_STRING)
   }
 
-  private async fetchSource(): Promise<void> {
+  private async fetchSource(src?: string): Promise<void> {
     let cache: string | undefined, response: FetchResponse<string> | Error, text: string | Error
 
-    if (typeof this.src !== 'string') {
+    if (typeof src !== 'string') {
       return
     }
 
-    // if (FETCHING_ICONS.has(this.src)) {
-    //   WebElementLogger.verbose(this.uid, 'fetchSource', `The src is already being fetched, will try again in 100ms.`, [this.src])
+    // if (FETCHING_ICONS.has(src)) {
+    //   WebElementLogger.verbose(this.uid, 'fetchSource', `The src is already being fetched, will try again in 100ms.`, [src])
     //   await sleep(100)
 
     //   return this.fetchSource()
     // }
 
-    cache = CACHE_ICONS.get(this.src)
+    cache = CACHE_ICONS.get(src)
     if (this.cache && cache) {
-      WebElementLogger.verbose(this.uid, 'fetchSource', `Cached SVG found for this src, will parse.`, [this.src, cache])
+      WebElementLogger.verbose(this.uid, 'fetchSource', `Cached SVG found for this src, will parse.`, [src, cache])
       return this.parseSVGString(cache)
     }
 
-    // FETCHING_ICONS.add(this.src)
-    // WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been marked as fetching.`, [this.src])
+    // FETCHING_ICONS.add(src)
+    // WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been marked as fetching.`, [src])
 
-    response = await Fetch.get(this.src, { parse: false })
+    response = await Fetch.get(src, { parse: false })
     if (response instanceof Error) return
-    // if (response instanceof Error) return rvp(() => FETCHING_ICONS.delete(this.src))
+    // if (response instanceof Error) return rvp(() => FETCHING_ICONS.delete(src))
 
-    // FETCHING_ICONS.delete(this.src)
-    // WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been unmarked as fetching.`, [this.src])
+    // FETCHING_ICONS.delete(src)
+    // WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been unmarked as fetching.`, [src])
 
     text = await tcp(() => (response as FetchResponse).text())
-    if (text instanceof Error) return rvp(() => CACHE_ICONS.delete(this.src as string))
+    if (text instanceof Error) return rvp(() => CACHE_ICONS.delete(src))
 
     if (this.cache) {
-      CACHE_ICONS.set(this.src, text)
-      WebElementLogger.verbose(this.uid, 'fetchSource', `The icon has been cached.`, [this.src, text])
+      CACHE_ICONS.set(src, text)
+      WebElementLogger.verbose(this.uid, 'fetchSource', `The icon has been cached.`, [src, text])
     }
 
     this.parseSVGString(text)
