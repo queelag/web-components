@@ -19,4 +19,4 @@ for (let path of await glob('src/elements/**/*.ts')) {
   }
 }
 
-await writeFile('package.json', JSON.stringify(PACKAGE, null, 2))
+await writeFile('dist/package.json', JSON.stringify(PACKAGE, null, 2))

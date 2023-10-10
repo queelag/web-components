@@ -157,7 +157,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
       stroke-linejoin=${ifdef(this.strokeLineJoin)}
       stroke-width=${ifdef(this.strokeWidth)}
       style=${this.svgElementStyle}
-      viewBox=${this.svgElementViewBox}
+      viewBox=${ifdef(this.svgElementViewBox)}
       xmlns=${SVG_NAMESPACE_URI}
     >
       ${this.svgElementTemplate}
@@ -183,8 +183,8 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     return svg`${unsafeSVG(this.svgElementInnerHTML)}`
   }
 
-  private get svgElementViewBox(): string {
-    return this.svgElement?.getAttribute('viewbox') ?? this.svgElement?.getAttribute('viewBox') ?? '0 0 0 0'
+  private get svgElementViewBox(): string | undefined {
+    return this.svgElement?.getAttribute('viewbox') ?? this.svgElement?.getAttribute('viewBox') ?? undefined
   }
 
   get name(): ElementName {
