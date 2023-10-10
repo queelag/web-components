@@ -21,7 +21,7 @@ export class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap>
   /**
    * INTERNAL
    */
-  private _value?: string
+  protected _value?: string
 
   render() {
     return html`

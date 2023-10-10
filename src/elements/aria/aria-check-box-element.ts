@@ -21,7 +21,7 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
   /**
    * INTERNAL
    */
-  private _checked?: boolean
+  protected _checked?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()

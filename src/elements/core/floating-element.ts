@@ -16,8 +16,8 @@ import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base-element.js'
 
 export class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMap> extends BaseElement<E> {
-  private _arrowElement?: HTMLElement
-  private _referenceElement?: HTMLElement
+  protected _arrowElement?: HTMLElement
+  protected _referenceElement?: HTMLElement
 
   /**
    * PROPERTIES

@@ -175,7 +175,7 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
   /**
    * INTERNAL
    */
-  private _value?: number
+  protected _value?: number
 
   connectedCallback(): void {
     super.connectedCallback()

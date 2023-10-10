@@ -30,9 +30,9 @@ export class FormFieldElement<E extends FormFieldElementEventMap = FormFieldElem
   /**
    * INTERNAL
    */
-  private _schema?: FormFieldElementSchema
-  private _target?: FormFieldElementTarget
-  private _value: any
+  protected _schema?: FormFieldElementSchema
+  protected _target?: FormFieldElementTarget
+  protected _value: any
 
   connectedCallback(): void {
     super.connectedCallback()

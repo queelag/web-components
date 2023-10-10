@@ -15,7 +15,7 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
   /**
    * INTERNAL
    */
-  private _on?: boolean
+  protected _on?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
