@@ -53,7 +53,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
 
   connectedCallback(): void {
     super.connectedCallback()
-    this.load()
+    this.load(this.src)
   }
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -68,7 +68,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
     }
   }
 
-  private async load(src?: string): Promise<void> {
+  private async load(src: string | undefined): Promise<void> {
     let cache: string | undefined
 
     /**

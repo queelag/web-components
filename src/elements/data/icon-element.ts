@@ -53,7 +53,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
 
   connectedCallback(): void {
     super.connectedCallback()
-    this.generateSVGElement()
+    this.generateSVGElement(this.src)
   }
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -68,7 +68,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     }
   }
 
-  private async generateSVGElement(src?: string): Promise<void> {
+  private async generateSVGElement(src: string | undefined): Promise<void> {
     if (typeof src !== 'string') {
       return
     }
