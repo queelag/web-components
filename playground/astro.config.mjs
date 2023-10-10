@@ -9,7 +9,8 @@ export default defineConfig({
     optimizeDeps: {
       esbuildOptions: {
         target: 'esnext'
-      }
+      },
+      exclude: import.meta.env.DEV ? ['@aracna/core', '@aracna/web'] : []
     }
   }
 })

@@ -39,12 +39,16 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
   eager?: boolean
   lazy?: boolean
   placeholder?: string
-  src?: string
 
   /**
    * QUERIES
    */
   imgElement!: HTMLImageElement
+
+  /**
+   * INTERNAL
+   */
+  protected _src?: string
 
   /**
    * STATES
@@ -61,10 +65,6 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
 
     if (Object.is(_old, value)) {
       return
-    }
-
-    if (['cache', 'cache-quality', 'cache-type', 'src'].includes(name)) {
-      this.load(value ?? undefined)
     }
   }
 
@@ -188,6 +188,20 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
 
   get name(): ElementName {
     return ElementName.IMAGE
+  }
+
+  get src(): string | undefined {
+    return this._src
+  }
+
+  set src(src: string | undefined) {
+    let old: string | undefined
+
+    old = this._src
+    this._src = src
+
+    this.requestUpdate('src', old)
+    this.load(src)
   }
 
   static properties: PropertyDeclarations = {

@@ -1,4 +1,4 @@
-import { Fetch, FetchResponse, isStringURL, rvp, sleep, tcp } from '@aracna/core'
+import { Environment, Fetch, FetchResponse, isStringURL, rvp, sleep, tcp } from '@aracna/core'
 import {
   CACHE_ICONS,
   Color,
@@ -40,11 +40,15 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
   fill?: string
   sanitize?: boolean
   sanitizeConfig?: IconElementSanitizeConfig
-  src?: string
   stroke?: string
   strokeLineCap?: string
   strokeLineJoin?: string
   strokeWidth?: string
+
+  /**
+   * INTERNAL
+   */
+  protected _src?: string
 
   /**
    * STATES
@@ -63,7 +67,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
       return
     }
 
-    if (['cache', 'sanitize', 'sanitize-config', 'src'].includes(name)) {
+    if (['cache', 'sanitize', 'sanitize-config'].includes(name)) {
       this.generateSVGElement(value ?? undefined)
     }
   }
@@ -136,6 +140,10 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
      */
     await sleep(1)
 
+    if (Environment.isWindowNotDefined) {
+      return
+    }
+
     if (this.sanitize) {
       sanitized = DOMPurify.sanitize(string, { ...DEFAULT_ICON_SANITIZE_CONFIG, ...this.sanitizeConfig })
       WebElementLogger.verbose(this.uid, 'parseSVGString', `The string has been sanitized.`, [sanitized])
@@ -168,6 +176,20 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
 
   get name(): ElementName {
     return ElementName.ICON
+  }
+
+  get src(): string | undefined {
+    return this._src
+  }
+
+  set src(src: string | undefined) {
+    let old: string | undefined
+
+    old = this._src
+    this._src = src
+
+    this.requestUpdate('src', old)
+    this.generateSVGElement(src)
   }
 
   get svgElementInnerHTML(): string {
