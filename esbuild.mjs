@@ -43,6 +43,7 @@ build({
   bundle: true,
   entryPoints: ['src/index.ts'],
   format: 'iife',
+  globalName: 'AracnaWebComponents',
   outfile: 'dist/index.iife.js',
   platform: 'browser',
   treeShaking: true
