@@ -27,21 +27,17 @@ export class AriaCarouselController implements ReactiveController {
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'aria-roledescription', 'carousel')
     // setImmutableElementAttribute(this.host, 'aria-label', '')
+    setImmutableElementAttribute(this.host, 'live', this.host.automaticRotation ? 'off' : 'polite')
+    setImmutableElementAttribute(this.host, 'temporary-live', this.host.temporaryLive)
     setImmutableElementAttribute(this.host, 'role', 'region')
 
-    setImmutableElementAttribute(this.host.slidesElement, 'aria-live', this.host.live ?? (this.host.automaticRotation ? 'off' : 'polite'))
+    setImmutableElementAttribute(this.host.slidesElement, 'aria-live', this.host.temporaryLive ?? (this.host.automaticRotation ? 'off' : 'polite'))
 
     if (this.host.rotationControlElement) {
       setImmutableElementAttribute(
         this.host.rotationControlElement,
         'aria-label',
-        this.host.live
-          ? this.host.live === 'off'
-            ? 'Stop Automatic Slide Show'
-            : 'Start Automatic Slide Show'
-          : this.host.automaticRotation
-          ? 'Stop Automatic Slide Show'
-          : 'Start Automatic Slide Show'
+        this.host.automaticRotation ? 'Stop Automatic Slide Show' : 'Start Automatic Slide Show'
       )
     }
   }

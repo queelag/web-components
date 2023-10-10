@@ -59,6 +59,14 @@ export function dispatchFocusEvent<T extends HTMLElement>(element: T | null): vo
   return dispatchEvent(element, new FocusEvent('focus'))
 }
 
+export function dispatchFocusInEvent<T extends HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new FocusEvent('focusin'))
+}
+
+export function dispatchFocusOutEvent<T extends HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new FocusEvent('focusout'))
+}
+
 /**
  * FORM EVENTS
  */

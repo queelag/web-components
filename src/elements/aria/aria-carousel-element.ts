@@ -75,7 +75,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
   /**
    * STATES
    */
-  live?: AriaLive
+  temporaryLive?: AriaLive
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
@@ -100,8 +100,8 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
   connectedCallback(): void {
     super.connectedCallback()
 
-    this.addEventListener('blur', this.onBlur)
-    this.addEventListener('focus', this.onFocus)
+    this.addEventListener('focusin', this.onFocusIn)
+    this.addEventListener('focusout', this.onFocusOut)
     this.addEventListener('mouseenter', this.onMouseEnter)
     this.addEventListener('mouseleave', this.onMouseLeave)
 
@@ -116,8 +116,8 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
   disconnectedCallback(): void {
     super.disconnectedCallback()
 
-    this.removeEventListener('blur', this.onBlur)
-    this.removeEventListener('focus', this.onFocus)
+    this.removeEventListener('focusin', this.onFocusIn)
+    this.removeEventListener('focusout', this.onFocusOut)
     this.removeEventListener('mouseenter', this.onMouseEnter)
     this.removeEventListener('mouseleave', this.onMouseLeave)
 
@@ -125,42 +125,40 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     WebElementLogger.verbose(this.uid, 'disconnectedCallback', `The automatic rotation has been stopped.`)
   }
 
-  onBlur(): void {
-    this.onBlurOrMouseLeave()
+  onFocusIn(): void {
+    this.onFocusInOrMouseEnter()
   }
 
-  onFocus(): void {
-    this.onFocusOrMouseEnter()
+  onFocusOut(): void {
+    this.onFocusOutOrMouseLeave()
   }
 
   onMouseEnter(): void {
-    this.onFocusOrMouseEnter()
+    this.onFocusInOrMouseEnter()
   }
 
   onMouseLeave(): void {
-    this.onBlurOrMouseLeave()
+    this.onFocusOutOrMouseLeave()
   }
 
-  onBlurOrMouseLeave(): void {
+  onFocusOutOrMouseLeave(): void {
     if (this.forceAutomaticRotation || !this.automaticRotation) {
       return
     }
-
-    Interval.stop(this.uid)
 
     Interval.start(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
     WebElementLogger.verbose(this.uid, 'onBlur', `The automatic rotation has been started.`)
 
-    this.live = undefined
+    this.temporaryLive = undefined
     WebElementLogger.verbose(this.uid, 'onBlur', `The temporary live state has been unset.`)
   }
 
-  onFocusOrMouseEnter(): void {
+  onFocusInOrMouseEnter(): void {
     if (this.forceAutomaticRotation || !this.automaticRotation) {
       return
     }
 
-    this.live = 'polite'
+    this.temporaryLive = 'polite'
     WebElementLogger.verbose(this.uid, 'onFocus', `The temporary live state has been set to polite.`)
 
     Interval.stop(this.uid)
@@ -268,7 +266,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     automaticRotationIntervalTime: { type: Number, attribute: 'automatic-rotation-interval-time', reflect: true },
     infiniteRotation: { type: Boolean, attribute: 'infinite-rotation', reflect: true },
     reverseRotation: { type: Boolean, attribute: 'reverse-rotation', reflect: true },
-    live: { state: true }
+    temporaryLive: { state: true }
   }
 
   static queries: QueryDeclarations = {
@@ -357,7 +355,7 @@ export class AriaCarouselRotationControlElement<
 
   onClick(): void {
     this.rootElement.forceAutomaticRotation = true
-    this.rootElement.live = undefined
+    this.rootElement.temporaryLive = undefined
 
     if (this.rootElement.automaticRotation) {
       Interval.stop(this.rootElement.uid)
@@ -438,6 +436,7 @@ export class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap =
    * QUERIES
    */
   activeTabElement?: AriaCarouselTabElement
+  focusedTabElement?: AriaCarouselTabElement
   rootElement!: AriaCarouselElement
   tabElements!: AriaCarouselTabElement[]
 
@@ -507,6 +506,7 @@ export class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap =
 
   static queries: QueryDeclarations = {
     activeTabElement: { selector: 'aracna-aria-carousel-tab[active]' },
+    focusedTabElement: { selector: 'aracna-aria-carousel-tab:focus' },
     rootElement: { selector: 'aracna-aria-carousel', closest: true },
     tabElements: { selector: 'aracna-aria-carousel-tab', all: true }
   }
@@ -549,7 +549,10 @@ export class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = A
 
   activate(): void {
     this.active = true
-    this.focus()
+
+    if (this.tabsElement.focusedTabElement) {
+      this.focus()
+    }
   }
 
   deactivate(): void {

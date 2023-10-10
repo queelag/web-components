@@ -115,6 +115,7 @@ export class CarouselTabsElement<E extends CarouselTabsElementEventMap = Carouse
 
   static queries: QueryDeclarations = {
     activeTabElement: { selector: 'aracna-carousel-tab[active]' },
+    focusedTabElement: { selector: 'aracna-carousel-tab:focus' },
     rootElement: { selector: 'aracna-carousel', closest: true },
     tabElements: { selector: 'aracna-carousel-tab', all: true }
   }

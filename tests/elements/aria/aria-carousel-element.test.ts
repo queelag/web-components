@@ -15,6 +15,8 @@ import type {
 import {
   dispatchBlurEvent,
   dispatchFocusEvent,
+  dispatchFocusInEvent,
+  dispatchFocusOutEvent,
   dispatchKeyDownEvent,
   dispatchMouseEnterEvent,
   dispatchMouseLeaveEvent,
@@ -62,6 +64,7 @@ describe('AriaCarouselElement', () => {
 
     expect(carousel.getAttribute('aria-roledescription')).toBe('carousel')
     // expect(carousel.getAttribute('aria-label')).toBe('label')
+    expect(carousel.getAttribute('live')).toBe('polite')
     expect(carousel.getAttribute('role')).toBe('region')
 
     expect(slides.getAttribute('aria-live')).toBe('polite')
@@ -99,6 +102,7 @@ describe('AriaCarouselElement', () => {
 
     expect(carousel.getAttribute('aria-roledescription')).toBe('carousel')
     // expect(carousel.getAttribute('aria-label')).toBe('label')
+    expect(carousel.getAttribute('live')).toBe('polite')
     expect(carousel.getAttribute('role')).toBe('region')
 
     expect(slides.getAttribute('aria-live')).toBe('polite')
@@ -189,6 +193,7 @@ describe('AriaCarouselElement', () => {
     await rc.updateComplete
 
     expect(carousel.automaticRotation).toBeTruthy()
+    expect(carousel.getAttribute('live')).toBe('off')
     expect(slides.getAttribute('aria-live')).toBe('off')
     expect(rc.getAttribute('aria-label')).toBe('Stop Automatic Slide Show')
 
@@ -206,6 +211,7 @@ describe('AriaCarouselElement', () => {
     await rc.updateComplete
 
     expect(carousel.automaticRotation).toBeFalsy()
+    expect(carousel.getAttribute('live')).toBe('polite')
     expect(slides.getAttribute('aria-live')).toBe('polite')
     expect(rc.getAttribute('aria-label')).toBe('Start Automatic Slide Show')
 
@@ -429,6 +435,7 @@ describe('AriaCarouselElement', () => {
     s1.active = true
     await s1.updateComplete
 
+    expect(carousel.getAttribute('live')).toBe('off')
     expect(slides.getAttribute('aria-live')).toBe('off')
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
@@ -436,9 +443,10 @@ describe('AriaCarouselElement', () => {
     /**
      * Focus the carousel and sleep for 100ms to assert that the automatic rotation was stopped
      */
-    dispatchFocusEvent(carousel)
+    dispatchFocusInEvent(carousel)
     await sleep(100)
 
+    expect(carousel.getAttribute('live')).toBe('off')
     expect(slides.getAttribute('aria-live')).toBe('polite')
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
@@ -446,9 +454,10 @@ describe('AriaCarouselElement', () => {
     /**
      * Blur the carousel and sleep for 100ms to assert that the automatic rotation was resumed
      */
-    dispatchBlurEvent(carousel)
+    dispatchFocusOutEvent(carousel)
     await sleep(100)
 
+    expect(carousel.getAttribute('live')).toBe('off')
     expect(slides.getAttribute('aria-live')).toBe('off')
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
@@ -459,6 +468,7 @@ describe('AriaCarouselElement', () => {
     dispatchMouseEnterEvent(carousel)
     await sleep(100)
 
+    expect(carousel.getAttribute('live')).toBe('off')
     expect(slides.getAttribute('aria-live')).toBe('polite')
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
@@ -469,6 +479,7 @@ describe('AriaCarouselElement', () => {
     dispatchMouseLeaveEvent(carousel)
     await sleep(100)
 
+    expect(carousel.getAttribute('live')).toBe('off')
     expect(slides.getAttribute('aria-live')).toBe('off')
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
@@ -490,6 +501,7 @@ describe('AriaCarouselElement', () => {
     rc.click()
     await rc.updateComplete
 
+    expect(carousel.getAttribute('live')).toBe('off')
     expect(slides.getAttribute('aria-live')).toBe('off')
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
@@ -500,6 +512,7 @@ describe('AriaCarouselElement', () => {
     dispatchFocusEvent(carousel)
     await sleep(100)
 
+    expect(carousel.getAttribute('live')).toBe('off')
     expect(slides.getAttribute('aria-live')).toBe('off')
     expect(s1.active).toBeFalsy()
     expect(s2.active).toBeTruthy()
@@ -510,6 +523,7 @@ describe('AriaCarouselElement', () => {
     dispatchBlurEvent(carousel)
     await sleep(100)
 
+    expect(carousel.getAttribute('live')).toBe('off')
     expect(slides.getAttribute('aria-live')).toBe('off')
     expect(s1.active).toBeTruthy()
     expect(s2.active).toBeFalsy()
