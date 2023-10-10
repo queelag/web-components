@@ -40,7 +40,7 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
   switchElements!: SwitchElement[]
   textAreaElements!: TextAreaElement[]
 
-  private onKeyDown(event: KeyboardEvent): void {
+  onKeyDown(event: KeyboardEvent): void {
     if (event.key !== KeyboardEventKey.ENTER) {
       return
     }
@@ -48,7 +48,7 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
     this.formElement.requestSubmit()
   }
 
-  private onSubmit(event: SubmitEvent): void {
+  onSubmit(event: SubmitEvent): void {
     let valid: boolean = true
 
     event.preventDefault()
@@ -95,7 +95,7 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
     return ElementName.FORM
   }
 
-  private get fieldElements(): FormFieldElement[] {
+  get fieldElements(): FormFieldElement[] {
     return [
       ...this.checkBoxElements,
       ...this.inputElements,

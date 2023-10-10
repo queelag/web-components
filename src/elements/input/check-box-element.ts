@@ -10,7 +10,7 @@ declare global {
 }
 
 export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElementEventMap> extends AriaCheckBoxElement<E> {
-  private onChange(): void {
+  onChange(): void {
     this.checked = !this.checked
     WebElementLogger.verbose(this.uid, 'onChange', `The checkbox has been ${this.checked ? 'checked' : 'unchecked'}.`)
 

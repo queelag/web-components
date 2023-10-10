@@ -23,7 +23,7 @@ export class AriaMeterElement<E extends AriaMeterElementEventMap = AriaMeterElem
   /**
    * INTERNAL
    */
-  protected _value?: number
+  private _value?: number
 
   get value(): number {
     return getLimitedNumber(this._value ?? DEFAULT_METER_VALUE, this.min ?? DEFAULT_METER_MIN, this.max ?? DEFAULT_METER_MAX)

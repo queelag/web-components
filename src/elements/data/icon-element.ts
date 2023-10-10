@@ -49,7 +49,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
   /**
    * STATES
    */
-  private svgElement?: SVGSVGElement
+  svgElement?: SVGSVGElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -68,7 +68,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     }
   }
 
-  private async generateSVGElement(src: string | undefined): Promise<void> {
+  async generateSVGElement(src: string | undefined): Promise<void> {
     if (typeof src !== 'string') {
       return
     }
@@ -87,7 +87,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     this.parseSVGString(DEFAULT_ICON_SVG_STRING)
   }
 
-  private async fetchSource(src?: string): Promise<void> {
+  async fetchSource(src?: string): Promise<void> {
     let cache: string | undefined, response: FetchResponse<string> | Error, text: string | Error
 
     if (typeof src !== 'string') {
@@ -128,7 +128,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     this.parseSVGString(text)
   }
 
-  private async parseSVGString(string: string): Promise<void> {
+  async parseSVGString(string: string): Promise<void> {
     let sanitized: string | undefined, parser: DOMParser, document: Document, element: SVGSVGElement | null
 
     /**
@@ -166,11 +166,15 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     </svg>`
   }
 
-  private get svgElementInnerHTML(): string {
+  get name(): ElementName {
+    return ElementName.ICON
+  }
+
+  get svgElementInnerHTML(): string {
     return this.svgElement?.innerHTML ?? ''
   }
 
-  private get svgElementStyle(): DirectiveResult<typeof StyleMapDirective> {
+  get svgElementStyle(): DirectiveResult<typeof StyleMapDirective> {
     return styleMap({
       height: getElementStyleCompatibleValue(this.height ?? this.size),
       maxHeight: getElementStyleCompatibleValue(this.height ?? this.size),
@@ -181,16 +185,12 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     })
   }
 
-  private get svgElementTemplate(): TemplateResult {
+  get svgElementTemplate(): TemplateResult {
     return svg`${unsafeSVG(this.svgElementInnerHTML)}`
   }
 
-  private get svgElementViewBox(): string | undefined {
+  get svgElementViewBox(): string | undefined {
     return this.svgElement?.getAttribute('viewbox') ?? this.svgElement?.getAttribute('viewBox') ?? undefined
-  }
-
-  get name(): ElementName {
-    return ElementName.ICON
   }
 
   static properties: PropertyDeclarations = {

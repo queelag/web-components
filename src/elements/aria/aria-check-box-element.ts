@@ -21,7 +21,7 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
   /**
    * INTERNAL
    */
-  _checked?: boolean
+  private _checked?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -54,7 +54,7 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
     WebElementLogger.verbose(this.uid, 'onClick', `The checkbox has been ${this.checked ? 'checked' : 'unchecked'}.`)
   }
 
-  private onKeyDown(event: KeyboardEvent): void {
+  onKeyDown(event: KeyboardEvent): void {
     if (event.key !== KeyboardEventKey.SPACE) {
       return
     }

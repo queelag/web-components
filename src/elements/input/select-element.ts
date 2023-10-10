@@ -41,7 +41,7 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
    */
   options?: SelectOption[]
 
-  private onChange(event: InputEvent): void {
+  onChange(event: InputEvent): void {
     let option: SelectOption | undefined
 
     if (this.multiple && this.native) {

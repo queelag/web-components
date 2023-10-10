@@ -15,7 +15,7 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
   /**
    * INTERNAL
    */
-  _on?: boolean
+  private _on?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -48,7 +48,7 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
     WebElementLogger.verbose(this.uid, 'onClick', `The switch has been turned ${this.value ? 'on' : 'off'}.`)
   }
 
-  private onKeyDown(event: KeyboardEvent): void {
+  onKeyDown(event: KeyboardEvent): void {
     if (event.key !== KeyboardEventKey.SPACE) {
       return
     }

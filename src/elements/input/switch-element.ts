@@ -10,7 +10,7 @@ declare global {
 }
 
 export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventMap> extends AriaSwitchElement<E> {
-  private onChange(event: Event): void {
+  onChange(event: Event): void {
     // @ts-ignore
     this.on = event.target.value === '1'
     WebElementLogger.verbose(this.uid, 'onChange', `The switch has been turned ${this.on ? 'on' : 'off'}.`)

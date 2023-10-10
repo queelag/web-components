@@ -37,14 +37,14 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
   /**
    * QUERIES
    */
-  private inputElement!: HTMLInputElement
+  inputElement!: HTMLInputElement
 
   /**
    * STATES
    */
-  private temporaryValue: string = ''
+  temporaryValue: string = ''
 
-  private onBlur(): void {
+  onBlur(): void {
     this.focused = false
     WebElementLogger.verbose(this.uid, 'onBlur', `The focused property has been set to false.`)
 
@@ -53,12 +53,12 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
     }
   }
 
-  private onFocus(): void {
+  onFocus(): void {
     this.focused = true
     WebElementLogger.verbose(this.uid, 'onFocus', `The focused property has been set to true.`)
   }
 
-  private onInput(): void {
+  onInput(): void {
     switch (this.type) {
       case 'buffer':
         this.value = TextCodec.encode(this.inputElement.value)
@@ -108,7 +108,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
     }
   }
 
-  private onKeyUp(event: KeyboardEvent): void {
+  onKeyUp(event: KeyboardEvent): void {
     if (event.key !== 'Enter' || this.type !== 'text' || !this.multiple) {
       return
     }
@@ -217,11 +217,11 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
     `
   }
 
-  private get inputElementStyle(): DirectiveResult {
+  get inputElementStyle(): DirectiveResult {
     return styleMap({ ...this.styleInfo, padding: this.padding })
   }
 
-  private get inputElementType(): any {
+  get inputElementType(): any {
     if (this.obscured) {
       return 'password'
     }
@@ -233,7 +233,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
     return this.type
   }
 
-  private get inputElementValue(): string | undefined {
+  get inputElementValue(): string | undefined {
     switch (this.type) {
       case 'buffer':
         return undefined

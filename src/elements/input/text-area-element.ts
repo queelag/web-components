@@ -38,16 +38,16 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
   /**
    * QUERIES
    */
-  private spanElement!: HTMLSpanElement
-  private textAreaElement!: HTMLTextAreaElement
+  spanElement!: HTMLSpanElement
+  textAreaElement!: HTMLTextAreaElement
 
   /**
    * STATES
    */
-  private computedHeight?: string
+  computedHeight?: string
   temporaryValue: string = ''
 
-  private onBlur(): void {
+  onBlur(): void {
     this.focused = false
     WebElementLogger.verbose(this.uid, 'onBlur', `The textarea has been blurred.`)
 
@@ -56,12 +56,12 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     }
   }
 
-  private onFocus(): void {
+  onFocus(): void {
     this.focused = true
     WebElementLogger.verbose(this.uid, 'onFocus', `The textarea has been focused.`)
   }
 
-  private onInput(): void {
+  onInput(): void {
     if (this.multiple) {
       this.temporaryValue = this.textAreaElement.value
       WebElementLogger.verbose(this.uid, 'onInput', `The temporary value has been set.`, [this.temporaryValue])
@@ -79,7 +79,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     this.computeHeight()
   }
 
-  private onKeyUp(event: KeyboardEvent): void {
+  onKeyUp(event: KeyboardEvent): void {
     if (event.key !== 'Enter' || !this.multiple) {
       return
     }
@@ -98,7 +98,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     this.touch()
   }
 
-  private computeHeight(): void {
+  computeHeight(): void {
     let style: CSSStyleDeclaration
 
     if (!this.autosize) {
@@ -184,7 +184,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     return !this.multiple
   }
 
-  private get textAreaElementStyle(): DirectiveResult {
+  get textAreaElementStyle(): DirectiveResult {
     return styleMap({
       ...this.styleInfo,
       minHeight: this.computedHeight,
@@ -193,7 +193,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     })
   }
 
-  private get textAreaElementValue(): string | undefined {
+  get textAreaElementValue(): string | undefined {
     if (this.multiple) {
       return this.temporaryValue
     }

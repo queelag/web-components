@@ -44,12 +44,12 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
   /**
    * QUERIES
    */
-  private imgElement!: HTMLImageElement
+  imgElement!: HTMLImageElement
 
   /**
    * STATES
    */
-  private imgElementSrc: string = this.placeholder ?? DEFAULT_IMAGE_SRC
+  imgElementSrc: string = this.placeholder ?? DEFAULT_IMAGE_SRC
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -68,7 +68,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
     }
   }
 
-  private async load(src: string | undefined): Promise<void> {
+  async load(src: string | undefined): Promise<void> {
     let cache: string | undefined
 
     /**
@@ -102,7 +102,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
     WebElementLogger.verbose(this.uid, 'load', `Loading the src.`, [src])
   }
 
-  private onError(event: ErrorEvent): void {
+  onError(event: ErrorEvent): void {
     // FETCHING_IMAGES.delete(this.src)
     // WebElementLogger.verbose(this.uid, 'onError', `The src has been unmarked as fetching.`, [this.src])
 
@@ -110,7 +110,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
     WebElementLogger.error(this.uid, 'onError', `Falling back to the placeholder image.`, event)
   }
 
-  private onLoad(): void {
+  onLoad(): void {
     let base64: string | Error
 
     WebElementLogger.verbose(this.uid, 'onLoad', `The src has been loaded.`, [this.src])
@@ -152,7 +152,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
     `
   }
 
-  private get imgElementCrossOrigin(): ImageElementCrossOrigin | undefined {
+  get imgElementCrossOrigin(): ImageElementCrossOrigin | undefined {
     if (this.crossOrigin) {
       return this.crossOrigin
     }
@@ -162,7 +162,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
     }
   }
 
-  private get imgElementLoading(): 'auto' | 'eager' | 'lazy' {
+  get imgElementLoading(): 'auto' | 'eager' | 'lazy' {
     if (this.eager) {
       return 'eager'
     }
@@ -174,7 +174,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
     return 'auto'
   }
 
-  private get imgElementStyle(): DirectiveResult<typeof StyleMapDirective> {
+  get imgElementStyle(): DirectiveResult<typeof StyleMapDirective> {
     return styleMap({
       ...this.shapeStyleInfo,
       height: getElementStyleCompatibleValue(this.height || this.size || DEFAULT_IMAGE_SIZE),

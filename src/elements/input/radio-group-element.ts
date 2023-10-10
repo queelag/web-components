@@ -24,7 +24,7 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
    */
   buttons?: RadioButton[]
 
-  private onChange(event: InputEvent): void {
+  onChange(event: InputEvent): void {
     let button: RadioButton | undefined
 
     if (this.disabled || this.readonly) {

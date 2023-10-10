@@ -82,7 +82,7 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
 
   onSlotChange(): void {}
 
-  private defineQueries(): void {
+  defineQueries(): void {
     let declarations: QueryDeclarations = (this.constructor as any).queries
 
     for (let key in declarations) {
@@ -114,6 +114,17 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
   // @ts-ignore
   get name(): ElementName {}
 
+  get numericSize(): number {
+    switch (typeof this.size) {
+      case 'number':
+        return this.size
+      case 'string':
+        return parseNumber(this.size)
+      default:
+        return 0
+    }
+  }
+
   get shapeHTML(): TemplateResult | undefined {
     if (this.shape !== 'squircle') {
       return
@@ -143,17 +154,6 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
 
   get styleMap(): DirectiveResult {
     return styleMap(this.styleInfo)
-  }
-
-  private get numericSize(): number {
-    switch (typeof this.size) {
-      case 'number':
-        return this.size
-      case 'string':
-        return parseNumber(this.size)
-      default:
-        return 0
-    }
   }
 
   static queries: QueryDeclarations = {}

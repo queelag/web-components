@@ -53,7 +53,7 @@ export class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogE
     this.removeBodyStyle()
   }
 
-  private setBodyStyle(): void {
+  setBodyStyle(): void {
     if (!this.lockBodyScroll) {
       return
     }
@@ -61,7 +61,7 @@ export class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogE
     document.body.style.overflow = 'hidden'
   }
 
-  private removeBodyStyle(): void {
+  removeBodyStyle(): void {
     if (!this.lockBodyScroll) {
       return
     }
