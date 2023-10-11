@@ -36,20 +36,6 @@ build({
 }).catch(() => process.exit(1))
 
 /**
- * IIFE
- */
-build({
-  ...OPTIONS,
-  bundle: true,
-  entryPoints: ['src/index.ts'],
-  format: 'iife',
-  globalName: 'AracnaWebComponents',
-  outfile: 'dist/index.iife.js',
-  platform: 'browser',
-  treeShaking: true
-}).catch(() => process.exit(1))
-
-/**
  * ELEMENTS
  */
 for (let element of await glob('./src/elements/**/*.ts')) {
@@ -64,6 +50,19 @@ for (let element of await glob('./src/elements/**/*.ts')) {
     format: 'cjs',
     outfile: element.replace('src', 'dist').replace('.ts', '.cjs'),
     platform: 'neutral',
+    treeShaking: true
+  }).catch(() => process.exit(1))
+
+  /**
+   * IIFE
+   */
+  build({
+    ...OPTIONS,
+    bundle: true,
+    entryPoints: [element],
+    format: 'iife',
+    outfile: element.replace('src', 'dist').replace('.ts', '.iife.js'),
+    platform: 'browser',
     treeShaking: true
   }).catch(() => process.exit(1))
 }

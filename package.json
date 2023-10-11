@@ -6,7 +6,6 @@
     "@astrojs/lit": "^2.1.1",
     "@astrojs/tailwind": "^4.0.0",
     "@floating-ui/dom": "^1.5.1",
-    "@microsoft/api-extractor": "^7.36.4",
     "@types/dompurify": "^3.0.2",
     "@vitest/coverage-v8": "^0.34.2",
     "@vitest/ui": "^0.34.2",
@@ -30,6 +29,53 @@
     "typedoc": "^0.24.8",
     "typescript": "^5.1.6",
     "vitest": "^0.34.2"
+  },
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs",
+      "types": "./index.d.ts"
+    },
+    "./elements/aria/*": {
+      "import": "./elements/aria/*.js",
+      "require": "./elements/aria/*.cjs",
+      "types": "./elements/aria/*.d.ts"
+    },
+    "./elements/core/*": {
+      "import": "./elements/core/*.js",
+      "require": "./elements/core/*.cjs",
+      "types": "./elements/core/*.d.ts"
+    },
+    "./elements/data/*": {
+      "import": "./elements/data/*.js",
+      "require": "./elements/data/*.cjs",
+      "types": "./elements/data/*.d.ts"
+    },
+    "./elements/feedback/*": {
+      "import": "./elements/feedback/*.js",
+      "require": "./elements/feedback/*.cjs",
+      "types": "./elements/feedback/*.d.ts"
+    },
+    "./elements/input/*": {
+      "import": "./elements/input/*.js",
+      "require": "./elements/input/*.cjs",
+      "types": "./elements/input/*.d.ts"
+    },
+    "./elements/layout/*": {
+      "import": "./elements/layout/*.js",
+      "require": "./elements/layout/*.cjs",
+      "types": "./elements/layout/*.d.ts"
+    },
+    "./elements/navigation/*": {
+      "import": "./elements/navigation/*.js",
+      "require": "./elements/navigation/*.cjs",
+      "types": "./elements/navigation/*.d.ts"
+    },
+    "./elements/surface/*": {
+      "import": "./elements/surface/*.js",
+      "require": "./elements/surface/*.cjs",
+      "types": "./elements/surface/*.d.ts"
+    }
   },
   "license": "MIT",
   "main": "index.cjs",
@@ -62,8 +108,8 @@
   "repository": "https://github.com/aracna/web-components",
   "scripts": {
     "test": "vitest run",
-    "build": "rm -rf dist && node esbuild.mjs && yarn tsc && node scripts/emit-cjs-declarations.mjs && yarn api-extractor run --local",
-    "tarball": "yarn version && cp LICENSE package.json README.md dist/. && node scripts/set-package-exports.mjs && cd dist && yarn pack",
+    "build": "rm -rf dist && node esbuild.mjs && yarn tsc",
+    "tarball": "yarn version && cp LICENSE package.json README.md dist/. && cd dist && yarn pack",
     "deploy": "yarn test && yarn build && yarn tarball && yarn publish dist/*.tgz",
     "playground:dev": "yarn astro dev --root ./playground",
     "playground:build": "yarn astro build --root ./playground",
