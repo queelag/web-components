@@ -13,12 +13,6 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
   protected aria: AriaCheckBoxController = new AriaCheckBoxController(this)
 
   /**
-   * PROPERTIES
-   */
-  disabled?: boolean
-  readonly?: boolean
-
-  /**
    * INTERNAL
    */
   protected _checked?: boolean
