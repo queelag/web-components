@@ -133,6 +133,10 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
     return getSquircleHTML('squircle-clip-path', this.shapeSquircleSize ?? this.numericSize, this.shapeSquircleCurvature)
   }
 
+  get backgroundStyleInfo(): StyleInfo {
+    return { background: this.background }
+  }
+
   get shapeStyleInfo(): StyleInfo {
     return getShapeStyleInfo(this.shape, {
       rectangle: { radius: this.shapeRectangleRadius },
@@ -149,7 +153,7 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
   }
 
   get styleInfo(): StyleInfo {
-    return { ...this.shapeStyleInfo, ...this.sizeStyleInfo, background: this.background }
+    return { ...this.backgroundStyleInfo, ...this.shapeStyleInfo, ...this.sizeStyleInfo }
   }
 
   get styleMap(): DirectiveResult {

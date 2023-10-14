@@ -188,6 +188,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
 
   get imgElementStyle(): DirectiveResult<typeof StyleMapDirective> {
     return styleMap({
+      ...this.backgroundStyleInfo,
       ...this.shapeStyleInfo,
       height: getElementStyleCompatibleValue(this.height || this.size || DEFAULT_IMAGE_SIZE),
       maxHeight: getElementStyleCompatibleValue(this.height || this.size),
