@@ -12,11 +12,13 @@ export class ChipElement<E extends ChipElementEventMap = ChipElementEventMap> ex
   /**
    * PROPERTIES
    */
-  icon?: string
-  image?: string
-  label?: string
   leadingIcon?: string
+  leadingImage?: string
+  leadingText?: string
+  text?: string
   trailingIcon?: string
+  trailingImage?: string
+  trailingText?: string
   variant?: ChipElementVariant
 
   get name(): ElementName {
@@ -24,11 +26,13 @@ export class ChipElement<E extends ChipElementEventMap = ChipElementEventMap> ex
   }
 
   static properties: PropertyDeclarations = {
-    icon: { type: String, reflect: true },
-    image: { type: String, reflect: true },
-    label: { type: String, reflect: true },
     leadingIcon: { type: String, attribute: 'leading-icon', reflect: true },
+    leadingImage: { type: String, attribute: 'leading-image', reflect: true },
+    leadingText: { type: String, attribute: 'leading-text', reflect: true },
+    text: { type: String, reflect: true },
     trialingIcon: { type: String, attribute: 'trailing-icon', reflect: true },
+    trialingImage: { type: String, attribute: 'trailing-image', reflect: true },
+    trialingText: { type: String, attribute: 'trailing-text', reflect: true },
     variant: { type: String, reflect: true }
   }
 }

@@ -1,10 +1,10 @@
 import { ID } from '@aracna/core'
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaTooltipContentElement, AriaTooltipTriggerElement } from '../elements/aria/aria-tooltip-element.js'
+import type { AriaTooltipContentElement, AriaTooltipElement, AriaTooltipTriggerElement } from '../elements/aria/aria-tooltip-element.js'
 
 export class AriaTooltipController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & HTMLElement) {
+  constructor(private host: ReactiveControllerHost & AriaTooltipElement) {
     this.host.addController(this)
   }
 
@@ -18,6 +18,10 @@ export class AriaTooltipController implements ReactiveController {
 
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'role', 'tooltip')
+
+    if (this.host.triggerElement) {
+      setImmutableElementAttribute(this.host.triggerElement, 'tabindex', this.host.focusable ? '0' : '-1')
+    }
   }
 }
 
@@ -58,9 +62,5 @@ export class AriaTooltipTriggerController implements ReactiveController {
 
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'aria-describedby', this.host.rootElement.contentElement?.id)
-
-    if (this.host.rootElement.focusable) {
-      setImmutableElementAttribute(this.host, 'tabindex', '0')
-    }
   }
 }

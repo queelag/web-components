@@ -1,4 +1,4 @@
-import { parseNumber, removeArrayItems } from '@aracna/core'
+import { parseNumber, removeArrayItems, wf } from '@aracna/core'
 import {
   ElementName,
   QueryDeclarations,
@@ -47,6 +47,11 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
   computedHeight?: string
   temporaryValue: string = ''
 
+  connectedCallback(): void {
+    super.connectedCallback()
+    wf(() => Boolean(this.textAreaElement)).then(() => this.computeHeight())
+  }
+
   onBlur(): void {
     this.focused = false
     WebElementLogger.verbose(this.uid, 'onBlur', `The textarea has been blurred.`)
@@ -75,8 +80,6 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     if (this.touchTrigger === 'input') {
       this.touch()
     }
-
-    this.computeHeight()
   }
 
   onKeyUp(event: KeyboardEvent): void {
@@ -207,6 +210,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
 
   set value(value: TextAreaElementValue) {
     super.value = value
+    this.computeHeight()
   }
 
   static properties: PropertyDeclarations = {
@@ -237,6 +241,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
       :host([normalized]) textarea {
         background: none;
         border: none;
+        color: inherit;
         font: unset;
         outline: none;
         padding: 0;

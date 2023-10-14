@@ -1,4 +1,4 @@
-import { deleteShallowObjectUndefinedProperties, tcp } from '@aracna/core'
+import { deleteShallowObjectUndefinedProperties, tcp, wf } from '@aracna/core'
 import { FloatingElementEventMap } from '@aracna/web'
 import {
   AutoUpdateOptions,
@@ -39,7 +39,7 @@ export class FloatingElement<E extends FloatingElementEventMap = FloatingElement
 
   connectedCallback(): void {
     super.connectedCallback()
-    this.computePosition()
+    wf(() => Boolean(this.referenceElement)).then(() => this.computePosition())
   }
 
   disconnectedCallback(): void {

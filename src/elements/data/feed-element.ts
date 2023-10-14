@@ -7,6 +7,7 @@ import {
   FeedElementEventMap,
   QueryDeclarations
 } from '@aracna/web'
+import { PropertyDeclarations } from 'lit'
 import { AriaFeedArticleDescriptionElement, AriaFeedArticleElement, AriaFeedArticleLabelElement, AriaFeedElement } from '../aria/aria-feed-element.js'
 
 declare global {
@@ -19,8 +20,18 @@ declare global {
 }
 
 export class FeedElement<E extends FeedElementEventMap = FeedElementEventMap> extends AriaFeedElement<E> {
+  /**
+   * PROPERTIES
+   */
+  articles?: any[]
+
   get name(): ElementName {
     return ElementName.FEED
+  }
+
+  static properties: PropertyDeclarations = {
+    ...super.properties,
+    articles: { type: Array }
   }
 
   static queries: QueryDeclarations = {
@@ -30,8 +41,32 @@ export class FeedElement<E extends FeedElementEventMap = FeedElementEventMap> ex
 }
 
 export class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArticleElementEventMap> extends AriaFeedArticleElement<E> {
+  /**
+   * PROPERTIES
+   */
+  headline?: string
+  leadingIcon?: string
+  leadingImage?: string
+  leadingText?: string
+  text?: string
+  trailingIcon?: string
+  trailingImage?: string
+  trailingText?: string
+
   get name(): ElementName {
     return ElementName.FEED_ARTICLE
+  }
+
+  static properties: PropertyDeclarations = {
+    ...super.properties,
+    headline: { type: String, reflect: true },
+    leadingIcon: { type: String, attribute: 'leading-icon', reflect: true },
+    leadingImage: { type: String, attribute: 'leading-image', reflect: true },
+    leadingText: { type: String, attribute: 'leading-text', reflect: true },
+    text: { type: String, reflect: true },
+    trialingIcon: { type: String, attribute: 'trailing-icon', reflect: true },
+    trialingImage: { type: String, attribute: 'trailing-image', reflect: true },
+    trialingText: { type: String, attribute: 'trailing-text', reflect: true }
   }
 
   static queries: QueryDeclarations = {
