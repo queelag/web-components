@@ -5,6 +5,7 @@ import {
   DEFAULT_ICON_SANITIZE_CONFIG,
   DEFAULT_ICON_SVG_STRING,
   ElementName,
+  FETCHING_ICONS,
   IconElementEventMap,
   IconElementSanitizeConfig,
   SVG_NAMESPACE_URI,
@@ -67,8 +68,13 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
       return
     }
 
+    if (['sanitize', 'sanitize-config'].includes(name) && typeof this.src === 'string') {
+      CACHE_ICONS.delete(this.src)
+      WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The icon cache has been deleted.`, [this.src])
+    }
+
     if (['cache', 'sanitize', 'sanitize-config'].includes(name)) {
-      this.generateSVGElement(value ?? undefined)
+      this.generateSVGElement(this.src)
     }
   }
 
@@ -92,48 +98,40 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
   }
 
   async fetchSource(src?: string): Promise<void> {
-    let cache: string | undefined, response: FetchResponse<string> | Error, text: string | Error
+    let response: FetchResponse<string> | Error, text: string | Error
 
     if (typeof src !== 'string') {
       return
     }
 
-    // if (FETCHING_ICONS.has(src)) {
-    //   WebElementLogger.verbose(this.uid, 'fetchSource', `The src is already being fetched, will try again in 100ms.`, [src])
-    //   await sleep(100)
+    if (FETCHING_ICONS.has(src)) {
+      WebElementLogger.verbose(this.uid, 'fetchSource', `The src is already being fetched, will try again in 100ms.`, [src])
+      await sleep(100)
 
-    //   return this.fetchSource()
-    // }
-
-    cache = CACHE_ICONS.get(src)
-    if (this.cache && cache) {
-      WebElementLogger.verbose(this.uid, 'fetchSource', `Cached SVG found for this src, will parse.`, [src, cache])
-      return this.parseSVGString(cache)
+      return this.fetchSource(src)
     }
 
-    // FETCHING_ICONS.add(src)
-    // WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been marked as fetching.`, [src])
+    if (this.cache && CACHE_ICONS.has(src)) {
+      return this.parseSVGString(src)
+    }
+
+    FETCHING_ICONS.add(src)
+    WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been marked as fetching.`, [src])
 
     response = await Fetch.get(src, { parse: false })
-    if (response instanceof Error) return
-    // if (response instanceof Error) return rvp(() => FETCHING_ICONS.delete(src))
+    if (response instanceof Error) return rvp(() => FETCHING_ICONS.delete(src))
 
-    // FETCHING_ICONS.delete(src)
-    // WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been unmarked as fetching.`, [src])
+    FETCHING_ICONS.delete(src)
+    WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been unmarked as fetching.`, [src])
 
     text = await tcp(() => (response as FetchResponse).text())
-    if (text instanceof Error) return rvp(() => CACHE_ICONS.delete(src))
-
-    if (this.cache) {
-      CACHE_ICONS.set(src, text)
-      WebElementLogger.verbose(this.uid, 'fetchSource', `The icon has been cached.`, [src, text])
-    }
+    if (text instanceof Error) return
 
     this.parseSVGString(text)
   }
 
   async parseSVGString(string: string): Promise<void> {
-    let sanitized: string | undefined, parser: DOMParser, document: Document, element: SVGSVGElement | null
+    let cache: string | undefined, sanitized: string | undefined, parser: DOMParser, document: Document, element: SVGSVGElement | null
 
     /**
      * Fixes SSR
@@ -144,13 +142,23 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
       return
     }
 
+    if (this.cache && typeof this.src === 'string' && CACHE_ICONS.has(this.src)) {
+      cache = CACHE_ICONS.get(this.src)
+      WebElementLogger.verbose(this.uid, 'parseSVGString', `Cached SVG found for this src.`, [this.src, cache])
+    }
+
     if (this.sanitize) {
       sanitized = DOMPurify.sanitize(string, { ...DEFAULT_ICON_SANITIZE_CONFIG, ...this.sanitizeConfig })
       WebElementLogger.verbose(this.uid, 'parseSVGString', `The string has been sanitized.`, [sanitized])
     }
 
+    if (this.cache && typeof this.src === 'string') {
+      CACHE_ICONS.set(this.src, sanitized ?? string)
+      WebElementLogger.verbose(this.uid, 'parseSVGString', `The icon has been cached.`, [this.src, sanitized ?? string])
+    }
+
     parser = new DOMParser()
-    document = parser.parseFromString(sanitized ?? string, 'text/html')
+    document = parser.parseFromString(cache ?? sanitized ?? string, 'text/html')
 
     element = document.querySelector('svg')
     if (!element) return WebElementLogger.error(this.uid, 'parseSVGString', `Failed to find the svg element.`, document)
