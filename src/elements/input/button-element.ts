@@ -21,27 +21,35 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
   type?: ButtonType
   variant?: ButtonVariant
 
-  onClick = (): void => {
-    if (this.async) {
-      this.onClickAsync()
-    }
-  }
-
-  onClickAsync(): void {
-    if (this.disabled || this.spinning) {
-      WebElementLogger.warn(this.uid, 'onClickAsync', `The button is disabled or spinning.`)
+  click(): void {
+    if (this.spinning) {
       return
     }
 
-    this.disabled = true
-    this.spinning = true
-    WebElementLogger.verbose(this.uid, 'onClickAsync', `The disabled and spinning properties have been set to true.`)
+    super.click()
+  }
+
+  onClick = (): void => {
+    if (this.disabled || this.spinning) {
+      WebElementLogger.warn(this.uid, 'onClick', `The button is disabled or spinning.`)
+      return
+    }
+
+    if (this.async) {
+      this.disabled = true
+      this.spinning = true
+      WebElementLogger.verbose(this.uid, 'onClick', `The disabled and spinning properties have been set to true.`)
+    }
 
     this.dispatchEvent(new ButtonClickEvent(this.finalize))
-    WebElementLogger.verbose(this.uid, 'onClickAsync', `The "clickasync" event has been dispatched.`)
+    WebElementLogger.verbose(this.uid, 'onClick', `The "button-click" event has been dispatched.`)
   }
 
   finalize = (): void => {
+    if (!this.async) {
+      return
+    }
+
     this.spinning = false
     this.disabled = false
 
@@ -101,7 +109,7 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
       :host([normalized]) button {
         appearance: none;
         background: none;
-        display: inline-flex;
+        display: grid;
         border: none;
         height: 100%;
         padding: 0;
@@ -109,9 +117,7 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
       }
 
       div {
-        display: inline-flex;
-        height: 100%;
-        width: 100%;
+        display: grid;
       }
     `
   ]

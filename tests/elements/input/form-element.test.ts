@@ -2,6 +2,8 @@ import { sleep } from '@aracna/core'
 import { FormSubmitEvent } from '@aracna/web'
 import { size, string } from 'superstruct'
 import { Mock, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import '../../../src/elements/input/button-element'
+import { ButtonElement } from '../../../src/elements/input/button-element'
 import '../../../src/elements/input/check-box-element'
 import { CheckBoxElement } from '../../../src/elements/input/check-box-element'
 import '../../../src/elements/input/form-element'
@@ -20,7 +22,7 @@ import '../../../src/elements/input/switch-element'
 import { SwitchElement } from '../../../src/elements/input/switch-element'
 import '../../../src/elements/input/text-area-element'
 import { TextAreaElement } from '../../../src/elements/input/text-area-element'
-import { dispatchSubmitEvent, render } from '../../../vitest/dom-utils'
+import { dispatchClickEvent, dispatchSubmitEvent, render } from '../../../vitest/dom-utils'
 
 describe('FormElement', () => {
   let form: FormElement, onSubmit: Mock
@@ -115,6 +117,19 @@ describe('FormElement', () => {
     input.value = 'a'
 
     dispatchSubmitEvent(form.renderRoot.querySelector('form'))
+    expect(onSubmit).toBeCalledTimes(1)
+  })
+
+  it('works with a child button of type submit', async () => {
+    let button: ButtonElement = document.createElement('aracna-button')
+
+    button.type = 'submit'
+    form.append(button)
+
+    await render(form, {}, { 'form-submit': onSubmit })
+    await sleep(100)
+
+    dispatchClickEvent(button)
     expect(onSubmit).toBeCalledTimes(1)
   })
 })

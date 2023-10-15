@@ -66,7 +66,7 @@ export class FormFieldElement<E extends FormFieldElementEventMap = FormFieldElem
     old = this.validation
 
     this.validation = this.schema.validate(this.value)
-    // WebElementLogger.verbose(this.uid, 'validate', `The value has been validated against the schema.`, this.validation)
+    WebElementLogger.verbose(this.uid, 'validate', `The value has been validated against the schema.`, this.validation)
 
     this.dispatchEvent(new StateChangeEvent('validation', old, this.validation))
   }

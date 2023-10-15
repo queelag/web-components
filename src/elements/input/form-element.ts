@@ -1,9 +1,20 @@
-import { defineCustomElement, ElementName, FormElementEventMap, FormSubmitEvent, KeyboardEventKey, QueryDeclarations, WebElementLogger } from '@aracna/web'
+import { wf } from '@aracna/core'
+import {
+  ButtonClickEvent,
+  defineCustomElement,
+  ElementName,
+  FormElementEventMap,
+  FormSubmitEvent,
+  KeyboardEventKey,
+  QueryDeclarations,
+  WebElementLogger
+} from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ifdef } from '../../directives/if-defined.js'
 import { BaseElement } from '../core/base-element.js'
 import type { FormFieldElement } from '../core/form-field-element.js'
+import type { ButtonElement } from './button-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -22,15 +33,31 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
   /**
    * QUERIES
    */
+  buttonElement?: ButtonElement
   fieldElements!: FormFieldElement[]
   formElement!: HTMLFormElement
+
+  connectedCallback(): void {
+    super.connectedCallback()
+    wf(() => Boolean(this.buttonElement)).then(() => this.buttonElement?.addEventListener('button-click', this.onButtonClick))
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.buttonElement?.removeEventListener('button-click', this.onButtonClick)
+  }
+
+  onButtonClick = (event: ButtonClickEvent): void => {
+    this.formElement.dispatchEvent(new SubmitEvent('submit'))
+    event.detail?.finalize()
+  }
 
   onKeyDown(event: KeyboardEvent): void {
     if (event.key !== KeyboardEventKey.ENTER) {
       return
     }
 
-    this.formElement.requestSubmit()
+    this.formElement.dispatchEvent(new SubmitEvent('submit'))
   }
 
   onSubmit(event: SubmitEvent): void {
@@ -87,6 +114,7 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
   }
 
   static queries: QueryDeclarations = {
+    buttonElement: { selector: 'aracna-button[type="submit"]' },
     fieldElements: { selector: '[form-field-element]', all: true },
     formElement: { selector: 'form', shadow: true }
   }
