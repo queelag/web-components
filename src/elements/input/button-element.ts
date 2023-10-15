@@ -15,9 +15,9 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
    */
   async?: boolean
   icon?: string
-  label?: string
   normalized?: boolean
   spinning?: boolean
+  text?: string
   type?: ButtonType
   variant?: ButtonVariant
 
@@ -52,14 +52,14 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
     if (this.native) {
       return html`
         <button
-          aria-label=${ifdef(this.label)}
+          aria-label=${ifdef(this.text)}
           aria-pressed=${ifdef(this.pressed)}
           ?disabled=${this.disabled}
           style=${this.styleMap}
           tabindex="-1"
           type=${ifdef(this.type)}
         >
-          <slot>${this.label}</slot>
+          <slot>${this.text}</slot>
         </button>
         ${this.shapeHTML}
       `
@@ -67,7 +67,7 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
 
     return html`
       <div style=${this.styleMap}>
-        <slot>${this.label}</slot>
+        <slot>${this.text}</slot>
       </div>
       ${this.shapeHTML}
     `
@@ -92,6 +92,10 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
     css`
       * {
         cursor: pointer;
+      }
+
+      button {
+        font-family: inherit;
       }
 
       :host([normalized]) button {

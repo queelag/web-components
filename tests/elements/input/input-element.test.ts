@@ -50,7 +50,7 @@ describe('InputElement', () => {
     expect(input.value).toStrictEqual(TextCodec.encode('hello'))
 
     input.clear()
-    expect(input.value).toStrictEqual(new Uint8Array())
+    expect(input.value).toBeUndefined()
   })
 
   it('works with type color, email, month, search, tel, time, url, week', async () => {
@@ -60,7 +60,7 @@ describe('InputElement', () => {
     expect(input.renderRoot.querySelector('input')?.value).toBe('#000000')
     expect(input.value).toBe('#000000')
     input.clear()
-    expect(input.value).toBe('')
+    expect(input.value).toBeUndefined()
 
     await render(input, { type: 'email' })
 
@@ -68,7 +68,7 @@ describe('InputElement', () => {
     expect(input.renderRoot.querySelector('input')?.value).toBe('john@email.com')
     expect(input.value).toBe('john@email.com')
     input.clear()
-    expect(input.value).toBe('')
+    expect(input.value).toBeUndefined()
 
     await render(input, { type: 'month' })
 
@@ -76,7 +76,7 @@ describe('InputElement', () => {
     expect(input.renderRoot.querySelector('input')?.value).toBe('2022-01')
     expect(input.value).toBe('2022-01')
     input.clear()
-    expect(input.value).toBe('')
+    expect(input.value).toBeUndefined()
 
     await render(input, { type: 'search' })
 
@@ -84,7 +84,7 @@ describe('InputElement', () => {
     expect(input.renderRoot.querySelector('input')?.value).toBe('hello')
     expect(input.value).toBe('hello')
     input.clear()
-    expect(input.value).toBe('')
+    expect(input.value).toBeUndefined()
 
     await render(input, { type: 'tel' })
 
@@ -92,7 +92,7 @@ describe('InputElement', () => {
     expect(input.renderRoot.querySelector('input')?.value).toBe('202-555-0102')
     expect(input.value).toBe('202-555-0102')
     input.clear()
-    expect(input.value).toBe('')
+    expect(input.value).toBeUndefined()
 
     await render(input, { type: 'time' })
 
@@ -100,7 +100,7 @@ describe('InputElement', () => {
     expect(input.renderRoot.querySelector('input')?.value).toBe('00:00')
     expect(input.value).toBe('00:00')
     input.clear()
-    expect(input.value).toBe('')
+    expect(input.value).toBeUndefined()
 
     await render(input, { type: 'url' })
 
@@ -108,7 +108,7 @@ describe('InputElement', () => {
     expect(input.renderRoot.querySelector('input')?.value).toBe('https://website.com')
     expect(input.value).toBe('https://website.com')
     input.clear()
-    expect(input.value).toBe('')
+    expect(input.value).toBeUndefined()
 
     await render(input, { type: 'week' })
 
@@ -116,7 +116,7 @@ describe('InputElement', () => {
     expect(input.renderRoot.querySelector('input')?.value).toBe('2022-W01')
     expect(input.value).toBe('2022-W01')
     input.clear()
-    expect(input.value).toBe('')
+    expect(input.value).toBeUndefined()
   })
 
   it('works with type date and datetime-local', async () => {
@@ -145,7 +145,7 @@ describe('InputElement', () => {
     expect(input.value).toBe(1)
 
     input.clear()
-    expect(input.value).toBe(0)
+    expect(input.value).toBeUndefined()
   })
 
   it('works with type password', async () => {
@@ -158,7 +158,7 @@ describe('InputElement', () => {
     expect(input.value).toBe('hello')
 
     input.clear()
-    expect(input.value).toBe('')
+    expect(input.value).toBeUndefined()
   })
 
   it('works with type text', async () => {
@@ -169,7 +169,7 @@ describe('InputElement', () => {
     expect(input.value).toBe('hello')
 
     input.clear()
-    expect(input.value).toBe('')
+    expect(input.value).toBeUndefined()
   })
 
   it('supports multiple values with type text', async () => {
@@ -191,7 +191,7 @@ describe('InputElement', () => {
     expect(input.value).toStrictEqual(['world'])
 
     input.clear()
-    expect(input.value).toStrictEqual([])
+    expect(input.value).toBeUndefined()
   })
 
   it('can obscure the value', async () => {

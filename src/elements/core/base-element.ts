@@ -27,6 +27,7 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
   background?: string
   height?: string
   layer?: Layer
+  padding?: string
   shape?: Shape
   shapeRectangleRadius?: number
   shapeSquareRadius?: number
@@ -48,6 +49,8 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
 
   connectedCallback(): void {
     super.connectedCallback()
+
+    setImmutableElementAttribute(this, 'base-element', '')
     setImmutableElementAttribute(this, 'uid', this.uid)
 
     ElementCollector.set(this)
@@ -91,15 +94,13 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
       declaration = declarations[key] as QueryDeclaration
       get = () => this.querySelector(declaration.selector) || undefined
 
-      if (declaration.all) {
+      if (declaration.all && declaration.shadow) {
+        get = () => [...this.renderRoot.querySelectorAll(declaration.selector)]
+      } else if (declaration.all) {
         get = () => [...this.querySelectorAll(declaration.selector)]
-      }
-
-      if (declaration.closest) {
+      } else if (declaration.closest) {
         get = () => this.closest(declaration.selector) || undefined
-      }
-
-      if (declaration.shadow) {
+      } else if (declaration.shadow) {
         get = () => this.renderRoot.querySelector(declaration.selector) || undefined
       }
 
@@ -137,6 +138,10 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
     return { background: this.background }
   }
 
+  get paddingStyleInfo(): StyleInfo {
+    return { padding: this.padding }
+  }
+
   get shapeStyleInfo(): StyleInfo {
     return getShapeStyleInfo(this.shape, {
       rectangle: { radius: this.shapeRectangleRadius },
@@ -153,7 +158,7 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
   }
 
   get styleInfo(): StyleInfo {
-    return { ...this.backgroundStyleInfo, ...this.shapeStyleInfo, ...this.sizeStyleInfo }
+    return { ...this.backgroundStyleInfo, ...this.paddingStyleInfo, ...this.shapeStyleInfo, ...this.sizeStyleInfo }
   }
 
   get styleMap(): DirectiveResult {
@@ -166,6 +171,7 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
     background: { type: String, reflect: true },
     height: { type: String, reflect: true },
     layer: { type: Number, reflect: true },
+    padding: { type: String, reflect: true },
     shape: { type: String, reflect: true },
     shapeRectangleRadius: { type: String, attribute: 'shape-rectangle-radius', reflect: true },
     shapeSquareRadius: { type: String, attribute: 'shape-square-radius', reflect: true },

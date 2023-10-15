@@ -1,6 +1,5 @@
-import { removeArrayItems } from '@aracna/core'
+import { isArray, removeArrayItems } from '@aracna/core'
 import {
-  defineCustomElement,
   ElementName,
   QueryDeclarations,
   SelectButtonElementEventMap,
@@ -10,7 +9,8 @@ import {
   SelectListElementEventMap,
   SelectOption,
   SelectOptionElementEventMap,
-  WebElementLogger
+  WebElementLogger,
+  defineCustomElement
 } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
@@ -49,11 +49,11 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
     }
 
     // @ts-ignore
-    option = this.findOptionByValue(event.target.value)
+    option = this.findOptionByValue(event.target?.value)
     if (!option) return
 
     if (this.multiple) {
-      this.value = this.value || []
+      this.value = isArray(this.value) ? this.value : []
       this.value = this.value.includes(option.value) ? removeArrayItems(this.value, [option.value]) : [...this.value, option.value]
 
       return
@@ -68,7 +68,7 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
       return
     }
 
-    this.value = this.value || []
+    this.value = isArray(this.value) ? this.value : []
     this.value = removeArrayItems(this.value, [option.value])
 
     WebElementLogger.verbose(this.uid, 'removeOption', `The option has been removed.`, option, this.value)
@@ -76,8 +76,10 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
 
   clear(): void {
     // this.searchValue = ''
-    this.selectedOptionElement?.unselect()
-    this.value = this.multiple ? [] : undefined
+    this.selectedOptionElement
+
+    this.value = undefined
+    WebElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
   }
 
   findOptionLabelByValue(value: any): string | undefined {
@@ -109,10 +111,6 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
 
   get selectedOption(): SelectOption | undefined {
     return this.findOptionByValue(this.value)
-  }
-
-  get single(): boolean {
-    return !this.multiple
   }
 
   static properties: PropertyDeclarations = {

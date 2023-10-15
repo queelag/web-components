@@ -1,4 +1,4 @@
-import { AracnaFile, DeserializeFileOptions, deserializeFile, removeArrayItems } from '@aracna/core'
+import { AracnaFile, DeserializeFileOptions, deserializeFile, isArray, removeArrayItems } from '@aracna/core'
 import { ElementName, InputFileElementEventMap, QueryDeclarations, WebElementLogger, defineCustomElement } from '@aracna/web'
 import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { html } from 'lit-html'
@@ -42,7 +42,7 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
     }
 
     if (this.single && files.length > 0) {
-      this.value = files[0] || AracnaFile.EMPTY
+      this.value = files[0] ?? AracnaFile.EMPTY
       WebElementLogger.verbose(this.id, 'onChange', `The first file has been set as the value.`, files, this.value)
     }
 
@@ -54,8 +54,8 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
     WebElementLogger.verbose(this.uid, 'removeFile', `The input element value has been reset.`)
 
     if (this.multiple) {
-      this.value = this.value || []
-      this.value = removeArrayItems(this.value as AracnaFile[], (_, { id }: AracnaFile) => id === file.id)
+      this.value = isArray(this.value) ? this.value : []
+      this.value = removeArrayItems(this.value, (_, { id }: AracnaFile) => id === file.id)
       WebElementLogger.verbose(this.uid, 'onClickRemoveFile', `The file has been removed.`, file, this.value)
     }
 
@@ -72,8 +72,8 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
   }
 
   clear = (): void => {
-    this.value = this.multiple ? [] : AracnaFile.EMPTY
-    WebElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, this.value)
+    this.value = undefined
+    WebElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
 
     this.inputElement.value = ''
     WebElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)

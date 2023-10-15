@@ -125,6 +125,6 @@ describe('SelectElement', () => {
 
     select.clear()
     await select.updateComplete
-    expect(select.value).toStrictEqual([])
+    expect(select.value).toBeUndefined()
   })
 })

@@ -1,4 +1,4 @@
-import { defineCustomElement, SwitchElementEventMap, WebElementLogger } from '@aracna/web'
+import { defineCustomElement, QueryDeclarations, SwitchElementEventMap, WebElementLogger } from '@aracna/web'
 import { css, CSSResult, CSSResultGroup } from 'lit'
 import { html } from 'lit-html'
 import { AriaSwitchElement } from '../aria/aria-switch-element.js'
@@ -10,9 +10,13 @@ declare global {
 }
 
 export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventMap> extends AriaSwitchElement<E> {
-  onChange(event: Event): void {
-    // @ts-ignore
-    this.on = event.target.value === '1'
+  /**
+   * QUERIES
+   */
+  inputElement!: HTMLInputElement
+
+  onChange(): void {
+    this.on = this.inputElement.value === '1'
     WebElementLogger.verbose(this.uid, 'onChange', `The switch has been turned ${this.on ? 'on' : 'off'}.`)
   }
 
@@ -49,6 +53,11 @@ export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventM
   set on(on: boolean | undefined) {
     super.on = on
     super.value = on
+  }
+
+  static queries: QueryDeclarations = {
+    ...super.queries,
+    inputElement: { selector: 'input', shadow: true }
   }
 
   static styles: CSSResultGroup = [

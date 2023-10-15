@@ -1,4 +1,4 @@
-import { parseNumber, removeArrayItems, wf } from '@aracna/core'
+import { Environment, isArray, parseNumber, removeArrayItems, wf } from '@aracna/core'
 import {
   ElementName,
   QueryDeclarations,
@@ -29,7 +29,6 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
   autosize?: boolean
   cols?: number
   multiple?: boolean
-  padding?: string
   placeholder?: string
   resize?: TextAreaElementResize
   rows?: number
@@ -72,7 +71,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
       WebElementLogger.verbose(this.uid, 'onInput', `The temporary value has been set.`, [this.temporaryValue])
     }
 
-    if (!this.multiple) {
+    if (this.single) {
       this.value = this.textAreaElement.value
       WebElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
     }
@@ -83,7 +82,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
   }
 
   onKeyUp(event: KeyboardEvent): void {
-    if (event.key !== 'Enter' || !this.multiple) {
+    if (event.key !== 'Enter' || this.single) {
       return
     }
 
@@ -91,8 +90,8 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
       return WebElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
     }
 
-    this.value = this.value || []
-    this.value = [...(this.value as string[]), this.temporaryValue]
+    this.value = isArray(this.value) ? this.value : []
+    this.value = [...this.value, this.temporaryValue]
     WebElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporaryValue], this.value)
 
     this.textAreaElement.value = ''
@@ -105,6 +104,10 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     let style: CSSStyleDeclaration
 
     if (!this.autosize) {
+      return
+    }
+
+    if (Environment.isWindowNotDefined) {
       return
     }
 
@@ -137,19 +140,26 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
       return
     }
 
-    this.value = this.value || []
-    this.value = removeArrayItems(this.value as string[], [item])
+    this.value = isArray(this.value) ? this.value : []
+    this.value = removeArrayItems(this.value, [item])
     WebElementLogger.verbose(this.uid, 'removeItem', `The item has been removed.`, [item], this.value)
 
     this.touch()
   }
 
   clear(): void {
-    this.value = this.multiple ? [] : ''
+    this.value = undefined
     WebElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
 
-    this.computedHeight = undefined
-    WebElementLogger.verbose(this.uid, 'clear', `The computed height has unset.`)
+    if (this.multiple) {
+      this.temporaryValue = ''
+      WebElementLogger.verbose(this.uid, 'clear', `The temporary value has been reset.`, [this.temporaryValue])
+    }
+
+    if (this.autosize) {
+      this.computedHeight = undefined
+      WebElementLogger.verbose(this.uid, 'clear', `The computed height has been unset.`)
+    }
 
     this.textAreaElement.value = ''
     WebElementLogger.verbose(this.uid, 'clear', `The textarea element value has been reset.`)
@@ -191,7 +201,6 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     return styleMap({
       ...this.styleInfo,
       minHeight: this.computedHeight,
-      padding: this.padding,
       resize: this.resize
     })
   }
@@ -218,7 +227,6 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     cols: { type: Number, reflect: true },
     computedHeight: { type: String, state: true },
     multiple: { type: Boolean, reflect: true },
-    padding: { type: String, reflect: true },
     placeholder: { type: String, reflect: true },
     resize: { type: String, reflect: true },
     rows: { type: Number, reflect: true },

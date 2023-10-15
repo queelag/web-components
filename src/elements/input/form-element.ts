@@ -4,14 +4,6 @@ import { html } from 'lit-html'
 import { ifdef } from '../../directives/if-defined.js'
 import { BaseElement } from '../core/base-element.js'
 import type { FormFieldElement } from '../core/form-field-element.js'
-import type { CheckBoxElement } from './check-box-element.js'
-import type { InputElement } from './input-element.js'
-import type { InputFileElement } from './input-file-element.js'
-import type { RadioGroupElement } from './radio-group-element.js'
-import type { SelectElement } from './select-element.js'
-import type { SliderElement } from './slider-element.js'
-import type { SwitchElement } from './switch-element.js'
-import type { TextAreaElement } from './text-area-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -30,15 +22,8 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
   /**
    * QUERIES
    */
+  fieldElements!: FormFieldElement[]
   formElement!: HTMLFormElement
-  checkBoxElements!: CheckBoxElement[]
-  inputElements!: InputElement[]
-  inputFileElements!: InputFileElement[]
-  radioGroupElements!: RadioGroupElement[]
-  selectElements!: SelectElement[]
-  sliderElements!: SliderElement[]
-  switchElements!: SwitchElement[]
-  textAreaElements!: TextAreaElement[]
 
   onKeyDown(event: KeyboardEvent): void {
     if (event.key !== KeyboardEventKey.ENTER) {
@@ -95,19 +80,6 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
     return ElementName.FORM
   }
 
-  get fieldElements(): FormFieldElement[] {
-    return [
-      ...this.checkBoxElements,
-      ...this.inputElements,
-      ...this.inputFileElements,
-      ...this.radioGroupElements,
-      ...this.selectElements,
-      ...this.sliderElements,
-      ...this.switchElements,
-      ...this.textAreaElements
-    ]
-  }
-
   static properties: PropertyDeclarations = {
     async: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
@@ -115,15 +87,8 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
   }
 
   static queries: QueryDeclarations = {
-    formElement: { selector: 'form', shadow: true },
-    checkBoxElements: { selector: 'aracna-checkbox', all: true },
-    inputElements: { selector: 'aracna-input', all: true },
-    inputFileElements: { selector: 'aracna-input-file', all: true },
-    radioGroupElements: { selector: 'aracna-radio-group', all: true },
-    selectElements: { selector: 'aracna-select', all: true },
-    sliderElements: { selector: 'aracna-slider', all: true },
-    switchElements: { selector: 'aracna-switch', all: true },
-    textAreaElements: { selector: 'aracna-textarea', all: true }
+    fieldElements: { selector: '[form-field-element]', all: true },
+    formElement: { selector: 'form', shadow: true }
   }
 
   static styles: CSSResultGroup = [

@@ -1,4 +1,4 @@
-import { ButtonElementAttributes, ButtonGroupElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
+import { ButtonGroupElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base-element.js'
 
@@ -9,7 +9,7 @@ declare global {
 }
 
 export class ButtonGroupElement<E extends ButtonGroupElementEventMap = ButtonGroupElementEventMap> extends BaseElement<E> {
-  buttons?: ButtonElementAttributes[]
+  buttons?: any[]
 
   get name(): ElementName {
     return ElementName.BUTTON_GROUP

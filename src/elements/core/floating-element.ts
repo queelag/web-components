@@ -1,5 +1,5 @@
 import { deleteShallowObjectUndefinedProperties, tcp, wf } from '@aracna/core'
-import { FloatingElementEventMap } from '@aracna/web'
+import { FloatingElementEventMap, setImmutableElementAttribute } from '@aracna/web'
 import {
   AutoUpdateOptions,
   ComputePositionConfig,
@@ -39,6 +39,8 @@ export class FloatingElement<E extends FloatingElementEventMap = FloatingElement
 
   connectedCallback(): void {
     super.connectedCallback()
+    setImmutableElementAttribute(this, 'floating-element', '')
+
     wf(() => Boolean(this.referenceElement)).then(() => this.computePosition())
   }
 

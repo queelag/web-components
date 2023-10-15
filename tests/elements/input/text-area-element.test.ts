@@ -56,7 +56,7 @@ describe('TextAreaElement', () => {
     expect(textarea.value).toStrictEqual(['world'])
 
     textarea.clear()
-    expect(textarea.value).toStrictEqual([])
+    expect(textarea.value).toBeUndefined()
   })
 
   it('stays untouched if touch-trigger is undefined', async () => {

@@ -95,14 +95,7 @@ describe('FormElement', () => {
     form.append(checkbox, input, inputfile, radiogroup, select, slider, switche, textarea)
     await render(form, {}, { 'form-submit': onSubmit })
 
-    expect(form.checkBoxElements).toHaveLength(1)
-    expect(form.inputElements).toHaveLength(1)
-    expect(form.inputFileElements).toHaveLength(1)
-    expect(form.radioGroupElements).toHaveLength(1)
-    expect(form.selectElements).toHaveLength(1)
-    expect(form.sliderElements).toHaveLength(1)
-    expect(form.switchElements).toHaveLength(1)
-    expect(form.textAreaElements).toHaveLength(1)
+    expect(form.fieldElements).toHaveLength(8)
 
     dispatchSubmitEvent(form.renderRoot.querySelector('form'))
     expect(onSubmit).toBeCalledTimes(1)

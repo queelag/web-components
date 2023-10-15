@@ -1,4 +1,4 @@
-import { AracnaFile, Base64, TextCodec, useNodeFetch, wf } from '@aracna/core'
+import { AracnaFile, Base64, TextCodec, importNodeFetch, useNodeFetch, wf } from '@aracna/core'
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/input-file-element'
 import type { InputFileElement } from '../../../src/elements/input/input-file-element'
@@ -13,7 +13,7 @@ describe('InputFileElement', () => {
     // @ts-ignore
     delete global.File
 
-    await useNodeFetch(await import('node-fetch'))
+    await useNodeFetch(await importNodeFetch())
   })
 
   beforeEach(() => {
@@ -50,15 +50,16 @@ describe('InputFileElement', () => {
     expect(input.file?.type).toBe(file.type)
 
     input.clear()
+    expect(input.file).toBeUndefined()
 
-    expect(input.file?.arrayBuffer).toStrictEqual(new ArrayBuffer(0))
-    expect(input.file?.base64).toBe('')
-    expect(input.file?.blob).toStrictEqual(AracnaFile.EMPTY.blob)
-    expect(input.file?.file).toStrictEqual(AracnaFile.EMPTY.file)
-    expect(input.file?.lastModified).toBeDefined()
-    expect(input.file?.lastModifiedDate).toBeDefined()
-    expect(input.file?.text).toBe('')
-    expect(input.file?.type).toBe('application/octet-stream')
+    // expect(input.file?.arrayBuffer).toStrictEqual(new ArrayBuffer(0))
+    // expect(input.file?.base64).toBe('')
+    // expect(input.file?.blob).toStrictEqual(AracnaFile.EMPTY.blob)
+    // expect(input.file?.file).toStrictEqual(AracnaFile.EMPTY.file)
+    // expect(input.file?.lastModified).toBeDefined()
+    // expect(input.file?.lastModifiedDate).toBeDefined()
+    // expect(input.file?.text).toBe('')
+    // expect(input.file?.type).toBe('application/octet-stream')
   })
 
   it('deserializes and resolves array buffer', async () => {

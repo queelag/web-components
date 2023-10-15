@@ -1,4 +1,4 @@
-import { parseNumber, removeArrayItems, TextCodec } from '@aracna/core'
+import { isArray, parseNumber, removeArrayItems, TextCodec } from '@aracna/core'
 import {
   DEFAULT_INPUT_TYPE,
   defineCustomElement,
@@ -14,7 +14,6 @@ import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive.js'
 import { ifdef } from '../../directives/if-defined.js'
-import { styleMap } from '../../directives/style-map.js'
 import { FormFieldElement } from '../core/form-field-element.js'
 
 declare global {
@@ -29,7 +28,6 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
    */
   multiple?: boolean
   obscured?: boolean
-  padding?: string
   placeholder?: string
   touchTrigger?: InputElementTouchTrigger
   type: InputElementType = DEFAULT_INPUT_TYPE
@@ -109,7 +107,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
   }
 
   onKeyUp(event: KeyboardEvent): void {
-    if (event.key !== 'Enter' || this.type !== 'text' || !this.multiple) {
+    if (event.key !== 'Enter' || this.type !== 'text' || this.single) {
       return
     }
 
@@ -117,8 +115,8 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
       return WebElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
     }
 
-    this.value = this.value || []
-    this.value = [...(this.value as string[]), this.temporaryValue]
+    this.value = isArray(this.value) ? this.value : []
+    this.value = [...this.value, this.temporaryValue]
     WebElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporaryValue], this.value)
 
     this.inputElement.value = ''
@@ -128,51 +126,25 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
   }
 
   removeItem(item: string): void {
-    if (this.type !== 'text' || !this.multiple) {
+    if (this.type !== 'text' || this.single) {
       return
     }
 
-    this.value = this.value || []
-    this.value = removeArrayItems(this.value as string[], [item])
+    this.value = isArray(this.value) ? this.value : []
+    this.value = removeArrayItems(this.value, [item])
     WebElementLogger.verbose(this.uid, 'removeItem', `The item has been removed.`, [item], this.value)
 
     this.touch()
   }
 
   clear(): void {
-    switch (this.type) {
-      case 'buffer':
-        this.value = new Uint8Array()
-        break
-      case 'color':
-      case 'email':
-      case 'month':
-      case 'password':
-      case 'search':
-      case 'tel':
-      case 'time':
-      case 'url':
-      case 'week':
-        this.value = ''
-        break
-      case 'date':
-      case 'datetime-local':
-        this.value = undefined
-        break
-      case 'number':
-        this.value = 0
-        break
-      case 'text':
-        if (this.multiple) {
-          this.value = []
-          break
-        }
-
-        this.value = ''
-        break
-    }
-
+    this.value = undefined
     WebElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
+
+    if (this.multiple) {
+      this.temporaryValue = ''
+      WebElementLogger.verbose(this.uid, 'clear', `The temporary value has been reset.`, [this.temporaryValue])
+    }
 
     this.inputElement.value = ''
     WebElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
@@ -218,7 +190,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
   }
 
   get inputElementStyle(): DirectiveResult {
-    return styleMap({ ...this.styleInfo, padding: this.padding })
+    return this.styleMap
   }
 
   get inputElementType(): any {
@@ -236,7 +208,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
   get inputElementValue(): string | undefined {
     switch (this.type) {
       case 'buffer':
-        return undefined
+      // return undefined
       case 'color':
       case 'email':
       case 'month':
@@ -263,6 +235,10 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
 
   get name(): ElementName {
     return ElementName.INPUT
+  }
+
+  get single(): boolean {
+    return !this.multiple
   }
 
   get value(): InputElementValue {
@@ -300,7 +276,6 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
   static properties: PropertyDeclarations = {
     multiple: { type: Boolean, reflect: true },
     obscured: { type: Boolean, reflect: true },
-    padding: { type: String, reflect: true },
     placeholder: { type: String, reflect: true },
     temporaryValue: { state: true },
     touchTrigger: { type: String, attribute: 'touch-trigger', reflect: true },

@@ -269,9 +269,7 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
       case KeyboardEventKey.HOME:
       case KeyboardEventKey.END:
         this.computePosition()
-
-        this.dispatchEvent(new SliderThumbMoveEvent(this.value ?? DEFAULT_SLIDER_THUMB_VALUE, this.percentage))
-        this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.values, this.rootElement.percentages))
+        break
     }
   }
 
@@ -325,9 +323,6 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
 
     this.setValueByCoordinates(x, y)
     this.computePosition()
-
-    this.dispatchEvent(new SliderThumbMoveEvent(this.value ?? DEFAULT_SLIDER_THUMB_VALUE, this.percentage))
-    this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.values, this.rootElement.percentages))
   }
 
   onMouseUpOrTouchEnd(): void {

@@ -24,7 +24,7 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
    */
   buttons?: RadioButton[]
 
-  onChange(event: InputEvent): void {
+  onChange(event: Event): void {
     let button: RadioButton | undefined
 
     if (this.disabled || this.readonly) {
@@ -32,7 +32,7 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
     }
 
     // @ts-ignore
-    button = this.findButtonByValue(event.target.value)
+    button = this.findButtonByValue(event.target?.value)
     if (!button) return
 
     this.value = button.value

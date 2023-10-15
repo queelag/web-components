@@ -333,6 +333,10 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     return this.selectedOptionElement ? this.optionElements.indexOf(this.selectedOptionElement) : -1
   }
 
+  get single(): boolean {
+    return !this.multiple
+  }
+
   get value(): any | any[] {
     return super.value
   }
@@ -399,7 +403,7 @@ export class AriaComboBoxButtonElement<E extends AriaComboBoxButtonElementEventM
   }
 
   onBlur = (): void => {
-    if (this.rootElement.focusedOptionElement) {
+    if (this.rootElement.single && this.rootElement.focusedOptionElement) {
       this.rootElement.selectedOptionElement?.unselect()
       this.rootElement.focusedOptionElement.select()
       this.rootElement.focusedOptionElement.blur()
@@ -640,11 +644,17 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
       return WebElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
     }
 
-    this.rootElement.focusedOptionElement?.blur()
-    this.rootElement.selectedOptionElement?.unselect()
+    if (this.rootElement.single) {
+      this.rootElement.focusedOptionElement?.blur()
+      this.rootElement.selectedOptionElement?.unselect()
+    }
 
     this.select()
     WebElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
+
+    if (this.rootElement.multiple) {
+      return
+    }
 
     this.rootElement.expanded = false
     WebElementLogger.verbose(this.uid, 'onClick', `The combobox has been collapsed.`)

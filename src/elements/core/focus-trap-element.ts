@@ -10,7 +10,8 @@ import {
   FocusTrapElementState,
   FocusTrapEscapeDeactivates,
   FocusTrapSetReturnFocus,
-  WebElementLogger
+  WebElementLogger,
+  setImmutableElementAttribute
 } from '@aracna/web'
 import { ActivateOptions, DeactivateOptions, FocusTarget, FocusTargetOrFalse, FocusTrap, Options, createFocusTrap } from 'focus-trap'
 import { PropertyDeclarations } from 'lit'
@@ -43,6 +44,8 @@ export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElem
 
   connectedCallback(): void {
     super.connectedCallback()
+    setImmutableElementAttribute(this, 'focus-trap-element', '')
+
     this.createFocusTrap()
   }
 

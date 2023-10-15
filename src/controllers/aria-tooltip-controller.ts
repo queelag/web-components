@@ -20,7 +20,7 @@ export class AriaTooltipController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'role', 'tooltip')
 
     if (this.host.triggerElement) {
-      setImmutableElementAttribute(this.host.triggerElement, 'tabindex', this.host.focusable ? '0' : '-1')
+      setImmutableElementAttribute(this.host.triggerElement, 'tabindex', this.host.focusable ? '0' : undefined)
     }
   }
 }

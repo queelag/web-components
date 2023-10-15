@@ -7,7 +7,7 @@ import {
   ElementName,
   KeyboardEventKey,
   QueryDeclarations,
-  TabsSelectionChangeEvent,
+  TabsTabSelectionEvent,
   WebElementLogger
 } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
@@ -226,7 +226,7 @@ export class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsT
     this.selected = true
     this.focus()
 
-    this.rootElement.dispatchEvent(new TabsSelectionChangeEvent(this, this.index))
+    this.rootElement.dispatchEvent(new TabsTabSelectionEvent(this, this.index))
   }
 
   unselect(): void {

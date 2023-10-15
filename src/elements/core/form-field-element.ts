@@ -5,7 +5,8 @@ import {
   FormFieldElementTarget,
   FormFieldElementValidation,
   StateChangeEvent,
-  WebElementLogger
+  WebElementLogger,
+  setImmutableElementAttribute
 } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base-element.js'
@@ -36,6 +37,8 @@ export class FormFieldElement<E extends FormFieldElementEventMap = FormFieldElem
 
   connectedCallback(): void {
     super.connectedCallback()
+    setImmutableElementAttribute(this, 'form-field-element', '')
+
     FormFieldElementCollector.set(this)
   }
 
