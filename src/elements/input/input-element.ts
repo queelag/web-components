@@ -208,7 +208,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
   get inputElementValue(): string | undefined {
     switch (this.type) {
       case 'buffer':
-      // return undefined
+        return undefined
       case 'color':
       case 'email':
       case 'month':
@@ -293,7 +293,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
         background: none;
         border: none;
         outline: none;
-        padding: 0;
+        padding: none;
       }
 
       input {

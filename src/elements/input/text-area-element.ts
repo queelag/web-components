@@ -48,7 +48,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
 
   connectedCallback(): void {
     super.connectedCallback()
-    wf(() => Boolean(this.textAreaElement)).then(() => this.computeHeight())
+    wf(() => this.textAreaElement).then(() => this.computeHeight())
   }
 
   onBlur(): void {
@@ -249,10 +249,12 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
       :host([normalized]) textarea {
         background: none;
         border: none;
-        color: inherit;
-        font: unset;
         outline: none;
-        padding: 0;
+        padding: none;
+      }
+
+      textarea {
+        all: inherit;
       }
 
       span {

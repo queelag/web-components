@@ -11,6 +11,7 @@ import {
   SliderThumbElementEventMap,
   WebElementLogger
 } from '@aracna/web'
+import { css, CSSResultGroup } from 'lit'
 import { html } from 'lit-html'
 import { AriaSliderElement, AriaSliderThumbElement } from '../aria/aria-slider-element.js'
 
@@ -57,6 +58,15 @@ export class SliderElement<E extends SliderElementEventMap = SliderElementEventM
     inputElement: { selector: 'input', shadow: true },
     thumbElements: { selector: 'aracna-slider-thumb', all: true }
   }
+
+  static styles: CSSResultGroup = [
+    super.styles,
+    css`
+      :host([native]) input {
+        all: inherit;
+      }
+    `
+  ]
 }
 
 export class SliderThumbElement<E extends SliderThumbElementEventMap = SliderThumbElementEventMap> extends AriaSliderThumbElement<E> {

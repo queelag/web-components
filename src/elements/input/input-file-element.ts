@@ -152,6 +152,10 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
   static styles: CSSResultGroup = [
     super.styles,
     css`
+      :host([native]) input {
+        all: inherit;
+      }
+
       :host(:not([native])) {
         position: relative;
       }

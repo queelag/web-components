@@ -7,7 +7,7 @@ import {
   RadioGroupElementEventMap,
   WebElementLogger
 } from '@aracna/web'
-import { html, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
 import { map } from '../../directives/map.js'
 import { AriaRadioButtonElement, AriaRadioGroupElement } from '../aria/aria-radio-group-element.js'
 
@@ -84,6 +84,15 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
     checkedButtonElement: { selector: 'aracna-radio-button[checked]' },
     focusedButtonElement: { selector: 'aracna-radio-button:focus' }
   }
+
+  static styles: CSSResultGroup = [
+    super.styles,
+    css`
+      :host([native]) input {
+        all: inherit;
+      }
+    `
+  ]
 }
 
 export class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButtonElementEventMap> extends AriaRadioButtonElement<E> {

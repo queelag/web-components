@@ -63,7 +63,8 @@ export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventM
   static styles: CSSResultGroup = [
     super.styles as CSSResult,
     css`
-      input {
+      :host([native]) input {
+        all: inherit;
         height: 100%;
         width: 100%;
       }

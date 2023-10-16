@@ -59,12 +59,15 @@ export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElement
         cursor: pointer;
       }
 
-      :host([normalized]) input {
-        margin: 0;
+      :host([native]) input {
+        all: inherit;
       }
 
-      div {
-        display: inline-flex;
+      :host([normalized]) input {
+        margin: none;
+      }
+
+      :host(:not([native])) div {
         height: 100%;
         width: 100%;
       }

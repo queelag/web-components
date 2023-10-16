@@ -12,7 +12,7 @@ import {
   WebElementLogger,
   defineCustomElement
 } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
+import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { html } from 'lit-html'
 import { map } from '../../directives/map.js'
 import {
@@ -126,6 +126,15 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
     optionElements: { selector: 'aracna-select-option', all: true },
     selectedOptionElement: { selector: 'aracna-select-option[selected]' }
   }
+
+  static styles: CSSResultGroup = [
+    super.styles,
+    css`
+      :host([native]) select {
+        all: inherit;
+      }
+    `
+  ]
 }
 
 export class SelectGroupElement<E extends SelectGroupElementEventMap = SelectGroupElementEventMap> extends AriaComboBoxGroupElement<E> {

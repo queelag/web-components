@@ -102,22 +102,22 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
         cursor: pointer;
       }
 
-      button {
-        font-family: inherit;
+      :host([native]) button {
+        all: inherit;
       }
 
       :host([normalized]) button {
         appearance: none;
         background: none;
-        display: grid;
         border: none;
         height: 100%;
-        padding: 0;
+        padding: none;
         width: 100%;
       }
 
-      div {
-        display: grid;
+      :host(:not([native])) div {
+        height: 100%;
+        width: 100%;
       }
     `
   ]
