@@ -116,7 +116,10 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
       }
 
       :host(:not([native])) div {
+        align-items: center;
+        display: inline-flex;
         height: 100%;
+        justify-content: center;
         width: 100%;
       }
     `
