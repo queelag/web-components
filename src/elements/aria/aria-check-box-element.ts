@@ -40,6 +40,10 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
   }
 
   onClick(): void {
+    if (this.native) {
+      return
+    }
+
     if (this.disabled || this.readonly) {
       return WebElementLogger.warn(this.uid, 'onClick', `The checkbox is disabled or readonly.`)
     }
@@ -49,6 +53,10 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
   }
 
   onKeyDown(event: KeyboardEvent): void {
+    if (this.native) {
+      return
+    }
+
     if (event.key !== KeyboardEventKey.SPACE) {
       return
     }

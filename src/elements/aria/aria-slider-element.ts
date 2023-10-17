@@ -73,6 +73,10 @@ export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderE
   }
 
   onClick(event: MouseEvent): void {
+    if (this.native) {
+      return
+    }
+
     if (this.disabled || this.readonly) {
       return WebElementLogger.warn(this.uid, 'onClick', `The slider is disabled or readonly.`)
     }

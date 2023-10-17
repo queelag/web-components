@@ -40,6 +40,10 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
   }
 
   onClick(): void {
+    if (this.native) {
+      return
+    }
+
     if (this.disabled || this.readonly) {
       return WebElementLogger.warn(this.id, 'onClick', `The switch is disabled or readonly.`)
     }
@@ -49,6 +53,10 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
   }
 
   onKeyDown(event: KeyboardEvent): void {
+    if (this.native) {
+      return
+    }
+
     if (event.key !== KeyboardEventKey.SPACE) {
       return
     }

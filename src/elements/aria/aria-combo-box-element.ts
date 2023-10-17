@@ -1,12 +1,17 @@
-import { getLimitedNumber, Typeahead, TypeaheadPredicate } from '@aracna/core'
+import { getLimitedNumber, isArray, removeArrayItems, Typeahead, TypeaheadPredicate } from '@aracna/core'
 import {
   AriaComboBoxButtonElementEventMap,
   AriaComboBoxElementAutoComplete,
   AriaComboBoxElementEventMap,
+  AriaComboBoxElementFilterOptionsPredicate,
   AriaComboBoxGroupElementEventMap,
   AriaComboBoxInputElementEventMap,
   AriaComboBoxListElementEventMap,
   AriaComboBoxOptionElementEventMap,
+  ComboBoxCollapseEvent,
+  ComboBoxExpandEvent,
+  ComboBoxOptionSelectEvent,
+  DEFAULT_COMBOBOX_FILTER_OPTIONS_PREDICATE,
   DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE,
   defineCustomElement,
   ElementName,
@@ -48,7 +53,9 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
   autocomplete?: AriaComboBoxElementAutoComplete
   expanded?: boolean
   multiple?: boolean
-  scrollIntoViewOptions?: ScrollIntoViewOptions
+  scrollIntoViewBehaviour?: ScrollBehavior
+  scrollIntoViewBlock?: ScrollLogicalPosition
+  scrollIntoViewInline?: ScrollLogicalPosition
   typeaheadDebounceTime?: number
   typeaheadPredicate?: TypeaheadPredicate<AriaComboBoxOptionElement>
 
@@ -96,14 +103,22 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
-    this.listElement?.computePosition && this.listElement?.computePosition()
+    this.listElement?.computePosition()
 
-    if (name === 'typeaheadPredicate') {
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (name === 'typeahead-predicate') {
       this.typeahead = new Typeahead(this.onTypeaheadMatch, this.typeaheadPredicate ?? DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE)
     }
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
+    if (this.native) {
+      return
+    }
+
     switch (event.key) {
       case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_UP:
@@ -245,12 +260,9 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
           this.collapse()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The combobox has been collapsed.`)
 
-          /**
-           * REFACTOR TO NOT USE INNERTEXT
-           */
-          if (this.inputElement?.inputElement && this.selectedOptionElement) {
-            this.inputElement.inputElement.value = this.selectedOptionElement.innerText
-            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The input value has been set to the selected option inner text.`)
+          if (this.inputElement && this.selectedOptionElement) {
+            this.inputElement.value = this.selectedOptionElement.label ?? this.selectedOptionElement.innerText
+            WebElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option label.`)
           }
 
           this.focusedOptionElement?.blur()
@@ -292,18 +304,52 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
 
   collapse(): void {
     this.expanded = false
+    this.dispatchEvent(new ComboBoxCollapseEvent())
   }
 
   expand(): void {
     this.expanded = true
+    this.dispatchEvent(new ComboBoxExpandEvent())
   }
 
-  filterOptions<T>(options: T[], predicate: (option: T, index: number, options: T[]) => unknown): T[] {
+  removeOption(value: any): void {
+    if (this.single) {
+      return
+    }
+
+    this.value = isArray(this.value) ? this.value : []
+    this.value = removeArrayItems(this.value, [value])
+
+    WebElementLogger.verbose(this.uid, 'removeOption', `The option has been removed.`, this.value)
+  }
+
+  clear(): void {
+    if (this.inputElement) {
+      this.inputElement.value = ''
+      WebElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`, [this.inputElement.value])
+    }
+
+    this.value = undefined
+    WebElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
+  }
+
+  findOptionElementByValue(value: any | undefined): AriaComboBoxOptionElement | undefined {
+    return this.optionElements.find((optionElement: AriaComboBoxOptionElement) => optionElement.value === value)
+  }
+
+  findOptionElementLabelByValue(value: any | undefined): string | undefined {
+    return this.findOptionElementByValue(value)?.label
+  }
+
+  filterOptions<T extends { value?: any }>(
+    options: T[],
+    predicate: AriaComboBoxElementFilterOptionsPredicate<T> = DEFAULT_COMBOBOX_FILTER_OPTIONS_PREDICATE
+  ): T[] {
     switch (this.autocomplete) {
       case 'both':
       case 'inline':
       case 'list':
-        return options.filter(predicate)
+        return options.filter((option: T, index: number, options: T[]) => predicate(option, index, options, this.inputElement?.value ?? ''))
       default:
         return options
     }
@@ -329,6 +375,14 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     return ElementName.ARIA_COMBOBOX
   }
 
+  get scrollIntoViewOptions(): ScrollIntoViewOptions {
+    return {
+      behavior: this.scrollIntoViewBehaviour,
+      block: this.scrollIntoViewBlock,
+      inline: this.scrollIntoViewInline
+    }
+  }
+
   get selectedOptionElementIndex(): number {
     return this.selectedOptionElement ? this.optionElements.indexOf(this.selectedOptionElement) : -1
   }
@@ -349,7 +403,9 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     autocomplete: { type: String, reflect: true },
     expanded: { type: Boolean, reflect: true },
     multiple: { type: Boolean, reflect: true },
-    scrollIntoViewOptions: { type: Object, attribute: 'scroll-into-view-options' },
+    scrollIntoViewBehaviour: { type: String, attribute: 'scroll-into-view-behaviour' },
+    scrollIntoViewBlock: { type: String, attribute: 'scroll-into-view-block' },
+    scrollIntoViewInline: { type: String, attribute: 'scroll-into-view-inline' },
     typeaheadDebounceTime: { type: Number, attribute: 'typeahead-debounce-time', reflect: true },
     typeaheadPredicate: { type: Function, attribute: 'typeahead-predicate' }
   }
@@ -458,9 +514,9 @@ export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap
   rootElement!: AriaComboBoxElement
 
   /**
-   * STATES
+   * INTERNAL
    */
-  value?: string
+  _value?: string
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -482,13 +538,10 @@ export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap
     this.rootElement.collapse()
     WebElementLogger.verbose(this.uid, 'onBlur', `The combobox has been collapsed.`)
 
-    /**
-     * REFACTOR TO NOT USE INNERTEXT
-     */
-    // if (this.inputElement && this.rootElement.selectedOptionElement) {
-    //   this.inputElement.value = this.rootElement.selectedOptionElement.innerText
-    //   WebElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option inner text.`)
-    // }
+    if (this.inputElement && this.rootElement.selectedOptionElement) {
+      this.inputElement.value = this.rootElement.selectedOptionElement.label ?? this.rootElement.selectedOptionElement.innerText
+      WebElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option label.`)
+    }
   }
 
   onClick = (): void => {
@@ -517,8 +570,10 @@ export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap
 
     this.value = this.inputElement?.value
     WebElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
+  }
 
-    this.rootElement.dispatchEvent(new StateChangeEvent('value', undefined, this.value))
+  focus(): void {
+    this.inputElement?.focus()
   }
 
   clear(): void {
@@ -528,11 +583,26 @@ export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap
 
     if (this.inputElement) {
       this.inputElement.value = ''
+      WebElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
     }
   }
 
   get name(): ElementName {
     return ElementName.ARIA_COMBOBOX_INPUT
+  }
+
+  get value(): string | undefined {
+    return this._value
+  }
+
+  set value(value: string | undefined) {
+    let old: string | undefined
+
+    old = this._value
+    this._value = value
+
+    this.requestUpdate('value', old)
+    this.dispatchEvent(new StateChangeEvent('value', undefined, this.value))
   }
 
   static properties: PropertyDeclarations = {
@@ -586,6 +656,7 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
    * PROPERTIES
    */
   focused?: boolean
+  label?: string
   selected?: boolean
   value?: any
 
@@ -612,14 +683,25 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
 
-    if (name === 'focused' && value !== null) {
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (name === 'focused' && typeof value === 'string') {
       scrollElementIntoView(this.listElement, this, this.rootElement.scrollIntoViewOptions)
       WebElementLogger.verbose(this.uid, ' attributeChangedCallback', `The option has been scrolled into view.`)
     }
 
-    if (name === 'selected' && value !== null && this.rootElement.inputElement?.inputElement) {
-      this.rootElement.inputElement.inputElement.value = this.value
-      WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The input value has been set to the value of this option.`, [this.value])
+    if (name === 'selected' && typeof value === 'string' && this.rootElement.inputElement) {
+      if (this.rootElement.single) {
+        this.rootElement.inputElement.value = this.label ?? this.innerText
+        WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The input value has been set to the selected option label.`)
+      }
+
+      if (this.rootElement.multiple) {
+        this.rootElement.inputElement.value = ''
+        WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The input value has been reset.`)
+      }
     }
   }
 
@@ -633,6 +715,7 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
 
   select(): void {
     this.selected = true
+    this.dispatchEvent(new ComboBoxOptionSelectEvent(this, this.label, this.value))
   }
 
   unselect(): void {
@@ -647,24 +730,25 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
     if (this.rootElement.single) {
       this.rootElement.focusedOptionElement?.blur()
       this.rootElement.selectedOptionElement?.unselect()
-    }
 
-    this.select()
-    WebElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
+      this.select()
+      WebElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
+
+      this.rootElement.expanded = false
+      WebElementLogger.verbose(this.uid, 'onClick', `The combobox has been collapsed.`)
+
+      if (this.rootElement.inputElement) {
+        this.rootElement.inputElement.focus()
+        return
+      }
+
+      this.rootElement.buttonElement?.focus()
+    }
 
     if (this.rootElement.multiple) {
-      return
+      this.selected = !this.selected
+      WebElementLogger.verbose(this.uid, 'onClick', `The option has been ${this.selected ? 'selected' : 'unselected'}.`)
     }
-
-    this.rootElement.expanded = false
-    WebElementLogger.verbose(this.uid, 'onClick', `The combobox has been collapsed.`)
-
-    if (this.rootElement.inputElement) {
-      this.rootElement.inputElement.inputElement?.focus()
-      return
-    }
-
-    this.rootElement.buttonElement?.focus()
   }
 
   onMouseDown = (event: MouseEvent): void => {
@@ -677,6 +761,7 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
 
   static properties: PropertyDeclarations = {
     focused: { type: Boolean, reflect: true },
+    label: { type: String, reflect: true },
     selected: { type: Boolean, reflect: true },
     value: {}
   }

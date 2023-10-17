@@ -2,7 +2,6 @@ import {
   AriaTabsElementEventMap,
   AriaTabsPanelElementEventMap,
   AriaTabsTabElementEventMap,
-  AttributeChangeEvent,
   defineCustomElement,
   ElementName,
   KeyboardEventKey,
@@ -203,16 +202,6 @@ export class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsT
   disconnectedCallback(): void {
     super.disconnectedCallback()
     this.removeEventListener('click', this.onClick)
-  }
-
-  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
-    super.attributeChangedCallback(name, _old, value)
-
-    if (name !== 'selected' || Object.is(_old, value)) {
-      return
-    }
-
-    this.rootElement.dispatchEvent(new AttributeChangeEvent('selected', _old, value))
   }
 
   onClick = (): void => {

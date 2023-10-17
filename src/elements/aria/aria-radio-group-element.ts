@@ -50,6 +50,10 @@ export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = Ari
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
+    if (this.native) {
+      return
+    }
+
     switch (event.key) {
       case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_LEFT:

@@ -81,7 +81,11 @@ export class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElement
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
 
-    if (name === 'typeaheadPredicate') {
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (name === 'typeahead-predicate') {
       this.typeahead = new Typeahead(this.onTypeaheadMatch, this.typeaheadPredicate ?? DEFAULT_MENU_TYPEAHEAD_PREDICATE)
     }
   }
@@ -522,6 +526,10 @@ export class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMen
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
 
+    if (Object.is(_old, value)) {
+      return
+    }
+
     if (name === 'expanded') {
       this.subMenuElement?.computePosition && this.subMenuElement.computePosition()
     }
@@ -750,7 +758,11 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
 
-    if (name === 'typeaheadPredicate') {
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (name === 'typeahead-predicate') {
       this.typeahead = new Typeahead(this.onTypeaheadMatch, this.rootElement.typeaheadPredicate ?? DEFAULT_MENU_TYPEAHEAD_PREDICATE)
     }
   }

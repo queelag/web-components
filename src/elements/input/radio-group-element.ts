@@ -24,16 +24,10 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
    */
   buttons?: RadioButton[]
 
-  onChange(event: Event): void {
-    let button: RadioButton | undefined
-
+  onChange(button: RadioButton): void {
     if (this.disabled || this.readonly) {
       return WebElementLogger.warn(this.uid, 'onChange', `The radiogroup is disabled or readonly.`)
     }
-
-    // @ts-ignore
-    button = this.findButtonByValue(event.target?.value)
-    if (!button) return
 
     this.value = button.value
   }
@@ -43,9 +37,9 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
       return map(
         this.buttons || [],
         (button: RadioButton) => html`
-          <div>
+          <div class="button">
             <input
-              @change=${this.onChange}
+              @change=${() => this.onChange(button)}
               ?checked=${button.value === this.value}
               ?disabled=${this.disabled}
               name=${this.uid}
@@ -88,7 +82,14 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
   static styles: CSSResultGroup = [
     super.styles,
     css`
-      :host([native]) input {
+      :host([native]) div.button {
+        align-items: center;
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+      }
+
+      :host([native]) div.button label {
         all: inherit;
       }
     `

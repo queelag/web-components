@@ -64,22 +64,7 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
   }
 
   removeOption(option: SelectOption): void {
-    if (this.single) {
-      return
-    }
-
-    this.value = isArray(this.value) ? this.value : []
-    this.value = removeArrayItems(this.value, [option.value])
-
-    WebElementLogger.verbose(this.uid, 'removeOption', `The option has been removed.`, option, this.value)
-  }
-
-  clear(): void {
-    // this.searchValue = ''
-    this.selectedOptionElement
-
-    this.value = undefined
-    WebElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
+    return super.removeOption(option.value)
   }
 
   findOptionLabelByValue(value: any): string | undefined {
@@ -131,7 +116,7 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
     super.styles,
     css`
       :host([native]) select {
-        all: inherit;
+        width: 100%;
       }
     `
   ]
@@ -180,8 +165,6 @@ export class SelectListElement<E extends SelectListElementEventMap = SelectListE
 }
 
 export class SelectOptionElement<E extends SelectOptionElementEventMap = SelectOptionElementEventMap> extends AriaComboBoxOptionElement<E> {
-  label?: string
-
   onClick(): void {
     super.onClick()
 
@@ -190,7 +173,7 @@ export class SelectOptionElement<E extends SelectOptionElementEventMap = SelectO
     }
 
     if (this.rootElement.multiple) {
-      this.rootElement.value = this.rootElement.value || []
+      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
       this.rootElement.value = this.rootElement.value.includes(this.value)
         ? removeArrayItems(this.rootElement.value, [this.value])
         : [...this.rootElement.value, this.value]
@@ -203,10 +186,6 @@ export class SelectOptionElement<E extends SelectOptionElementEventMap = SelectO
 
   get name(): ElementName {
     return ElementName.SELECT_OPTION
-  }
-
-  static properties: PropertyDeclarations = {
-    label: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {

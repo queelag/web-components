@@ -69,7 +69,11 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
 
-    if (name === 'typeaheadPredicate') {
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (name === 'typeahead-predicate') {
       this.typeahead = new Typeahead(this.onTypeaheadMatch, this.typeaheadPredicate ?? DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE)
     }
   }

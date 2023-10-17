@@ -38,19 +38,19 @@ export class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogE
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
 
-    if (name !== 'visible' || Object.is(_old, value)) {
+    if (Object.is(_old, value)) {
       return
     }
 
-    if (typeof value === 'string') {
+    if (name === 'visible' && typeof value === 'string') {
       this.activateFocusTrap()
       this.setBodyStyle()
-
-      return
     }
 
-    this.deactivateFocusTrap()
-    this.removeBodyStyle()
+    if (name === 'visible' && value === null) {
+      this.deactivateFocusTrap()
+      this.removeBodyStyle()
+    }
   }
 
   setBodyStyle(): void {

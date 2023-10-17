@@ -161,6 +161,7 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
       }
 
       :host(:not([native])) input {
+        cursor: pointer;
         height: 100%;
         opacity: 0;
         position: absolute;
