@@ -69,6 +69,7 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
   focusedOptionElement?: AriaComboBoxOptionElement
   optionElements!: AriaComboBoxOptionElement[]
   selectedOptionElement?: AriaComboBoxOptionElement
+  selectedOptionElements!: AriaComboBoxOptionElement[]
 
   /**
    * INTERNAL
@@ -244,13 +245,19 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
 
         break
       case KeyboardEventKey.ESCAPE:
-        if (this.collapsed && this.inputElement) {
+        if (this.single && this.collapsed && this.inputElement) {
           switch (this.autocomplete) {
             case 'both':
             case 'inline':
             case 'list':
               this.inputElement.clear()
               WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The input value has been reset.`)
+
+              this.selectedOptionElement?.unselect()
+              WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The selected option has been unselected.`)
+
+              this.value = undefined
+              WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The value has been reset.`)
           }
 
           break
@@ -260,9 +267,9 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
           this.collapse()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The combobox has been collapsed.`)
 
-          if (this.inputElement && this.selectedOptionElement) {
+          if (this.single && this.inputElement && this.selectedOptionElement) {
             this.inputElement.value = this.selectedOptionElement.label ?? this.selectedOptionElement.innerText
-            WebElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option label.`)
+            WebElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option label.`, [this.inputElement.value])
           }
 
           this.focusedOptionElement?.blur()
@@ -284,7 +291,7 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
 
         break
       default:
-        if (this.inputElement || event.key.length !== 1) {
+        if (this.inputElement || event.key.length !== 1 || event.altKey || event.ctrlKey || event.metaKey) {
           break
         }
 
@@ -315,6 +322,18 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
   removeOption(value: any): void {
     if (this.single) {
       return
+    }
+
+    for (let option of this.selectedOptionElements) {
+      if (option.value !== value) {
+        continue
+      }
+
+      option.blur()
+      option.unselect()
+      WebElementLogger.verbose(this.uid, 'removeOption', `The option has been blurred and unselected.`, option)
+
+      break
     }
 
     this.value = isArray(this.value) ? this.value : []
@@ -417,7 +436,8 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     listElement: { selector: 'aracna-aria-combobox-list' },
     focusedOptionElement: { selector: 'aracna-aria-combobox-option[focused]' },
     optionElements: { selector: 'aracna-aria-combobox-option', all: true },
-    selectedOptionElement: { selector: 'aracna-aria-combobox-option[selected]' }
+    selectedOptionElement: { selector: 'aracna-aria-combobox-option[selected]' },
+    selectedOptionElements: { selector: 'aracna-aria-combobox-option[selected]', all: true }
   }
 
   static styles: CSSResultGroup = [
@@ -478,12 +498,17 @@ export class AriaComboBoxButtonElement<E extends AriaComboBoxButtonElementEventM
       return WebElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
     }
 
-    this.rootElement.expanded = !this.rootElement.expanded
-    WebElementLogger.verbose(this.uid, 'onClick', `The combobox has been ${this.rootElement.expanded ? 'expanded' : 'collapsed'}.`)
+    if (this.rootElement.collapsed) {
+      this.rootElement.expand()
+      WebElementLogger.verbose(this.uid, 'onClick', `The combobox has been expanded.`)
 
-    if (this.rootElement.expanded) {
       this.rootElement.selectedOptionElement?.focus()
+
+      return
     }
+
+    this.rootElement.collapse()
+    WebElementLogger.verbose(this.uid, 'onClick', `The combobox has been collapsed.`)
   }
 
   get name(): ElementName {
@@ -513,11 +538,6 @@ export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap
   inputElement?: HTMLInputElement
   rootElement!: AriaComboBoxElement
 
-  /**
-   * INTERNAL
-   */
-  _value?: string
-
   connectedCallback(): void {
     super.connectedCallback()
 
@@ -538,8 +558,8 @@ export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap
     this.rootElement.collapse()
     WebElementLogger.verbose(this.uid, 'onBlur', `The combobox has been collapsed.`)
 
-    if (this.inputElement && this.rootElement.selectedOptionElement) {
-      this.inputElement.value = this.rootElement.selectedOptionElement.label ?? this.rootElement.selectedOptionElement.innerText
+    if (this.rootElement.single && this.inputElement && this.rootElement.selectedOptionElement) {
+      this.value = this.rootElement.selectedOptionElement.label ?? this.rootElement.selectedOptionElement.innerText
       WebElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option label.`)
     }
   }
@@ -582,7 +602,7 @@ export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap
     }
 
     if (this.inputElement) {
-      this.inputElement.value = ''
+      this.value = ''
       WebElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
     }
   }
@@ -592,14 +612,18 @@ export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap
   }
 
   get value(): string | undefined {
-    return this._value
+    return this.inputElement?.value
   }
 
   set value(value: string | undefined) {
     let old: string | undefined
 
-    old = this._value
-    this._value = value
+    // old = this._value
+    // this._value = value
+
+    if (this.inputElement) {
+      this.inputElement.value = value ?? ''
+    }
 
     this.requestUpdate('value', old)
     this.dispatchEvent(new StateChangeEvent('value', undefined, this.value))
@@ -734,11 +758,13 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
       this.select()
       WebElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
 
-      this.rootElement.expanded = false
+      this.rootElement.collapse()
       WebElementLogger.verbose(this.uid, 'onClick', `The combobox has been collapsed.`)
 
       if (this.rootElement.inputElement) {
+        this.rootElement.inputElement.value = this.label ?? this.innerText
         this.rootElement.inputElement.focus()
+
         return
       }
 
@@ -746,8 +772,15 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
     }
 
     if (this.rootElement.multiple) {
-      this.selected = !this.selected
-      WebElementLogger.verbose(this.uid, 'onClick', `The option has been ${this.selected ? 'selected' : 'unselected'}.`)
+      if (this.selected) {
+        this.unselect()
+        WebElementLogger.verbose(this.uid, 'onClick', `The option has been unselected.`)
+
+        return
+      }
+
+      this.select()
+      WebElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
     }
   }
 
@@ -757,6 +790,10 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
 
   get name(): ElementName {
     return ElementName.ARIA_COMBOBOX_OPTION
+  }
+
+  get unselected(): boolean {
+    return !this.selected
   }
 
   static properties: PropertyDeclarations = {

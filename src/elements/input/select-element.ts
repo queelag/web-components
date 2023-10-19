@@ -64,15 +64,7 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
   }
 
   removeOption(option: SelectOption): void {
-    return super.removeOption(option.value)
-  }
-
-  findOptionLabelByValue(value: any): string | undefined {
-    return this.findOptionByValue(value)?.label
-  }
-
-  findOptionByValue(value: any): SelectOption | undefined {
-    return this.options?.find((option: SelectOption) => option.value === value)
+    super.removeOption(option.value)
   }
 
   render() {
@@ -94,10 +86,6 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
     return ElementName.SELECT
   }
 
-  get selectedOption(): SelectOption | undefined {
-    return this.findOptionByValue(this.value)
-  }
-
   static properties: PropertyDeclarations = {
     options: { type: Array }
   }
@@ -109,7 +97,8 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
     listElement: { selector: 'aracna-select-list' },
     focusedOptionElement: { selector: 'aracna-select-option[focused]' },
     optionElements: { selector: 'aracna-select-option', all: true },
-    selectedOptionElement: { selector: 'aracna-select-option[selected]' }
+    selectedOptionElement: { selector: 'aracna-select-option[selected]' },
+    selectedOptionElements: { selector: 'aracna-select-option[selected]', all: true }
   }
 
   static styles: CSSResultGroup = [
@@ -177,11 +166,11 @@ export class SelectOptionElement<E extends SelectOptionElementEventMap = SelectO
       this.rootElement.value = this.rootElement.value.includes(this.value)
         ? removeArrayItems(this.rootElement.value, [this.value])
         : [...this.rootElement.value, this.value]
-
-      return
     }
 
-    this.rootElement.value = this.value
+    if (this.rootElement.single) {
+      this.rootElement.value = this.value
+    }
   }
 
   get name(): ElementName {

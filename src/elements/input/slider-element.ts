@@ -1,17 +1,17 @@
-import { parseNumber } from '@aracna/core'
+import { isArray, parseNumber } from '@aracna/core'
 import {
   DEFAULT_SLIDER_MAX,
   DEFAULT_SLIDER_MIN,
   DEFAULT_SLIDER_STEP,
   DEFAULT_SLIDER_THUMB_VALUE,
-  defineCustomElement,
   ElementName,
   QueryDeclarations,
   SliderElementEventMap,
   SliderThumbElementEventMap,
-  WebElementLogger
+  WebElementLogger,
+  defineCustomElement
 } from '@aracna/web'
-import { css, CSSResultGroup } from 'lit'
+import { CSSResultGroup, css } from 'lit'
 import { html } from 'lit-html'
 import { AriaSliderElement, AriaSliderThumbElement } from '../aria/aria-slider-element.js'
 
@@ -78,8 +78,7 @@ export class SliderThumbElement<E extends SliderThumbElementEventMap = SliderThu
     super.setValue(value)
 
     if (this.rootElement.hasMultipleThumbs) {
-      this.rootElement.value = this.rootElement.value || this.rootElement.values
-      // @ts-ignore
+      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : this.rootElement.values
       this.rootElement.value[this.index] = value
 
       return

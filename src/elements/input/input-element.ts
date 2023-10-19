@@ -12,7 +12,6 @@ import {
 } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { DirectiveResult } from 'lit-html/directive.js'
 import { ifdef } from '../../directives/if-defined.js'
 import { FormFieldElement } from '../core/form-field-element.js'
 
@@ -182,15 +181,11 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
         @keyup=${this.onKeyUp}
         placeholder=${ifdef(this.placeholder)}
         ?readonly=${this.readonly}
-        style=${this.inputElementStyle}
+        style=${this.styleMap}
         type=${this.inputElementType}
         value=${ifdef(this.inputElementValue)}
       />
     `
-  }
-
-  get inputElementStyle(): DirectiveResult {
-    return this.styleMap
   }
 
   get inputElementType(): any {
