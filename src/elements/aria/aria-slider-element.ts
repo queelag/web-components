@@ -430,13 +430,13 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
     if (this.rootElement.hasMultipleThumbs) {
       this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
       this.rootElement.value[this.index] = value
-
-      return
     }
 
-    this.rootElement.value = value
-    this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.value, this.rootElement.percentage))
+    if (this.rootElement.hasSingleThumb) {
+      this.rootElement.value = value
+    }
 
+    this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.value, this.rootElement.percentage))
     this.rootElement.touch()
   }
 
