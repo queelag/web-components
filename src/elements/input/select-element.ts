@@ -10,7 +10,8 @@ import {
   SelectOption,
   SelectOptionElementEventMap,
   WebElementLogger,
-  defineCustomElement
+  defineCustomElement,
+  findSelectOptionByValue
 } from '@aracna/web'
 import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { html } from 'lit-html'
@@ -40,16 +41,16 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
    * PROPERTIES
    */
   options?: SelectOption[]
+  selectElement?: HTMLSelectElement
 
-  onChange(event: InputEvent): void {
+  onChange(): void {
     let option: SelectOption | undefined
 
     if (this.multiple && this.native) {
       return WebElementLogger.warn(this.uid, 'onChange', `The multiple and native properties are not supported together.`)
     }
 
-    // @ts-ignore
-    option = this.findOptionByValue(event.target?.value)
+    option = findSelectOptionByValue(this.options ?? [], this.selectElement?.value)
     if (!option) return
 
     if (this.multiple) {
@@ -97,6 +98,7 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
     listElement: { selector: 'aracna-select-list' },
     focusedOptionElement: { selector: 'aracna-select-option[focused]' },
     optionElements: { selector: 'aracna-select-option', all: true },
+    selectElement: { selector: 'select', shadow: true },
     selectedOptionElement: { selector: 'aracna-select-option[selected]' },
     selectedOptionElements: { selector: 'aracna-select-option[selected]', all: true }
   }
@@ -128,11 +130,6 @@ export class SelectButtonElement<E extends SelectButtonElementEventMap = SelectB
 }
 
 export class SelectInputElement<E extends SelectInputElementEventMap = SelectInputElementEventMap> extends AriaComboBoxInputElement<E> {
-  clear(): void {
-    super.clear()
-    this.rootElement.clear()
-  }
-
   get name(): ElementName {
     return ElementName.SELECT_INPUT
   }
@@ -154,25 +151,6 @@ export class SelectListElement<E extends SelectListElementEventMap = SelectListE
 }
 
 export class SelectOptionElement<E extends SelectOptionElementEventMap = SelectOptionElementEventMap> extends AriaComboBoxOptionElement<E> {
-  onClick(): void {
-    super.onClick()
-
-    if (this.rootElement.disabled || this.rootElement.readonly) {
-      return
-    }
-
-    if (this.rootElement.multiple) {
-      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
-      this.rootElement.value = this.rootElement.value.includes(this.value)
-        ? removeArrayItems(this.rootElement.value, [this.value])
-        : [...this.rootElement.value, this.value]
-    }
-
-    if (this.rootElement.single) {
-      this.rootElement.value = this.value
-    }
-  }
-
   get name(): ElementName {
     return ElementName.SELECT_OPTION
   }

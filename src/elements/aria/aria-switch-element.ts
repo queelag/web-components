@@ -50,6 +50,8 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
 
     this.on = !this.on
     WebElementLogger.verbose(this.uid, 'onClick', `The switch has been turned ${this.value ? 'on' : 'off'}.`)
+
+    this.touch()
   }
 
   onKeyDown(event: KeyboardEvent): void {
@@ -68,6 +70,10 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
   }
 
   get on(): boolean | undefined {
+    if (this.target && typeof this.path === 'string') {
+      return super.value
+    }
+
     return this._on
   }
 
@@ -78,6 +84,8 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
     this._on = on
 
     this.requestUpdate('on', old)
+
+    super.value = on
   }
 
   get value(): boolean | undefined {

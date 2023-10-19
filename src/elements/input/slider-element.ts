@@ -1,4 +1,4 @@
-import { isArray, parseNumber } from '@aracna/core'
+import { parseNumber } from '@aracna/core'
 import {
   DEFAULT_SLIDER_MAX,
   DEFAULT_SLIDER_MIN,
@@ -72,19 +72,6 @@ export class SliderElement<E extends SliderElementEventMap = SliderElementEventM
 export class SliderThumbElement<E extends SliderThumbElementEventMap = SliderThumbElementEventMap> extends AriaSliderThumbElement<E> {
   get name(): ElementName {
     return ElementName.SLIDER_THUMB
-  }
-
-  setValue(value: number): void {
-    super.setValue(value)
-
-    if (this.rootElement.hasMultipleThumbs) {
-      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : this.rootElement.values
-      this.rootElement.value[this.index] = value
-
-      return
-    }
-
-    this.rootElement.value = value
   }
 
   static queries: QueryDeclarations = {

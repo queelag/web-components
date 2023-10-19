@@ -17,11 +17,6 @@ export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElement
     this.touch()
   }
 
-  onClick(): void {
-    super.onClick()
-    this.touch()
-  }
-
   render() {
     if (this.native) {
       return html`<input @change=${this.onChange} ?checked=${this.value} ?disabled=${this.disabled} ?readonly=${this.readonly} type="checkbox" />`
@@ -37,19 +32,6 @@ export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElement
 
   get name(): ElementName {
     return ElementName.CHECKBOX
-  }
-
-  get checked(): boolean | undefined {
-    if (this.target && typeof this.path === 'string') {
-      return super.value
-    }
-
-    return super.checked
-  }
-
-  set checked(checked: boolean | undefined) {
-    super.checked = checked
-    super.value = checked
   }
 
   static styles: CSSResultGroup = [

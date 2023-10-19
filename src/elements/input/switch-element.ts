@@ -20,11 +20,6 @@ export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventM
     WebElementLogger.verbose(this.uid, 'onChange', `The switch has been turned ${this.on ? 'on' : 'off'}.`)
   }
 
-  onClick(): void {
-    super.onClick()
-    this.touch()
-  }
-
   render() {
     if (this.native) {
       return html`<input
@@ -42,21 +37,7 @@ export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventM
     return super.render()
   }
 
-  get on(): boolean | undefined {
-    if (this.target && typeof this.path === 'string') {
-      return super.value
-    }
-
-    return super.on
-  }
-
-  set on(on: boolean | undefined) {
-    super.on = on
-    super.value = on
-  }
-
   static queries: QueryDeclarations = {
-    ...super.queries,
     inputElement: { selector: 'input', shadow: true }
   }
 

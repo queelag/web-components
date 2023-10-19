@@ -1,4 +1,4 @@
-import { getLimitedNumber, isNumberMultipleOf, toFixedNumber } from '@aracna/core'
+import { getLimitedNumber, isArray, isNumberMultipleOf, toFixedNumber, wf } from '@aracna/core'
 import {
   AriaSliderElementEventMap,
   AriaSliderThumbElementEventMap,
@@ -72,41 +72,48 @@ export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderE
     this.removeEventListener('click', this.onClick)
   }
 
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (['decimals', 'max', 'min', 'orientation'].includes(name)) {
+      wf(() => this.thumbElements[0], 4).then(() => this.thumbElements[0]?.computePosition())
+      wf(() => this.thumbElements[1], 4).then(() => this.thumbElements[1]?.computePosition())
+    }
+  }
+
   onClick(event: MouseEvent): void {
     if (this.native) {
       return
     }
 
-    if (this.disabled || this.readonly) {
-      return WebElementLogger.warn(this.uid, 'onClick', `The slider is disabled or readonly.`)
-    }
-
-    if (this.hasMultipleThumbs) {
-      return
-    }
-
-    this.thumbElements[0].setValueByCoordinates(event.clientX, event.clientY)
-    WebElementLogger.verbose(this.uid, 'onClick', `The value has been set through the coordinates.`, [
-      event.clientX,
-      event.clientY,
-      this.thumbElements[0].value
-    ])
-
-    this.thumbElements[0].focus()
-    WebElementLogger.verbose(this.uid, 'onClick', `The thumb has been focused.`)
-
-    this.thumbElements[0].computePosition()
-
-    this.dispatchEvent(new SliderThumbMoveEvent(this.thumbElements[0].value, this.thumbElements[0].percentage))
-    this.dispatchEvent(new SliderChangeEvent(this.values, this.percentages))
+    this.dispatchEvent(new SliderChangeEvent(this.value, this.percentage))
   }
 
   get name(): ElementName {
     return ElementName.ARIA_SLIDER
   }
 
-  get percentages(): number[] {
-    return this.thumbElements.map((thumb: AriaSliderThumbElement) => thumb.percentage)
+  get percentage(): number | number[] {
+    if (this.hasMultipleThumbs) {
+      let value: number[] = [0, 0]
+
+      if (isArray(this.value)) {
+        value[0] = this.value[0] ?? this.thumbElements[0]?.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE
+        value[1] = this.value[1] ?? this.thumbElements[1]?.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE
+      }
+
+      return value.map((value: number) => getSliderThumbElementPercentage(value, this.min, this.max, this.decimals))
+    }
+
+    if (typeof this.value === 'number') {
+      return getSliderThumbElementPercentage(this.value, this.min, this.max, this.decimals)
+    }
+
+    return getSliderThumbElementPercentage(this.thumbElements[0]?.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE, this.min, this.max, this.decimals)
   }
 
   get value(): number | number[] | undefined {
@@ -117,7 +124,11 @@ export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderE
     super.value = value
   }
 
-  get values(): number[] {
+  get thumbElementsPercentage(): number[] {
+    return this.thumbElements.map((thumb: AriaSliderThumbElement) => thumb.percentage)
+  }
+
+  get thumbElementsValue(): number[] {
     return this.thumbElements.map((thumb: AriaSliderThumbElement) => thumb.value ?? thumb.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE)
   }
 
@@ -190,7 +201,7 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
     this.addEventListener('touchmove', this.onTouchMove, { passive: true })
     this.addEventListener('touchstart', this.onTouchStart, { passive: true })
 
-    this.computePosition()
+    wf(() => this.rootElement, 4).then(() => this.computePosition())
   }
 
   disconnectedCallback(): void {
@@ -201,6 +212,18 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
     this.removeEventListener('touchend', this.onTouchEnd)
     this.removeEventListener('touchmove', this.onTouchMove)
     this.removeEventListener('touchstart', this.onTouchStart)
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (['default-value', 'value'].includes(name)) {
+      wf(() => this.rootElement, 4).then(() => this.computePosition())
+    }
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
@@ -402,9 +425,19 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
     }
 
     this.value = getLimitedNumber(fvalue, min, max)
-
     this.dispatchEvent(new SliderThumbMoveEvent(this.value, this.percentage))
-    this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.values, this.rootElement.percentages))
+
+    if (this.rootElement.hasMultipleThumbs) {
+      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
+      this.rootElement.value[this.index] = value
+
+      return
+    }
+
+    this.rootElement.value = value
+    this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.value, this.rootElement.percentage))
+
+    this.rootElement.touch()
   }
 
   getPercentageByCoordinates(x: number, y: number): number {
@@ -427,12 +460,18 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
     percentage = getLimitedNumber(toFixedNumber(percentage, decimals), 0, 100)
     // if (!isNumberMultipleOf(percentage, step)) return -1
 
+    if (orientation === 'vertical') {
+      percentage = 100 - percentage
+    }
+
     return percentage
   }
 
   render() {
     return html`
-      <div style=${this.styleMap}></div>
+      <div style=${this.styleMap}>
+        <slot></slot>
+      </div>
       ${this.shapeHTML}
     `
   }
@@ -460,6 +499,7 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
     this._value = value
 
     this.requestUpdate('value', old)
+    this.computePosition()
   }
 
   static properties: PropertyDeclarations = {

@@ -250,14 +250,11 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
             case 'both':
             case 'inline':
             case 'list':
-              this.inputElement.clear()
-              WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The input value has been reset.`)
-
               this.selectedOptionElement?.unselect()
               WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The selected option has been unselected.`)
 
-              this.value = undefined
-              WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The value has been reset.`)
+              this.inputElement.value = undefined
+              WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The input value has been reset.`, [this.inputElement.value])
           }
 
           break
@@ -410,11 +407,11 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     return !this.multiple
   }
 
-  get value(): any | any[] {
+  get value(): any | any[] | undefined {
     return super.value
   }
 
-  set value(value: any | any[]) {
+  set value(value: any | any[] | undefined) {
     super.value = value
   }
 
@@ -716,17 +713,17 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
       WebElementLogger.verbose(this.uid, ' attributeChangedCallback', `The option has been scrolled into view.`)
     }
 
-    if (name === 'selected' && typeof value === 'string' && this.rootElement.inputElement) {
-      if (this.rootElement.single) {
-        this.rootElement.inputElement.value = this.label ?? this.innerText
-        WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The input value has been set to the selected option label.`)
-      }
+    // if (name === 'selected' && typeof value === 'string' && this.rootElement.inputElement) {
+    //   if (this.rootElement.single) {
+    //     this.rootElement.inputElement.value = this.label ?? this.innerText
+    //     WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The input value has been set to the selected option label.`)
+    //   }
 
-      if (this.rootElement.multiple) {
-        this.rootElement.inputElement.value = ''
-        WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The input value has been reset.`)
-      }
-    }
+    //   if (this.rootElement.multiple) {
+    //     this.rootElement.inputElement.value = ''
+    //     WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The input value has been reset.`)
+    //   }
+    // }
   }
 
   blur(): void {
@@ -740,10 +737,32 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
   select(): void {
     this.selected = true
     this.dispatchEvent(new ComboBoxOptionSelectEvent(this, this.label, this.value))
+
+    if (this.rootElement.single) {
+      this.rootElement.value = this.value
+    }
+
+    if (this.rootElement.multiple) {
+      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
+      this.rootElement.value = [...this.rootElement.value, this.value]
+    }
+
+    this.rootElement.touch()
   }
 
   unselect(): void {
     this.selected = false
+
+    if (this.rootElement.single) {
+      this.rootElement.value = undefined
+    }
+
+    if (this.rootElement.multiple) {
+      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
+      this.rootElement.value = removeArrayItems(this.rootElement.value, [this.value])
+    }
+
+    this.rootElement.touch()
   }
 
   onClick(): void {

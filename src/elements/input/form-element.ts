@@ -39,7 +39,7 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
 
   connectedCallback(): void {
     super.connectedCallback()
-    wf(() => this.buttonElement).then(() => this.buttonElement?.addEventListener('button-click', this.onButtonClick))
+    wf(() => this.buttonElement, 4).then(() => this.buttonElement?.addEventListener('button-click', this.onButtonClick))
   }
 
   disconnectedCallback(): void {

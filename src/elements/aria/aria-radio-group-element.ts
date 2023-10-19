@@ -114,6 +114,11 @@ export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = Ari
     }
   }
 
+  clear(): void {
+    super.clear()
+    this.checkedButtonElement?.uncheck()
+  }
+
   get checkedButtonElementIndex(): number {
     return this.checkedButtonElement ? this.buttonElements.indexOf(this.checkedButtonElement) : -1
   }
@@ -148,6 +153,8 @@ export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = A
    * PROPERTIES
    */
   checked?: boolean
+  label?: string
+  value?: any
 
   /**
    * QUERIES
@@ -182,10 +189,14 @@ export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = A
 
   check(): void {
     this.checked = true
+    this.rootElement.value = this.value
+
+    this.rootElement.touch()
   }
 
   uncheck(): void {
     this.checked = false
+    this.rootElement.touch()
   }
 
   get focused(): boolean {
@@ -201,7 +212,9 @@ export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = A
   }
 
   static properties: PropertyDeclarations = {
-    checked: { type: Boolean, reflect: true }
+    checked: { type: Boolean, reflect: true },
+    label: { type: String, reflect: true },
+    value: {}
   }
 
   static queries: QueryDeclarations = {

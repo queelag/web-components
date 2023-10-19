@@ -48,7 +48,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
 
   connectedCallback(): void {
     super.connectedCallback()
-    wf(() => this.textAreaElement).then(() => this.computeHeight())
+    wf(() => this.textAreaElement, 4).then(() => this.computeHeight())
   }
 
   onBlur(): void {

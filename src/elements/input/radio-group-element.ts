@@ -56,15 +56,6 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
     return super.render()
   }
 
-  clear(): void {
-    super.clear()
-    this.checkedButtonElement?.uncheck()
-  }
-
-  findButtonByValue(value: any): RadioButton | undefined {
-    return this.buttons?.find((option: RadioButton) => option.value === value)
-  }
-
   get name(): ElementName {
     return ElementName.RADIO_GROUP
   }
@@ -97,23 +88,8 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
 }
 
 export class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButtonElementEventMap> extends AriaRadioButtonElement<E> {
-  label?: string
-  value?: any
-
-  check(): void {
-    super.check()
-
-    this.rootElement.value = this.value
-    WebElementLogger.verbose(this.uid, 'check', `The radio group value has been set.`, [this.value])
-  }
-
   get name(): ElementName {
     return ElementName.RADIO_BUTTON
-  }
-
-  static properties: PropertyDeclarations = {
-    label: { type: String, reflect: true },
-    value: {}
   }
 
   static queries: QueryDeclarations = {

@@ -41,7 +41,7 @@ export class FloatingElement<E extends FloatingElementEventMap = FloatingElement
     super.connectedCallback()
     setImmutableElementAttribute(this, 'floating-element', '')
 
-    wf(() => this.referenceElement).then(() => this.computePosition())
+    wf(() => this.referenceElement, 4).then(() => this.computePosition())
   }
 
   disconnectedCallback(): void {

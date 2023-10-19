@@ -50,6 +50,8 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
 
     this.checked = !this.checked
     WebElementLogger.verbose(this.uid, 'onClick', `The checkbox has been ${this.checked ? 'checked' : 'unchecked'}.`)
+
+    this.touch()
   }
 
   onKeyDown(event: KeyboardEvent): void {
@@ -68,6 +70,10 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
   }
 
   get checked(): boolean | undefined {
+    if (this.target && typeof this.path === 'string') {
+      return super.value
+    }
+
     return this._checked
   }
 
@@ -78,6 +84,8 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
     this._checked = checked
 
     this.requestUpdate('checked', old)
+
+    super.value = checked
   }
 
   get name(): ElementName {

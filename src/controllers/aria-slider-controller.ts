@@ -24,6 +24,12 @@ export class AriaSliderController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'aria-disabled', this.host.disabled ? 'true' : 'false')
     setImmutableElementAttribute(this.host, 'aria-readonly', this.host.readonly ? 'true' : 'false')
     setImmutableElementAttribute(this.host, 'role', 'group')
+
+    for (let thumb of this.host.thumbElements) {
+      setImmutableElementAttribute(thumb, 'aria-orientation', this.host.orientation ?? DEFAULT_SLIDER_ORIENTATION)
+      setImmutableElementAttribute(thumb, 'aria-valuemax', String(this.host.max ?? DEFAULT_SLIDER_MAX))
+      setImmutableElementAttribute(thumb, 'aria-valuemin', String(this.host.min ?? DEFAULT_SLIDER_MIN))
+    }
   }
 }
 
@@ -42,9 +48,6 @@ export class AriaSliderThumbController implements ReactiveController {
 
   setAttributes(): void {
     // setImmutableElementAttribute(this.host, 'aria-labelledby', '')
-    setImmutableElementAttribute(this.host, 'aria-orientation', this.host.rootElement.orientation ?? DEFAULT_SLIDER_ORIENTATION)
-    setImmutableElementAttribute(this.host, 'aria-valuemax', String(this.host.rootElement.max ?? DEFAULT_SLIDER_MAX))
-    setImmutableElementAttribute(this.host, 'aria-valuemin', String(this.host.rootElement.min ?? DEFAULT_SLIDER_MIN))
     setImmutableElementAttribute(this.host, 'aria-valuenow', String(this.host.value ?? DEFAULT_SLIDER_THUMB_VALUE))
     setImmutableElementAttribute(this.host, 'role', 'slider')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
