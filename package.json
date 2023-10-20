@@ -2,7 +2,7 @@
   "author": "Dario Sechi",
   "devDependencies": {
     "@aracna/core": "^1.1.53",
-    "@aracna/web": "^1.0.51",
+    "@aracna/web": "^1.0.52",
     "@astrojs/lit": "^2.1.1",
     "@astrojs/tailwind": "^4.0.0",
     "@floating-ui/dom": "^1.5.1",

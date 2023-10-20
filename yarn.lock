@@ -26,10 +26,10 @@
     node-fetch "^3.3.2"
     rfc4648 "^1.5.2"
 
-"@aracna/web@^1.0.51":
-  version "1.0.51"
-  resolved "https://registry.yarnpkg.com/@aracna/web/-/web-1.0.51.tgz#34e203d6b52d5d2fd264e6f9238e4bbccf8aef48"
-  integrity sha512-JCTspmkoqWXt7T8UoYrTSqJ83Y8FWSsPoxYZKY6o4idNLaPNyPdvJN6jNyapI+EQwNAZ/ruXtCfaOPxKL3Jf5w==
+"@aracna/web@^1.0.52":
+  version "1.0.52"
+  resolved "https://registry.yarnpkg.com/@aracna/web/-/web-1.0.52.tgz#771a681fbbb2096684678facd45a147b27f0d131"
+  integrity sha512-28hGycsAXznI3I8/3NgMChc1xvgv0PNHhqhS68CZZWGWEJ3a9O7j3QidhU1vLD6CI0O2rUZnFfHaW6XXMHYEFw==
 
 "@astrojs/compiler@^1.0.1", "@astrojs/compiler@^1.4.2", "@astrojs/compiler@^1.8.0":
   version "1.8.2"
