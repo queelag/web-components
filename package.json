@@ -1,8 +1,8 @@
 {
   "author": "Dario Sechi",
   "devDependencies": {
-    "@aracna/core": "^1.1.42",
-    "@aracna/web": "^1.0.35",
+    "@aracna/core": "^1.1.53",
+    "@aracna/web": "^1.0.51",
     "@astrojs/lit": "^2.1.1",
     "@astrojs/tailwind": "^4.0.0",
     "@floating-ui/dom": "^1.5.1",
