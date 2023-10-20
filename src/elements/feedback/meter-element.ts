@@ -37,12 +37,7 @@ export class MeterElement<E extends MeterElementEventMap = MeterElementEventMap>
       `
     }
 
-    return html`
-      <div style=${this.styleMap}>
-        <slot></slot>
-      </div>
-      ${this.shapeHTML}
-    `
+    return super.render()
   }
 
   get percentage(): number {

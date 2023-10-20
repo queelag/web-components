@@ -29,6 +29,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
   autosize?: boolean
   cols?: number
   multiple?: boolean
+  padding?: string
   placeholder?: string
   resize?: TextAreaElementResize
   rows?: number
@@ -195,7 +196,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
         placeholder=${ifdef(this.placeholder)}
         ?readonly=${this.readonly}
         rows=${ifdef(this.rows)}
-        style=${this.textAreaElementStyle}
+        style=${this.styleMap}
         .value=${this.textAreaElementValue}
       ></textarea>
       <span></span>
@@ -210,10 +211,11 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     return !this.multiple
   }
 
-  get textAreaElementStyle(): DirectiveResult {
+  get styleMap(): DirectiveResult {
     return styleMap({
       ...this.styleInfo,
       minHeight: this.computedHeight,
+      padding: this.padding,
       resize: this.resize
     })
   }
@@ -243,6 +245,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     cols: { type: Number, reflect: true },
     computedHeight: { type: String, state: true },
     multiple: { type: Boolean, reflect: true },
+    padding: { type: String, reflect: true },
     placeholder: { type: String, reflect: true },
     resize: { type: String, reflect: true },
     rows: { type: Number, reflect: true },

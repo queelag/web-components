@@ -2,6 +2,7 @@ import { ID, parseNumber } from '@aracna/core'
 import {
   AttributeChangeEvent,
   BaseElementEventMap,
+  DEFAULT_SQUIRCLE_CURVATURE,
   ELEMENT_UID_GENERATE_OPTIONS,
   ElementCollector,
   ElementName,
@@ -10,6 +11,7 @@ import {
   QueryDeclarations,
   Shape,
   Size,
+  appendSquircleElement,
   getElementStyleCompatibleValue,
   setImmutableElementAttribute
 } from '@aracna/web'
@@ -18,28 +20,23 @@ import { DirectiveResult } from 'lit-html/directive.js'
 import { StyleInfo } from 'lit-html/directives/style-map.js'
 import { styleMap } from '../../directives/style-map.js'
 import { getShapeStyleInfo } from '../../utils/shape-utils.js'
-import { getSquircleHTML } from '../../utils/squircle-utils.js'
 
 export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends LitElement {
   /**
    * PROPERTIES
    */
-  background?: string
   height?: string
   layer?: Layer
-  padding?: string
   shape?: Shape
   shapeRectangleRadius?: number
   shapeSquareRadius?: number
   shapeSquircleCurvature?: number
-  shapeSquircleSize?: number
   size?: Size
   width?: string
 
   /**
    * INTERNAL
    */
-  // squircleID: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.SQUIRCLE })
   uid: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.name })
 
   constructor() {
@@ -66,6 +63,18 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
 
     if (Object.is(_old, value)) {
       return
+    }
+
+    if (name === 'shape' && value === 'squircle') {
+      appendSquircleElement(this.numericSize, this.shapeSquircleCurvature)
+    }
+
+    if (name === 'shape-squircle-curvature' && this.shape === 'squircle') {
+      appendSquircleElement(this.numericSize, parseNumber(value, DEFAULT_SQUIRCLE_CURVATURE))
+    }
+
+    if (name === 'size' && this.shape === 'squircle') {
+      appendSquircleElement(parseNumber(value), this.shapeSquircleCurvature)
     }
 
     this.dispatchEvent(new AttributeChangeEvent(name, _old, value))
@@ -109,7 +118,10 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
   }
 
   render(): unknown {
-    return html`<slot @slotchange=${this.onSlotChange}></slot>`
+    return html`
+      ${this.styleHTML}
+      <slot @slotchange=${this.onSlotChange}></slot>
+    `
   }
 
   // @ts-ignore
@@ -126,27 +138,11 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
     }
   }
 
-  get shapeHTML(): TemplateResult | undefined {
-    if (this.shape !== 'squircle') {
-      return
-    }
-
-    return getSquircleHTML('squircle-clip-path', this.shapeSquircleSize ?? this.numericSize, this.shapeSquircleCurvature)
-  }
-
-  get backgroundStyleInfo(): StyleInfo {
-    return { background: this.background }
-  }
-
-  get paddingStyleInfo(): StyleInfo {
-    return { padding: this.padding }
-  }
-
   get shapeStyleInfo(): StyleInfo {
     return getShapeStyleInfo(this.shape, {
       rectangle: { radius: this.shapeRectangleRadius },
       square: { radius: this.shapeSquareRadius },
-      squircle: { id: 'squircle-clip-path' }
+      squircle: { curvature: this.shapeSquircleCurvature, size: this.numericSize }
     })
   }
 
@@ -157,8 +153,24 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
     }
   }
 
+  get styleHTML(): TemplateResult {
+    return html`
+      <style>
+        :host {
+          border-radius: ${this.shapeStyleInfo.borderRadius ?? 'unset'};
+          clip-path: ${this.shapeStyleInfo.clipPath ?? 'unset'};
+          height: ${getElementStyleCompatibleValue(this.height ?? this.size) ?? 'unset'};
+          width: ${getElementStyleCompatibleValue(this.width ?? this.size) ?? 'unset'};
+        }
+      </style>
+    `
+  }
+
   get styleInfo(): StyleInfo {
-    return { ...this.backgroundStyleInfo, ...this.paddingStyleInfo, ...this.shapeStyleInfo, ...this.sizeStyleInfo }
+    return {
+      ...this.shapeStyleInfo,
+      ...this.sizeStyleInfo
+    }
   }
 
   get styleMap(): DirectiveResult {
@@ -168,10 +180,8 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
   static queries: QueryDeclarations = {}
 
   static properties: PropertyDeclarations = {
-    background: { type: String, reflect: true },
     height: { type: String, reflect: true },
     layer: { type: Number, reflect: true },
-    padding: { type: String, reflect: true },
     shape: { type: String, reflect: true },
     shapeRectangleRadius: { type: String, attribute: 'shape-rectangle-radius', reflect: true },
     shapeSquareRadius: { type: String, attribute: 'shape-square-radius', reflect: true },
@@ -184,14 +194,6 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
   static styles: CSSResultGroup = css`
     :host {
       display: inline-flex;
-    }
-
-    svg.squircle {
-      height: 0;
-      opacity: 0;
-      pointer-events: none;
-      position: absolute;
-      width: 0;
     }
   `
 }

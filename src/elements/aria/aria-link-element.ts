@@ -60,7 +60,7 @@ export class AriaLinkElement<E extends AriaLinkElementEventMap = AriaLinkElement
   static styles: CSSResultGroup = [
     super.styles,
     css`
-      * {
+      :host {
         cursor: pointer;
       }
     `

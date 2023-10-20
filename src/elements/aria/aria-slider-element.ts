@@ -21,7 +21,7 @@ import {
   getSliderThumbElementStyleLeft,
   getSliderThumbElementStyleTop
 } from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
+import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { AriaSliderController, AriaSliderThumbController } from '../../controllers/aria-slider-controller.js'
 import { BaseElement } from '../core/base-element.js'
 import { FormFieldElement } from '../core/form-field-element.js'
@@ -90,7 +90,25 @@ export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderE
       return
     }
 
-    this.dispatchEvent(new SliderChangeEvent(this.value, this.percentage))
+    if (this.disabled || this.readonly) {
+      return WebElementLogger.warn(this.uid, 'onClick', `The slider is disabled or readonly.`)
+    }
+
+    if (this.hasMultipleThumbs) {
+      return
+    }
+
+    this.thumbElements[0].setValueByCoordinates(event.clientX, event.clientY)
+    WebElementLogger.verbose(this.uid, 'onClick', `The value has been set through the coordinates.`, [
+      event.clientX,
+      event.clientY,
+      this.thumbElements[0].value
+    ])
+
+    this.thumbElements[0].focus()
+    WebElementLogger.verbose(this.uid, 'onClick', `The thumb has been focused.`)
+
+    this.thumbElements[0].computePosition()
   }
 
   get name(): ElementName {
@@ -467,15 +485,6 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
     return percentage
   }
 
-  render() {
-    return html`
-      <div style=${this.styleMap}>
-        <slot></slot>
-      </div>
-      ${this.shapeHTML}
-    `
-  }
-
   get index(): number {
     return this.rootElement.thumbElements.indexOf(this)
   }
@@ -532,12 +541,6 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
 
       :host([aria-orientation='vertical']) {
         transform: translateY(-50%);
-      }
-
-      div {
-        display: inline-flex;
-        height: 100%;
-        width: 100%;
       }
     `
   ]

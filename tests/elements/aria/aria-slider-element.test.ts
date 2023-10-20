@@ -133,7 +133,7 @@ describe('AriaSliderElement', () => {
     expect(t1.getAttribute('movable')).not.toBeNull()
     expect(t1.getAttribute('value')).toBeNull()
 
-    dispatchMouseMoveEvent(document, { clientY: 25 })
+    dispatchMouseMoveEvent(document, { clientY: 75 })
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('25')
@@ -161,7 +161,7 @@ describe('AriaSliderElement', () => {
     expect(t1.getAttribute('movable')).not.toBeNull()
     expect(t1.getAttribute('value')).toBe('50')
 
-    dispatchMouseMoveEvent(document, { clientY: 25 })
+    dispatchMouseMoveEvent(document, { clientY: 75 })
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('25')
@@ -250,9 +250,9 @@ describe('AriaSliderElement', () => {
     dispatchTouchMoveEvent(t1, { touches: [new Touch({ clientY: 25, identifier: 0, target: t1 })] })
     await t1.updateComplete
 
-    expect(t1.getAttribute('aria-valuenow')).toBe('25')
+    expect(t1.getAttribute('aria-valuenow')).toBe('75')
     expect(t1.getAttribute('movable')).not.toBeNull()
-    expect(t1.getAttribute('value')).toBe('25')
+    expect(t1.getAttribute('value')).toBe('75')
 
     dispatchTouchMoveEvent(t1, { touches: [new Touch({ clientY: 50, identifier: 0, target: t1 })] })
     await t1.updateComplete
@@ -278,16 +278,16 @@ describe('AriaSliderElement', () => {
     dispatchTouchMoveEvent(t1, { touches: [new Touch({ clientY: 25, identifier: 0, target: t1 })] })
     await t1.updateComplete
 
-    expect(t1.getAttribute('aria-valuenow')).toBe('25')
+    expect(t1.getAttribute('aria-valuenow')).toBe('75')
     expect(t1.getAttribute('movable')).not.toBeNull()
-    expect(t1.getAttribute('value')).toBe('25')
+    expect(t1.getAttribute('value')).toBe('75')
 
     dispatchTouchEndEvent(t1)
     await t1.updateComplete
 
-    expect(t1.getAttribute('aria-valuenow')).toBe('25')
+    expect(t1.getAttribute('aria-valuenow')).toBe('75')
     expect(t1.getAttribute('movable')).toBeNull()
-    expect(t1.getAttribute('value')).toBe('25')
+    expect(t1.getAttribute('value')).toBe('75')
   })
 
   it('supports keyboard usage', async () => {

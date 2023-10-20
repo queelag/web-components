@@ -1,6 +1,5 @@
 import { AvatarElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { html } from 'lit-html'
 import { BaseElement } from '../core/base-element.js'
 
 declare global {
@@ -17,15 +16,6 @@ export class AvatarElement<E extends AvatarElementEventMap = AvatarElementEventM
   image?: string
   text?: string
 
-  render() {
-    return html`
-      <div style=${this.styleMap}>
-        <slot></slot>
-      </div>
-      ${this.shapeHTML}
-    `
-  }
-
   get name(): ElementName {
     return ElementName.AVATAR
   }
@@ -39,9 +29,8 @@ export class AvatarElement<E extends AvatarElementEventMap = AvatarElementEventM
   static styles: CSSResultGroup = [
     super.styles,
     css`
-      div {
+      :host {
         align-items: center;
-        display: inline-flex;
         justify-content: center;
         overflow: hidden;
       }

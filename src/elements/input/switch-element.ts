@@ -22,16 +22,9 @@ export class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventM
 
   render() {
     if (this.native) {
-      return html`<input
-        @change=${this.onChange}
-        ?disabled=${this.disabled}
-        min="0"
-        max="1"
-        ?readonly=${this.readonly}
-        step="1"
-        type="range"
-        value=${this.on ? 1 : 0}
-      />`
+      return html`
+        <input @change=${this.onChange} ?disabled=${this.disabled} min="0" max="1" ?readonly=${this.readonly} step="1" type="range" value=${this.on ? 1 : 0} />
+      `
     }
 
     return super.render()

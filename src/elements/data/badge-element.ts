@@ -25,8 +25,8 @@ export class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap>
 
   render() {
     return html`
-      <div style=${this.styleMap}><slot>${this.value}</slot></div>
-      ${this.shapeHTML}
+      ${this.styleHTML}
+      <slot>${this.value}</slot>
     `
   }
 
@@ -57,11 +57,9 @@ export class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap>
   static styles: CSSResultGroup = [
     super.styles,
     css`
-      div {
+      :host {
         align-items: center;
-        display: inline-flex;
         justify-content: center;
-        overflow: hidden;
       }
     `
   ]

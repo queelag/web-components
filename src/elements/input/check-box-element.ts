@@ -22,12 +22,7 @@ export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElement
       return html`<input @change=${this.onChange} ?checked=${this.value} ?disabled=${this.disabled} ?readonly=${this.readonly} type="checkbox" />`
     }
 
-    return html`
-      <div style=${this.styleMap}>
-        <slot></slot>
-      </div>
-      ${this.shapeHTML}
-    `
+    return super.render()
   }
 
   get name(): ElementName {
@@ -41,20 +36,17 @@ export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElement
         cursor: pointer;
       }
 
+      :host(:not([native])) {
+        align-items: center;
+        justify-content: center;
+      }
+
       :host([native]) input {
         all: inherit;
       }
 
-      :host([normalized]) input {
+      :host([native][normalized]) input {
         margin: none;
-      }
-
-      :host(:not([native])) div {
-        align-items: center;
-        display: inline-flex;
-        height: 100%;
-        justify-content: center;
-        width: 100%;
       }
     `
   ]

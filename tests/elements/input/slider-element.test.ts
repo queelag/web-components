@@ -54,7 +54,7 @@ describe('SliderElement', () => {
 
     dispatchKeyDownEvent(thumb1, KeyboardEventKey.ARROW_RIGHT)
     await thumb1.updateComplete
-    expect(slider.value).toStrictEqual([1, 0])
+    expect(slider.value).toStrictEqual([1])
 
     dispatchKeyDownEvent(thumb2, KeyboardEventKey.ARROW_RIGHT)
     await thumb2.updateComplete

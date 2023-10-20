@@ -69,16 +69,10 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
         >
           <slot>${this.text}</slot>
         </button>
-        ${this.shapeHTML}
       `
     }
 
-    return html`
-      <div style=${this.styleMap}>
-        <slot>${this.text}</slot>
-      </div>
-      ${this.shapeHTML}
-    `
+    return super.render()
   }
 
   get name(): ElementName {
@@ -88,9 +82,9 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
   static properties: PropertyDeclarations = {
     async: { type: Boolean, reflect: true },
     icon: { type: String, reflect: true },
-    label: { type: String, reflect: true },
     normalized: { type: Boolean, reflect: true },
     spinning: { type: Boolean, reflect: true },
+    text: { type: String, reflect: true },
     type: { type: String, reflect: true },
     variant: { type: String, reflect: true }
   }
@@ -102,24 +96,21 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
         cursor: pointer;
       }
 
+      :host(:not([native])) {
+        align-items: center;
+        justify-content: center;
+      }
+
       :host([native]) button {
         all: inherit;
       }
 
-      :host([normalized]) button {
+      :host([native][normalized]) button {
         appearance: none;
         background: none;
         border: none;
         height: 100%;
         padding: none;
-        width: 100%;
-      }
-
-      :host(:not([native])) div {
-        align-items: center;
-        display: inline-flex;
-        height: 100%;
-        justify-content: center;
         width: 100%;
       }
     `

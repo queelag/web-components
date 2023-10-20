@@ -168,18 +168,20 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
   }
 
   render() {
-    return html`<svg
-      fill=${ifdef(this.fill)}
-      stroke=${ifdef(this.stroke)}
-      stroke-linecap=${ifdef(this.strokeLineCap)}
-      stroke-linejoin=${ifdef(this.strokeLineJoin)}
-      stroke-width=${ifdef(this.strokeWidth)}
-      style=${this.svgElementStyle}
-      viewBox=${ifdef(this.svgElementViewBox)}
-      xmlns=${SVG_NAMESPACE_URI}
-    >
-      ${this.svgElementTemplate}
-    </svg>`
+    return html`
+      <svg
+        fill=${ifdef(this.fill)}
+        stroke=${ifdef(this.stroke)}
+        stroke-linecap=${ifdef(this.strokeLineCap)}
+        stroke-linejoin=${ifdef(this.strokeLineJoin)}
+        stroke-width=${ifdef(this.strokeWidth)}
+        style=${this.svgElementStyle}
+        viewBox=${ifdef(this.svgElementViewBox)}
+        xmlns=${SVG_NAMESPACE_URI}
+      >
+        ${this.svgElementTemplate}
+      </svg>
+    `
   }
 
   get name(): ElementName {

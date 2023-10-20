@@ -12,7 +12,9 @@ import {
 } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
+import { DirectiveResult } from 'lit-html/directive.js'
 import { ifdef } from '../../directives/if-defined.js'
+import { styleMap } from '../../directives/style-map.js'
 import { FormFieldElement } from '../core/form-field-element.js'
 
 declare global {
@@ -27,6 +29,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
    */
   multiple?: boolean
   obscured?: boolean
+  padding?: string
   placeholder?: string
   touchTrigger?: InputElementTouchTrigger
   type: InputElementType = DEFAULT_INPUT_TYPE
@@ -237,6 +240,13 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
     return !this.multiple
   }
 
+  get styleMap(): DirectiveResult {
+    return styleMap({
+      ...this.sizeStyleInfo,
+      padding: this.padding
+    })
+  }
+
   get value(): InputElementValue {
     switch (this.type) {
       case 'buffer':
@@ -272,6 +282,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
   static properties: PropertyDeclarations = {
     multiple: { type: Boolean, reflect: true },
     obscured: { type: Boolean, reflect: true },
+    padding: { type: String, reflect: true },
     placeholder: { type: String, reflect: true },
     temporaryValue: { state: true },
     touchTrigger: { type: String, attribute: 'touch-trigger', reflect: true },

@@ -1,9 +1,8 @@
-import { defineCustomElement, ElementCollector, QueryDeclarations } from '@aracna/web'
+import { DEFAULT_SQUIRCLE_CURVATURE, defineCustomElement, ElementCollector, getSquircleClipPathID, QueryDeclarations } from '@aracna/web'
 import { html } from 'lit-html'
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
 import '../../../src/elements/core/base-element'
 import { BaseElement } from '../../../src/elements/core/base-element'
-import { getSquircleHTML } from '../../../src/utils/squircle-utils'
 import { render } from '../../../vitest/dom-utils'
 
 class TestElement extends BaseElement {
@@ -68,7 +67,7 @@ describe('BaseElement', () => {
     test.addEventListener('attribute-change', listener)
     await render(test)
 
-    test.background = 'black'
+    test.layer = 0
     await test.updateComplete
     expect(listener).toBeCalledTimes(1)
   })
@@ -76,13 +75,13 @@ describe('BaseElement', () => {
   it('generates the correct shape styles', async () => {
     await render(test, { shape: 'circle' })
 
-    expect(test.shapeHTML).toBeUndefined()
+    expect(test.styleHTML.values).toStrictEqual(['9999px', 'unset', 'unset', 'unset'])
     expect(test.shapeStyleInfo).toStrictEqual({ borderRadius: '9999px' })
 
     test.shape = 'rectangle'
     await test.updateComplete
 
-    expect(test.shapeHTML).toBeUndefined()
+    expect(test.styleHTML.values).toStrictEqual(['unset', 'unset', 'unset', 'unset'])
     expect(test.shapeStyleInfo).toStrictEqual({ borderRadius: undefined })
 
     test.shapeRectangleRadius = 5
@@ -92,7 +91,7 @@ describe('BaseElement', () => {
     test.shape = 'square'
     await test.updateComplete
 
-    expect(test.shapeHTML).toBeUndefined()
+    expect(test.styleHTML.values).toStrictEqual(['unset', 'unset', 'unset', 'unset'])
     expect(test.shapeStyleInfo).toStrictEqual({ borderRadius: undefined })
 
     test.shapeSquareRadius = 5
@@ -102,14 +101,14 @@ describe('BaseElement', () => {
     test.shape = 'squircle'
     await test.updateComplete
 
-    expect(test.shapeHTML).toStrictEqual(getSquircleHTML('squircle-clip-path', 0))
-    expect(test.shapeStyleInfo).toStrictEqual({ clipPath: `url(#squircle-clip-path)` })
+    expect(test.styleHTML.values).toStrictEqual(['unset', `url(#${getSquircleClipPathID(0, DEFAULT_SQUIRCLE_CURVATURE)})`, 'unset', 'unset'])
+    expect(test.shapeStyleInfo).toStrictEqual({ clipPath: `url(#${getSquircleClipPathID(0, DEFAULT_SQUIRCLE_CURVATURE)})` })
 
     test.shapeSquircleCurvature = 0.5
-    test.shapeSquircleSize = 24
+    test.size = 24
 
-    expect(test.shapeHTML).toStrictEqual(getSquircleHTML('squircle-clip-path', 24, 0.5))
-    expect(test.shapeStyleInfo).toStrictEqual({ clipPath: `url(#squircle-clip-path)` })
+    expect(test.styleHTML.values).toStrictEqual(['unset', `url(#${getSquircleClipPathID(test.size, test.shapeSquircleCurvature)})`, '24px', '24px'])
+    expect(test.shapeStyleInfo).toStrictEqual({ clipPath: `url(#${getSquircleClipPathID(test.size, test.shapeSquircleCurvature)})` })
   })
 
   it('generates the correct size styles', async () => {

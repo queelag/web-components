@@ -153,6 +153,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
 
   render() {
     return html`
+      ${this.styleHTML}
       <img
         alt=${ifdef(this.alt)}
         crossorigin=${ifdef(this.imgElementCrossOrigin)}
@@ -162,7 +163,6 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
         src=${this.imgElementSrc}
         style=${this.imgElementStyle}
       />
-      ${this.shapeHTML}
     `
   }
 
@@ -188,7 +188,6 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
 
   get imgElementStyle(): DirectiveResult<typeof StyleMapDirective> {
     return styleMap({
-      ...this.backgroundStyleInfo,
       ...this.shapeStyleInfo,
       height: getElementStyleCompatibleValue(this.height || this.size || DEFAULT_IMAGE_SIZE),
       maxHeight: getElementStyleCompatibleValue(this.height || this.size),
@@ -237,6 +236,10 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
   static styles: CSSResultGroup = [
     super.styles,
     css`
+      :host {
+        overflow: hidden;
+      }
+
       img {
         background: transparent;
       }

@@ -40,7 +40,7 @@ describe('ButtonElement', () => {
     expect(button.shadowRoot?.querySelector('button')?.getAttribute('tabindex')).toBe('-1')
     expect(button.shadowRoot?.querySelector('button')?.getAttribute('type')).toBeNull()
 
-    await render(button, { disabled: 'true', label: 'label', native: 'true', pressed: 'true', type: 'button' })
+    await render(button, { disabled: 'true', native: 'true', pressed: 'true', text: 'label', type: 'button' })
 
     expect(button.getAttribute('aria-disabled')).toBeNull()
     expect(button.getAttribute('aria-pressed')).toBeNull()
