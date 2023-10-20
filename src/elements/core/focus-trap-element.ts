@@ -1,14 +1,18 @@
 import { deleteDeepObjectUndefinedProperties, tc } from '@aracna/core'
 import {
   ElementName,
+  FocusTrapActivateEvent,
   FocusTrapAllowOutsideClick,
   FocusTrapCheckCanFocusTrap,
   FocusTrapCheckCanReturnFocus,
   FocusTrapClickOutsideDeactivates,
+  FocusTrapDeactivateEvent,
   FocusTrapDisplayCheck,
   FocusTrapElementEventMap,
   FocusTrapElementState,
   FocusTrapEscapeDeactivates,
+  FocusTrapPostActivateEvent,
+  FocusTrapPostDeactivateEvent,
   FocusTrapSetReturnFocus,
   WebElementLogger,
   setImmutableElementAttribute
@@ -73,7 +77,7 @@ export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElem
     this.focusTrapState = 'activating'
     WebElementLogger.verbose(this.uid, 'onFocusTrapActivate', `The focus trap state has been set to activating.`)
 
-    this.dispatchEvent(new Event('focus-trap-activate'))
+    this.dispatchEvent(new FocusTrapActivateEvent())
     WebElementLogger.verbose(this.uid, 'onFocusTrapActivate', `The focus-trap-activate event has been dispatched.`)
   }
 
@@ -81,7 +85,7 @@ export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElem
     this.focusTrapState = 'deactivating'
     WebElementLogger.verbose(this.uid, 'onFocusTrapDeactivate', `The focus trap state has been set to deactivating.`)
 
-    this.dispatchEvent(new Event('focus-trap-deactivate'))
+    this.dispatchEvent(new FocusTrapDeactivateEvent())
     WebElementLogger.verbose(this.uid, 'onFocusTrapDeactivate', `The focus-trap-deactivate event has been dispatched.`)
   }
 
@@ -89,7 +93,7 @@ export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElem
     this.focusTrapState = 'activated'
     WebElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The focus trap state has been set to activated.`)
 
-    this.dispatchEvent(new Event('focus-trap-post-activate'))
+    this.dispatchEvent(new FocusTrapPostActivateEvent())
     WebElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The focus-trap-post-activate event has been dispatched.`)
   }
 
@@ -97,7 +101,7 @@ export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElem
     this.focusTrapState = 'deactivated'
     WebElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The focus trap state has been set to deactivated.`)
 
-    this.dispatchEvent(new Event('focus-trap-post-deactivate'))
+    this.dispatchEvent(new FocusTrapPostDeactivateEvent())
     WebElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The focus-trap-post-deactivate event has been dispatched.`)
   }
 

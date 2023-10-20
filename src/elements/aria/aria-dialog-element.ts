@@ -3,6 +3,8 @@ import {
   AriaDialogElementEventMap,
   AriaDialogLabelElementEventMap,
   defineCustomElement,
+  DialogCloseEvent,
+  DialogOpenEvent,
   ElementName,
   QueryDeclarations,
   WebElementLogger
@@ -72,15 +74,15 @@ export class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogE
   onFocusTrapPostActivate(): void {
     super.onFocusTrapPostActivate()
 
-    this.dispatchEvent(new Event('open'))
-    WebElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The open event has been dispatched.`)
+    this.dispatchEvent(new DialogOpenEvent())
+    WebElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The dialog-open event has been dispatched.`)
   }
 
   onFocusTrapPostDeactivate(): void {
     super.onFocusTrapPostDeactivate()
 
-    this.dispatchEvent(new Event('close'))
-    WebElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The close event has been dispatched.`)
+    this.dispatchEvent(new DialogCloseEvent())
+    WebElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The dialog-close event has been dispatched.`)
   }
 
   get name(): ElementName {

@@ -18,16 +18,18 @@ declare global {
 }
 
 export class AlertDialogElement<E extends AlertDialogElementEventMap = AlertDialogElementEventMap> extends AriaAlertDialogElement<E> {
-  description?: string
-  label?: string
+  headline?: string
+  icon?: string
+  text?: string
 
   get name(): ElementName {
     return ElementName.ALERT_DIALOG
   }
 
   static properties: PropertyDeclarations = {
-    description: { type: String, reflect: true },
-    label: { type: String, reflect: true }
+    headline: { type: String, reflect: true },
+    icon: { type: String, reflect: true },
+    text: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {

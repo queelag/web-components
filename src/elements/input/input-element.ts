@@ -183,7 +183,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
         ?readonly=${this.readonly}
         style=${this.styleMap}
         type=${this.inputElementType}
-        value=${ifdef(this.inputElementValue)}
+        .value=${this.inputElementValue}
       />
     `
   }
@@ -200,10 +200,10 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
     return this.type
   }
 
-  get inputElementValue(): string | undefined {
+  get inputElementValue(): string {
     switch (this.type) {
       case 'buffer':
-        return undefined
+        return ''
       case 'color':
       case 'email':
       case 'month':
@@ -213,18 +213,19 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
       case 'time':
       case 'url':
       case 'week':
-        return super.value
+        return typeof this.value === 'string' ? this.value : ''
       case 'date':
+        return this.value instanceof Date ? this.value.toISOString().replace(/T[0-9:.]+Z$/, '') : ''
       case 'datetime-local':
-        return super.value?.toISOString()
+        return this.value instanceof Date ? this.value.toISOString() : ''
       case 'number':
-        return super.value?.toString()
+        return typeof this.value === 'number' ? this.value.toString() : ''
       case 'text':
         if (this.multiple) {
           return this.temporaryValue
         }
 
-        return super.value
+        return typeof this.value === 'string' ? this.value : ''
     }
   }
 

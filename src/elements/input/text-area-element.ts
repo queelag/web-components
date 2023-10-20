@@ -1,4 +1,4 @@
-import { Environment, isArray, parseNumber, removeArrayItems, wf } from '@aracna/core'
+import { Environment, isArray, removeArrayItems, wf } from '@aracna/core'
 import {
   ElementName,
   QueryDeclarations,
@@ -48,7 +48,22 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
 
   connectedCallback(): void {
     super.connectedCallback()
-    wf(() => this.textAreaElement, 4).then(() => this.computeHeight())
+
+    if (this.autosize) {
+      wf(() => this.textAreaElement, 4).then(() => this.computeHeight())
+    }
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (this.autosize && ['cols', 'rows'].includes(name)) {
+      this.computeHeight()
+    }
   }
 
   onBlur(): void {
@@ -103,10 +118,6 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
   computeHeight(): void {
     let style: CSSStyleDeclaration
 
-    if (!this.autosize) {
-      return
-    }
-
     if (Environment.isWindowNotDefined) {
       return
     }
@@ -118,18 +129,19 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
         this.spanElement.style.cssText += `${property}:${style[property]};`
       }
 
-      this.spanElement.style.minHeight = style.height
       this.spanElement.style.opacity = '0'
       this.spanElement.style.pointerEvents = 'none'
       this.spanElement.style.position = 'absolute'
       this.spanElement.style.whiteSpace = 'pre-wrap'
-      this.spanElement.style.wordBreak = 'break-all'
+      this.spanElement.style.wordBreak = 'break-word'
     }
 
     this.spanElement.innerText = this.textAreaElement.value + 'a'
     this.spanElement.style.height = 'auto'
     this.spanElement.style.maxHeight = 'auto'
-    this.spanElement.style.maxWidth = parseNumber(style.width) + parseNumber(style.paddingLeft) + parseNumber(style.paddingRight) + 'px'
+    this.spanElement.style.maxWidth = style.width
+    // this.spanElement.style.minHeight = style.height
+    this.spanElement.style.width = '100%'
 
     this.computedHeight = getComputedStyle(this.spanElement).height
     WebElementLogger.verbose(this.uid, 'computeHeight', `The height has been computed.`, [this.computedHeight])
@@ -181,9 +193,10 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
         @input=${this.onInput}
         @keyup=${this.onKeyUp}
         placeholder=${ifdef(this.placeholder)}
+        ?readonly=${this.readonly}
         rows=${ifdef(this.rows)}
         style=${this.textAreaElementStyle}
-        .value=${ifdef(this.textAreaElementValue)}
+        .value=${this.textAreaElementValue}
       ></textarea>
       <span></span>
     `
@@ -205,12 +218,12 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     })
   }
 
-  get textAreaElementValue(): string | undefined {
+  get textAreaElementValue(): string {
     if (this.multiple) {
       return this.temporaryValue
     }
 
-    return super.value
+    return typeof this.value === 'string' ? this.value : ''
   }
 
   get value(): TextAreaElementValue {
@@ -219,7 +232,10 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
 
   set value(value: TextAreaElementValue) {
     super.value = value
-    this.computeHeight()
+
+    if (this.autosize) {
+      this.computeHeight()
+    }
   }
 
   static properties: PropertyDeclarations = {
@@ -255,14 +271,8 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
 
       textarea {
         all: inherit;
-      }
-
-      span {
-        opacity: 0;
-        pointer-events: none;
-        position: absolute;
-        white-space: pre-wrap;
-        word-break: break-all;
+        box-sizing: content-box;
+        word-break: break-word;
       }
     `
   ]
