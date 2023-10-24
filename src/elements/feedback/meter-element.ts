@@ -1,5 +1,4 @@
-import { getNumberPercentage } from '@aracna/core'
-import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, defineCustomElement, MeterElementEventMap } from '@aracna/web'
+import { defineCustomElement, getMeterElementPercentage, MeterElementEventMap } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ifdef } from '../../directives/if-defined.js'
@@ -41,7 +40,7 @@ export class MeterElement<E extends MeterElementEventMap = MeterElementEventMap>
   }
 
   get percentage(): number {
-    return getNumberPercentage(this.value, this.min ?? DEFAULT_METER_MIN, this.max ?? DEFAULT_METER_MAX, this.round)
+    return getMeterElementPercentage(this.value, this.min, this.max, this.round)
   }
 
   static properties: PropertyDeclarations = {

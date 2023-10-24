@@ -1,5 +1,4 @@
-import { getLimitedNumber } from '@aracna/core'
-import { AriaMeterElementEventMap, DEFAULT_METER_MAX, DEFAULT_METER_MIN, DEFAULT_METER_VALUE, defineCustomElement } from '@aracna/web'
+import { AriaMeterElementEventMap, defineCustomElement, getMeterElementValue } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { AriaMeterController } from '../../controllers/aria-meter-controller.js'
 import { BaseElement } from '../core/base-element.js'
@@ -26,7 +25,7 @@ export class AriaMeterElement<E extends AriaMeterElementEventMap = AriaMeterElem
   protected _value?: number
 
   get value(): number {
-    return getLimitedNumber(this._value ?? DEFAULT_METER_VALUE, this.min ?? DEFAULT_METER_MIN, this.max ?? DEFAULT_METER_MAX)
+    return getMeterElementValue(this._value, this.min, this.max)
   }
 
   set value(value: number | undefined) {
