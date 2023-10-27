@@ -8,6 +8,7 @@ import {
   ElementName,
   QueryDeclarations
 } from '@aracna/web'
+import { PropertyDeclarations } from 'lit'
 import {
   AriaAccordionButtonElement,
   AriaAccordionElement,
@@ -27,8 +28,14 @@ declare global {
 }
 
 export class AccordionElement<E extends AccordionElementEventMap = AccordionElementEventMap> extends AriaAccordionElement<E> {
+  sections?: any[]
+
   get name(): ElementName {
     return ElementName.ACCORDION
+  }
+
+  static properties: PropertyDeclarations = {
+    sections: { type: Array }
   }
 
   static queries: QueryDeclarations = {
@@ -38,8 +45,16 @@ export class AccordionElement<E extends AccordionElementEventMap = AccordionElem
 }
 
 export class AccordionSectionElement<E extends AccordionSectionElementEventMap = AccordionSectionElementEventMap> extends AriaAccordionSectionElement<E> {
+  headline?: string
+  text?: string
+
   get name(): ElementName {
     return ElementName.ACCORDION_SECTION
+  }
+
+  static properties: PropertyDeclarations = {
+    headline: { type: String, reflect: true },
+    text: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {

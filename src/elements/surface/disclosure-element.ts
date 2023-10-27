@@ -7,6 +7,7 @@ import {
   ElementName,
   QueryDeclarations
 } from '@aracna/web'
+import { PropertyDeclarations } from 'lit'
 import {
   AriaDisclosureButtonElement,
   AriaDisclosureElement,
@@ -24,8 +25,14 @@ declare global {
 }
 
 export class DisclosureElement<E extends DisclosureElementEventMap = DisclosureElementEventMap> extends AriaDisclosureElement<E> {
+  sections?: any[]
+
   get name(): ElementName {
     return ElementName.DISCLOSURE
+  }
+
+  static properties: PropertyDeclarations = {
+    sections: { type: Array }
   }
 
   static queries: QueryDeclarations = {
@@ -34,8 +41,16 @@ export class DisclosureElement<E extends DisclosureElementEventMap = DisclosureE
 }
 
 export class DisclosureSectionElement<E extends DisclosureSectionElementEventMap = DisclosureSectionElementEventMap> extends AriaDisclosureSectionElement<E> {
+  headline?: string
+  text?: string
+
   get name(): ElementName {
     return ElementName.DISCLOSURE_SECTION
+  }
+
+  static properties: PropertyDeclarations = {
+    headline: { type: String, reflect: true },
+    text: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {
