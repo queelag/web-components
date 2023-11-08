@@ -24,8 +24,8 @@ declare global {
   }
 }
 
-export class DisclosureElement<E extends DisclosureElementEventMap = DisclosureElementEventMap> extends AriaDisclosureElement<E> {
-  sections?: any[]
+export class DisclosureElement<E extends DisclosureElementEventMap = DisclosureElementEventMap, T = any> extends AriaDisclosureElement<E> {
+  sections?: T[]
 
   get name(): ElementName {
     return ElementName.DISCLOSURE
@@ -42,6 +42,7 @@ export class DisclosureElement<E extends DisclosureElementEventMap = DisclosureE
 
 export class DisclosureSectionElement<E extends DisclosureSectionElementEventMap = DisclosureSectionElementEventMap> extends AriaDisclosureSectionElement<E> {
   headline?: string
+  icon?: string
   text?: string
 
   get name(): ElementName {
@@ -50,6 +51,7 @@ export class DisclosureSectionElement<E extends DisclosureSectionElementEventMap
 
   static properties: PropertyDeclarations = {
     headline: { type: String, reflect: true },
+    icon: { type: String, reflect: true },
     text: { type: String, reflect: true }
   }
 

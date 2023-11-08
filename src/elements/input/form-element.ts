@@ -22,12 +22,13 @@ declare global {
   }
 }
 
-export class FormElement<E extends FormElementEventMap = FormElementEventMap> extends BaseElement<E> {
+export class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
   async?: boolean
   disabled?: boolean
+  fields?: T[]
   spinning?: boolean
 
   /**
@@ -110,6 +111,7 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap> ex
   static properties: PropertyDeclarations = {
     async: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
+    fields: { type: Array },
     spinning: { type: Boolean, reflect: true }
   }
 

@@ -1,13 +1,16 @@
 import { isArray, removeArrayItems } from '@aracna/core'
 import {
+  DEFAULT_GET_SELECT_OPTION_LABEL,
+  DEFAULT_GET_SELECT_OPTION_VALUE,
   ElementName,
+  GetSelectOptionLabel,
+  GetSelectOptionValue,
   QueryDeclarations,
   SelectButtonElementEventMap,
   SelectElementEventMap,
   SelectGroupElementEventMap,
   SelectInputElementEventMap,
   SelectListElementEventMap,
-  SelectOption,
   SelectOptionElementEventMap,
   WebElementLogger,
   defineCustomElement,
@@ -36,15 +39,17 @@ declare global {
   }
 }
 
-export class SelectElement<E extends SelectElementEventMap = SelectElementEventMap> extends AriaComboBoxElement<E> {
+export class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T = any> extends AriaComboBoxElement<E> {
   /**
    * PROPERTIES
    */
-  options?: SelectOption[]
+  getOptionLabel: GetSelectOptionLabel<T> = DEFAULT_GET_SELECT_OPTION_LABEL
+  getOptionValue: GetSelectOptionValue<T> = DEFAULT_GET_SELECT_OPTION_VALUE
+  options?: T[]
   selectElement?: HTMLSelectElement
 
   onChange(): void {
-    let option: SelectOption | undefined
+    let option: T | undefined
 
     if (this.multiple && this.native) {
       return WebElementLogger.warn(this.uid, 'onChange', `The multiple and native properties are not supported together.`)
@@ -55,17 +60,19 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
 
     if (this.multiple) {
       this.value = isArray(this.value) ? this.value : []
-      this.value = this.value.includes(option.value) ? removeArrayItems(this.value, [option.value]) : [...this.value, option.value]
+      this.value = this.value.includes(this.getOptionValue(option))
+        ? removeArrayItems(this.value, [this.getOptionValue(option)])
+        : [...this.value, this.getOptionValue(option)]
 
       return
     }
 
-    this.value = option.value
+    this.value = this.getOptionValue(option)
     WebElementLogger.verbose(this.uid, 'onChange', `The value has been set.`, option, this.value)
   }
 
-  removeOption(option: SelectOption): void {
-    super.removeOption(option.value)
+  removeOption(option: T): void {
+    super.removeOption(this.getOptionValue(option))
   }
 
   render() {
@@ -74,7 +81,8 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
         <select @change=${this.onChange} ?disabled=${this.disabled || this.readonly}>
           ${map(
             this.options || [],
-            (option: SelectOption) => html`<option ?selected=${option.value === this.value} value=${option.value}>${option.label || option.value}</option>`
+            (option: T) =>
+              html`<option ?selected=${this.getOptionValue(option) === this.value} value=${this.getOptionValue(option)}>${this.getOptionLabel(option)}</option>`
           )}
         </select>
       `
@@ -88,6 +96,8 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
   }
 
   static properties: PropertyDeclarations = {
+    getOptionLabel: { type: Function, attribute: 'get-option-label' },
+    getOptionValue: { type: Function, attribute: 'get-option-value' },
     options: { type: Array }
   }
 

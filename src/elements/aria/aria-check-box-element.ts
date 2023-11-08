@@ -101,7 +101,6 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
   }
 
   static properties: PropertyDeclarations = {
-    ...super.properties,
     checked: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
     readonly: { type: Boolean, reflect: true }

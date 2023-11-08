@@ -9,11 +9,11 @@ declare global {
   }
 }
 
-export class ListElement<E extends ListElementEventMap = ListElementEventMap> extends AriaListElement<E> {
+export class ListElement<E extends ListElementEventMap = ListElementEventMap, T = any> extends AriaListElement<E> {
   /**
    * PROPERTIES
    */
-  items?: any[]
+  items?: T[]
 
   get name(): ElementName {
     return ElementName.LIST
@@ -28,7 +28,6 @@ export class ListElement<E extends ListElementEventMap = ListElementEventMap> ex
   }
 
   static properties: PropertyDeclarations = {
-    ...super.properties,
     items: { type: Array }
   }
 }
@@ -51,7 +50,6 @@ export class ListItemElement<E extends ListItemElementEventMap = ListItemElement
   }
 
   static properties: PropertyDeclarations = {
-    ...super.properties,
     headline: { type: String, reflect: true },
     leadingIcon: { type: String, attribute: 'leading-icon', reflect: true },
     leadingImage: { type: String, attribute: 'leading-image', reflect: true },

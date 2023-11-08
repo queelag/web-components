@@ -11,7 +11,7 @@ import {
   WebElementLogger,
   defineCustomElement
 } from '@aracna/web'
-import { CSSResultGroup, css } from 'lit'
+import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { html } from 'lit-html'
 import { AriaSliderElement, AriaSliderThumbElement } from '../aria/aria-slider-element.js'
 
@@ -22,8 +22,9 @@ declare global {
   }
 }
 
-export class SliderElement<E extends SliderElementEventMap = SliderElementEventMap> extends AriaSliderElement<E> {
+export class SliderElement<E extends SliderElementEventMap = SliderElementEventMap, T = any> extends AriaSliderElement<E> {
   inputElement!: HTMLInputElement
+  thumbs?: T[]
 
   onInput(): void {
     if (this.disabled || this.readonly) {
@@ -52,6 +53,10 @@ export class SliderElement<E extends SliderElementEventMap = SliderElementEventM
 
   get name(): ElementName {
     return ElementName.SLIDER
+  }
+
+  static properties: PropertyDeclarations = {
+    thumbs: { type: Array }
   }
 
   static queries: QueryDeclarations = {

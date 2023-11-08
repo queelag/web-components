@@ -27,8 +27,8 @@ declare global {
   }
 }
 
-export class AccordionElement<E extends AccordionElementEventMap = AccordionElementEventMap> extends AriaAccordionElement<E> {
-  sections?: any[]
+export class AccordionElement<E extends AccordionElementEventMap = AccordionElementEventMap, T = any> extends AriaAccordionElement<E> {
+  sections?: T[]
 
   get name(): ElementName {
     return ElementName.ACCORDION
@@ -46,6 +46,7 @@ export class AccordionElement<E extends AccordionElementEventMap = AccordionElem
 
 export class AccordionSectionElement<E extends AccordionSectionElementEventMap = AccordionSectionElementEventMap> extends AriaAccordionSectionElement<E> {
   headline?: string
+  icon?: string
   text?: string
 
   get name(): ElementName {
@@ -54,6 +55,7 @@ export class AccordionSectionElement<E extends AccordionSectionElementEventMap =
 
   static properties: PropertyDeclarations = {
     headline: { type: String, reflect: true },
+    icon: { type: String, reflect: true },
     text: { type: String, reflect: true }
   }
 

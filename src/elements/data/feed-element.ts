@@ -19,18 +19,17 @@ declare global {
   }
 }
 
-export class FeedElement<E extends FeedElementEventMap = FeedElementEventMap> extends AriaFeedElement<E> {
+export class FeedElement<E extends FeedElementEventMap = FeedElementEventMap, T = any> extends AriaFeedElement<E> {
   /**
    * PROPERTIES
    */
-  articles?: any[]
+  articles?: T[]
 
   get name(): ElementName {
     return ElementName.FEED
   }
 
   static properties: PropertyDeclarations = {
-    ...super.properties,
     articles: { type: Array }
   }
 
@@ -58,7 +57,6 @@ export class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArtic
   }
 
   static properties: PropertyDeclarations = {
-    ...super.properties,
     headline: { type: String, reflect: true },
     leadingIcon: { type: String, attribute: 'leading-icon', reflect: true },
     leadingImage: { type: String, attribute: 'leading-image', reflect: true },

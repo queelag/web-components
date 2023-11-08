@@ -1,8 +1,11 @@
 import {
+  DEFAULT_GET_RADIO_BUTTON_LABEL,
+  DEFAULT_GET_RADIO_BUTTON_VALUE,
   defineCustomElement,
   ElementName,
+  GetRadioButtonLabel,
+  GetRadioButtonValue,
   QueryDeclarations,
-  RadioButton,
   RadioButtonElementEventMap,
   RadioGroupElementEventMap,
   WebElementLogger
@@ -18,36 +21,38 @@ declare global {
   }
 }
 
-export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupElementEventMap> extends AriaRadioGroupElement<E> {
+export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupElementEventMap, T = any> extends AriaRadioGroupElement<E> {
   /**
    * PROPERTIES
    */
-  buttons?: RadioButton[]
+  buttons?: T[]
+  getButtonLabel: GetRadioButtonLabel<T> = DEFAULT_GET_RADIO_BUTTON_LABEL
+  getButtonValue: GetRadioButtonValue<T> = DEFAULT_GET_RADIO_BUTTON_VALUE
 
-  onChange(button: RadioButton): void {
+  onChange(button: T): void {
     if (this.disabled || this.readonly) {
       return WebElementLogger.warn(this.uid, 'onChange', `The radiogroup is disabled or readonly.`)
     }
 
-    this.value = button.value
+    this.value = this.getButtonValue(button)
   }
 
   render() {
     if (this.native) {
       return map(
         this.buttons || [],
-        (button: RadioButton) => html`
+        (button: T) => html`
           <div class="button">
             <input
               @change=${() => this.onChange(button)}
-              ?checked=${button.value === this.value}
+              ?checked=${this.getButtonValue(button) === this.value}
               ?disabled=${this.disabled}
               name=${this.uid}
               ?readonly=${this.readonly}
               type="radio"
-              value=${button.value}
+              value=${this.getButtonValue(button)}
             />
-            <label for=${button.value}>${button.value}</label>
+            <label for=${this.getButtonValue(button)}>${this.getButtonLabel(button)}</label>
           </div>
         `
       )
@@ -61,7 +66,9 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
   }
 
   static properties: PropertyDeclarations = {
-    buttons: { type: Array }
+    buttons: { type: Array },
+    getButtonLabel: { type: Function, attribute: 'get-button-label' },
+    getButtonValue: { type: Function, attribute: 'get-button-value' }
   }
 
   static queries: QueryDeclarations = {

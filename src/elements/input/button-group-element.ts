@@ -8,8 +8,8 @@ declare global {
   }
 }
 
-export class ButtonGroupElement<E extends ButtonGroupElementEventMap = ButtonGroupElementEventMap> extends BaseElement<E> {
-  buttons?: any[]
+export class ButtonGroupElement<E extends ButtonGroupElementEventMap = ButtonGroupElementEventMap, T = any> extends BaseElement<E> {
+  buttons?: T[]
 
   get name(): ElementName {
     return ElementName.BUTTON_GROUP

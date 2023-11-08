@@ -11,6 +11,7 @@ import {
   ElementName,
   QueryDeclarations
 } from '@aracna/web'
+import { PropertyDeclarations } from 'lit'
 import {
   AriaCarouselElement,
   AriaCarouselNextSlideControlElement,
@@ -35,9 +36,15 @@ declare global {
   }
 }
 
-export class CarouselElement<E extends CarouselElementEventMap = CarouselElementEventMap> extends AriaCarouselElement<E> {
+export class CarouselElement<E extends CarouselElementEventMap = CarouselElementEventMap, T = any> extends AriaCarouselElement<E> {
+  slides?: T[]
+
   get name(): ElementName {
     return ElementName.CAROUSEL
+  }
+
+  static properties: PropertyDeclarations = {
+    slides: { type: Array }
   }
 
   static queries: QueryDeclarations = {

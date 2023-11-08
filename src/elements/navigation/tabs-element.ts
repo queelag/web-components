@@ -1,4 +1,5 @@
 import { defineCustomElement, ElementName, QueryDeclarations, TabsElementEventMap, TabsPanelElementEventMap, TabsTabElementEventMap } from '@aracna/web'
+import { PropertyDeclarations } from 'lit'
 import { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../aria/aria-tabs-element.js'
 
 declare global {
@@ -9,9 +10,15 @@ declare global {
   }
 }
 
-export class TabsElement<E extends TabsElementEventMap = TabsElementEventMap> extends AriaTabsElement<E> {
+export class TabsElement<E extends TabsElementEventMap = TabsElementEventMap, T = any> extends AriaTabsElement<E> {
+  tabs?: T[]
+
   get name(): ElementName {
     return ElementName.TABS
+  }
+
+  static properties: PropertyDeclarations = {
+    tabs: { type: Array }
   }
 
   static queries: QueryDeclarations = {

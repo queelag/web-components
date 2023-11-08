@@ -8,6 +8,7 @@ import {
   MenuSubMenuElementEventMap,
   QueryDeclarations
 } from '@aracna/web'
+import { PropertyDeclarations } from 'lit'
 import { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../aria/aria-menu-element.js'
 
 declare global {
@@ -19,9 +20,15 @@ declare global {
   }
 }
 
-export class MenuElement<E extends MenuElementEventMap = MenuElementEventMap> extends AriaMenuElement<E> {
+export class MenuElement<E extends MenuElementEventMap = MenuElementEventMap, T = any> extends AriaMenuElement<E> {
+  items?: T[]
+
   get name(): ElementName {
     return ElementName.MENU
+  }
+
+  static properties: PropertyDeclarations = {
+    items: { type: Array }
   }
 
   static queries: QueryDeclarations = {
@@ -46,7 +53,9 @@ export class MenuButtonElement<E extends MenuButtonElementEventMap = MenuButtonE
   }
 }
 
-export class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElementEventMap> extends AriaMenuItemElement<E> {
+export class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElementEventMap, T = any> extends AriaMenuItemElement<E> {
+  items?: T[]
+
   get deep(): boolean {
     let closest: MenuItemElement | null | undefined
 
@@ -88,6 +97,10 @@ export class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElement
 
   get sameDepthExpandedSubMenuElement(): MenuSubMenuElement | null {
     return this.rootElement.querySelector(`aracna-menu-submenu[depth="${this.depth}"][expanded]`)
+  }
+
+  static properties: PropertyDeclarations = {
+    items: { type: Array }
   }
 
   static queries: QueryDeclarations = {

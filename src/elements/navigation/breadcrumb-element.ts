@@ -1,4 +1,5 @@
 import { BreadcrumbElementEventMap, BreadcrumbItemElementEventMap, BreadcrumbListElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
+import { PropertyDeclarations } from 'lit'
 import { AriaBreadcrumbElement, AriaBreadcrumbItemElement, AriaBreadcrumbListElement } from '../aria/aria-breadcrumb-element.js'
 
 declare global {
@@ -9,9 +10,15 @@ declare global {
   }
 }
 
-export class BreadcrumbElement<E extends BreadcrumbElementEventMap = BreadcrumbElementEventMap> extends AriaBreadcrumbElement<E> {
+export class BreadcrumbElement<E extends BreadcrumbElementEventMap = BreadcrumbElementEventMap, T = any> extends AriaBreadcrumbElement<E> {
+  items?: T[]
+
   get name(): ElementName {
     return ElementName.BREADCRUMB
+  }
+
+  static properties: PropertyDeclarations = {
+    items: { type: Array }
   }
 }
 

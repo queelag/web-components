@@ -1,11 +1,4 @@
-import {
-  defineCustomElement,
-  ElementName,
-  NavigationRailElementEventMap,
-  NavigationRailItemElementAttributes,
-  NavigationRailItemElementEventMap,
-  WebElementLogger
-} from '@aracna/web'
+import { defineCustomElement, ElementName, NavigationRailElementEventMap, NavigationRailItemElementEventMap, WebElementLogger } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base-element.js'
 
@@ -16,12 +9,12 @@ declare global {
   }
 }
 
-export class NavigationRailElement<E extends NavigationRailElementEventMap = NavigationRailElementEventMap> extends BaseElement<E> {
+export class NavigationRailElement<E extends NavigationRailElementEventMap = NavigationRailElementEventMap, T = any> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
   activeItem?: string
-  items?: NavigationRailItemElementAttributes[]
+  items?: T[]
 
   activateItem(item: string): void {
     this.activeItem = item
