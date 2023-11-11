@@ -265,7 +265,7 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The combobox has been collapsed.`)
 
           if (this.single && this.inputElement && this.selectedOptionElement) {
-            this.inputElement.value = this.selectedOptionElement.label ?? this.selectedOptionElement.innerText
+            this.inputElement.value = this.selectedOptionElement.headline ?? this.selectedOptionElement.innerText
             WebElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option label.`, [this.inputElement.value])
           }
 
@@ -353,8 +353,8 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     return this.optionElements.find((optionElement: AriaComboBoxOptionElement) => optionElement.value === value)
   }
 
-  findOptionElementLabelByValue(value: any | undefined): string | undefined {
-    return this.findOptionElementByValue(value)?.label
+  findOptionElementHeadlineByValue(value: any | undefined): string | undefined {
+    return this.findOptionElementByValue(value)?.headline
   }
 
   filterOptions<T extends { value?: any }>(
@@ -556,7 +556,7 @@ export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap
     WebElementLogger.verbose(this.uid, 'onBlur', `The combobox has been collapsed.`)
 
     if (this.rootElement.single && this.inputElement && this.rootElement.selectedOptionElement) {
-      this.value = this.rootElement.selectedOptionElement.label ?? this.rootElement.selectedOptionElement.innerText
+      this.value = this.rootElement.selectedOptionElement.headline ?? this.rootElement.selectedOptionElement.innerText
       WebElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option label.`)
     }
   }
@@ -677,7 +677,7 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
    * PROPERTIES
    */
   focused?: boolean
-  label?: string
+  headline?: string
   selected?: boolean
   value?: any
 
@@ -736,7 +736,7 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
 
   select(): void {
     this.selected = true
-    this.dispatchEvent(new ComboBoxOptionSelectEvent(this, this.label, this.value))
+    this.dispatchEvent(new ComboBoxOptionSelectEvent(this, this.value))
 
     if (this.rootElement.single) {
       this.rootElement.value = this.value
@@ -781,7 +781,7 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
       WebElementLogger.verbose(this.uid, 'onClick', `The combobox has been collapsed.`)
 
       if (this.rootElement.inputElement) {
-        this.rootElement.inputElement.value = this.label ?? this.innerText
+        this.rootElement.inputElement.value = this.headline ?? this.innerText
         this.rootElement.inputElement.focus()
 
         return
@@ -817,7 +817,7 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
 
   static properties: PropertyDeclarations = {
     focused: { type: Boolean, reflect: true },
-    label: { type: String, reflect: true },
+    headline: { type: String, reflect: true },
     selected: { type: Boolean, reflect: true },
     value: {}
   }

@@ -233,6 +233,10 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
         this.focusedOptionElement?.click()
         break
       default:
+        if (event.key.length !== 1 || event.altKey || event.ctrlKey || event.metaKey) {
+          break
+        }
+
         event.preventDefault()
         event.stopPropagation()
 

@@ -67,7 +67,6 @@ export class AriaMenuItemController implements ReactiveController {
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'depth', String(this.host.depth))
 
-    // setImmutableElementAttribute(this.host.anchorElement || this.host, 'aria-label', '')
     setImmutableElementAttribute(this.host.anchorElement || this.host, 'aria-haspopup', this.host.subMenuElement ? 'true' : 'false')
     setImmutableElementAttribute(this.host.anchorElement || this.host, 'role', 'menuitem')
 
@@ -106,11 +105,13 @@ export class AriaMenuSubMenuController implements ReactiveController {
   }
 
   setAttributes(): void {
-    //   setImmutableElementAttribute(this.host, 'aria-label', '')
+    setImmutableElementAttribute(this.host, 'aria-label', this.host.parentItemElement?.headline)
     setImmutableElementAttribute(this.host, 'depth', String(this.host.depth))
     setImmutableElementAttribute(this.host, 'role', 'menu')
 
     if (this.host.parentItemElement) {
+      setImmutableElementAttribute(this.host.parentItemElement, 'submenu-expanded', this.host.expanded ? '' : undefined)
+
       setImmutableElementAttribute(
         this.host.parentItemElement.anchorElement || this.host.parentItemElement,
         'aria-expanded',
@@ -121,6 +122,10 @@ export class AriaMenuSubMenuController implements ReactiveController {
     if (this.host.rootElement.buttonElement && this.host.shallow) {
       setImmutableElementAttribute(this.host, 'aria-labelledby', this.host.rootElement.buttonElement.id)
       setImmutableElementAttribute(this.host.rootElement.buttonElement, 'aria-expanded', this.host.expanded ? 'true' : 'false')
+    }
+
+    if (this.host.id.length <= 0) {
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }

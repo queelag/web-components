@@ -16,7 +16,7 @@ export class AriaBreadcrumbController implements ReactiveController {
   }
 
   setAttributes(): void {
-    // setImmutableElementAttribute(this.host, 'aria-label', 'AriaBreadcrumb')
+    setImmutableElementAttribute(this.host, 'aria-label', 'Breadcrumb')
     setImmutableElementAttribute(this.host, 'role', 'navigation')
   }
 }

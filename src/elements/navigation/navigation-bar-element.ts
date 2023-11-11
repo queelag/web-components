@@ -40,7 +40,7 @@ export class NavigationBarItemElement<E extends NavigationBarItemElementEventMap
    * PROPERTIES
    */
   active?: boolean
-  label?: string
+  headline?: string
   icon?: string
 
   get name(): ElementName {
@@ -49,7 +49,7 @@ export class NavigationBarItemElement<E extends NavigationBarItemElementEventMap
 
   static properties: PropertyDeclarations = {
     active: { type: Boolean, reflect: true },
-    label: { type: String, reflect: true },
+    headline: { type: String, reflect: true },
     icon: { type: String, reflect: true }
   }
 }

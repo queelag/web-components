@@ -161,8 +161,16 @@ export class SelectListElement<E extends SelectListElementEventMap = SelectListE
 }
 
 export class SelectOptionElement<E extends SelectOptionElementEventMap = SelectOptionElementEventMap> extends AriaComboBoxOptionElement<E> {
+  icon?: string
+  text?: string
+
   get name(): ElementName {
     return ElementName.SELECT_OPTION
+  }
+
+  static properties: PropertyDeclarations = {
+    icon: { type: String, reflect: true },
+    text: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {

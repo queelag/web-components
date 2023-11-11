@@ -153,7 +153,7 @@ export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = A
    * PROPERTIES
    */
   checked?: boolean
-  label?: string
+  headline?: string
   value?: any
 
   /**
@@ -213,7 +213,7 @@ export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = A
 
   static properties: PropertyDeclarations = {
     checked: { type: Boolean, reflect: true },
-    label: { type: String, reflect: true },
+    headline: { type: String, reflect: true },
     value: {}
   }
 

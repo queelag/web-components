@@ -29,8 +29,18 @@ export class BreadcrumbListElement<E extends BreadcrumbListElementEventMap = Bre
 }
 
 export class BreadcrumbItemElement<E extends BreadcrumbItemElementEventMap = BreadcrumbItemElementEventMap> extends AriaBreadcrumbItemElement<E> {
+  headline?: string
+  href?: string
+  icon?: string
+
   get name(): ElementName {
     return ElementName.BREADCRUMB_ITEM
+  }
+
+  static properties: PropertyDeclarations = {
+    headline: { type: String, reflect: true },
+    href: { type: String, reflect: true },
+    icon: { type: String, reflect: true }
   }
 }
 

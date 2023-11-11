@@ -114,10 +114,10 @@ export class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElement
     this.expanded = false
     WebElementLogger.verbose(this.uid, 'onFocusOutDebounce', `The menu has been collapsed.`)
 
-    if (this.buttonElement) {
-      this.buttonElement.focus()
-      WebElementLogger.verbose(this.uid, 'onFocusOutDebounce', `The button has been focused.`)
+    this.focusedItemElement?.blur()
+    WebElementLogger.verbose(this.uid, 'onFocusOutDebounce', `The focused item has been blurred.`)
 
+    if (this.buttonElement) {
       return
     }
 
@@ -135,6 +135,7 @@ export class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElement
       case KeyboardEventKey.ARROW_UP:
       case KeyboardEventKey.END:
       case KeyboardEventKey.ENTER:
+      case KeyboardEventKey.ESCAPE:
       case KeyboardEventKey.HOME:
       case KeyboardEventKey.SPACE:
         event.preventDefault()
@@ -304,6 +305,20 @@ export class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElement
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The focused item has been clicked.`)
 
         break
+      case KeyboardEventKey.ESCAPE:
+        if (this.collapsed) {
+          break
+        }
+
+        if (this.buttonElement && this.subMenuElement) {
+          this.subMenuElement.collapse()
+          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The submenu has been collapsed.`)
+
+          this.expanded = false
+          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The menu has been marked as collapsed.`)
+        }
+
+        break
       case KeyboardEventKey.HOME:
         this.shallowItemElements[0]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first item has been focused.`)
@@ -315,6 +330,10 @@ export class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElement
 
         break
       default:
+        if (event.key.length !== 1 || event.altKey || event.ctrlKey || event.metaKey) {
+          break
+        }
+
         event.preventDefault()
         event.stopPropagation()
 
@@ -489,7 +508,7 @@ export class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMen
    * PROPERTIES
    */
   focused?: boolean
-  label?: string
+  headline?: string
 
   /**
    * QUERIES
@@ -548,7 +567,7 @@ export class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMen
   onClick(event: MouseEvent): void {
     event.stopPropagation()
 
-    if (this.anchorElement) {
+    if (this.anchorElement?.href) {
       this.anchorElement.click()
       WebElementLogger.verbose(this.uid, 'onClick', `The anchor has been clicked.`)
 
@@ -700,7 +719,7 @@ export class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMen
 
   static properties: PropertyDeclarations = {
     focused: { type: Boolean, reflect: true },
-    label: { type: String, reflect: true }
+    headline: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {
@@ -851,21 +870,17 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
         }
 
         break
-      case KeyboardEventKey.END:
-        this.shallowItemElements[this.shallowItemElements.length - 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last item has been focused.`)
-
-        break
-      case KeyboardEventKey.HOME:
-        this.shallowItemElements[0]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first item has been focused.`)
-
-        break
       case KeyboardEventKey.ESCAPE:
         this.collapse()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The submenu has been collapsed.`)
 
         if (this.shallow && this.rootElement.buttonElement) {
+          this.rootElement.expanded = false
+          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The menu has been marked as collapsed.`)
+
+          this.rootElement.focusedItemElement?.blur()
+          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The focused item has been blurred.`)
+
           this.rootElement.buttonElement.focus()
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The button has been focused.`)
 
@@ -876,7 +891,21 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The parent item has been focused.`)
 
         break
+      case KeyboardEventKey.HOME:
+        this.shallowItemElements[0]?.focus()
+        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first item has been focused.`)
+
+        break
+      case KeyboardEventKey.END:
+        this.shallowItemElements[this.shallowItemElements.length - 1]?.focus()
+        WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last item has been focused.`)
+
+        break
       default:
+        if (event.key.length !== 1 || event.altKey || event.ctrlKey || event.metaKey) {
+          break
+        }
+
         event.preventDefault()
         event.stopPropagation()
 
