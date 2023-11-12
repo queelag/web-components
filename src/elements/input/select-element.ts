@@ -177,6 +177,10 @@ export class SelectOptionElement<E extends SelectOptionElementEventMap = SelectO
     return this.headline ?? super.label
   }
 
+  set label(label: string | undefined) {
+    super.label = label
+  }
+
   get name(): ElementName {
     return ElementName.SELECT_OPTION
   }
