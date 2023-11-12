@@ -24,7 +24,7 @@ import {
 import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { AriaSliderController, AriaSliderThumbController } from '../../controllers/aria-slider-controller.js'
 import { BaseElement } from '../core/base-element.js'
-import { FormFieldElement } from '../core/form-field-element.js'
+import { FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,7 +33,7 @@ declare global {
   }
 }
 
-export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementEventMap> extends FormFieldElement<E> {
+export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementEventMap> extends FormControlElement<E> {
   protected aria: AriaSliderController = new AriaSliderController(this)
 
   /**

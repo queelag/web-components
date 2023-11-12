@@ -95,6 +95,7 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
 }
 
 export class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButtonElementEventMap> extends AriaRadioButtonElement<E> {
+  headline?: string
   icon?: string
   text?: string
 
@@ -103,6 +104,7 @@ export class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButt
   }
 
   static properties: PropertyDeclarations = {
+    headline: { type: String, reflect: true },
     icon: { type: String, reflect: true },
     text: { type: String, reflect: true }
   }

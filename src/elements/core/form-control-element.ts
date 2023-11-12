@@ -1,9 +1,10 @@
 import {
-  FormFieldElementCollector,
-  FormFieldElementEventMap,
-  FormFieldElementSchema,
-  FormFieldElementTarget,
-  FormFieldElementValidation,
+  FormControlChangeEvent,
+  FormControlElementCollector,
+  FormControlElementEventMap,
+  FormControlElementSchema,
+  FormControlElementTarget,
+  FormControlElementValidation,
   StateChangeEvent,
   WebElementLogger,
   setImmutableElementAttribute
@@ -11,7 +12,7 @@ import {
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base-element.js'
 
-export class FormFieldElement<E extends FormFieldElementEventMap = FormFieldElementEventMap> extends BaseElement<E> {
+export class FormControlElement<E extends FormControlElementEventMap = FormControlElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -26,25 +27,25 @@ export class FormFieldElement<E extends FormFieldElementEventMap = FormFieldElem
   /**
    * STATES
    */
-  validation?: FormFieldElementValidation
+  validation?: FormControlElementValidation
 
   /**
    * INTERNAL
    */
-  protected _schema?: FormFieldElementSchema
-  protected _target?: FormFieldElementTarget
+  protected _schema?: FormControlElementSchema
+  protected _target?: FormControlElementTarget
   protected _value: any
 
   connectedCallback(): void {
     super.connectedCallback()
     setImmutableElementAttribute(this, 'form-field-element', '')
 
-    FormFieldElementCollector.set(this)
+    FormControlElementCollector.set(this)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
-    FormFieldElementCollector.delete(this)
+    FormControlElementCollector.delete(this)
   }
 
   touch(): void {
@@ -57,7 +58,7 @@ export class FormFieldElement<E extends FormFieldElementEventMap = FormFieldElem
   }
 
   validate(): void {
-    let old: FormFieldElementValidation | undefined
+    let old: FormControlElementValidation | undefined
 
     if (!this.schema) {
       return
@@ -84,33 +85,33 @@ export class FormFieldElement<E extends FormFieldElementEventMap = FormFieldElem
     return this.validation[0]?.message
   }
 
-  get schema(): FormFieldElementSchema | undefined {
+  get schema(): FormControlElementSchema | undefined {
     return this._schema
   }
 
-  set schema(schema: FormFieldElementSchema | undefined) {
+  set schema(schema: FormControlElementSchema | undefined) {
     this._schema = schema
   }
 
-  get target(): FormFieldElementTarget | undefined {
+  get target(): FormControlElementTarget | undefined {
     return this._target
   }
 
-  set target(target: FormFieldElementTarget | undefined) {
-    let old: FormFieldElementTarget | undefined
+  set target(target: FormControlElementTarget | undefined) {
+    let old: FormControlElementTarget | undefined
 
-    FormFieldElementCollector.delete(this)
+    FormControlElementCollector.delete(this)
 
     old = this._target
     this._target = target
 
-    FormFieldElementCollector.set(this)
+    FormControlElementCollector.set(this)
 
     this.requestUpdate('target', old)
   }
 
   get value(): any {
-    FormFieldElementCollector.set(this)
+    FormControlElementCollector.set(this)
 
     if (this.target && typeof this.path === 'string') {
       return this.target[this.path]
@@ -133,6 +134,7 @@ export class FormFieldElement<E extends FormFieldElementEventMap = FormFieldElem
     this.requestUpdate('value', old, value)
 
     this.dispatchEvent(new StateChangeEvent('value', old, value))
+    this.dispatchEvent(new FormControlChangeEvent(value))
   }
 
   get isErrorVisible(): boolean {

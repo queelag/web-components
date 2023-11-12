@@ -31,7 +31,7 @@ import {
 } from '../../controllers/aria-combo-box-controller.js'
 import { BaseElement } from '../core/base-element.js'
 import { FloatingElement } from '../core/floating-element.js'
-import { FormFieldElement } from '../core/form-field-element.js'
+import { FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -44,7 +44,7 @@ declare global {
   }
 }
 
-export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxElementEventMap> extends FormFieldElement<E> {
+export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxElementEventMap> extends FormControlElement<E> {
   protected aria: AriaComboBoxController = new AriaComboBoxController(this)
 
   /**
@@ -265,7 +265,7 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The combobox has been collapsed.`)
 
           if (this.single && this.inputElement && this.selectedOptionElement) {
-            this.inputElement.value = this.selectedOptionElement.headline ?? this.selectedOptionElement.innerText
+            this.inputElement.value = this.selectedOptionElement.label ?? this.selectedOptionElement.innerText
             WebElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option label.`, [this.inputElement.value])
           }
 
@@ -353,8 +353,8 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     return this.optionElements.find((optionElement: AriaComboBoxOptionElement) => optionElement.value === value)
   }
 
-  findOptionElementHeadlineByValue(value: any | undefined): string | undefined {
-    return this.findOptionElementByValue(value)?.headline
+  findOptionElementLabelByValue(value: any | undefined): string | undefined {
+    return this.findOptionElementByValue(value)?.label
   }
 
   filterOptions<T extends { value?: any }>(
@@ -556,7 +556,7 @@ export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap
     WebElementLogger.verbose(this.uid, 'onBlur', `The combobox has been collapsed.`)
 
     if (this.rootElement.single && this.inputElement && this.rootElement.selectedOptionElement) {
-      this.value = this.rootElement.selectedOptionElement.headline ?? this.rootElement.selectedOptionElement.innerText
+      this.value = this.rootElement.selectedOptionElement.label ?? this.rootElement.selectedOptionElement.innerText
       WebElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option label.`)
     }
   }
@@ -677,7 +677,6 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
    * PROPERTIES
    */
   focused?: boolean
-  headline?: string
   selected?: boolean
   value?: any
 
@@ -686,6 +685,11 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
    */
   listElement!: AriaComboBoxListElement
   rootElement!: AriaComboBoxElement
+
+  /**
+   * INTERNAL
+   */
+  _label?: string
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -781,7 +785,7 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
       WebElementLogger.verbose(this.uid, 'onClick', `The combobox has been collapsed.`)
 
       if (this.rootElement.inputElement) {
-        this.rootElement.inputElement.value = this.headline ?? this.innerText
+        this.rootElement.inputElement.value = this.label ?? this.innerText
         this.rootElement.inputElement.focus()
 
         return
@@ -807,6 +811,19 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
     event.preventDefault()
   }
 
+  get label(): string | undefined {
+    return this._label
+  }
+
+  set label(label: string | undefined) {
+    let old: string | undefined
+
+    old = this._label
+    this._label = label
+
+    this.requestUpdate('label', old)
+  }
+
   get name(): ElementName {
     return ElementName.ARIA_COMBOBOX_OPTION
   }
@@ -817,7 +834,7 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
 
   static properties: PropertyDeclarations = {
     focused: { type: Boolean, reflect: true },
-    headline: { type: String, reflect: true },
+    label: { type: String, reflect: true },
     selected: { type: Boolean, reflect: true },
     value: {}
   }

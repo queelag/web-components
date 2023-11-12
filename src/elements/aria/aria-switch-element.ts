@@ -1,7 +1,7 @@
 import { AriaSwitchElementEventMap, defineCustomElement, KeyboardEventKey, WebElementLogger } from '@aracna/web'
 import { css, CSSResult, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaSwitchController } from '../../controllers/aria-switch-controller.js'
-import { FormFieldElement } from '../core/form-field-element.js'
+import { FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementEventMap> extends FormFieldElement<E> {
+export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementEventMap> extends FormControlElement<E> {
   protected aria: AriaSwitchController = new AriaSwitchController(this)
 
   /**

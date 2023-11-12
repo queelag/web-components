@@ -1,4 +1,4 @@
-import { defineCustomElement, ElementName, NavigationRailElementEventMap, NavigationRailItemElementEventMap, WebElementLogger } from '@aracna/web'
+import { defineCustomElement, ElementName, NavigationRailElementEventMap, NavigationRailItemElementEventMap } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base-element.js'
 
@@ -13,24 +13,13 @@ export class NavigationRailElement<E extends NavigationRailElementEventMap = Nav
   /**
    * PROPERTIES
    */
-  activeItem?: string
   items?: T[]
-
-  activateItem(item: string): void {
-    this.activeItem = item
-    WebElementLogger.verbose(this.uid, 'activateItem', `The active item has been set.`, [this.activeItem])
-  }
-
-  isItemActive(item: string): boolean {
-    return item === this.activeItem
-  }
 
   get name(): ElementName {
     return ElementName.NAVIGATION_RAIL
   }
 
   static properties: PropertyDeclarations = {
-    activeItem: { type: String, attribute: 'active-item', reflect: true },
     items: { type: Array }
   }
 }
@@ -40,8 +29,10 @@ export class NavigationRailItemElement<E extends NavigationRailItemElementEventM
    * PROPERTIES
    */
   active?: boolean
-  headline?: string
+  badge?: boolean
+  badgeText?: string
   icon?: string
+  text?: string
 
   get name(): ElementName {
     return ElementName.NAVIGATION_RAIL_ITEM
@@ -49,8 +40,10 @@ export class NavigationRailItemElement<E extends NavigationRailItemElementEventM
 
   static properties: PropertyDeclarations = {
     active: { type: Boolean, reflect: true },
-    headline: { type: String, reflect: true },
-    icon: { type: String, reflect: true }
+    badge: { type: Boolean, reflect: true },
+    badgeText: { type: String, attribute: 'badge-text', reflect: true },
+    icon: { type: String, reflect: true },
+    text: { type: String, reflect: true }
   }
 }
 

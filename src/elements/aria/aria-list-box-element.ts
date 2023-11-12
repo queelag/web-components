@@ -1,10 +1,11 @@
-import { Typeahead, TypeaheadPredicate } from '@aracna/core'
+import { Typeahead, TypeaheadPredicate, isArray, removeArrayItems } from '@aracna/core'
 import {
   AriaListBoxElementEventMap,
   AriaListBoxOptionElementEventMap,
   DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE,
   ElementName,
   KeyboardEventKey,
+  ListBoxOptionSelectEvent,
   QueryDeclarations,
   WebElementLogger,
   defineCustomElement
@@ -12,6 +13,7 @@ import {
 import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { AriaListBoxController, AriaListBoxOptionController } from '../../controllers/aria-list-box-controller.js'
 import { BaseElement } from '../core/base-element.js'
+import { FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -20,7 +22,7 @@ declare global {
   }
 }
 
-export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxElementEventMap> extends BaseElement<E> {
+export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxElementEventMap> extends FormControlElement<E> {
   protected aria: AriaListBoxController = new AriaListBoxController(this)
 
   /**
@@ -261,6 +263,14 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
     return !this.multiple
   }
 
+  get value(): any | any[] | undefined {
+    return super.value
+  }
+
+  set value(value: any | any[] | undefined) {
+    super.value = value
+  }
+
   static properties: PropertyDeclarations = {
     selectionFollowsFocus: { type: Boolean, attribute: 'selection-follows-focus', reflect: true },
     multiple: { type: Boolean, reflect: true },
@@ -306,16 +316,16 @@ export class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap
   }
 
   onClick = (): void => {
-    if (this.rootElement.multiple) {
-      this.selected = !this.selected
-      WebElementLogger.verbose(this.uid, 'onClick', `The option has been ${this.selected ? 'selected' : 'unselected'}.`)
-    }
-
     if (this.rootElement.single) {
       this.rootElement.selectedOptionElement?.unselect()
 
       this.select()
       WebElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
+    }
+
+    if (this.rootElement.multiple) {
+      this.selected = !this.selected
+      WebElementLogger.verbose(this.uid, 'onClick', `The option has been ${this.selected ? 'selected' : 'unselected'}.`)
     }
 
     this.rootElement.focusedOptionElement?.blur()
@@ -338,10 +348,33 @@ export class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap
 
   select(): void {
     this.selected = true
+    this.dispatchEvent(new ListBoxOptionSelectEvent(this, this.value))
+
+    if (this.rootElement.single) {
+      this.rootElement.value = this.value
+    }
+
+    if (this.rootElement.multiple) {
+      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
+      this.rootElement.value = [...this.rootElement.value, this.value]
+    }
+
+    this.rootElement.touch()
   }
 
   unselect(): void {
     this.selected = false
+
+    if (this.rootElement.single) {
+      this.rootElement.value = undefined
+    }
+
+    if (this.rootElement.multiple) {
+      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
+      this.rootElement.value = removeArrayItems(this.rootElement.value, [this.value])
+    }
+
+    this.rootElement.touch()
   }
 
   get name(): ElementName {

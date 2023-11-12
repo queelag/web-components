@@ -21,37 +21,37 @@ export class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap>
   /**
    * INTERNAL
    */
-  protected _value?: string
+  protected _text?: string
 
   render() {
     return html`
       ${this.styleHTML}
-      <slot>${this.value}</slot>
+      <slot>${this.text}</slot>
     `
   }
 
-  get value(): string {
+  get text(): string {
     if (this.numeric) {
-      return getLimitedNumber(parseNumber(this._value ?? '0'), this.min ?? DEFAULT_BADGE_MIN, this.max ?? DEFAULT_BADGE_MAX).toString()
+      return getLimitedNumber(parseNumber(this._text ?? '0'), this.min ?? DEFAULT_BADGE_MIN, this.max ?? DEFAULT_BADGE_MAX).toString()
     }
 
-    return this._value ?? ''
+    return this._text ?? ''
   }
 
-  set value(value: string | undefined) {
+  set text(text: string | undefined) {
     let old: string | undefined
 
-    old = this._value
-    this._value = value
+    old = this._text
+    this._text = text
 
-    this.requestUpdate('value', old)
+    this.requestUpdate('text', old)
   }
 
   static properties: PropertyDeclarations = {
     max: { type: Number, reflect: true },
     min: { type: Number, reflect: true },
     numeric: { type: Boolean, reflect: true },
-    value: { type: String, reflect: true }
+    text: { type: String, reflect: true }
   }
 
   static styles: CSSResultGroup = [

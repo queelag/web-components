@@ -1,7 +1,7 @@
 import { AriaCheckBoxElementEventMap, defineCustomElement, ElementName, KeyboardEventKey, WebElementLogger } from '@aracna/web'
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaCheckBoxController } from '../../controllers/aria-check.box-controller.js'
-import { FormFieldElement } from '../core/form-field-element.js'
+import { FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxElementEventMap> extends FormFieldElement<E> {
+export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxElementEventMap> extends FormControlElement<E> {
   protected aria: AriaCheckBoxController = new AriaCheckBoxController(this)
 
   /**

@@ -2,7 +2,7 @@ import { AracnaFile, DeserializeFileOptions, deserializeFile, isArray, removeArr
 import { ElementName, InputFileElementEventMap, QueryDeclarations, WebElementLogger, defineCustomElement } from '@aracna/web'
 import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
 import { html } from 'lit-html'
-import { FormFieldElement } from '../core/form-field-element.js'
+import { FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-export class InputFileElement<E extends InputFileElementEventMap = InputFileElementEventMap> extends FormFieldElement<E> {
+export class InputFileElement<E extends InputFileElementEventMap = InputFileElementEventMap> extends FormControlElement<E> {
   /**
    * PROPERTIES
    */

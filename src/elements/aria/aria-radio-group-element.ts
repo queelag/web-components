@@ -10,7 +10,7 @@ import {
 import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaRadioButtonController, AriaRadioGroupController } from '../../controllers/aria-radio-group-controller.js'
 import { BaseElement } from '../core/base-element.js'
-import { FormFieldElement } from '../core/form-field-element.js'
+import { FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -19,7 +19,7 @@ declare global {
   }
 }
 
-export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioGroupElementEventMap> extends FormFieldElement<E> {
+export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioGroupElementEventMap> extends FormControlElement<E> {
   protected aria: AriaRadioGroupController = new AriaRadioGroupController(this)
 
   /**
@@ -153,7 +153,6 @@ export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = A
    * PROPERTIES
    */
   checked?: boolean
-  headline?: string
   value?: any
 
   /**
@@ -213,7 +212,6 @@ export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = A
 
   static properties: PropertyDeclarations = {
     checked: { type: Boolean, reflect: true },
-    headline: { type: String, reflect: true },
     value: {}
   }
 

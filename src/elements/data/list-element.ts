@@ -55,9 +55,9 @@ export class ListItemElement<E extends ListItemElementEventMap = ListItemElement
     leadingImage: { type: String, attribute: 'leading-image', reflect: true },
     leadingText: { type: String, attribute: 'leading-text', reflect: true },
     text: { type: String, reflect: true },
-    trialingIcon: { type: String, attribute: 'trailing-icon', reflect: true },
-    trialingImage: { type: String, attribute: 'trailing-image', reflect: true },
-    trialingText: { type: String, attribute: 'trailing-text', reflect: true }
+    trailingIcon: { type: String, attribute: 'trailing-icon', reflect: true },
+    trailingImage: { type: String, attribute: 'trailing-image', reflect: true },
+    trailingText: { type: String, attribute: 'trailing-text', reflect: true }
   }
 }
 

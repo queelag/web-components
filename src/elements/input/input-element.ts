@@ -15,7 +15,7 @@ import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive.js'
 import { ifdef } from '../../directives/if-defined.js'
 import { styleMap } from '../../directives/style-map.js'
-import { FormFieldElement } from '../core/form-field-element.js'
+import { FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -23,7 +23,7 @@ declare global {
   }
 }
 
-export class InputElement<E extends InputElementEventMap = InputElementEventMap> extends FormFieldElement<E> {
+export class InputElement<E extends InputElementEventMap = InputElementEventMap> extends FormControlElement<E> {
   /**
    * PROPERTIES
    */

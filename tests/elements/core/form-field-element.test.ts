@@ -1,14 +1,14 @@
-import { defineCustomElement, FormFieldElementCollector } from '@aracna/web'
+import { defineCustomElement, FormControlElementCollector } from '@aracna/web'
 import { number } from 'superstruct'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/core/form-field-element'
-import { FormFieldElement } from '../../../src/elements/core/form-field-element'
+import { FormControlElement } from '../../../src/elements/core/form-field-element'
 import { render } from '../../../vitest/dom-utils'
 
-class TestElement extends FormFieldElement {}
+class TestElement extends FormControlElement {}
 defineCustomElement('aracna-test', TestElement)
 
-describe('FormFieldElement', () => {
+describe('FormControlElement', () => {
   let test: TestElement
 
   beforeEach(() => {
@@ -24,10 +24,10 @@ describe('FormFieldElement', () => {
     test.target = {}
 
     await render(test)
-    expect(FormFieldElementCollector.get(test.target, test.path)).toBe(test)
+    expect(FormControlElementCollector.get(test.target, test.path)).toBe(test)
 
     test.remove()
-    expect(FormFieldElementCollector.get(test.target, test.path)).toBeUndefined()
+    expect(FormControlElementCollector.get(test.target, test.path)).toBeUndefined()
   })
 
   it('is touchable', async () => {

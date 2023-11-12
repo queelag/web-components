@@ -1,4 +1,4 @@
-import { defineCustomElement, ElementName, NavigationBarElementEventMap, NavigationBarItemElementEventMap, WebElementLogger } from '@aracna/web'
+import { defineCustomElement, ElementName, NavigationBarElementEventMap, NavigationBarItemElementEventMap } from '@aracna/web'
 import { PropertyDeclarations } from 'lit'
 import { BaseElement } from '../core/base-element.js'
 
@@ -13,24 +13,13 @@ export class NavigationBarElement<E extends NavigationBarElementEventMap = Navig
   /**
    * PROPERTIES
    */
-  activeItem?: string
   items?: T[]
-
-  activateItem(item: string): void {
-    this.activeItem = item
-    WebElementLogger.verbose(this.uid, 'activateItem', `The active item has been set.`, [this.activeItem])
-  }
-
-  isItemActive(item: string): boolean {
-    return item === this.activeItem
-  }
 
   get name(): ElementName {
     return ElementName.NAVIGATION_BAR
   }
 
   static properties: PropertyDeclarations = {
-    activeItem: { type: String, attribute: 'active-item', reflect: true },
     items: { type: Array }
   }
 }
@@ -40,8 +29,10 @@ export class NavigationBarItemElement<E extends NavigationBarItemElementEventMap
    * PROPERTIES
    */
   active?: boolean
-  headline?: string
+  badge?: boolean
+  badgeText?: string
   icon?: string
+  text?: string
 
   get name(): ElementName {
     return ElementName.NAVIGATION_BAR_ITEM
@@ -49,8 +40,10 @@ export class NavigationBarItemElement<E extends NavigationBarItemElementEventMap
 
   static properties: PropertyDeclarations = {
     active: { type: Boolean, reflect: true },
-    headline: { type: String, reflect: true },
-    icon: { type: String, reflect: true }
+    badge: { type: Boolean, reflect: true },
+    badgeText: { type: String, attribute: 'badge-text', reflect: true },
+    icon: { type: String, reflect: true },
+    text: { type: String, reflect: true }
   }
 }
 

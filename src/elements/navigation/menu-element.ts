@@ -55,6 +55,13 @@ export class MenuButtonElement<E extends MenuButtonElementEventMap = MenuButtonE
 
 export class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElementEventMap, T = any> extends AriaMenuItemElement<E> {
   items?: T[]
+  leadingIcon?: string
+  leadingImage?: string
+  leadingText?: string
+  text?: string
+  trailingIcon?: string
+  trailingImage?: string
+  trailingText?: string
 
   get deep(): boolean {
     let closest: MenuItemElement | null | undefined
@@ -100,7 +107,14 @@ export class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElement
   }
 
   static properties: PropertyDeclarations = {
-    items: { type: Array }
+    items: { type: Array },
+    leadingIcon: { type: String, attribute: 'leading-icon', reflect: true },
+    leadingImage: { type: String, attribute: 'leading-image', reflect: true },
+    leadingText: { type: String, attribute: 'leading-text', reflect: true },
+    text: { type: String, reflect: true },
+    trailingIcon: { type: String, attribute: 'trailing-icon', reflect: true },
+    trailingImage: { type: String, attribute: 'trailing-image', reflect: true },
+    trailingText: { type: String, attribute: 'trailing-text', reflect: true }
   }
 
   static queries: QueryDeclarations = {

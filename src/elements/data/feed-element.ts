@@ -39,14 +39,17 @@ export class FeedElement<E extends FeedElementEventMap = FeedElementEventMap, T 
   }
 }
 
-export class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArticleElementEventMap> extends AriaFeedArticleElement<E> {
+export class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArticleElementEventMap, T = any> extends AriaFeedArticleElement<E> {
   /**
    * PROPERTIES
    */
+  buttons?: T[]
   headline?: string
+  image?: string
   leadingIcon?: string
   leadingImage?: string
   leadingText?: string
+  subhead?: string
   text?: string
   trailingIcon?: string
   trailingImage?: string
@@ -57,14 +60,17 @@ export class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArtic
   }
 
   static properties: PropertyDeclarations = {
+    buttons: { type: Array },
     headline: { type: String, reflect: true },
+    image: { type: String, reflect: true },
     leadingIcon: { type: String, attribute: 'leading-icon', reflect: true },
     leadingImage: { type: String, attribute: 'leading-image', reflect: true },
     leadingText: { type: String, attribute: 'leading-text', reflect: true },
+    subhead: { type: String, reflect: true },
     text: { type: String, reflect: true },
-    trialingIcon: { type: String, attribute: 'trailing-icon', reflect: true },
-    trialingImage: { type: String, attribute: 'trailing-image', reflect: true },
-    trialingText: { type: String, attribute: 'trailing-text', reflect: true }
+    trailingIcon: { type: String, attribute: 'trailing-icon', reflect: true },
+    trailingImage: { type: String, attribute: 'trailing-image', reflect: true },
+    trailingText: { type: String, attribute: 'trailing-text', reflect: true }
   }
 
   static queries: QueryDeclarations = {

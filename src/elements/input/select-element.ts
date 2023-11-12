@@ -161,16 +161,35 @@ export class SelectListElement<E extends SelectListElementEventMap = SelectListE
 }
 
 export class SelectOptionElement<E extends SelectOptionElementEventMap = SelectOptionElementEventMap> extends AriaComboBoxOptionElement<E> {
-  icon?: string
+  /**
+   * PROPERTIES
+   */
+  headline?: string
+  leadingIcon?: string
+  leadingImage?: string
+  leadingText?: string
   text?: string
+  trailingIcon?: string
+  trailingImage?: string
+  trailingText?: string
+
+  get label(): string | undefined {
+    return this.headline ?? super.label
+  }
 
   get name(): ElementName {
     return ElementName.SELECT_OPTION
   }
 
   static properties: PropertyDeclarations = {
-    icon: { type: String, reflect: true },
-    text: { type: String, reflect: true }
+    headline: { type: String, reflect: true },
+    leadingIcon: { type: String, attribute: 'leading-icon', reflect: true },
+    leadingImage: { type: String, attribute: 'leading-image', reflect: true },
+    leadingText: { type: String, attribute: 'leading-text', reflect: true },
+    text: { type: String, reflect: true },
+    trailingIcon: { type: String, attribute: 'trailing-icon', reflect: true },
+    trailingImage: { type: String, attribute: 'trailing-image', reflect: true },
+    trailingText: { type: String, attribute: 'trailing-text', reflect: true }
   }
 
   static queries: QueryDeclarations = {

@@ -13,7 +13,7 @@ import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ifdef } from '../../directives/if-defined.js'
 import { BaseElement } from '../core/base-element.js'
-import type { FormFieldElement } from '../core/form-field-element.js'
+import type { FormControlElement } from '../core/form-control-element.js'
 import type { ButtonElement } from './button-element.js'
 
 declare global {
@@ -35,7 +35,7 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap, T 
    * QUERIES
    */
   buttonElement?: ButtonElement
-  fieldElements!: FormFieldElement[]
+  fieldElements!: FormControlElement[]
   formElement!: HTMLFormElement
 
   connectedCallback(): void {
