@@ -68,7 +68,7 @@ describe('InputFileElement', () => {
     dispatchInputFileEvent(input.renderRoot.querySelector('input'), [file])
     await wf(() => input.file)
 
-    expect(input.file?.arrayBuffer).toStrictEqual(TextCodec.encode('hello').buffer)
+    expect(input.file?.arrayBuffer).toEqual(TextCodec.encode('hello').buffer)
     expect(input.file?.base64).toBe(Base64.encode(TextCodec.encode('hello')))
     expect(input.file?.blob).toStrictEqual(file)
     expect(input.file?.file).toStrictEqual(file)

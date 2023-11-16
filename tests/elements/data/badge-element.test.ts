@@ -14,21 +14,21 @@ describe('BadgeElement', () => {
     badge.remove()
   })
 
-  it('renders string value', async () => {
-    await render(badge, { value: 'a' })
+  it('renders string text', async () => {
+    await render(badge, { text: 'a' })
     expect(badge.shadowRoot?.querySelector('slot')?.textContent).toBe('a')
   })
 
-  it('renders numeric value and respects min and max attributes', async () => {
-    await render(badge, { numeric: 'true', value: '0' })
+  it('renders numeric text and respects min and max attributes', async () => {
+    await render(badge, { numeric: 'true', text: '0' })
     expect(badge.shadowRoot?.querySelector('slot')?.textContent).toBe('0')
-    await render(badge, { numeric: 'true', value: '100' })
+    await render(badge, { numeric: 'true', text: '100' })
     expect(badge.shadowRoot?.querySelector('slot')?.textContent).toBe('99')
-    await render(badge, { numeric: 'true', value: '-1' })
+    await render(badge, { numeric: 'true', text: '-1' })
     expect(badge.shadowRoot?.querySelector('slot')?.textContent).toBe('0')
-    await render(badge, { min: '50', numeric: 'true', value: '0' })
+    await render(badge, { min: '50', numeric: 'true', text: '0' })
     expect(badge.shadowRoot?.querySelector('slot')?.textContent).toBe('50')
-    await render(badge, { max: '50', numeric: 'true', value: '100' })
+    await render(badge, { max: '50', numeric: 'true', text: '100' })
     expect(badge.shadowRoot?.querySelector('slot')?.textContent).toBe('50')
   })
 })
