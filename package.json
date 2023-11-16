@@ -110,7 +110,7 @@
   },
   "repository": "https://github.com/aracna/web-components",
   "scripts": {
-    "build": "rm -rf dist && node esbuild.mjs && pnpm tsc && pnpm api-extractor run --local",
+    "build": "rm -rf dist && node esbuild.mjs && pnpm tsc",
     "prepublish": "pnpm test && pnpm build && pnpm version patch && cp LICENSE package.json README.md dist",
     "test": "vitest run"
   },
