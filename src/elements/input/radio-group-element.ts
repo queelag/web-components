@@ -40,7 +40,7 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
   render() {
     if (this.native) {
       return map(
-        this.buttons || [],
+        this.buttons ?? [],
         (button: T) => html`
           <div class="button">
             <input

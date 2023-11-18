@@ -131,11 +131,11 @@ export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = Ari
     return ElementName.ARIA_RADIO_GROUP
   }
 
-  get value(): any | undefined {
+  get value(): any {
     return super.value
   }
 
-  set value(value: any | undefined) {
+  set value(value: any) {
     super.value = value
   }
 

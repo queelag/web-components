@@ -229,6 +229,8 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
         }
 
         return typeof this.value === 'string' ? this.value : ''
+      default:
+        return ''
     }
   }
 
@@ -250,7 +252,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
   get value(): InputElementValue {
     switch (this.type) {
       case 'buffer':
-      // return undefined
+        return super.value
       case 'color':
       case 'email':
       case 'month':
@@ -271,6 +273,8 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
           return super.value
         }
 
+        return super.value
+      default:
         return super.value
     }
   }

@@ -263,11 +263,11 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
     return !this.multiple
   }
 
-  get value(): any | any[] | undefined {
+  get value(): any {
     return super.value
   }
 
-  set value(value: any | any[] | undefined) {
+  set value(value: any) {
     super.value = value
   }
 

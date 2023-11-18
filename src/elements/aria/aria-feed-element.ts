@@ -111,7 +111,7 @@ export class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElement
     focusable = tabbable(document.body, { getShadowRoot: true, includeContainer: true })
     next = focusable[focusable.indexOf(last) + 1]
 
-    return next || null
+    return next ?? null
   }
 
   get previousTabbableElementSibling(): FocusableElement | null {
@@ -123,7 +123,7 @@ export class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElement
     focusable = tabbable(document.body, { getShadowRoot: true, includeContainer: true })
     previous = focusable[focusable.indexOf(first) - 1]
 
-    return previous || null
+    return previous ?? null
   }
 
   static properties: PropertyDeclarations = {

@@ -124,8 +124,9 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
     `
   }
 
-  // @ts-ignore
-  get name(): ElementName {}
+  get name(): ElementName {
+    return ElementName.BASE
+  }
 
   get numericSize(): number {
     switch (typeof this.size) {
@@ -148,8 +149,8 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
 
   get sizeStyleInfo(): StyleInfo {
     return {
-      height: getElementStyleCompatibleValue(this.height || this.size),
-      width: getElementStyleCompatibleValue(this.width || this.size)
+      height: getElementStyleCompatibleValue(this.height ?? this.size),
+      width: getElementStyleCompatibleValue(this.width ?? this.size)
     }
   }
 

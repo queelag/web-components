@@ -26,7 +26,7 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
   async onChange(): Promise<void> {
     let files: AracnaFile[] = []
 
-    for (let file of this.inputElement.files || []) {
+    for (let file of this.inputElement.files ?? []) {
       files.push(await deserializeFile(file, this.deserializeFileOptions))
       WebElementLogger.verbose(this.uid, 'onChange', `The file have been deserialized.`, files)
     }

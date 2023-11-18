@@ -628,7 +628,7 @@ export class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMen
       return
     }
 
-    if (this.rootElement.buttonElement && this.rootElement.buttonElement.mouseEntered) {
+    if (this.rootElement.buttonElement?.mouseEntered) {
       return
     }
 
@@ -955,7 +955,7 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
   }
 
   get referenceElement(): HTMLElement | undefined {
-    return this === this.parentSubMenuElement ? this.parentItemElement || this.rootElement.buttonElement : this.parentSubMenuElement
+    return this === this.parentSubMenuElement ? this.parentItemElement ?? this.rootElement.buttonElement : this.parentSubMenuElement
   }
 
   get shallow(): boolean {

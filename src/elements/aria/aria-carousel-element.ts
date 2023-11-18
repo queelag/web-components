@@ -108,8 +108,6 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     if (this.automaticRotation) {
       Interval.start(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
       WebElementLogger.verbose(this.uid, 'connectedCallback', `The automatic rotation has been started.`)
-
-      return
     }
   }
 

@@ -1,6 +1,7 @@
 import { sleep } from '@aracna/core'
 import {
   CACHE_IMAGES,
+  CanvasDataURLType,
   DEFAULT_IMAGE_SIZE,
   DEFAULT_IMAGE_SRC,
   defineCustomElement,
@@ -8,7 +9,6 @@ import {
   FETCHING_IMAGES,
   getElementStyleCompatibleValue,
   getImageElementBase64,
-  ImageElementCacheType,
   ImageElementCrossOrigin,
   ImageElementEventMap,
   QueryDeclarations,
@@ -35,7 +35,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
   alt?: string
   cache?: boolean
   cacheQuality?: number
-  cacheType?: ImageElementCacheType
+  cacheType?: CanvasDataURLType
   crossOrigin?: ImageElementCrossOrigin
   eager?: boolean
   lazy?: boolean
@@ -137,7 +137,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
       return
     }
 
-    if (this.src === this.placeholder ?? DEFAULT_IMAGE_SRC) {
+    if (this.src === (this.placeholder ?? DEFAULT_IMAGE_SRC)) {
       return
     }
 
@@ -174,6 +174,8 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
     if (this.cache) {
       return 'anonymous'
     }
+
+    return undefined
   }
 
   get imgElementLoading(): 'eager' | 'lazy' | undefined {
@@ -184,17 +186,19 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
     if (this.lazy) {
       return 'lazy'
     }
+
+    return undefined
   }
 
   get imgElementStyle(): DirectiveResult<typeof StyleMapDirective> {
     return styleMap({
       ...this.shapeStyleInfo,
-      height: getElementStyleCompatibleValue(this.height || this.size || DEFAULT_IMAGE_SIZE),
-      maxHeight: getElementStyleCompatibleValue(this.height || this.size),
-      maxWidth: getElementStyleCompatibleValue(this.width || this.size),
-      minHeight: getElementStyleCompatibleValue(this.height || this.size),
-      minWidth: getElementStyleCompatibleValue(this.width || this.size),
-      width: getElementStyleCompatibleValue(this.width || this.size || DEFAULT_IMAGE_SIZE)
+      height: getElementStyleCompatibleValue(this.height ?? this.size ?? DEFAULT_IMAGE_SIZE),
+      maxHeight: getElementStyleCompatibleValue(this.height ?? this.size),
+      maxWidth: getElementStyleCompatibleValue(this.width ?? this.size),
+      minHeight: getElementStyleCompatibleValue(this.height ?? this.size),
+      minWidth: getElementStyleCompatibleValue(this.width ?? this.size),
+      width: getElementStyleCompatibleValue(this.width ?? this.size ?? DEFAULT_IMAGE_SIZE)
     })
   }
 

@@ -17,7 +17,7 @@ export class AriaButtonController implements ReactiveController {
 
   setAttributes(): void {
     if (this.host.native) {
-      setImmutableElementAttribute(this.host, 'tabindex', this.host.getAttribute('tabindex') || '0')
+      setImmutableElementAttribute(this.host, 'tabindex', this.host.getAttribute('tabindex') ?? '0')
       return
     }
 
@@ -25,6 +25,6 @@ export class AriaButtonController implements ReactiveController {
     // setImmutableElementAttribute(this.host, 'aria-label', '')
     setImmutableElementAttribute(this.host, 'aria-pressed', this.host.pressed)
     setImmutableElementAttribute(this.host, 'role', 'button')
-    setImmutableElementAttribute(this.host, 'tabindex', this.host.getAttribute('tabindex') || '0')
+    setImmutableElementAttribute(this.host, 'tabindex', this.host.getAttribute('tabindex') ?? '0')
   }
 }

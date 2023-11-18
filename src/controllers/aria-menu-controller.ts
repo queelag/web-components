@@ -56,7 +56,7 @@ export class AriaMenuItemController implements ReactiveController {
     this.setAttributes()
 
     if (this.host.index === 0) {
-      setImmutableElementAttribute(this.host.anchorElement || this.host, 'tabindex', '0')
+      setImmutableElementAttribute(this.host.anchorElement ?? this.host, 'tabindex', '0')
     }
   }
 
@@ -67,8 +67,8 @@ export class AriaMenuItemController implements ReactiveController {
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'depth', String(this.host.depth))
 
-    setImmutableElementAttribute(this.host.anchorElement || this.host, 'aria-haspopup', this.host.subMenuElement ? 'true' : 'false')
-    setImmutableElementAttribute(this.host.anchorElement || this.host, 'role', 'menuitem')
+    setImmutableElementAttribute(this.host.anchorElement ?? this.host, 'aria-haspopup', this.host.subMenuElement ? 'true' : 'false')
+    setImmutableElementAttribute(this.host.anchorElement ?? this.host, 'role', 'menuitem')
 
     if (this.host.anchorElement) {
       setImmutableElementAttribute(this.host, 'role', 'none')
@@ -113,7 +113,7 @@ export class AriaMenuSubMenuController implements ReactiveController {
       setImmutableElementAttribute(this.host.parentItemElement, 'submenu-expanded', this.host.expanded ? '' : undefined)
 
       setImmutableElementAttribute(
-        this.host.parentItemElement.anchorElement || this.host.parentItemElement,
+        this.host.parentItemElement.anchorElement ?? this.host.parentItemElement,
         'aria-expanded',
         this.host.expanded ? 'true' : 'false'
       )

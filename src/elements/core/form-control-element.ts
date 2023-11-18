@@ -79,7 +79,7 @@ export class FormControlElement<E extends FormControlElementEventMap = FormContr
 
   get error(): string | undefined {
     if (!this.validation) {
-      return
+      return undefined
     }
 
     return this.validation[0]?.message

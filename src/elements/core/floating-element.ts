@@ -1,4 +1,4 @@
-import { deleteShallowObjectUndefinedProperties, tcp, wf } from '@aracna/core'
+import { deleteShallowObjectUndefinedProperties, rv, tcp, wf } from '@aracna/core'
 import { FloatingElementEventMap, setImmutableElementAttribute } from '@aracna/web'
 import {
   AutoUpdateOptions,
@@ -46,7 +46,10 @@ export class FloatingElement<E extends FloatingElementEventMap = FloatingElement
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
-    this.cleanup && this.cleanup()
+
+    if (this.cleanup) {
+      this.cleanup()
+    }
   }
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -57,8 +60,8 @@ export class FloatingElement<E extends FloatingElementEventMap = FloatingElement
   computePosition = async (): Promise<void> => {
     let position: ComputePositionReturn | Error
 
-    if (!this.referenceElement) {
-      this.cleanup && this.cleanup()
+    if (this.cleanup) {
+      this.cleanup()
       this.cleanup = undefined
 
       return
@@ -82,8 +85,8 @@ export class FloatingElement<E extends FloatingElementEventMap = FloatingElement
       this.arrowElement.style[side as any] = '-4px'
     }
 
-    if (!this.cleanup) {
-      this.cleanup = autoUpdate(this.referenceElement, this, this.computePosition, this.autoUpdateOptions)
+    if (this.referenceElement) {
+      this.cleanup = autoUpdate(this.referenceElement, this, () => rv(this.computePosition), this.autoUpdateOptions)
     }
   }
 
@@ -122,14 +125,14 @@ export class FloatingElement<E extends FloatingElementEventMap = FloatingElement
     let options: Partial<ComputePositionConfig>
 
     options = {
-      middleware: this.middlewares || [],
+      middleware: this.middlewares ?? [],
       placement: this.placement,
       platform: this.platform,
       strategy: this.strategy
     }
 
     if (this.arrowElement) {
-      options.middleware = options.middleware || []
+      options.middleware = options.middleware ?? []
       options.middleware.push(arrow({ element: this.arrowElement, padding: this.arrowPadding }))
     }
 

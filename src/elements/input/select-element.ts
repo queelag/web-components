@@ -78,9 +78,9 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
   render() {
     if (this.native) {
       return html`
-        <select @change=${this.onChange} ?disabled=${this.disabled || this.readonly}>
+        <select @change=${this.onChange} ?disabled=${this.disabled ?? this.readonly}>
           ${map(
-            this.options || [],
+            this.options ?? [],
             (option: T) =>
               html`<option ?selected=${this.getOptionValue(option) === this.value} value=${this.getOptionValue(option)}>${this.getOptionLabel(option)}</option>`
           )}

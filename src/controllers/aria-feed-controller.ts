@@ -1,12 +1,8 @@
 import { ID } from '@aracna/core'
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type {
-  AriaFeedArticleDescriptionElement,
-  AriaFeedArticleElement,
-  AriaFeedArticleLabelElement,
-  AriaFeedElement
-} from '../elements/aria/aria-feed-element.js'
+import type { AriaFeedArticleElement, AriaFeedElement } from '../elements/aria/aria-feed-element.js'
+import type { BaseElement } from '../elements/core/base-element.js'
 
 export class AriaFeedController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaFeedElement) {
@@ -52,7 +48,7 @@ export class AriaFeedArticleController implements ReactiveController {
 }
 
 export class AriaFeedArticleDescriptionController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & AriaFeedArticleDescriptionElement) {
+  constructor(private host: ReactiveControllerHost & BaseElement) {
     this.host.addController(this)
   }
 
@@ -73,24 +69,4 @@ export class AriaFeedArticleDescriptionController implements ReactiveController 
   }
 }
 
-export class AriaFeedArticleLabelController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & AriaFeedArticleLabelElement) {
-    this.host.addController(this)
-  }
-
-  hostConnected(): void {
-    this.setAttributes()
-  }
-
-  hostUpdate(): void {
-    this.setAttributes()
-  }
-
-  setAttributes(): void {
-    if (this.host.id.length > 0) {
-      return
-    }
-
-    setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
-  }
-}
+export class AriaFeedArticleLabelController extends AriaFeedArticleDescriptionController implements ReactiveController {}

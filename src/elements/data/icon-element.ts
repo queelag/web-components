@@ -1,7 +1,6 @@
 import { Environment, Fetch, FetchResponse, isStringURL, rvp, sleep, tcp } from '@aracna/core'
 import {
   CACHE_ICONS,
-  Color,
   DEFAULT_ICON_SANITIZE_CONFIG,
   DEFAULT_ICON_SVG_STRING,
   ElementName,
@@ -37,7 +36,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
    * PROPERTIES
    */
   cache?: boolean
-  color?: Color
+  color?: string
   fill?: string
   sanitize?: boolean
   sanitizeConfig?: IconElementSanitizeConfig

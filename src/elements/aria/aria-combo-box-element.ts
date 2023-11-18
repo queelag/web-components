@@ -349,11 +349,11 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     WebElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
   }
 
-  findOptionElementByValue(value: any | undefined): AriaComboBoxOptionElement | undefined {
+  findOptionElementByValue(value: any): AriaComboBoxOptionElement | undefined {
     return this.optionElements.find((optionElement: AriaComboBoxOptionElement) => optionElement.value === value)
   }
 
-  findOptionElementLabelByValue(value: any | undefined): string | undefined {
+  findOptionElementLabelByValue(value: any): string | undefined {
     return this.findOptionElementByValue(value)?.label
   }
 
@@ -407,11 +407,11 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     return !this.multiple
   }
 
-  get value(): any | any[] | undefined {
+  get value(): any {
     return super.value
   }
 
-  set value(value: any | any[] | undefined) {
+  set value(value: any) {
     super.value = value
   }
 
@@ -615,9 +615,6 @@ export class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap
   set value(value: string | undefined) {
     let old: string | undefined
 
-    // old = this._value
-    // this._value = value
-
     if (this.inputElement) {
       this.inputElement.value = value ?? ''
     }
@@ -716,18 +713,6 @@ export class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventM
       scrollElementIntoView(this.listElement, this, this.rootElement.scrollIntoViewOptions)
       WebElementLogger.verbose(this.uid, ' attributeChangedCallback', `The option has been scrolled into view.`)
     }
-
-    // if (name === 'selected' && typeof value === 'string' && this.rootElement.inputElement) {
-    //   if (this.rootElement.single) {
-    //     this.rootElement.inputElement.value = this.label ?? this.innerText
-    //     WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The input value has been set to the selected option label.`)
-    //   }
-
-    //   if (this.rootElement.multiple) {
-    //     this.rootElement.inputElement.value = ''
-    //     WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The input value has been reset.`)
-    //   }
-    // }
   }
 
   blur(): void {
