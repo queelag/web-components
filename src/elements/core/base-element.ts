@@ -1,4 +1,4 @@
-import { ID, parseNumber } from '@aracna/core'
+import { generateRandomString, parseNumber } from '@aracna/core'
 import {
   AttributeChangeEvent,
   BaseElementEventMap,
@@ -37,7 +37,7 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
   /**
    * INTERNAL
    */
-  uid: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.name })
+  uid: string = generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.name })
 
   constructor() {
     super()
