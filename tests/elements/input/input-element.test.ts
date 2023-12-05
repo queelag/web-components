@@ -1,4 +1,4 @@
-import { TextCodec } from '@aracna/core'
+import { encodeText } from '@aracna/core'
 import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/input-element'
@@ -47,7 +47,7 @@ describe('InputElement', () => {
 
     dispatchInputEvent(input.renderRoot.querySelector('input'), 'hello')
     expect(input.renderRoot.querySelector('input')?.value).toBe('hello')
-    expect(input.value).toStrictEqual(TextCodec.encode('hello'))
+    expect(input.value).toStrictEqual(encodeText('hello'))
 
     input.clear()
     expect(input.value).toBeUndefined()

@@ -1,4 +1,4 @@
-import { ID } from '@aracna/core'
+import { generateRandomString } from '@aracna/core'
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import type { AriaFeedArticleElement, AriaFeedElement } from '../elements/aria/aria-feed-element.js'
@@ -65,7 +65,7 @@ export class AriaFeedArticleDescriptionController implements ReactiveController 
       return
     }
 
-    setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+    setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
   }
 }
 

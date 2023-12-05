@@ -1,4 +1,4 @@
-import { ID } from '@aracna/core'
+import { generateRandomString } from '@aracna/core'
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import type { AriaDisclosureButtonElement, AriaDisclosurePanelElement, AriaDisclosureSectionElement } from '../elements/aria/aria-disclosure-element.js'
@@ -38,7 +38,7 @@ export class AriaDisclosurePanelController implements ReactiveController {
 
   setAttributes(): void {
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+      setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }

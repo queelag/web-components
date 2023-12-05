@@ -1,4 +1,3 @@
-import { RadioButton } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/radio-group-element'
 import type { RadioButtonElement, RadioGroupElement } from '../../../src/elements/input/radio-group-element'
@@ -109,7 +108,7 @@ describe('RadioGroupElement', () => {
   })
 
   it('does not work if disabled or readonly when native', async () => {
-    let button: RadioButton = { value: 'cat' }
+    let button = { value: 'cat' }
 
     await render(radio, { buttons: JSON.stringify([button]), disabled: 'true', native: 'true' })
 

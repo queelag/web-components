@@ -1,4 +1,4 @@
-import { Interval, parseNumber } from '@aracna/core'
+import { clearInterval, parseNumber, setInterval } from '@aracna/core'
 import {
   AriaCarouselElementEventMap,
   AriaCarouselNextSlideControlElementEventMap,
@@ -85,15 +85,15 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     }
 
     if (name === 'automatic-rotation' && typeof value === 'string') {
-      Interval.start(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+      setInterval(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
     }
 
     if (name === 'automatic-rotation' && value === null) {
-      Interval.stop(this.uid)
+      clearInterval(this.uid)
     }
 
     if (name === 'automatic-rotation-interval-time' && this.automaticRotation) {
-      Interval.start(this.uid, this.onAutomaticRotation, parseNumber(value) ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+      setInterval(this.uid, this.onAutomaticRotation, parseNumber(value) ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
     }
   }
 
@@ -106,7 +106,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     this.addEventListener('mouseleave', this.onMouseLeave)
 
     if (this.automaticRotation) {
-      Interval.start(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+      setInterval(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
       WebElementLogger.verbose(this.uid, 'connectedCallback', `The automatic rotation has been started.`)
     }
   }
@@ -119,7 +119,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     this.removeEventListener('mouseenter', this.onMouseEnter)
     this.removeEventListener('mouseleave', this.onMouseLeave)
 
-    Interval.stop(this.uid)
+    clearInterval(this.uid)
     WebElementLogger.verbose(this.uid, 'disconnectedCallback', `The automatic rotation has been stopped.`)
   }
 
@@ -144,7 +144,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
       return
     }
 
-    Interval.start(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+    setInterval(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
     WebElementLogger.verbose(this.uid, 'onBlur', `The automatic rotation has been started.`)
 
     this.temporaryLive = undefined
@@ -159,7 +159,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     this.temporaryLive = 'polite'
     WebElementLogger.verbose(this.uid, 'onFocus', `The temporary live state has been set to polite.`)
 
-    Interval.stop(this.uid)
+    clearInterval(this.uid)
     WebElementLogger.verbose(this.uid, 'onFocus', `The automatic rotation has been stopped.`)
   }
 
@@ -356,14 +356,14 @@ export class AriaCarouselRotationControlElement<
     this.rootElement.temporaryLive = undefined
 
     if (this.rootElement.automaticRotation) {
-      Interval.stop(this.rootElement.uid)
+      clearInterval(this.rootElement.uid)
     }
 
     this.rootElement.automaticRotation = !this.rootElement.automaticRotation
     WebElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been ${this.rootElement.automaticRotation ? 'enabled' : 'disabled'}.`)
 
     if (this.rootElement.automaticRotation) {
-      Interval.start(
+      setInterval(
         this.rootElement.uid,
         this.rootElement.onAutomaticRotation,
         this.rootElement.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION

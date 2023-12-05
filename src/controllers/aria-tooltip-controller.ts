@@ -1,4 +1,4 @@
-import { ID } from '@aracna/core'
+import { generateRandomString } from '@aracna/core'
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import type { AriaTooltipContentElement, AriaTooltipElement, AriaTooltipTriggerElement } from '../elements/aria/aria-tooltip-element.js'
@@ -43,7 +43,7 @@ export class AriaTooltipContentController implements ReactiveController {
       return
     }
 
-    setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+    setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
   }
 }
 

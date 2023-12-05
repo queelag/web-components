@@ -1,4 +1,4 @@
-import { ID } from '@aracna/core'
+import { generateRandomString } from '@aracna/core'
 import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import type { AriaDialogElement } from '../elements/aria/aria-dialog-element.js'
@@ -49,7 +49,7 @@ export class AriaDialogDescriptionController implements ReactiveController {
       return
     }
 
-    setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+    setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
   }
 }
 

@@ -1,4 +1,4 @@
-import { isArray, parseNumber, removeArrayItems, TextCodec } from '@aracna/core'
+import { encodeText, isArray, parseNumber, removeArrayItems } from '@aracna/core'
 import {
   DEFAULT_INPUT_TYPE,
   defineCustomElement,
@@ -61,7 +61,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
   onInput(): void {
     switch (this.type) {
       case 'buffer':
-        this.value = TextCodec.encode(this.inputElement.value)
+        this.value = encodeText(this.inputElement.value)
         WebElementLogger.verbose(this.uid, 'onInput', `The value has been encoded and set.`, this.value)
 
         break
