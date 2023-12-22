@@ -1,4 +1,4 @@
-import { getLimitedNumber, isArray, removeArrayItems, Typeahead, TypeaheadPredicate } from '@aracna/core'
+import { getLimitedNumber, isArray, removeArrayItems, typeahead, TypeaheadPredicate } from '@aracna/core'
 import {
   AriaComboBoxButtonElementEventMap,
   AriaComboBoxElementAutoComplete,
@@ -71,17 +71,6 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
   selectedOptionElement?: AriaComboBoxOptionElement
   selectedOptionElements!: AriaComboBoxOptionElement[]
 
-  /**
-   * INTERNAL
-   */
-  onTypeaheadMatch = (element: AriaComboBoxOptionElement) => {
-    this.focusedOptionElement?.blur()
-
-    element.focus()
-    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
-  }
-  typeahead: Typeahead<AriaComboBoxOptionElement> = new Typeahead(this.onTypeaheadMatch, DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE)
-
   connectedCallback(): void {
     super.connectedCallback()
 
@@ -105,14 +94,6 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
     this.listElement?.computePosition()
-
-    if (Object.is(_old, value)) {
-      return
-    }
-
-    if (name === 'typeahead-predicate') {
-      this.typeahead = new Typeahead(this.onTypeaheadMatch, this.typeaheadPredicate ?? DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE)
-    }
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
@@ -126,10 +107,15 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
       case KeyboardEventKey.END:
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.ESCAPE:
-      case KeyboardEventKey.HOME:
       case KeyboardEventKey.SPACE:
+        if (event.key === KeyboardEventKey.SPACE && this.inputElement) {
+          break
+        }
+
         event.preventDefault()
         event.stopPropagation()
+
+        break
     }
 
     if (this.disabled || this.readonly) {
@@ -225,6 +211,10 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
         break
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.SPACE:
+        if (event.key === KeyboardEventKey.SPACE && this.inputElement) {
+          break
+        }
+
         if (this.collapsed) {
           this.expand()
           this.selectedOptionElement?.focus()
@@ -300,10 +290,22 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'DEFAULT', `The combobox has been expanded.`)
         }
 
-        this.typeahead.handle(event.key, this.optionElements, this.typeaheadDebounceTime)
+        typeahead<AriaComboBoxOptionElement>(this.uid, event.key, { search: false })
+          .setDebounceTime(this.typeaheadDebounceTime)
+          .setItems(this.optionElements)
+          .setPredicate(this.typeaheadPredicate ?? DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE)
+          .on('match', this.onTypeaheadMatch)
+          .search()
 
         break
     }
+  }
+
+  onTypeaheadMatch = (element: AriaComboBoxOptionElement) => {
+    this.focusedOptionElement?.blur()
+
+    element.focus()
+    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
   }
 
   collapse(): void {

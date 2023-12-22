@@ -1,4 +1,4 @@
-import { Typeahead, TypeaheadPredicate, isArray, removeArrayItems } from '@aracna/core'
+import { TypeaheadPredicate, isArray, removeArrayItems, typeahead } from '@aracna/core'
 import {
   AriaListBoxElementEventMap,
   AriaListBoxOptionElementEventMap,
@@ -41,17 +41,6 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
   optionElements!: AriaListBoxOptionElement[]
   selectedOptionElement?: AriaListBoxOptionElement
 
-  /**
-   * INTERNAL
-   */
-  onTypeaheadMatch = (element: AriaListBoxOptionElement) => {
-    this.focusedOptionElement?.blur()
-
-    element.focus()
-    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
-  }
-  typeahead: Typeahead<AriaListBoxOptionElement> = new Typeahead(this.onTypeaheadMatch, DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE)
-
   connectedCallback(): void {
     super.connectedCallback()
 
@@ -66,18 +55,6 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
     this.removeEventListener('blur', this.onBlur)
     this.removeEventListener('focus', this.onFocus)
     this.removeEventListener('keydown', this.onKeyDown)
-  }
-
-  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
-    super.attributeChangedCallback(name, _old, value)
-
-    if (Object.is(_old, value)) {
-      return
-    }
-
-    if (name === 'typeahead-predicate') {
-      this.typeahead = new Typeahead(this.onTypeaheadMatch, this.typeaheadPredicate ?? DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE)
-    }
   }
 
   onBlur = (): void => {
@@ -242,9 +219,22 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
         event.preventDefault()
         event.stopPropagation()
 
-        this.typeahead.handle(event.key, this.optionElements, this.typeaheadDebounceTime)
+        typeahead<AriaListBoxOptionElement>(this.uid, event.key, { search: false })
+          .setDebounceTime(this.typeaheadDebounceTime)
+          .setItems(this.optionElements)
+          .setPredicate(this.typeaheadPredicate ?? DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE)
+          .on('match', this.onTypeaheadMatch)
+          .search()
+
         break
     }
+  }
+
+  onTypeaheadMatch = (element: AriaListBoxOptionElement) => {
+    this.focusedOptionElement?.blur()
+
+    element.focus()
+    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
   }
 
   isOptionElementFocused(element: AriaListBoxOptionElement): boolean {

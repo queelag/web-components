@@ -1,4 +1,4 @@
-import { AracnaFile, encodeBase64, encodeText, importNodeFetch, useNodeFetch, wf } from '@aracna/core'
+import { AracnaFile, encodeText, importNodeFetch, useNodeFetch, wf } from '@aracna/core'
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/input-file-element'
 import type { InputFileElement } from '../../../src/elements/input/input-file-element'
@@ -41,7 +41,6 @@ describe('InputFileElement', () => {
     await wf(() => input.file)
 
     expect(input.file?.arrayBuffer).toStrictEqual(new ArrayBuffer(0))
-    expect(input.file?.base64).toBe('')
     expect(input.file?.blob).toStrictEqual(file)
     expect(input.file?.file).toStrictEqual(file)
     expect(input.file?.lastModified).toBe(file.lastModified)
@@ -69,7 +68,6 @@ describe('InputFileElement', () => {
     await wf(() => input.file)
 
     expect(input.file?.arrayBuffer).toEqual(encodeText('hello').buffer)
-    expect(input.file?.base64).toBe(encodeBase64(encodeText('hello')))
     expect(input.file?.blob).toStrictEqual(file)
     expect(input.file?.file).toStrictEqual(file)
     expect(input.file?.lastModified).toBe(file.lastModified)
@@ -85,7 +83,6 @@ describe('InputFileElement', () => {
     await wf(() => input.file)
 
     expect(input.file?.arrayBuffer).toStrictEqual(new ArrayBuffer(0))
-    expect(input.file?.base64).toBe(encodeBase64(encodeText('hello')))
     expect(input.file?.blob).toStrictEqual(file)
     expect(input.file?.file).toStrictEqual(file)
     expect(input.file?.lastModified).toBe(file.lastModified)

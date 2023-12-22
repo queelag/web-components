@@ -725,9 +725,9 @@ describe('AriaComboBoxElement', () => {
     expect(o2.getAttribute('selected')).not.toBeNull()
 
     /**
-     * Press SPACE and expect the second option to be selected and unfocused, the combobox should be collapsed
+     * Press ENTER and expect the second option to be selected and unfocused, the combobox should be collapsed
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.SPACE)
+    dispatchKeyDownEvent(combobox, KeyboardEventKey.ENTER)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).toBeNull()
@@ -741,7 +741,7 @@ describe('AriaComboBoxElement', () => {
     expect(o2.getAttribute('selected')).toBeNull()
 
     /**
-     * Press ENTER and expect the combobox to expand, the first option should be focused and selected
+     * Press ENTER again and expect the combobox to expand, the first option should be focused and selected
      */
     dispatchKeyDownEvent(combobox, KeyboardEventKey.ENTER)
     await combobox.updateComplete
