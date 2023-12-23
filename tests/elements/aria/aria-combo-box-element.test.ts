@@ -510,6 +510,7 @@ describe('AriaComboBoxElement', () => {
      */
     dispatchKeyDownEvent(combobox, 'c')
     await combobox.updateComplete
+    await sleep(100)
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -529,6 +530,7 @@ describe('AriaComboBoxElement', () => {
     dispatchKeyDownEvent(combobox, 'o')
     dispatchKeyDownEvent(combobox, 'g')
     await combobox.updateComplete
+    await sleep(100)
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
     expect(button.getAttribute('aria-expanded')).toBe('true')

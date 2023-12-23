@@ -85,7 +85,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     }
 
     if (name === 'automatic-rotation' && typeof value === 'string') {
-      setInterval(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+      setInterval(this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
     }
 
     if (name === 'automatic-rotation' && value === null) {
@@ -93,7 +93,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     }
 
     if (name === 'automatic-rotation-interval-time' && this.automaticRotation) {
-      setInterval(this.uid, this.onAutomaticRotation, parseNumber(value) ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+      setInterval(this.onAutomaticRotation, parseNumber(value) ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
     }
   }
 
@@ -106,7 +106,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     this.addEventListener('mouseleave', this.onMouseLeave)
 
     if (this.automaticRotation) {
-      setInterval(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+      setInterval(this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
       WebElementLogger.verbose(this.uid, 'connectedCallback', `The automatic rotation has been started.`)
     }
   }
@@ -144,7 +144,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
       return
     }
 
-    setInterval(this.uid, this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+    setInterval(this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
     WebElementLogger.verbose(this.uid, 'onBlur', `The automatic rotation has been started.`)
 
     this.temporaryLive = undefined
@@ -364,9 +364,9 @@ export class AriaCarouselRotationControlElement<
 
     if (this.rootElement.automaticRotation) {
       setInterval(
-        this.rootElement.uid,
         this.rootElement.onAutomaticRotation,
-        this.rootElement.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION
+        this.rootElement.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION,
+        this.rootElement.uid
       )
       WebElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been started.`)
     }

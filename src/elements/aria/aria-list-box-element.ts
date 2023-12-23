@@ -219,12 +219,12 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
         event.preventDefault()
         event.stopPropagation()
 
-        typeahead<AriaListBoxOptionElement>(this.uid, event.key, { search: false })
+        typeahead<AriaListBoxOptionElement>(this.uid, event.key)
           .setDebounceTime(this.typeaheadDebounceTime)
           .setItems(this.optionElements)
+          .setListeners([])
           .setPredicate(this.typeaheadPredicate ?? DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE)
           .on('match', this.onTypeaheadMatch)
-          .search()
 
         break
     }

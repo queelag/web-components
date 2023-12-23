@@ -82,7 +82,7 @@ export class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElement
     this.focused = false
     WebElementLogger.verbose(this.uid, 'onFocusOut', `The menu has been focused out.`)
 
-    debounce(this.uid, this.onFocusOutDebounce, this.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME)
+    debounce(this.onFocusOutDebounce, this.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, this.uid)
   }
 
   onFocusOutDebounce = (): void => {
@@ -321,22 +321,22 @@ export class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElement
         event.stopPropagation()
 
         if (this.buttonElement && this.subMenuElement) {
-          typeahead<AriaMenuItemElement>(this.uid, event.key, { search: false })
+          typeahead<AriaMenuItemElement>(this.uid, event.key)
             .setDebounceTime(this.typeaheadDebounceTime)
             .setItems([...this.subMenuElement.shallowItemElements])
+            .setListeners([])
             .setPredicate(this.typeaheadPredicate ?? DEFAULT_MENU_TYPEAHEAD_PREDICATE)
             .on('match', this.onTypeaheadMatch)
-            .search()
 
           break
         }
 
-        typeahead<AriaMenuItemElement>(this.uid, event.key, { search: false })
+        typeahead<AriaMenuItemElement>(this.uid, event.key)
           .setDebounceTime(this.typeaheadDebounceTime)
           .setItems(this.shallowItemElements)
+          .setListeners([])
           .setPredicate(this.typeaheadPredicate ?? DEFAULT_MENU_TYPEAHEAD_PREDICATE)
           .on('match', this.onTypeaheadMatch)
-          .search()
 
         break
     }
@@ -454,7 +454,7 @@ export class AriaMenuButtonElement<E extends AriaMenuButtonElementEventMap = Ari
     this.mouseEntered = false
     WebElementLogger.verbose(this.uid, 'onMouseEnter', `The mouse has left.`)
 
-    debounce(this.uid, this.onMouseLeaveDebounce, this.rootElement.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME)
+    debounce(this.onMouseLeaveDebounce, this.rootElement.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, this.uid)
   }
 
   onMouseLeaveDebounce = (): void => {
@@ -616,7 +616,7 @@ export class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMen
     this.mouseEntered = false
     WebElementLogger.verbose(this.uid, 'onMouseLeave', `The mouse has left.`)
 
-    debounce(this.uid, this.onMouseLeaveDebounce, this.rootElement.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME)
+    debounce(this.onMouseLeaveDebounce, this.rootElement.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, this.uid)
   }
 
   onMouseLeaveDebounce = (): void => {
@@ -888,12 +888,12 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
         event.preventDefault()
         event.stopPropagation()
 
-        typeahead<AriaMenuItemElement>(this.uid, event.key, { search: false })
+        typeahead<AriaMenuItemElement>(this.uid, event.key)
           .setDebounceTime(this.rootElement.typeaheadDebounceTime)
           .setItems([...this.shallowItemElements])
+          .setListeners([])
           .setPredicate(this.rootElement.typeaheadPredicate ?? DEFAULT_MENU_TYPEAHEAD_PREDICATE)
           .on('match', this.onTypeaheadMatch)
-          .search()
 
         break
     }

@@ -290,12 +290,12 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
           WebElementLogger.verbose(this.uid, 'onKeyDown', 'DEFAULT', `The combobox has been expanded.`)
         }
 
-        typeahead<AriaComboBoxOptionElement>(this.uid, event.key, { search: false })
+        typeahead<AriaComboBoxOptionElement>(this.uid, event.key)
           .setDebounceTime(this.typeaheadDebounceTime)
           .setItems(this.optionElements)
+          .setListeners([])
           .setPredicate(this.typeaheadPredicate ?? DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE)
           .on('match', this.onTypeaheadMatch)
-          .search()
 
         break
     }
