@@ -459,12 +459,11 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
   }
 
   getPercentageByCoordinates(x: number, y: number): number {
-    let decimals: number, orientation: Orientation, rect: DOMRect, step: number, percentage: number
+    let decimals: number, orientation: Orientation, rect: DOMRect, percentage: number
 
     decimals = this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS
     orientation = this.rootElement.orientation ?? DEFAULT_SLIDER_ORIENTATION
     rect = this.rootElement.getBoundingClientRect()
-    step = this.rootElement.step ?? DEFAULT_SLIDER_STEP
 
     switch (orientation) {
       case 'horizontal':
@@ -476,7 +475,6 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
     }
 
     percentage = getLimitedNumber(getFixedNumber(percentage, decimals), { min: 0, max: 100 })
-    // if (!isNumberMultipleOf(percentage, step)) return -1
 
     if (orientation === 'vertical') {
       percentage = 100 - percentage

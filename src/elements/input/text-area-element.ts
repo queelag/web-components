@@ -1,4 +1,4 @@
-import { Environment, isArray, removeArrayItems, wf } from '@aracna/core'
+import { isArray, isWindowNotDefined, removeArrayItems, wf } from '@aracna/core'
 import {
   ElementName,
   QueryDeclarations,
@@ -119,7 +119,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
   computeHeight(): void {
     let style: CSSStyleDeclaration
 
-    if (Environment.isWindowNotDefined) {
+    if (isWindowNotDefined()) {
       return
     }
 

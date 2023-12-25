@@ -1,4 +1,4 @@
-import { Environment, Fetch, FetchResponse, isStringURL, rvp, sleep, tcp } from '@aracna/core'
+import { Fetch, FetchResponse, isStringURL, isWindowNotDefined, rvp, sleep, tcp } from '@aracna/core'
 import {
   CACHE_ICONS,
   DEFAULT_ICON_SANITIZE_CONFIG,
@@ -137,7 +137,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
      */
     await sleep(1)
 
-    if (Environment.isWindowNotDefined) {
+    if (isWindowNotDefined()) {
       return
     }
 
