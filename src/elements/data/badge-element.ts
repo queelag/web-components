@@ -32,7 +32,7 @@ export class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap>
 
   get text(): string {
     if (this.numeric) {
-      return getLimitedNumber(parseNumber(this._text ?? '0'), this.min ?? DEFAULT_BADGE_MIN, this.max ?? DEFAULT_BADGE_MAX).toString()
+      return getLimitedNumber(parseNumber(this._text ?? '0'), { min: this.min ?? DEFAULT_BADGE_MIN, max: this.max ?? DEFAULT_BADGE_MAX }).toString()
     }
 
     return this._text ?? ''

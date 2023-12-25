@@ -1,4 +1,4 @@
-import { getLimitedNumber, isArray, isNumberMultipleOf, toFixedNumber, wf } from '@aracna/core'
+import { getFixedNumber, getLimitedNumber, isArray, isNumberMultipleOf, wf } from '@aracna/core'
 import {
   AriaSliderElementEventMap,
   AriaSliderThumbElementEventMap,
@@ -412,7 +412,7 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
     min = this.rootElement.min ?? DEFAULT_SLIDER_MIN
     step = this.rootElement.step ?? DEFAULT_SLIDER_STEP
 
-    value = getLimitedNumber(toFixedNumber(((max - min) * percentage) / 100 + min, decimals), min, max)
+    value = getLimitedNumber(getFixedNumber(((max - min) * percentage) / 100 + min, decimals), { min, max })
     if (!isNumberMultipleOf(value * 10 ** decimals, step * 10 ** decimals)) return
 
     this.setValue(value)
@@ -424,7 +424,7 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
     decimals = this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS
     max = this.rootElement.max ?? DEFAULT_SLIDER_MAX
     min = this.rootElement.min ?? DEFAULT_SLIDER_MIN
-    fvalue = toFixedNumber(value, decimals)
+    fvalue = getFixedNumber(value, decimals)
 
     if (this.rootElement.disableSwap && this.rootElement.hasMultipleThumbs) {
       let pthumb: AriaSliderThumbElement | undefined, nthumb: AriaSliderThumbElement | undefined, mdistance: number
@@ -442,7 +442,7 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
       }
     }
 
-    this.value = getLimitedNumber(fvalue, min, max)
+    this.value = getLimitedNumber(fvalue, { min, max })
     this.dispatchEvent(new SliderThumbMoveEvent(this.value, this.percentage))
 
     if (this.rootElement.hasMultipleThumbs) {
@@ -475,7 +475,7 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
         break
     }
 
-    percentage = getLimitedNumber(toFixedNumber(percentage, decimals), 0, 100)
+    percentage = getLimitedNumber(getFixedNumber(percentage, decimals), { min: 0, max: 100 })
     // if (!isNumberMultipleOf(percentage, step)) return -1
 
     if (orientation === 'vertical') {

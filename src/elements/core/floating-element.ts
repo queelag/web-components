@@ -1,4 +1,4 @@
-import { deleteShallowObjectUndefinedProperties, rv, tcp, wf } from '@aracna/core'
+import { omitObjectProperties, rv, tcp, wf } from '@aracna/core'
 import { FloatingElementEventMap, setImmutableElementAttribute } from '@aracna/web'
 import {
   AutoUpdateOptions,
@@ -118,7 +118,7 @@ export class FloatingElement<E extends FloatingElementEventMap = FloatingElement
       elementResize: this.elementResize
     }
 
-    return deleteShallowObjectUndefinedProperties(options)
+    return omitObjectProperties(options, (_, __, value: unknown) => typeof value === 'undefined')
   }
 
   get computePositionConfig(): Partial<ComputePositionConfig> {
@@ -136,7 +136,7 @@ export class FloatingElement<E extends FloatingElementEventMap = FloatingElement
       options.middleware.push(arrow({ element: this.arrowElement, padding: this.arrowPadding }))
     }
 
-    return deleteShallowObjectUndefinedProperties(options)
+    return omitObjectProperties(options, (_, __, value: unknown) => typeof value === 'undefined')
   }
 
   get arrowElement(): HTMLElement | undefined {

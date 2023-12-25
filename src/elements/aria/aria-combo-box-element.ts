@@ -266,14 +266,14 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
       case KeyboardEventKey.PAGE_DOWN:
         this.focusedOptionElement?.blur()
 
-        this.optionElements[getLimitedNumber(getLimitedNumber(this.focusedOptionElementIndex, 0) + 10, 0)]?.focus()
+        this.optionElements[getLimitedNumber(getLimitedNumber(this.focusedOptionElementIndex, { min: 0 }) + 10, { min: 0 })]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The option focus has jumped ~10 options ahead.`)
 
         break
       case KeyboardEventKey.PAGE_UP:
         this.focusedOptionElement?.blur()
 
-        this.optionElements[getLimitedNumber(this.focusedOptionElementIndex - 10, 0)]?.focus()
+        this.optionElements[getLimitedNumber(this.focusedOptionElementIndex - 10, { min: 0 })]?.focus()
         WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The option focus has jumped ~10 options behind.`)
 
         break

@@ -1,4 +1,4 @@
-import { deleteDeepObjectUndefinedProperties, tc } from '@aracna/core'
+import { omitObjectProperties, tc } from '@aracna/core'
 import {
   ElementName,
   FocusTrapActivateEvent,
@@ -132,7 +132,7 @@ export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElem
       }
     }
 
-    return deleteDeepObjectUndefinedProperties(options)
+    return omitObjectProperties(options, (_, __, value: unknown) => typeof value === 'undefined')
   }
 
   get name(): ElementName {
