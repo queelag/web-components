@@ -1,8 +1,8 @@
 {
   "author": "Dario Sechi",
   "devDependencies": {
-    "@aracna/core": "^1.1.75",
-    "@aracna/web": "^1.0.68",
+    "@aracna/core": "^1.1.77",
+    "@aracna/web": "^1.0.69",
     "@astrojs/lit": "^4.0.0",
     "@astrojs/tailwind": "^5.0.4",
     "@floating-ui/dom": "^1.5.3",
@@ -29,6 +29,10 @@
     "tslib": "^2.6.2",
     "typescript": "^5.3.3",
     "vitest": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=8"
   },
   "exports": {
     ".": {

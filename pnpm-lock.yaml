@@ -6,11 +6,11 @@ settings:
 
 devDependencies:
   '@aracna/core':
-    specifier: ^1.1.75
-    version: 1.1.75
+    specifier: ^1.1.77
+    version: 1.1.77
   '@aracna/web':
-    specifier: ^1.0.68
-    version: 1.0.68(@aracna/core@1.1.75)
+    specifier: ^1.0.69
+    version: 1.0.69(@aracna/core@1.1.77)
   '@astrojs/lit':
     specifier: ^4.0.0
     version: 4.0.0(@webcomponents/template-shadowroot@0.2.1)(lit@3.1.0)
@@ -105,9 +105,9 @@ packages:
       '@jridgewell/trace-mapping': 0.3.20
     dev: true
 
-  /@aracna/core@1.1.75:
-    resolution: {integrity: sha512-3wMED2yRj/uUCP2CWgX89N0gI/vk2Vwj1GDzcu8WasWKZfK4TzzLzHOyQSIiWAzZEpFyuhpkzXoDPYfJl+wZ2A==}
-    engines: {node: '>=20', pnpm: '>=8'}
+  /@aracna/core@1.1.77:
+    resolution: {integrity: sha512-LvM1kgaUW2I64Ey7FyHYSx0jrH0wJFI7xbLgu97iwbGmzxN7mXZ9EZvonZQha/qI2TAfy3xHKC28lrX7OAFWUA==}
+    engines: {node: '>=16', pnpm: '>=8'}
     dependencies:
       '@types/cookie': 0.6.0
       cookie: 0.6.0
@@ -116,12 +116,13 @@ packages:
       rfc4648: 1.5.3
     dev: true
 
-  /@aracna/web@1.0.68(@aracna/core@1.1.75):
-    resolution: {integrity: sha512-CV9vdRzKcaDp3r+k4K7yJTdlmZAhbHPyAr3Mu59DKjmK20DEEaOLpiETXF0L4otVIyc8Fk1OZsLHkwuNhPFRfQ==}
+  /@aracna/web@1.0.69(@aracna/core@1.1.77):
+    resolution: {integrity: sha512-uE0jf6El+Vy6kUlzMKS7yMUH4VArZfhhVhVHx7pDXH02Bl2erIb73FHlF7057cBcqQ4tc8f4XaKW8AMnjRa+Dw==}
+    engines: {node: '>=16', pnpm: '>=8'}
     peerDependencies:
       '@aracna/core': '>= 1.1.0'
     dependencies:
-      '@aracna/core': 1.1.75
+      '@aracna/core': 1.1.77
     dev: true
 
   /@astrojs/compiler@2.3.4:
