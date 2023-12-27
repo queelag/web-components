@@ -66,15 +66,15 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
     }
 
     if (name === 'shape' && value === 'squircle') {
-      appendSquircleElement(this.numericSize, this.shapeSquircleCurvature)
+      appendSquircleElement({ curvature: this.shapeSquircleCurvature, size: this.numericSize })
     }
 
     if (name === 'shape-squircle-curvature' && this.shape === 'squircle') {
-      appendSquircleElement(this.numericSize, parseNumber(value, DEFAULT_SQUIRCLE_CURVATURE))
+      appendSquircleElement({ curvature: parseNumber(value, DEFAULT_SQUIRCLE_CURVATURE), size: this.numericSize })
     }
 
     if (name === 'size' && this.shape === 'squircle') {
-      appendSquircleElement(parseNumber(value), this.shapeSquircleCurvature)
+      appendSquircleElement({ curvature: this.shapeSquircleCurvature, size: parseNumber(value) })
     }
 
     this.dispatchEvent(new AttributeChangeEvent(name, _old, value))

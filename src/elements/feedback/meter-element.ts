@@ -40,7 +40,7 @@ export class MeterElement<E extends MeterElementEventMap = MeterElementEventMap>
   }
 
   get percentage(): number {
-    return getMeterElementPercentage(this.value, this.min, this.max, this.round)
+    return getMeterElementPercentage(this.value, { max: this.max, min: this.min, round: this.round })
   }
 
   static properties: PropertyDeclarations = {

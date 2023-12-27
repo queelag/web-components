@@ -9,8 +9,8 @@ devDependencies:
     specifier: ^1.1.77
     version: 1.1.77
   '@aracna/web':
-    specifier: ^1.0.69
-    version: 1.0.69(@aracna/core@1.1.77)
+    specifier: ^1.0.70
+    version: 1.0.70(@aracna/core@1.1.77)
   '@astrojs/lit':
     specifier: ^4.0.0
     version: 4.0.0(@webcomponents/template-shadowroot@0.2.1)(lit@3.1.0)
@@ -116,8 +116,8 @@ packages:
       rfc4648: 1.5.3
     dev: true
 
-  /@aracna/web@1.0.69(@aracna/core@1.1.77):
-    resolution: {integrity: sha512-uE0jf6El+Vy6kUlzMKS7yMUH4VArZfhhVhVHx7pDXH02Bl2erIb73FHlF7057cBcqQ4tc8f4XaKW8AMnjRa+Dw==}
+  /@aracna/web@1.0.70(@aracna/core@1.1.77):
+    resolution: {integrity: sha512-SzA229+LL/X4aaLHIyqoGgZnZ3Ba3HKZesvFq6VKjx+PWm2z8iHVzUAlKgx41cUF7Vp1BUMkW05G86rLNAFQxA==}
     engines: {node: '>=16', pnpm: '>=8'}
     peerDependencies:
       '@aracna/core': '>= 1.1.0'

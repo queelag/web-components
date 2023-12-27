@@ -25,7 +25,7 @@ export class AriaMeterElement<E extends AriaMeterElementEventMap = AriaMeterElem
   protected _value?: number
 
   get value(): number {
-    return getMeterElementValue(this._value, this.min, this.max)
+    return getMeterElementValue(this._value, { max: this.max, min: this.min })
   }
 
   set value(value: number | undefined) {
