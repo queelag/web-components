@@ -1,6 +1,5 @@
 import { defineCustomElement, DividerElementEventMap, Orientation } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { html } from 'lit-html'
+import { html, PropertyDeclarations } from 'lit'
 import { choose } from '../../directives/choose.js'
 import { BaseElement } from '../core/base-element.js'
 

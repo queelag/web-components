@@ -1,6 +1,5 @@
 import { CheckBoxElementEventMap, defineCustomElement, ElementName, WebElementLogger } from '@aracna/web'
-import { css, CSSResultGroup } from 'lit'
-import { html } from 'lit-html'
+import { css, CSSResultGroup, html } from 'lit'
 import { AriaCheckBoxElement } from '../aria/aria-check-box-element.js'
 
 declare global {

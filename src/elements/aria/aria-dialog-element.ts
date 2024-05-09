@@ -90,7 +90,11 @@ export class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogE
   }
 
   static properties: PropertyDeclarations = {
-    lockBodyScroll: { type: Boolean, attribute: 'lock-body-scroll', reflect: true },
+    lockBodyScroll: {
+      type: Boolean,
+      attribute: 'lock-body-scroll',
+      reflect: true
+    },
     visible: { type: Boolean, reflect: true }
   }
 

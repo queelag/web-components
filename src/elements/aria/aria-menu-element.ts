@@ -370,21 +370,45 @@ export class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElement
   }
 
   static properties: PropertyDeclarations = {
-    collapseDebounceTime: { type: Number, attribute: 'collapse-debounce-time', reflect: true },
-    collapseOnMouseLeave: { type: Boolean, attribute: 'collapse-on-mouse-leave', reflect: true },
-    expandOnMouseEnter: { type: Boolean, attribute: 'expand-on-mouse-enter', reflect: true },
-    typeaheadDebounceTime: { type: Number, attribute: 'typeahead-debounce-time', reflect: true },
+    collapseDebounceTime: {
+      type: Number,
+      attribute: 'collapse-debounce-time',
+      reflect: true
+    },
+    collapseOnMouseLeave: {
+      type: Boolean,
+      attribute: 'collapse-on-mouse-leave',
+      reflect: true
+    },
+    expandOnMouseEnter: {
+      type: Boolean,
+      attribute: 'expand-on-mouse-enter',
+      reflect: true
+    },
+    typeaheadDebounceTime: {
+      type: Number,
+      attribute: 'typeahead-debounce-time',
+      reflect: true
+    },
     typeaheadPredicate: { type: Function, attribute: 'typeahead-predicate' }
   }
 
   static queries: QueryDeclarations = {
     buttonElement: { selector: 'aracna-aria-menu-button' },
     expandedSubMenuElement: { selector: 'aracna-aria-menu-submenu[expanded]' },
-    expandedSubMenuElements: { selector: 'aracna-aria-menu-submenu[expanded]', all: true },
+    expandedSubMenuElements: {
+      selector: 'aracna-aria-menu-submenu[expanded]',
+      all: true
+    },
     focusedItemElement: { selector: 'aracna-aria-menu-item[focused]' },
     itemElements: { selector: 'aracna-aria-menu-item', all: true },
-    shallowFocusedItemElement: { selector: 'aracna-aria-menu-item[depth="0"][focused]' },
-    shallowItemElements: { selector: 'aracna-aria-menu-item[depth="0"]', all: true },
+    shallowFocusedItemElement: {
+      selector: 'aracna-aria-menu-item[depth="0"][focused]'
+    },
+    shallowItemElements: {
+      selector: 'aracna-aria-menu-item[depth="0"]',
+      all: true
+    },
     subMenuElement: { selector: 'aracna-aria-menu-submenu' }
   }
 }
@@ -971,7 +995,10 @@ export class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = A
   static queries: QueryDeclarations = {
     itemElements: { selector: 'aracna-aria-menu-item', all: true },
     parentItemElement: { selector: 'aracna-aria-menu-item', closest: true },
-    parentSubMenuElement: { selector: 'aracna-aria-menu-submenu', closest: true },
+    parentSubMenuElement: {
+      selector: 'aracna-aria-menu-submenu',
+      closest: true
+    },
     rootElement: { selector: 'aracna-aria-menu', closest: true }
   }
 

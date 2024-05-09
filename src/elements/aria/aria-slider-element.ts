@@ -124,11 +124,21 @@ export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderE
         value[1] = this.value[1] ?? this.thumbElements[1]?.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE
       }
 
-      return value.map((value: number) => getSliderThumbElementPercentage(value, { decimals: this.decimals, max: this.max, min: this.min }))
+      return value.map((value: number) =>
+        getSliderThumbElementPercentage(value, {
+          decimals: this.decimals,
+          max: this.max,
+          min: this.min
+        })
+      )
     }
 
     if (typeof this.value === 'number') {
-      return getSliderThumbElementPercentage(this.value, { decimals: this.decimals, max: this.max, min: this.min })
+      return getSliderThumbElementPercentage(this.value, {
+        decimals: this.decimals,
+        max: this.max,
+        min: this.min
+      })
     }
 
     return getSliderThumbElementPercentage(this.thumbElements[0]?.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE, {
@@ -478,7 +488,10 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
         break
     }
 
-    percentage = getLimitedNumber(getFixedNumber(percentage, decimals), { min: 0, max: 100 })
+    percentage = getLimitedNumber(getFixedNumber(percentage, decimals), {
+      min: 0,
+      max: 100
+    })
 
     if (orientation === 'vertical') {
       percentage = 100 - percentage
@@ -496,7 +509,11 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
   }
 
   get percentage(): number {
-    return getSliderThumbElementPercentage(this.value, { decimals: this.rootElement.decimals, max: this.rootElement.max, min: this.rootElement.min })
+    return getSliderThumbElementPercentage(this.value, {
+      decimals: this.rootElement.decimals,
+      max: this.rootElement.max,
+      min: this.rootElement.min
+    })
   }
 
   get value(): number | undefined {
@@ -515,7 +532,11 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
 
   static properties: PropertyDeclarations = {
     defaultValue: { type: Number, attribute: 'default-value', reflect: true },
-    disableComputePosition: { type: Boolean, attribute: 'disable-compute-position', reflect: true },
+    disableComputePosition: {
+      type: Boolean,
+      attribute: 'disable-compute-position',
+      reflect: true
+    },
     movable: { type: Boolean, reflect: true },
     value: { type: Number, reflect: true }
   }

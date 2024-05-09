@@ -11,8 +11,7 @@ import {
   WebElementLogger,
   defineCustomElement
 } from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
-import { html } from 'lit-html'
+import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
 import { AriaSliderElement, AriaSliderThumbElement } from '../aria/aria-slider-element.js'
 
 declare global {

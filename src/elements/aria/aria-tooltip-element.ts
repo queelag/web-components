@@ -65,7 +65,11 @@ export class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaToolt
 
   static properties: PropertyDeclarations = {
     focusable: { type: Boolean, reflect: true },
-    showOnMouseEnter: { type: Boolean, attribute: 'show-on-mouse-enter', reflect: true },
+    showOnMouseEnter: {
+      type: Boolean,
+      attribute: 'show-on-mouse-enter',
+      reflect: true
+    },
     visible: { type: Boolean, reflect: true }
   }
 

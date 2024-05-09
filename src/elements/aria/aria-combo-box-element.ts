@@ -421,10 +421,20 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     autocomplete: { type: String, reflect: true },
     expanded: { type: Boolean, reflect: true },
     multiple: { type: Boolean, reflect: true },
-    scrollIntoViewBehaviour: { type: String, attribute: 'scroll-into-view-behaviour' },
+    scrollIntoViewBehaviour: {
+      type: String,
+      attribute: 'scroll-into-view-behaviour'
+    },
     scrollIntoViewBlock: { type: String, attribute: 'scroll-into-view-block' },
-    scrollIntoViewInline: { type: String, attribute: 'scroll-into-view-inline' },
-    typeaheadDebounceTime: { type: Number, attribute: 'typeahead-debounce-time', reflect: true },
+    scrollIntoViewInline: {
+      type: String,
+      attribute: 'scroll-into-view-inline'
+    },
+    typeaheadDebounceTime: {
+      type: Number,
+      attribute: 'typeahead-debounce-time',
+      reflect: true
+    },
     typeaheadPredicate: { type: Function, attribute: 'typeahead-predicate' }
   }
 
@@ -435,8 +445,13 @@ export class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaCom
     listElement: { selector: 'aracna-aria-combobox-list' },
     focusedOptionElement: { selector: 'aracna-aria-combobox-option[focused]' },
     optionElements: { selector: 'aracna-aria-combobox-option', all: true },
-    selectedOptionElement: { selector: 'aracna-aria-combobox-option[selected]' },
-    selectedOptionElements: { selector: 'aracna-aria-combobox-option[selected]', all: true }
+    selectedOptionElement: {
+      selector: 'aracna-aria-combobox-option[selected]'
+    },
+    selectedOptionElements: {
+      selector: 'aracna-aria-combobox-option[selected]',
+      all: true
+    }
   }
 
   static styles: CSSResultGroup = [

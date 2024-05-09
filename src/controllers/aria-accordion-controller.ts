@@ -27,7 +27,14 @@ export class AriaAccordionButtonController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'tabindex', '0')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+      setImmutableElementAttribute(
+        this.host,
+        'id',
+        generateRandomString({
+          ...ELEMENT_UID_GENERATE_OPTIONS,
+          prefix: this.host.name
+        })
+      )
     }
   }
 }
@@ -69,7 +76,14 @@ export class AriaAccordionPanelController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'role', 'region')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+      setImmutableElementAttribute(
+        this.host,
+        'id',
+        generateRandomString({
+          ...ELEMENT_UID_GENERATE_OPTIONS,
+          prefix: this.host.name
+        })
+      )
     }
   }
 }

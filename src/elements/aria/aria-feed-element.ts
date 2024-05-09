@@ -108,7 +108,10 @@ export class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElement
     last = this.articleElements[this.articleElements.length - 1]
     if (!last) return null
 
-    focusable = tabbable(document.body, { getShadowRoot: true, includeContainer: true })
+    focusable = tabbable(document.body, {
+      getShadowRoot: true,
+      includeContainer: true
+    })
     next = focusable[focusable.indexOf(last) + 1]
 
     return next ?? null
@@ -120,7 +123,10 @@ export class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElement
     first = this.articleElements[0]
     if (!first) return null
 
-    focusable = tabbable(document.body, { getShadowRoot: true, includeContainer: true })
+    focusable = tabbable(document.body, {
+      getShadowRoot: true,
+      includeContainer: true
+    })
     previous = focusable[focusable.indexOf(first) - 1]
 
     return previous ?? null

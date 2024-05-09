@@ -40,7 +40,10 @@ export class AccordionElement<E extends AccordionElementEventMap = AccordionElem
 
   static queries: QueryDeclarations = {
     buttonElements: { selector: 'aracna-accordion-button', all: true },
-    expandedSectionElements: { selector: 'aracna-accordion-section[expanded]', all: true }
+    expandedSectionElements: {
+      selector: 'aracna-accordion-section[expanded]',
+      all: true
+    }
   }
 }
 

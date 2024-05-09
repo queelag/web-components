@@ -7,6 +7,7 @@
     "@astrojs/tailwind": "^5.0.4",
     "@floating-ui/dom": "^1.5.3",
     "@types/dompurify": "^3.0.5",
+    "@types/qrcode": "^1.5.5",
     "@vitest/coverage-v8": "^1.1.0",
     "@vitest/ui": "^1.1.0",
     "@webcomponents/template-shadowroot": "^0.2.1",
@@ -18,9 +19,9 @@
     "glob": "^10.3.10",
     "jsdom": "^23.0.1",
     "lit": "^3.1.0",
-    "lit-html": "^3.1.0",
     "node-fetch": "^3.3.2",
     "prettier": "^3.1.1",
+    "qrcode": "^1.5.3",
     "resize-observer-polyfill": "^1.5.1",
     "superstruct": "^1.0.3",
     "tabbable": "^6.2.0",
@@ -85,6 +86,7 @@
   "main": "index.cjs",
   "module": "index.js",
   "name": "@aracna/web-components",
+  "packageManager": "pnpm@9.1.0",
   "peerDependencies": {
     "@aracna/core": ">= 1.1.0",
     "@aracna/web": ">= 1.0.0",
@@ -92,7 +94,7 @@
     "dompurify": ">= 2.4.0",
     "focus-trap": ">= 7.0.0",
     "lit": ">= 2.7.0",
-    "lit-html": ">= 2.7.0",
+    "qrcode": "^1.5.3",
     "tabbable": ">= 6.0.0"
   },
   "peerDependenciesMeta": {
@@ -105,9 +107,19 @@
     "focus-trap": {
       "optional": true
     },
+    "qrcode": {
+      "optional": true
+    },
     "tabbable": {
       "optional": true
     }
+  },
+  "prettier": {
+    "jsxSingleQuote": true,
+    "printWidth": 160,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none"
   },
   "publishConfig": {
     "directory": "dist"

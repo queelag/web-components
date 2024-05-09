@@ -16,8 +16,8 @@ import {
   setImmutableElementAttribute
 } from '@aracna/web'
 import { CSSResultGroup, LitElement, PropertyDeclarations, TemplateResult, css, html } from 'lit'
-import { DirectiveResult } from 'lit-html/directive.js'
-import { StyleInfo } from 'lit-html/directives/style-map.js'
+import { DirectiveResult } from 'lit/directive.js'
+import { StyleInfo } from 'lit/directives/style-map.js'
 import { styleMap } from '../../directives/style-map.js'
 import { getShapeStyleInfo } from '../../utils/shape-utils.js'
 
@@ -37,7 +37,10 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
   /**
    * INTERNAL
    */
-  uid: string = generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.name })
+  uid: string = generateRandomString({
+    ...ELEMENT_UID_GENERATE_OPTIONS,
+    prefix: this.name
+  })
 
   constructor() {
     super()
@@ -66,15 +69,24 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
     }
 
     if (name === 'shape' && value === 'squircle') {
-      appendSquircleElement({ curvature: this.shapeSquircleCurvature, size: this.numericSize })
+      appendSquircleElement({
+        curvature: this.shapeSquircleCurvature,
+        size: this.numericSize
+      })
     }
 
     if (name === 'shape-squircle-curvature' && this.shape === 'squircle') {
-      appendSquircleElement({ curvature: parseNumber(value, DEFAULT_SQUIRCLE_CURVATURE), size: this.numericSize })
+      appendSquircleElement({
+        curvature: parseNumber(value, DEFAULT_SQUIRCLE_CURVATURE),
+        size: this.numericSize
+      })
     }
 
     if (name === 'size' && this.shape === 'squircle') {
-      appendSquircleElement({ curvature: this.shapeSquircleCurvature, size: parseNumber(value) })
+      appendSquircleElement({
+        curvature: this.shapeSquircleCurvature,
+        size: parseNumber(value)
+      })
     }
 
     this.dispatchEvent(new AttributeChangeEvent(name, _old, value))
@@ -143,7 +155,10 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
     return getShapeStyleInfo(this.shape, {
       rectangle: { radius: this.shapeRectangleRadius },
       square: { radius: this.shapeSquareRadius },
-      squircle: { curvature: this.shapeSquircleCurvature, size: this.numericSize }
+      squircle: {
+        curvature: this.shapeSquircleCurvature,
+        size: this.numericSize
+      }
     })
   }
 
@@ -184,10 +199,26 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
     height: { type: String, reflect: true },
     layer: { type: Number, reflect: true },
     shape: { type: String, reflect: true },
-    shapeRectangleRadius: { type: String, attribute: 'shape-rectangle-radius', reflect: true },
-    shapeSquareRadius: { type: String, attribute: 'shape-square-radius', reflect: true },
-    shapeSquircleCurvature: { type: String, attribute: 'shape-squircle-curvature', reflect: true },
-    shapeSquircleSize: { type: String, attribute: 'shape-squircle-size', reflect: true },
+    shapeRectangleRadius: {
+      type: String,
+      attribute: 'shape-rectangle-radius',
+      reflect: true
+    },
+    shapeSquareRadius: {
+      type: String,
+      attribute: 'shape-square-radius',
+      reflect: true
+    },
+    shapeSquircleCurvature: {
+      type: String,
+      attribute: 'shape-squircle-curvature',
+      reflect: true
+    },
+    shapeSquircleSize: {
+      type: String,
+      attribute: 'shape-squircle-size',
+      reflect: true
+    },
     size: { type: String, reflect: true },
     width: { type: String, reflect: true }
   }

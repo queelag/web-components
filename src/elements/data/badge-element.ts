@@ -1,7 +1,6 @@
 import { getLimitedNumber, parseNumber } from '@aracna/core'
 import { BadgeElementEventMap, DEFAULT_BADGE_MAX, DEFAULT_BADGE_MIN, defineCustomElement } from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
-import { html } from 'lit-html'
+import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
 import { BaseElement } from '../core/base-element.js'
 
 declare global {
@@ -32,7 +31,10 @@ export class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap>
 
   get text(): string {
     if (this.numeric) {
-      return getLimitedNumber(parseNumber(this._text ?? '0'), { min: this.min ?? DEFAULT_BADGE_MIN, max: this.max ?? DEFAULT_BADGE_MAX }).toString()
+      return getLimitedNumber(parseNumber(this._text ?? '0'), {
+        min: this.min ?? DEFAULT_BADGE_MIN,
+        max: this.max ?? DEFAULT_BADGE_MAX
+      }).toString()
     }
 
     return this._text ?? ''

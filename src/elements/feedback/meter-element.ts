@@ -1,6 +1,5 @@
 import { defineCustomElement, getMeterElementPercentage, MeterElementEventMap } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { html } from 'lit-html'
+import { html, PropertyDeclarations } from 'lit'
 import { ifdef } from '../../directives/if-defined.js'
 import { AriaMeterElement } from '../aria/aria-meter-element.js'
 
@@ -40,7 +39,11 @@ export class MeterElement<E extends MeterElementEventMap = MeterElementEventMap>
   }
 
   get percentage(): number {
-    return getMeterElementPercentage(this.value, { max: this.max, min: this.min, round: this.round })
+    return getMeterElementPercentage(this.value, {
+      max: this.max,
+      min: this.min,
+      round: this.round
+    })
   }
 
   static properties: PropertyDeclarations = {

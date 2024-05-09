@@ -9,9 +9,8 @@ import {
   WebElementLogger,
   defineCustomElement
 } from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
-import { html } from 'lit-html'
-import { DirectiveResult } from 'lit-html/directive.js'
+import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
+import { DirectiveResult } from 'lit/directive.js'
 import { ifdef } from '../../directives/if-defined.js'
 import { styleMap } from '../../directives/style-map.js'
 import { FormControlElement } from '../core/form-control-element.js'

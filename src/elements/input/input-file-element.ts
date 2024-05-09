@@ -1,7 +1,6 @@
 import { AracnaFile, DeserializeFileOptions, deserializeFile, isArray, removeArrayItems } from '@aracna/core'
 import { ElementName, InputFileElementEventMap, QueryDeclarations, WebElementLogger, defineCustomElement } from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
-import { html } from 'lit-html'
+import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
 import { FormControlElement } from '../core/form-control-element.js'
 
 declare global {
@@ -140,8 +139,16 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
   }
 
   static properties: PropertyDeclarations = {
-    deserializeFileResolveArrayBuffer: { type: Boolean, attribute: 'deserialize-file-resolve-array-buffer', reflect: true },
-    deserializeFileResolveText: { type: Boolean, attribute: 'deserialize-file-resolve-text', reflect: true },
+    deserializeFileResolveArrayBuffer: {
+      type: Boolean,
+      attribute: 'deserialize-file-resolve-array-buffer',
+      reflect: true
+    },
+    deserializeFileResolveText: {
+      type: Boolean,
+      attribute: 'deserialize-file-resolve-text',
+      reflect: true
+    },
     multiple: { type: Boolean, reflect: true }
   }
 

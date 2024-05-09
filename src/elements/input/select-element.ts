@@ -16,8 +16,7 @@ import {
   defineCustomElement,
   findSelectOptionByValue
 } from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
-import { html } from 'lit-html'
+import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
 import { map } from '../../directives/map.js'
 import {
   AriaComboBoxButtonElement,
@@ -110,7 +109,10 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
     optionElements: { selector: 'aracna-select-option', all: true },
     selectElement: { selector: 'select', shadow: true },
     selectedOptionElement: { selector: 'aracna-select-option[selected]' },
-    selectedOptionElements: { selector: 'aracna-select-option[selected]', all: true }
+    selectedOptionElements: {
+      selector: 'aracna-select-option[selected]',
+      all: true
+    }
   }
 
   static styles: CSSResultGroup = [

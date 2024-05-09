@@ -1,6 +1,5 @@
 import { defineCustomElement, QueryDeclarations, SwitchElementEventMap, WebElementLogger } from '@aracna/web'
-import { css, CSSResult, CSSResultGroup } from 'lit'
-import { html } from 'lit-html'
+import { css, CSSResult, CSSResultGroup, html } from 'lit'
 import { AriaSwitchElement } from '../aria/aria-switch-element.js'
 
 declare global {

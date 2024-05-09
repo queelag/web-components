@@ -14,10 +14,9 @@ import {
   QueryDeclarations,
   WebElementLogger
 } from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { html } from 'lit-html'
-import { DirectiveResult } from 'lit-html/directive.js'
-import { StyleMapDirective } from 'lit-html/directives/style-map.js'
+import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
+import { DirectiveResult } from 'lit/directive.js'
+import { StyleMapDirective } from 'lit/directives/style-map.js'
 import { ifdef } from '../../directives/if-defined.js'
 import { styleMap } from '../../directives/style-map.js'
 import { BaseElement } from '../core/base-element.js'
@@ -141,7 +140,10 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
       return
     }
 
-    base64 = getImageElementBase64(this.imgElement, { quality: this.cacheQuality, type: this.cacheType })
+    base64 = getImageElementBase64(this.imgElement, {
+      quality: this.cacheQuality,
+      type: this.cacheType
+    })
     if (base64 instanceof Error || !base64) return WebElementLogger.warn(this.uid, 'onLoad', `Failed to get the image base64 or it is empty.`, [base64])
 
     CACHE_IMAGES.set(this.src, base64)

@@ -15,8 +15,8 @@ import {
 } from '@aracna/web'
 import DOMPurify from 'dompurify'
 import { PropertyDeclarations, TemplateResult, html, svg } from 'lit'
-import { DirectiveResult } from 'lit-html/directive.js'
-import { StyleMapDirective } from 'lit-html/directives/style-map.js'
+import { DirectiveResult } from 'lit/directive.js'
+import { StyleMapDirective } from 'lit/directives/style-map.js'
 import { AriaIconController } from '../../controllers/aria-icon-controller.js'
 import { ifdef } from '../../directives/if-defined.js'
 import { styleMap } from '../../directives/style-map.js'
@@ -147,7 +147,10 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     }
 
     if (this.sanitize) {
-      sanitized = DOMPurify.sanitize(string, { ...DEFAULT_ICON_SANITIZE_CONFIG, ...this.sanitizeConfig })
+      sanitized = DOMPurify.sanitize(string, {
+        ...DEFAULT_ICON_SANITIZE_CONFIG,
+        ...this.sanitizeConfig
+      })
       WebElementLogger.verbose(this.uid, 'parseSVGString', `The string has been sanitized.`, [sanitized])
     }
 
@@ -233,7 +236,11 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     src: { type: String, reflect: true },
     stroke: { type: String, reflect: true },
     strokeLineCap: { type: String, reflect: true, attribute: 'stroke-linecap' },
-    strokeLineJoin: { type: String, reflect: true, attribute: 'stroke-linejoin' },
+    strokeLineJoin: {
+      type: String,
+      reflect: true,
+      attribute: 'stroke-linejoin'
+    },
     strokeWidth: { type: String, attribute: 'stroke-width', reflect: true },
     svgElement: { state: true }
   }

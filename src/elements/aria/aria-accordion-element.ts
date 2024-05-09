@@ -130,11 +130,18 @@ export class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaA
 
   static queries: QueryDeclarations = {
     buttonElements: { selector: 'aracna-aria-accordion-button', all: true },
-    expandedSectionElements: { selector: 'aracna-aria-accordion-section[expanded]', all: true }
+    expandedSectionElements: {
+      selector: 'aracna-aria-accordion-section[expanded]',
+      all: true
+    }
   }
 
   static properties: PropertyDeclarations = {
-    allowOnlyOneExpandedSection: { type: Boolean, attribute: 'allow-only-one-expanded-section', reflect: true }
+    allowOnlyOneExpandedSection: {
+      type: Boolean,
+      attribute: 'allow-only-one-expanded-section',
+      reflect: true
+    }
   }
 }
 
@@ -264,7 +271,10 @@ export class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEven
 
   static queries: QueryDeclarations = {
     rootElement: { selector: 'aracna-aria-accordion', closest: true },
-    sectionElement: { selector: 'aracna-aria-accordion-section', closest: true }
+    sectionElement: {
+      selector: 'aracna-aria-accordion-section',
+      closest: true
+    }
   }
 
   static styles: CSSResultGroup = [
@@ -290,7 +300,10 @@ export class AriaAccordionPanelElement<E extends AriaAccordionPanelElementEventM
   }
 
   static queries: QueryDeclarations = {
-    sectionElement: { selector: 'aracna-aria-accordion-section', closest: true }
+    sectionElement: {
+      selector: 'aracna-aria-accordion-section',
+      closest: true
+    }
   }
 }
 

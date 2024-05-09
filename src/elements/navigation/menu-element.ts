@@ -34,10 +34,15 @@ export class MenuElement<E extends MenuElementEventMap = MenuElementEventMap, T 
   static queries: QueryDeclarations = {
     buttonElement: { selector: 'aracna-menu-button' },
     expandedSubMenuElement: { selector: 'aracna-menu-submenu[expanded]' },
-    expandedSubMenuElements: { selector: 'aracna-menu-submenu[expanded]', all: true },
+    expandedSubMenuElements: {
+      selector: 'aracna-menu-submenu[expanded]',
+      all: true
+    },
     focusedItemElement: { selector: 'aracna-menu-item[focused]' },
     itemElements: { selector: 'aracna-menu-item', all: true },
-    shallowFocusedItemElement: { selector: 'aracna-menu-item[depth="0"][focused]' },
+    shallowFocusedItemElement: {
+      selector: 'aracna-menu-item[depth="0"][focused]'
+    },
     shallowItemElements: { selector: 'aracna-menu-item[depth="0"]', all: true },
     subMenuElement: { selector: 'aracna-menu-submenu' }
   }

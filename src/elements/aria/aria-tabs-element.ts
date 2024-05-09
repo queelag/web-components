@@ -170,7 +170,11 @@ export class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElement
   }
 
   static properties: PropertyDeclarations = {
-    automaticActivation: { type: Boolean, attribute: 'automatic-activation', reflect: true }
+    automaticActivation: {
+      type: Boolean,
+      attribute: 'automatic-activation',
+      reflect: true
+    }
   }
 
   static queries: QueryDeclarations = {

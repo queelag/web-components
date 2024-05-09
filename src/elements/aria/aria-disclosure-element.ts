@@ -143,7 +143,10 @@ export class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEv
   }
 
   static queries: QueryDeclarations = {
-    sectionElement: { selector: 'aracna-aria-disclosure-section', closest: true }
+    sectionElement: {
+      selector: 'aracna-aria-disclosure-section',
+      closest: true
+    }
   }
 
   static styles: CSSResultGroup = [

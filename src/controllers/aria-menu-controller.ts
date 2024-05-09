@@ -42,7 +42,14 @@ export class AriaMenuButtonController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'tabindex', '0')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+      setImmutableElementAttribute(
+        this.host,
+        'id',
+        generateRandomString({
+          ...ELEMENT_UID_GENERATE_OPTIONS,
+          prefix: this.host.name
+        })
+      )
     }
   }
 }
@@ -125,7 +132,14 @@ export class AriaMenuSubMenuController implements ReactiveController {
     }
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+      setImmutableElementAttribute(
+        this.host,
+        'id',
+        generateRandomString({
+          ...ELEMENT_UID_GENERATE_OPTIONS,
+          prefix: this.host.name
+        })
+      )
     }
   }
 }

@@ -158,11 +158,27 @@ export class FloatingElement<E extends FloatingElementEventMap = FloatingElement
   }
 
   static properties: PropertyDeclarations = {
-    ancestorScroll: { type: Boolean, attribute: 'ancestor-scroll', reflect: true },
-    ancestorResize: { type: Boolean, attribute: 'ancestor-resize', reflect: true },
-    animationFrame: { type: Boolean, attribute: 'animation-frame', reflect: true },
+    ancestorScroll: {
+      type: Boolean,
+      attribute: 'ancestor-scroll',
+      reflect: true
+    },
+    ancestorResize: {
+      type: Boolean,
+      attribute: 'ancestor-resize',
+      reflect: true
+    },
+    animationFrame: {
+      type: Boolean,
+      attribute: 'animation-frame',
+      reflect: true
+    },
     arrowPadding: { type: Number, attribute: 'arrow-padding', reflect: true },
-    elementResize: { type: Boolean, attribute: 'element-resize', reflect: true },
+    elementResize: {
+      type: Boolean,
+      attribute: 'element-resize',
+      reflect: true
+    },
     middlewares: { type: Array },
     placement: { type: String, reflect: true },
     platform: { type: Object },

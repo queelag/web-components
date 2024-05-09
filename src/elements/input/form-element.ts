@@ -9,8 +9,7 @@ import {
   QueryDeclarations,
   WebElementLogger
 } from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { html } from 'lit-html'
+import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
 import { ifdef } from '../../directives/if-defined.js'
 import { BaseElement } from '../core/base-element.js'
 import type { FormControlElement } from '../core/form-control-element.js'

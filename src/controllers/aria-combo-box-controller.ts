@@ -113,7 +113,14 @@ export class AriaComboBoxInputController implements ReactiveController {
     setImmutableElementAttribute(this.host.inputElement, 'role', 'combobox')
 
     if (this.host.inputElement.id.length <= 0) {
-      setImmutableElementAttribute(this.host.inputElement, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: 'input' }))
+      setImmutableElementAttribute(
+        this.host.inputElement,
+        'id',
+        generateRandomString({
+          ...ELEMENT_UID_GENERATE_OPTIONS,
+          prefix: 'input'
+        })
+      )
     }
   }
 }
@@ -133,7 +140,14 @@ export class AriaComboBoxListController implements ReactiveController {
 
   setAttributes(): void {
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+      setImmutableElementAttribute(
+        this.host,
+        'id',
+        generateRandomString({
+          ...ELEMENT_UID_GENERATE_OPTIONS,
+          prefix: this.host.name
+        })
+      )
     }
 
     if (this.host.rootElement.inputElement) {
@@ -162,7 +176,14 @@ export class AriaComboBoxOptionController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'role', 'option')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+      setImmutableElementAttribute(
+        this.host,
+        'id',
+        generateRandomString({
+          ...ELEMENT_UID_GENERATE_OPTIONS,
+          prefix: this.host.name
+        })
+      )
     }
 
     if (this.host.rootElement.inputElement) {

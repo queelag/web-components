@@ -262,10 +262,22 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
   }
 
   static properties: PropertyDeclarations = {
-    selectionFollowsFocus: { type: Boolean, attribute: 'selection-follows-focus', reflect: true },
+    selectionFollowsFocus: {
+      type: Boolean,
+      attribute: 'selection-follows-focus',
+      reflect: true
+    },
     multiple: { type: Boolean, reflect: true },
-    selectFirstOptionOnFocus: { type: Boolean, attribute: 'select-first-option-on-focus', reflect: true },
-    typeaheadDebounceTime: { type: Number, attribute: 'typeahead-debounce-time', reflect: true },
+    selectFirstOptionOnFocus: {
+      type: Boolean,
+      attribute: 'select-first-option-on-focus',
+      reflect: true
+    },
+    typeaheadDebounceTime: {
+      type: Number,
+      attribute: 'typeahead-debounce-time',
+      reflect: true
+    },
     typeaheadPredicate: { type: Function, attribute: 'typeahead-predicate' }
   }
 

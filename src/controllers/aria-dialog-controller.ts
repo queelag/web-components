@@ -49,7 +49,14 @@ export class AriaDialogDescriptionController implements ReactiveController {
       return
     }
 
-    setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+    setImmutableElementAttribute(
+      this.host,
+      'id',
+      generateRandomString({
+        ...ELEMENT_UID_GENERATE_OPTIONS,
+        prefix: this.host.name
+      })
+    )
   }
 }
 

@@ -124,7 +124,14 @@ export class AriaCarouselSlideController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'role', this.host.rootElement.tabsElement ? 'tabpanel' : 'group')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+      setImmutableElementAttribute(
+        this.host,
+        'id',
+        generateRandomString({
+          ...ELEMENT_UID_GENERATE_OPTIONS,
+          prefix: this.host.name
+        })
+      )
     }
   }
 }
@@ -144,7 +151,14 @@ export class AriaCarouselSlidesController implements ReactiveController {
 
   setAttributes(): void {
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+      setImmutableElementAttribute(
+        this.host,
+        'id',
+        generateRandomString({
+          ...ELEMENT_UID_GENERATE_OPTIONS,
+          prefix: this.host.name
+        })
+      )
     }
   }
 }

@@ -152,7 +152,10 @@ export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElem
     // getShadowRoot: {attribute: 'get-shadow-root'},
     initialFocus: { attribute: 'initial-focus' },
     preventScroll: { type: Boolean, attribute: 'prevent-scroll' },
-    returnFocusOnDeactivate: { type: Boolean, attribute: 'return-focus-on-deactivate' },
+    returnFocusOnDeactivate: {
+      type: Boolean,
+      attribute: 'return-focus-on-deactivate'
+    },
     setReturnFocus: { attribute: 'set-return-focus' }
   }
 }

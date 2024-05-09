@@ -260,17 +260,35 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
   }
 
   static properties: PropertyDeclarations = {
-    automaticRotation: { type: Boolean, attribute: 'automatic-rotation', reflect: true },
-    automaticRotationIntervalTime: { type: Number, attribute: 'automatic-rotation-interval-time', reflect: true },
-    infiniteRotation: { type: Boolean, attribute: 'infinite-rotation', reflect: true },
-    reverseRotation: { type: Boolean, attribute: 'reverse-rotation', reflect: true },
+    automaticRotation: {
+      type: Boolean,
+      attribute: 'automatic-rotation',
+      reflect: true
+    },
+    automaticRotationIntervalTime: {
+      type: Number,
+      attribute: 'automatic-rotation-interval-time',
+      reflect: true
+    },
+    infiniteRotation: {
+      type: Boolean,
+      attribute: 'infinite-rotation',
+      reflect: true
+    },
+    reverseRotation: {
+      type: Boolean,
+      attribute: 'reverse-rotation',
+      reflect: true
+    },
     temporaryLive: { state: true }
   }
 
   static queries: QueryDeclarations = {
     activeSlideElement: { selector: 'aracna-aria-carousel-slide[active]' },
     activeTabElement: { selector: 'aracna-aria-carousel-tab[active]' },
-    rotationControlElement: { selector: 'aracna-aria-carousel-rotation-control' },
+    rotationControlElement: {
+      selector: 'aracna-aria-carousel-rotation-control'
+    },
     slideElements: { selector: 'aracna-aria-carousel-slide', all: true },
     slidesElement: { selector: 'aracna-aria-carousel-slides' },
     tabElements: { selector: 'aracna-aria-carousel-tab', all: true },

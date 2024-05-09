@@ -41,7 +41,14 @@ export class AriaTabsPanelController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'tabindex', '0')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+      setImmutableElementAttribute(
+        this.host,
+        'id',
+        generateRandomString({
+          ...ELEMENT_UID_GENERATE_OPTIONS,
+          prefix: this.host.name
+        })
+      )
     }
   }
 }
@@ -66,7 +73,14 @@ export class AriaTabsTabController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'tabindex', this.host.selected ? '0' : '-1')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
+      setImmutableElementAttribute(
+        this.host,
+        'id',
+        generateRandomString({
+          ...ELEMENT_UID_GENERATE_OPTIONS,
+          prefix: this.host.name
+        })
+      )
     }
   }
 }
