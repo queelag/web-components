@@ -133,5 +133,5 @@
   "sideEffects": false,
   "type": "module",
   "types": "index.d.ts",
-  "version": "1.0.77"
+  "version": "1.0.78"
 }
