@@ -48,7 +48,7 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap, T 
   }
 
   onButtonClick = (event: ButtonClickEvent): void => {
-    this.formElement.dispatchEvent(new SubmitEvent('submit'))
+    this.formElement.requestSubmit()
     event.detail?.finalize()
   }
 
@@ -57,7 +57,7 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap, T 
       return
     }
 
-    this.formElement.dispatchEvent(new SubmitEvent('submit'))
+    this.formElement.requestSubmit()
   }
 
   onSubmit(event: SubmitEvent): void {
