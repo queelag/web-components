@@ -99,7 +99,7 @@ class QrCodeElement<E extends QrCodeElementEventMap = QrCodeElementEventMap> ext
   }
 
   get name(): ElementName {
-    return ElementName.BASE
+    return ElementName.QR_CODE
   }
 
   get svgElementViewBox(): string {

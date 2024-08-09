@@ -138,7 +138,7 @@ export enum ElementName {
   INPUT = 'input',
   INPUT_FILE = 'input_file',
   LIST = 'list',
-  LIST_ITEM = 'list-item',
+  LIST_ITEM = 'list_item',
 
   MENU = 'menu',
   MENU_BUTTON = 'menu_button',
@@ -151,6 +151,8 @@ export enum ElementName {
 
   NAVIGATION_RAIL = 'navigation_rail',
   NAVIGATION_RAIL_ITEM = 'navigation_rail_item',
+
+  QR_CODE = 'qr_code',
 
   RADIO_BUTTON = 'radio_button',
   RADIO_GROUP = 'radio_group',
