@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/layout/divider-element'
-import type { DividerElement } from '../../../src/elements/layout/divider-element'
+import type { AracnaDividerElement as DividerElement } from '../../../src/elements/layout/divider-element'
 import { render } from '../../../vitest/dom-utils'
 
 describe('DividerElement', () => {

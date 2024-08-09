@@ -1,7 +1,7 @@
 import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import '../../../src/elements/aria/aria-link-element'
-import type { AriaLinkElement } from '../../../src/elements/aria/aria-link-element'
+import type { AracnaAriaLinkElement as AriaLinkElement } from '../../../src/elements/aria/aria-link-element'
 import { dispatchKeyDownEvent, render } from '../../../vitest/dom-utils'
 
 describe('AriaLinkElement', () => {

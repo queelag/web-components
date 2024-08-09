@@ -2,7 +2,7 @@ import { encodeText } from '@aracna/core'
 import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/input-element'
-import type { InputElement } from '../../../src/elements/input/input-element'
+import type { AracnaInputElement as InputElement } from '../../../src/elements/input/input-element'
 import { dispatchInputEvent, dispatchKeyUpEvent, render } from '../../../vitest/dom-utils'
 
 describe('InputElement', () => {

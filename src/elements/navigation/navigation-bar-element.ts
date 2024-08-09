@@ -1,6 +1,8 @@
-import { defineCustomElement, ElementName, NavigationBarElementEventMap, NavigationBarItemElementEventMap } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { BaseElement } from '../core/base-element.js'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { NavigationBarElementEventMap, NavigationBarItemElementEventMap } from '../../definitions/events.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +11,7 @@ declare global {
   }
 }
 
-export class NavigationBarElement<E extends NavigationBarElementEventMap = NavigationBarElementEventMap, T = any> extends BaseElement<E> {
+class NavigationBarElement<E extends NavigationBarElementEventMap = NavigationBarElementEventMap, T = any> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -24,7 +26,7 @@ export class NavigationBarElement<E extends NavigationBarElementEventMap = Navig
   }
 }
 
-export class NavigationBarItemElement<E extends NavigationBarItemElementEventMap = NavigationBarItemElementEventMap> extends BaseElement<E> {
+class NavigationBarItemElement<E extends NavigationBarItemElementEventMap = NavigationBarItemElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -49,3 +51,5 @@ export class NavigationBarItemElement<E extends NavigationBarItemElementEventMap
 
 defineCustomElement('aracna-navigation-bar', NavigationBarElement)
 defineCustomElement('aracna-navigation-bar-item', NavigationBarItemElement)
+
+export { NavigationBarElement as AracnaNavigationBarElement, NavigationBarItemElement as AracnaNavigationBarItemElement }

@@ -1,7 +1,7 @@
 import { defineCustomElement } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/core/focus-trap-element'
-import { FocusTrapElement } from '../../../src/elements/core/focus-trap-element'
+import { AracnaFocusTrapElement as FocusTrapElement } from '../../../src/elements/core/focus-trap-element'
 import { render } from '../../../vitest/dom-utils'
 
 class TestElement extends FocusTrapElement {}

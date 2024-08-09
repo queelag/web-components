@@ -1,18 +1,14 @@
-import {
-  FormControlChangeEvent,
-  FormControlElementCollector,
-  FormControlElementEventMap,
-  FormControlElementSchema,
-  FormControlElementTarget,
-  FormControlElementValidation,
-  StateChangeEvent,
-  WebElementLogger,
-  setImmutableElementAttribute
-} from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { BaseElement } from './base-element.js'
+import { setImmutableElementAttribute } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { FormControlElementCollector } from '../../collectors/form-control-element-collector.js'
+import type { FormControlElementEventMap } from '../../definitions/events.js'
+import type { FormControlElementSchema, FormControlElementTarget, FormControlElementValidation } from '../../definitions/types.js'
+import { FormControlChangeEvent } from '../../events/form-control-change-event.js'
+import { StateChangeEvent } from '../../events/state-change-event.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from './base-element.js'
 
-export class FormControlElement<E extends FormControlElementEventMap = FormControlElementEventMap> extends BaseElement<E> {
+class FormControlElement<E extends FormControlElementEventMap = FormControlElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -51,7 +47,7 @@ export class FormControlElement<E extends FormControlElementEventMap = FormContr
   touch(): void {
     if (!this.touched) {
       this.touched = true
-      WebElementLogger.verbose(this.uid, 'touch', `The touched state has been set to true.`)
+      ElementLogger.verbose(this.uid, 'touch', `The touched state has been set to true.`)
     }
 
     this.validate()
@@ -67,14 +63,14 @@ export class FormControlElement<E extends FormControlElementEventMap = FormContr
     old = this.validation
 
     this.validation = this.schema.validate(this.value)
-    WebElementLogger.verbose(this.uid, 'validate', `The value has been validated against the schema.`, this.validation)
+    ElementLogger.verbose(this.uid, 'validate', `The value has been validated against the schema.`, this.validation)
 
     this.dispatchEvent(new StateChangeEvent('validation', old, this.validation))
   }
 
   clear(): void {
     this.value = undefined
-    WebElementLogger.verbose(this.uid, 'clear', `The value has been cleared.`)
+    ElementLogger.verbose(this.uid, 'clear', `The value has been cleared.`)
   }
 
   get error(): string | undefined {
@@ -128,7 +124,7 @@ export class FormControlElement<E extends FormControlElementEventMap = FormContr
     }
 
     this._value = value
-    // WebElementLogger.verbose(this.uid, 'set value', `The value has been set.`, [value])
+    // ElementLogger.verbose(this.uid, 'set value', `The value has been set.`, [value])
 
     this.validate()
     this.requestUpdate('value', old, value)
@@ -159,3 +155,5 @@ export class FormControlElement<E extends FormControlElementEventMap = FormContr
     value: {}
   }
 }
+
+export { FormControlElement as AracnaFormControlElement }

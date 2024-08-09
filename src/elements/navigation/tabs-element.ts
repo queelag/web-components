@@ -1,6 +1,13 @@
-import { defineCustomElement, ElementName, QueryDeclarations, TabsElementEventMap, TabsPanelElementEventMap, TabsTabElementEventMap } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../aria/aria-tabs-element.js'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { TabsElementEventMap, TabsPanelElementEventMap, TabsTabElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import {
+  AracnaAriaTabsElement as AriaTabsElement,
+  AracnaAriaTabsPanelElement as AriaTabsPanelElement,
+  AracnaAriaTabsTabElement as AriaTabsTabElement
+} from '../aria/aria-tabs-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -10,7 +17,7 @@ declare global {
   }
 }
 
-export class TabsElement<E extends TabsElementEventMap = TabsElementEventMap, T = any> extends AriaTabsElement<E> {
+class TabsElement<E extends TabsElementEventMap = TabsElementEventMap, T = any> extends AriaTabsElement<E> {
   tabs?: T[]
 
   get name(): ElementName {
@@ -29,7 +36,7 @@ export class TabsElement<E extends TabsElementEventMap = TabsElementEventMap, T 
   }
 }
 
-export class TabsTabElement<E extends TabsTabElementEventMap = TabsTabElementEventMap> extends AriaTabsTabElement<E> {
+class TabsTabElement<E extends TabsTabElementEventMap = TabsTabElementEventMap> extends AriaTabsTabElement<E> {
   get name(): ElementName {
     return ElementName.TABS_TAB
   }
@@ -39,7 +46,7 @@ export class TabsTabElement<E extends TabsTabElementEventMap = TabsTabElementEve
   }
 }
 
-export class TabsPanelElement<E extends TabsPanelElementEventMap = TabsPanelElementEventMap> extends AriaTabsPanelElement<E> {
+class TabsPanelElement<E extends TabsPanelElementEventMap = TabsPanelElementEventMap> extends AriaTabsPanelElement<E> {
   get name(): ElementName {
     return ElementName.TABS_PANEL
   }
@@ -52,3 +59,5 @@ export class TabsPanelElement<E extends TabsPanelElementEventMap = TabsPanelElem
 defineCustomElement('aracna-tabs', TabsElement)
 defineCustomElement('aracna-tabs-tab', TabsTabElement)
 defineCustomElement('aracna-tabs-panel', TabsPanelElement)
+
+export { TabsElement as AracnaTabsElement, TabsPanelElement as AracnaTabsPanelElement, TabsTabElement as AracnaTabsTabElement }

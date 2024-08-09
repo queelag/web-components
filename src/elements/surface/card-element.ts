@@ -1,6 +1,8 @@
-import { CardElementEventMap, ElementName, defineCustomElement } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { BaseElement } from '../core/base-element.js'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { CardElementEventMap } from '../../definitions/events.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -8,7 +10,7 @@ declare global {
   }
 }
 
-export class CardElement<E extends CardElementEventMap = CardElementEventMap, T = any> extends BaseElement<E> {
+class CardElement<E extends CardElementEventMap = CardElementEventMap, T = any> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -32,3 +34,5 @@ export class CardElement<E extends CardElementEventMap = CardElementEventMap, T 
 }
 
 defineCustomElement('aracna-card', CardElement)
+
+export { CardElement as AracnaCardElement }

@@ -1,19 +1,16 @@
 import { wf } from '@aracna/core'
-import {
-  ButtonClickEvent,
-  defineCustomElement,
-  ElementName,
-  FormElementEventMap,
-  FormSubmitEvent,
-  KeyboardEventKey,
-  QueryDeclarations,
-  WebElementLogger
-} from '@aracna/web'
-import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { css, type CSSResultGroup, html, type PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { FormElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { ifdef } from '../../directives/if-defined.js'
-import { BaseElement } from '../core/base-element.js'
-import type { FormControlElement } from '../core/form-control-element.js'
-import type { ButtonElement } from './button-element.js'
+import { ButtonClickEvent } from '../../events/button-click-event.js'
+import { FormSubmitEvent } from '../../events/form-submit-event.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
+import type { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
+import type { AracnaButtonElement as ButtonElement } from './button-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -21,7 +18,7 @@ declare global {
   }
 }
 
-export class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> extends BaseElement<E> {
+class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -67,7 +64,7 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap, T 
     event.stopPropagation()
 
     if (this.disabled || this.spinning) {
-      return WebElementLogger.warn(this.uid, 'onSubmit', `The form is disabled or spinning.`)
+      return ElementLogger.warn(this.uid, 'onSubmit', `The form is disabled or spinning.`)
     }
 
     for (let element of this.fieldElements) {
@@ -76,23 +73,23 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap, T 
     }
 
     if (!valid) {
-      return WebElementLogger.warn(this.uid, 'onSubmit', `The form is not valid.`)
+      return ElementLogger.warn(this.uid, 'onSubmit', `The form is not valid.`)
     }
 
     if (this.async) {
       this.disabled = true
       this.spinning = true
-      WebElementLogger.verbose(this.uid, 'onSubmit', `The disabled and spinning properties has been set to true.`)
+      ElementLogger.verbose(this.uid, 'onSubmit', `The disabled and spinning properties has been set to true.`)
     }
 
     this.dispatchEvent(new FormSubmitEvent(this.finalize))
-    WebElementLogger.verbose(this.uid, 'onSubmit', `The "form-submit" event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onSubmit', `The "form-submit" event has been dispatched.`)
   }
 
   finalize = (): void => {
     this.disabled = false
     this.spinning = false
-    WebElementLogger.verbose(this.uid, 'finalize', `The disabled and spinning properties have been set to false.`)
+    ElementLogger.verbose(this.uid, 'finalize', `The disabled and spinning properties have been set to false.`)
   }
 
   render() {
@@ -132,3 +129,5 @@ export class FormElement<E extends FormElementEventMap = FormElementEventMap, T 
 }
 
 defineCustomElement('aracna-form', FormElement)
+
+export { FormElement as AracnaFormElement }

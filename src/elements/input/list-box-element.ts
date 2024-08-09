@@ -1,6 +1,8 @@
-import { defineCustomElement, ListBoxElementEventMap, ListBoxOptionElementEventMap, QueryDeclarations } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { AriaListBoxElement, AriaListBoxOptionElement } from '../aria/aria-list-box-element.js'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import type { ListBoxElementEventMap, ListBoxOptionElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { AracnaAriaListBoxElement as AriaListBoxElement, AracnaAriaListBoxOptionElement as AriaListBoxOptionElement } from '../aria/aria-list-box-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +11,7 @@ declare global {
   }
 }
 
-export class ListBoxElement<E extends ListBoxElementEventMap = ListBoxElementEventMap, T = any> extends AriaListBoxElement<E> {
+class ListBoxElement<E extends ListBoxElementEventMap = ListBoxElementEventMap, T = any> extends AriaListBoxElement<E> {
   /**
    * PROPERTIES
    */
@@ -26,7 +28,7 @@ export class ListBoxElement<E extends ListBoxElementEventMap = ListBoxElementEve
   }
 }
 
-export class ListBoxOptionElement<E extends ListBoxOptionElementEventMap = ListBoxOptionElementEventMap> extends AriaListBoxOptionElement<E> {
+class ListBoxOptionElement<E extends ListBoxOptionElementEventMap = ListBoxOptionElementEventMap> extends AriaListBoxOptionElement<E> {
   /**
    * PROPERTIES
    */
@@ -57,3 +59,5 @@ export class ListBoxOptionElement<E extends ListBoxOptionElementEventMap = ListB
 
 defineCustomElement('aracna-listbox', ListBoxElement)
 defineCustomElement('aracna-listbox-option', ListBoxOptionElement)
+
+export { ListBoxElement as AracnaListBoxElement, ListBoxOptionElement as AracnaListBoxOptionElement }

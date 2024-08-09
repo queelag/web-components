@@ -1,8 +1,9 @@
 import { generateRandomString } from '@aracna/core'
-import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaFeedArticleElement, AriaFeedElement } from '../elements/aria/aria-feed-element.js'
-import type { BaseElement } from '../elements/core/base-element.js'
+import { setImmutableElementAttribute } from '@aracna/web'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants.js'
+import type { AracnaAriaFeedArticleElement as AriaFeedArticleElement, AracnaAriaFeedElement as AriaFeedElement } from '../elements/aria/aria-feed-element.js'
+import type { AracnaBaseElement as BaseElement } from '../elements/core/base-element.js'
 
 export class AriaFeedController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaFeedElement) {

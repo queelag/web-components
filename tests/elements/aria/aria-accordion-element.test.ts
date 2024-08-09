@@ -2,11 +2,11 @@ import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-accordion-element'
 import type {
-  AriaAccordionButtonElement,
-  AriaAccordionElement,
-  AriaAccordionHeaderElement,
-  AriaAccordionPanelElement,
-  AriaAccordionSectionElement
+  AracnaAriaAccordionButtonElement as AriaAccordionButtonElement,
+  AracnaAriaAccordionElement as AriaAccordionElement,
+  AracnaAriaAccordionHeaderElement as AriaAccordionHeaderElement,
+  AracnaAriaAccordionPanelElement as AriaAccordionPanelElement,
+  AracnaAriaAccordionSectionElement as AriaAccordionSectionElement
 } from '../../../src/elements/aria/aria-accordion-element'
 import { dispatchKeyDownEvent, render } from '../../../vitest/dom-utils'
 

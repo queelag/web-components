@@ -1,6 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-dialog-element'
-import type { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../../../src/elements/aria/aria-dialog-element'
+import type {
+  AracnaAriaDialogDescriptionElement as AriaDialogDescriptionElement,
+  AracnaAriaDialogElement as AriaDialogElement,
+  AracnaAriaDialogLabelElement as AriaDialogLabelElement
+} from '../../../src/elements/aria/aria-dialog-element'
 import { render } from '../../../vitest/dom-utils'
 
 describe('AriaDialogElement', () => {

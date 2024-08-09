@@ -1,27 +1,35 @@
 import { omitObjectProperties, tc } from '@aracna/core'
+import { setImmutableElementAttribute } from '@aracna/web'
 import {
-  ElementName,
-  FocusTrapActivateEvent,
+  type ActivateOptions,
+  type DeactivateOptions,
+  type FocusTarget,
+  type FocusTargetOrFalse,
+  type FocusTrap,
+  type Options,
+  createFocusTrap
+} from 'focus-trap'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { FocusTrapElementEventMap } from '../../definitions/events.js'
+import type {
   FocusTrapAllowOutsideClick,
   FocusTrapCheckCanFocusTrap,
   FocusTrapCheckCanReturnFocus,
   FocusTrapClickOutsideDeactivates,
-  FocusTrapDeactivateEvent,
   FocusTrapDisplayCheck,
-  FocusTrapElementEventMap,
   FocusTrapElementState,
   FocusTrapEscapeDeactivates,
-  FocusTrapPostActivateEvent,
-  FocusTrapPostDeactivateEvent,
-  FocusTrapSetReturnFocus,
-  WebElementLogger,
-  setImmutableElementAttribute
-} from '@aracna/web'
-import { ActivateOptions, DeactivateOptions, FocusTarget, FocusTargetOrFalse, FocusTrap, Options, createFocusTrap } from 'focus-trap'
-import { PropertyDeclarations } from 'lit'
-import { BaseElement } from './base-element.js'
+  FocusTrapSetReturnFocus
+} from '../../definitions/types.js'
+import { FocusTrapActivateEvent } from '../../events/focus-trap-activate-event.js'
+import { FocusTrapDeactivateEvent } from '../../events/focus-trap-deactivate-event.js'
+import { FocusTrapPostActivateEvent } from '../../events/focus-trap-post-activate-event.js'
+import { FocusTrapPostDeactivateEvent } from '../../events/focus-trap-post-deactivate-event.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from './base-element.js'
 
-export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElementEventMap> extends BaseElement<E> {
+class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -60,49 +68,49 @@ export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElem
 
   createFocusTrap(): void {
     this.focusTrap = createFocusTrap(this, this.focusTrapOptions)
-    WebElementLogger.verbose(this.uid, 'createFocusTrap', `The focus trap has been created.`, this.focusTrap, this.focusTrapOptions)
+    ElementLogger.verbose(this.uid, 'createFocusTrap', `The focus trap has been created.`, this.focusTrap, this.focusTrapOptions)
   }
 
   activateFocusTrap(options?: ActivateOptions): void {
     tc(() => this.focusTrap.activate(options))
-    WebElementLogger.verbose(this.uid, 'activateFocusTrap', `The focus trap has been activated.`)
+    ElementLogger.verbose(this.uid, 'activateFocusTrap', `The focus trap has been activated.`)
   }
 
   deactivateFocusTrap(options?: DeactivateOptions): void {
     tc(() => this.focusTrap.deactivate(options))
-    WebElementLogger.verbose(this.uid, 'deactivateFocusTrap', `The focus trap has been deactivated.`)
+    ElementLogger.verbose(this.uid, 'deactivateFocusTrap', `The focus trap has been deactivated.`)
   }
 
   onFocusTrapActivate(): void {
     this.focusTrapState = 'activating'
-    WebElementLogger.verbose(this.uid, 'onFocusTrapActivate', `The focus trap state has been set to activating.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapActivate', `The focus trap state has been set to activating.`)
 
     this.dispatchEvent(new FocusTrapActivateEvent())
-    WebElementLogger.verbose(this.uid, 'onFocusTrapActivate', `The focus-trap-activate event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapActivate', `The focus-trap-activate event has been dispatched.`)
   }
 
   onFocusTrapDeactivate(): void {
     this.focusTrapState = 'deactivating'
-    WebElementLogger.verbose(this.uid, 'onFocusTrapDeactivate', `The focus trap state has been set to deactivating.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapDeactivate', `The focus trap state has been set to deactivating.`)
 
     this.dispatchEvent(new FocusTrapDeactivateEvent())
-    WebElementLogger.verbose(this.uid, 'onFocusTrapDeactivate', `The focus-trap-deactivate event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapDeactivate', `The focus-trap-deactivate event has been dispatched.`)
   }
 
   onFocusTrapPostActivate(): void {
     this.focusTrapState = 'activated'
-    WebElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The focus trap state has been set to activated.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The focus trap state has been set to activated.`)
 
     this.dispatchEvent(new FocusTrapPostActivateEvent())
-    WebElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The focus-trap-post-activate event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The focus-trap-post-activate event has been dispatched.`)
   }
 
   onFocusTrapPostDeactivate(): void {
     this.focusTrapState = 'deactivated'
-    WebElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The focus trap state has been set to deactivated.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The focus trap state has been set to deactivated.`)
 
     this.dispatchEvent(new FocusTrapPostDeactivateEvent())
-    WebElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The focus-trap-post-deactivate event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The focus-trap-post-deactivate event has been dispatched.`)
   }
 
   get focusTrapOptions(): Options {
@@ -159,3 +167,5 @@ export class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElem
     setReturnFocus: { attribute: 'set-return-focus' }
   }
 }
+
+export { FocusTrapElement as AracnaFocusTrapElement }

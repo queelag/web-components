@@ -1,7 +1,11 @@
 import { generateRandomString } from '@aracna/core'
-import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaRadioButtonElement, AriaRadioGroupElement } from '../elements/aria/aria-radio-group-element.js'
+import { setImmutableElementAttribute } from '@aracna/web'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants.js'
+import type {
+  AracnaAriaRadioButtonElement as AriaRadioButtonElement,
+  AracnaAriaRadioGroupElement as AriaRadioGroupElement
+} from '../elements/aria/aria-radio-group-element.js'
 
 export class AriaRadioGroupController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaRadioGroupElement) {

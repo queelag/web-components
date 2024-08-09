@@ -3,14 +3,14 @@ import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-carousel-element'
 import type {
-  AriaCarouselElement,
-  AriaCarouselNextSlideControlElement,
-  AriaCarouselPreviousSlideControlElement,
-  AriaCarouselRotationControlElement,
-  AriaCarouselSlideElement,
-  AriaCarouselSlidesElement,
-  AriaCarouselTabElement,
-  AriaCarouselTabsElement
+  AracnaAriaCarouselElement as AriaCarouselElement,
+  AracnaAriaCarouselNextSlideControlElement as AriaCarouselNextSlideControlElement,
+  AracnaAriaCarouselPreviousSlideControlElement as AriaCarouselPreviousSlideControlElement,
+  AracnaAriaCarouselRotationControlElement as AriaCarouselRotationControlElement,
+  AracnaAriaCarouselSlideElement as AriaCarouselSlideElement,
+  AracnaAriaCarouselSlidesElement as AriaCarouselSlidesElement,
+  AracnaAriaCarouselTabElement as AriaCarouselTabElement,
+  AracnaAriaCarouselTabsElement as AriaCarouselTabsElement
 } from '../../../src/elements/aria/aria-carousel-element'
 import {
   dispatchBlurEvent,

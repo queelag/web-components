@@ -1,18 +1,12 @@
 import { parseNumber } from '@aracna/core'
-import {
-  DEFAULT_SLIDER_MAX,
-  DEFAULT_SLIDER_MIN,
-  DEFAULT_SLIDER_STEP,
-  DEFAULT_SLIDER_THUMB_VALUE,
-  ElementName,
-  QueryDeclarations,
-  SliderElementEventMap,
-  SliderThumbElementEventMap,
-  WebElementLogger,
-  defineCustomElement
-} from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
-import { AriaSliderElement, AriaSliderThumbElement } from '../aria/aria-slider-element.js'
+import { defineCustomElement } from '@aracna/web'
+import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
+import { DEFAULT_SLIDER_MAX, DEFAULT_SLIDER_MIN, DEFAULT_SLIDER_STEP, DEFAULT_SLIDER_THUMB_VALUE } from '../../definitions/constants.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { SliderElementEventMap, SliderThumbElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaAriaSliderElement as AriaSliderElement, AracnaAriaSliderThumbElement as AriaSliderThumbElement } from '../aria/aria-slider-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -21,13 +15,13 @@ declare global {
   }
 }
 
-export class SliderElement<E extends SliderElementEventMap = SliderElementEventMap, T = any> extends AriaSliderElement<E> {
+class SliderElement<E extends SliderElementEventMap = SliderElementEventMap, T = any> extends AriaSliderElement<E> {
   inputElement!: HTMLInputElement
   thumbs?: T[]
 
   onInput(): void {
     if (this.disabled || this.readonly) {
-      return WebElementLogger.warn(this.uid, 'onInput', `The slider is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, 'onInput', `The slider is disabled or readonly.`)
     }
 
     this.value = this.inputElement.value ? parseNumber(this.inputElement.value) : DEFAULT_SLIDER_THUMB_VALUE
@@ -73,7 +67,7 @@ export class SliderElement<E extends SliderElementEventMap = SliderElementEventM
   ]
 }
 
-export class SliderThumbElement<E extends SliderThumbElementEventMap = SliderThumbElementEventMap> extends AriaSliderThumbElement<E> {
+class SliderThumbElement<E extends SliderThumbElementEventMap = SliderThumbElementEventMap> extends AriaSliderThumbElement<E> {
   get name(): ElementName {
     return ElementName.SLIDER_THUMB
   }
@@ -85,3 +79,5 @@ export class SliderThumbElement<E extends SliderThumbElementEventMap = SliderThu
 
 defineCustomElement('aracna-slider', SliderElement)
 defineCustomElement('aracna-slider-thumb', SliderThumbElement)
+
+export { SliderElement as AracnaSliderElement, SliderThumbElement as AracnaSliderThumbElement }

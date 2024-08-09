@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/data/avatar-element'
-import type { AvatarElement } from '../../../src/elements/data/avatar-element'
+import type { AracnaAvatarElement as AvatarElement } from '../../../src/elements/data/avatar-element'
 import { render } from '../../../vitest/dom-utils'
 
 describe('AvatarElement', () => {

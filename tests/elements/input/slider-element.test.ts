@@ -1,7 +1,8 @@
-import { DEFAULT_SLIDER_MAX, DEFAULT_SLIDER_MIN, DEFAULT_SLIDER_STEP, KeyboardEventKey } from '@aracna/web'
+import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { DEFAULT_SLIDER_MAX, DEFAULT_SLIDER_MIN, DEFAULT_SLIDER_STEP } from '../../../src/definitions/constants'
 import '../../../src/elements/input/slider-element'
-import type { SliderElement, SliderThumbElement } from '../../../src/elements/input/slider-element'
+import type { AracnaSliderElement as SliderElement, AracnaSliderThumbElement as SliderThumbElement } from '../../../src/elements/input/slider-element'
 import { dispatchInputEvent, dispatchKeyDownEvent, render } from '../../../vitest/dom-utils'
 
 describe('SliderElement', () => {

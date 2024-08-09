@@ -1,21 +1,22 @@
 import { omitObjectProperties, rv, tcp, wf } from '@aracna/core'
-import { FloatingElementEventMap, setImmutableElementAttribute } from '@aracna/web'
+import { setImmutableElementAttribute } from '@aracna/web'
 import {
-  AutoUpdateOptions,
-  ComputePositionConfig,
-  ComputePositionReturn,
-  Middleware,
-  Placement,
-  Platform,
-  Strategy,
+  type AutoUpdateOptions,
+  type ComputePositionConfig,
+  type ComputePositionReturn,
+  type Middleware,
+  type Placement,
+  type Platform,
+  type Strategy,
   arrow,
   autoUpdate,
   computePosition
 } from '@floating-ui/dom'
-import { PropertyDeclarations } from 'lit'
-import { BaseElement } from './base-element.js'
+import type { PropertyDeclarations } from 'lit'
+import type { FloatingElementEventMap } from '../../definitions/events.js'
+import { AracnaBaseElement as BaseElement } from './base-element.js'
 
-export class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMap> extends BaseElement<E> {
+class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMap> extends BaseElement<E> {
   protected _arrowElement?: HTMLElement
   protected _referenceElement?: HTMLElement
 
@@ -185,3 +186,5 @@ export class FloatingElement<E extends FloatingElementEventMap = FloatingElement
     strategy: { type: String, reflect: true }
   }
 }
+
+export { FloatingElement as AracnaFloatingElement }

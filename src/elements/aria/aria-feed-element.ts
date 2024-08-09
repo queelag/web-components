@@ -1,23 +1,22 @@
-import {
-  AriaFeedArticleDescriptionElementEventMap,
-  AriaFeedArticleElementEventMap,
-  AriaFeedArticleLabelElementEventMap,
-  AriaFeedElementEventMap,
-  defineCustomElement,
-  ElementName,
-  KeyboardEventKey,
-  QueryDeclarations,
-  WebElementLogger
-} from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { FocusableElement, tabbable } from 'tabbable'
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { type FocusableElement, tabbable } from 'tabbable'
 import {
   AriaFeedArticleController,
   AriaFeedArticleDescriptionController,
   AriaFeedArticleLabelController,
   AriaFeedController
 } from '../../controllers/aria-feed-controller.js'
-import { BaseElement } from '../core/base-element.js'
+import { ElementName } from '../../definitions/enums.js'
+import type {
+  AriaFeedArticleDescriptionElementEventMap,
+  AriaFeedArticleElementEventMap,
+  AriaFeedArticleLabelElementEventMap,
+  AriaFeedElementEventMap
+} from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -28,7 +27,7 @@ declare global {
   }
 }
 
-export class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMap> extends BaseElement<E> {
+class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMap> extends BaseElement<E> {
   protected aria: AriaFeedController = new AriaFeedController(this)
 
   /**
@@ -65,12 +64,12 @@ export class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElement
     switch (event.key) {
       case KeyboardEventKey.END:
         this.previousTabbableElementSibling?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The previous tabbable element sibling has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The previous tabbable element sibling has been focused.`)
 
         break
       case KeyboardEventKey.HOME:
         this.nextTabbableElementSibling?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The next tabbable element sibling has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The next tabbable element sibling has been focused.`)
 
         break
       case KeyboardEventKey.PAGE_DOWN:
@@ -79,7 +78,7 @@ export class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElement
         }
 
         this.articleElements[this.focusedArticleElementIndex + 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The next article has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The next article has been focused.`)
 
         break
       case KeyboardEventKey.PAGE_UP:
@@ -88,7 +87,7 @@ export class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElement
         }
 
         this.articleElements[this.focusedArticleElementIndex - 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The previous article has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The previous article has been focused.`)
 
         break
     }
@@ -142,7 +141,7 @@ export class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElement
   }
 }
 
-export class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = AriaFeedArticleElementEventMap> extends BaseElement<E> {
+class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = AriaFeedArticleElementEventMap> extends BaseElement<E> {
   protected aria: AriaFeedArticleController = new AriaFeedArticleController(this)
 
   /**
@@ -173,12 +172,12 @@ export class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = A
 
   onBlur = (): void => {
     this.focused = false
-    WebElementLogger.verbose(this.uid, 'onFocus', `The article has been blurred.`)
+    ElementLogger.verbose(this.uid, 'onFocus', `The article has been blurred.`)
   }
 
   onFocus = (): void => {
     this.focused = true
-    WebElementLogger.verbose(this.uid, 'onFocus', `The article has been focused.`)
+    ElementLogger.verbose(this.uid, 'onFocus', `The article has been focused.`)
   }
 
   get index(): number {
@@ -200,7 +199,7 @@ export class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = A
   }
 }
 
-export class AriaFeedArticleLabelElement<E extends AriaFeedArticleLabelElementEventMap = AriaFeedArticleLabelElementEventMap> extends BaseElement<E> {
+class AriaFeedArticleLabelElement<E extends AriaFeedArticleLabelElementEventMap = AriaFeedArticleLabelElementEventMap> extends BaseElement<E> {
   protected aria: AriaFeedArticleLabelController = new AriaFeedArticleLabelController(this)
 
   get name(): ElementName {
@@ -208,7 +207,7 @@ export class AriaFeedArticleLabelElement<E extends AriaFeedArticleLabelElementEv
   }
 }
 
-export class AriaFeedArticleDescriptionElement<
+class AriaFeedArticleDescriptionElement<
   E extends AriaFeedArticleDescriptionElementEventMap = AriaFeedArticleDescriptionElementEventMap
 > extends BaseElement<E> {
   protected aria: AriaFeedArticleDescriptionController = new AriaFeedArticleDescriptionController(this)
@@ -222,3 +221,10 @@ defineCustomElement('aracna-aria-feed', AriaFeedElement)
 defineCustomElement('aracna-aria-feed-article', AriaFeedArticleElement)
 defineCustomElement('aracna-aria-feed-article-description', AriaFeedArticleDescriptionElement)
 defineCustomElement('aracna-aria-feed-article-label', AriaFeedArticleLabelElement)
+
+export {
+  AriaFeedArticleDescriptionElement as AracnaAriaFeedArticleDescriptionElement,
+  AriaFeedArticleElement as AracnaAriaFeedArticleElement,
+  AriaFeedArticleLabelElement as AracnaAriaFeedArticleLabelElement,
+  AriaFeedElement as AracnaAriaFeedElement
+}

@@ -1,16 +1,12 @@
-import {
-  AriaRadioButtonElementEventMap,
-  AriaRadioGroupElementEventMap,
-  defineCustomElement,
-  ElementName,
-  KeyboardEventKey,
-  QueryDeclarations,
-  WebElementLogger
-} from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaRadioButtonController, AriaRadioGroupController } from '../../controllers/aria-radio-group-controller.js'
-import { BaseElement } from '../core/base-element.js'
-import { FormControlElement } from '../core/form-control-element.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { AriaRadioButtonElementEventMap, AriaRadioGroupElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
+import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -19,7 +15,7 @@ declare global {
   }
 }
 
-export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioGroupElementEventMap> extends FormControlElement<E> {
+class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioGroupElementEventMap> extends FormControlElement<E> {
   protected aria: AriaRadioGroupController = new AriaRadioGroupController(this)
 
   /**
@@ -65,7 +61,7 @@ export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = Ari
     }
 
     if (this.disabled || this.readonly) {
-      return WebElementLogger.warn(this.uid, 'onKeyDown', `The group is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, 'onKeyDown', `The group is disabled or readonly.`)
     }
 
     switch (event.key) {
@@ -82,14 +78,14 @@ export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = Ari
         if (this.focusedButtonElementIndex >= this.buttonElements.length - 1) {
           this.buttonElements[0]?.check()
           this.buttonElements[0]?.focus()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `The first button has been checked and focused.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `The first button has been checked and focused.`)
 
           return
         }
 
         this.buttonElements[this.focusedButtonElementIndex + 1]?.check()
         this.buttonElements[this.focusedButtonElementIndex + 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `The next button has been checked and focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `The next button has been checked and focused.`)
 
         break
       case KeyboardEventKey.ARROW_UP:
@@ -97,18 +93,18 @@ export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = Ari
         if (this.focusedButtonElementIndex <= 0) {
           this.buttonElements[this.buttonElements.length - 1]?.check()
           this.buttonElements[this.buttonElements.length - 1]?.focus()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `The last button has been checked and focused.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `The last button has been checked and focused.`)
 
           return
         }
 
         this.buttonElements[this.focusedButtonElementIndex - 1]?.click()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `The previous button has been checked and focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `The previous button has been checked and focused.`)
 
         break
       case KeyboardEventKey.SPACE:
         this.focusedButtonElement?.check()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'SPACE', `The focused button has been checked.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'SPACE', `The focused button has been checked.`)
 
         break
     }
@@ -146,7 +142,7 @@ export class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = Ari
   }
 }
 
-export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadioButtonElementEventMap> extends BaseElement<E> {
+class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadioButtonElementEventMap> extends BaseElement<E> {
   protected aria: AriaRadioButtonController = new AriaRadioButtonController(this)
 
   /**
@@ -172,18 +168,18 @@ export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = A
 
   onClick(): void {
     if (this.rootElement.disabled || this.rootElement.readonly) {
-      return WebElementLogger.warn(this.uid, 'onClick', `The group is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, 'onClick', `The group is disabled or readonly.`)
     }
 
     this.rootElement.checkedButtonElement?.uncheck()
 
     this.check()
-    WebElementLogger.verbose(this.uid, 'onClick', `The button has been checked.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The button has been checked.`)
 
     this.rootElement.focusedButtonElement?.blur()
 
     this.focus()
-    WebElementLogger.verbose(this.uid, 'onClick', `The button has been focused.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The button has been focused.`)
   }
 
   check(): void {
@@ -231,3 +227,5 @@ export class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = A
 
 defineCustomElement('aracna-aria-radio-group', AriaRadioGroupElement)
 defineCustomElement('aracna-aria-radio-button', AriaRadioButtonElement)
+
+export { AriaRadioButtonElement as AracnaAriaRadioButtonElement, AriaRadioGroupElement as AracnaAriaRadioGroupElement }

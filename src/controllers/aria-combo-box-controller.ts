@@ -1,12 +1,13 @@
 import { generateRandomString } from '@aracna/core'
-import { ELEMENT_UID_GENERATE_OPTIONS, removeImmutableElementAttribute, setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
+import { removeImmutableElementAttribute, setImmutableElementAttribute } from '@aracna/web'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants.js'
 import type {
-  AriaComboBoxButtonElement,
-  AriaComboBoxElement,
-  AriaComboBoxInputElement,
-  AriaComboBoxListElement,
-  AriaComboBoxOptionElement
+  AracnaAriaComboBoxButtonElement as AriaComboBoxButtonElement,
+  AracnaAriaComboBoxElement as AriaComboBoxElement,
+  AracnaAriaComboBoxInputElement as AriaComboBoxInputElement,
+  AracnaAriaComboBoxListElement as AriaComboBoxListElement,
+  AracnaAriaComboBoxOptionElement as AriaComboBoxOptionElement
 } from '../elements/aria/aria-combo-box-element.js'
 
 export class AriaComboBoxController implements ReactiveController {

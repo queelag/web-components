@@ -1,6 +1,9 @@
-import { ChipElementEventMap, ChipElementVariant, defineCustomElement, ElementName } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { BaseElement } from '../core/base-element.js'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { ChipElementEventMap } from '../../definitions/events.js'
+import type { ChipElementVariant } from '../../definitions/types.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -8,7 +11,7 @@ declare global {
   }
 }
 
-export class ChipElement<E extends ChipElementEventMap = ChipElementEventMap> extends BaseElement<E> {
+class ChipElement<E extends ChipElementEventMap = ChipElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -38,3 +41,5 @@ export class ChipElement<E extends ChipElementEventMap = ChipElementEventMap> ex
 }
 
 defineCustomElement('aracna-chip', ChipElement)
+
+export { ChipElement as AracnaChipElement }

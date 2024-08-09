@@ -2,10 +2,10 @@ import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-tooltip-element'
 import type {
-  AriaTooltipArrowElement,
-  AriaTooltipContentElement,
-  AriaTooltipElement,
-  AriaTooltipTriggerElement
+  AracnaAriaTooltipArrowElement as AriaTooltipArrowElement,
+  AracnaAriaTooltipContentElement as AriaTooltipContentElement,
+  AracnaAriaTooltipElement as AriaTooltipElement,
+  AracnaAriaTooltipTriggerElement as AriaTooltipTriggerElement
 } from '../../../src/elements/aria/aria-tooltip-element'
 import { dispatchKeyDownEvent, dispatchMouseEnterEvent, dispatchMouseLeaveEvent, render } from '../../../vitest/dom-utils'
 

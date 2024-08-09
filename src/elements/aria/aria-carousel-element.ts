@@ -1,24 +1,6 @@
 import { clearInterval, parseNumber, setInterval } from '@aracna/core'
-import {
-  AriaCarouselElementEventMap,
-  AriaCarouselNextSlideControlElementEventMap,
-  AriaCarouselPreviousSlideControlElementEventMap,
-  AriaCarouselRotationControlElementEventMap,
-  AriaCarouselSlideElementEventMap,
-  AriaCarouselSlidesElementEventMap,
-  AriaCarouselTabElementEventMap,
-  AriaCarouselTabsElementEventMap,
-  AriaLive,
-  CarouselSlideActivateEvent,
-  CarouselSlideDeactivateEvent,
-  DEFAULT_CAROUSEL_ROTATION_DURATION,
-  ElementName,
-  KeyboardEventKey,
-  QueryDeclarations,
-  WebElementLogger,
-  defineCustomElement
-} from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
+import { KeyboardEventKey, defineCustomElement } from '@aracna/web'
+import { type CSSResultGroup, type PropertyDeclarations, css } from 'lit'
 import {
   AriaCarouselController,
   AriaCarouselNextSlideControlController,
@@ -29,8 +11,25 @@ import {
   AriaCarouselTabController,
   AriaCarouselTabsController
 } from '../../controllers/aria-carousel-controller.js'
-import { BaseElement } from '../core/base-element.js'
-import { AriaButtonElement } from './aria-button-element.js'
+import { DEFAULT_CAROUSEL_ROTATION_DURATION } from '../../definitions/constants.js'
+import { ElementName } from '../../definitions/enums.js'
+import type {
+  AriaCarouselElementEventMap,
+  AriaCarouselNextSlideControlElementEventMap,
+  AriaCarouselPreviousSlideControlElementEventMap,
+  AriaCarouselRotationControlElementEventMap,
+  AriaCarouselSlideElementEventMap,
+  AriaCarouselSlidesElementEventMap,
+  AriaCarouselTabElementEventMap,
+  AriaCarouselTabsElementEventMap
+} from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import type { AriaLive } from '../../definitions/types.js'
+import { CarouselSlideActivateEvent } from '../../events/carousel-slide-activate-event.js'
+import { CarouselSlideDeactivateEvent } from '../../events/carousel-slide-deactivate-event.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
+import { AracnaAriaButtonElement as AriaButtonElement } from './aria-button-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -45,7 +44,7 @@ declare global {
   }
 }
 
-export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselElementEventMap> extends BaseElement<E> {
+class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselElementEventMap> extends BaseElement<E> {
   protected aria: AriaCarouselController = new AriaCarouselController(this)
 
   /**
@@ -107,7 +106,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
 
     if (this.automaticRotation) {
       setInterval(this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
-      WebElementLogger.verbose(this.uid, 'connectedCallback', `The automatic rotation has been started.`)
+      ElementLogger.verbose(this.uid, 'connectedCallback', `The automatic rotation has been started.`)
     }
   }
 
@@ -120,7 +119,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     this.removeEventListener('mouseleave', this.onMouseLeave)
 
     clearInterval(this.uid)
-    WebElementLogger.verbose(this.uid, 'disconnectedCallback', `The automatic rotation has been stopped.`)
+    ElementLogger.verbose(this.uid, 'disconnectedCallback', `The automatic rotation has been stopped.`)
   }
 
   onFocusIn(): void {
@@ -145,10 +144,10 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     }
 
     setInterval(this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
-    WebElementLogger.verbose(this.uid, 'onBlur', `The automatic rotation has been started.`)
+    ElementLogger.verbose(this.uid, 'onBlur', `The automatic rotation has been started.`)
 
     this.temporaryLive = undefined
-    WebElementLogger.verbose(this.uid, 'onBlur', `The temporary live state has been unset.`)
+    ElementLogger.verbose(this.uid, 'onBlur', `The temporary live state has been unset.`)
   }
 
   onFocusInOrMouseEnter(): void {
@@ -157,10 +156,10 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     }
 
     this.temporaryLive = 'polite'
-    WebElementLogger.verbose(this.uid, 'onFocus', `The temporary live state has been set to polite.`)
+    ElementLogger.verbose(this.uid, 'onFocus', `The temporary live state has been set to polite.`)
 
     clearInterval(this.uid)
-    WebElementLogger.verbose(this.uid, 'onFocus', `The automatic rotation has been stopped.`)
+    ElementLogger.verbose(this.uid, 'onFocus', `The automatic rotation has been stopped.`)
   }
 
   onAutomaticRotation = (): void => {
@@ -185,14 +184,14 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
       this.activeTabElement?.deactivate()
 
       this.slideElements[0]?.activate()
-      WebElementLogger.verbose(this.uid, 'activateNextSlide', `The first slide has been activated.`)
+      ElementLogger.verbose(this.uid, 'activateNextSlide', `The first slide has been activated.`)
 
       if (this.tabElements.length <= 0) {
         return
       }
 
       this.tabElements[0]?.activate()
-      WebElementLogger.verbose(this.uid, 'activateNextSlide', `The first tab has been activated.`)
+      ElementLogger.verbose(this.uid, 'activateNextSlide', `The first tab has been activated.`)
 
       return
     }
@@ -201,14 +200,14 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     this.activeTabElement?.deactivate()
 
     this.slideElements[this.activeSlideElementIndex + 1]?.activate()
-    WebElementLogger.verbose(this.uid, 'activateNextSlide', `The next slide has been activated.`)
+    ElementLogger.verbose(this.uid, 'activateNextSlide', `The next slide has been activated.`)
 
     if (this.tabElements.length <= 0) {
       return
     }
 
     this.tabElements[this.activeSlideElementIndex + 1]?.activate()
-    WebElementLogger.verbose(this.uid, 'activateNextSlide', `The next tab has been activated.`)
+    ElementLogger.verbose(this.uid, 'activateNextSlide', `The next tab has been activated.`)
   }
 
   activatePreviousSlide(): void {
@@ -225,14 +224,14 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
       this.activeTabElement?.deactivate()
 
       this.slideElements[this.slideElements.length - 1]?.activate()
-      WebElementLogger.verbose(this.uid, 'activatePreviousSlide', `The last slide has been activated.`)
+      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `The last slide has been activated.`)
 
       if (this.tabElements.length <= 0) {
         return
       }
 
       this.tabElements[this.tabElements.length - 1]?.activate()
-      WebElementLogger.verbose(this.uid, 'activatePreviousSlide', `The last tab has been activated.`)
+      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `The last tab has been activated.`)
 
       return
     }
@@ -241,14 +240,14 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
     this.activeTabElement?.deactivate()
 
     this.slideElements[this.activeSlideElementIndex - 1]?.activate()
-    WebElementLogger.verbose(this.uid, 'activatePreviousSlide', `The previous slide has been activated.`)
+    ElementLogger.verbose(this.uid, 'activatePreviousSlide', `The previous slide has been activated.`)
 
     if (this.tabElements.length <= 0) {
       return
     }
 
     this.tabElements[this.activeSlideElementIndex - 1]?.activate()
-    WebElementLogger.verbose(this.uid, 'activatePreviousSlide', `The previous tab has been activated.`)
+    ElementLogger.verbose(this.uid, 'activatePreviousSlide', `The previous tab has been activated.`)
   }
 
   get activeSlideElementIndex(): number {
@@ -296,7 +295,7 @@ export class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCar
   }
 }
 
-export class AriaCarouselSlidesElement<E extends AriaCarouselSlidesElementEventMap = AriaCarouselSlidesElementEventMap> extends BaseElement<E> {
+class AriaCarouselSlidesElement<E extends AriaCarouselSlidesElementEventMap = AriaCarouselSlidesElementEventMap> extends BaseElement<E> {
   protected aria: AriaCarouselSlidesController = new AriaCarouselSlidesController(this)
 
   /**
@@ -313,7 +312,7 @@ export class AriaCarouselSlidesElement<E extends AriaCarouselSlidesElementEventM
   }
 }
 
-export class AriaCarouselSlideElement<E extends AriaCarouselSlideElementEventMap = AriaCarouselSlideElementEventMap> extends BaseElement<E> {
+class AriaCarouselSlideElement<E extends AriaCarouselSlideElementEventMap = AriaCarouselSlideElementEventMap> extends BaseElement<E> {
   protected aria: AriaCarouselSlideController = new AriaCarouselSlideController(this)
 
   /**
@@ -359,7 +358,7 @@ export class AriaCarouselSlideElement<E extends AriaCarouselSlideElementEventMap
   }
 }
 
-export class AriaCarouselRotationControlElement<
+class AriaCarouselRotationControlElement<
   E extends AriaCarouselRotationControlElementEventMap = AriaCarouselRotationControlElementEventMap
 > extends AriaButtonElement<E> {
   protected aria2: AriaCarouselRotationControlController = new AriaCarouselRotationControlController(this)
@@ -378,7 +377,7 @@ export class AriaCarouselRotationControlElement<
     }
 
     this.rootElement.automaticRotation = !this.rootElement.automaticRotation
-    WebElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been ${this.rootElement.automaticRotation ? 'enabled' : 'disabled'}.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been ${this.rootElement.automaticRotation ? 'enabled' : 'disabled'}.`)
 
     if (this.rootElement.automaticRotation) {
       setInterval(
@@ -386,7 +385,7 @@ export class AriaCarouselRotationControlElement<
         this.rootElement.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION,
         this.rootElement.uid
       )
-      WebElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been started.`)
+      ElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been started.`)
     }
   }
 
@@ -399,7 +398,7 @@ export class AriaCarouselRotationControlElement<
   }
 }
 
-export class AriaCarouselNextSlideControlElement<
+class AriaCarouselNextSlideControlElement<
   E extends AriaCarouselNextSlideControlElementEventMap = AriaCarouselNextSlideControlElementEventMap
 > extends AriaButtonElement<E> {
   protected aria2: AriaCarouselNextSlideControlController = new AriaCarouselNextSlideControlController(this)
@@ -422,7 +421,7 @@ export class AriaCarouselNextSlideControlElement<
   }
 }
 
-export class AriaCarouselPreviousSlideControlElement<
+class AriaCarouselPreviousSlideControlElement<
   E extends AriaCarouselPreviousSlideControlElementEventMap = AriaCarouselPreviousSlideControlElementEventMap
 > extends AriaButtonElement<E> {
   protected aria2: AriaCarouselPreviousSlideControlController = new AriaCarouselPreviousSlideControlController(this)
@@ -445,7 +444,7 @@ export class AriaCarouselPreviousSlideControlElement<
   }
 }
 
-export class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap = AriaCarouselTabsElementEventMap> extends BaseElement<E> {
+class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap = AriaCarouselTabsElementEventMap> extends BaseElement<E> {
   protected aria: AriaCarouselTabsController = new AriaCarouselTabsController(this)
 
   /**
@@ -490,10 +489,10 @@ export class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap =
         this.tabElements[this.tabElements.length - 1]?.focus()
 
         this.tabElements[this.tabElements.length - 1]?.activate()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been activated.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been activated.`)
 
         this.rootElement.slideElements[this.tabElements.length - 1]?.activate()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last slide has been activated.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last slide has been activated.`)
 
         break
       case KeyboardEventKey.HOME:
@@ -503,10 +502,10 @@ export class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap =
         this.tabElements[0]?.focus()
 
         this.tabElements[0]?.activate()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been activated.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been activated.`)
 
         this.rootElement.slideElements[0]?.activate()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first slide has been activated.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first slide has been activated.`)
 
         break
     }
@@ -528,7 +527,7 @@ export class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap =
   }
 }
 
-export class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = AriaCarouselTabElementEventMap> extends BaseElement<E> {
+class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = AriaCarouselTabElementEventMap> extends BaseElement<E> {
   protected aria: AriaCarouselTabController = new AriaCarouselTabController(this)
 
   /**
@@ -557,10 +556,10 @@ export class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = A
     this.rootElement.activeSlideElement?.deactivate()
 
     this.active = true
-    WebElementLogger.verbose(this.uid, 'onClick', `The tab has been activated.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The tab has been activated.`)
 
     this.rootElement.slideElements[this.index]?.activate()
-    WebElementLogger.verbose(this.uid, 'onClick', `The matching slide has been activated.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The matching slide has been activated.`)
   }
 
   activate(): void {
@@ -610,3 +609,14 @@ defineCustomElement('aracna-aria-carousel-slide', AriaCarouselSlideElement)
 defineCustomElement('aracna-aria-carousel-slides', AriaCarouselSlidesElement)
 defineCustomElement('aracna-aria-carousel-tab', AriaCarouselTabElement)
 defineCustomElement('aracna-aria-carousel-tabs', AriaCarouselTabsElement)
+
+export {
+  AriaCarouselElement as AracnaAriaCarouselElement,
+  AriaCarouselNextSlideControlElement as AracnaAriaCarouselNextSlideControlElement,
+  AriaCarouselPreviousSlideControlElement as AracnaAriaCarouselPreviousSlideControlElement,
+  AriaCarouselRotationControlElement as AracnaAriaCarouselRotationControlElement,
+  AriaCarouselSlideElement as AracnaAriaCarouselSlideElement,
+  AriaCarouselSlidesElement as AracnaAriaCarouselSlidesElement,
+  AriaCarouselTabElement as AracnaAriaCarouselTabElement,
+  AriaCarouselTabsElement as AracnaAriaCarouselTabsElement
+}

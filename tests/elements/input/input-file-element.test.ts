@@ -1,7 +1,7 @@
 import { AracnaFile, encodeText, importNodeFetch, useNodeFetch, wf } from '@aracna/core'
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/input-file-element'
-import type { InputFileElement } from '../../../src/elements/input/input-file-element'
+import type { AracnaInputFileElement as InputFileElement } from '../../../src/elements/input/input-file-element'
 import { dispatchInputFileEvent, render } from '../../../vitest/dom-utils'
 
 describe('InputFileElement', () => {

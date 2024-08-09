@@ -1,30 +1,26 @@
 import { getFixedNumber, getLimitedNumber, isArray, isNumberMultipleOf, wf } from '@aracna/core'
+import { KeyboardEventKey, defineCustomElement } from '@aracna/web'
+import { type CSSResultGroup, type PropertyDeclarations, css } from 'lit'
+import { AriaSliderController, AriaSliderThumbController } from '../../controllers/aria-slider-controller.js'
 import {
-  AriaSliderElementEventMap,
-  AriaSliderThumbElementEventMap,
   DEFAULT_SLIDER_DECIMALS,
   DEFAULT_SLIDER_MAX,
   DEFAULT_SLIDER_MIN,
   DEFAULT_SLIDER_MIN_DISTANCE,
   DEFAULT_SLIDER_ORIENTATION,
   DEFAULT_SLIDER_STEP,
-  DEFAULT_SLIDER_THUMB_VALUE,
-  ElementName,
-  KeyboardEventKey,
-  Orientation,
-  QueryDeclarations,
-  SliderChangeEvent,
-  SliderThumbMoveEvent,
-  WebElementLogger,
-  defineCustomElement,
-  getSliderThumbElementPercentage,
-  getSliderThumbElementStyleLeft,
-  getSliderThumbElementStyleTop
-} from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
-import { AriaSliderController, AriaSliderThumbController } from '../../controllers/aria-slider-controller.js'
-import { BaseElement } from '../core/base-element.js'
-import { FormControlElement } from '../core/form-control-element.js'
+  DEFAULT_SLIDER_THUMB_VALUE
+} from '../../definitions/constants.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { AriaSliderElementEventMap, AriaSliderThumbElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import type { Orientation } from '../../definitions/types.js'
+import { SliderChangeEvent } from '../../events/slider-change-event.js'
+import { SliderThumbMoveEvent } from '../../events/slider-thumb-move-event.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { getSliderThumbElementPercentage, getSliderThumbElementStyleLeft, getSliderThumbElementStyleTop } from '../../utils/slider-element-utils.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
+import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,7 +29,7 @@ declare global {
   }
 }
 
-export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementEventMap> extends FormControlElement<E> {
+class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementEventMap> extends FormControlElement<E> {
   protected aria: AriaSliderController = new AriaSliderController(this)
 
   /**
@@ -91,7 +87,7 @@ export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderE
     }
 
     if (this.disabled || this.readonly) {
-      return WebElementLogger.warn(this.uid, 'onClick', `The slider is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, 'onClick', `The slider is disabled or readonly.`)
     }
 
     if (this.hasMultipleThumbs) {
@@ -99,14 +95,10 @@ export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderE
     }
 
     this.thumbElements[0].setValueByCoordinates(event.clientX, event.clientY)
-    WebElementLogger.verbose(this.uid, 'onClick', `The value has been set through the coordinates.`, [
-      event.clientX,
-      event.clientY,
-      this.thumbElements[0].value
-    ])
+    ElementLogger.verbose(this.uid, 'onClick', `The value has been set through the coordinates.`, [event.clientX, event.clientY, this.thumbElements[0].value])
 
     this.thumbElements[0].focus()
-    WebElementLogger.verbose(this.uid, 'onClick', `The thumb has been focused.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The thumb has been focused.`)
 
     this.thumbElements[0].computePosition()
   }
@@ -204,7 +196,7 @@ export class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderE
   ]
 }
 
-export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSliderThumbElementEventMap> extends BaseElement<E> {
+class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSliderThumbElementEventMap> extends BaseElement<E> {
   protected aria: AriaSliderThumbController = new AriaSliderThumbController(this)
 
   /**
@@ -275,7 +267,7 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
     }
 
     if (this.rootElement.disabled || this.rootElement.readonly) {
-      return WebElementLogger.warn(this.uid, 'onKeyDown', `The slider is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, 'onKeyDown', `The slider is disabled or readonly.`)
     }
 
     max = this.rootElement.max ?? DEFAULT_SLIDER_MAX
@@ -287,33 +279,33 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
       case KeyboardEventKey.ARROW_LEFT:
       case KeyboardEventKey.ARROW_DOWN:
         this.setValue(value - step)
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT or ARROW_DOWN', `The value has been decreased.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT or ARROW_DOWN', `The value has been decreased.`, [this.value])
 
         break
       case KeyboardEventKey.ARROW_RIGHT:
       case KeyboardEventKey.ARROW_UP:
         this.setValue(value + step)
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT or ARROW_UP', `The value has been increased.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT or ARROW_UP', `The value has been increased.`, [this.value])
 
         break
       case KeyboardEventKey.PAGE_DOWN:
         this.setValue(value - step * 10)
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The value has been decreased.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The value has been decreased.`, [this.value])
 
         break
       case KeyboardEventKey.PAGE_UP:
         this.setValue(value + step * 10)
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The value has been increased.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The value has been increased.`, [this.value])
 
         break
       case KeyboardEventKey.HOME:
         this.setValue(min)
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the min.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the min.`, [this.value])
 
         break
       case KeyboardEventKey.END:
         this.setValue(max)
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the max.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the max.`, [this.value])
 
         break
     }
@@ -338,7 +330,7 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
     document.addEventListener('mousemove', this.onMouseMove)
     document.addEventListener('mouseup', this.onMouseUp)
 
-    WebElementLogger.verbose(this.uid, 'onMouseDown', `The mousemove and mouseup listeners have been registered.`)
+    ElementLogger.verbose(this.uid, 'onMouseDown', `The mousemove and mouseup listeners have been registered.`)
   }
 
   onTouchStart = (): void => {
@@ -359,11 +351,11 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
 
   onMouseDownOrTouchStart = (): void => {
     if (this.rootElement.disabled || this.rootElement.readonly) {
-      return WebElementLogger.warn(this.uid, 'onMouseDownOrTouchStart', `The slider is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, 'onMouseDownOrTouchStart', `The slider is disabled or readonly.`)
     }
 
     this.movable = true
-    WebElementLogger.debug(this.uid, 'onMouseDownOrTouchStart', `The thumb has been unlocked.`)
+    ElementLogger.debug(this.uid, 'onMouseDownOrTouchStart', `The thumb has been unlocked.`)
   }
 
   onMouseMove = (event: MouseEvent): void => {
@@ -376,7 +368,7 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
 
   onMouseMoveOrTouchMove(x: number, y: number): void {
     if (!this.movable) {
-      WebElementLogger.verbose(this.uid, 'onMouseMoveOrTouchMove', `The thumb is not movable.`)
+      ElementLogger.verbose(this.uid, 'onMouseMoveOrTouchMove', `The thumb is not movable.`)
       return
     }
 
@@ -386,18 +378,18 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
 
   onMouseUpOrTouchEnd(): void {
     if (this.rootElement.disabled || this.rootElement.readonly) {
-      return WebElementLogger.warn(this.uid, 'onMouseUpOrTouchEnd', `The slider is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, 'onMouseUpOrTouchEnd', `The slider is disabled or readonly.`)
     }
 
-    WebElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The value has been set.`, [this.value])
+    ElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The value has been set.`, [this.value])
 
     this.movable = false
-    WebElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The thumb has been locked.`)
+    ElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The thumb has been locked.`)
 
     document.removeEventListener('mousemove', this.onMouseMove)
     document.removeEventListener('mouseup', this.onMouseUp)
 
-    WebElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The mousemove and mouseup document listeners have been removed.`)
+    ElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The mousemove and mouseup document listeners have been removed.`)
   }
 
   computePosition(): void {
@@ -571,3 +563,5 @@ export class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = A
 
 defineCustomElement('aracna-aria-slider', AriaSliderElement)
 defineCustomElement('aracna-aria-slider-thumb', AriaSliderThumbElement)
+
+export { AriaSliderElement as AracnaAriaSliderElement, AriaSliderThumbElement as AracnaAriaSliderThumbElement }

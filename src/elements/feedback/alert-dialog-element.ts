@@ -1,13 +1,13 @@
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { AlertDialogDescriptionElementEventMap, AlertDialogElementEventMap, AlertDialogLabelElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import {
-  AlertDialogDescriptionElementEventMap,
-  AlertDialogElementEventMap,
-  AlertDialogLabelElementEventMap,
-  defineCustomElement,
-  ElementName,
-  QueryDeclarations
-} from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { AriaAlertDialogDescriptionElement, AriaAlertDialogElement, AriaAlertDialogLabelElement } from '../aria/aria-alert-dialog-element.js'
+  AracnaAriaAlertDialogDescriptionElement as AriaAlertDialogDescriptionElement,
+  AracnaAriaAlertDialogElement as AriaAlertDialogElement,
+  AracnaAriaAlertDialogLabelElement as AriaAlertDialogLabelElement
+} from '../aria/aria-alert-dialog-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -17,7 +17,7 @@ declare global {
   }
 }
 
-export class AlertDialogElement<E extends AlertDialogElementEventMap = AlertDialogElementEventMap> extends AriaAlertDialogElement<E> {
+class AlertDialogElement<E extends AlertDialogElementEventMap = AlertDialogElementEventMap> extends AriaAlertDialogElement<E> {
   headline?: string
   icon?: string
   text?: string
@@ -38,13 +38,13 @@ export class AlertDialogElement<E extends AlertDialogElementEventMap = AlertDial
   }
 }
 
-export class AlertDialogLabelElement<E extends AlertDialogLabelElementEventMap = AlertDialogLabelElementEventMap> extends AriaAlertDialogLabelElement<E> {
+class AlertDialogLabelElement<E extends AlertDialogLabelElementEventMap = AlertDialogLabelElementEventMap> extends AriaAlertDialogLabelElement<E> {
   get name(): ElementName {
     return ElementName.ALERT_DIALOG_LABEL
   }
 }
 
-export class AlertDialogDescriptionElement<
+class AlertDialogDescriptionElement<
   E extends AlertDialogDescriptionElementEventMap = AlertDialogDescriptionElementEventMap
 > extends AriaAlertDialogDescriptionElement<E> {
   get name(): ElementName {
@@ -55,3 +55,9 @@ export class AlertDialogDescriptionElement<
 defineCustomElement('aracna-alert-dialog', AlertDialogElement)
 defineCustomElement('aracna-alert-dialog-description', AlertDialogDescriptionElement)
 defineCustomElement('aracna-alert-dialog-label', AlertDialogLabelElement)
+
+export {
+  AlertDialogDescriptionElement as AracnaAlertDialogDescriptionElement,
+  AlertDialogElement as AracnaAlertDialogElement,
+  AlertDialogLabelElement as AracnaAlertDialogLabelElement
+}

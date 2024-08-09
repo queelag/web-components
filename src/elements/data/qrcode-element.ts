@@ -1,7 +1,17 @@
-import { BaseElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
-import { html, PropertyDeclarations } from 'lit'
-import { BitMatrix, create, GeneratedQRCodeSegment, QRCode, QRCodeErrorCorrectionLevel, QRCodeMaskPattern, QRCodeToSJISFunc } from 'qrcode'
-import { BaseElement } from '../core/base-element.js'
+import { defineCustomElement } from '@aracna/web'
+import { html, type PropertyDeclarations } from 'lit'
+import {
+  type BitMatrix,
+  create,
+  type GeneratedQRCodeSegment,
+  type QRCode,
+  type QRCodeErrorCorrectionLevel,
+  type QRCodeMaskPattern,
+  type QRCodeToSJISFunc
+} from 'qrcode'
+import { ElementName } from '../../definitions/enums.js'
+import type { BaseElementEventMap } from '../../definitions/events.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +19,7 @@ declare global {
   }
 }
 
-export class QrCodeElement<E extends BaseElementEventMap = BaseElementEventMap> extends BaseElement<E> {
+class QrCodeElement<E extends BaseElementEventMap = BaseElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -168,3 +178,5 @@ function getQrCodeSvgPath(modules: BitMatrix, margin: number = 0) {
 }
 
 defineCustomElement('aracna-qrcode', QrCodeElement)
+
+export { QrCodeElement as AracnaQrCodeElement }

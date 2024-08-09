@@ -1,7 +1,9 @@
 import { getLimitedNumber, parseNumber } from '@aracna/core'
-import { BadgeElementEventMap, DEFAULT_BADGE_MAX, DEFAULT_BADGE_MIN, defineCustomElement } from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
-import { BaseElement } from '../core/base-element.js'
+import { defineCustomElement } from '@aracna/web'
+import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
+import { DEFAULT_BADGE_MAX, DEFAULT_BADGE_MIN } from '../../definitions/constants.js'
+import type { BadgeElementEventMap } from '../../definitions/events.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +11,7 @@ declare global {
   }
 }
 
-export class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap> extends BaseElement<E> {
+class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -68,3 +70,5 @@ export class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap>
 }
 
 defineCustomElement('aracna-badge', BadgeElement)
+
+export { BadgeElement as AracnaBadgeElement }

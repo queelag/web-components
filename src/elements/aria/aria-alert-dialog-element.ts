@@ -1,13 +1,17 @@
-import {
+import { defineCustomElement } from '@aracna/web'
+import { AriaDialogController } from '../../controllers/aria-dialog-controller.js'
+import { ElementName } from '../../definitions/enums.js'
+import type {
   AriaAlertDialogDescriptionElementEventMap,
   AriaAlertDialogElementEventMap,
-  AriaAlertDialogLabelElementEventMap,
-  defineCustomElement,
-  ElementName,
-  QueryDeclarations
-} from '@aracna/web'
-import { AriaDialogController } from '../../controllers/aria-dialog-controller.js'
-import { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from './aria-dialog-element.js'
+  AriaAlertDialogLabelElementEventMap
+} from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import {
+  AracnaAriaDialogDescriptionElement as AriaDialogDescriptionElement,
+  AracnaAriaDialogElement as AriaDialogElement,
+  AracnaAriaDialogLabelElement as AriaDialogLabelElement
+} from './aria-dialog-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -17,7 +21,7 @@ declare global {
   }
 }
 
-export class AriaAlertDialogElement<E extends AriaAlertDialogElementEventMap = AriaAlertDialogElementEventMap> extends AriaDialogElement<E> {
+class AriaAlertDialogElement<E extends AriaAlertDialogElementEventMap = AriaAlertDialogElementEventMap> extends AriaDialogElement<E> {
   constructor() {
     super()
     this.aria = new AriaDialogController(this, true)
@@ -33,7 +37,7 @@ export class AriaAlertDialogElement<E extends AriaAlertDialogElementEventMap = A
   }
 }
 
-export class AriaAlertDialogDescriptionElement<
+class AriaAlertDialogDescriptionElement<
   E extends AriaAlertDialogDescriptionElementEventMap = AriaAlertDialogDescriptionElementEventMap
 > extends AriaDialogDescriptionElement<E> {
   get name(): ElementName {
@@ -41,9 +45,7 @@ export class AriaAlertDialogDescriptionElement<
   }
 }
 
-export class AriaAlertDialogLabelElement<
-  E extends AriaAlertDialogLabelElementEventMap = AriaAlertDialogLabelElementEventMap
-> extends AriaDialogLabelElement<E> {
+class AriaAlertDialogLabelElement<E extends AriaAlertDialogLabelElementEventMap = AriaAlertDialogLabelElementEventMap> extends AriaDialogLabelElement<E> {
   get name(): ElementName {
     return ElementName.ARIA_ALERT_DIALOG_LABEL
   }
@@ -52,3 +54,9 @@ export class AriaAlertDialogLabelElement<
 defineCustomElement('aracna-aria-alert-dialog', AriaAlertDialogElement)
 defineCustomElement('aracna-aria-alert-dialog-description', AriaAlertDialogDescriptionElement)
 defineCustomElement('aracna-aria-alert-dialog-label', AriaAlertDialogLabelElement)
+
+export {
+  AriaAlertDialogDescriptionElement as AracnaAriaAlertDialogDescriptionElement,
+  AriaAlertDialogElement as AracnaAriaAlertDialogElement,
+  AriaAlertDialogLabelElement as AracnaAriaAlertDialogLabelElement
+}

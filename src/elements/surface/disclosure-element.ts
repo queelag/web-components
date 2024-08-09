@@ -1,18 +1,18 @@
-import {
-  defineCustomElement,
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type {
   DisclosureButtonElementEventMap,
   DisclosureElementEventMap,
   DisclosurePanelElementEventMap,
-  DisclosureSectionElementEventMap,
-  ElementName,
-  QueryDeclarations
-} from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
+  DisclosureSectionElementEventMap
+} from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import {
-  AriaDisclosureButtonElement,
-  AriaDisclosureElement,
-  AriaDisclosurePanelElement,
-  AriaDisclosureSectionElement
+  AracnaAriaDisclosureButtonElement as AriaDisclosureButtonElement,
+  AracnaAriaDisclosureElement as AriaDisclosureElement,
+  AracnaAriaDisclosurePanelElement as AriaDisclosurePanelElement,
+  AracnaAriaDisclosureSectionElement as AriaDisclosureSectionElement
 } from '../aria/aria-disclosure-element.js'
 
 declare global {
@@ -24,7 +24,7 @@ declare global {
   }
 }
 
-export class DisclosureElement<E extends DisclosureElementEventMap = DisclosureElementEventMap, T = any> extends AriaDisclosureElement<E> {
+class DisclosureElement<E extends DisclosureElementEventMap = DisclosureElementEventMap, T = any> extends AriaDisclosureElement<E> {
   sections?: T[]
 
   get name(): ElementName {
@@ -40,7 +40,7 @@ export class DisclosureElement<E extends DisclosureElementEventMap = DisclosureE
   }
 }
 
-export class DisclosureSectionElement<E extends DisclosureSectionElementEventMap = DisclosureSectionElementEventMap> extends AriaDisclosureSectionElement<E> {
+class DisclosureSectionElement<E extends DisclosureSectionElementEventMap = DisclosureSectionElementEventMap> extends AriaDisclosureSectionElement<E> {
   headline?: string
   icon?: string
   text?: string
@@ -61,7 +61,7 @@ export class DisclosureSectionElement<E extends DisclosureSectionElementEventMap
   }
 }
 
-export class DisclosureButtonElement<E extends DisclosureButtonElementEventMap = DisclosureButtonElementEventMap> extends AriaDisclosureButtonElement<E> {
+class DisclosureButtonElement<E extends DisclosureButtonElementEventMap = DisclosureButtonElementEventMap> extends AriaDisclosureButtonElement<E> {
   get name(): ElementName {
     return ElementName.DISCLOSURE_BUTTON
   }
@@ -71,7 +71,7 @@ export class DisclosureButtonElement<E extends DisclosureButtonElementEventMap =
   }
 }
 
-export class DisclosurePanelElement<E extends DisclosurePanelElementEventMap = DisclosurePanelElementEventMap> extends AriaDisclosurePanelElement<E> {
+class DisclosurePanelElement<E extends DisclosurePanelElementEventMap = DisclosurePanelElementEventMap> extends AriaDisclosurePanelElement<E> {
   get name(): ElementName {
     return ElementName.DISCLOSURE_PANEL
   }
@@ -81,3 +81,10 @@ defineCustomElement('aracna-disclosure', DisclosureElement)
 defineCustomElement('aracna-disclosure-button', DisclosureButtonElement)
 defineCustomElement('aracna-disclosure-panel', DisclosurePanelElement)
 defineCustomElement('aracna-disclosure-section', DisclosureSectionElement)
+
+export {
+  DisclosureButtonElement as AracnaDisclosureButtonElement,
+  DisclosureElement as AracnaDisclosureElement,
+  DisclosurePanelElement as AracnaDisclosurePanelElement,
+  DisclosureSectionElement as AracnaDisclosureSectionElement
+}

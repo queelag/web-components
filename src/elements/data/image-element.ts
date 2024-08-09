@@ -1,25 +1,17 @@
 import { sleep } from '@aracna/core'
-import {
-  CACHE_IMAGES,
-  CanvasDataURLType,
-  DEFAULT_IMAGE_SIZE,
-  DEFAULT_IMAGE_SRC,
-  defineCustomElement,
-  ElementName,
-  FETCHING_IMAGES,
-  getElementStyleCompatibleValue,
-  getImageElementBase64,
-  ImageElementCrossOrigin,
-  ImageElementEventMap,
-  QueryDeclarations,
-  WebElementLogger
-} from '@aracna/web'
-import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
-import { DirectiveResult } from 'lit/directive.js'
-import { StyleMapDirective } from 'lit/directives/style-map.js'
+import { CACHE_IMAGES, type CanvasDataURLType, defineCustomElement, getElementStyleCompatibleValue, getImageElementBase64 } from '@aracna/web'
+import { css, type CSSResultGroup, html, type PropertyDeclarations } from 'lit'
+import type { DirectiveResult } from 'lit/directive.js'
+import type { StyleMapDirective } from 'lit/directives/style-map.js'
+import { DEFAULT_IMAGE_SIZE, DEFAULT_IMAGE_SRC, FETCHING_IMAGES } from '../../definitions/constants.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { ImageElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import type { ImageElementCrossOrigin } from '../../definitions/types.js'
 import { ifdef } from '../../directives/if-defined.js'
 import { styleMap } from '../../directives/style-map.js'
-import { BaseElement } from '../core/base-element.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -27,7 +19,7 @@ declare global {
   }
 }
 
-export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extends BaseElement<E> {
+class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -69,7 +61,7 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
 
     if (['cache-quality', 'cache-type'].includes(name) && typeof this.src === 'string') {
       CACHE_IMAGES.delete(this.src)
-      WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The image cache has been deleted.`, [this.src])
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The image cache has been deleted.`, [this.src])
     }
 
     if (['cache', 'cache-quality', 'cache-type'].includes(name)) {
@@ -91,46 +83,46 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
 
     if (FETCHING_IMAGES.has(src)) {
       await sleep(100)
-      WebElementLogger.verbose(this.uid, 'load', `The src is already being fetched, will try again in 100ms.`, [src])
+      ElementLogger.verbose(this.uid, 'load', `The src is already being fetched, will try again in 100ms.`, [src])
 
       return this.load(src)
     }
 
     if (this.cache && CACHE_IMAGES.has(src)) {
       cache = CACHE_IMAGES.get(src)
-      WebElementLogger.verbose(this.uid, 'load', `Cached base64 found for this src.`, [src, cache])
+      ElementLogger.verbose(this.uid, 'load', `Cached base64 found for this src.`, [src, cache])
     }
 
     if (typeof cache === 'undefined') {
       FETCHING_IMAGES.add(src)
-      WebElementLogger.verbose(this.uid, 'load', `The src has been marked as fetching.`, [src])
+      ElementLogger.verbose(this.uid, 'load', `The src has been marked as fetching.`, [src])
     }
 
     this.imgElementSrc = cache ?? src
-    WebElementLogger.verbose(this.uid, 'load', `Loading the src.`, [src])
+    ElementLogger.verbose(this.uid, 'load', `Loading the src.`, [src])
   }
 
   onError(event: ErrorEvent): void {
     if (typeof this.src === 'string') {
       FETCHING_IMAGES.delete(this.src)
-      WebElementLogger.verbose(this.uid, 'onError', `The src has been unmarked as fetching.`, [this.src])
+      ElementLogger.verbose(this.uid, 'onError', `The src has been unmarked as fetching.`, [this.src])
     }
 
     this.imgElementSrc = this.placeholder ?? DEFAULT_IMAGE_SRC
-    WebElementLogger.error(this.uid, 'onError', `Falling back to the placeholder image.`, event)
+    ElementLogger.error(this.uid, 'onError', `Falling back to the placeholder image.`, event)
   }
 
   onLoad(): void {
     let base64: string | Error
 
-    WebElementLogger.verbose(this.uid, 'onLoad', `The src has been loaded.`, [this.src])
+    ElementLogger.verbose(this.uid, 'onLoad', `The src has been loaded.`, [this.src])
 
     if (typeof this.src !== 'string') {
       return
     }
 
     FETCHING_IMAGES.delete(this.src)
-    WebElementLogger.verbose(this.uid, 'onLoad', `The src has been unmarked as fetching.`, [this.src])
+    ElementLogger.verbose(this.uid, 'onLoad', `The src has been unmarked as fetching.`, [this.src])
 
     if (!this.cache || CACHE_IMAGES.has(this.src)) {
       return
@@ -144,13 +136,13 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
       quality: this.cacheQuality,
       type: this.cacheType
     })
-    if (base64 instanceof Error || !base64) return WebElementLogger.warn(this.uid, 'onLoad', `Failed to get the image base64 or it is empty.`, [base64])
+    if (base64 instanceof Error || !base64) return ElementLogger.warn(this.uid, 'onLoad', `Failed to get the image base64 or it is empty.`, [base64])
 
     CACHE_IMAGES.set(this.src, base64)
-    WebElementLogger.verbose(this.uid, 'onLoad', `The image has been cached.`, [this.src, base64])
+    ElementLogger.verbose(this.uid, 'onLoad', `The image has been cached.`, [this.src, base64])
 
     this.imgElementSrc = base64
-    WebElementLogger.verbose(this.uid, 'onLoad', `The element src has been set to the cached base64.`, [this.src, base64])
+    ElementLogger.verbose(this.uid, 'onLoad', `The element src has been set to the cached base64.`, [this.src, base64])
   }
 
   render() {
@@ -254,3 +246,5 @@ export class ImageElement<E extends ImageElementEventMap = ImageElementEventMap>
 }
 
 defineCustomElement('aracna-image', ImageElement)
+
+export { ImageElement as AracnaImageElement }

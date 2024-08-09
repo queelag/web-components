@@ -1,7 +1,11 @@
 import { generateRandomString } from '@aracna/core'
-import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaListBoxElement, AriaListBoxOptionElement } from '../elements/aria/aria-list-box-element.js'
+import { setImmutableElementAttribute } from '@aracna/web'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants.js'
+import type {
+  AracnaAriaListBoxElement as AriaListBoxElement,
+  AracnaAriaListBoxOptionElement as AriaListBoxOptionElement
+} from '../elements/aria/aria-list-box-element.js'
 
 export class AriaListBoxController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaListBoxElement) {

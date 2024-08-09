@@ -1,7 +1,10 @@
 import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-slider-element'
-import type { AriaSliderElement, AriaSliderThumbElement } from '../../../src/elements/aria/aria-slider-element'
+import type {
+  AracnaAriaSliderElement as AriaSliderElement,
+  AracnaAriaSliderThumbElement as AriaSliderThumbElement
+} from '../../../src/elements/aria/aria-slider-element'
 import {
   dispatchClickEvent,
   dispatchKeyDownEvent,

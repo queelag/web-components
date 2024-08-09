@@ -1,6 +1,9 @@
-import { AlertElementEventMap, AlertSeverity, AlertVariant, defineCustomElement, ElementName } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { AriaAlertElement } from '../aria/aria-alert-element.js'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { AlertElementEventMap } from '../../definitions/events.js'
+import type { AlertSeverity, AlertVariant } from '../../definitions/types.js'
+import { AracnaAriaAlertElement as AriaAlertElement } from '../aria/aria-alert-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -8,7 +11,7 @@ declare global {
   }
 }
 
-export class AlertElement<E extends AlertElementEventMap = AlertElementEventMap> extends AriaAlertElement<E> {
+class AlertElement<E extends AlertElementEventMap = AlertElementEventMap> extends AriaAlertElement<E> {
   /**
    * PROPERTIES
    */
@@ -33,3 +36,5 @@ export class AlertElement<E extends AlertElementEventMap = AlertElementEventMap>
 }
 
 defineCustomElement('aracna-alert', AlertElement)
+
+export { AlertElement as AracnaAlertElement }

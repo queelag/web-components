@@ -1,6 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/radio-group-element'
-import type { RadioButtonElement, RadioGroupElement } from '../../../src/elements/input/radio-group-element'
+import type {
+  AracnaRadioButtonElement as RadioButtonElement,
+  AracnaRadioGroupElement as RadioGroupElement
+} from '../../../src/elements/input/radio-group-element'
 import { render } from '../../../vitest/dom-utils'
 
 describe('RadioGroupElement', () => {

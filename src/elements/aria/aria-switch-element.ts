@@ -1,7 +1,9 @@
-import { AriaSwitchElementEventMap, defineCustomElement, KeyboardEventKey, WebElementLogger } from '@aracna/web'
-import { css, CSSResult, CSSResultGroup, PropertyDeclarations } from 'lit'
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { css, type CSSResult, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaSwitchController } from '../../controllers/aria-switch-controller.js'
-import { FormControlElement } from '../core/form-control-element.js'
+import type { AriaSwitchElementEventMap } from '../../definitions/events.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +11,7 @@ declare global {
   }
 }
 
-export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementEventMap> extends FormControlElement<E> {
+class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementEventMap> extends FormControlElement<E> {
   protected aria: AriaSwitchController = new AriaSwitchController(this)
 
   /**
@@ -45,11 +47,11 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
     }
 
     if (this.disabled || this.readonly) {
-      return WebElementLogger.warn(this.id, 'onClick', `The switch is disabled or readonly.`)
+      return ElementLogger.warn(this.id, 'onClick', `The switch is disabled or readonly.`)
     }
 
     this.on = !this.on
-    WebElementLogger.verbose(this.uid, 'onClick', `The switch has been turned ${this.value ? 'on' : 'off'}.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The switch has been turned ${this.value ? 'on' : 'off'}.`)
 
     this.touch()
   }
@@ -111,3 +113,5 @@ export class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchE
 }
 
 defineCustomElement('aracna-aria-switch', AriaSwitchElement)
+
+export { AriaSwitchElement as AracnaAriaSwitchElement }

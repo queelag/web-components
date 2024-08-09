@@ -1,7 +1,12 @@
 import { generateRandomString } from '@aracna/core'
-import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../elements/aria/aria-tabs-element.js'
+import { setImmutableElementAttribute } from '@aracna/web'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants.js'
+import type {
+  AracnaAriaTabsElement as AriaTabsElement,
+  AracnaAriaTabsPanelElement as AriaTabsPanelElement,
+  AracnaAriaTabsTabElement as AriaTabsTabElement
+} from '../elements/aria/aria-tabs-element.js'
 
 export class AriaTabsController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaTabsElement) {

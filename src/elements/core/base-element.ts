@@ -1,27 +1,20 @@
 import { generateRandomString, parseNumber } from '@aracna/core'
-import {
-  AttributeChangeEvent,
-  BaseElementEventMap,
-  DEFAULT_SQUIRCLE_CURVATURE,
-  ELEMENT_UID_GENERATE_OPTIONS,
-  ElementCollector,
-  ElementName,
-  Layer,
-  QueryDeclaration,
-  QueryDeclarations,
-  Shape,
-  Size,
-  appendSquircleElement,
-  getElementStyleCompatibleValue,
-  setImmutableElementAttribute
-} from '@aracna/web'
-import { CSSResultGroup, LitElement, PropertyDeclarations, TemplateResult, css, html } from 'lit'
-import { DirectiveResult } from 'lit/directive.js'
-import { StyleInfo } from 'lit/directives/style-map.js'
+import { getElementStyleCompatibleValue, setImmutableElementAttribute } from '@aracna/web'
+import { type CSSResultGroup, LitElement, type PropertyDeclarations, type TemplateResult, css, html } from 'lit'
+import type { DirectiveResult } from 'lit/directive.js'
+import type { StyleInfo } from 'lit/directives/style-map.js'
+import { ElementCollector } from '../../collectors/element-collector.js'
+import { DEFAULT_SQUIRCLE_CURVATURE, ELEMENT_UID_GENERATE_OPTIONS } from '../../definitions/constants.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { BaseElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclaration, QueryDeclarations } from '../../definitions/interfaces.js'
+import type { Layer, Shape, Size } from '../../definitions/types.js'
 import { styleMap } from '../../directives/style-map.js'
+import { AttributeChangeEvent } from '../../events/attribute-change-event.js'
 import { getShapeStyleInfo } from '../../utils/shape-utils.js'
+import { appendSquircleElement } from '../../utils/squircle-utils.js'
 
-export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends LitElement {
+class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends LitElement {
   /**
    * PROPERTIES
    */
@@ -136,7 +129,7 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
     `
   }
 
-  get name(): ElementName {
+  get name(): string {
     return ElementName.BASE
   }
 
@@ -229,3 +222,5 @@ export class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> ex
     }
   `
 }
+
+export { BaseElement as AracnaBaseElement }

@@ -1,24 +1,23 @@
-import {
-  AriaAccordionButtonElementEventMap,
-  AriaAccordionElementEventMap,
-  AriaAccordionHeaderElementEventMap,
-  AriaAccordionPanelElementEventMap,
-  AriaAccordionSectionElementEventMap,
-  defineCustomElement,
-  ElementName,
-  HeadingLevel,
-  KeyboardEventKey,
-  QueryDeclarations,
-  WebElementLogger
-} from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import {
   AriaAccordionButtonController,
   AriaAccordionHeaderController,
   AriaAccordionPanelController,
   AriaAccordionSectionController
 } from '../../controllers/aria-accordion-controller.js'
-import { BaseElement } from '../core/base-element.js'
+import { ElementName } from '../../definitions/enums.js'
+import type {
+  AriaAccordionButtonElementEventMap,
+  AriaAccordionElementEventMap,
+  AriaAccordionHeaderElementEventMap,
+  AriaAccordionPanelElementEventMap,
+  AriaAccordionSectionElementEventMap
+} from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import type { HeadingLevel } from '../../definitions/types.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -30,7 +29,7 @@ declare global {
   }
 }
 
-export class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaAccordionElementEventMap> extends BaseElement<E> {
+class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaAccordionElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -78,13 +77,13 @@ export class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaA
 
         if (this.focusedButtonElementIndex >= this.buttonElements.length - 1) {
           this.buttonElements[0]?.focus()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', `The first header button has been focused.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', `The first header button has been focused.`)
 
           break
         }
 
         this.buttonElements[this.focusedButtonElementIndex + 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', `The next header button has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `The next header button has been focused.`)
 
         break
       case KeyboardEventKey.ARROW_UP:
@@ -94,23 +93,23 @@ export class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaA
 
         if (this.focusedButtonElementIndex === 0) {
           this.buttonElements[this.buttonElements.length - 1]?.focus()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', `The last header button has been focused.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', `The last header button has been focused.`)
 
           break
         }
 
         this.buttonElements[this.focusedButtonElementIndex - 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', `The previous header button has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `The previous header button has been focused.`)
 
         break
       case KeyboardEventKey.HOME:
         this.buttonElements[0]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', `The first header button has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `The first header button has been focused.`)
 
         break
       case KeyboardEventKey.END:
         this.buttonElements[this.buttonElements.length - 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', `The last header button has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `The last header button has been focused.`)
 
         break
     }
@@ -145,7 +144,7 @@ export class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaA
   }
 }
 
-export class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEventMap = AriaAccordionSectionElementEventMap> extends BaseElement<E> {
+class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEventMap = AriaAccordionSectionElementEventMap> extends BaseElement<E> {
   protected aria: AriaAccordionSectionController = new AriaAccordionSectionController(this)
 
   /**
@@ -191,7 +190,7 @@ export class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEv
   }
 }
 
-export class AriaAccordionHeaderElement<E extends AriaAccordionHeaderElementEventMap = AriaAccordionHeaderElementEventMap> extends BaseElement<E> {
+class AriaAccordionHeaderElement<E extends AriaAccordionHeaderElementEventMap = AriaAccordionHeaderElementEventMap> extends BaseElement<E> {
   protected aria: AriaAccordionHeaderController = new AriaAccordionHeaderController(this)
 
   /**
@@ -208,7 +207,7 @@ export class AriaAccordionHeaderElement<E extends AriaAccordionHeaderElementEven
   }
 }
 
-export class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = AriaAccordionButtonElementEventMap> extends BaseElement<E> {
+class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = AriaAccordionButtonElementEventMap> extends BaseElement<E> {
   protected aria: AriaAccordionButtonController = new AriaAccordionButtonController(this)
 
   /**
@@ -240,12 +239,12 @@ export class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEven
     event.stopPropagation()
 
     this.click()
-    WebElementLogger.verbose(this.uid, 'onKeyDown', `The button has been clicked.`)
+    ElementLogger.verbose(this.uid, 'onKeyDown', `The button has been clicked.`)
   }
 
   onClick(): void {
     if (this.sectionElement.noncollapsible && this.sectionElement.expanded) {
-      WebElementLogger.verbose(this.sectionElement.uid, 'onClick', `The section isn't collapsable.`)
+      ElementLogger.verbose(this.sectionElement.uid, 'onClick', `The section isn't collapsable.`)
       return
     }
 
@@ -262,7 +261,7 @@ export class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEven
     }
 
     this.sectionElement.expanded = !this.sectionElement.expanded
-    WebElementLogger.verbose(this.uid, 'onClick', `The section has been ${this.sectionElement.expanded ? 'expanded' : 'collapsed'}.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The section has been ${this.sectionElement.expanded ? 'expanded' : 'collapsed'}.`)
   }
 
   get name(): ElementName {
@@ -287,7 +286,7 @@ export class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEven
   ]
 }
 
-export class AriaAccordionPanelElement<E extends AriaAccordionPanelElementEventMap = AriaAccordionPanelElementEventMap> extends BaseElement<E> {
+class AriaAccordionPanelElement<E extends AriaAccordionPanelElementEventMap = AriaAccordionPanelElementEventMap> extends BaseElement<E> {
   protected aria: AriaAccordionPanelController = new AriaAccordionPanelController(this)
 
   /**
@@ -312,3 +311,11 @@ defineCustomElement('aracna-aria-accordion-button', AriaAccordionButtonElement)
 defineCustomElement('aracna-aria-accordion-header', AriaAccordionHeaderElement)
 defineCustomElement('aracna-aria-accordion-panel', AriaAccordionPanelElement)
 defineCustomElement('aracna-aria-accordion-section', AriaAccordionSectionElement)
+
+export {
+  AriaAccordionButtonElement as AracnaAriaAccordionButtonElement,
+  AriaAccordionElement as AracnaAriaAccordionElement,
+  AriaAccordionHeaderElement as AracnaAriaAccordionHeaderElement,
+  AriaAccordionPanelElement as AracnaAriaAccordionPanelElement,
+  AriaAccordionSectionElement as AracnaAriaAccordionSectionElement
+}

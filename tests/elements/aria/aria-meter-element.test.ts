@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-meter-element'
-import type { AriaMeterElement } from '../../../src/elements/aria/aria-meter-element'
+import type { AracnaAriaMeterElement as AriaMeterElement } from '../../../src/elements/aria/aria-meter-element'
 import { render } from '../../../vitest/dom-utils'
 
 describe('AriaMeterElement', () => {

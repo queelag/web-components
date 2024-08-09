@@ -1,7 +1,9 @@
-import { AriaLinkElementEventMap, defineCustomElement, ElementName, KeyboardEventKey } from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaLinkController } from '../../controllers/aria-link-controller.js'
-import { BaseElement } from '../core/base-element.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { AriaLinkElementEventMap } from '../../definitions/events.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +11,7 @@ declare global {
   }
 }
 
-export class AriaLinkElement<E extends AriaLinkElementEventMap = AriaLinkElementEventMap> extends BaseElement<E> {
+class AriaLinkElement<E extends AriaLinkElementEventMap = AriaLinkElementEventMap> extends BaseElement<E> {
   protected aria: AriaLinkController = new AriaLinkController(this)
 
   /**
@@ -68,3 +70,5 @@ export class AriaLinkElement<E extends AriaLinkElementEventMap = AriaLinkElement
 }
 
 defineCustomElement('aracna-aria-link', AriaLinkElement)
+
+export { AriaLinkElement as AracnaAriaLinkElement }

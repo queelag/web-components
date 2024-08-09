@@ -1,5 +1,5 @@
-import { DEFAULT_SQUIRCLE_CURVATURE, getSquircleClipPathID } from '@aracna/web'
 import { describe, expect, it } from 'vitest'
+import { DEFAULT_SQUIRCLE_CURVATURE, getSquircleClipPathID } from '../../src'
 import { getShapeStyleInfo } from '../../src/utils/shape-utils'
 
 describe('ShapeUtils', () => {

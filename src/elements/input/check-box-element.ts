@@ -1,6 +1,9 @@
-import { CheckBoxElementEventMap, defineCustomElement, ElementName, WebElementLogger } from '@aracna/web'
-import { css, CSSResultGroup, html } from 'lit'
-import { AriaCheckBoxElement } from '../aria/aria-check-box-element.js'
+import { defineCustomElement } from '@aracna/web'
+import { css, type CSSResultGroup, html } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { CheckBoxElementEventMap } from '../../definitions/events.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaAriaCheckBoxElement as AriaCheckBoxElement } from '../aria/aria-check-box-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -8,10 +11,10 @@ declare global {
   }
 }
 
-export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElementEventMap> extends AriaCheckBoxElement<E> {
+class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElementEventMap> extends AriaCheckBoxElement<E> {
   onChange(): void {
     this.checked = !this.checked
-    WebElementLogger.verbose(this.uid, 'onChange', `The checkbox has been ${this.checked ? 'checked' : 'unchecked'}.`)
+    ElementLogger.verbose(this.uid, 'onChange', `The checkbox has been ${this.checked ? 'checked' : 'unchecked'}.`)
 
     this.touch()
   }
@@ -52,3 +55,5 @@ export class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElement
 }
 
 defineCustomElement('aracna-checkbox', CheckBoxElement)
+
+export { CheckBoxElement as AracnaCheckBoxElement }

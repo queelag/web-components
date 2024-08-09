@@ -1,8 +1,8 @@
 import { importNodeFetch, useNodeFetch, wf } from '@aracna/core'
-import { SVG_NAMESPACE_URI } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { SVG_NAMESPACE_URI } from '../../../src/definitions/constants'
 import '../../../src/elements/data/icon-element'
-import type { IconElement } from '../../../src/elements/data/icon-element'
+import type { AracnaIconElement as IconElement } from '../../../src/elements/data/icon-element'
 import { render } from '../../../vitest/dom-utils'
 
 const COMPASS_SRC: string = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-compass"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>`

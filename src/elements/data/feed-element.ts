@@ -1,14 +1,19 @@
-import {
-  defineCustomElement,
-  ElementName,
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type {
   FeedArticleDescriptionElementEventMap,
   FeedArticleElementEventMap,
   FeedArticleLabelElementEventMap,
-  FeedElementEventMap,
-  QueryDeclarations
-} from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { AriaFeedArticleDescriptionElement, AriaFeedArticleElement, AriaFeedArticleLabelElement, AriaFeedElement } from '../aria/aria-feed-element.js'
+  FeedElementEventMap
+} from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import {
+  AracnaAriaFeedArticleDescriptionElement as AriaFeedArticleDescriptionElement,
+  AracnaAriaFeedArticleElement as AriaFeedArticleElement,
+  AracnaAriaFeedArticleLabelElement as AriaFeedArticleLabelElement,
+  AracnaAriaFeedElement as AriaFeedElement
+} from '../aria/aria-feed-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -19,7 +24,7 @@ declare global {
   }
 }
 
-export class FeedElement<E extends FeedElementEventMap = FeedElementEventMap, T = any> extends AriaFeedElement<E> {
+class FeedElement<E extends FeedElementEventMap = FeedElementEventMap, T = any> extends AriaFeedElement<E> {
   /**
    * PROPERTIES
    */
@@ -39,7 +44,7 @@ export class FeedElement<E extends FeedElementEventMap = FeedElementEventMap, T 
   }
 }
 
-export class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArticleElementEventMap, T = any> extends AriaFeedArticleElement<E> {
+class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArticleElementEventMap, T = any> extends AriaFeedArticleElement<E> {
   /**
    * PROPERTIES
    */
@@ -80,13 +85,13 @@ export class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArtic
   }
 }
 
-export class FeedArticleLabelElement<E extends FeedArticleLabelElementEventMap = FeedArticleLabelElementEventMap> extends AriaFeedArticleLabelElement<E> {
+class FeedArticleLabelElement<E extends FeedArticleLabelElementEventMap = FeedArticleLabelElementEventMap> extends AriaFeedArticleLabelElement<E> {
   get name(): ElementName {
     return ElementName.FEED_ARTICLE_LABEL
   }
 }
 
-export class FeedArticleDescriptionElement<
+class FeedArticleDescriptionElement<
   E extends FeedArticleDescriptionElementEventMap = FeedArticleDescriptionElementEventMap
 > extends AriaFeedArticleDescriptionElement<E> {
   get name(): ElementName {
@@ -98,3 +103,10 @@ defineCustomElement('aracna-feed', FeedElement)
 defineCustomElement('aracna-feed-article', FeedArticleElement)
 defineCustomElement('aracna-feed-article-description', FeedArticleDescriptionElement)
 defineCustomElement('aracna-feed-article-label', FeedArticleLabelElement)
+
+export {
+  FeedArticleDescriptionElement as AracnaFeedArticleDescriptionElement,
+  FeedArticleElement as AracnaFeedArticleElement,
+  FeedArticleLabelElement as AracnaFeedArticleLabelElement,
+  FeedElement as AracnaFeedElement
+}

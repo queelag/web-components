@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/feedback/meter-element'
-import type { MeterElement } from '../../../src/elements/feedback/meter-element'
+import type { AracnaMeterElement as MeterElement } from '../../../src/elements/feedback/meter-element'
 import { render } from '../../../vitest/dom-utils'
 
 describe('MeterElement', () => {

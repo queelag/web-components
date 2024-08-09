@@ -1,7 +1,9 @@
-import { defineCustomElement, DividerElementEventMap, Orientation } from '@aracna/web'
-import { html, PropertyDeclarations } from 'lit'
+import { defineCustomElement } from '@aracna/web'
+import { html, type PropertyDeclarations } from 'lit'
+import type { DividerElementEventMap } from '../../definitions/events.js'
+import type { Orientation } from '../../definitions/types.js'
 import { choose } from '../../directives/choose.js'
-import { BaseElement } from '../core/base-element.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +11,7 @@ declare global {
   }
 }
 
-export class DividerElement<E extends DividerElementEventMap = DividerElementEventMap> extends BaseElement<E> {
+class DividerElement<E extends DividerElementEventMap = DividerElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -32,3 +34,5 @@ export class DividerElement<E extends DividerElementEventMap = DividerElementEve
 }
 
 defineCustomElement('aracna-divider', DividerElement)
+
+export { DividerElement as AracnaDividerElement }

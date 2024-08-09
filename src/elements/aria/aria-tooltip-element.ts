@@ -1,18 +1,17 @@
-import {
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { AriaTooltipContentController, AriaTooltipController, AriaTooltipTriggerController } from '../../controllers/aria-tooltip-controller.js'
+import { ElementName } from '../../definitions/enums.js'
+import type {
   AriaTooltipArrowElementEventMap,
   AriaTooltipContentElementEventMap,
   AriaTooltipElementEventMap,
-  AriaTooltipTriggerElementEventMap,
-  defineCustomElement,
-  ElementName,
-  KeyboardEventKey,
-  QueryDeclarations,
-  WebElementLogger
-} from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { AriaTooltipContentController, AriaTooltipController, AriaTooltipTriggerController } from '../../controllers/aria-tooltip-controller.js'
-import { BaseElement } from '../core/base-element.js'
-import { FloatingElement } from '../core/floating-element.js'
+  AriaTooltipTriggerElementEventMap
+} from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
+import { AracnaFloatingElement as FloatingElement } from '../core/floating-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -23,7 +22,7 @@ declare global {
   }
 }
 
-export class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipElementEventMap> extends BaseElement<E> {
+class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipElementEventMap> extends BaseElement<E> {
   protected aria: AriaTooltipController = new AriaTooltipController(this)
 
   /**
@@ -56,7 +55,7 @@ export class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaToolt
     }
 
     this.visible = false
-    WebElementLogger.verbose(this.uid, 'onKeyDown', `The tooltip has been hidden.`)
+    ElementLogger.verbose(this.uid, 'onKeyDown', `The tooltip has been hidden.`)
   }
 
   get name(): ElementName {
@@ -89,7 +88,7 @@ export class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaToolt
   ]
 }
 
-export class AriaTooltipArrowElement<E extends AriaTooltipArrowElementEventMap = AriaTooltipArrowElementEventMap> extends BaseElement<E> {
+class AriaTooltipArrowElement<E extends AriaTooltipArrowElementEventMap = AriaTooltipArrowElementEventMap> extends BaseElement<E> {
   get name(): ElementName {
     return ElementName.ARIA_TOOLTIP_ARROW
   }
@@ -106,7 +105,7 @@ export class AriaTooltipArrowElement<E extends AriaTooltipArrowElementEventMap =
   ]
 }
 
-export class AriaTooltipContentElement<E extends AriaTooltipContentElementEventMap = AriaTooltipContentElementEventMap> extends FloatingElement<E> {
+class AriaTooltipContentElement<E extends AriaTooltipContentElementEventMap = AriaTooltipContentElementEventMap> extends FloatingElement<E> {
   protected aria: AriaTooltipContentController = new AriaTooltipContentController(this)
 
   /**
@@ -142,7 +141,7 @@ export class AriaTooltipContentElement<E extends AriaTooltipContentElementEventM
   ]
 }
 
-export class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = AriaTooltipTriggerElementEventMap> extends BaseElement<E> {
+class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = AriaTooltipTriggerElementEventMap> extends BaseElement<E> {
   protected aria: AriaTooltipTriggerController = new AriaTooltipTriggerController(this)
 
   /**
@@ -172,17 +171,17 @@ export class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventM
 
   onBlur = (): void => {
     this.rootElement.visible = false
-    WebElementLogger.verbose(this.uid, 'onBlur', `The tooltip has been hidden.`)
+    ElementLogger.verbose(this.uid, 'onBlur', `The tooltip has been hidden.`)
   }
 
   onClick = (): void => {
     this.rootElement.visible = true
-    WebElementLogger.verbose(this.uid, 'onClick', `The tooltip has been shown.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The tooltip has been shown.`)
   }
 
   onFocus = (): void => {
     this.rootElement.visible = true
-    WebElementLogger.verbose(this.uid, 'onFocus', `The tooltip has been shown.`)
+    ElementLogger.verbose(this.uid, 'onFocus', `The tooltip has been shown.`)
   }
 
   onMouseEnter = (): void => {
@@ -191,12 +190,12 @@ export class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventM
     }
 
     this.rootElement.visible = true
-    WebElementLogger.verbose(this.uid, 'onMouseEnter', `The tooltip has been shown.`)
+    ElementLogger.verbose(this.uid, 'onMouseEnter', `The tooltip has been shown.`)
   }
 
   onMouseLeave = (): void => {
     this.rootElement.visible = false
-    WebElementLogger.verbose(this.uid, 'onMouseLeave', `The tooltip has been hidden.`)
+    ElementLogger.verbose(this.uid, 'onMouseLeave', `The tooltip has been hidden.`)
   }
 
   get name(): ElementName {
@@ -221,3 +220,10 @@ defineCustomElement('aracna-aria-tooltip', AriaTooltipElement)
 defineCustomElement('aracna-aria-tooltip-arrow', AriaTooltipArrowElement)
 defineCustomElement('aracna-aria-tooltip-content', AriaTooltipContentElement)
 defineCustomElement('aracna-aria-tooltip-trigger', AriaTooltipTriggerElement)
+
+export {
+  AriaTooltipArrowElement as AracnaAriaTooltipArrowElement,
+  AriaTooltipContentElement as AracnaAriaTooltipContentElement,
+  AriaTooltipElement as AracnaAriaTooltipElement,
+  AriaTooltipTriggerElement as AracnaAriaTooltipTriggerElement
+}

@@ -1,13 +1,18 @@
-import {
-  defineCustomElement,
-  ElementName,
-  QueryDeclarations,
+import { defineCustomElement } from '@aracna/web'
+import { ElementName } from '../../definitions/enums.js'
+import type {
   TooltipArrowElementEventMap,
   TooltipContentElementEventMap,
   TooltipElementEventMap,
   TooltipTriggerElementEventMap
-} from '@aracna/web'
-import { AriaTooltipArrowElement, AriaTooltipContentElement, AriaTooltipElement, AriaTooltipTriggerElement } from '../aria/aria-tooltip-element.js'
+} from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import {
+  AracnaAriaTooltipArrowElement as AriaTooltipArrowElement,
+  AracnaAriaTooltipContentElement as AriaTooltipContentElement,
+  AracnaAriaTooltipElement as AriaTooltipElement,
+  AracnaAriaTooltipTriggerElement as AriaTooltipTriggerElement
+} from '../aria/aria-tooltip-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -18,7 +23,7 @@ declare global {
   }
 }
 
-export class TooltipElement<E extends TooltipElementEventMap = TooltipElementEventMap> extends AriaTooltipElement<E> {
+class TooltipElement<E extends TooltipElementEventMap = TooltipElementEventMap> extends AriaTooltipElement<E> {
   get name(): ElementName {
     return ElementName.TOOLTIP
   }
@@ -30,13 +35,13 @@ export class TooltipElement<E extends TooltipElementEventMap = TooltipElementEve
   }
 }
 
-export class TooltipArrowElement<E extends TooltipArrowElementEventMap = TooltipArrowElementEventMap> extends AriaTooltipArrowElement<E> {
+class TooltipArrowElement<E extends TooltipArrowElementEventMap = TooltipArrowElementEventMap> extends AriaTooltipArrowElement<E> {
   get name(): ElementName {
     return ElementName.TOOLTIP_ARROW
   }
 }
 
-export class TooltipContentElement<E extends TooltipContentElementEventMap = TooltipContentElementEventMap> extends AriaTooltipContentElement<E> {
+class TooltipContentElement<E extends TooltipContentElementEventMap = TooltipContentElementEventMap> extends AriaTooltipContentElement<E> {
   get name(): ElementName {
     return ElementName.TOOLTIP_CONTENT
   }
@@ -46,7 +51,7 @@ export class TooltipContentElement<E extends TooltipContentElementEventMap = Too
   }
 }
 
-export class TooltipTriggerElement<E extends TooltipTriggerElementEventMap = TooltipTriggerElementEventMap> extends AriaTooltipTriggerElement<E> {
+class TooltipTriggerElement<E extends TooltipTriggerElementEventMap = TooltipTriggerElementEventMap> extends AriaTooltipTriggerElement<E> {
   get name(): ElementName {
     return ElementName.TOOLTIP_TRIGGER
   }
@@ -60,3 +65,10 @@ defineCustomElement('aracna-tooltip', TooltipElement)
 defineCustomElement('aracna-tooltip-arrow', TooltipArrowElement)
 defineCustomElement('aracna-tooltip-content', TooltipContentElement)
 defineCustomElement('aracna-tooltip-trigger', TooltipTriggerElement)
+
+export {
+  TooltipArrowElement as AracnaTooltipArrowElement,
+  TooltipContentElement as AracnaTooltipContentElement,
+  TooltipElement as AracnaTooltipElement,
+  TooltipTriggerElement as AracnaTooltipTriggerElement
+}

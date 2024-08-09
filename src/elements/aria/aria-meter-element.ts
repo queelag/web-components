@@ -1,7 +1,9 @@
-import { AriaMeterElementEventMap, defineCustomElement, getMeterElementValue } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
 import { AriaMeterController } from '../../controllers/aria-meter-controller.js'
-import { BaseElement } from '../core/base-element.js'
+import type { AriaMeterElementEventMap } from '../../definitions/events.js'
+import { getMeterElementValue } from '../../utils/meter-element-utils.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +11,7 @@ declare global {
   }
 }
 
-export class AriaMeterElement<E extends AriaMeterElementEventMap = AriaMeterElementEventMap> extends BaseElement<E> {
+class AriaMeterElement<E extends AriaMeterElementEventMap = AriaMeterElementEventMap> extends BaseElement<E> {
   protected aria: AriaMeterController = new AriaMeterController(this)
 
   /**
@@ -46,3 +48,5 @@ export class AriaMeterElement<E extends AriaMeterElementEventMap = AriaMeterElem
 }
 
 defineCustomElement('aracna-aria-meter', AriaMeterElement)
+
+export { AriaMeterElement as AracnaAriaMeterElement }

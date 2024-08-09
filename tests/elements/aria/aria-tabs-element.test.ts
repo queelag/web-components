@@ -1,7 +1,11 @@
 import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-tabs-element'
-import type { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../../../src/elements/aria/aria-tabs-element'
+import type {
+  AracnaAriaTabsElement as AriaTabsElement,
+  AracnaAriaTabsPanelElement as AriaTabsPanelElement,
+  AracnaAriaTabsTabElement as AriaTabsTabElement
+} from '../../../src/elements/aria/aria-tabs-element'
 import { dispatchKeyDownEvent, render } from '../../../vitest/dom-utils'
 
 describe('AriaTabsElement', () => {

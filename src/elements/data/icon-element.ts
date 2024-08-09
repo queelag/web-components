@@ -1,27 +1,19 @@
-import { Fetch, FetchResponse, isStringURL, isWindowNotDefined, rvp, sleep, tcp } from '@aracna/core'
-import {
-  CACHE_ICONS,
-  DEFAULT_ICON_SANITIZE_CONFIG,
-  DEFAULT_ICON_SVG_STRING,
-  ElementName,
-  FETCHING_ICONS,
-  IconElementEventMap,
-  IconElementSanitizeConfig,
-  SVG_NAMESPACE_URI,
-  WebElementLogger,
-  defineCustomElement,
-  getElementStyleCompatibleValue,
-  isStringSVG
-} from '@aracna/web'
+import { Fetch, type FetchResponse, isStringURL, isWindowNotDefined, rvp, sleep, tcp } from '@aracna/core'
+import { defineCustomElement, getElementStyleCompatibleValue, isStringSVG } from '@aracna/web'
 import DOMPurify from 'dompurify'
-import { PropertyDeclarations, TemplateResult, html, svg } from 'lit'
-import { DirectiveResult } from 'lit/directive.js'
-import { StyleMapDirective } from 'lit/directives/style-map.js'
+import { type PropertyDeclarations, type TemplateResult, html, svg } from 'lit'
+import type { DirectiveResult } from 'lit/directive.js'
+import type { StyleMapDirective } from 'lit/directives/style-map.js'
 import { AriaIconController } from '../../controllers/aria-icon-controller.js'
+import { CACHE_ICONS, DEFAULT_ICON_SANITIZE_CONFIG, DEFAULT_ICON_SVG_STRING, FETCHING_ICONS, SVG_NAMESPACE_URI } from '../../definitions/constants.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { IconElementEventMap } from '../../definitions/events.js'
+import type { IconElementSanitizeConfig } from '../../definitions/interfaces.js'
 import { ifdef } from '../../directives/if-defined.js'
 import { styleMap } from '../../directives/style-map.js'
 import { unsafeSVG } from '../../directives/unsafe-svg.js'
-import { BaseElement } from '../core/base-element.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,7 +21,7 @@ declare global {
   }
 }
 
-export class IconElement<E extends IconElementEventMap = IconElementEventMap> extends BaseElement<E> {
+class IconElement<E extends IconElementEventMap = IconElementEventMap> extends BaseElement<E> {
   protected aria: AriaIconController = new AriaIconController(this)
 
   /**
@@ -69,7 +61,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
 
     if (['sanitize', 'sanitize-config'].includes(name) && typeof this.src === 'string') {
       CACHE_ICONS.delete(this.src)
-      WebElementLogger.verbose(this.uid, 'attributeChangedCallback', `The icon cache has been deleted.`, [this.src])
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The icon cache has been deleted.`, [this.src])
     }
 
     if (['cache', 'sanitize', 'sanitize-config'].includes(name)) {
@@ -83,16 +75,16 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     }
 
     if (isStringURL(src)) {
-      WebElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is an URL, will try to fetch.`, [src])
+      ElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is an URL, will try to fetch.`, [src])
       return this.fetchSource(src)
     }
 
     if (isStringSVG(src)) {
-      WebElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is a SVG, will try to parse.`, [src])
+      ElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is a SVG, will try to parse.`, [src])
       return this.parseSVGString(src)
     }
 
-    WebElementLogger.warn(this.uid, 'generateSVGElement', `The value is nor URL nor SVG, falling back to empty SVG.`, [src])
+    ElementLogger.warn(this.uid, 'generateSVGElement', `The value is nor URL nor SVG, falling back to empty SVG.`, [src])
     this.parseSVGString(DEFAULT_ICON_SVG_STRING)
   }
 
@@ -104,7 +96,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     }
 
     if (FETCHING_ICONS.has(src)) {
-      WebElementLogger.verbose(this.uid, 'fetchSource', `The src is already being fetched, will try again in 100ms.`, [src])
+      ElementLogger.verbose(this.uid, 'fetchSource', `The src is already being fetched, will try again in 100ms.`, [src])
       await sleep(100)
 
       return this.fetchSource(src)
@@ -115,13 +107,13 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
     }
 
     FETCHING_ICONS.add(src)
-    WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been marked as fetching.`, [src])
+    ElementLogger.verbose(this.uid, 'fetchSource', `The src has been marked as fetching.`, [src])
 
     response = await Fetch.get(src, { parse: false })
     if (response instanceof Error) return rvp(() => FETCHING_ICONS.delete(src))
 
     FETCHING_ICONS.delete(src)
-    WebElementLogger.verbose(this.uid, 'fetchSource', `The src has been unmarked as fetching.`, [src])
+    ElementLogger.verbose(this.uid, 'fetchSource', `The src has been unmarked as fetching.`, [src])
 
     text = await tcp(() => (response as FetchResponse).text())
     if (text instanceof Error) return
@@ -143,7 +135,7 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
 
     if (this.cache && typeof this.src === 'string' && CACHE_ICONS.has(this.src)) {
       cache = CACHE_ICONS.get(this.src)
-      WebElementLogger.verbose(this.uid, 'parseSVGString', `Cached SVG found for this src.`, [this.src, cache])
+      ElementLogger.verbose(this.uid, 'parseSVGString', `Cached SVG found for this src.`, [this.src, cache])
     }
 
     if (this.sanitize) {
@@ -151,22 +143,22 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
         ...DEFAULT_ICON_SANITIZE_CONFIG,
         ...this.sanitizeConfig
       })
-      WebElementLogger.verbose(this.uid, 'parseSVGString', `The string has been sanitized.`, [sanitized])
+      ElementLogger.verbose(this.uid, 'parseSVGString', `The string has been sanitized.`, [sanitized])
     }
 
     if (this.cache && typeof this.src === 'string') {
       CACHE_ICONS.set(this.src, sanitized ?? string)
-      WebElementLogger.verbose(this.uid, 'parseSVGString', `The icon has been cached.`, [this.src, sanitized ?? string])
+      ElementLogger.verbose(this.uid, 'parseSVGString', `The icon has been cached.`, [this.src, sanitized ?? string])
     }
 
     parser = new DOMParser()
     document = parser.parseFromString(cache ?? sanitized ?? string, 'text/html')
 
     element = document.querySelector('svg')
-    if (!element) return WebElementLogger.error(this.uid, 'parseSVGString', `Failed to find the svg element.`, document)
+    if (!element) return ElementLogger.error(this.uid, 'parseSVGString', `Failed to find the svg element.`, document)
 
     this.svgElement = element
-    WebElementLogger.verbose(this.uid, 'parseSVGString', `The svg element has been set.`, this.svgElement)
+    ElementLogger.verbose(this.uid, 'parseSVGString', `The svg element has been set.`, this.svgElement)
   }
 
   render() {
@@ -247,3 +239,5 @@ export class IconElement<E extends IconElementEventMap = IconElementEventMap> ex
 }
 
 defineCustomElement('aracna-icon', IconElement)
+
+export { IconElement as AracnaIconElement }

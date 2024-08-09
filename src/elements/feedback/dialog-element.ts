@@ -1,13 +1,13 @@
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { DialogDescriptionElementEventMap, DialogElementEventMap, DialogLabelElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import {
-  defineCustomElement,
-  DialogDescriptionElementEventMap,
-  DialogElementEventMap,
-  DialogLabelElementEventMap,
-  ElementName,
-  QueryDeclarations
-} from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../aria/aria-dialog-element.js'
+  AracnaAriaDialogDescriptionElement as AriaDialogDescriptionElement,
+  AracnaAriaDialogElement as AriaDialogElement,
+  AracnaAriaDialogLabelElement as AriaDialogLabelElement
+} from '../aria/aria-dialog-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -17,7 +17,7 @@ declare global {
   }
 }
 
-export class DialogElement<E extends DialogElementEventMap = DialogElementEventMap> extends AriaDialogElement<E> {
+class DialogElement<E extends DialogElementEventMap = DialogElementEventMap> extends AriaDialogElement<E> {
   headline?: string
   icon?: string
   text?: string
@@ -38,13 +38,13 @@ export class DialogElement<E extends DialogElementEventMap = DialogElementEventM
   }
 }
 
-export class DialogLabelElement<E extends DialogLabelElementEventMap = DialogElementEventMap> extends AriaDialogLabelElement<E> {
+class DialogLabelElement<E extends DialogLabelElementEventMap = DialogElementEventMap> extends AriaDialogLabelElement<E> {
   get name(): ElementName {
     return ElementName.DIALOG_LABEL
   }
 }
 
-export class DialogDescriptionElement<E extends DialogDescriptionElementEventMap = DialogElementEventMap> extends AriaDialogDescriptionElement<E> {
+class DialogDescriptionElement<E extends DialogDescriptionElementEventMap = DialogElementEventMap> extends AriaDialogDescriptionElement<E> {
   get name(): ElementName {
     return ElementName.DIALOG_DESCRIPTION
   }
@@ -53,3 +53,9 @@ export class DialogDescriptionElement<E extends DialogDescriptionElementEventMap
 defineCustomElement('aracna-dialog', DialogElement)
 defineCustomElement('aracna-dialog-description', DialogDescriptionElement)
 defineCustomElement('aracna-dialog-label', DialogLabelElement)
+
+export {
+  AriaDialogDescriptionElement as AracnaDialogDescriptionElement,
+  AriaDialogElement as AracnaDialogElement,
+  AriaDialogLabelElement as AracnaDialogLabelElement
+}

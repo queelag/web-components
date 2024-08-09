@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-alert-dialog-element'
 import type {
-  AriaAlertDialogDescriptionElement,
-  AriaAlertDialogElement,
-  AriaAlertDialogLabelElement
+  AracnaAriaAlertDialogDescriptionElement as AriaAlertDialogDescriptionElement,
+  AracnaAriaAlertDialogElement as AriaAlertDialogElement,
+  AracnaAriaAlertDialogLabelElement as AriaAlertDialogLabelElement
 } from '../../../src/elements/aria/aria-alert-dialog-element'
 import { render } from '../../../vitest/dom-utils'
 

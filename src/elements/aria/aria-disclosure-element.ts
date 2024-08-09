@@ -1,17 +1,16 @@
-import {
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { AriaDisclosureButtonController, AriaDisclosurePanelController, AriaDisclosureSectionController } from '../../controllers/aria-disclosure-controller.js'
+import { ElementName } from '../../definitions/enums.js'
+import type {
   AriaDisclosureButtonElementEventMap,
   AriaDisclosureElementEventMap,
   AriaDisclosurePanelElementEventMap,
-  AriaDisclosureSectionElementEventMap,
-  defineCustomElement,
-  ElementName,
-  KeyboardEventKey,
-  QueryDeclarations,
-  WebElementLogger
-} from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { AriaDisclosureButtonController, AriaDisclosurePanelController, AriaDisclosureSectionController } from '../../controllers/aria-disclosure-controller.js'
-import { BaseElement } from '../core/base-element.js'
+  AriaDisclosureSectionElementEventMap
+} from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -22,7 +21,7 @@ declare global {
   }
 }
 
-export class AriaDisclosureElement<E extends AriaDisclosureElementEventMap = AriaDisclosureElementEventMap> extends BaseElement<E> {
+class AriaDisclosureElement<E extends AriaDisclosureElementEventMap = AriaDisclosureElementEventMap> extends BaseElement<E> {
   /**
    * QUERIES
    */
@@ -63,7 +62,7 @@ export class AriaDisclosureElement<E extends AriaDisclosureElementEventMap = Ari
   }
 }
 
-export class AriaDisclosureSectionElement<E extends AriaDisclosureSectionElementEventMap = AriaDisclosureSectionElementEventMap> extends BaseElement<E> {
+class AriaDisclosureSectionElement<E extends AriaDisclosureSectionElementEventMap = AriaDisclosureSectionElementEventMap> extends BaseElement<E> {
   protected aria: AriaDisclosureSectionController = new AriaDisclosureSectionController(this)
 
   /**
@@ -99,7 +98,7 @@ export class AriaDisclosureSectionElement<E extends AriaDisclosureSectionElement
   }
 }
 
-export class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEventMap = AriaDisclosureButtonElementEventMap> extends BaseElement<E> {
+class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEventMap = AriaDisclosureButtonElementEventMap> extends BaseElement<E> {
   protected aria: AriaDisclosureButtonController = new AriaDisclosureButtonController(this)
 
   /**
@@ -123,7 +122,7 @@ export class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEv
 
   onClick(): void {
     this.sectionElement.expanded = !this.sectionElement.expanded
-    WebElementLogger.verbose(this.uid, 'onClick', `The section has been ${this.sectionElement.expanded ? 'expanded' : 'collapsed'}.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The section has been ${this.sectionElement.expanded ? 'expanded' : 'collapsed'}.`)
   }
 
   onKeyDown(event: KeyboardEvent): void {
@@ -135,7 +134,7 @@ export class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEv
     event.stopPropagation()
 
     this.click()
-    WebElementLogger.verbose(this.uid, 'onKeyDown', `The button has been clicked.`)
+    ElementLogger.verbose(this.uid, 'onKeyDown', `The button has been clicked.`)
   }
 
   get name(): ElementName {
@@ -159,7 +158,7 @@ export class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEv
   ]
 }
 
-export class AriaDisclosurePanelElement<E extends AriaDisclosurePanelElementEventMap = AriaDisclosurePanelElementEventMap> extends BaseElement<E> {
+class AriaDisclosurePanelElement<E extends AriaDisclosurePanelElementEventMap = AriaDisclosurePanelElementEventMap> extends BaseElement<E> {
   protected aria: AriaDisclosurePanelController = new AriaDisclosurePanelController(this)
 
   get name(): ElementName {
@@ -171,3 +170,10 @@ defineCustomElement('aracna-aria-disclosure', AriaDisclosureElement)
 defineCustomElement('aracna-aria-disclosure-button', AriaDisclosureButtonElement)
 defineCustomElement('aracna-aria-disclosure-panel', AriaDisclosurePanelElement)
 defineCustomElement('aracna-aria-disclosure-section', AriaDisclosureSectionElement)
+
+export {
+  AriaDisclosureButtonElement as AracnaAriaDisclosureButtonElement,
+  AriaDisclosureElement as AracnaAriaDisclosureElement,
+  AriaDisclosurePanelElement as AracnaAriaDisclosurePanelElement,
+  AriaDisclosureSectionElement as AracnaAriaDisclosureSectionElement
+}

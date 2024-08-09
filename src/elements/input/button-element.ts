@@ -1,7 +1,12 @@
-import { ButtonClickEvent, ButtonElementEventMap, ButtonType, ButtonVariant, defineCustomElement, ElementName, WebElementLogger } from '@aracna/web'
-import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
+import { defineCustomElement } from '@aracna/web'
+import { css, type CSSResultGroup, html, type PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { ButtonElementEventMap } from '../../definitions/events.js'
+import type { ButtonType, ButtonVariant } from '../../definitions/types.js'
 import { ifdef } from '../../directives/if-defined.js'
-import { AriaButtonElement } from '../aria/aria-button-element.js'
+import { ButtonClickEvent } from '../../events/button-click-event.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaAriaButtonElement as AriaButtonElement } from '../aria/aria-button-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +14,7 @@ declare global {
   }
 }
 
-export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> extends AriaButtonElement<E> {
+class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> extends AriaButtonElement<E> {
   /**
    * PROPERTIES
    */
@@ -31,18 +36,18 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
 
   onClick = (): void => {
     if (this.disabled || this.spinning) {
-      WebElementLogger.warn(this.uid, 'onClick', `The button is disabled or spinning.`)
+      ElementLogger.warn(this.uid, 'onClick', `The button is disabled or spinning.`)
       return
     }
 
     if (this.async) {
       this.disabled = true
       this.spinning = true
-      WebElementLogger.verbose(this.uid, 'onClick', `The disabled and spinning properties have been set to true.`)
+      ElementLogger.verbose(this.uid, 'onClick', `The disabled and spinning properties have been set to true.`)
     }
 
     this.dispatchEvent(new ButtonClickEvent(this.finalize))
-    WebElementLogger.verbose(this.uid, 'onClick', `The "button-click" event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The "button-click" event has been dispatched.`)
   }
 
   finalize = (): void => {
@@ -53,7 +58,7 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
     this.spinning = false
     this.disabled = false
 
-    WebElementLogger.verbose(this.uid, 'finalize', `The disabled and spinning properties have been set to false.`)
+    ElementLogger.verbose(this.uid, 'finalize', `The disabled and spinning properties have been set to false.`)
   }
 
   render() {
@@ -118,3 +123,5 @@ export class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventM
 }
 
 defineCustomElement('aracna-button', ButtonElement)
+
+export { ButtonElement as AracnaButtonElement }

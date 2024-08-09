@@ -1,6 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-breadcrumb-element'
-import type { AriaBreadcrumbElement, AriaBreadcrumbItemElement, AriaBreadcrumbListElement } from '../../../src/elements/aria/aria-breadcrumb-element'
+import type {
+  AracnaAriaBreadcrumbElement as AriaBreadcrumbElement,
+  AracnaAriaBreadcrumbItemElement as AriaBreadcrumbItemElement,
+  AracnaAriaBreadcrumbListElement as AriaBreadcrumbListElement
+} from '../../../src/elements/aria/aria-breadcrumb-element'
 import { render } from '../../../vitest/dom-utils'
 
 describe('AriaBreadcrumbElement', () => {

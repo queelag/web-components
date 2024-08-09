@@ -3,12 +3,12 @@ import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-combo-box-element'
 import type {
-  AriaComboBoxButtonElement,
-  AriaComboBoxElement,
-  AriaComboBoxGroupElement,
-  AriaComboBoxInputElement,
-  AriaComboBoxListElement,
-  AriaComboBoxOptionElement
+  AracnaAriaComboBoxButtonElement as AriaComboBoxButtonElement,
+  AracnaAriaComboBoxElement as AriaComboBoxElement,
+  AracnaAriaComboBoxGroupElement as AriaComboBoxGroupElement,
+  AracnaAriaComboBoxInputElement as AriaComboBoxInputElement,
+  AracnaAriaComboBoxListElement as AriaComboBoxListElement,
+  AracnaAriaComboBoxOptionElement as AriaComboBoxOptionElement
 } from '../../../src/elements/aria/aria-combo-box-element'
 import { dispatchInputEvent, dispatchKeyDownEvent, render } from '../../../vitest/dom-utils'
 

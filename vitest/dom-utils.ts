@@ -1,17 +1,9 @@
-import { ElementAttributeValue, setElementAttributes } from '@aracna/web'
+import { wf } from '@aracna/core'
+import { type ElementAttributeValue, setElementAttributes } from '@aracna/web'
 
-function waitForElementRender(selectors: string): Promise<void> {
-  return new Promise((resolve) => {
-    let interval: NodeJS.Timeout
-
-    interval = setInterval(() => {
-      if (!document.querySelector(selectors)?.shadowRoot) {
-        return
-      }
-
-      clearInterval(interval)
-      resolve()
-    }, 10)
+function waitForElementRender(selectors: string): Promise<void | Error> {
+  return wf(() => {
+    return document.querySelector(selectors)?.shadowRoot
   })
 }
 
@@ -23,7 +15,7 @@ export async function render<T extends HTMLElement>(
   element: T,
   attributes?: Record<string, ElementAttributeValue>,
   listeners?: Record<string, (event: any) => any>
-): Promise<void> {
+): Promise<void | Error> {
   if (attributes) {
     setElementAttributes(element, attributes)
   }
@@ -36,7 +28,7 @@ export async function render<T extends HTMLElement>(
 
   document.body.append(element)
 
-  return waitForElementRender(element.tagName)
+  return waitForElementRender(element.tagName.toLowerCase())
 }
 
 export function dispatchEvent<T extends Document | HTMLElement, U extends Event>(element: T | null, event: U): void {

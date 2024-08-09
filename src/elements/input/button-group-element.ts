@@ -1,6 +1,8 @@
-import { ButtonGroupElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { BaseElement } from '../core/base-element.js'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { ButtonGroupElementEventMap } from '../../definitions/events.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -8,7 +10,7 @@ declare global {
   }
 }
 
-export class ButtonGroupElement<E extends ButtonGroupElementEventMap = ButtonGroupElementEventMap, T = any> extends BaseElement<E> {
+class ButtonGroupElement<E extends ButtonGroupElementEventMap = ButtonGroupElementEventMap, T = any> extends BaseElement<E> {
   buttons?: T[]
 
   get name(): ElementName {
@@ -21,3 +23,5 @@ export class ButtonGroupElement<E extends ButtonGroupElementEventMap = ButtonGro
 }
 
 defineCustomElement('aracna-button-group', ButtonGroupElement)
+
+export { ButtonGroupElement as AracnaButtonGroupElement }

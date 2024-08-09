@@ -1,6 +1,6 @@
 import { setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaBreadcrumbItemElement } from '../elements/aria/aria-breadcrumb-element.js'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
+import type { AracnaAriaBreadcrumbItemElement as AriaBreadcrumbItemElement } from '../elements/aria/aria-breadcrumb-element.js'
 
 export class AriaBreadcrumbController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & HTMLElement) {

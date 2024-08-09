@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-disclosure-element'
 import type {
-  AriaDisclosureButtonElement,
-  AriaDisclosureElement,
-  AriaDisclosurePanelElement,
-  AriaDisclosureSectionElement
+  AracnaAriaDisclosureButtonElement as AriaDisclosureButtonElement,
+  AracnaAriaDisclosureElement as AriaDisclosureElement,
+  AracnaAriaDisclosurePanelElement as AriaDisclosurePanelElement,
+  AracnaAriaDisclosureSectionElement as AriaDisclosureSectionElement
 } from '../../../src/elements/aria/aria-disclosure-element'
 import { render } from '../../../vitest/dom-utils'
 

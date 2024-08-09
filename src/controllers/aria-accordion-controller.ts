@@ -1,11 +1,12 @@
 import { generateRandomString } from '@aracna/core'
-import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
+import { setImmutableElementAttribute } from '@aracna/web'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants.js'
 import type {
-  AriaAccordionButtonElement,
-  AriaAccordionHeaderElement,
-  AriaAccordionPanelElement,
-  AriaAccordionSectionElement
+  AracnaAriaAccordionButtonElement as AriaAccordionButtonElement,
+  AracnaAriaAccordionHeaderElement as AriaAccordionHeaderElement,
+  AracnaAriaAccordionPanelElement as AriaAccordionPanelElement,
+  AracnaAriaAccordionSectionElement as AriaAccordionSectionElement
 } from '../elements/aria/aria-accordion-element.js'
 
 export class AriaAccordionButtonController implements ReactiveController {

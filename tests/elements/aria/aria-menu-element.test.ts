@@ -2,7 +2,12 @@ import { sleep } from '@aracna/core'
 import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
 import '../../../src/elements/aria/aria-menu-element'
-import type { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../../../src/elements/aria/aria-menu-element'
+import type {
+  AracnaAriaMenuButtonElement as AriaMenuButtonElement,
+  AracnaAriaMenuElement as AriaMenuElement,
+  AracnaAriaMenuItemElement as AriaMenuItemElement,
+  AracnaAriaMenuSubMenuElement as AriaMenuSubMenuElement
+} from '../../../src/elements/aria/aria-menu-element'
 import { dispatchKeyDownEvent, dispatchMouseEnterEvent, dispatchMouseLeaveEvent, render } from '../../../vitest/dom-utils'
 
 /**

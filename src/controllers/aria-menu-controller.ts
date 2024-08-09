@@ -1,7 +1,13 @@
 import { generateRandomString, parseNumber } from '@aracna/core'
-import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../elements/aria/aria-menu-element.js'
+import { setImmutableElementAttribute } from '@aracna/web'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants.js'
+import type {
+  AracnaAriaMenuButtonElement as AriaMenuButtonElement,
+  AracnaAriaMenuElement as AriaMenuElement,
+  AracnaAriaMenuItemElement as AriaMenuItemElement,
+  AracnaAriaMenuSubMenuElement as AriaMenuSubMenuElement
+} from '../elements/aria/aria-menu-element.js'
 
 export class AriaMenuController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaMenuElement) {

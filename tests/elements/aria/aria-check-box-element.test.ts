@@ -1,7 +1,7 @@
 import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-check-box-element'
-import type { AriaCheckBoxElement } from '../../../src/elements/aria/aria-check-box-element'
+import type { AracnaAriaCheckBoxElement as AriaCheckBoxElement } from '../../../src/elements/aria/aria-check-box-element'
 import { dispatchKeyDownEvent, render } from '../../../vitest/dom-utils'
 
 describe('AriaCheckBoxElement', () => {

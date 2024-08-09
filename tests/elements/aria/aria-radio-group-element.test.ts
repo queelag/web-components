@@ -1,7 +1,10 @@
 import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-radio-group-element'
-import type { AriaRadioButtonElement, AriaRadioGroupElement } from '../../../src/elements/aria/aria-radio-group-element'
+import type {
+  AracnaAriaRadioButtonElement as AriaRadioButtonElement,
+  AracnaAriaRadioGroupElement as AriaRadioGroupElement
+} from '../../../src/elements/aria/aria-radio-group-element'
 import { dispatchKeyDownEvent, render } from '../../../vitest/dom-utils'
 
 describe('AriaRadioGroupElement', () => {

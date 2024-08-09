@@ -1,18 +1,16 @@
-import {
-  DEFAULT_GET_RADIO_BUTTON_LABEL,
-  DEFAULT_GET_RADIO_BUTTON_VALUE,
-  defineCustomElement,
-  ElementName,
-  GetRadioButtonLabel,
-  GetRadioButtonValue,
-  QueryDeclarations,
-  RadioButtonElementEventMap,
-  RadioGroupElementEventMap,
-  WebElementLogger
-} from '@aracna/web'
-import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
+import { defineCustomElement } from '@aracna/web'
+import { css, type CSSResultGroup, html, type PropertyDeclarations } from 'lit'
+import { DEFAULT_GET_RADIO_BUTTON_LABEL, DEFAULT_GET_RADIO_BUTTON_VALUE } from '../../definitions/constants.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { RadioButtonElementEventMap, RadioGroupElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import type { GetRadioButtonLabel, GetRadioButtonValue } from '../../definitions/types.js'
 import { map } from '../../directives/map.js'
-import { AriaRadioButtonElement, AriaRadioGroupElement } from '../aria/aria-radio-group-element.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import {
+  AracnaAriaRadioButtonElement as AriaRadioButtonElement,
+  AracnaAriaRadioGroupElement as AriaRadioGroupElement
+} from '../aria/aria-radio-group-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -21,7 +19,7 @@ declare global {
   }
 }
 
-export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupElementEventMap, T = any> extends AriaRadioGroupElement<E> {
+class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupElementEventMap, T = any> extends AriaRadioGroupElement<E> {
   /**
    * PROPERTIES
    */
@@ -31,7 +29,7 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
 
   onChange(button: T): void {
     if (this.disabled || this.readonly) {
-      return WebElementLogger.warn(this.uid, 'onChange', `The radiogroup is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, 'onChange', `The radiogroup is disabled or readonly.`)
     }
 
     this.value = this.getButtonValue(button)
@@ -94,7 +92,7 @@ export class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupE
   ]
 }
 
-export class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButtonElementEventMap> extends AriaRadioButtonElement<E> {
+class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButtonElementEventMap> extends AriaRadioButtonElement<E> {
   headline?: string
   icon?: string
   text?: string
@@ -116,3 +114,5 @@ export class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButt
 
 defineCustomElement('aracna-radio-group', RadioGroupElement)
 defineCustomElement('aracna-radio-button', RadioButtonElement)
+
+export { RadioButtonElement as AracnaRadioButtonElement, RadioGroupElement as AracnaRadioGroupElement }

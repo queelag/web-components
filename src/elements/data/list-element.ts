@@ -1,6 +1,8 @@
-import { defineCustomElement, ElementName, ListElementEventMap, ListItemElementEventMap } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { AriaListElement, AriaListItemElement } from '../aria/aria-list-element.js'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { ListElementEventMap, ListItemElementEventMap } from '../../definitions/events.js'
+import { AracnaAriaListElement as AriaListElement, AracnaAriaListItemElement as AriaListItemElement } from '../aria/aria-list-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +11,7 @@ declare global {
   }
 }
 
-export class ListElement<E extends ListElementEventMap = ListElementEventMap, T = any> extends AriaListElement<E> {
+class ListElement<E extends ListElementEventMap = ListElementEventMap, T = any> extends AriaListElement<E> {
   /**
    * PROPERTIES
    */
@@ -32,7 +34,7 @@ export class ListElement<E extends ListElementEventMap = ListElementEventMap, T 
   }
 }
 
-export class ListItemElement<E extends ListItemElementEventMap = ListItemElementEventMap> extends AriaListItemElement<E> {
+class ListItemElement<E extends ListItemElementEventMap = ListItemElementEventMap> extends AriaListItemElement<E> {
   /**
    * PROPERTIES
    */
@@ -63,3 +65,5 @@ export class ListItemElement<E extends ListItemElementEventMap = ListItemElement
 
 defineCustomElement('aracna-list', ListElement)
 defineCustomElement('aracna-list-item', ListItemElement)
+
+export { ListElement as AracnaListElement, ListItemElement as AracnaListItemElement }

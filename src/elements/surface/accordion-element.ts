@@ -1,20 +1,20 @@
-import {
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type {
   AccordionButtonElementEventMap,
   AccordionElementEventMap,
   AccordionHeaderElementEventMap,
   AccordionPanelElementEventMap,
-  AccordionSectionElementEventMap,
-  defineCustomElement,
-  ElementName,
-  QueryDeclarations
-} from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
+  AccordionSectionElementEventMap
+} from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import {
-  AriaAccordionButtonElement,
-  AriaAccordionElement,
-  AriaAccordionHeaderElement,
-  AriaAccordionPanelElement,
-  AriaAccordionSectionElement
+  AracnaAriaAccordionButtonElement as AriaAccordionButtonElement,
+  AracnaAriaAccordionElement as AriaAccordionElement,
+  AracnaAriaAccordionHeaderElement as AriaAccordionHeaderElement,
+  AracnaAriaAccordionPanelElement as AriaAccordionPanelElement,
+  AracnaAriaAccordionSectionElement as AriaAccordionSectionElement
 } from '../aria/aria-accordion-element.js'
 
 declare global {
@@ -27,7 +27,7 @@ declare global {
   }
 }
 
-export class AccordionElement<E extends AccordionElementEventMap = AccordionElementEventMap, T = any> extends AriaAccordionElement<E> {
+class AccordionElement<E extends AccordionElementEventMap = AccordionElementEventMap, T = any> extends AriaAccordionElement<E> {
   sections?: T[]
 
   get name(): ElementName {
@@ -47,7 +47,7 @@ export class AccordionElement<E extends AccordionElementEventMap = AccordionElem
   }
 }
 
-export class AccordionSectionElement<E extends AccordionSectionElementEventMap = AccordionSectionElementEventMap> extends AriaAccordionSectionElement<E> {
+class AccordionSectionElement<E extends AccordionSectionElementEventMap = AccordionSectionElementEventMap> extends AriaAccordionSectionElement<E> {
   headline?: string
   icon?: string
   text?: string
@@ -68,13 +68,13 @@ export class AccordionSectionElement<E extends AccordionSectionElementEventMap =
   }
 }
 
-export class AccordionHeaderElement<E extends AccordionHeaderElementEventMap = AccordionHeaderElementEventMap> extends AriaAccordionHeaderElement<E> {
+class AccordionHeaderElement<E extends AccordionHeaderElementEventMap = AccordionHeaderElementEventMap> extends AriaAccordionHeaderElement<E> {
   get name(): ElementName {
     return ElementName.ACCORDION_HEADER
   }
 }
 
-export class AccordionButtonElement<E extends AccordionButtonElementEventMap = AccordionButtonElementEventMap> extends AriaAccordionButtonElement<E> {
+class AccordionButtonElement<E extends AccordionButtonElementEventMap = AccordionButtonElementEventMap> extends AriaAccordionButtonElement<E> {
   get name(): ElementName {
     return ElementName.ACCORDION_BUTTON
   }
@@ -85,7 +85,7 @@ export class AccordionButtonElement<E extends AccordionButtonElementEventMap = A
   }
 }
 
-export class AccordionPanelElement<E extends AccordionPanelElementEventMap = AccordionPanelElementEventMap> extends AriaAccordionPanelElement<E> {
+class AccordionPanelElement<E extends AccordionPanelElementEventMap = AccordionPanelElementEventMap> extends AriaAccordionPanelElement<E> {
   get name(): ElementName {
     return ElementName.ACCORDION_PANEL
   }
@@ -100,3 +100,11 @@ defineCustomElement('aracna-accordion-button', AccordionButtonElement)
 defineCustomElement('aracna-accordion-header', AccordionHeaderElement)
 defineCustomElement('aracna-accordion-panel', AccordionPanelElement)
 defineCustomElement('aracna-accordion-section', AccordionSectionElement)
+
+export {
+  AccordionButtonElement as AracnaAccordionButtonElement,
+  AccordionElement as AracnaAccordionElement,
+  AccordionHeaderElement as AracnaAccordionHeaderElement,
+  AccordionPanelElement as AracnaAccordionPanelElement,
+  AccordionSectionElement as AracnaAccordionSectionElement
+}

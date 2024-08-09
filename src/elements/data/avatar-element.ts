@@ -1,6 +1,8 @@
-import { AvatarElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { BaseElement } from '../core/base-element.js'
+import { defineCustomElement } from '@aracna/web'
+import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { AvatarElementEventMap } from '../../definitions/events.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -8,7 +10,7 @@ declare global {
   }
 }
 
-export class AvatarElement<E extends AvatarElementEventMap = AvatarElementEventMap> extends BaseElement<E> {
+class AvatarElement<E extends AvatarElementEventMap = AvatarElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -39,3 +41,5 @@ export class AvatarElement<E extends AvatarElementEventMap = AvatarElementEventM
 }
 
 defineCustomElement('aracna-avatar', AvatarElement)
+
+export { AvatarElement as AracnaAvatarElement }

@@ -1,5 +1,8 @@
-import { getElementStyleCompatibleValue, getSquircleClipPathID, Shape, ShapeOptions } from '@aracna/web'
-import { StyleInfo } from 'lit/directives/style-map.js'
+import { getElementStyleCompatibleValue } from '@aracna/web'
+import type { StyleInfo } from 'lit/directives/style-map.js'
+import type { ShapeOptions } from '../definitions/interfaces.js'
+import type { Shape } from '../definitions/types.js'
+import { getSquircleClipPathID } from './squircle-utils.js'
 
 export function getShapeStyleInfo(shape?: Shape, options?: ShapeOptions): StyleInfo {
   switch (shape) {

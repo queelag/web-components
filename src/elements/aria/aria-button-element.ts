@@ -1,7 +1,11 @@
-import { AriaButtonElementEventMap, ButtonPressed, defineCustomElement, ElementName, KeyboardEventKey, WebElementLogger } from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaButtonController } from '../../controllers/aria-button-controller.js'
-import { BaseElement } from '../core/base-element.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { AriaButtonElementEventMap } from '../../definitions/events.js'
+import type { ButtonPressed } from '../../definitions/types.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +13,7 @@ declare global {
   }
 }
 
-export class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonElementEventMap> extends BaseElement<E> {
+class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonElementEventMap> extends BaseElement<E> {
   protected aria: AriaButtonController = new AriaButtonController(this)
 
   /**
@@ -52,11 +56,11 @@ export class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonE
     event.stopPropagation()
 
     if (this.disabled) {
-      return WebElementLogger.warn(this.uid, 'onKeyDown', `The button is disabled.`)
+      return ElementLogger.warn(this.uid, 'onKeyDown', `The button is disabled.`)
     }
 
     this.click()
-    WebElementLogger.verbose(this.uid, 'onKeyDown', `The button has been clicked.`)
+    ElementLogger.verbose(this.uid, 'onKeyDown', `The button has been clicked.`)
   }
 
   get name(): ElementName {
@@ -80,3 +84,5 @@ export class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonE
 }
 
 defineCustomElement('aracna-aria-button', AriaButtonElement)
+
+export { AriaButtonElement as AracnaAriaButtonElement }

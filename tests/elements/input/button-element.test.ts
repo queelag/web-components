@@ -1,8 +1,8 @@
 import { sleep } from '@aracna/core'
-import { ButtonClickEvent } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
 import '../../../src/elements/input/button-element'
-import type { ButtonElement } from '../../../src/elements/input/button-element'
+import type { AracnaButtonElement as ButtonElement } from '../../../src/elements/input/button-element'
+import { ButtonClickEvent } from '../../../src/events/button-click-event'
 import { render } from '../../../vitest/dom-utils'
 
 describe('ButtonElement', () => {

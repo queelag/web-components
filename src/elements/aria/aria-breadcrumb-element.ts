@@ -1,14 +1,10 @@
-import {
-  AriaBreadcrumbElementEventMap,
-  AriaBreadcrumbItemElementEventMap,
-  AriaBreadcrumbListElementEventMap,
-  defineCustomElement,
-  ElementName,
-  QueryDeclarations
-} from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
 import { AriaBreadcrumbController, AriaBreadcrumbItemController, AriaBreadcrumbListController } from '../../controllers/aria-breadcrumb-controller.js'
-import { BaseElement } from '../core/base-element.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { AriaBreadcrumbElementEventMap, AriaBreadcrumbItemElementEventMap, AriaBreadcrumbListElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -18,7 +14,7 @@ declare global {
   }
 }
 
-export class AriaBreadcrumbElement<E extends AriaBreadcrumbElementEventMap = AriaBreadcrumbElementEventMap> extends BaseElement<E> {
+class AriaBreadcrumbElement<E extends AriaBreadcrumbElementEventMap = AriaBreadcrumbElementEventMap> extends BaseElement<E> {
   protected aria: AriaBreadcrumbController = new AriaBreadcrumbController(this)
 
   get name(): ElementName {
@@ -26,7 +22,7 @@ export class AriaBreadcrumbElement<E extends AriaBreadcrumbElementEventMap = Ari
   }
 }
 
-export class AriaBreadcrumbListElement<E extends AriaBreadcrumbListElementEventMap = AriaBreadcrumbListElementEventMap> extends BaseElement<E> {
+class AriaBreadcrumbListElement<E extends AriaBreadcrumbListElementEventMap = AriaBreadcrumbListElementEventMap> extends BaseElement<E> {
   protected aria: AriaBreadcrumbListController = new AriaBreadcrumbListController(this)
 
   get name(): ElementName {
@@ -34,7 +30,7 @@ export class AriaBreadcrumbListElement<E extends AriaBreadcrumbListElementEventM
   }
 }
 
-export class AriaBreadcrumbItemElement<E extends AriaBreadcrumbItemElementEventMap = AriaBreadcrumbItemElementEventMap> extends BaseElement<E> {
+class AriaBreadcrumbItemElement<E extends AriaBreadcrumbItemElementEventMap = AriaBreadcrumbItemElementEventMap> extends BaseElement<E> {
   protected aria: AriaBreadcrumbItemController = new AriaBreadcrumbItemController(this)
 
   /**
@@ -63,3 +59,9 @@ export class AriaBreadcrumbItemElement<E extends AriaBreadcrumbItemElementEventM
 defineCustomElement('aracna-aria-breadcrumb', AriaBreadcrumbElement)
 defineCustomElement('aracna-aria-breadcrumb-item', AriaBreadcrumbItemElement)
 defineCustomElement('aracna-aria-breadcrumb-list', AriaBreadcrumbListElement)
+
+export {
+  AriaBreadcrumbElement as AracnaAriaBreadcrumbElement,
+  AriaBreadcrumbItemElement as AracnaAriaBreadcrumbItemElement,
+  AriaBreadcrumbListElement as AracnaAriaBreadcrumbListElement
+}

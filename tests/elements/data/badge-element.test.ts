@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/data/badge-element'
-import type { BadgeElement } from '../../../src/elements/data/badge-element'
+import type { AracnaBadgeElement as BadgeElement } from '../../../src/elements/data/badge-element'
 import { render } from '../../../vitest/dom-utils'
 
 describe('BadgeElement', () => {

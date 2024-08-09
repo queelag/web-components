@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/navigation/navigation-rail-element'
-import type { NavigationRailElement } from '../../../src/elements/navigation/navigation-rail-element'
+import type { AracnaNavigationRailElement as NavigationRailElement } from '../../../src/elements/navigation/navigation-rail-element'
 import { render } from '../../../vitest/dom-utils'
 
 describe('NavigationRailElement', () => {

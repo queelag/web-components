@@ -1,17 +1,12 @@
-import {
-  AriaTabsElementEventMap,
-  AriaTabsPanelElementEventMap,
-  AriaTabsTabElementEventMap,
-  defineCustomElement,
-  ElementName,
-  KeyboardEventKey,
-  QueryDeclarations,
-  TabsTabSelectionEvent,
-  WebElementLogger
-} from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaTabsController, AriaTabsPanelController, AriaTabsTabController } from '../../controllers/aria-tabs-controller.js'
-import { BaseElement } from '../core/base-element.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { AriaTabsElementEventMap, AriaTabsPanelElementEventMap, AriaTabsTabElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { TabsTabSelectionEvent } from '../../events/tabs-tab-selection-event.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -21,7 +16,7 @@ declare global {
   }
 }
 
-export class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElementEventMap> extends BaseElement<E> {
+class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElementEventMap> extends BaseElement<E> {
   protected aria: AriaTabsController = new AriaTabsController(this)
 
   /**
@@ -67,26 +62,26 @@ export class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElement
         if (this.focusedTabElementIndex === 0) {
           if (this.automaticActivation) {
             this.tabElements[this.tabElements.length - 1]?.select()
-            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The last tab has been selected.`)
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The last tab has been selected.`)
 
             break
           }
 
           this.tabElements[this.tabElements.length - 1]?.focus()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The last tab has been focused.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The last tab has been focused.`)
 
           break
         }
 
         if (this.automaticActivation) {
           this.tabElements[this.focusedTabElementIndex - 1]?.select()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous tab has been selected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous tab has been selected.`)
 
           break
         }
 
         this.tabElements[this.focusedTabElementIndex - 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous tab has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous tab has been focused.`)
 
         break
       case KeyboardEventKey.ARROW_DOWN:
@@ -94,50 +89,50 @@ export class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElement
         if (this.focusedTabElementIndex >= this.tabElements.length - 1) {
           if (this.automaticActivation) {
             this.tabElements[0]?.select()
-            WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The first tab has been selected.`)
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The first tab has been selected.`)
 
             break
           }
 
           this.tabElements[0]?.focus()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The first tab has been focused.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The first tab has been focused.`)
 
           break
         }
 
         if (this.automaticActivation) {
           this.tabElements[this.focusedTabElementIndex + 1]?.select()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The next tab has been selected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The next tab has been selected.`)
 
           break
         }
 
         this.tabElements[this.focusedTabElementIndex + 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The next tab has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The next tab has been focused.`)
 
         break
       case KeyboardEventKey.HOME:
         if (this.automaticActivation) {
           this.tabElements[0]?.select()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been selected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been selected.`)
 
           break
         }
 
         this.tabElements[0]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been focused.`)
 
         break
       case KeyboardEventKey.END:
         if (this.automaticActivation) {
           this.tabElements[this.tabElements.length - 1]?.select()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been selected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been selected.`)
 
           break
         }
 
         this.tabElements[this.tabElements.length - 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been focused.`)
 
         break
       case KeyboardEventKey.ENTER:
@@ -147,7 +142,7 @@ export class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElement
         }
 
         this.focusedTabElement?.select()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The focused tab has been selected.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The focused tab has been selected.`)
 
         break
     }
@@ -185,7 +180,7 @@ export class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElement
   }
 }
 
-export class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsTabElementEventMap> extends BaseElement<E> {
+class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsTabElementEventMap> extends BaseElement<E> {
   protected aria: AriaTabsTabController = new AriaTabsTabController(this)
 
   /**
@@ -210,7 +205,7 @@ export class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsT
 
   onClick = (): void => {
     this.select()
-    WebElementLogger.verbose(this.uid, 'onClick', `The tab has been selected.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The tab has been selected.`)
   }
 
   select(): void {
@@ -252,7 +247,7 @@ export class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsT
   ]
 }
 
-export class AriaTabsPanelElement<E extends AriaTabsPanelElementEventMap = AriaTabsPanelElementEventMap> extends BaseElement<E> {
+class AriaTabsPanelElement<E extends AriaTabsPanelElementEventMap = AriaTabsPanelElementEventMap> extends BaseElement<E> {
   protected aria: AriaTabsPanelController = new AriaTabsPanelController(this)
 
   /**
@@ -276,3 +271,5 @@ export class AriaTabsPanelElement<E extends AriaTabsPanelElementEventMap = AriaT
 defineCustomElement('aracna-aria-tabs', AriaTabsElement)
 defineCustomElement('aracna-aria-tabs-tab', AriaTabsTabElement)
 defineCustomElement('aracna-aria-tabs-panel', AriaTabsPanelElement)
+
+export { AriaTabsElement as AracnaAriaTabsElement, AriaTabsPanelElement as AracnaAriaTabsPanelElement, AriaTabsTabElement as AracnaAriaTabsTabElement }

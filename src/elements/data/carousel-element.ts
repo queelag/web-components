@@ -1,4 +1,7 @@
-import {
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type {
   CarouselElementEventMap,
   CarouselNextSlideControlElementEventMap,
   CarouselPreviousSlideControlElementEventMap,
@@ -6,21 +9,18 @@ import {
   CarouselSlideElementEventMap,
   CarouselSlidesElementEventMap,
   CarouselTabElementEventMap,
-  CarouselTabsElementEventMap,
-  defineCustomElement,
-  ElementName,
-  QueryDeclarations
-} from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
+  CarouselTabsElementEventMap
+} from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import {
-  AriaCarouselElement,
-  AriaCarouselNextSlideControlElement,
-  AriaCarouselPreviousSlideControlElement,
-  AriaCarouselRotationControlElement,
-  AriaCarouselSlideElement,
-  AriaCarouselSlidesElement,
-  AriaCarouselTabElement,
-  AriaCarouselTabsElement
+  AracnaAriaCarouselElement as AriaCarouselElement,
+  AracnaAriaCarouselNextSlideControlElement as AriaCarouselNextSlideControlElement,
+  AracnaAriaCarouselPreviousSlideControlElement as AriaCarouselPreviousSlideControlElement,
+  AracnaAriaCarouselRotationControlElement as AriaCarouselRotationControlElement,
+  AracnaAriaCarouselSlideElement as AriaCarouselSlideElement,
+  AracnaAriaCarouselSlidesElement as AriaCarouselSlidesElement,
+  AracnaAriaCarouselTabElement as AriaCarouselTabElement,
+  AracnaAriaCarouselTabsElement as AriaCarouselTabsElement
 } from '../aria/aria-carousel-element.js'
 
 declare global {
@@ -36,7 +36,7 @@ declare global {
   }
 }
 
-export class CarouselElement<E extends CarouselElementEventMap = CarouselElementEventMap, T = any> extends AriaCarouselElement<E> {
+class CarouselElement<E extends CarouselElementEventMap = CarouselElementEventMap, T = any> extends AriaCarouselElement<E> {
   slides?: T[]
 
   get name(): ElementName {
@@ -58,7 +58,7 @@ export class CarouselElement<E extends CarouselElementEventMap = CarouselElement
   }
 }
 
-export class CarouselSlidesElement<E extends CarouselSlidesElementEventMap = CarouselSlidesElementEventMap> extends AriaCarouselSlidesElement<E> {
+class CarouselSlidesElement<E extends CarouselSlidesElementEventMap = CarouselSlidesElementEventMap> extends AriaCarouselSlidesElement<E> {
   get name(): ElementName {
     return ElementName.CAROUSEL_SLIDES
   }
@@ -68,7 +68,7 @@ export class CarouselSlidesElement<E extends CarouselSlidesElementEventMap = Car
   }
 }
 
-export class CarouselSlideElement<E extends CarouselSlideElementEventMap = CarouselSlideElementEventMap> extends AriaCarouselSlideElement<E> {
+class CarouselSlideElement<E extends CarouselSlideElementEventMap = CarouselSlideElementEventMap> extends AriaCarouselSlideElement<E> {
   get name(): ElementName {
     return ElementName.CAROUSEL_SLIDE
   }
@@ -79,7 +79,7 @@ export class CarouselSlideElement<E extends CarouselSlideElementEventMap = Carou
   }
 }
 
-export class CarouselRotationControlElement<
+class CarouselRotationControlElement<
   E extends CarouselRotationControlElementEventMap = CarouselRotationControlElementEventMap
 > extends AriaCarouselRotationControlElement<E> {
   get name(): ElementName {
@@ -91,7 +91,7 @@ export class CarouselRotationControlElement<
   }
 }
 
-export class CarouselNextSlideControlElement<
+class CarouselNextSlideControlElement<
   E extends CarouselNextSlideControlElementEventMap = CarouselNextSlideControlElementEventMap
 > extends AriaCarouselNextSlideControlElement<E> {
   get name(): ElementName {
@@ -103,7 +103,7 @@ export class CarouselNextSlideControlElement<
   }
 }
 
-export class CarouselPreviousSlideControlElement<
+class CarouselPreviousSlideControlElement<
   E extends CarouselPreviousSlideControlElementEventMap = CarouselPreviousSlideControlElementEventMap
 > extends AriaCarouselPreviousSlideControlElement<E> {
   get name(): ElementName {
@@ -115,7 +115,7 @@ export class CarouselPreviousSlideControlElement<
   }
 }
 
-export class CarouselTabsElement<E extends CarouselTabsElementEventMap = CarouselTabsElementEventMap> extends AriaCarouselTabsElement<E> {
+class CarouselTabsElement<E extends CarouselTabsElementEventMap = CarouselTabsElementEventMap> extends AriaCarouselTabsElement<E> {
   get name(): ElementName {
     return ElementName.CAROUSEL_TABS
   }
@@ -128,7 +128,7 @@ export class CarouselTabsElement<E extends CarouselTabsElementEventMap = Carouse
   }
 }
 
-export class CarouselTabElement<E extends CarouselTabElementEventMap = CarouselTabElementEventMap> extends AriaCarouselTabElement<E> {
+class CarouselTabElement<E extends CarouselTabElementEventMap = CarouselTabElementEventMap> extends AriaCarouselTabElement<E> {
   get name(): ElementName {
     return ElementName.CAROUSEL_TAB
   }
@@ -147,3 +147,14 @@ defineCustomElement('aracna-carousel-slide', CarouselSlideElement)
 defineCustomElement('aracna-carousel-slides', CarouselSlidesElement)
 defineCustomElement('aracna-carousel-tab', CarouselTabElement)
 defineCustomElement('aracna-carousel-tabs', CarouselTabsElement)
+
+export {
+  CarouselElement as AracnaCarouselElement,
+  CarouselNextSlideControlElement as AracnaCarouselNextSlideControlElement,
+  CarouselPreviousSlideControlElement as AracnaCarouselPreviousSlideControlElement,
+  CarouselRotationControlElement as AracnaCarouselRotationControlElement,
+  CarouselSlideElement as AracnaCarouselSlideElement,
+  CarouselSlidesElement as AracnaCarouselSlidesElement,
+  CarouselTabElement as AracnaCarouselTabElement,
+  CarouselTabsElement as AracnaCarouselTabsElement
+}

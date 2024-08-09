@@ -1,6 +1,8 @@
-import { defineCustomElement, ElementName, NavigationRailElementEventMap, NavigationRailItemElementEventMap } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { BaseElement } from '../core/base-element.js'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { NavigationRailElementEventMap, NavigationRailItemElementEventMap } from '../../definitions/events.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +11,7 @@ declare global {
   }
 }
 
-export class NavigationRailElement<E extends NavigationRailElementEventMap = NavigationRailElementEventMap, T = any> extends BaseElement<E> {
+class NavigationRailElement<E extends NavigationRailElementEventMap = NavigationRailElementEventMap, T = any> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -24,7 +26,7 @@ export class NavigationRailElement<E extends NavigationRailElementEventMap = Nav
   }
 }
 
-export class NavigationRailItemElement<E extends NavigationRailItemElementEventMap = NavigationRailItemElementEventMap> extends BaseElement<E> {
+class NavigationRailItemElement<E extends NavigationRailItemElementEventMap = NavigationRailItemElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */
@@ -49,3 +51,5 @@ export class NavigationRailItemElement<E extends NavigationRailItemElementEventM
 
 defineCustomElement('aracna-navigation-rail', NavigationRailElement)
 defineCustomElement('aracna-navigation-rail-item', NavigationRailItemElement)
+
+export { NavigationRailElement as AracnaNavigationRailElement, NavigationRailItemElement as AracnaNavigationRailItemElement }

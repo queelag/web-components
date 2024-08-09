@@ -1,7 +1,9 @@
-import { defineCustomElement, getMeterElementPercentage, MeterElementEventMap } from '@aracna/web'
-import { html, PropertyDeclarations } from 'lit'
+import { defineCustomElement } from '@aracna/web'
+import { html, type PropertyDeclarations } from 'lit'
+import type { MeterElementEventMap } from '../../definitions/events.js'
 import { ifdef } from '../../directives/if-defined.js'
-import { AriaMeterElement } from '../aria/aria-meter-element.js'
+import { getMeterElementPercentage } from '../../utils/meter-element-utils.js'
+import { AracnaAriaMeterElement as AriaMeterElement } from '../aria/aria-meter-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +11,7 @@ declare global {
   }
 }
 
-export class MeterElement<E extends MeterElementEventMap = MeterElementEventMap> extends AriaMeterElement<E> {
+class MeterElement<E extends MeterElementEventMap = MeterElementEventMap> extends AriaMeterElement<E> {
   /**
    * PROPERTIES
    */
@@ -55,3 +57,5 @@ export class MeterElement<E extends MeterElementEventMap = MeterElementEventMap>
 }
 
 defineCustomElement('aracna-meter', MeterElement)
+
+export { MeterElement as AracnaMeterElement }

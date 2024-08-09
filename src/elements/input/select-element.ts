@@ -1,30 +1,28 @@
 import { isArray, removeArrayItems } from '@aracna/core'
-import {
-  DEFAULT_GET_SELECT_OPTION_LABEL,
-  DEFAULT_GET_SELECT_OPTION_VALUE,
-  ElementName,
-  GetSelectOptionLabel,
-  GetSelectOptionValue,
-  QueryDeclarations,
+import { defineCustomElement } from '@aracna/web'
+import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
+import { DEFAULT_GET_SELECT_OPTION_LABEL, DEFAULT_GET_SELECT_OPTION_VALUE } from '../../definitions/constants.js'
+import { ElementName } from '../../definitions/enums.js'
+import type {
   SelectButtonElementEventMap,
   SelectElementEventMap,
   SelectGroupElementEventMap,
   SelectInputElementEventMap,
   SelectListElementEventMap,
-  SelectOptionElementEventMap,
-  WebElementLogger,
-  defineCustomElement,
-  findSelectOptionByValue
-} from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
+  SelectOptionElementEventMap
+} from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import type { GetSelectOptionLabel, GetSelectOptionValue } from '../../definitions/types.js'
 import { map } from '../../directives/map.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { findSelectOptionByValue } from '../../utils/select-element-utils.js'
 import {
-  AriaComboBoxButtonElement,
-  AriaComboBoxElement,
-  AriaComboBoxGroupElement,
-  AriaComboBoxInputElement,
-  AriaComboBoxListElement,
-  AriaComboBoxOptionElement
+  AracnaAriaComboBoxButtonElement as AriaComboBoxButtonElement,
+  AracnaAriaComboBoxElement as AriaComboBoxElement,
+  AracnaAriaComboBoxGroupElement as AriaComboBoxGroupElement,
+  AracnaAriaComboBoxInputElement as AriaComboBoxInputElement,
+  AracnaAriaComboBoxListElement as AriaComboBoxListElement,
+  AracnaAriaComboBoxOptionElement as AriaComboBoxOptionElement
 } from '../aria/aria-combo-box-element.js'
 
 declare global {
@@ -38,7 +36,7 @@ declare global {
   }
 }
 
-export class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T = any> extends AriaComboBoxElement<E> {
+class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T = any> extends AriaComboBoxElement<E> {
   /**
    * PROPERTIES
    */
@@ -51,7 +49,7 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
     let option: T | undefined
 
     if (this.multiple && this.native) {
-      return WebElementLogger.warn(this.uid, 'onChange', `The multiple and native properties are not supported together.`)
+      return ElementLogger.warn(this.uid, 'onChange', `The multiple and native properties are not supported together.`)
     }
 
     option = findSelectOptionByValue(this.options ?? [], this.selectElement?.value)
@@ -67,7 +65,7 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
     }
 
     this.value = this.getOptionValue(option)
-    WebElementLogger.verbose(this.uid, 'onChange', `The value has been set.`, option, this.value)
+    ElementLogger.verbose(this.uid, 'onChange', `The value has been set.`, option, this.value)
   }
 
   removeOption(option: T): void {
@@ -125,13 +123,13 @@ export class SelectElement<E extends SelectElementEventMap = SelectElementEventM
   ]
 }
 
-export class SelectGroupElement<E extends SelectGroupElementEventMap = SelectGroupElementEventMap> extends AriaComboBoxGroupElement<E> {
+class SelectGroupElement<E extends SelectGroupElementEventMap = SelectGroupElementEventMap> extends AriaComboBoxGroupElement<E> {
   get name(): ElementName {
     return ElementName.SELECT_GROUP
   }
 }
 
-export class SelectButtonElement<E extends SelectButtonElementEventMap = SelectButtonElementEventMap> extends AriaComboBoxButtonElement<E> {
+class SelectButtonElement<E extends SelectButtonElementEventMap = SelectButtonElementEventMap> extends AriaComboBoxButtonElement<E> {
   get name(): ElementName {
     return ElementName.SELECT_BUTTON
   }
@@ -141,7 +139,7 @@ export class SelectButtonElement<E extends SelectButtonElementEventMap = SelectB
   }
 }
 
-export class SelectInputElement<E extends SelectInputElementEventMap = SelectInputElementEventMap> extends AriaComboBoxInputElement<E> {
+class SelectInputElement<E extends SelectInputElementEventMap = SelectInputElementEventMap> extends AriaComboBoxInputElement<E> {
   get name(): ElementName {
     return ElementName.SELECT_INPUT
   }
@@ -152,7 +150,7 @@ export class SelectInputElement<E extends SelectInputElementEventMap = SelectInp
   }
 }
 
-export class SelectListElement<E extends SelectListElementEventMap = SelectListElementEventMap> extends AriaComboBoxListElement<E> {
+class SelectListElement<E extends SelectListElementEventMap = SelectListElementEventMap> extends AriaComboBoxListElement<E> {
   get name(): ElementName {
     return ElementName.SELECT_LIST
   }
@@ -162,7 +160,7 @@ export class SelectListElement<E extends SelectListElementEventMap = SelectListE
   }
 }
 
-export class SelectOptionElement<E extends SelectOptionElementEventMap = SelectOptionElementEventMap> extends AriaComboBoxOptionElement<E> {
+class SelectOptionElement<E extends SelectOptionElementEventMap = SelectOptionElementEventMap> extends AriaComboBoxOptionElement<E> {
   /**
    * PROPERTIES
    */
@@ -210,3 +208,12 @@ defineCustomElement('aracna-select-group', SelectGroupElement)
 defineCustomElement('aracna-select-input', SelectInputElement)
 defineCustomElement('aracna-select-list', SelectListElement)
 defineCustomElement('aracna-select-option', SelectOptionElement)
+
+export {
+  SelectButtonElement as AracnaSelectButtonElement,
+  SelectElement as AracnaSelectElement,
+  SelectGroupElement as AracnaSelectGroupElement,
+  SelectInputElement as AracnaSelectInputElement,
+  SelectListElement as AracnaSelectListElement,
+  SelectOptionElement as AracnaSelectOptionElement
+}

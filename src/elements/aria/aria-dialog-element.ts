@@ -1,18 +1,14 @@
-import {
-  AriaDialogDescriptionElementEventMap,
-  AriaDialogElementEventMap,
-  AriaDialogLabelElementEventMap,
-  defineCustomElement,
-  DialogCloseEvent,
-  DialogOpenEvent,
-  ElementName,
-  QueryDeclarations,
-  WebElementLogger
-} from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
 import { AriaDialogController, AriaDialogDescriptionController, AriaDialogLabelController } from '../../controllers/aria-dialog-controller.js'
-import { BaseElement } from '../core/base-element.js'
-import { FocusTrapElement } from '../core/focus-trap-element.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { AriaDialogDescriptionElementEventMap, AriaDialogElementEventMap, AriaDialogLabelElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { DialogCloseEvent } from '../../events/dialog-close-event.js'
+import { DialogOpenEvent } from '../../events/dialog-open-event.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
+import { AracnaFocusTrapElement as FocusTrapElement } from '../core/focus-trap-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -22,7 +18,7 @@ declare global {
   }
 }
 
-export class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogElementEventMap> extends FocusTrapElement<E> {
+class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogElementEventMap> extends FocusTrapElement<E> {
   protected aria: AriaDialogController = new AriaDialogController(this)
 
   /**
@@ -75,14 +71,14 @@ export class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogE
     super.onFocusTrapPostActivate()
 
     this.dispatchEvent(new DialogOpenEvent())
-    WebElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The dialog-open event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The dialog-open event has been dispatched.`)
   }
 
   onFocusTrapPostDeactivate(): void {
     super.onFocusTrapPostDeactivate()
 
     this.dispatchEvent(new DialogCloseEvent())
-    WebElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The dialog-close event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The dialog-close event has been dispatched.`)
   }
 
   get name(): ElementName {
@@ -104,7 +100,7 @@ export class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogE
   }
 }
 
-export class AriaDialogDescriptionElement<E extends AriaDialogDescriptionElementEventMap = AriaDialogDescriptionElementEventMap> extends BaseElement<E> {
+class AriaDialogDescriptionElement<E extends AriaDialogDescriptionElementEventMap = AriaDialogDescriptionElementEventMap> extends BaseElement<E> {
   protected aria: AriaDialogDescriptionController = new AriaDialogDescriptionController(this)
 
   get name(): ElementName {
@@ -112,7 +108,7 @@ export class AriaDialogDescriptionElement<E extends AriaDialogDescriptionElement
   }
 }
 
-export class AriaDialogLabelElement<E extends AriaDialogLabelElementEventMap = AriaDialogLabelElementEventMap> extends BaseElement<E> {
+class AriaDialogLabelElement<E extends AriaDialogLabelElementEventMap = AriaDialogLabelElementEventMap> extends BaseElement<E> {
   protected aria: AriaDialogLabelController = new AriaDialogLabelController(this)
 
   get name(): ElementName {
@@ -123,3 +119,9 @@ export class AriaDialogLabelElement<E extends AriaDialogLabelElementEventMap = A
 defineCustomElement('aracna-aria-dialog', AriaDialogElement)
 defineCustomElement('aracna-aria-dialog-description', AriaDialogDescriptionElement)
 defineCustomElement('aracna-aria-dialog-label', AriaDialogLabelElement)
+
+export {
+  AriaDialogDescriptionElement as AracnaAriaDialogDescriptionElement,
+  AriaDialogElement as AracnaAriaDialogElement,
+  AriaDialogLabelElement as AracnaAriaDialogLabelElement
+}

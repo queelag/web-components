@@ -1,6 +1,12 @@
-import { BreadcrumbElementEventMap, BreadcrumbItemElementEventMap, BreadcrumbListElementEventMap, defineCustomElement, ElementName } from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { AriaBreadcrumbElement, AriaBreadcrumbItemElement, AriaBreadcrumbListElement } from '../aria/aria-breadcrumb-element.js'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { BreadcrumbElementEventMap, BreadcrumbItemElementEventMap, BreadcrumbListElementEventMap } from '../../definitions/events.js'
+import {
+  AracnaAriaBreadcrumbElement as AriaBreadcrumbElement,
+  AracnaAriaBreadcrumbItemElement as AriaBreadcrumbItemElement,
+  AracnaAriaBreadcrumbListElement as AriaBreadcrumbListElement
+} from '../aria/aria-breadcrumb-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -10,7 +16,7 @@ declare global {
   }
 }
 
-export class BreadcrumbElement<E extends BreadcrumbElementEventMap = BreadcrumbElementEventMap, T = any> extends AriaBreadcrumbElement<E> {
+class BreadcrumbElement<E extends BreadcrumbElementEventMap = BreadcrumbElementEventMap, T = any> extends AriaBreadcrumbElement<E> {
   items?: T[]
 
   get name(): ElementName {
@@ -22,13 +28,13 @@ export class BreadcrumbElement<E extends BreadcrumbElementEventMap = BreadcrumbE
   }
 }
 
-export class BreadcrumbListElement<E extends BreadcrumbListElementEventMap = BreadcrumbListElementEventMap> extends AriaBreadcrumbListElement<E> {
+class BreadcrumbListElement<E extends BreadcrumbListElementEventMap = BreadcrumbListElementEventMap> extends AriaBreadcrumbListElement<E> {
   get name(): ElementName {
     return ElementName.BREADCRUMB_LIST
   }
 }
 
-export class BreadcrumbItemElement<E extends BreadcrumbItemElementEventMap = BreadcrumbItemElementEventMap> extends AriaBreadcrumbItemElement<E> {
+class BreadcrumbItemElement<E extends BreadcrumbItemElementEventMap = BreadcrumbItemElementEventMap> extends AriaBreadcrumbItemElement<E> {
   headline?: string
   href?: string
   icon?: string
@@ -47,3 +53,9 @@ export class BreadcrumbItemElement<E extends BreadcrumbItemElementEventMap = Bre
 defineCustomElement('aracna-breadcrumb', BreadcrumbElement)
 defineCustomElement('aracna-breadcrumb-item', BreadcrumbItemElement)
 defineCustomElement('aracna-breadcrumb-list', BreadcrumbListElement)
+
+export {
+  AriaBreadcrumbElement as AracnaBreadcrumbElement,
+  AriaBreadcrumbItemElement as AracnaBreadcrumbItemElement,
+  AriaBreadcrumbListElement as AracnaBreadcrumbListElement
+}

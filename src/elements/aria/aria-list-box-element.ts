@@ -1,19 +1,15 @@
-import { TypeaheadPredicate, isArray, removeArrayItems, typeahead } from '@aracna/core'
-import {
-  AriaListBoxElementEventMap,
-  AriaListBoxOptionElementEventMap,
-  DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE,
-  ElementName,
-  KeyboardEventKey,
-  ListBoxOptionSelectEvent,
-  QueryDeclarations,
-  WebElementLogger,
-  defineCustomElement
-} from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css } from 'lit'
+import { type TypeaheadPredicate, isArray, removeArrayItems, typeahead } from '@aracna/core'
+import { KeyboardEventKey, defineCustomElement } from '@aracna/web'
+import { type CSSResultGroup, type PropertyDeclarations, css } from 'lit'
 import { AriaListBoxController, AriaListBoxOptionController } from '../../controllers/aria-list-box-controller.js'
-import { BaseElement } from '../core/base-element.js'
-import { FormControlElement } from '../core/form-control-element.js'
+import { DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE } from '../../definitions/constants.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { AriaListBoxElementEventMap, AriaListBoxOptionElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { ListBoxOptionSelectEvent } from '../../events/list-box-option-select-event.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
+import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -22,7 +18,7 @@ declare global {
   }
 }
 
-export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxElementEventMap> extends FormControlElement<E> {
+class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxElementEventMap> extends FormControlElement<E> {
   protected aria: AriaListBoxController = new AriaListBoxController(this)
 
   /**
@@ -59,23 +55,23 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
 
   onBlur = (): void => {
     this.focusedOptionElement?.blur()
-    WebElementLogger.verbose(this.uid, 'onBlur', `The focused option has been blurred.`)
+    ElementLogger.verbose(this.uid, 'onBlur', `The focused option has been blurred.`)
   }
 
   onFocus = (): void => {
     if (this.selectedOptionElement) {
       this.selectedOptionElement.focus()
-      WebElementLogger.verbose(this.uid, 'onFocus', `The selected option has been focused.`)
+      ElementLogger.verbose(this.uid, 'onFocus', `The selected option has been focused.`)
 
       return
     }
 
     this.optionElements[0]?.focus()
-    WebElementLogger.verbose(this.uid, 'onFocus', `The first option has been focused.`)
+    ElementLogger.verbose(this.uid, 'onFocus', `The first option has been focused.`)
 
     if (this.selectFirstOptionOnFocus && this.single) {
       this.optionElements[0]?.select()
-      WebElementLogger.verbose(this.uid, 'onFocus', `The first option has been selected.`)
+      ElementLogger.verbose(this.uid, 'onFocus', `The first option has been selected.`)
     }
   }
 
@@ -121,7 +117,7 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
           for (let element of this.optionElements) {
             element.unselect()
           }
-          WebElementLogger.verbose(this.uid, 'onKeyDown', `Every option has been unselected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', `Every option has been unselected.`)
 
           break
         }
@@ -129,14 +125,14 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
         for (let element of this.optionElements) {
           element.select()
         }
-        WebElementLogger.verbose(this.uid, 'onKeyDown', `Every option has been selected.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `Every option has been selected.`)
 
         break
       case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_RIGHT:
         if (this.focusedOptionElementIndex >= this.optionElements.length - 1) {
           this.optionElements[0]?.focus()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', `The first option has been focused.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', `The first option has been focused.`)
 
           if (this.selectionFollowsFocus && this.single) {
             this.optionElements[0]?.select()
@@ -146,7 +142,7 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
         }
 
         this.optionElements[this.focusedOptionElementIndex + 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', `The next option has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `The next option has been focused.`)
 
         if (this.selectionFollowsFocus && this.single) {
           this.optionElements[this.focusedOptionElementIndex + 1]?.select()
@@ -154,7 +150,7 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
 
         if (this.multiple && event.ctrlKey && this.focusedOptionElement) {
           this.focusedOptionElement.selected = !this.focusedOptionElement.selected
-          WebElementLogger.verbose(this.uid, 'onKeyDown', `The next option has been selected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', `The next option has been selected.`)
         }
 
         break
@@ -162,7 +158,7 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
       case KeyboardEventKey.ARROW_LEFT:
         if (this.focusedOptionElementIndex <= 0) {
           this.optionElements[this.optionElements.length - 1]?.focus()
-          WebElementLogger.verbose(this.uid, 'onKeyDown', `The last option has been focused.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', `The last option has been focused.`)
 
           if (this.selectionFollowsFocus && this.single) {
             this.optionElements[this.optionElements.length - 1]?.select()
@@ -172,7 +168,7 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
         }
 
         this.optionElements[this.focusedOptionElementIndex - 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', `The previous option has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `The previous option has been focused.`)
 
         if (this.selectionFollowsFocus && this.single) {
           this.optionElements[this.focusedOptionElementIndex - 1]?.select()
@@ -180,31 +176,31 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
 
         if (this.multiple && event.ctrlKey && this.focusedOptionElement) {
           this.focusedOptionElement.selected = !this.focusedOptionElement.selected
-          WebElementLogger.verbose(this.uid, 'onKeyDown', `The previous option has been selected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', `The previous option has been selected.`)
         }
 
         break
       case KeyboardEventKey.END:
         this.optionElements[this.optionElements.length - 1]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', `The last option has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `The last option has been focused.`)
 
         if (this.multiple && event.ctrlKey && event.shiftKey) {
           for (let i = this.focusedOptionElementIndex; i < this.optionElements.length; i++) {
             this.optionElements[i]?.select()
           }
-          WebElementLogger.verbose(this.uid, 'onKeyDown', `Every option from the focused one to the last one has been selected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', `Every option from the focused one to the last one has been selected.`)
         }
 
         break
       case KeyboardEventKey.HOME:
         this.optionElements[0]?.focus()
-        WebElementLogger.verbose(this.uid, 'onKeyDown', `The first option has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `The first option has been focused.`)
 
         if (this.multiple && event.ctrlKey && event.shiftKey) {
           for (let i = 0; i < this.focusedOptionElementIndex; i++) {
             this.optionElements[i]?.select()
           }
-          WebElementLogger.verbose(this.uid, 'onKeyDown', `Every option from the first one to the focused one has been selected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', `Every option from the first one to the focused one has been selected.`)
         }
 
         break
@@ -234,7 +230,7 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
     this.focusedOptionElement?.blur()
 
     element.focus()
-    WebElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
+    ElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
   }
 
   isOptionElementFocused(element: AriaListBoxOptionElement): boolean {
@@ -288,7 +284,7 @@ export class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListB
   }
 }
 
-export class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = AriaListBoxOptionElementEventMap> extends BaseElement<E> {
+class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = AriaListBoxOptionElementEventMap> extends BaseElement<E> {
   protected aria: AriaListBoxOptionController = new AriaListBoxOptionController(this)
 
   /**
@@ -322,18 +318,18 @@ export class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap
       this.rootElement.selectedOptionElement?.unselect()
 
       this.select()
-      WebElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
+      ElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
     }
 
     if (this.rootElement.multiple) {
       this.selected = !this.selected
-      WebElementLogger.verbose(this.uid, 'onClick', `The option has been ${this.selected ? 'selected' : 'unselected'}.`)
+      ElementLogger.verbose(this.uid, 'onClick', `The option has been ${this.selected ? 'selected' : 'unselected'}.`)
     }
 
     this.rootElement.focusedOptionElement?.blur()
 
     this.focus()
-    WebElementLogger.verbose(this.uid, 'onClick', `The option has been focused.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The option has been focused.`)
   }
 
   onMouseDown = (event: MouseEvent): void => {
@@ -405,3 +401,5 @@ export class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap
 
 defineCustomElement('aracna-aria-listbox', AriaListBoxElement)
 defineCustomElement('aracna-aria-listbox-option', AriaListBoxOptionElement)
+
+export { AriaListBoxElement as AracnaAriaListBoxElement, AriaListBoxOptionElement as AracnaAriaListBoxOptionElement }

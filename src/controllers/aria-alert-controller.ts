@@ -1,5 +1,5 @@
 import { setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
 
 export class AriaAlertController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & HTMLElement) {

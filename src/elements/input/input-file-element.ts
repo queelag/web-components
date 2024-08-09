@@ -1,7 +1,11 @@
-import { AracnaFile, DeserializeFileOptions, deserializeFile, isArray, removeArrayItems } from '@aracna/core'
-import { ElementName, InputFileElementEventMap, QueryDeclarations, WebElementLogger, defineCustomElement } from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
-import { FormControlElement } from '../core/form-control-element.js'
+import { AracnaFile, type DeserializeFileOptions, deserializeFile, isArray, removeArrayItems } from '@aracna/core'
+import { defineCustomElement } from '@aracna/web'
+import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { InputFileElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +13,7 @@ declare global {
   }
 }
 
-export class InputFileElement<E extends InputFileElementEventMap = InputFileElementEventMap> extends FormControlElement<E> {
+class InputFileElement<E extends InputFileElementEventMap = InputFileElementEventMap> extends FormControlElement<E> {
   /**
    * PROPERTIES
    */
@@ -27,22 +31,22 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
 
     for (let file of this.inputElement.files ?? []) {
       files.push(await deserializeFile(file, this.deserializeFileOptions))
-      WebElementLogger.verbose(this.uid, 'onChange', `The file have been deserialized.`, files)
+      ElementLogger.verbose(this.uid, 'onChange', `The file have been deserialized.`, files)
     }
 
     if (this.multiple) {
       this.value = files
-      WebElementLogger.verbose(this.uid, 'onChange', `The files have been set as the value.`, files, this.value)
+      ElementLogger.verbose(this.uid, 'onChange', `The files have been set as the value.`, files, this.value)
     }
 
     if (this.single && files.length <= 0) {
       this.value = AracnaFile.EMPTY
-      WebElementLogger.verbose(this.id, 'onChange', `The files are empty, setting empty file as the value.`, files, this.value)
+      ElementLogger.verbose(this.id, 'onChange', `The files are empty, setting empty file as the value.`, files, this.value)
     }
 
     if (this.single && files.length > 0) {
       this.value = files[0] ?? AracnaFile.EMPTY
-      WebElementLogger.verbose(this.id, 'onChange', `The first file has been set as the value.`, files, this.value)
+      ElementLogger.verbose(this.id, 'onChange', `The first file has been set as the value.`, files, this.value)
     }
 
     this.touch()
@@ -50,17 +54,17 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
 
   removeFile(file: AracnaFile): void {
     this.inputElement.value = ''
-    WebElementLogger.verbose(this.uid, 'removeFile', `The input element value has been reset.`)
+    ElementLogger.verbose(this.uid, 'removeFile', `The input element value has been reset.`)
 
     if (this.multiple) {
       this.value = isArray(this.value) ? this.value : []
       this.value = removeArrayItems(this.value, (_, { id }: AracnaFile) => id === file.id)
-      WebElementLogger.verbose(this.uid, 'onClickRemoveFile', `The file has been removed.`, file, this.value)
+      ElementLogger.verbose(this.uid, 'onClickRemoveFile', `The file has been removed.`, file, this.value)
     }
 
     if (this.single) {
       this.value = AracnaFile.EMPTY
-      WebElementLogger.verbose(this.uid, 'onClickRemoveFile', `The value has been emptied.`, this.value)
+      ElementLogger.verbose(this.uid, 'onClickRemoveFile', `The value has been emptied.`, this.value)
     }
 
     this.touch()
@@ -72,10 +76,10 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
 
   clear = (): void => {
     this.value = undefined
-    WebElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
+    ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
 
     this.inputElement.value = ''
-    WebElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
+    ElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
 
     this.touch()
   }
@@ -179,3 +183,5 @@ export class InputFileElement<E extends InputFileElementEventMap = InputFileElem
 }
 
 defineCustomElement('aracna-input-file', InputFileElement)
+
+export { InputFileElement as AracnaInputFileElement }

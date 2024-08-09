@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/button-group-element'
-import type { ButtonGroupElement } from '../../../src/elements/input/button-group-element'
+import type { AracnaButtonGroupElement as ButtonGroupElement } from '../../../src/elements/input/button-group-element'
 import { render } from '../../../vitest/dom-utils'
 
 describe('ButtonGroupElement', () => {

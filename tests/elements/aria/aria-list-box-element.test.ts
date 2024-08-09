@@ -1,7 +1,10 @@
 import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-list-box-element'
-import type { AriaListBoxElement, AriaListBoxOptionElement } from '../../../src/elements/aria/aria-list-box-element'
+import type {
+  AracnaAriaListBoxElement as AriaListBoxElement,
+  AracnaAriaListBoxOptionElement as AriaListBoxOptionElement
+} from '../../../src/elements/aria/aria-list-box-element'
 import { dispatchKeyDownEvent, render } from '../../../vitest/dom-utils'
 
 describe('AriaListBoxElement', () => {

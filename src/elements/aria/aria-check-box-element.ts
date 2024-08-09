@@ -1,7 +1,10 @@
-import { AriaCheckBoxElementEventMap, defineCustomElement, ElementName, KeyboardEventKey, WebElementLogger } from '@aracna/web'
-import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
-import { AriaCheckBoxController } from '../../controllers/aria-check.box-controller.js'
-import { FormControlElement } from '../core/form-control-element.js'
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { AriaCheckBoxController } from '../../controllers/aria-check-box-controller.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { AriaCheckBoxElementEventMap } from '../../definitions/events.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -9,7 +12,7 @@ declare global {
   }
 }
 
-export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxElementEventMap> extends FormControlElement<E> {
+class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxElementEventMap> extends FormControlElement<E> {
   protected aria: AriaCheckBoxController = new AriaCheckBoxController(this)
 
   /**
@@ -45,11 +48,11 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
     }
 
     if (this.disabled || this.readonly) {
-      return WebElementLogger.warn(this.uid, 'onClick', `The checkbox is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, 'onClick', `The checkbox is disabled or readonly.`)
     }
 
     this.checked = !this.checked
-    WebElementLogger.verbose(this.uid, 'onClick', `The checkbox has been ${this.checked ? 'checked' : 'unchecked'}.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The checkbox has been ${this.checked ? 'checked' : 'unchecked'}.`)
 
     this.touch()
   }
@@ -117,3 +120,5 @@ export class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaChe
 }
 
 defineCustomElement('aracna-aria-checkbox', AriaCheckBoxElement)
+
+export { AriaCheckBoxElement as AracnaAriaCheckBoxElement }

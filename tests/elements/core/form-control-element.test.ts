@@ -1,8 +1,9 @@
-import { defineCustomElement, FormControlElementCollector } from '@aracna/web'
+import { defineCustomElement } from '@aracna/web'
 import { number } from 'superstruct'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { FormControlElementCollector } from '../../../src/collectors/form-control-element-collector'
 import '../../../src/elements/core/form-control-element'
-import { FormControlElement } from '../../../src/elements/core/form-control-element'
+import { AracnaFormControlElement as FormControlElement } from '../../../src/elements/core/form-control-element'
 import { render } from '../../../vitest/dom-utils'
 
 class TestElement extends FormControlElement {}

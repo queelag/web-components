@@ -1,7 +1,12 @@
 import { generateRandomString } from '@aracna/core'
-import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaDisclosureButtonElement, AriaDisclosurePanelElement, AriaDisclosureSectionElement } from '../elements/aria/aria-disclosure-element.js'
+import { setImmutableElementAttribute } from '@aracna/web'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants.js'
+import type {
+  AracnaAriaDisclosureButtonElement as AriaDisclosureButtonElement,
+  AracnaAriaDisclosurePanelElement as AriaDisclosurePanelElement,
+  AracnaAriaDisclosureSectionElement as AriaDisclosureSectionElement
+} from '../elements/aria/aria-disclosure-element.js'
 
 export class AriaDisclosureButtonController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaDisclosureButtonElement) {

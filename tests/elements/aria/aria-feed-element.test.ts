@@ -2,10 +2,10 @@ import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/aria/aria-feed-element'
 import type {
-  AriaFeedArticleDescriptionElement,
-  AriaFeedArticleElement,
-  AriaFeedArticleLabelElement,
-  AriaFeedElement
+  AracnaAriaFeedArticleDescriptionElement as AriaFeedArticleDescriptionElement,
+  AracnaAriaFeedArticleElement as AriaFeedArticleElement,
+  AracnaAriaFeedArticleLabelElement as AriaFeedArticleLabelElement,
+  AracnaAriaFeedElement as AriaFeedElement
 } from '../../../src/elements/aria/aria-feed-element'
 import { dispatchKeyDownEvent, render } from '../../../vitest/dom-utils'
 

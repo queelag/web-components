@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/select-element'
 import type {
-  SelectButtonElement,
-  SelectElement,
-  SelectGroupElement,
-  SelectInputElement,
-  SelectListElement,
-  SelectOptionElement
+  AracnaSelectButtonElement as SelectButtonElement,
+  AracnaSelectElement as SelectElement,
+  AracnaSelectGroupElement as SelectGroupElement,
+  AracnaSelectInputElement as SelectInputElement,
+  AracnaSelectListElement as SelectListElement,
+  AracnaSelectOptionElement as SelectOptionElement
 } from '../../../src/elements/input/select-element'
 import { dispatchChangeEvent, render } from '../../../vitest/dom-utils'
 

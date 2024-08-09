@@ -1,6 +1,7 @@
-import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
-import { AriaMeterElement } from '../elements/aria/aria-meter-element.js'
+import { setImmutableElementAttribute } from '@aracna/web'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
+import { DEFAULT_METER_MAX, DEFAULT_METER_MIN } from '../definitions/constants.js'
+import { AracnaAriaMeterElement as AriaMeterElement } from '../elements/aria/aria-meter-element.js'
 
 export class AriaMeterController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaMeterElement) {

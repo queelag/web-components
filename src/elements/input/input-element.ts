@@ -1,20 +1,16 @@
 import { encodeText, isArray, parseNumber, removeArrayItems } from '@aracna/core'
-import {
-  DEFAULT_INPUT_TYPE,
-  ElementName,
-  InputElementEventMap,
-  InputElementTouchTrigger,
-  InputElementType,
-  InputElementValue,
-  QueryDeclarations,
-  WebElementLogger,
-  defineCustomElement
-} from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
-import { DirectiveResult } from 'lit/directive.js'
+import { defineCustomElement } from '@aracna/web'
+import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
+import type { DirectiveResult } from 'lit/directive.js'
+import { DEFAULT_INPUT_TYPE } from '../../definitions/constants.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { InputElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import type { InputElementTouchTrigger, InputElementType, InputElementValue } from '../../definitions/types.js'
 import { ifdef } from '../../directives/if-defined.js'
 import { styleMap } from '../../directives/style-map.js'
-import { FormControlElement } from '../core/form-control-element.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -22,7 +18,7 @@ declare global {
   }
 }
 
-export class InputElement<E extends InputElementEventMap = InputElementEventMap> extends FormControlElement<E> {
+class InputElement<E extends InputElementEventMap = InputElementEventMap> extends FormControlElement<E> {
   /**
    * PROPERTIES
    */
@@ -45,7 +41,7 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
 
   onBlur(): void {
     this.focused = false
-    WebElementLogger.verbose(this.uid, 'onBlur', `The focused property has been set to false.`)
+    ElementLogger.verbose(this.uid, 'onBlur', `The focused property has been set to false.`)
 
     if (this.touchTrigger === 'blur') {
       this.touch()
@@ -54,14 +50,14 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
 
   onFocus(): void {
     this.focused = true
-    WebElementLogger.verbose(this.uid, 'onFocus', `The focused property has been set to true.`)
+    ElementLogger.verbose(this.uid, 'onFocus', `The focused property has been set to true.`)
   }
 
   onInput(): void {
     switch (this.type) {
       case 'buffer':
         this.value = encodeText(this.inputElement.value)
-        WebElementLogger.verbose(this.uid, 'onInput', `The value has been encoded and set.`, this.value)
+        ElementLogger.verbose(this.uid, 'onInput', `The value has been encoded and set.`, this.value)
 
         break
       case 'color':
@@ -74,30 +70,30 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
       case 'url':
       case 'week':
         this.value = this.inputElement.value
-        WebElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
 
         break
       case 'date':
       case 'datetime-local':
         this.value = this.inputElement.value ? new Date(this.inputElement.value) : undefined
-        WebElementLogger.verbose(this.uid, 'onInput', `The value has been set as a date.`, this.value)
+        ElementLogger.verbose(this.uid, 'onInput', `The value has been set as a date.`, this.value)
 
         break
       case 'number':
         this.value = this.inputElement.value ? parseNumber(this.inputElement.value) : undefined
-        WebElementLogger.verbose(this.uid, 'onInput', `The value has been set as a number.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onInput', `The value has been set as a number.`, [this.value])
 
         break
       case 'text':
         if (this.multiple) {
           this.temporaryValue = this.inputElement.value
-          WebElementLogger.verbose(this.uid, 'onInput', `The temporary value has been set.`, [this.temporaryValue])
+          ElementLogger.verbose(this.uid, 'onInput', `The temporary value has been set.`, [this.temporaryValue])
 
           break
         }
 
         this.value = this.inputElement.value
-        WebElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
 
         break
     }
@@ -113,15 +109,15 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
     }
 
     if (this.temporaryValue.length <= 0) {
-      return WebElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
+      return ElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
     }
 
     this.value = isArray(this.value) ? this.value : []
     this.value = [...this.value, this.temporaryValue]
-    WebElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporaryValue], this.value)
+    ElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporaryValue], this.value)
 
     this.inputElement.value = ''
-    WebElementLogger.verbose(this.uid, 'onKeyUp', `The input element value has been reset.`)
+    ElementLogger.verbose(this.uid, 'onKeyUp', `The input element value has been reset.`)
 
     this.touch()
   }
@@ -133,43 +129,43 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
 
     this.value = isArray(this.value) ? this.value : []
     this.value = removeArrayItems(this.value, [item])
-    WebElementLogger.verbose(this.uid, 'removeItem', `The item has been removed.`, [item], this.value)
+    ElementLogger.verbose(this.uid, 'removeItem', `The item has been removed.`, [item], this.value)
 
     this.touch()
   }
 
   clear(): void {
     this.value = undefined
-    WebElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
+    ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
 
     if (this.multiple) {
       this.temporaryValue = ''
-      WebElementLogger.verbose(this.uid, 'clear', `The temporary value has been reset.`, [this.temporaryValue])
+      ElementLogger.verbose(this.uid, 'clear', `The temporary value has been reset.`, [this.temporaryValue])
     }
 
     this.inputElement.value = ''
-    WebElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
+    ElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
 
     this.inputElement.focus()
-    WebElementLogger.verbose(this.uid, 'clear', `The input element has been focused.`)
+    ElementLogger.verbose(this.uid, 'clear', `The input element has been focused.`)
 
     this.touch()
   }
 
   obscure(): void {
     this.obscured = true
-    WebElementLogger.verbose(this.uid, 'obscure', `The obscured property has been set to true.`)
+    ElementLogger.verbose(this.uid, 'obscure', `The obscured property has been set to true.`)
 
     this.inputElement.focus()
-    WebElementLogger.verbose(this.uid, 'obscure', `The input element has been focused.`)
+    ElementLogger.verbose(this.uid, 'obscure', `The input element has been focused.`)
   }
 
   reveal(): void {
     this.obscured = false
-    WebElementLogger.verbose(this.uid, 'reveal', `The obscured property has been set to false.`)
+    ElementLogger.verbose(this.uid, 'reveal', `The obscured property has been set to false.`)
 
     this.inputElement.focus()
-    WebElementLogger.verbose(this.uid, 'reveal', `The input element has been focused.`)
+    ElementLogger.verbose(this.uid, 'reveal', `The input element has been focused.`)
   }
 
   render() {
@@ -314,3 +310,5 @@ export class InputElement<E extends InputElementEventMap = InputElementEventMap>
 }
 
 defineCustomElement('aracna-input', InputElement)
+
+export { InputElement as AracnaInputElement }

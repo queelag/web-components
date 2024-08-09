@@ -1,8 +1,9 @@
 import { generateRandomString } from '@aracna/core'
-import { ELEMENT_UID_GENERATE_OPTIONS, setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaDialogElement } from '../elements/aria/aria-dialog-element.js'
-import type { BaseElement } from '../elements/core/base-element.js'
+import { setImmutableElementAttribute } from '@aracna/web'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants.js'
+import type { AracnaAriaDialogElement as AriaDialogElement } from '../elements/aria/aria-dialog-element.js'
+import type { AracnaBaseElement as BaseElement } from '../elements/core/base-element.js'
 
 export class AriaDialogController implements ReactiveController {
   alert: boolean

@@ -1,15 +1,15 @@
 import { parseNumber } from '@aracna/core'
+import { defineCustomElement } from '@aracna/web'
+import type { PropertyDeclarations } from 'lit'
+import { ElementName } from '../../definitions/enums.js'
+import type { MenuButtonElementEventMap, MenuElementEventMap, MenuItemElementEventMap, MenuSubMenuElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import {
-  defineCustomElement,
-  ElementName,
-  MenuButtonElementEventMap,
-  MenuElementEventMap,
-  MenuItemElementEventMap,
-  MenuSubMenuElementEventMap,
-  QueryDeclarations
-} from '@aracna/web'
-import { PropertyDeclarations } from 'lit'
-import { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuSubMenuElement } from '../aria/aria-menu-element.js'
+  AracnaAriaMenuButtonElement as AriaMenuButtonElement,
+  AracnaAriaMenuElement as AriaMenuElement,
+  AracnaAriaMenuItemElement as AriaMenuItemElement,
+  AracnaAriaMenuSubMenuElement as AriaMenuSubMenuElement
+} from '../aria/aria-menu-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -20,7 +20,7 @@ declare global {
   }
 }
 
-export class MenuElement<E extends MenuElementEventMap = MenuElementEventMap, T = any> extends AriaMenuElement<E> {
+class MenuElement<E extends MenuElementEventMap = MenuElementEventMap, T = any> extends AriaMenuElement<E> {
   items?: T[]
 
   get name(): ElementName {
@@ -48,7 +48,7 @@ export class MenuElement<E extends MenuElementEventMap = MenuElementEventMap, T 
   }
 }
 
-export class MenuButtonElement<E extends MenuButtonElementEventMap = MenuButtonElementEventMap> extends AriaMenuButtonElement<E> {
+class MenuButtonElement<E extends MenuButtonElementEventMap = MenuButtonElementEventMap> extends AriaMenuButtonElement<E> {
   get name(): ElementName {
     return ElementName.MENU_BUTTON
   }
@@ -58,7 +58,7 @@ export class MenuButtonElement<E extends MenuButtonElementEventMap = MenuButtonE
   }
 }
 
-export class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElementEventMap, T = any> extends AriaMenuItemElement<E> {
+class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElementEventMap, T = any> extends AriaMenuItemElement<E> {
   items?: T[]
   leadingIcon?: string
   leadingImage?: string
@@ -129,7 +129,7 @@ export class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElement
   }
 }
 
-export class MenuSubMenuElement<E extends MenuSubMenuElementEventMap = MenuSubMenuElementEventMap> extends AriaMenuSubMenuElement<E> {
+class MenuSubMenuElement<E extends MenuSubMenuElementEventMap = MenuSubMenuElementEventMap> extends AriaMenuSubMenuElement<E> {
   get deep(): boolean {
     let closest: MenuSubMenuElement | null | undefined
 
@@ -177,3 +177,10 @@ defineCustomElement('aracna-menu', MenuElement)
 defineCustomElement('aracna-menu-button', MenuButtonElement)
 defineCustomElement('aracna-menu-item', MenuItemElement)
 defineCustomElement('aracna-menu-submenu', MenuSubMenuElement)
+
+export {
+  MenuButtonElement as AracnaMenuButtonElement,
+  MenuElement as AracnaMenuElement,
+  MenuItemElement as AracnaMenuItemElement,
+  MenuSubMenuElement as AracnaMenuSubMenuElement
+}

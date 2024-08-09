@@ -1,6 +1,6 @@
 import { setImmutableElementAttribute } from '@aracna/web'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
-import { AriaCheckBoxElement } from '../elements/aria/aria-check-box-element.js'
+import type { ReactiveController, ReactiveControllerHost } from 'lit'
+import type { AracnaAriaCheckBoxElement as AriaCheckBoxElement } from '../elements/aria/aria-check-box-element.js'
 
 export class AriaCheckBoxController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaCheckBoxElement) {

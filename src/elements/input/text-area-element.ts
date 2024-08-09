@@ -1,19 +1,15 @@
 import { isArray, isWindowNotDefined, removeArrayItems, wf } from '@aracna/core'
-import {
-  ElementName,
-  QueryDeclarations,
-  TextAreaElementEventMap,
-  TextAreaElementResize,
-  TextAreaElementTouchTrigger,
-  TextAreaElementValue,
-  WebElementLogger,
-  defineCustomElement
-} from '@aracna/web'
-import { CSSResultGroup, PropertyDeclarations, css, html } from 'lit'
-import { DirectiveResult } from 'lit/directive.js'
+import { defineCustomElement } from '@aracna/web'
+import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
+import type { DirectiveResult } from 'lit/directive.js'
+import { ElementName } from '../../definitions/enums.js'
+import type { TextAreaElementEventMap } from '../../definitions/events.js'
+import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import type { TextAreaElementResize, TextAreaElementTouchTrigger, TextAreaElementValue } from '../../definitions/types.js'
 import { ifdef } from '../../directives/if-defined.js'
 import { styleMap } from '../../directives/style-map.js'
-import { FormControlElement } from '../core/form-control-element.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -21,7 +17,7 @@ declare global {
   }
 }
 
-export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMap> extends FormControlElement<E> {
+class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMap> extends FormControlElement<E> {
   /**
    * PROPERTIES
    */
@@ -68,7 +64,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
 
   onBlur(): void {
     this.focused = false
-    WebElementLogger.verbose(this.uid, 'onBlur', `The textarea has been blurred.`)
+    ElementLogger.verbose(this.uid, 'onBlur', `The textarea has been blurred.`)
 
     if (this.touchTrigger === 'blur') {
       this.touch()
@@ -77,18 +73,18 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
 
   onFocus(): void {
     this.focused = true
-    WebElementLogger.verbose(this.uid, 'onFocus', `The textarea has been focused.`)
+    ElementLogger.verbose(this.uid, 'onFocus', `The textarea has been focused.`)
   }
 
   onInput(): void {
     if (this.multiple) {
       this.temporaryValue = this.textAreaElement.value
-      WebElementLogger.verbose(this.uid, 'onInput', `The temporary value has been set.`, [this.temporaryValue])
+      ElementLogger.verbose(this.uid, 'onInput', `The temporary value has been set.`, [this.temporaryValue])
     }
 
     if (this.single) {
       this.value = this.textAreaElement.value
-      WebElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
+      ElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
     }
 
     if (this.touchTrigger === 'input') {
@@ -102,15 +98,15 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     }
 
     if (this.temporaryValue.length <= 0) {
-      return WebElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
+      return ElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
     }
 
     this.value = isArray(this.value) ? this.value : []
     this.value = [...this.value, this.temporaryValue]
-    WebElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporaryValue], this.value)
+    ElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporaryValue], this.value)
 
     this.textAreaElement.value = ''
-    WebElementLogger.verbose(this.uid, 'onKeyUp', `The textarea element value has been reset.`)
+    ElementLogger.verbose(this.uid, 'onKeyUp', `The textarea element value has been reset.`)
 
     this.touch()
   }
@@ -144,7 +140,7 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
     this.spanElement.style.width = '100%'
 
     this.computedHeight = getComputedStyle(this.spanElement).height
-    WebElementLogger.verbose(this.uid, 'computeHeight', `The height has been computed.`, [this.computedHeight])
+    ElementLogger.verbose(this.uid, 'computeHeight', `The height has been computed.`, [this.computedHeight])
   }
 
   removeItem(item: string): void {
@@ -154,30 +150,30 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
 
     this.value = isArray(this.value) ? this.value : []
     this.value = removeArrayItems(this.value, [item])
-    WebElementLogger.verbose(this.uid, 'removeItem', `The item has been removed.`, [item], this.value)
+    ElementLogger.verbose(this.uid, 'removeItem', `The item has been removed.`, [item], this.value)
 
     this.touch()
   }
 
   clear(): void {
     this.value = undefined
-    WebElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
+    ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
 
     if (this.multiple) {
       this.temporaryValue = ''
-      WebElementLogger.verbose(this.uid, 'clear', `The temporary value has been reset.`, [this.temporaryValue])
+      ElementLogger.verbose(this.uid, 'clear', `The temporary value has been reset.`, [this.temporaryValue])
     }
 
     if (this.autosize) {
       this.computedHeight = undefined
-      WebElementLogger.verbose(this.uid, 'clear', `The computed height has been unset.`)
+      ElementLogger.verbose(this.uid, 'clear', `The computed height has been unset.`)
     }
 
     this.textAreaElement.value = ''
-    WebElementLogger.verbose(this.uid, 'clear', `The textarea element value has been reset.`)
+    ElementLogger.verbose(this.uid, 'clear', `The textarea element value has been reset.`)
 
     this.textAreaElement.focus()
-    WebElementLogger.verbose(this.uid, 'clear', `The textarea element has been focused.`)
+    ElementLogger.verbose(this.uid, 'clear', `The textarea element has been focused.`)
 
     this.touch()
   }
@@ -281,3 +277,5 @@ export class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElement
 }
 
 defineCustomElement('aracna-textarea', TextAreaElement)
+
+export { TextAreaElement as AracnaTextAreaElement }
