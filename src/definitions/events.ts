@@ -183,6 +183,8 @@ export interface ImageElementEventMap extends BaseElementEventMap {}
 export interface ListElementEventMap extends AriaListElementEventMap {}
 export interface ListItemElementEventMap extends AriaListItemElementEventMap {}
 
+export interface QrCodeElementEventMap extends BaseElementEventMap {}
+
 export interface TooltipElementEventMap extends AriaTooltipElementEventMap {}
 export interface TooltipArrowElementEventMap extends AriaTooltipArrowElementEventMap {}
 export interface TooltipContentElementEventMap extends AriaTooltipContentElementEventMap {}

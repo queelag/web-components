@@ -10,7 +10,7 @@ import {
   type QRCodeToSJISFunc
 } from 'qrcode'
 import { ElementName } from '../../definitions/enums.js'
-import type { BaseElementEventMap } from '../../definitions/events.js'
+import type { QrCodeElementEventMap } from '../../definitions/events.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
@@ -19,7 +19,7 @@ declare global {
   }
 }
 
-class QrCodeElement<E extends BaseElementEventMap = BaseElementEventMap> extends BaseElement<E> {
+class QrCodeElement<E extends QrCodeElementEventMap = QrCodeElementEventMap> extends BaseElement<E> {
   /**
    * PROPERTIES
    */

@@ -2,6 +2,7 @@ import type { TypeaheadPredicate } from '@aracna/core'
 import type { CanvasDataURLType } from '@aracna/web'
 import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/dom'
 import type { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
+import type { QRCodeErrorCorrectionLevel, QRCodeMaskPattern, QRCodeToSJISFunc } from 'qrcode'
 import type { IconElementSanitizeConfig } from './interfaces.js'
 import type {
   AlertSeverity,
@@ -402,6 +403,17 @@ export interface ListItemElementAttributes extends AriaListItemElementAttributes
   'trailing-icon'?: string
   'trailing-image'?: string
   'trailing-text'?: string
+}
+
+export interface QrCodeElementAttributes extends BaseElementAttributes {
+  'background-color'?: string
+  'error-correction-level'?: QRCodeErrorCorrectionLevel
+  'foreground-color'?: string
+  margin?: number
+  'mask-pattern'?: QRCodeMaskPattern
+  text?: string
+  'to-sjis'?: QRCodeToSJISFunc
+  version?: number
 }
 
 export interface TooltipElementAttributes extends AriaTooltipElementAttributes {}
