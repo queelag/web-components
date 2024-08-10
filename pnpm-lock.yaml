@@ -7,6 +7,25 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@floating-ui/dom':
+        specifier: ^1.6.8
+        version: 1.6.8
+      '@types/dompurify':
+        specifier: ^3.0.5
+        version: 3.0.5
+      dompurify:
+        specifier: ^3.1.6
+        version: 3.1.6
+      focus-trap:
+        specifier: ^7.5.4
+        version: 7.5.4
+      qrcode:
+        specifier: ^1.5.3
+        version: 1.5.3
+      tabbable:
+        specifier: ^6.2.0
+        version: 6.2.0
     devDependencies:
       '@aracna/core':
         specifier: ^1.1.82
@@ -20,15 +39,9 @@ importers:
       '@astrojs/tailwind':
         specifier: ^5.1.0
         version: 5.1.0(astro@4.13.0(@types/node@22.0.2)(typescript@5.5.4))(tailwindcss@3.4.7)
-      '@floating-ui/dom':
-        specifier: ^1.6.8
-        version: 1.6.8
       '@microsoft/api-extractor':
         specifier: ^7.47.5
         version: 7.47.5(@types/node@22.0.2)
-      '@types/dompurify':
-        specifier: ^3.0.5
-        version: 3.0.5
       '@types/qrcode':
         specifier: ^1.5.5
         version: 1.5.5
@@ -44,18 +57,12 @@ importers:
       astro:
         specifier: ^4.13.0
         version: 4.13.0(@types/node@22.0.2)(typescript@5.5.4)
-      dompurify:
-        specifier: ^3.1.6
-        version: 3.1.6
       esbuild:
         specifier: ^0.23.0
         version: 0.23.0
       esbuild-plugin-minify-html-literals:
         specifier: ^2.0.1
         version: 2.0.1(esbuild@0.23.0)
-      focus-trap:
-        specifier: ^7.5.4
-        version: 7.5.4
       glob:
         specifier: ^11.0.0
         version: 11.0.0
@@ -71,18 +78,12 @@ importers:
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
-      qrcode:
-        specifier: ^1.5.3
-        version: 1.5.3
       resize-observer-polyfill:
         specifier: ^1.5.1
         version: 1.5.1
       superstruct:
         specifier: ^2.0.2
         version: 2.0.2
-      tabbable:
-        specifier: ^6.2.0
-        version: 6.2.0
       tailwindcss:
         specifier: ^3.4.7
         version: 3.4.7
