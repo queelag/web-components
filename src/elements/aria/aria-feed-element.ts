@@ -59,22 +59,32 @@ class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMa
       case KeyboardEventKey.PAGE_UP:
         event.preventDefault()
         event.stopPropagation()
+
+        break
     }
 
     switch (event.key) {
       case KeyboardEventKey.END:
-        this.previousTabbableElementSibling?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The previous tabbable element sibling has been focused.`)
+        if (!this.previousTabbableElementSibling) {
+          break
+        }
+
+        this.previousTabbableElementSibling.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The previous tabbable element sibling has been focused.`, this.previousTabbableElementSibling)
 
         break
       case KeyboardEventKey.HOME:
-        this.nextTabbableElementSibling?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The next tabbable element sibling has been focused.`)
+        if (!this.nextTabbableElementSibling) {
+          break
+        }
+
+        this.nextTabbableElementSibling.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The next tabbable element sibling has been focused.`, this.nextTabbableElementSibling)
 
         break
       case KeyboardEventKey.PAGE_DOWN:
         if (this.focusedArticleElementIndex >= this.articleElements.length - 1) {
-          return
+          return ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `No more articles to focus ahead.`)
         }
 
         this.articleElements[this.focusedArticleElementIndex + 1]?.focus()
@@ -83,7 +93,7 @@ class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMa
         break
       case KeyboardEventKey.PAGE_UP:
         if (this.focusedArticleElementIndex <= 0) {
-          return
+          return ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `No more articles to focus behind.`)
         }
 
         this.articleElements[this.focusedArticleElementIndex - 1]?.focus()
@@ -172,7 +182,7 @@ class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = AriaFeed
 
   onBlur = (): void => {
     this.focused = false
-    ElementLogger.verbose(this.uid, 'onFocus', `The article has been blurred.`)
+    ElementLogger.verbose(this.uid, 'onBlur', `The article has been blurred.`)
   }
 
   onFocus = (): void => {

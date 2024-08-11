@@ -70,48 +70,50 @@ class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaAccordio
     switch (event.key) {
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.SPACE:
+        ElementLogger.verbose(this.uid, 'onKeyDown', `Clicking the focused button element.`, this.focusedButtonElement)
         this.focusedButtonElement?.click()
+
         break
       case KeyboardEventKey.ARROW_DOWN:
         if (this.focusedButtonElementIndex < 0) {
-          return
+          return ElementLogger.verbose(this.uid, 'onKeyDown', `No button is focused.`)
         }
 
         if (this.focusedButtonElementIndex >= this.buttonElements.length - 1) {
           this.buttonElements[0]?.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The first header button has been focused.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', `The first button has been focused.`, this.buttonElements[0])
 
           break
         }
 
         this.buttonElements[this.focusedButtonElementIndex + 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The next header button has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `The next header button has been focused.`, this.buttonElements[this.focusedButtonElementIndex + 1])
 
         break
       case KeyboardEventKey.ARROW_UP:
         if (this.focusedButtonElementIndex < 0) {
-          return
+          return ElementLogger.verbose(this.uid, 'onKeyDown', `No button is focused.`)
         }
 
         if (this.focusedButtonElementIndex === 0) {
           this.buttonElements[this.buttonElements.length - 1]?.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The last header button has been focused.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', `The last header button has been focused.`, this.buttonElements[this.buttonElements.length - 1])
 
           break
         }
 
         this.buttonElements[this.focusedButtonElementIndex - 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The previous header button has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `The previous header button has been focused.`, this.buttonElements[this.focusedButtonElementIndex - 1])
 
         break
       case KeyboardEventKey.HOME:
         this.buttonElements[0]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The first header button has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `The first header button has been focused.`, this.buttonElements[0])
 
         break
       case KeyboardEventKey.END:
         this.buttonElements[this.buttonElements.length - 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The last header button has been focused.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', `The last header button has been focused.`, this.buttonElements[this.buttonElements.length - 1])
 
         break
     }
@@ -153,7 +155,7 @@ class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEventMap 
    * PROPERTIES
    */
   expanded?: boolean
-  noncollapsible?: boolean
+  uncollapsible?: boolean
 
   /**
    * QUERIES
@@ -161,18 +163,32 @@ class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEventMap 
   buttonElement?: AriaAccordionButtonElement
   panelElement?: AriaAccordionPanelElement
 
+  toggle(): void {
+    if (this.expanded) {
+      return this.collapse()
+    }
+
+    this.expand()
+  }
+
   collapse(): void {
-    if (this.noncollapsible) {
-      return
+    if (this.uncollapsible) {
+      return ElementLogger.verbose(this.uid, 'collapse', `The section is not collapsible.`)
     }
 
     this.expanded = false
+    ElementLogger.verbose(this.uid, 'collapse', `The section has been collapsed.`)
+
     this.dispatchEvent(new AccordionSectionCollapseEvent())
+    ElementLogger.verbose(this.uid, 'collapse', `The "collapse" event has been dispatched.`)
   }
 
   expand(): void {
     this.expanded = true
+    ElementLogger.verbose(this.uid, 'expand', `The section has been expanded.`)
+
     this.dispatchEvent(new AccordionSectionExpandEvent())
+    ElementLogger.verbose(this.uid, 'expand', `The "expand" event has been dispatched.`)
   }
 
   get collapsed(): boolean {
@@ -190,7 +206,7 @@ class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEventMap 
 
   static properties: PropertyDeclarations = {
     expanded: { type: Boolean, reflect: true },
-    noncollapsible: { type: Boolean, reflect: true }
+    uncollapsible: { type: Boolean, reflect: true }
   }
 }
 
@@ -234,6 +250,28 @@ class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = 
     this.removeEventListener('keydown', this.onKeyDown)
   }
 
+  onClick(): void {
+    if (this.sectionElement.uncollapsible && this.sectionElement.expanded) {
+      return ElementLogger.verbose(this.sectionElement.uid, 'onClick', `The section isn't collapsible once expanded.`)
+    }
+
+    if (this.rootElement.allowOnlyOneExpandedSection && this.rootElement.expandedSectionElements.length > 0) {
+      let expanded: boolean = Boolean(this.sectionElement.expanded)
+
+      for (let section of this.rootElement.expandedSectionElements) {
+        ElementLogger.verbose(this.uid, 'onClick', `Collapsing a section.`, section)
+        section.collapse()
+      }
+
+      if (expanded) {
+        return ElementLogger.verbose(this.uid, 'onClick', `The section is already expanded.`)
+      }
+    }
+
+    ElementLogger.verbose(this.uid, 'onClick', `Toggling the section.`)
+    this.sectionElement.toggle()
+  }
+
   onKeyDown(event: KeyboardEvent): void {
     if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {
       return
@@ -242,41 +280,8 @@ class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = 
     event.preventDefault()
     event.stopPropagation()
 
-    this.expandOrCollapseSection('onKeyDown')
-  }
-
-  onClick(): void {
-    this.expandOrCollapseSection('onClick')
-  }
-
-  expandOrCollapseSection(fn: string): void {
-    if (this.sectionElement.noncollapsible && this.sectionElement.expanded) {
-      ElementLogger.info(this.sectionElement.uid, fn, `The section isn't collapsible.`)
-      return
-    }
-
-    if (this.rootElement.allowOnlyOneExpandedSection && this.rootElement.expandedSectionElements.length > 0) {
-      let expanded: boolean = Boolean(this.sectionElement.expanded)
-
-      for (let section of this.rootElement.expandedSectionElements) {
-        section.collapse()
-        ElementLogger.verbose(this.uid, fn, `The section has been collapsed.`, section)
-      }
-
-      if (expanded) {
-        return
-      }
-    }
-
-    if (this.sectionElement.expanded) {
-      this.sectionElement.collapse()
-      ElementLogger.verbose(this.uid, fn, `The section has been collapsed.`)
-
-      return
-    }
-
-    this.sectionElement.expand()
-    ElementLogger.verbose(this.uid, fn, `The section has been expanded.`)
+    ElementLogger.verbose(this.uid, 'onKeyDown', `Clicking the button.`)
+    this.onClick()
   }
 
   get name(): ElementName {

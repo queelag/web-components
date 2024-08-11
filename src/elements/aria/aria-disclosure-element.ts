@@ -9,6 +9,8 @@ import type {
   AriaDisclosureSectionElementEventMap
 } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { DisclosureSectionCollapseEvent } from '../../events/disclosure-section-collapse-event.js'
+import { DisclosureSectionExpandEvent } from '../../events/disclosure-section-expand-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -44,7 +46,11 @@ class AriaDisclosureElement<E extends AriaDisclosureElementEventMap = AriaDisclo
         event.preventDefault()
         event.stopPropagation()
 
-        this.focusedButtonElement?.click()
+        if (this.focusedButtonElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', `Clicking the focused button.`, this.focusedButtonElement)
+          this.focusedButtonElement.click()
+        }
+
         break
     }
   }
@@ -78,10 +84,18 @@ class AriaDisclosureSectionElement<E extends AriaDisclosureSectionElementEventMa
 
   collapse(): void {
     this.expanded = false
+    ElementLogger.verbose(this.uid, 'collapse', `The section has been collapsed.`)
+
+    this.dispatchEvent(new DisclosureSectionCollapseEvent())
+    ElementLogger.verbose(this.uid, 'collapse', `The "collapse" event has been dispatched.`)
   }
 
   expand(): void {
     this.expanded = true
+    ElementLogger.verbose(this.uid, 'expand', `The section has been expanded.`)
+
+    this.dispatchEvent(new DisclosureSectionExpandEvent())
+    ElementLogger.verbose(this.uid, 'expand', `The "expand" event has been dispatched.`)
   }
 
   get name(): ElementName {
@@ -121,8 +135,13 @@ class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEventMap 
   }
 
   onClick(): void {
-    this.sectionElement.expanded = !this.sectionElement.expanded
-    ElementLogger.verbose(this.uid, 'onClick', `The section has been ${this.sectionElement.expanded ? 'expanded' : 'collapsed'}.`)
+    if (this.sectionElement.expanded) {
+      ElementLogger.verbose(this.uid, 'onClick', `Collapsing the section.`)
+      return this.sectionElement.collapse()
+    }
+
+    ElementLogger.verbose(this.uid, 'onClick', `Expanding the section.`)
+    this.sectionElement.expand()
   }
 
   onKeyDown(event: KeyboardEvent): void {
@@ -133,8 +152,8 @@ class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEventMap 
     event.preventDefault()
     event.stopPropagation()
 
+    ElementLogger.verbose(this.uid, 'onKeyDown', `Clicking the button.`)
     this.click()
-    ElementLogger.verbose(this.uid, 'onKeyDown', `The button has been clicked.`)
   }
 
   get name(): ElementName {

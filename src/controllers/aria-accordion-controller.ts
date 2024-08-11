@@ -104,7 +104,7 @@ export class AriaAccordionSectionController implements ReactiveController {
 
   setAttributes(): void {
     if (this.host.buttonElement) {
-      setImmutableElementAttribute(this.host.buttonElement, 'aria-disabled', this.host.noncollapsible && this.host.expanded ? 'true' : 'false')
+      setImmutableElementAttribute(this.host.buttonElement, 'aria-disabled', this.host.uncollapsible && this.host.expanded ? 'true' : 'false')
     }
 
     if (this.host.panelElement) {

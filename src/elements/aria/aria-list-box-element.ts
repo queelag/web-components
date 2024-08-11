@@ -7,6 +7,7 @@ import { ElementName } from '../../definitions/enums.js'
 import type { AriaListBoxElementEventMap, AriaListBoxOptionElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { ListBoxOptionSelectEvent } from '../../events/list-box-option-select-event.js'
+import { ListBoxOptionUnselectEvent } from '../../events/list-box-option-unselect-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
@@ -338,15 +339,21 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
 
   blur(): void {
     this.focused = false
+    ElementLogger.verbose(this.uid, 'blur', `The option has been blurred.`)
+
+    this.dispatchEvent(new FocusEvent('blur'))
   }
 
-  focus(): void {
+  focus(options?: FocusOptions | null): void {
     this.focused = true
+    ElementLogger.verbose(this.uid, 'focus', `The option has been focused.`)
+
+    this.dispatchEvent(new FocusEvent('focus'))
   }
 
   select(): void {
     this.selected = true
-    this.dispatchEvent(new ListBoxOptionSelectEvent(this, this.value))
+    ElementLogger.verbose(this.uid, 'select', `The option has been selected.`)
 
     if (this.rootElement.single) {
       this.rootElement.value = this.value
@@ -357,11 +364,18 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
       this.rootElement.value = [...this.rootElement.value, this.value]
     }
 
+    ElementLogger.verbose(this.uid, 'select', `The value has been set.`, this.rootElement.value)
+
+    ElementLogger.verbose(this.uid, 'select', `Touching the listbox.`)
     this.rootElement.touch()
+
+    this.dispatchEvent(new ListBoxOptionSelectEvent(this.value))
+    ElementLogger.verbose(this.uid, 'select', `The "select" event has been dispatched.`)
   }
 
   unselect(): void {
     this.selected = false
+    ElementLogger.verbose(this.uid, 'unselect', `The option has been unselected.`)
 
     if (this.rootElement.single) {
       this.rootElement.value = undefined
@@ -372,7 +386,13 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
       this.rootElement.value = removeArrayItems(this.rootElement.value, [this.value])
     }
 
+    ElementLogger.verbose(this.uid, 'unselect', `The value has been set.`, this.rootElement.value)
+
+    ElementLogger.verbose(this.uid, 'unselect', `Touching the listbox.`)
     this.rootElement.touch()
+
+    this.dispatchEvent(new ListBoxOptionUnselectEvent(this.value))
+    ElementLogger.verbose(this.uid, 'unselect', `The "unselect" event has been dispatched.`)
   }
 
   get name(): ElementName {

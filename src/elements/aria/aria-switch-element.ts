@@ -2,6 +2,8 @@ import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
 import { css, type CSSResult, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaSwitchController } from '../../controllers/aria-switch-controller.js'
 import type { AriaSwitchElementEventMap } from '../../definitions/events.js'
+import { SwitchOffEvent } from '../../events/switch-off-event.js'
+import { SwitchOnEvent } from '../../events/switch-on-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
@@ -50,10 +52,8 @@ class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementE
       return ElementLogger.warn(this.id, 'onClick', `The switch is disabled or readonly.`)
     }
 
-    this.on = !this.on
-    ElementLogger.verbose(this.uid, 'onClick', `The switch has been turned ${this.value ? 'on' : 'off'}.`)
-
-    this.touch()
+    ElementLogger.verbose(this.uid, 'onClick', `Turning ${this.on ? 'off' : 'on'} the switch.`)
+    this.toggle()
   }
 
   onKeyDown(event: KeyboardEvent): void {
@@ -68,7 +68,50 @@ class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementE
     event.preventDefault()
     event.stopPropagation()
 
+    if (this.disabled || this.readonly) {
+      return ElementLogger.warn(this.id, 'onClick', `The switch is disabled or readonly.`)
+    }
+
+    ElementLogger.verbose(this.uid, 'onKeyDown', `Clicking the switch.`)
     this.onClick()
+  }
+
+  toggle(): void {
+    if (this.on) {
+      return this.off()
+    }
+
+    this.__on()
+  }
+
+  __on(): void {
+    if (this.disabled || this.readonly) {
+      return ElementLogger.warn(this.uid, '__on', `The switch is disabled or readonly.`)
+    }
+
+    this.on = true
+    ElementLogger.verbose(this.uid, '__on', `The switch has been turned on.`)
+
+    ElementLogger.verbose(this.uid, '__on', `Touching the switch.`)
+    this.touch()
+
+    this.dispatchEvent(new SwitchOnEvent())
+    ElementLogger.verbose(this.uid, '__on', `The "switch-on" event has been dispatched.`)
+  }
+
+  off(): void {
+    if (this.disabled || this.readonly) {
+      return ElementLogger.warn(this.uid, 'off', `The switch is disabled or readonly.`)
+    }
+
+    this.on = false
+    ElementLogger.verbose(this.uid, 'off', `The switch has been turned off.`)
+
+    ElementLogger.verbose(this.uid, 'off', `Touching the switch.`)
+    this.touch()
+
+    this.dispatchEvent(new SwitchOffEvent())
+    ElementLogger.verbose(this.uid, 'off', `The "switch-off" event has been dispatched.`)
   }
 
   get on(): boolean | undefined {

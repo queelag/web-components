@@ -4,7 +4,8 @@ import { AriaTabsController, AriaTabsPanelController, AriaTabsTabController } fr
 import { ElementName } from '../../definitions/enums.js'
 import type { AriaTabsElementEventMap, AriaTabsPanelElementEventMap, AriaTabsTabElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
-import { TabsTabSelectionEvent } from '../../events/tabs-tab-selection-event.js'
+import { TabsTabSelectEvent } from '../../events/tabs-tab-select-event.js'
+import { TabsTabUnselectEvent } from '../../events/tabs-tab-unselect-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -54,95 +55,129 @@ class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElementEventMa
       case KeyboardEventKey.SPACE:
         event.preventDefault()
         event.stopPropagation()
+
+        break
     }
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_UP:
+      case KeyboardEventKey.ARROW_UP: {
+        let tab: AriaTabsTabElement | undefined
+
         if (this.focusedTabElementIndex === 0) {
+          tab = this.tabElements[this.tabElements.length - 1]
+          if (!tab) break
+
           if (this.automaticActivation) {
-            this.tabElements[this.tabElements.length - 1]?.select()
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The last tab has been selected.`)
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `Selecting the last tab.`, tab)
+            tab.select()
 
             break
           }
 
-          this.tabElements[this.tabElements.length - 1]?.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The last tab has been focused.`)
+          tab.focus()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The last tab has been focused.`, tab)
 
           break
         }
+
+        tab = this.tabElements[this.focusedTabElementIndex - 1]
+        if (!tab) break
 
         if (this.automaticActivation) {
-          this.tabElements[this.focusedTabElementIndex - 1]?.select()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous tab has been selected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `Selecting the previous tab.`, tab)
+          tab.select()
 
           break
         }
 
-        this.tabElements[this.focusedTabElementIndex - 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous tab has been focused.`)
+        tab.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous tab has been focused.`, tab)
 
         break
+      }
       case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_RIGHT:
+      case KeyboardEventKey.ARROW_RIGHT: {
+        let tab: AriaTabsTabElement | undefined
+
         if (this.focusedTabElementIndex >= this.tabElements.length - 1) {
+          tab = this.tabElements[0]
+          if (!tab) break
+
           if (this.automaticActivation) {
-            this.tabElements[0]?.select()
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The first tab has been selected.`)
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `Selecting the first tab.`, tab)
+            tab.select()
 
             break
           }
 
-          this.tabElements[0]?.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The first tab has been focused.`)
+          tab.focus()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The first tab has been focused.`, tab)
 
           break
         }
+
+        tab = this.tabElements[this.focusedTabElementIndex + 1]
+        if (!tab) break
 
         if (this.automaticActivation) {
-          this.tabElements[this.focusedTabElementIndex + 1]?.select()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The next tab has been selected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `Selecting the next tab.`, tab)
+          tab.select()
 
           break
         }
 
-        this.tabElements[this.focusedTabElementIndex + 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The next tab has been focused.`)
+        tab.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `The next tab has been focused.`, tab)
 
         break
-      case KeyboardEventKey.HOME:
+      }
+      case KeyboardEventKey.HOME: {
+        let tab: AriaTabsTabElement | undefined
+
+        tab = this.tabElements[0]
+        if (!tab) break
+
         if (this.automaticActivation) {
-          this.tabElements[0]?.select()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been selected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Selecting the first tab.`, tab)
+          tab.select()
 
           break
         }
 
-        this.tabElements[0]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been focused.`)
+        tab.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been focused.`, tab)
 
         break
-      case KeyboardEventKey.END:
+      }
+      case KeyboardEventKey.END: {
+        let tab: AriaTabsTabElement | undefined
+
+        tab = this.tabElements[this.tabElements.length - 1]
+        if (!tab) break
+
         if (this.automaticActivation) {
-          this.tabElements[this.tabElements.length - 1]?.select()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been selected.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Selecting the last tab.`, tab)
+          tab.select()
 
           break
         }
 
-        this.tabElements[this.tabElements.length - 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been focused.`)
+        tab.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been focused.`, tab)
 
         break
+      }
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.SPACE:
         if (this.automaticActivation) {
           break
         }
 
-        this.focusedTabElement?.select()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The focused tab has been selected.`)
+        if (this.focusedTabElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER', `Selecting the focused tab.`, this.focusedTabElement)
+          this.focusedTabElement.select()
+        }
 
         break
     }
@@ -209,16 +244,27 @@ class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsTabEleme
   }
 
   select(): void {
-    this.rootElement.selectedTabElement?.unselect()
+    if (this.rootElement.selectedTabElement) {
+      ElementLogger.verbose(this.uid, 'select', `Unselecting the selected tab.`, this.rootElement.selectedTabElement)
+      this.rootElement.selectedTabElement.unselect()
+    }
 
     this.selected = true
-    this.focus()
+    ElementLogger.verbose(this.uid, 'select', `The tab has been selected.`)
 
-    this.rootElement.dispatchEvent(new TabsTabSelectionEvent(this, this.index))
+    this.focus()
+    ElementLogger.verbose(this.uid, 'select', `The tab has been focused.`)
+
+    this.dispatchEvent(new TabsTabSelectEvent())
+    ElementLogger.verbose(this.uid, 'select', `The "select" event has been dispatched.`)
   }
 
   unselect(): void {
     this.selected = false
+    ElementLogger.verbose(this.uid, 'unselect', `The tab has been unselected.`)
+
+    this.dispatchEvent(new TabsTabUnselectEvent())
+    ElementLogger.verbose(this.uid, 'unselect', `The "unselect" event has been dispatched.`)
   }
 
   get index(): number {

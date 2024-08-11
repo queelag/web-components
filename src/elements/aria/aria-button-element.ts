@@ -39,7 +39,7 @@ class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonElementE
 
   click(): void {
     if (this.disabled) {
-      return ElementLogger.info(this.uid, 'click', `The button is disabled.`)
+      return ElementLogger.warn(this.uid, 'click', `The button is disabled.`)
     }
 
     super.click()
@@ -56,7 +56,7 @@ class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonElementE
     event.stopPropagation()
 
     if (this.disabled) {
-      return ElementLogger.info(this.uid, 'onKeyDown', `The button is disabled.`)
+      return ElementLogger.warn(this.uid, 'onKeyDown', `The button is disabled.`)
     }
 
     super.click()

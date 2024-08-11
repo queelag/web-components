@@ -91,15 +91,16 @@ class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementE
     }
 
     if (this.hasMultipleThumbs) {
-      return
+      return ElementLogger.verbose(this.uid, 'onClick', `The slider has multiple thumbs.`)
     }
 
     this.thumbElements[0].setValueByCoordinates(event.clientX, event.clientY)
     ElementLogger.verbose(this.uid, 'onClick', `The value has been set through the coordinates.`, [event.clientX, event.clientY, this.thumbElements[0].value])
 
     this.thumbElements[0].focus()
-    ElementLogger.verbose(this.uid, 'onClick', `The thumb has been focused.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The thumb has been focused.`, this.thumbElements[0])
 
+    ElementLogger.verbose(this.uid, 'onClick', `Computing the thumb position.`, this.thumbElements[0])
     this.thumbElements[0].computePosition()
   }
 
@@ -264,6 +265,8 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
       case KeyboardEventKey.END:
         event.preventDefault()
         event.stopPropagation()
+
+        break
     }
 
     if (this.rootElement.disabled || this.rootElement.readonly) {
@@ -278,34 +281,34 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
       case KeyboardEventKey.ARROW_DOWN:
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT or ARROW_DOWN', `Decreasing the value.`, [this.value])
         this.setValue(value - step)
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT or ARROW_DOWN', `The value has been decreased.`, [this.value])
 
         break
       case KeyboardEventKey.ARROW_RIGHT:
       case KeyboardEventKey.ARROW_UP:
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT or ARROW_UP', `Increasing the value.`, [this.value])
         this.setValue(value + step)
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT or ARROW_UP', `The value has been increased.`, [this.value])
 
         break
       case KeyboardEventKey.PAGE_DOWN:
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `Decreasing the value.`, [this.value])
         this.setValue(value - step * 10)
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The value has been decreased.`, [this.value])
 
         break
       case KeyboardEventKey.PAGE_UP:
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `Increasing the value.`, [this.value])
         this.setValue(value + step * 10)
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The value has been increased.`, [this.value])
 
         break
       case KeyboardEventKey.HOME:
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Setting the value to the min.`, [this.value])
         this.setValue(min)
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the min.`, [this.value])
 
         break
       case KeyboardEventKey.END:
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Setting the value to the max.`, [this.value])
         this.setValue(max)
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the max.`, [this.value])
 
         break
     }
@@ -319,22 +322,24 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
       case KeyboardEventKey.PAGE_UP:
       case KeyboardEventKey.HOME:
       case KeyboardEventKey.END:
+        ElementLogger.verbose(this.uid, 'onKeyDown', `Computing the thumb position.`)
         this.computePosition()
+
         break
     }
   }
 
   onMouseDown = (): void => {
-    this.onMouseDownOrTouchStart()
+    this.onMouseDownOrTouchStart('onMouseDown')
 
     document.addEventListener('mousemove', this.onMouseMove)
     document.addEventListener('mouseup', this.onMouseUp)
 
-    ElementLogger.verbose(this.uid, 'onMouseDown', `The mousemove and mouseup listeners have been registered.`)
+    ElementLogger.verbose(this.uid, 'onMouseDown', `The "mousemove" and "mouseup" listeners have been added.`)
   }
 
   onTouchStart = (): void => {
-    this.onMouseDownOrTouchStart()
+    this.onMouseDownOrTouchStart('onTouchStart')
   }
 
   onTouchMove = (event: TouchEvent): void => {
@@ -342,54 +347,57 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
       return
     }
 
-    this.onMouseMoveOrTouchMove(event.touches[0].clientX, event.touches[0].clientY)
+    this.onMouseMoveOrTouchMove('onTouchMove', event.touches[0].clientX, event.touches[0].clientY)
   }
 
   onTouchEnd = (): void => {
-    this.onMouseUpOrTouchEnd()
+    this.onMouseUpOrTouchEnd('onTouchEnd')
   }
 
-  onMouseDownOrTouchStart = (): void => {
+  onMouseDownOrTouchStart = (fn: string): void => {
     if (this.rootElement.disabled || this.rootElement.readonly) {
-      return ElementLogger.warn(this.uid, 'onMouseDownOrTouchStart', `The slider is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, fn, `The slider is disabled or readonly.`)
     }
 
     this.movable = true
-    ElementLogger.debug(this.uid, 'onMouseDownOrTouchStart', `The thumb has been unlocked.`)
+    ElementLogger.debug(this.uid, fn, `The thumb has been unlocked.`)
   }
 
   onMouseMove = (event: MouseEvent): void => {
-    this.onMouseMoveOrTouchMove(event.clientX, event.clientY)
+    this.onMouseMoveOrTouchMove('onMouseMove', event.clientX, event.clientY)
   }
 
   onMouseUp = (): void => {
-    this.onMouseUpOrTouchEnd()
+    this.onMouseUpOrTouchEnd('onMouseUp')
   }
 
-  onMouseMoveOrTouchMove(x: number, y: number): void {
+  onMouseMoveOrTouchMove(fn: string, x: number, y: number): void {
     if (!this.movable) {
-      ElementLogger.verbose(this.uid, 'onMouseMoveOrTouchMove', `The thumb is not movable.`)
+      ElementLogger.verbose(this.uid, fn, `The thumb is not movable.`)
       return
     }
 
+    ElementLogger.verbose(this.uid, fn, `Setting the value by the coordinates.`, [x, y])
     this.setValueByCoordinates(x, y)
+
+    ElementLogger.verbose(this.uid, fn, `Computing the position.`)
     this.computePosition()
   }
 
-  onMouseUpOrTouchEnd(): void {
+  onMouseUpOrTouchEnd(fn: string): void {
     if (this.rootElement.disabled || this.rootElement.readonly) {
-      return ElementLogger.warn(this.uid, 'onMouseUpOrTouchEnd', `The slider is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, fn, `The slider is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The value has been set.`, [this.value])
+    ElementLogger.verbose(this.uid, fn, `The value has been set.`, [this.value])
 
     this.movable = false
-    ElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The thumb has been locked.`)
+    ElementLogger.verbose(this.uid, fn, `The thumb has been locked.`)
 
     document.removeEventListener('mousemove', this.onMouseMove)
     document.removeEventListener('mouseup', this.onMouseUp)
 
-    ElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The mousemove and mouseup document listeners have been removed.`)
+    ElementLogger.verbose(this.uid, fn, `The "mousemove" and "mouseup" listeners have been removed.`)
   }
 
   computePosition(): void {
@@ -398,7 +406,10 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     }
 
     this.style.left = getSliderThumbElementStyleLeft(this.percentage, this.rootElement.orientation)
+    ElementLogger.verbose(this.uid, 'computePosition', `The left style has been set.`, [this.style.left])
+
     this.style.top = getSliderThumbElementStyleTop(this.percentage, this.rootElement.orientation)
+    ElementLogger.verbose(this.uid, 'computePosition', `The top style has been set.`, [this.style.top])
   }
 
   setValueByCoordinates(x: number, y: number): void {
@@ -407,6 +418,7 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     percentage = this.getPercentageByCoordinates(x, y)
     if (percentage < 0) return
 
+    ElementLogger.verbose(this.uid, 'setValueByCoordinates', `Setting the value by the percentage.`, [percentage])
     this.setValueByPercentage(percentage)
   }
 
@@ -421,6 +433,7 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     value = getLimitedNumber(getFixedNumber(((max - min) * percentage) / 100 + min, decimals), { min, max })
     if (!isNumberMultipleOf(value * 10 ** decimals, step * 10 ** decimals)) return
 
+    ElementLogger.verbose(this.uid, 'setValueByPercentage', `Setting the value.`, [value])
     this.setValue(value)
   }
 
@@ -449,7 +462,6 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     }
 
     this.value = getLimitedNumber(fvalue, { min, max })
-    this.dispatchEvent(new SliderThumbMoveEvent(this.value, this.percentage))
 
     if (this.rootElement.hasMultipleThumbs) {
       this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
@@ -460,8 +472,16 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
       this.rootElement.value = value
     }
 
-    this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.value, this.rootElement.percentage))
+    ElementLogger.verbose(this.uid, 'setValue', `The value has been set.`, [this.value, this.rootElement.value])
+
+    ElementLogger.verbose(this.uid, 'setValue', `Touching the slider.`)
     this.rootElement.touch()
+
+    this.dispatchEvent(new SliderThumbMoveEvent(this.value, this.percentage))
+    ElementLogger.verbose(this.uid, 'setValue', `The "move" event has been dispatched.`, [this.value, this.percentage])
+
+    this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.value, this.rootElement.percentage))
+    ElementLogger.verbose(this.uid, 'setValue', `The "change" event has been dispatched.`, [this.rootElement.value, this.rootElement.percentage])
   }
 
   getPercentageByCoordinates(x: number, y: number): number {

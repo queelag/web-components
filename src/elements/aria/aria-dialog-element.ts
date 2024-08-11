@@ -41,12 +41,18 @@ class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogElementE
     }
 
     if (name === 'visible' && typeof value === 'string') {
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `Activating the focus trap.`)
       this.activateFocusTrap()
+
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `Setting the body style.`)
       this.setBodyStyle()
     }
 
     if (name === 'visible' && value === null) {
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `Deactivating the focus trap.`)
       this.deactivateFocusTrap()
+
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `Removing the body style.`)
       this.removeBodyStyle()
     }
   }

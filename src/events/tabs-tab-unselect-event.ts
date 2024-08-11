@@ -3,8 +3,8 @@ import { IsomorphicEvent } from '@aracna/web'
 /**
  * @category Event
  */
-export class ComboBoxCollapseEvent extends IsomorphicEvent<void> {
+export class TabsTabUnselectEvent extends IsomorphicEvent {
   constructor() {
-    super('collapse')
+    super('unselect')
   }
 }

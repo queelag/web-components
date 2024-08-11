@@ -4,6 +4,8 @@ import { AriaRadioButtonController, AriaRadioGroupController } from '../../contr
 import { ElementName } from '../../definitions/enums.js'
 import type { AriaRadioButtonElementEventMap, AriaRadioGroupElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { RadioButtonCheckEvent } from '../../events/radio-button-check-event.js'
+import { RadioButtonUncheckEvent } from '../../events/radio-button-uncheck-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
@@ -58,6 +60,8 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
       case KeyboardEventKey.SPACE:
         event.preventDefault()
         event.stopPropagation()
+
+        break
     }
 
     if (this.disabled || this.readonly) {
@@ -69,42 +73,79 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
       case KeyboardEventKey.ARROW_LEFT:
       case KeyboardEventKey.ARROW_RIGHT:
       case KeyboardEventKey.ARROW_UP:
-        this.checkedButtonElement?.uncheck()
+        if (this.checkedButtonElement) {
+          ElementLogger.verbose(
+            this.uid,
+            'onKeyDown',
+            'ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, or ARROW_UP',
+            `Unchecking the checked button.`,
+            this.checkedButtonElement
+          )
+          this.checkedButtonElement.uncheck()
+        }
+
+        break
     }
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_RIGHT:
+      case KeyboardEventKey.ARROW_RIGHT: {
+        let button: AriaRadioButtonElement | undefined
+
         if (this.focusedButtonElementIndex >= this.buttonElements.length - 1) {
-          this.buttonElements[0]?.check()
-          this.buttonElements[0]?.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `The first button has been checked and focused.`)
+          button = this.buttonElements[0]
+          if (!button) break
 
-          return
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `Checking the first button.`, button)
+          button.check()
+
+          button.focus()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `The first button has been focused.`, button)
+
+          break
         }
 
-        this.buttonElements[this.focusedButtonElementIndex + 1]?.check()
-        this.buttonElements[this.focusedButtonElementIndex + 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `The next button has been checked and focused.`)
+        button = this.buttonElements[this.focusedButtonElementIndex + 1]
+        if (!button) break
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `Checking the next button.`, button)
+        button.check()
+
+        button.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `The next button has been focused.`, button)
 
         break
+      }
       case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.ARROW_LEFT:
-        if (this.focusedButtonElementIndex <= 0) {
-          this.buttonElements[this.buttonElements.length - 1]?.check()
-          this.buttonElements[this.buttonElements.length - 1]?.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `The last button has been checked and focused.`)
+      case KeyboardEventKey.ARROW_LEFT: {
+        let button: AriaRadioButtonElement | undefined
 
-          return
+        if (this.focusedButtonElementIndex <= 0) {
+          button = this.buttonElements[this.buttonElements.length - 1]
+          if (!button) break
+
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `Checking the last button.`, button)
+          button.check()
+
+          button.focus()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `The last button has been focused.`, button)
+
+          break
         }
 
-        this.buttonElements[this.focusedButtonElementIndex - 1]?.click()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `The previous button has been checked and focused.`)
+        button = this.buttonElements[this.focusedButtonElementIndex - 1]
+        if (!button) break
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `Clicking the last button.`, button)
+        button.click()
 
         break
+      }
       case KeyboardEventKey.SPACE:
-        this.focusedButtonElement?.check()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'SPACE', `The focused button has been checked.`)
+        if (this.focusedButtonElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'SPACE', `Checking the focused button.`, this.focusedButtonElement)
+          this.focusedButtonElement.check()
+        }
 
         break
     }
@@ -112,7 +153,11 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
 
   clear(): void {
     super.clear()
-    this.checkedButtonElement?.uncheck()
+
+    if (this.checkedButtonElement) {
+      ElementLogger.verbose(this.uid, 'clear', `Unchecking the checked button.`, this.checkedButtonElement)
+      this.checkedButtonElement.uncheck()
+    }
   }
 
   get checkedButtonElementIndex(): number {
@@ -171,12 +216,18 @@ class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadi
       return ElementLogger.warn(this.uid, 'onClick', `The group is disabled or readonly.`)
     }
 
-    this.rootElement.checkedButtonElement?.uncheck()
+    if (this.rootElement.checkedButtonElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Unchecking the checked button.`, this.rootElement.checkedButtonElement)
+      this.rootElement.checkedButtonElement.uncheck()
+    }
 
+    ElementLogger.verbose(this.uid, 'onClick', `Checking the button.`)
     this.check()
-    ElementLogger.verbose(this.uid, 'onClick', `The button has been checked.`)
 
-    this.rootElement.focusedButtonElement?.blur()
+    if (this.rootElement.focusedButtonElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Blurring the focused button.`, this.rootElement.focusedButtonElement)
+      this.rootElement.focusedButtonElement.blur()
+    }
 
     this.focus()
     ElementLogger.verbose(this.uid, 'onClick', `The button has been focused.`)
@@ -184,14 +235,27 @@ class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadi
 
   check(): void {
     this.checked = true
-    this.rootElement.value = this.value
+    ElementLogger.verbose(this.uid, 'check', `The button has been checked.`)
 
+    this.rootElement.value = this.value
+    ElementLogger.verbose(this.uid, 'check', `The value has been set.`, this.value)
+
+    ElementLogger.verbose(this.uid, 'check', `Touching the group.`)
     this.rootElement.touch()
+
+    this.dispatchEvent(new RadioButtonCheckEvent(this.value))
+    ElementLogger.verbose(this.uid, 'check', `The "check" event has been dispatched.`)
   }
 
   uncheck(): void {
     this.checked = false
+    ElementLogger.verbose(this.uid, 'uncheck', `The button has been unchecked.`)
+
+    ElementLogger.verbose(this.uid, 'uncheck', `Touching the group.`)
     this.rootElement.touch()
+
+    this.dispatchEvent(new RadioButtonUncheckEvent(this.value))
+    ElementLogger.verbose(this.uid, 'uncheck', `The "uncheck" event has been dispatched.`)
   }
 
   get focused(): boolean {

@@ -51,7 +51,7 @@ export interface AriaAccordionPanelElementAttributes extends BaseElementAttribut
 
 export interface AriaAccordionSectionElementAttributes extends BaseElementAttributes {
   expanded?: boolean
-  noncollapsible?: boolean
+  uncollapsible?: boolean
 }
 
 export interface AriaAlertElementAttributes extends BaseElementAttributes {}

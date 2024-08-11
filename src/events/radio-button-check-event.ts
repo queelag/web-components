@@ -7,8 +7,8 @@ interface Detail {
 /**
  * @category Event
  */
-export class ComboBoxOptionSelectEvent extends IsomorphicEvent<Detail> {
+export class RadioButtonCheckEvent extends IsomorphicEvent<Detail> {
   constructor(value: any) {
-    super('select', { detail: { value } })
+    super('check', { detail: { value } })
   }
 }

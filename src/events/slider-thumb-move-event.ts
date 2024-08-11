@@ -11,6 +11,6 @@ interface Detail {
  */
 export class SliderThumbMoveEvent extends IsomorphicEvent<Detail> {
   constructor(value: number | undefined, percentage: number) {
-    super('slider-thumb-move', { detail: { percentage, value: value ?? DEFAULT_SLIDER_THUMB_VALUE } })
+    super('move', { detail: { percentage, value: value ?? DEFAULT_SLIDER_THUMB_VALUE } })
   }
 }

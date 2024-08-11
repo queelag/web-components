@@ -3,6 +3,8 @@ import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaCheckBoxController } from '../../controllers/aria-check-box-controller.js'
 import { ElementName } from '../../definitions/enums.js'
 import type { AriaCheckBoxElementEventMap } from '../../definitions/events.js'
+import { CheckBoxCheckEvent } from '../../events/check-box-check-event.js'
+import { CheckBoxUncheckEvent } from '../../events/check-box-uncheck-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
@@ -51,10 +53,8 @@ class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxEl
       return ElementLogger.warn(this.uid, 'onClick', `The checkbox is disabled or readonly.`)
     }
 
-    this.checked = !this.checked
-    ElementLogger.verbose(this.uid, 'onClick', `The checkbox has been ${this.checked ? 'checked' : 'unchecked'}.`)
-
-    this.touch()
+    ElementLogger.verbose(this.uid, 'onClick', `${this.checked ? 'Unchecking' : 'Checking'} the checkbox.`)
+    this.toggle()
   }
 
   onKeyDown(event: KeyboardEvent): void {
@@ -69,7 +69,50 @@ class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxEl
     event.preventDefault()
     event.stopPropagation()
 
+    if (this.disabled || this.readonly) {
+      return ElementLogger.warn(this.uid, 'onKeyDown', `The checkbox is disabled or readonly.`)
+    }
+
+    ElementLogger.verbose(this.uid, 'onKeyDown', `Clicking the checkbox.`)
     this.onClick()
+  }
+
+  toggle(): void {
+    if (this.checked) {
+      return this.uncheck()
+    }
+
+    this.check()
+  }
+
+  check(): void {
+    if (this.disabled || this.readonly) {
+      return ElementLogger.warn(this.uid, 'check', `The checkbox is disabled or readonly.`)
+    }
+
+    this.checked = true
+    ElementLogger.verbose(this.uid, 'check', `The checkbox has been checked.`)
+
+    ElementLogger.verbose(this.uid, 'check', `Touching the checkbox.`)
+    this.touch()
+
+    this.dispatchEvent(new CheckBoxCheckEvent())
+    ElementLogger.verbose(this.uid, 'check', `The "check" event has been dispatched.`)
+  }
+
+  uncheck(): void {
+    if (this.disabled || this.readonly) {
+      return ElementLogger.warn(this.uid, 'uncheck', `The checkbox is disabled or readonly.`)
+    }
+
+    this.checked = false
+    ElementLogger.verbose(this.uid, 'uncheck', `The checkbox has been unchecked.`)
+
+    ElementLogger.verbose(this.uid, 'uncheck', `Touching the checkbox.`)
+    this.touch()
+
+    this.dispatchEvent(new CheckBoxUncheckEvent())
+    ElementLogger.verbose(this.uid, 'uncheck', `The "uncheck" event has been dispatched.`)
   }
 
   get checked(): boolean | undefined {

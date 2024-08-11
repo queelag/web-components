@@ -3,6 +3,7 @@ import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaLinkController } from '../../controllers/aria-link-controller.js'
 import { ElementName } from '../../definitions/enums.js'
 import type { AriaLinkElementEventMap } from '../../definitions/events.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
@@ -39,6 +40,7 @@ class AriaLinkElement<E extends AriaLinkElementEventMap = AriaLinkElementEventMa
       return
     }
 
+    ElementLogger.verbose(this.uid, 'onClick', `Opening the link.`, [this.href, this.target])
     window.open(this.href, this.target)
   }
 
@@ -47,6 +49,7 @@ class AriaLinkElement<E extends AriaLinkElementEventMap = AriaLinkElementEventMa
       return
     }
 
+    ElementLogger.verbose(this.uid, 'onKeyDown', 'SPACE', `Clicking the link.`)
     this.click()
   }
 

@@ -9,6 +9,8 @@ import type {
   AriaTooltipTriggerElementEventMap
 } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { TooltipHideEvent } from '../../events/tooltip-hide-event.js'
+import { TooltipShowEvent } from '../../events/tooltip-show-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaFloatingElement as FloatingElement } from '../core/floating-element.js'
@@ -54,8 +56,24 @@ class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipEleme
       return
     }
 
+    ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Showing the tooltip.`)
+    this.show()
+  }
+
+  show(): void {
+    this.visible = true
+    ElementLogger.verbose(this.uid, 'show', `The tooltip has been shown.`)
+
+    this.dispatchEvent(new TooltipShowEvent())
+    ElementLogger.verbose(this.uid, 'show', `The "show" event has been dispatched.`)
+  }
+
+  hide(): void {
     this.visible = false
-    ElementLogger.verbose(this.uid, 'onKeyDown', `The tooltip has been hidden.`)
+    ElementLogger.verbose(this.uid, 'hide', `The tooltip has been hidden.`)
+
+    this.dispatchEvent(new TooltipHideEvent())
+    ElementLogger.verbose(this.uid, 'hide', `The "hide" event has been dispatched.`)
   }
 
   get name(): ElementName {
@@ -170,18 +188,18 @@ class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = Ar
   }
 
   onBlur = (): void => {
-    this.rootElement.visible = false
-    ElementLogger.verbose(this.uid, 'onBlur', `The tooltip has been hidden.`)
+    ElementLogger.verbose(this.uid, 'onBlur', `Hiding the tooltip.`)
+    this.rootElement.hide()
   }
 
   onClick = (): void => {
-    this.rootElement.visible = true
-    ElementLogger.verbose(this.uid, 'onClick', `The tooltip has been shown.`)
+    ElementLogger.verbose(this.uid, 'onClick', `Showing the tooltip.`)
+    this.rootElement.show()
   }
 
   onFocus = (): void => {
-    this.rootElement.visible = true
-    ElementLogger.verbose(this.uid, 'onFocus', `The tooltip has been shown.`)
+    ElementLogger.verbose(this.uid, 'onFocus', `Showing the tooltip.`)
+    this.rootElement.show()
   }
 
   onMouseEnter = (): void => {
@@ -189,13 +207,13 @@ class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = Ar
       return
     }
 
-    this.rootElement.visible = true
-    ElementLogger.verbose(this.uid, 'onMouseEnter', `The tooltip has been shown.`)
+    ElementLogger.verbose(this.uid, 'onMouseEnter', `Showing the tooltip.`)
+    this.rootElement.show()
   }
 
   onMouseLeave = (): void => {
-    this.rootElement.visible = false
-    ElementLogger.verbose(this.uid, 'onMouseLeave', `The tooltip has been hidden.`)
+    ElementLogger.verbose(this.uid, 'onMouseLeave', `Hiding the tooltip.`)
+    this.rootElement.hide()
   }
 
   get name(): ElementName {

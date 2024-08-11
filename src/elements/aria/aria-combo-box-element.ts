@@ -23,6 +23,7 @@ import type { AriaComboBoxElementAutoComplete, AriaComboBoxElementFilterOptionsP
 import { ComboBoxCollapseEvent } from '../../events/combo-box-collapse-event.js'
 import { ComboBoxExpandEvent } from '../../events/combo-box-expand-event.js'
 import { ComboBoxOptionSelectEvent } from '../../events/combo-box-option-select-event.js'
+import { ComboBoxOptionUnselectEvent } from '../../events/combo-box-option-unselect-event.js'
 import { StateChangeEvent } from '../../events/state-change-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
@@ -122,21 +123,27 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
       case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_UP:
         if (this.collapsed) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_UP', `Expanding the combobox.`)
           this.expand()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The combobox has been expanded.`)
 
           if (this.selectedOptionElement) {
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_UP', `Focusing the selected option.`, this.selectedOptionElement)
             this.selectedOptionElement.focus()
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The selected option has been focused.`)
 
             return
           }
 
+          if (this.optionElements.length < 0) {
+            return ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_UP', `No options.`)
+          }
+
           if (this.inputElement && event.key === KeyboardEventKey.ARROW_DOWN) {
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the input element.`)
             this.optionElements[0]?.focus()
           }
 
           if (this.inputElement && event.key === KeyboardEventKey.ARROW_UP) {
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the last option element.`, this.optionElements[this.optionElements.length - 1])
             this.optionElements[this.optionElements.length - 1]?.focus()
           }
 
@@ -146,63 +153,85 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_DOWN:
-        if (this.focusedOptionElementIndex >= this.optionElements.length - 1) {
-          if (this.inputElement) {
-            this.focusedOptionElement?.blur()
+        if (this.optionElements.length < 0) {
+          return ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `No options.`)
+        }
 
-            this.optionElements[0]?.focus()
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The first option has been focused.`)
-          }
+        if (this.focusedOptionElementIndex >= this.optionElements.length - 1 && this.inputElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Blurring the focused option element.`, this.focusedOptionElement)
+          this.focusedOptionElement?.blur()
+
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the first option element.`, this.optionElements[0])
+          this.optionElements[0]?.focus()
 
           break
         }
 
-        this.focusedOptionElement?.blur()
+        if (this.focusedOptionElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Blurring the focused option element.`, this.focusedOptionElement)
+          this.focusedOptionElement.blur()
+        }
 
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the next option element.`, this.optionElements[this.focusedOptionElementIndex + 1])
         this.optionElements[this.focusedOptionElementIndex + 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The next option has been focused.`)
 
         break
       case KeyboardEventKey.ARROW_UP:
-        if (this.focusedOptionElementIndex <= 0) {
-          if (this.inputElement) {
+        if (this.focusedOptionElementIndex <= 0 && this.inputElement) {
+          if (this.focusedOptionElement) {
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Blurring the focused option element.`, this.focusedOptionElement)
             this.focusedOptionElement?.blur()
-
-            this.optionElements[this.optionElements.length - 1]?.focus()
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The last option has been focused.`)
           }
+
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the last option element.`, this.optionElements[this.optionElements.length - 1])
+          this.optionElements[this.optionElements.length - 1]?.focus()
 
           break
         }
 
-        this.focusedOptionElement?.blur()
+        if (this.focusedOptionElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Blurring the focused option element.`, this.focusedOptionElement)
+          this.focusedOptionElement.blur()
+        }
 
+        ElementLogger.verbose(
+          this.uid,
+          'onKeyDown',
+          'ARROW_UP',
+          `Focusing the previous option element.`,
+          this.optionElements[this.focusedOptionElementIndex - 1]
+        )
         this.optionElements[this.focusedOptionElementIndex - 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The previous option has been focused.`)
 
         break
       case KeyboardEventKey.END:
-        this.focusedOptionElement?.blur()
-
-        if (this.collapsed) {
-          this.expand()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The combobox has been expanded.`)
+        if (this.focusedOptionElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Blurring the focused option element.`, this.focusedOptionElement)
+          this.focusedOptionElement?.blur()
         }
 
+        if (this.collapsed) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Expanding the combobox.`)
+          this.expand()
+        }
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Focusing the last option element.`, this.optionElements[this.optionElements.length - 1])
         this.optionElements[this.optionElements.length - 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last option has been focused.`)
 
         break
       case KeyboardEventKey.HOME:
-        this.focusedOptionElement?.blur()
-
-        if (this.collapsed) {
-          this.expand()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The combobox has been expanded.`)
+        if (this.focusedOptionElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Blurring the focused option element.`, this.focusedOptionElement)
+          this.focusedOptionElement?.blur()
         }
 
+        if (this.collapsed) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Expanding the combobox.`)
+          this.expand()
+        }
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Focusing the first option element.`, this.optionElements[0])
         this.optionElements[0]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first option has been focused.`)
 
         break
       case KeyboardEventKey.ENTER:
@@ -212,21 +241,27 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         }
 
         if (this.collapsed) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Expanding the combobox.`)
           this.expand()
-          this.selectedOptionElement?.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The combobox has been expanded and the selected option has been focused.`)
+
+          if (this.selectedOptionElement) {
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Focusing the selected option element.`, this.selectedOptionElement)
+            this.selectedOptionElement.focus()
+          }
 
           break
         }
 
         if (this.focusedOptionElement) {
-          this.focusedOptionElement?.click()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Clicking the focused option element.`, this.focusedOptionElement)
+          this.focusedOptionElement.click()
+
           break
         }
 
         if (this.expanded) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Collapsing the combobox.`)
           this.collapse()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The combobox has been collapsed.`)
         }
 
         break
@@ -236,8 +271,10 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
             case 'both':
             case 'inline':
             case 'list':
-              this.selectedOptionElement?.unselect()
-              ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The selected option has been unselected.`)
+              if (this.selectedOptionElement) {
+                ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Unselecting the selected option.`, this.selectedOptionElement)
+                this.selectedOptionElement.unselect()
+              }
 
               this.inputElement.value = undefined
               ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The input value has been reset.`, [this.inputElement.value])
@@ -247,32 +284,53 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         }
 
         if (this.expanded) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Collapsing the combobox.`)
           this.collapse()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The combobox has been collapsed.`)
 
           if (this.single && this.inputElement && this.selectedOptionElement) {
             this.inputElement.value = this.selectedOptionElement.label ?? this.selectedOptionElement.innerText
             ElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option label.`, [this.inputElement.value])
           }
 
-          this.focusedOptionElement?.blur()
+          if (this.focusedOptionElement) {
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Blurring the focused option element.`, this.focusedOptionElement)
+            this.focusedOptionElement.blur()
+          }
         }
 
         break
-      case KeyboardEventKey.PAGE_DOWN:
-        this.focusedOptionElement?.blur()
+      case KeyboardEventKey.PAGE_DOWN: {
+        let option: AriaComboBoxOptionElement | undefined
 
-        this.optionElements[getLimitedNumber(getLimitedNumber(this.focusedOptionElementIndex, { min: 0 }) + 10, { min: 0 })]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The option focus has jumped ~10 options ahead.`)
+        if (this.focusedOptionElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `Blurring the focused option element.`, this.focusedOptionElement)
+          this.focusedOptionElement.blur()
+        }
+
+        option = this.optionElements[getLimitedNumber(getLimitedNumber(this.focusedOptionElementIndex, { min: 0 }) + 10, { min: 0 })]
+        if (!option) break
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `Focusing the option 10~ places ahead.`, option)
+        option.focus()
 
         break
-      case KeyboardEventKey.PAGE_UP:
-        this.focusedOptionElement?.blur()
+      }
+      case KeyboardEventKey.PAGE_UP: {
+        let option: AriaComboBoxOptionElement | undefined
 
-        this.optionElements[getLimitedNumber(this.focusedOptionElementIndex - 10, { min: 0 })]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The option focus has jumped ~10 options behind.`)
+        if (this.focusedOptionElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `Blurring the focused option element.`, this.focusedOptionElement)
+          this.focusedOptionElement.blur()
+        }
+
+        option = this.optionElements[getLimitedNumber(this.focusedOptionElementIndex - 10, { min: 0 })]
+        if (!option) break
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `Focusing the option 10~ places behind.`, option)
+        option.focus()
 
         break
+      }
       default:
         if (this.inputElement || event.key.length !== 1 || event.altKey || event.ctrlKey || event.metaKey) {
           break
@@ -282,8 +340,8 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         event.stopPropagation()
 
         if (this.collapsed) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'typeahead', `Expanding the combobox.`)
           this.expand()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'DEFAULT', `The combobox has been expanded.`)
         }
 
         typeahead<AriaComboBoxOptionElement>(this.uid, event.key)
@@ -298,25 +356,34 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
   }
 
   onTypeaheadMatch = (element: AriaComboBoxOptionElement) => {
-    this.focusedOptionElement?.blur()
+    if (this.focusedOptionElement) {
+      ElementLogger.verbose(this.uid, 'typeahead', `Blurring the focused option element.`, this.focusedOptionElement)
+      this.focusedOptionElement.blur()
+    }
 
+    ElementLogger.verbose(this.uid, 'typeahead', `Focusing the matched option element.`, element)
     element.focus()
-    ElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
   }
 
   collapse(): void {
     this.expanded = false
+    ElementLogger.verbose(this.uid, 'collapse', `The combobox has been collapsed.`)
+
     this.dispatchEvent(new ComboBoxCollapseEvent())
+    ElementLogger.verbose(this.uid, 'collapse', `The "collapse" event has been dispatched.`)
   }
 
   expand(): void {
     this.expanded = true
+    ElementLogger.verbose(this.uid, 'expand', `The combobox has been expanded.`)
+
     this.dispatchEvent(new ComboBoxExpandEvent())
+    ElementLogger.verbose(this.uid, 'expand', `The "expand" event has been dispatched.`)
   }
 
   removeOption(value: any): void {
     if (this.single) {
-      return
+      return ElementLogger.warn(this.uid, 'removeOption', `The combobox is not multiple.`)
     }
 
     for (let option of this.selectedOptionElements) {
@@ -324,9 +391,11 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         continue
       }
 
+      ElementLogger.verbose(this.uid, 'removeOption', `Blurring an option.`, option)
       option.blur()
+
+      ElementLogger.verbose(this.uid, 'removeOption', `Unselecting an option.`, option)
       option.unselect()
-      ElementLogger.verbose(this.uid, 'removeOption', `The option has been blurred and unselected.`, option)
 
       break
     }
@@ -490,16 +559,21 @@ class AriaComboBoxButtonElement<E extends AriaComboBoxButtonElementEventMap = Ar
 
   onBlur = (): void => {
     if (this.rootElement.single && this.rootElement.focusedOptionElement) {
-      this.rootElement.selectedOptionElement?.unselect()
-      this.rootElement.focusedOptionElement.select()
-      this.rootElement.focusedOptionElement.blur()
+      if (this.rootElement.selectedOptionElement) {
+        ElementLogger.verbose(this.uid, 'onBlur', `Unselecting the selected option.`, this.rootElement.selectedOptionElement)
+        this.rootElement.selectedOptionElement.unselect()
+      }
 
-      ElementLogger.verbose(this.uid, 'onBlur', `The focused option has been selected && blurred.`)
+      ElementLogger.verbose(this.uid, 'onBlur', `Selecting the focused option.`, this.rootElement.focusedOptionElement)
+      this.rootElement.focusedOptionElement.select()
+
+      ElementLogger.verbose(this.uid, 'onBlur', `Blurring the focused option.`, this.rootElement.focusedOptionElement)
+      this.rootElement.focusedOptionElement.blur()
     }
 
     if (this.rootElement.expanded) {
+      ElementLogger.verbose(this.uid, 'onBlur', `Collapsing the combobox.`)
       this.rootElement.collapse()
-      ElementLogger.verbose(this.uid, 'onBlur', `The combobox has been collapsed.`)
     }
   }
 
@@ -509,16 +583,19 @@ class AriaComboBoxButtonElement<E extends AriaComboBoxButtonElementEventMap = Ar
     }
 
     if (this.rootElement.collapsed) {
+      ElementLogger.verbose(this.uid, 'onClick', `Expanding the combobox.`)
       this.rootElement.expand()
-      ElementLogger.verbose(this.uid, 'onClick', `The combobox has been expanded.`)
 
-      this.rootElement.selectedOptionElement?.focus()
+      if (this.rootElement.selectedOptionElement) {
+        ElementLogger.verbose(this.uid, 'onClick', `Focusing the selected option.`, this.rootElement.selectedOptionElement)
+        this.rootElement.selectedOptionElement?.focus()
+      }
 
       return
     }
 
+    ElementLogger.verbose(this.uid, 'onClick', `Collapsing the combobox.`)
     this.rootElement.collapse()
-    ElementLogger.verbose(this.uid, 'onClick', `The combobox has been collapsed.`)
   }
 
   get name(): ElementName {
@@ -592,8 +669,13 @@ class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap = Aria
     }
 
     if (this.rootElement.collapsed) {
+      ElementLogger.verbose(this.uid, 'onInput', `Expanding the combobox.`)
       this.rootElement.expand()
-      this.rootElement.selectedOptionElement?.focus()
+
+      if (this.rootElement.selectedOptionElement) {
+        ElementLogger.verbose(this.uid, 'onInput', `Focusing the selected option.`, this.rootElement.selectedOptionElement)
+        this.rootElement.selectedOptionElement.focus()
+      }
 
       ElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded and the selected option has been focused.`)
     }
@@ -603,6 +685,7 @@ class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap = Aria
   }
 
   focus(): void {
+    ElementLogger.verbose(this.uid, 'focus', `Focusing the input element.`, this.inputElement)
     this.inputElement?.focus()
   }
 
@@ -730,15 +813,21 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
 
   blur(): void {
     this.focused = false
+    ElementLogger.verbose(this.uid, 'blur', `The option has been blurred.`)
+
+    this.dispatchEvent(new FocusEvent('blur'))
   }
 
   focus(options?: FocusOptions | undefined): void {
     this.focused = true
+    ElementLogger.verbose(this.uid, 'focus', `The option has been focused.`)
+
+    this.dispatchEvent(new FocusEvent('focus'))
   }
 
   select(): void {
     this.selected = true
-    this.dispatchEvent(new ComboBoxOptionSelectEvent(this, this.value))
+    ElementLogger.verbose(this.uid, 'select', `The option has been selected.`)
 
     if (this.rootElement.single) {
       this.rootElement.value = this.value
@@ -749,11 +838,18 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
       this.rootElement.value = [...this.rootElement.value, this.value]
     }
 
+    ElementLogger.verbose(this.uid, 'select', `The value has been set.`, [this.rootElement.value])
+
+    ElementLogger.verbose(this.uid, 'select', `Touching the combobox.`)
     this.rootElement.touch()
+
+    this.dispatchEvent(new ComboBoxOptionSelectEvent(this.value))
+    ElementLogger.verbose(this.uid, 'select', `The "select" event has been dispatched.`)
   }
 
   unselect(): void {
     this.selected = false
+    ElementLogger.verbose(this.uid, 'unselect', `The option has been unselected.`)
 
     if (this.rootElement.single) {
       this.rootElement.value = undefined
@@ -764,7 +860,13 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
       this.rootElement.value = removeArrayItems(this.rootElement.value, [this.value])
     }
 
+    ElementLogger.verbose(this.uid, 'unselect', `The value has been set.`, [this.rootElement.value])
+
+    ElementLogger.verbose(this.uid, 'unselect', `Touching the combobox.`)
     this.rootElement.touch()
+
+    this.dispatchEvent(new ComboBoxOptionUnselectEvent(this.value))
+    ElementLogger.verbose(this.uid, 'unselect', `The "unselect" event has been dispatched.`)
   }
 
   onClick(): void {
@@ -773,35 +875,46 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
     }
 
     if (this.rootElement.single) {
-      this.rootElement.focusedOptionElement?.blur()
-      this.rootElement.selectedOptionElement?.unselect()
+      if (this.rootElement.focusedOptionElement) {
+        ElementLogger.verbose(this.uid, 'onClick', `Blurring the focused option element.`, this.rootElement.focusedOptionElement)
+        this.rootElement.focusedOptionElement.blur()
+      }
 
+      if (this.rootElement.selectedOptionElement) {
+        ElementLogger.verbose(this.uid, 'onClick', `Unselecting the selected option element.`, this.rootElement.selectedOptionElement)
+        this.rootElement.selectedOptionElement.unselect()
+      }
+
+      ElementLogger.verbose(this.uid, 'onClick', `Selecting the option.`)
       this.select()
-      ElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
 
+      ElementLogger.verbose(this.uid, 'onClick', `Collapsing the combobox.`)
       this.rootElement.collapse()
-      ElementLogger.verbose(this.uid, 'onClick', `The combobox has been collapsed.`)
 
       if (this.rootElement.inputElement) {
         this.rootElement.inputElement.value = this.label ?? this.innerText
+        ElementLogger.verbose(this.uid, 'onClick', `The input value has been set.`, [this.rootElement.inputElement.value])
+
         this.rootElement.inputElement.focus()
+        ElementLogger.verbose(this.uid, 'onClick', `The input has been focused.`)
 
         return
       }
 
-      this.rootElement.buttonElement?.focus()
+      if (this.rootElement.buttonElement) {
+        this.rootElement.buttonElement.focus()
+        ElementLogger.verbose(this.uid, 'onClick', `The button has been focused.`)
+      }
     }
 
     if (this.rootElement.multiple) {
       if (this.selected) {
-        this.unselect()
-        ElementLogger.verbose(this.uid, 'onClick', `The option has been unselected.`)
-
-        return
+        ElementLogger.verbose(this.uid, 'onClick', `Unselecting the option.`)
+        return this.unselect()
       }
 
+      ElementLogger.verbose(this.uid, 'onClick', `Selecting the option.`)
       this.select()
-      ElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
     }
   }
 

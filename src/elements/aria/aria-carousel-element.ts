@@ -90,8 +90,8 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
     }
 
     if (name === 'automatic-rotation') {
-      if (isIntervalSet(this.onAutomaticRotation)) {
-        clearInterval(this.onAutomaticRotation)
+      if (isIntervalSet(this.uid)) {
+        clearInterval(this.uid)
         ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The automatic rotation has been stopped.`)
       }
 
@@ -102,12 +102,12 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
     }
 
     if (name === 'automatic-rotation-interval-time' && this.automaticRotation) {
-      if (isIntervalSet(this.onAutomaticRotation)) {
-        clearInterval(this.onAutomaticRotation)
+      if (isIntervalSet(this.uid)) {
+        clearInterval(this.uid)
         ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The automatic rotation has been stopped.`)
       }
 
-      setInterval(this.onAutomaticRotation, parseNumber(value) ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
+      setInterval(this.onAutomaticRotation, parseNumber(value, DEFAULT_CAROUSEL_ROTATION_DURATION), this.uid)
       ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The automatic rotation has been started.`)
     }
   }
@@ -156,14 +156,14 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
 
   onFocusOutOrMouseLeave(fn: string): void {
     if (this.forceAutomaticRotation || !this.automaticRotation) {
-      return
+      return ElementLogger.verbose(this.uid, fn, `The automatic rotation is nor enabled nor forced.`)
     }
 
     setInterval(this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
     ElementLogger.verbose(this.uid, fn, `The automatic rotation has been started.`)
 
     this.temporaryLive = undefined
-    ElementLogger.verbose(this.uid, fn, `The temporary live state has been unset.`)
+    ElementLogger.verbose(this.uid, fn, `The temporary live state has been unset.`, [this.temporaryLive])
 
     this.dispatchEvent(new CarouselRotationResumeEvent())
     ElementLogger.verbose(this.uid, fn, `The "rotation-resume" event has been dispatched.`)
@@ -171,11 +171,11 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
 
   onFocusInOrMouseEnter(fn: string): void {
     if (this.forceAutomaticRotation || !this.automaticRotation) {
-      return
+      return ElementLogger.verbose(this.uid, fn, `The automatic rotation is nor enabled nor forced.`)
     }
 
     this.temporaryLive = 'polite'
-    ElementLogger.verbose(this.uid, fn, `The temporary live state has been set to polite.`)
+    ElementLogger.verbose(this.uid, fn, `The temporary live state has been set to polite.`, [this.temporaryLive])
 
     clearInterval(this.uid)
     ElementLogger.verbose(this.uid, fn, `The automatic rotation has been stopped.`)
@@ -186,90 +186,120 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
 
   onAutomaticRotation = (): void => {
     if (this.reverseRotation) {
+      ElementLogger.verbose(this.uid, 'onAutomaticRotation', `Rotation is reversed, activating the previous slide.`)
       return this.activatePreviousSlide()
     }
 
-    return this.activateNextSlide()
+    ElementLogger.verbose(this.uid, 'onAutomaticRotation', `Activating the next slide.`)
+    this.activateNextSlide()
   }
 
   activateNextSlide(): void {
     if (this.slideElements.length <= 0) {
-      return
+      return ElementLogger.verbose(this.uid, 'activateNextSlide', `There are no slides.`)
     }
 
     if (this.activeSlideElementIndex >= this.slideElements.length - 1) {
       if (!this.infiniteRotation) {
-        return
+        return ElementLogger.verbose(this.uid, 'activateNextSlide', `The rotation is not infinite.`)
       }
 
-      this.activeSlideElement?.deactivate()
-      this.activeTabElement?.deactivate()
+      if (this.activeSlideElement) {
+        ElementLogger.verbose(this.uid, 'activateNextSlide', `Deactivating the active slide.`, this.activeSlideElement)
+        this.activeSlideElement.deactivate()
+      }
 
+      if (this.activeTabElement) {
+        ElementLogger.verbose(this.uid, 'activateNextSlide', `Deactivating the active tab.`, this.activeTabElement)
+        this.activeTabElement.deactivate()
+      }
+
+      ElementLogger.verbose(this.uid, 'activateNextSlide', `Activating the first slide.`, this.slideElements[0])
       this.slideElements[0]?.activate()
-      ElementLogger.verbose(this.uid, 'activateNextSlide', `The first slide has been activated.`)
 
       if (this.tabElements.length <= 0) {
-        return
+        return ElementLogger.verbose(this.uid, 'activateNextSlide', `There are no tabs.`)
       }
 
+      ElementLogger.verbose(this.uid, 'activateNextSlide', `Activating the first tab.`, this.tabElements[0])
       this.tabElements[0]?.activate()
-      ElementLogger.verbose(this.uid, 'activateNextSlide', `The first tab has been activated.`)
 
       return
     }
 
-    this.activeSlideElement?.deactivate()
-    this.activeTabElement?.deactivate()
+    if (this.activeSlideElement) {
+      ElementLogger.verbose(this.uid, 'activateNextSlide', `Deactivating the active slide.`, this.activeSlideElement)
+      this.activeSlideElement.deactivate()
+    }
 
+    if (this.activeTabElement) {
+      ElementLogger.verbose(this.uid, 'activateNextSlide', `Deactivating the active tab.`, this.activeTabElement)
+      this.activeTabElement.deactivate()
+    }
+
+    ElementLogger.verbose(this.uid, 'activateNextSlide', `Activating the next slide.`, this.slideElements[this.activeSlideElementIndex + 1])
     this.slideElements[this.activeSlideElementIndex + 1]?.activate()
-    ElementLogger.verbose(this.uid, 'activateNextSlide', `The next slide has been activated.`)
 
     if (this.tabElements.length <= 0) {
-      return
+      return ElementLogger.verbose(this.uid, 'activateNextSlide', `There are no tabs.`)
     }
 
+    ElementLogger.verbose(this.uid, 'activateNextSlide', `Activating the next tab.`, this.tabElements[this.activeSlideElementIndex + 1])
     this.tabElements[this.activeSlideElementIndex + 1]?.activate()
-    ElementLogger.verbose(this.uid, 'activateNextSlide', `The next tab has been activated.`)
   }
 
   activatePreviousSlide(): void {
     if (this.slideElements.length <= 0) {
-      return
+      return ElementLogger.verbose(this.uid, 'activatePreviousSlide', `There are no slides.`)
     }
 
     if (this.activeSlideElementIndex <= 0) {
       if (!this.infiniteRotation) {
-        return
+        return ElementLogger.verbose(this.uid, 'activatePreviousSlide', `The rotation is not infinite.`)
       }
 
-      this.activeSlideElement?.deactivate()
-      this.activeTabElement?.deactivate()
+      if (this.activeSlideElement) {
+        ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Deactivating the active slide.`, this.activeSlideElement)
+        this.activeSlideElement.deactivate()
+      }
 
+      if (this.activeTabElement) {
+        ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Deactivating the active tab.`, this.activeTabElement)
+        this.activeTabElement.deactivate()
+      }
+
+      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Activating the last slide.`, this.slideElements[this.slideElements.length - 1])
       this.slideElements[this.slideElements.length - 1]?.activate()
-      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `The last slide has been activated.`)
 
       if (this.tabElements.length <= 0) {
-        return
+        return ElementLogger.verbose(this.uid, 'activatePreviousSlide', `There are no tabs.`)
       }
 
+      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Activating the last tab.`, this.tabElements[this.tabElements.length - 1])
       this.tabElements[this.tabElements.length - 1]?.activate()
-      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `The last tab has been activated.`)
 
       return
     }
 
-    this.activeSlideElement?.deactivate()
-    this.activeTabElement?.deactivate()
+    if (this.activeSlideElement) {
+      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Deactivating the active slide.`, this.activeSlideElement)
+      this.activeSlideElement.deactivate()
+    }
 
+    if (this.activeTabElement) {
+      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Deactivating the active tab.`, this.activeTabElement)
+      this.activeTabElement.deactivate()
+    }
+
+    ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Activating the previous slide.`, this.slideElements[this.activeSlideElementIndex - 1])
     this.slideElements[this.activeSlideElementIndex - 1]?.activate()
-    ElementLogger.verbose(this.uid, 'activatePreviousSlide', `The previous slide has been activated.`)
 
     if (this.tabElements.length <= 0) {
-      return
+      return ElementLogger.verbose(this.uid, 'activatePreviousSlide', `There are no tabs.`)
     }
 
+    ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Activating the previous tab.`, this.tabElements[this.activeSlideElementIndex - 1])
     this.tabElements[this.activeSlideElementIndex - 1]?.activate()
-    ElementLogger.verbose(this.uid, 'activatePreviousSlide', `The previous tab has been activated.`)
   }
 
   get activeSlideElementIndex(): number {
@@ -349,17 +379,21 @@ class AriaCarouselSlideElement<E extends AriaCarouselSlideElementEventMap = Aria
   slidesElement!: AriaCarouselSlidesElement
 
   activate(): void {
-    let old: AriaCarouselSlideElement | undefined
+    let old: AriaCarouselSlideElement | undefined = this.rootElement.activeSlideElement
 
-    old = this.rootElement.activeSlideElement
     this.active = true
+    ElementLogger.verbose(this.uid, 'activate', `The slide has been activated.`)
 
     this.dispatchEvent(new CarouselSlideActivateEvent(old))
+    ElementLogger.verbose(this.uid, 'activate', `The "activate" event has been dispatched.`)
   }
 
   deactivate(): void {
     this.active = false
+    ElementLogger.verbose(this.uid, 'deactivate', `The slide has been deactivated.`)
+
     this.dispatchEvent(new CarouselSlideDeactivateEvent())
+    ElementLogger.verbose(this.uid, 'deactivate', `The "deactivate" event has been dispatched.`)
   }
 
   get index(): number {
@@ -392,7 +426,10 @@ class AriaCarouselRotationControlElement<
 
   onClick(): void {
     this.rootElement.forceAutomaticRotation = true
+    ElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been forced.`)
+
     this.rootElement.temporaryLive = undefined
+    ElementLogger.verbose(this.uid, 'onClick', `The temporary live state has been unset.`, [this.rootElement.temporaryLive])
 
     if (this.rootElement.automaticRotation) {
       if (isIntervalSet(this.rootElement.uid)) {
@@ -443,6 +480,7 @@ class AriaCarouselNextSlideControlElement<
   rootElement!: AriaCarouselElement
 
   onClick(): void {
+    ElementLogger.verbose(this.uid, 'onClick', `Activating the next slide.`)
     this.rootElement.activateNextSlide()
   }
 
@@ -466,6 +504,7 @@ class AriaCarouselPreviousSlideControlElement<
   rootElement!: AriaCarouselElement
 
   onClick(): void {
+    ElementLogger.verbose(this.uid, 'onClick', `Activating the previous slide.`)
     this.rootElement.activatePreviousSlide()
   }
 
@@ -511,35 +550,55 @@ class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap = AriaCa
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `Activating the previous slide.`)
         this.rootElement.activatePreviousSlide()
+
         break
       case KeyboardEventKey.ARROW_RIGHT:
         this.rootElement.activateNextSlide()
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `Activating the next slide.`)
+
         break
       case KeyboardEventKey.END:
-        this.activeTabElement?.deactivate()
-        this.rootElement.activeSlideElement?.deactivate()
+        if (this.activeTabElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Deactivating the active tab.`, this.activeTabElement)
+          this.activeTabElement.deactivate()
+        }
+
+        if (this.rootElement.activeSlideElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Deactivating the active slide.`, this.rootElement.activeSlideElement)
+          this.rootElement.activeSlideElement.deactivate()
+        }
 
         this.tabElements[this.tabElements.length - 1]?.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been focused.`, this.tabElements[this.tabElements.length - 1])
 
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Activating the last tab.`, this.tabElements[this.tabElements.length - 1])
         this.tabElements[this.tabElements.length - 1]?.activate()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been activated.`)
 
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Activating the last slide.`, this.rootElement.slideElements[this.tabElements.length - 1])
         this.rootElement.slideElements[this.tabElements.length - 1]?.activate()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last slide has been activated.`)
 
         break
       case KeyboardEventKey.HOME:
-        this.activeTabElement?.deactivate()
-        this.rootElement.activeSlideElement?.deactivate()
+        if (this.activeTabElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Deactivating the active tab.`, this.activeTabElement)
+          this.activeTabElement.deactivate()
+        }
+
+        if (this.rootElement.activeSlideElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Deactivating the active slide.`, this.rootElement.activeSlideElement)
+          this.rootElement.activeSlideElement.deactivate()
+        }
 
         this.tabElements[0]?.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been focused.`, this.tabElements[0])
 
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Activating the first tab.`, this.tabElements[0])
         this.tabElements[0]?.activate()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been activated.`)
 
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Activating the first slide.`, this.rootElement.slideElements[0])
         this.rootElement.slideElements[0]?.activate()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first slide has been activated.`)
 
         break
     }
@@ -586,32 +645,44 @@ class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = AriaCaro
   }
 
   onClick(): void {
-    this.tabsElement.activeTabElement?.deactivate()
-    this.rootElement.activeSlideElement?.deactivate()
+    if (this.tabsElement.activeTabElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Deactivating the active tab.`, this.tabsElement.activeTabElement)
+      this.tabsElement.activeTabElement.deactivate()
+    }
+
+    if (this.rootElement.activeSlideElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Deactivating the active slide.`, this.rootElement.activeSlideElement)
+      this.rootElement.activeSlideElement.deactivate()
+    }
 
     this.active = true
     ElementLogger.verbose(this.uid, 'onClick', `The tab has been activated.`)
 
+    ElementLogger.verbose(this.uid, 'onClick', `The matching slide has been activated.`, this.rootElement.slideElements[this.index])
     this.rootElement.slideElements[this.index]?.activate()
-    ElementLogger.verbose(this.uid, 'onClick', `The matching slide has been activated.`)
   }
 
   activate(): void {
-    let old: AriaCarouselTabElement | undefined
+    let old: AriaCarouselTabElement | undefined = this.tabsElement.activeTabElement
 
-    old = this.tabsElement.activeTabElement
     this.active = true
+    ElementLogger.verbose(this.uid, 'activate', `The tab has been activated.`)
 
     if (this.tabsElement.focusedTabElement) {
       this.focus()
+      ElementLogger.verbose(this.uid, 'activate', `The tab has been focused.`)
     }
 
     this.dispatchEvent(new CarouselTabActivateEvent(old))
+    ElementLogger.verbose(this.uid, 'activate', `The "activate" event has been dispatched.`)
   }
 
   deactivate(): void {
     this.active = false
+    ElementLogger.verbose(this.uid, 'deactivate', `The tab has been deactivated.`)
+
     this.dispatchEvent(new CarouselTabDeactivateEvent())
+    ElementLogger.verbose(this.uid, 'deactivate', `The "deactivate" event has been dispatched.`)
   }
 
   get index(): number {
