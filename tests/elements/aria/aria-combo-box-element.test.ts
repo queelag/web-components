@@ -274,7 +274,7 @@ describe('AriaComboBoxElement', () => {
     expect(input.value).toBe('cat')
   })
 
-  it.only('supports keyboard usage with button', async () => {
+  it('supports keyboard usage with button', async () => {
     group.append(button)
     await render(combobox)
 
