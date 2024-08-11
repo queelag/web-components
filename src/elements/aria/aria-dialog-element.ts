@@ -57,6 +57,7 @@ class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogElementE
     }
 
     document.body.style.overflow = 'hidden'
+    ElementLogger.verbose(this.uid, 'setBodyStyle', `The body overflow has been set to hidden.`, [document.body.style.overflow])
   }
 
   removeBodyStyle(): void {
@@ -65,20 +66,21 @@ class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogElementE
     }
 
     document.body.style.overflow = ''
+    ElementLogger.verbose(this.uid, 'removeBodyStyle', `The body overflow has been unset.`, [document.body.style.overflow])
   }
 
   onFocusTrapPostActivate(): void {
     super.onFocusTrapPostActivate()
 
     this.dispatchEvent(new DialogOpenEvent())
-    ElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The dialog-open event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The "dialog-open" event has been dispatched.`)
   }
 
   onFocusTrapPostDeactivate(): void {
     super.onFocusTrapPostDeactivate()
 
     this.dispatchEvent(new DialogCloseEvent())
-    ElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The dialog-close event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The "dialog-close" event has been dispatched.`)
   }
 
   get name(): ElementName {

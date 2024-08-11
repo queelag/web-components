@@ -7,7 +7,7 @@ interface Detail<T extends HTMLElement> {
 /**
  * @category Event
  */
-export class CarouselSlideActivateEvent<T extends HTMLElement> extends IsomorphicEvent<Detail<T>> {
+export class CarouselTabActivateEvent<T extends HTMLElement> extends IsomorphicEvent<Detail<T>> {
   constructor(old?: T) {
     super('activate', { detail: { old } })
   }

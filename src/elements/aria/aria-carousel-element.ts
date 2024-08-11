@@ -1,4 +1,4 @@
-import { clearInterval, parseNumber, setInterval } from '@aracna/core'
+import { clearInterval, isIntervalSet, parseNumber, setInterval } from '@aracna/core'
 import { KeyboardEventKey, defineCustomElement } from '@aracna/web'
 import { type CSSResultGroup, type PropertyDeclarations, css } from 'lit'
 import {
@@ -25,8 +25,14 @@ import type {
 } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { AriaLive } from '../../definitions/types.js'
+import { CarouselRotationPauseEvent } from '../../events/carousel-rotation-pause-event.js'
+import { CarouselRotationResumeEvent } from '../../events/carousel-rotation-resume-event.js'
+import { CarouselRotationStartEvent } from '../../events/carousel-rotation-start-event.js'
+import { CarouselRotationStopEvent } from '../../events/carousel-rotation-stop-event.js'
 import { CarouselSlideActivateEvent } from '../../events/carousel-slide-activate-event.js'
 import { CarouselSlideDeactivateEvent } from '../../events/carousel-slide-deactivate-event.js'
+import { CarouselTabActivateEvent } from '../../events/carousel-tab-activate-event.js'
+import { CarouselTabDeactivateEvent } from '../../events/carousel-tab-deactivate-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaAriaButtonElement as AriaButtonElement } from './aria-button-element.js'
@@ -83,16 +89,26 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
       return
     }
 
-    if (name === 'automatic-rotation' && typeof value === 'string') {
-      setInterval(this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
-    }
+    if (name === 'automatic-rotation') {
+      if (isIntervalSet(this.onAutomaticRotation)) {
+        clearInterval(this.onAutomaticRotation)
+        ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The automatic rotation has been stopped.`)
+      }
 
-    if (name === 'automatic-rotation' && value === null) {
-      clearInterval(this.uid)
+      if (typeof value === 'string') {
+        setInterval(this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
+        ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The automatic rotation has been started.`)
+      }
     }
 
     if (name === 'automatic-rotation-interval-time' && this.automaticRotation) {
+      if (isIntervalSet(this.onAutomaticRotation)) {
+        clearInterval(this.onAutomaticRotation)
+        ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The automatic rotation has been stopped.`)
+      }
+
       setInterval(this.onAutomaticRotation, parseNumber(value) ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The automatic rotation has been started.`)
     }
   }
 
@@ -123,43 +139,49 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
   }
 
   onFocusIn(): void {
-    this.onFocusInOrMouseEnter()
+    this.onFocusInOrMouseEnter('onFocusIn')
   }
 
   onFocusOut(): void {
-    this.onFocusOutOrMouseLeave()
+    this.onFocusOutOrMouseLeave('onFocusOut')
   }
 
   onMouseEnter(): void {
-    this.onFocusInOrMouseEnter()
+    this.onFocusInOrMouseEnter('onMouseEnter')
   }
 
   onMouseLeave(): void {
-    this.onFocusOutOrMouseLeave()
+    this.onFocusOutOrMouseLeave('onMouseLeave')
   }
 
-  onFocusOutOrMouseLeave(): void {
+  onFocusOutOrMouseLeave(fn: string): void {
     if (this.forceAutomaticRotation || !this.automaticRotation) {
       return
     }
 
     setInterval(this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
-    ElementLogger.verbose(this.uid, 'onBlur', `The automatic rotation has been started.`)
+    ElementLogger.verbose(this.uid, fn, `The automatic rotation has been started.`)
 
     this.temporaryLive = undefined
-    ElementLogger.verbose(this.uid, 'onBlur', `The temporary live state has been unset.`)
+    ElementLogger.verbose(this.uid, fn, `The temporary live state has been unset.`)
+
+    this.dispatchEvent(new CarouselRotationResumeEvent())
+    ElementLogger.verbose(this.uid, fn, `The "rotation-resume" event has been dispatched.`)
   }
 
-  onFocusInOrMouseEnter(): void {
+  onFocusInOrMouseEnter(fn: string): void {
     if (this.forceAutomaticRotation || !this.automaticRotation) {
       return
     }
 
     this.temporaryLive = 'polite'
-    ElementLogger.verbose(this.uid, 'onFocus', `The temporary live state has been set to polite.`)
+    ElementLogger.verbose(this.uid, fn, `The temporary live state has been set to polite.`)
 
     clearInterval(this.uid)
-    ElementLogger.verbose(this.uid, 'onFocus', `The automatic rotation has been stopped.`)
+    ElementLogger.verbose(this.uid, fn, `The automatic rotation has been stopped.`)
+
+    this.dispatchEvent(new CarouselRotationPauseEvent())
+    ElementLogger.verbose(this.uid, fn, `The "rotation-pause" event has been dispatched.`)
   }
 
   onAutomaticRotation = (): void => {
@@ -332,12 +354,12 @@ class AriaCarouselSlideElement<E extends AriaCarouselSlideElementEventMap = Aria
     old = this.rootElement.activeSlideElement
     this.active = true
 
-    this.rootElement.dispatchEvent(new CarouselSlideActivateEvent(this, old))
+    this.dispatchEvent(new CarouselSlideActivateEvent(old))
   }
 
   deactivate(): void {
     this.active = false
-    this.rootElement.dispatchEvent(new CarouselSlideDeactivateEvent(this))
+    this.dispatchEvent(new CarouselSlideDeactivateEvent())
   }
 
   get index(): number {
@@ -373,20 +395,32 @@ class AriaCarouselRotationControlElement<
     this.rootElement.temporaryLive = undefined
 
     if (this.rootElement.automaticRotation) {
-      clearInterval(this.rootElement.uid)
+      if (isIntervalSet(this.rootElement.uid)) {
+        clearInterval(this.rootElement.uid)
+        ElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been stopped.`)
+      }
+
+      this.rootElement.automaticRotation = false
+      ElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been disabled.`)
+
+      this.rootElement.dispatchEvent(new CarouselRotationStopEvent())
+      ElementLogger.verbose(this.uid, 'onClick', `The "rotation-stop" event has been dispatched.`)
+
+      return
     }
 
-    this.rootElement.automaticRotation = !this.rootElement.automaticRotation
-    ElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been ${this.rootElement.automaticRotation ? 'enabled' : 'disabled'}.`)
+    this.rootElement.automaticRotation = true
+    ElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been enabled.`)
 
-    if (this.rootElement.automaticRotation) {
-      setInterval(
-        this.rootElement.onAutomaticRotation,
-        this.rootElement.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION,
-        this.rootElement.uid
-      )
-      ElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been started.`)
-    }
+    setInterval(
+      this.rootElement.onAutomaticRotation,
+      this.rootElement.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION,
+      this.rootElement.uid
+    )
+    ElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been started.`)
+
+    this.rootElement.dispatchEvent(new CarouselRotationStartEvent())
+    ElementLogger.verbose(this.uid, 'onClick', `The "rotation-start" event has been dispatched.`)
   }
 
   get name(): ElementName {
@@ -563,15 +597,21 @@ class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = AriaCaro
   }
 
   activate(): void {
+    let old: AriaCarouselTabElement | undefined
+
+    old = this.tabsElement.activeTabElement
     this.active = true
 
     if (this.tabsElement.focusedTabElement) {
       this.focus()
     }
+
+    this.dispatchEvent(new CarouselTabActivateEvent(old))
   }
 
   deactivate(): void {
     this.active = false
+    this.dispatchEvent(new CarouselTabDeactivateEvent())
   }
 
   get index(): number {

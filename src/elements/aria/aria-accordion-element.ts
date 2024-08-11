@@ -16,6 +16,8 @@ import type {
 } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { HeadingLevel } from '../../definitions/types.js'
+import { AccordionSectionCollapseEvent } from '../../events/accordion-section-collapse-event.js'
+import { AccordionSectionExpandEvent } from '../../events/accordion-section-expand-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -165,10 +167,12 @@ class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEventMap 
     }
 
     this.expanded = false
+    this.dispatchEvent(new AccordionSectionCollapseEvent())
   }
 
   expand(): void {
     this.expanded = true
+    this.dispatchEvent(new AccordionSectionExpandEvent())
   }
 
   get collapsed(): boolean {
@@ -238,21 +242,25 @@ class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = 
     event.preventDefault()
     event.stopPropagation()
 
-    this.click()
-    ElementLogger.verbose(this.uid, 'onKeyDown', `The button has been clicked.`)
+    this.expandOrCollapseSection('onKeyDown')
   }
 
   onClick(): void {
+    this.expandOrCollapseSection('onClick')
+  }
+
+  expandOrCollapseSection(fn: string): void {
     if (this.sectionElement.noncollapsible && this.sectionElement.expanded) {
-      ElementLogger.verbose(this.sectionElement.uid, 'onClick', `The section isn't collapsable.`)
+      ElementLogger.info(this.sectionElement.uid, fn, `The section isn't collapsible.`)
       return
     }
 
     if (this.rootElement.allowOnlyOneExpandedSection && this.rootElement.expandedSectionElements.length > 0) {
-      let expanded: boolean = !!this.sectionElement.expanded
+      let expanded: boolean = Boolean(this.sectionElement.expanded)
 
       for (let section of this.rootElement.expandedSectionElements) {
         section.collapse()
+        ElementLogger.verbose(this.uid, fn, `The section has been collapsed.`, section)
       }
 
       if (expanded) {
@@ -260,8 +268,15 @@ class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = 
       }
     }
 
-    this.sectionElement.expanded = !this.sectionElement.expanded
-    ElementLogger.verbose(this.uid, 'onClick', `The section has been ${this.sectionElement.expanded ? 'expanded' : 'collapsed'}.`)
+    if (this.sectionElement.expanded) {
+      this.sectionElement.collapse()
+      ElementLogger.verbose(this.uid, fn, `The section has been collapsed.`)
+
+      return
+    }
+
+    this.sectionElement.expand()
+    ElementLogger.verbose(this.uid, fn, `The section has been expanded.`)
   }
 
   get name(): ElementName {

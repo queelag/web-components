@@ -3,8 +3,8 @@ import { IsomorphicEvent } from '@aracna/web'
 /**
  * @category Event
  */
-export class CarouselSlideDeactivateEvent extends IsomorphicEvent {
+export class AccordionSectionExpandEvent extends IsomorphicEvent<void> {
   constructor() {
-    super('deactivate')
+    super('expand')
   }
 }

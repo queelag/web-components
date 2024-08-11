@@ -1,7 +1,15 @@
+import type { AccordionSectionCollapseEvent } from '../events/accordion-section-collapse-event.js'
+import type { AccordionSectionExpandEvent } from '../events/accordion-section-expand-event.js'
 import type { AttributeChangeEvent } from '../events/attribute-change-event.js'
 import type { ButtonClickEvent } from '../events/button-click-event.js'
+import type { CarouselRotationPauseEvent } from '../events/carousel-rotation-pause-event.js'
+import type { CarouselRotationResumeEvent } from '../events/carousel-rotation-resume-event.js'
+import type { CarouselRotationStartEvent } from '../events/carousel-rotation-start-event.js'
+import type { CarouselRotationStopEvent } from '../events/carousel-rotation-stop-event.js'
 import type { CarouselSlideActivateEvent } from '../events/carousel-slide-activate-event.js'
 import type { CarouselSlideDeactivateEvent } from '../events/carousel-slide-deactivate-event.js'
+import type { CarouselTabActivateEvent } from '../events/carousel-tab-activate-event.js'
+import type { CarouselTabDeactivateEvent } from '../events/carousel-tab-deactivate-event.js'
 import type { ComboBoxCollapseEvent } from '../events/combo-box-collapse-event.js'
 import type { ComboBoxExpandEvent } from '../events/combo-box-expand-event.js'
 import type { ComboBoxOptionSelectEvent } from '../events/combo-box-option-select-event.js'
@@ -27,7 +35,11 @@ export interface AriaAccordionElementEventMap extends BaseElementEventMap {}
 export interface AriaAccordionButtonElementEventMap extends BaseElementEventMap {}
 export interface AriaAccordionHeaderElementEventMap extends BaseElementEventMap {}
 export interface AriaAccordionPanelElementEventMap extends BaseElementEventMap {}
-export interface AriaAccordionSectionElementEventMap extends BaseElementEventMap {}
+
+export interface AriaAccordionSectionElementEventMap extends BaseElementEventMap {
+  collapse: AccordionSectionCollapseEvent
+  expand: AccordionSectionExpandEvent
+}
 
 export interface AriaAlertElementEventMap extends BaseElementEventMap {}
 
@@ -41,18 +53,29 @@ export interface AriaBreadcrumbItemElementEventMap extends BaseElementEventMap {
 
 export interface AriaButtonElementEventMap extends BaseElementEventMap {}
 
-export interface AriaCarouselElementEventMap extends BaseElementEventMap {}
+export interface AriaCarouselElementEventMap extends BaseElementEventMap {
+  'rotation-pause': CarouselRotationPauseEvent
+  'rotation-resume': CarouselRotationResumeEvent
+  'rotation-start': CarouselRotationStartEvent
+  'rotation-stop': CarouselRotationStopEvent
+}
+
 export interface AriaCarouselNextSlideControlElementEventMap extends BaseElementEventMap {}
 export interface AriaCarouselPreviousSlideControlElementEventMap extends BaseElementEventMap {}
 export interface AriaCarouselRotationControlElementEventMap extends BaseElementEventMap {}
 
 export interface AriaCarouselSlideElementEventMap extends BaseElementEventMap {
-  'carousel-slide-activate': CarouselSlideActivateEvent<any>
-  'carousel-slide-deactive': CarouselSlideDeactivateEvent<any>
+  activate: CarouselSlideActivateEvent<any>
+  deactivate: CarouselSlideDeactivateEvent
 }
 
 export interface AriaCarouselSlidesElementEventMap extends BaseElementEventMap {}
-export interface AriaCarouselTabElementEventMap extends BaseElementEventMap {}
+
+export interface AriaCarouselTabElementEventMap extends BaseElementEventMap {
+  activate: CarouselTabActivateEvent<any>
+  deactivate: CarouselTabDeactivateEvent
+}
+
 export interface AriaCarouselTabsElementEventMap extends BaseElementEventMap {}
 
 export interface AriaCheckBoxElementEventMap extends FormControlElementEventMap {}
