@@ -56,8 +56,8 @@ class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipEleme
       return
     }
 
-    ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Showing the tooltip.`)
-    this.show()
+    ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Hiding the tooltip.`)
+    this.hide()
   }
 
   show(): void {

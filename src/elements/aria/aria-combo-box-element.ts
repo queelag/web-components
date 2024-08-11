@@ -121,7 +121,9 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_UP:
+      case KeyboardEventKey.ARROW_UP: {
+        let option: AriaComboBoxOptionElement | undefined
+
         if (this.collapsed) {
           ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_UP', `Expanding the combobox.`)
           this.expand()
@@ -133,36 +135,46 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
             return
           }
 
-          if (this.optionElements.length < 0) {
-            return ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_UP', `No options.`)
-          }
-
           if (this.inputElement && event.key === KeyboardEventKey.ARROW_DOWN) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the input element.`)
-            this.optionElements[0]?.focus()
+            option = this.optionElements[0]
+            if (!option) break
+
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the first option.`, option)
+            option.focus()
           }
 
           if (this.inputElement && event.key === KeyboardEventKey.ARROW_UP) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the last option element.`, this.optionElements[this.optionElements.length - 1])
-            this.optionElements[this.optionElements.length - 1]?.focus()
+            option = this.optionElements[this.optionElements.length - 1]
+            if (!option) break
+
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the last option.`, option)
+            option.focus()
           }
 
           return
         }
+
+        break
+      }
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_DOWN:
-        if (this.optionElements.length < 0) {
-          return ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `No options.`)
-        }
+      case KeyboardEventKey.ARROW_DOWN: {
+        let option: AriaComboBoxOptionElement | undefined
 
-        if (this.focusedOptionElementIndex >= this.optionElements.length - 1 && this.inputElement) {
+        if (this.focusedOptionElementIndex >= this.optionElements.length - 1) {
+          if (!this.inputElement) {
+            break
+          }
+
           ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Blurring the focused option element.`, this.focusedOptionElement)
           this.focusedOptionElement?.blur()
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the first option element.`, this.optionElements[0])
-          this.optionElements[0]?.focus()
+          option = this.optionElements[0]
+          if (!option) break
+
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the first option element.`, option)
+          option.focus()
 
           break
         }
@@ -172,19 +184,32 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
           this.focusedOptionElement.blur()
         }
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the next option element.`, this.optionElements[this.focusedOptionElementIndex + 1])
-        this.optionElements[this.focusedOptionElementIndex + 1]?.focus()
+        option = this.optionElements[this.focusedOptionElementIndex + 1]
+        if (!option) break
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the next option element.`, option)
+        option.focus()
 
         break
-      case KeyboardEventKey.ARROW_UP:
-        if (this.focusedOptionElementIndex <= 0 && this.inputElement) {
-          if (this.focusedOptionElement) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Blurring the focused option element.`, this.focusedOptionElement)
-            this.focusedOptionElement?.blur()
+      }
+      case KeyboardEventKey.ARROW_UP: {
+        let option: AriaComboBoxOptionElement | undefined
+
+        if (this.focusedOptionElementIndex <= 0) {
+          if (!this.inputElement) {
+            break
           }
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the last option element.`, this.optionElements[this.optionElements.length - 1])
-          this.optionElements[this.optionElements.length - 1]?.focus()
+          if (this.focusedOptionElement) {
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Blurring the focused option element.`, this.focusedOptionElement)
+            this.focusedOptionElement.blur()
+          }
+
+          option = this.optionElements[this.optionElements.length - 1]
+          if (!option) break
+
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the last option element.`, option)
+          option.focus()
 
           break
         }
@@ -194,17 +219,17 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
           this.focusedOptionElement.blur()
         }
 
-        ElementLogger.verbose(
-          this.uid,
-          'onKeyDown',
-          'ARROW_UP',
-          `Focusing the previous option element.`,
-          this.optionElements[this.focusedOptionElementIndex - 1]
-        )
-        this.optionElements[this.focusedOptionElementIndex - 1]?.focus()
+        option = this.optionElements[this.focusedOptionElementIndex - 1]
+        if (!option) break
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the previous option element.`, option)
+        option.focus()
 
         break
-      case KeyboardEventKey.END:
+      }
+      case KeyboardEventKey.END: {
+        let option: AriaComboBoxOptionElement | undefined
+
         if (this.focusedOptionElement) {
           ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Blurring the focused option element.`, this.focusedOptionElement)
           this.focusedOptionElement?.blur()
@@ -215,11 +240,17 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
           this.expand()
         }
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Focusing the last option element.`, this.optionElements[this.optionElements.length - 1])
-        this.optionElements[this.optionElements.length - 1]?.focus()
+        option = this.optionElements[this.optionElements.length - 1]
+        if (!option) break
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Focusing the last option element.`, option)
+        option.focus()
 
         break
-      case KeyboardEventKey.HOME:
+      }
+      case KeyboardEventKey.HOME: {
+        let option: AriaComboBoxOptionElement | undefined
+
         if (this.focusedOptionElement) {
           ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Blurring the focused option element.`, this.focusedOptionElement)
           this.focusedOptionElement?.blur()
@@ -230,10 +261,14 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
           this.expand()
         }
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Focusing the first option element.`, this.optionElements[0])
-        this.optionElements[0]?.focus()
+        option = this.optionElements[0]
+        if (!option) break
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Focusing the first option element.`, option)
+        option.focus()
 
         break
+      }
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.SPACE:
         if (event.key === KeyboardEventKey.SPACE && this.inputElement) {
