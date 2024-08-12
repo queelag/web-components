@@ -76,7 +76,7 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
       return
     }
 
-    option = this.optionElements.find((element: AriaListBoxOptionElement) => element.selected)
+    option = this.optionElements[0]
     if (!option) return
 
     ElementLogger.verbose(this.uid, 'onFocus', `Focusing the first option.`, option)
