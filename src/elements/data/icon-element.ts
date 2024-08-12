@@ -1,4 +1,4 @@
-import { Fetch, type FetchResponse, isStringURL, isWindowNotDefined, rvp, sleep, tcp } from '@aracna/core'
+import { Fetch, type FetchResponse, isStringURL, isWindowNotDefined, rvp, sleep } from '@aracna/core'
 import { defineCustomElement, getElementStyleCompatibleValue, isStringSVG } from '@aracna/web'
 import DOMPurify from 'dompurify'
 import { type PropertyDeclarations, type TemplateResult, html, svg } from 'lit'
@@ -12,6 +12,8 @@ import type { IconElementSanitizeConfig } from '../../definitions/interfaces.js'
 import { ifdef } from '../../directives/if-defined.js'
 import { styleMap } from '../../directives/style-map.js'
 import { unsafeSVG } from '../../directives/unsafe-svg.js'
+import { IconFetchEvent } from '../../events/icon-fetch-event.js'
+import { IconParseEvent } from '../../events/icon-parse-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -27,6 +29,7 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
   /**
    * Properties
    */
+  /** */
   cache?: boolean
   color?: string
   fill?: string
@@ -40,15 +43,19 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
   /**
    * Internals
    */
+  /** */
   protected _src?: string
 
   /**
    * States
    */
+  /** */
   svgElement?: SVGSVGElement
 
   connectedCallback(): void {
     super.connectedCallback()
+
+    ElementLogger.verbose(this.uid, 'connectedCallback', `Generating the svg element.`, [this.src])
     this.generateSVGElement(this.src)
   }
 
@@ -61,26 +68,27 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
 
     if (['sanitize', 'sanitize-config'].includes(name) && typeof this.src === 'string') {
       CACHE_ICONS.delete(this.src)
-      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The icon cache has been deleted.`, [this.src])
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The cache has been deleted.`, [this.src])
     }
 
     if (['cache', 'sanitize', 'sanitize-config'].includes(name)) {
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `Generating the svg element.`, [this.src])
       this.generateSVGElement(this.src)
     }
   }
 
   async generateSVGElement(src: string | undefined): Promise<void> {
     if (typeof src !== 'string') {
-      return
+      return ElementLogger.warn(this.uid, 'generateSVGElement', `The source is not defined.`, [src])
     }
 
     if (isStringURL(src)) {
-      ElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is an URL, will try to fetch.`, [src])
+      ElementLogger.verbose(this.uid, 'generateSVGElement', `Fetching the source.`, [src])
       return this.fetchSource(src)
     }
 
     if (isStringSVG(src)) {
-      ElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is a SVG, will try to parse.`, [src])
+      ElementLogger.verbose(this.uid, 'generateSVGElement', `Parsing the source.`, [src])
       return this.parseSVGString(src)
     }
 
@@ -92,33 +100,36 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
     let response: FetchResponse<string> | Error, text: string | Error
 
     if (typeof src !== 'string') {
-      return
+      return ElementLogger.warn(this.uid, 'fetchSource', `The source is not defined.`, [src])
     }
 
     if (FETCHING_ICONS.has(src)) {
-      ElementLogger.verbose(this.uid, 'fetchSource', `The src is already being fetched, will try again in 100ms.`, [src])
+      ElementLogger.verbose(this.uid, 'fetchSource', `The source is already being fetched, retrying in 100ms.`, [src])
       await sleep(100)
 
+      ElementLogger.verbose(this.uid, 'fetchSource', `Retrying to fetch.`, [src])
       return this.fetchSource(src)
     }
 
     if (this.cache && CACHE_ICONS.has(src)) {
+      ElementLogger.verbose(this.uid, 'fetchSource', `Parsing from cache.`, [src])
       return this.parseSVGString(src)
     }
 
     FETCHING_ICONS.add(src)
-    ElementLogger.verbose(this.uid, 'fetchSource', `The src has been marked as fetching.`, [src])
+    ElementLogger.verbose(this.uid, 'fetchSource', `The source has been marked as fetching.`, [src])
 
-    response = await Fetch.get(src, { parse: false })
+    response = await Fetch.get(src, { parse: 'text' })
     if (response instanceof Error) return rvp(() => FETCHING_ICONS.delete(src))
 
     FETCHING_ICONS.delete(src)
-    ElementLogger.verbose(this.uid, 'fetchSource', `The src has been unmarked as fetching.`, [src])
+    ElementLogger.verbose(this.uid, 'fetchSource', `The source has been unmarked as fetching.`, [src])
 
-    text = await tcp(() => (response as FetchResponse).text())
-    if (text instanceof Error) return
+    ElementLogger.verbose(this.uid, 'fetchSource', `Parsing the response text.`, [src, response.data])
+    this.parseSVGString(response.data)
 
-    this.parseSVGString(text)
+    this.dispatchEvent(new IconFetchEvent(src, response.data))
+    ElementLogger.verbose(this.uid, 'fetchSource', `The "fetch" event has been dispatched.`)
   }
 
   async parseSVGString(string: string): Promise<void> {
@@ -129,13 +140,17 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
      */
     await sleep(1)
 
+    if (typeof this.src !== 'string') {
+      return ElementLogger.warn(this.uid, 'parseSVGString', `The source is not defined.`, [this.src])
+    }
+
     if (isWindowNotDefined()) {
       return
     }
 
-    if (this.cache && typeof this.src === 'string' && CACHE_ICONS.has(this.src)) {
+    if (this.cache && CACHE_ICONS.has(this.src)) {
       cache = CACHE_ICONS.get(this.src)
-      ElementLogger.verbose(this.uid, 'parseSVGString', `Cached SVG found for this src.`, [this.src, cache])
+      ElementLogger.verbose(this.uid, 'parseSVGString', `Cache found.`, [this.src, cache])
     }
 
     if (this.sanitize) {
@@ -143,10 +158,10 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
         ...DEFAULT_ICON_SANITIZE_CONFIG,
         ...this.sanitizeConfig
       })
-      ElementLogger.verbose(this.uid, 'parseSVGString', `The string has been sanitized.`, [sanitized])
+      ElementLogger.verbose(this.uid, 'parseSVGString', `The string has been sanitized.`, [string, sanitized])
     }
 
-    if (this.cache && typeof this.src === 'string') {
+    if (this.cache) {
       CACHE_ICONS.set(this.src, sanitized ?? string)
       ElementLogger.verbose(this.uid, 'parseSVGString', `The icon has been cached.`, [this.src, sanitized ?? string])
     }
@@ -159,6 +174,9 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
 
     this.svgElement = element
     ElementLogger.verbose(this.uid, 'parseSVGString', `The svg element has been set.`, this.svgElement)
+
+    this.dispatchEvent(new IconParseEvent(this.src, string, element, cache, sanitized))
+    ElementLogger.verbose(this.uid, 'parseSVGString', `The "parse" event has been dispatched.`)
   }
 
   render() {
@@ -193,6 +211,8 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
     this._src = src
 
     this.requestUpdate('src', old)
+
+    ElementLogger.verbose(this.uid, 'set src', `Generating the svg element.`, [src])
     this.generateSVGElement(src)
   }
 

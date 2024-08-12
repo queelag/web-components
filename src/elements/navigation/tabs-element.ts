@@ -18,6 +18,10 @@ declare global {
 }
 
 class TabsElement<E extends TabsElementEventMap = TabsElementEventMap, T = any> extends AriaTabsElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   tabs?: T[]
 
   get name(): ElementName {

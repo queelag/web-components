@@ -7,6 +7,7 @@ import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { ifdef } from '../../directives/if-defined.js'
 import { ButtonClickEvent } from '../../events/button-click-event.js'
 import { FormSubmitEvent } from '../../events/form-submit-event.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import type { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
@@ -22,6 +23,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
   /**
    * Properties
    */
+  /** */
   async?: boolean
   disabled?: boolean
   fields?: T[]
@@ -30,6 +32,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
   /**
    * Queries
    */
+  /** */
   buttonElement?: ButtonElement
   fieldElements!: FormControlElement[]
   formElement!: HTMLFormElement
@@ -45,7 +48,9 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
   }
 
   onButtonClick = (event: ButtonClickEvent): void => {
+    ElementLogger.verbose(this.uid, 'onButtonClick', `Requesting submit.`)
     this.formElement.requestSubmit()
+
     event.detail?.finalize()
   }
 
@@ -54,6 +59,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
       return
     }
 
+    ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Requesting submit.`)
     this.formElement.requestSubmit()
   }
 
@@ -68,7 +74,9 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     }
 
     for (let element of this.fieldElements) {
+      ElementLogger.verbose(this.uid, 'onSubmit', `Touching an element.`, element)
       element.touch()
+
       valid = valid && element.isValid
     }
 
@@ -79,6 +87,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     if (this.async) {
       this.disabled = true
       this.spinning = true
+
       ElementLogger.verbose(this.uid, 'onSubmit', `The disabled and spinning properties has been set to true.`)
     }
 
@@ -89,6 +98,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
   finalize = (): void => {
     this.disabled = false
     this.spinning = false
+
     ElementLogger.verbose(this.uid, 'finalize', `The disabled and spinning properties have been set to false.`)
   }
 

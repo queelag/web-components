@@ -18,6 +18,10 @@ declare global {
 }
 
 class AlertDialogElement<E extends AlertDialogElementEventMap = AlertDialogElementEventMap> extends AriaAlertDialogElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   headline?: string
   icon?: string
   text?: string

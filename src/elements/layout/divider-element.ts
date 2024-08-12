@@ -15,6 +15,7 @@ class DividerElement<E extends DividerElementEventMap = DividerElementEventMap> 
   /**
    * Properties
    */
+  /** */
   orientation?: Orientation
 
   render() {

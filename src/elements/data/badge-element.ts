@@ -15,6 +15,7 @@ class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap> extend
   /**
    * Properties
    */
+  /** */
   max?: number
   min?: number
   numeric?: boolean
@@ -22,6 +23,7 @@ class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap> extend
   /**
    * Internals
    */
+  /** */
   protected _text?: string
 
   render() {

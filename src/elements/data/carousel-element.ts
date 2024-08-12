@@ -37,6 +37,10 @@ declare global {
 }
 
 class CarouselElement<E extends CarouselElementEventMap = CarouselElementEventMap, T = any> extends AriaCarouselElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   slides?: T[]
 
   get name(): ElementName {

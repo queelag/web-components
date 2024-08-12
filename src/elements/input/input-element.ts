@@ -22,6 +22,7 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
   /**
    * Properties
    */
+  /** */
   multiple?: boolean
   obscured?: boolean
   padding?: string
@@ -32,32 +33,35 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
   /**
    * Queries
    */
+  /** */
   inputElement!: HTMLInputElement
 
   /**
    * States
    */
+  /** */
   temporaryValue: string = ''
 
   onBlur(): void {
     this.focused = false
-    ElementLogger.verbose(this.uid, 'onBlur', `The focused property has been set to false.`)
+    ElementLogger.verbose(this.uid, 'onBlur', `The input has been marked as blurred.`)
 
     if (this.touchTrigger === 'blur') {
+      ElementLogger.verbose(this.uid, 'onBlur', `Touching.`)
       this.touch()
     }
   }
 
   onFocus(): void {
     this.focused = true
-    ElementLogger.verbose(this.uid, 'onFocus', `The focused property has been set to true.`)
+    ElementLogger.verbose(this.uid, 'onFocus', `The input has been marked as focused.`)
   }
 
   onInput(): void {
     switch (this.type) {
       case 'buffer':
-        this.value = encodeText(this.inputElement.value)
-        ElementLogger.verbose(this.uid, 'onInput', `The value has been encoded and set.`, this.value)
+        ElementLogger.verbose(this.uid, 'onInput', `Setting the encoded value.`)
+        this.setValue(encodeText(this.inputElement.value))
 
         break
       case 'color':
@@ -69,19 +73,19 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
       case 'time':
       case 'url':
       case 'week':
-        this.value = this.inputElement.value
-        ElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onInput', `Setting the value.`)
+        this.setValue(this.inputElement.value)
 
         break
       case 'date':
       case 'datetime-local':
-        this.value = this.inputElement.value ? new Date(this.inputElement.value) : undefined
-        ElementLogger.verbose(this.uid, 'onInput', `The value has been set as a date.`, this.value)
+        ElementLogger.verbose(this.uid, 'onInput', `Setting the date value.`)
+        this.setValue(this.inputElement.value ? new Date(this.inputElement.value) : undefined)
 
         break
       case 'number':
-        this.value = this.inputElement.value ? parseNumber(this.inputElement.value) : undefined
-        ElementLogger.verbose(this.uid, 'onInput', `The value has been set as a number.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onInput', `Setting the number value.`)
+        this.setValue(this.inputElement.value ? parseNumber(this.inputElement.value) : undefined)
 
         break
       case 'text':
@@ -92,18 +96,21 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
           break
         }
 
-        this.value = this.inputElement.value
-        ElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onInput', `Setting the value.`)
+        this.setValue(this.inputElement.value)
 
         break
     }
 
     if (this.touchTrigger === 'input') {
+      ElementLogger.verbose(this.uid, 'onInput', `Touching.`)
       this.touch()
     }
   }
 
   onKeyUp(event: KeyboardEvent): void {
+    let value: string[]
+
     if (event.key !== 'Enter' || this.type !== 'text' || this.single) {
       return
     }
@@ -112,31 +119,38 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
       return ElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
     }
 
-    this.value = isArray(this.value) ? this.value : []
-    this.value = [...this.value, this.temporaryValue]
-    ElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporaryValue], this.value)
+    value = isArray(this.value) ? this.value : []
+    value = [...value, this.temporaryValue]
+
+    ElementLogger.verbose(this.uid, 'onKeyUp', `Adding the item to the value.`, [this.temporaryValue])
+    this.setValue(value)
 
     this.inputElement.value = ''
-    ElementLogger.verbose(this.uid, 'onKeyUp', `The input element value has been reset.`)
+    ElementLogger.verbose(this.uid, 'onKeyUp', `The input value has been reset.`, [this.inputElement.value])
 
+    ElementLogger.verbose(this.uid, 'onKeyUp', `Touching.`)
     this.touch()
   }
 
   removeItem(item: string): void {
+    let value: string[]
+
     if (this.type !== 'text' || this.single) {
-      return
+      return ElementLogger.warn(this.uid, 'removeItem', `The type is not text or the input is not multiple.`)
     }
 
-    this.value = isArray(this.value) ? this.value : []
-    this.value = removeArrayItems(this.value, [item])
-    ElementLogger.verbose(this.uid, 'removeItem', `The item has been removed.`, [item], this.value)
+    value = isArray(this.value) ? this.value : []
+    value = removeArrayItems(value, [item])
 
+    ElementLogger.verbose(this.uid, 'removeItem', `Removing the item from the value.`, [item])
+    this.setValue(value)
+
+    ElementLogger.verbose(this.uid, 'removeItem', `Touching.`)
     this.touch()
   }
 
   clear(): void {
-    this.value = undefined
-    ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
+    super.clear()
 
     if (this.multiple) {
       this.temporaryValue = ''
@@ -144,28 +158,28 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
     }
 
     this.inputElement.value = ''
-    ElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
+    ElementLogger.verbose(this.uid, 'clear', `The input value has been reset.`, [this.inputElement.value])
 
     this.inputElement.focus()
-    ElementLogger.verbose(this.uid, 'clear', `The input element has been focused.`)
+    ElementLogger.verbose(this.uid, 'clear', `The input has been focused.`)
 
     this.touch()
   }
 
   obscure(): void {
     this.obscured = true
-    ElementLogger.verbose(this.uid, 'obscure', `The obscured property has been set to true.`)
+    ElementLogger.verbose(this.uid, 'obscure', `The value has been obscured.`)
 
     this.inputElement.focus()
-    ElementLogger.verbose(this.uid, 'obscure', `The input element has been focused.`)
+    ElementLogger.verbose(this.uid, 'obscure', `The input has been focused.`)
   }
 
   reveal(): void {
     this.obscured = false
-    ElementLogger.verbose(this.uid, 'reveal', `The obscured property has been set to false.`)
+    ElementLogger.verbose(this.uid, 'reveal', `The value has been revealed.`)
 
     this.inputElement.focus()
-    ElementLogger.verbose(this.uid, 'reveal', `The input element has been focused.`)
+    ElementLogger.verbose(this.uid, 'reveal', `The input has been focused.`)
   }
 
   render() {

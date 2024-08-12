@@ -21,6 +21,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
   /**
    * Properties
    */
+  /** */
   autosize?: boolean
   cols?: number
   multiple?: boolean
@@ -33,12 +34,14 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
   /**
    * Queries
    */
+  /** */
   spanElement!: HTMLSpanElement
   textAreaElement!: HTMLTextAreaElement
 
   /**
    * States
    */
+  /** */
   computedHeight?: string
   temporaryValue: string = ''
 
@@ -46,6 +49,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     super.connectedCallback()
 
     if (this.autosize) {
+      ElementLogger.verbose(this.uid, 'connectedCallback', `Computing the height.`)
       wf(() => this.textAreaElement, 4).then(() => this.computeHeight())
     }
   }
@@ -58,22 +62,24 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     }
 
     if (this.autosize && ['cols', 'rows'].includes(name)) {
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `Computing the height.`)
       this.computeHeight()
     }
   }
 
   onBlur(): void {
     this.focused = false
-    ElementLogger.verbose(this.uid, 'onBlur', `The textarea has been blurred.`)
+    ElementLogger.verbose(this.uid, 'onBlur', `The textarea has been marked as blurred.`)
 
     if (this.touchTrigger === 'blur') {
+      ElementLogger.verbose(this.uid, 'onBlur', `Touching.`)
       this.touch()
     }
   }
 
   onFocus(): void {
     this.focused = true
-    ElementLogger.verbose(this.uid, 'onFocus', `The textarea has been focused.`)
+    ElementLogger.verbose(this.uid, 'onFocus', `The textarea has been marked as focused.`)
   }
 
   onInput(): void {
@@ -83,16 +89,19 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     }
 
     if (this.single) {
-      this.value = this.textAreaElement.value
-      ElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
+      ElementLogger.verbose(this.uid, 'onInput', `Setting the value.`)
+      this.setValue(this.textAreaElement.value)
     }
 
     if (this.touchTrigger === 'input') {
+      ElementLogger.verbose(this.uid, 'onInput', `Touching.`)
       this.touch()
     }
   }
 
   onKeyUp(event: KeyboardEvent): void {
+    let value: string[]
+
     if (event.key !== 'Enter' || this.single) {
       return
     }
@@ -101,13 +110,16 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
       return ElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
     }
 
-    this.value = isArray(this.value) ? this.value : []
-    this.value = [...this.value, this.temporaryValue]
-    ElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporaryValue], this.value)
+    value = isArray(this.value) ? this.value : []
+    value = [...value, this.temporaryValue]
+
+    ElementLogger.verbose(this.uid, 'onKeyUp', `Adding the item to the value.`, [this.temporaryValue])
+    this.setValue(value)
 
     this.textAreaElement.value = ''
-    ElementLogger.verbose(this.uid, 'onKeyUp', `The textarea element value has been reset.`)
+    ElementLogger.verbose(this.uid, 'onKeyUp', `The textarea element value has been reset.`, [this.textAreaElement.value])
 
+    ElementLogger.verbose(this.uid, 'onKeyUp', `Touching.`)
     this.touch()
   }
 
@@ -144,20 +156,24 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
   }
 
   removeItem(item: string): void {
+    let value: string[]
+
     if (this.single) {
-      return
+      return ElementLogger.warn(this.uid, 'removeItem', `The textarea is not multiple.`)
     }
 
-    this.value = isArray(this.value) ? this.value : []
-    this.value = removeArrayItems(this.value, [item])
-    ElementLogger.verbose(this.uid, 'removeItem', `The item has been removed.`, [item], this.value)
+    value = isArray(this.value) ? this.value : []
+    value = removeArrayItems(value, [item])
 
+    ElementLogger.verbose(this.uid, 'removeItem', `Removing the item from the value.`, [item])
+    this.setValue(value)
+
+    ElementLogger.verbose(this.uid, 'removeItem', `Touching.`)
     this.touch()
   }
 
   clear(): void {
-    this.value = undefined
-    ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
+    super.clear()
 
     if (this.multiple) {
       this.temporaryValue = ''
@@ -166,15 +182,16 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
 
     if (this.autosize) {
       this.computedHeight = undefined
-      ElementLogger.verbose(this.uid, 'clear', `The computed height has been unset.`)
+      ElementLogger.verbose(this.uid, 'clear', `The computed height has been unset.`, [this.computedHeight])
     }
 
     this.textAreaElement.value = ''
-    ElementLogger.verbose(this.uid, 'clear', `The textarea element value has been reset.`)
+    ElementLogger.verbose(this.uid, 'clear', `The textarea element value has been reset.`, [this.textAreaElement.value])
 
     this.textAreaElement.focus()
     ElementLogger.verbose(this.uid, 'clear', `The textarea element has been focused.`)
 
+    ElementLogger.verbose(this.uid, 'clear', `Touching.`)
     this.touch()
   }
 

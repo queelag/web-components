@@ -15,6 +15,7 @@ class MeterElement<E extends MeterElementEventMap = MeterElementEventMap> extend
   /**
    * Properties
    */
+  /** */
   low?: number
   high?: number
   optimum?: number

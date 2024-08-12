@@ -40,6 +40,7 @@ class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T =
   /**
    * Properties
    */
+  /** */
   getOptionLabel: GetSelectOptionLabel<T> = DEFAULT_GET_SELECT_OPTION_LABEL
   getOptionValue: GetSelectOptionValue<T> = DEFAULT_GET_SELECT_OPTION_VALUE
   options?: T[]
@@ -53,19 +54,24 @@ class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T =
     }
 
     option = findSelectOptionByValue(this.options ?? [], this.selectElement?.value)
-    if (!option) return
+    if (!option) return ElementLogger.warn(this.uid, 'onChange', `Failed to find the option.`)
 
     if (this.multiple) {
-      this.value = isArray(this.value) ? this.value : []
-      this.value = this.value.includes(this.getOptionValue(option))
+      let value: unknown[]
+
+      value = isArray(this.value) ? this.value : []
+      value = value.includes(this.getOptionValue(option))
         ? removeArrayItems(this.value, [this.getOptionValue(option)])
         : [...this.value, this.getOptionValue(option)]
+
+      ElementLogger.verbose(this.uid, 'onChange', `Adding the option to the value.`, option)
+      this.setValue(value)
 
       return
     }
 
-    this.value = this.getOptionValue(option)
-    ElementLogger.verbose(this.uid, 'onChange', `The value has been set.`, option, this.value)
+    ElementLogger.verbose(this.uid, 'onChange', `Setting the value.`, option)
+    this.setValue(this.getOptionValue(option))
   }
 
   removeOption(option: T): void {
@@ -164,6 +170,7 @@ class SelectOptionElement<E extends SelectOptionElementEventMap = SelectOptionEl
   /**
    * Properties
    */
+  /** */
   headline?: string
   leadingIcon?: string
   leadingImage?: string

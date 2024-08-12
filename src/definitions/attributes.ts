@@ -497,6 +497,7 @@ export interface InputElementAttributes extends FormControlElementAttributes {
 }
 
 export interface InputFileElementAttributes extends FormControlElementAttributes {
+  accept?: string
   'deserialize-file-resolve-array-buffer'?: boolean
   'deserialize-file-resolve-text'?: boolean
   multiple?: boolean

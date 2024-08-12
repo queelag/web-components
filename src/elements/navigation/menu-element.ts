@@ -21,6 +21,10 @@ declare global {
 }
 
 class MenuElement<E extends MenuElementEventMap = MenuElementEventMap, T = any> extends AriaMenuElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   items?: T[]
 
   get name(): ElementName {
@@ -59,6 +63,10 @@ class MenuButtonElement<E extends MenuButtonElementEventMap = MenuButtonElementE
 }
 
 class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElementEventMap, T = any> extends AriaMenuItemElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   items?: T[]
   leadingIcon?: string
   leadingImage?: string

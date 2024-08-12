@@ -9,6 +9,6 @@ interface Detail<T> {
  */
 export class FormControlChangeEvent<T> extends IsomorphicEvent<Detail<T>> {
   constructor(value: T) {
-    super('form-control', { detail: { value } })
+    super('form-control-change', { detail: { value } })
   }
 }

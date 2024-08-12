@@ -16,6 +16,10 @@ declare global {
 }
 
 class SliderElement<E extends SliderElementEventMap = SliderElementEventMap, T = any> extends AriaSliderElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   inputElement!: HTMLInputElement
   thumbs?: T[]
 

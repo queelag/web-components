@@ -15,11 +15,21 @@ class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventMap> ext
   /**
    * Queries
    */
+  /** */
   inputElement!: HTMLInputElement
 
   onChange(): void {
-    this.on = this.inputElement.value === '1'
-    ElementLogger.verbose(this.uid, 'onChange', `The switch has been turned ${this.on ? 'on' : 'off'}.`)
+    if (this.disabled || this.readonly) {
+      return ElementLogger.warn(this.uid, 'onChange', `The switch is disabled or readonly.`)
+    }
+
+    if (this.inputElement.value === '1') {
+      ElementLogger.verbose(this.uid, 'onChange', `Turning the switch on.`)
+      return this.__on()
+    }
+
+    ElementLogger.verbose(this.uid, 'onChange', `Turning the switch off.`)
+    this.off()
   }
 
   render() {

@@ -18,6 +18,7 @@ class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends L
   /**
    * Properties
    */
+  /** */
   height?: string
   layer?: Layer
   shape?: Shape
@@ -30,6 +31,7 @@ class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends L
   /**
    * Internals
    */
+  /** */
   uid: string = generateRandomString({
     ...ELEMENT_UID_GENERATE_OPTIONS,
     prefix: this.name

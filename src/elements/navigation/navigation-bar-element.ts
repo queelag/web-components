@@ -15,6 +15,7 @@ class NavigationBarElement<E extends NavigationBarElementEventMap = NavigationBa
   /**
    * Properties
    */
+  /** */
   items?: T[]
 
   get name(): ElementName {
@@ -30,6 +31,7 @@ class NavigationBarItemElement<E extends NavigationBarItemElementEventMap = Navi
   /**
    * Properties
    */
+  /** */
   active?: boolean
   badge?: boolean
   badgeText?: string

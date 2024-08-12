@@ -14,6 +14,7 @@ class AvatarElement<E extends AvatarElementEventMap = AvatarElementEventMap> ext
   /**
    * Properties
    */
+  /** */
   icon?: string
   image?: string
   text?: string

@@ -11,6 +11,7 @@ import {
 } from 'qrcode'
 import { ElementName } from '../../definitions/enums.js'
 import type { QrCodeElementEventMap } from '../../definitions/events.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
@@ -53,6 +54,7 @@ class QrCodeElement<E extends QrCodeElementEventMap = QrCodeElementEventMap> ext
     }
 
     if (['errorCorrectionLevel', 'maskPattern', 'text', 'toSJIS', 'version'].includes(name)) {
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `Creating.`)
       this.create()
     }
   }
@@ -61,7 +63,7 @@ class QrCodeElement<E extends QrCodeElementEventMap = QrCodeElementEventMap> ext
     let qrcode: QRCode
 
     if (typeof this.text === 'undefined') {
-      return
+      return ElementLogger.warn(this.uid, 'create', `The text is undefined.`)
     }
 
     qrcode = create(this.text, {
@@ -73,6 +75,8 @@ class QrCodeElement<E extends QrCodeElementEventMap = QrCodeElementEventMap> ext
 
     this.modules = qrcode.modules
     this.segments = qrcode.segments
+
+    ElementLogger.verbose(this.uid, 'create', `The modules and segments have been set.`, this.modules, this.segments)
   }
 
   render() {

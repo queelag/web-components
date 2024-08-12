@@ -4,6 +4,8 @@ import { FormControlElementCollector } from '../../collectors/form-control-eleme
 import type { FormControlElementEventMap } from '../../definitions/events.js'
 import type { FormControlElementSchema, FormControlElementTarget, FormControlElementValidation } from '../../definitions/types.js'
 import { FormControlChangeEvent } from '../../events/form-control-change-event.js'
+import { FormControlTouchEvent } from '../../events/form-control-touch-event.js'
+import { FormControlValidateEvent } from '../../events/form-control-validate-event.js'
 import { StateChangeEvent } from '../../events/state-change-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from './base-element.js'
@@ -12,6 +14,7 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
   /**
    * Properties
    */
+  /** */
   disabled?: boolean
   focused?: boolean
   native?: boolean
@@ -23,11 +26,13 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
   /**
    * States
    */
+  /** */
   validation?: FormControlElementValidation
 
   /**
    * Internals
    */
+  /** */
   protected _schema?: FormControlElementSchema
   protected _target?: FormControlElementTarget
   protected _value: any
@@ -37,6 +42,9 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
     setImmutableElementAttribute(this, 'form-field-element', '')
 
     FormControlElementCollector.set(this)
+
+    ElementLogger.verbose(this.uid, 'connectedCallback', `Validating.`)
+    this.validate()
   }
 
   disconnectedCallback(): void {
@@ -50,14 +58,15 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
       ElementLogger.verbose(this.uid, 'touch', `The touched state has been set to true.`)
     }
 
-    this.validate()
+    this.dispatchEvent(new FormControlTouchEvent())
+    ElementLogger.verbose(this.uid, 'touch', `The "form-control-touch" event has been dispatched.`)
   }
 
   validate(): void {
     let old: FormControlElementValidation | undefined
 
     if (!this.schema) {
-      return
+      return ElementLogger.verbose(this.uid, 'validate', `No schema to validate against.`)
     }
 
     old = this.validation
@@ -65,12 +74,21 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
     this.validation = this.schema.validate(this.value)
     ElementLogger.verbose(this.uid, 'validate', `The value has been validated against the schema.`, this.validation)
 
-    this.dispatchEvent(new StateChangeEvent('validation', old, this.validation))
+    this.dispatchEvent(new FormControlValidateEvent(this.schema, this.validation, this.value))
+    ElementLogger.verbose(this.uid, 'validate', `The "form-control-validate" event has been dispatched.`)
   }
 
   clear(): void {
-    this.value = undefined
-    ElementLogger.verbose(this.uid, 'clear', `The value has been cleared.`)
+    ElementLogger.verbose(this.uid, 'clear', `Clearing the value.`)
+    this.setValue(undefined)
+  }
+
+  setValue(value: any): void {
+    this.value = value
+    ElementLogger.verbose(this.uid, 'setValue', `The value has been set.`, value)
+
+    this.dispatchEvent(new FormControlChangeEvent(this.value))
+    ElementLogger.verbose(this.uid, 'setValue', `The "form-control-change" event has been dispatched.`)
   }
 
   get error(): string | undefined {
@@ -117,20 +135,21 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
   }
 
   set value(value: any) {
-    let old: any = this.value
+    let old: any
 
     if (this.target && typeof this.path === 'string') {
       this.target[this.path] = value
     }
 
+    old = this.value
     this._value = value
-    // ElementLogger.verbose(this.uid, 'set value', `The value has been set.`, [value])
 
-    this.validate()
     this.requestUpdate('value', old, value)
 
+    ElementLogger.verbose(this.uid, 'set value', `Validating.`)
+    this.validate()
+
     this.dispatchEvent(new StateChangeEvent('value', old, value))
-    this.dispatchEvent(new FormControlChangeEvent(value))
   }
 
   get isErrorVisible(): boolean {

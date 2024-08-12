@@ -18,6 +18,7 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
   /**
    * Properties
    */
+  /** */
   async?: boolean
   icon?: string
   normalized?: boolean
@@ -28,7 +29,7 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
 
   click(): void {
     if (this.spinning) {
-      return
+      return ElementLogger.warn(this.uid, 'click', `The button is spinning.`)
     }
 
     super.click()
@@ -36,13 +37,13 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
 
   onClick = (): void => {
     if (this.disabled || this.spinning) {
-      ElementLogger.warn(this.uid, 'onClick', `The button is disabled or spinning.`)
-      return
+      return ElementLogger.warn(this.uid, 'onClick', `The button is disabled or spinning.`)
     }
 
     if (this.async) {
       this.disabled = true
       this.spinning = true
+
       ElementLogger.verbose(this.uid, 'onClick', `The disabled and spinning properties have been set to true.`)
     }
 
@@ -52,7 +53,7 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
 
   finalize = (): void => {
     if (!this.async) {
-      return
+      return ElementLogger.warn(this.uid, 'finalize', `The button is not async.`)
     }
 
     this.spinning = false

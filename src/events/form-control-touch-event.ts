@@ -3,8 +3,8 @@ import { IsomorphicEvent } from '@aracna/web'
 /**
  * @category Event
  */
-export class SwitchOnEvent extends IsomorphicEvent {
+export class FormControlTouchEvent extends IsomorphicEvent {
   constructor() {
-    super('switch-on')
+    super('form-control-touch')
   }
 }

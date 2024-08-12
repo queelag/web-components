@@ -4,6 +4,7 @@ import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
 import { ElementName } from '../../definitions/enums.js'
 import type { InputFileElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { ifdef } from '../../directives/if-defined.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
@@ -17,6 +18,8 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   /**
    * Properties
    */
+  /** */
+  accept?: string
   deserializeFileResolveArrayBuffer?: boolean
   deserializeFileResolveText?: boolean
   multiple?: boolean
@@ -24,73 +27,100 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   /**
    * Queries
    */
+  /** */
   inputElement!: HTMLInputElement
 
   async onChange(): Promise<void> {
     let files: AracnaFile[] = []
 
-    for (let file of this.inputElement.files ?? []) {
-      files.push(await deserializeFile(file, this.deserializeFileOptions))
-      ElementLogger.verbose(this.uid, 'onChange', `The file have been deserialized.`, files)
+    for (let f of this.inputElement.files ?? []) {
+      let file: AracnaFile
+
+      file = await deserializeFile(f, this.deserializeFileOptions)
+      ElementLogger.verbose(this.uid, 'onChange', `The file has been deserialized.`, file)
+
+      files.push(file)
+      ElementLogger.verbose(this.uid, 'onChange', `The file has been added to the files.`, file, files)
     }
 
     if (this.multiple) {
-      this.value = files
-      ElementLogger.verbose(this.uid, 'onChange', `The files have been set as the value.`, files, this.value)
+      ElementLogger.verbose(this.uid, 'onChange', `Setting the files as the value.`, files)
+      this.setValue(files)
     }
 
     if (this.single && files.length <= 0) {
-      this.value = AracnaFile.EMPTY
-      ElementLogger.verbose(this.id, 'onChange', `The files are empty, setting empty file as the value.`, files, this.value)
+      ElementLogger.verbose(this.uid, 'onChange', `Clearing the value.`)
+      this.clear()
     }
 
-    if (this.single && files.length > 0) {
-      this.value = files[0] ?? AracnaFile.EMPTY
-      ElementLogger.verbose(this.id, 'onChange', `The first file has been set as the value.`, files, this.value)
+    if (this.single && files[0]) {
+      ElementLogger.verbose(this.uid, 'onChange', `Setting the first file as the value.`, files[0])
+      this.setValue(files[0])
     }
 
+    ElementLogger.verbose(this.uid, 'onChange', `Touching.`)
     this.touch()
   }
 
   removeFile(file: AracnaFile): void {
     this.inputElement.value = ''
-    ElementLogger.verbose(this.uid, 'removeFile', `The input element value has been reset.`)
+    ElementLogger.verbose(this.uid, 'removeFile', `The input element value has been reset.`, [this.inputElement.value])
 
     if (this.multiple) {
-      this.value = isArray(this.value) ? this.value : []
-      this.value = removeArrayItems(this.value, (_, { id }: AracnaFile) => id === file.id)
-      ElementLogger.verbose(this.uid, 'onClickRemoveFile', `The file has been removed.`, file, this.value)
+      let value: AracnaFile[]
+
+      value = isArray(this.value) ? this.value : []
+      value = removeArrayItems(value, (_, { id }: AracnaFile) => id === file.id)
+
+      ElementLogger.verbose(this.uid, 'removeFile', `Removing the file from the value.`, file)
+      this.setValue(value)
     }
 
     if (this.single) {
-      this.value = AracnaFile.EMPTY
-      ElementLogger.verbose(this.uid, 'onClickRemoveFile', `The value has been emptied.`, this.value)
+      ElementLogger.verbose(this.uid, 'removeFile', `Clearing the value.`)
+      this.clear()
     }
 
+    ElementLogger.verbose(this.uid, 'removeFile', `Touching.`)
     this.touch()
   }
 
   open = (): void => {
+    ElementLogger.verbose(this.uid, 'open', `Clicking the input element.`)
     this.inputElement.click()
   }
 
   clear = (): void => {
-    this.value = undefined
-    ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
+    super.clear()
 
     this.inputElement.value = ''
-    ElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
+    ElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`, [this.inputElement.value])
 
+    ElementLogger.verbose(this.uid, 'clear', `Touching.`)
     this.touch()
   }
 
   render() {
     if (this.native) {
-      return html`<input @change=${this.onChange} ?disabled=${this.disabled} ?multiple=${this.multiple} ?readonly=${this.readonly} type="file" />`
+      return html`<input
+        accept=${ifdef(this.accept)}
+        @change=${this.onChange}
+        ?disabled=${this.disabled}
+        ?multiple=${this.multiple}
+        ?readonly=${this.readonly}
+        type="file"
+      />`
     }
 
     return html`
-      <input @change=${this.onChange} ?disabled=${this.disabled} ?multiple=${this.multiple} ?readonly=${this.readonly} type="file" />
+      <input
+        accept=${ifdef(this.accept)}
+        @change=${this.onChange}
+        ?disabled=${this.disabled}
+        ?multiple=${this.multiple}
+        ?readonly=${this.readonly}
+        type="file"
+      />
       <slot></slot>
     `
   }
@@ -143,6 +173,7 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   }
 
   static properties: PropertyDeclarations = {
+    accept: { type: String, reflect: true },
     deserializeFileResolveArrayBuffer: {
       type: Boolean,
       attribute: 'deserialize-file-resolve-array-buffer',

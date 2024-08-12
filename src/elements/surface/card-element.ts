@@ -14,6 +14,7 @@ class CardElement<E extends CardElementEventMap = CardElementEventMap, T = any> 
   /**
    * Properties
    */
+  /** */
   buttons?: T[]
   headline?: string
   image?: string

@@ -15,6 +15,7 @@ class AlertElement<E extends AlertElementEventMap = AlertElementEventMap> extend
   /**
    * Properties
    */
+  /** */
   closable?: boolean
   headline?: string
   icon?: string

@@ -15,6 +15,7 @@ class ListBoxElement<E extends ListBoxElementEventMap = ListBoxElementEventMap, 
   /**
    * Properties
    */
+  /** */
   options?: T[]
 
   static properties: PropertyDeclarations = {
@@ -32,6 +33,7 @@ class ListBoxOptionElement<E extends ListBoxOptionElementEventMap = ListBoxOptio
   /**
    * Properties
    */
+  /** */
   headline?: string
   leadingIcon?: string
   leadingImage?: string

@@ -28,6 +28,7 @@ class FeedElement<E extends FeedElementEventMap = FeedElementEventMap, T = any> 
   /**
    * Properties
    */
+  /** */
   articles?: T[]
 
   get name(): ElementName {
@@ -48,6 +49,7 @@ class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArticleEleme
   /**
    * Properties
    */
+  /** */
   buttons?: T[]
   headline?: string
   image?: string

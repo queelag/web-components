@@ -11,6 +11,10 @@ declare global {
 }
 
 class ButtonGroupElement<E extends ButtonGroupElementEventMap = ButtonGroupElementEventMap, T = any> extends BaseElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   buttons?: T[]
 
   get name(): ElementName {

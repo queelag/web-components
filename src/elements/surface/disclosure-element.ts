@@ -25,6 +25,10 @@ declare global {
 }
 
 class DisclosureElement<E extends DisclosureElementEventMap = DisclosureElementEventMap, T = any> extends AriaDisclosureElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   sections?: T[]
 
   get name(): ElementName {
@@ -41,6 +45,10 @@ class DisclosureElement<E extends DisclosureElementEventMap = DisclosureElementE
 }
 
 class DisclosureSectionElement<E extends DisclosureSectionElementEventMap = DisclosureSectionElementEventMap> extends AriaDisclosureSectionElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   headline?: string
   icon?: string
   text?: string

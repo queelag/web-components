@@ -43,8 +43,6 @@ describe('FormControlElement', () => {
     test.schema = number()
     await render(test)
 
-    expect(test.validation).toBeUndefined()
-    test.validate()
     expect(test.error).toBeDefined()
 
     test.value = 0

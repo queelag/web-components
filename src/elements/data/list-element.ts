@@ -15,6 +15,7 @@ class ListElement<E extends ListElementEventMap = ListElementEventMap, T = any> 
   /**
    * Properties
    */
+  /** */
   items?: T[]
 
   get name(): ElementName {
@@ -38,6 +39,7 @@ class ListItemElement<E extends ListItemElementEventMap = ListItemElementEventMa
   /**
    * Properties
    */
+  /** */
   headline?: string
   leadingIcon?: string
   leadingImage?: string

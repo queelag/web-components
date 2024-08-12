@@ -15,6 +15,7 @@ class ChipElement<E extends ChipElementEventMap = ChipElementEventMap> extends B
   /**
    * Properties
    */
+  /** */
   leadingIcon?: string
   leadingImage?: string
   leadingText?: string

@@ -23,16 +23,22 @@ class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupElementE
   /**
    * Properties
    */
+  /** */
   buttons?: T[]
   getButtonLabel: GetRadioButtonLabel<T> = DEFAULT_GET_RADIO_BUTTON_LABEL
   getButtonValue: GetRadioButtonValue<T> = DEFAULT_GET_RADIO_BUTTON_VALUE
 
   onChange(button: T): void {
+    let value: unknown
+
     if (this.disabled || this.readonly) {
-      return ElementLogger.warn(this.uid, 'onChange', `The radiogroup is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, 'onChange', `The group is disabled or readonly.`)
     }
 
-    this.value = this.getButtonValue(button)
+    value = this.getButtonValue(button)
+
+    ElementLogger.verbose(this.uid, 'onChange', `Setting the value.`, value)
+    this.setValue(value)
   }
 
   render() {
@@ -93,6 +99,10 @@ class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupElementE
 }
 
 class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButtonElementEventMap> extends AriaRadioButtonElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   headline?: string
   icon?: string
   text?: string

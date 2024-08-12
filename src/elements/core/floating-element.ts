@@ -14,6 +14,8 @@ import {
 } from '@floating-ui/dom'
 import type { PropertyDeclarations } from 'lit'
 import type { FloatingElementEventMap } from '../../definitions/events.js'
+import { FloatingComputePositionEvent } from '../../events/floating-compute-position-event.js'
+import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from './base-element.js'
 
 class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMap> extends BaseElement<E> {
@@ -23,6 +25,7 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
   /**
    * Properties
    */
+  /** */
   ancestorScroll?: boolean
   ancestorResize?: boolean
   animationFrame?: boolean
@@ -36,12 +39,14 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
   /**
    * Internals
    */
+  /** */
   cleanup?: Function
 
   connectedCallback(): void {
     super.connectedCallback()
     setImmutableElementAttribute(this, 'floating-element', '')
 
+    ElementLogger.verbose(this.uid, 'connectedCallback', `Computing position.`)
     wf(() => this.referenceElement, 4).then(() => this.computePosition())
   }
 
@@ -50,19 +55,32 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
 
     if (this.cleanup) {
       this.cleanup()
+      ElementLogger.verbose(this.uid, 'disconnectedCallback', `Cleaned up.`)
     }
   }
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    ElementLogger.verbose(this.uid, 'attributeChangedCallback', `Computing position.`)
     this.computePosition()
   }
 
   computePosition = async (): Promise<void> => {
     let position: ComputePositionReturn | Error
 
+    if (!this.referenceElement) {
+      return ElementLogger.warn(this.uid, 'computePosition', `The reference element is not defined.`)
+    }
+
     if (this.cleanup) {
       this.cleanup()
+      ElementLogger.verbose(this.uid, 'computePosition', `Cleaned up.`)
+
       this.cleanup = undefined
 
       return
@@ -74,25 +92,38 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
     this.style.left = position.x + 'px'
     this.style.top = position.y + 'px'
 
+    ElementLogger.verbose(this.uid, 'computePosition', `The left and top styles have been set.`, [this.style.left, this.style.top])
+
     if (this.arrowElement && position.middlewareData.arrow) {
       let side: string | undefined
 
       this.arrowElement.style.left = position.middlewareData.arrow.x + 'px'
       this.arrowElement.style.top = position.middlewareData.arrow.y + 'px'
 
+      ElementLogger.verbose(this.uid, 'computePosition', `The arrow left and top styles have been set.`, [
+        this.arrowElement.style.left,
+        this.arrowElement.style.top
+      ])
+
       side = this.getArrowStaticSide(position)
-      if (!side) return
 
-      this.arrowElement.style[side as any] = '-4px'
+      if (side) {
+        this.arrowElement.style[side as any] = '-4px'
+        ElementLogger.verbose(this.uid, 'computePosition', `The arrow ${side} style has been set.`, [this.arrowElement.style[side as any]])
+      }
     }
 
-    if (this.referenceElement) {
-      this.cleanup = autoUpdate(this.referenceElement, this, () => rv(this.computePosition), this.autoUpdateOptions)
-    }
+    this.cleanup = autoUpdate(this.referenceElement, this, () => rv(this.computePosition), this.autoUpdateOptions)
+    ElementLogger.verbose(this.uid, 'computePosition', `The cleanup function has been set.`)
+
+    this.dispatchEvent(new FloatingComputePositionEvent())
+    ElementLogger.verbose(this.uid, 'computePosition', `The "floating-compute-position" event has been dispatched.`)
   }
 
   onSlotChange(): void {
     super.onSlotChange()
+
+    ElementLogger.verbose(this.uid, 'onSlotChange', `Computing position.`)
     this.computePosition()
   }
 

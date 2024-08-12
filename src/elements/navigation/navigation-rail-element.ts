@@ -15,6 +15,7 @@ class NavigationRailElement<E extends NavigationRailElementEventMap = Navigation
   /**
    * Properties
    */
+  /** */
   items?: T[]
 
   get name(): ElementName {
@@ -30,6 +31,7 @@ class NavigationRailItemElement<E extends NavigationRailItemElementEventMap = Na
   /**
    * Properties
    */
+  /** */
   active?: boolean
   badge?: boolean
   badgeText?: string

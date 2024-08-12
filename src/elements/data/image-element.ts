@@ -10,6 +10,8 @@ import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { ImageElementCrossOrigin } from '../../definitions/types.js'
 import { ifdef } from '../../directives/if-defined.js'
 import { styleMap } from '../../directives/style-map.js'
+import { ImageLoadErrorEvent } from '../../events/image-load-error-event.js'
+import { ImageLoadEvent } from '../../events/image-load-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -23,6 +25,7 @@ class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extend
   /**
    * Properties
    */
+  /** */
   alt?: string
   cache?: boolean
   cacheQuality?: number
@@ -30,25 +33,30 @@ class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extend
   crossOrigin?: ImageElementCrossOrigin
   eager?: boolean
   lazy?: boolean
-  placeholder?: string
 
   /**
    * Queries
    */
+  /** */
   imgElement!: HTMLImageElement
 
   /**
    * Internals
    */
+  /** */
+  protected _placeholder?: string
   protected _src?: string
 
   /**
    * States
    */
-  imgElementSrc: string = this.placeholder ?? DEFAULT_IMAGE_SRC
+  /** */
+  imgElementSrc: string = this.placeholder
 
   connectedCallback(): void {
     super.connectedCallback()
+
+    ElementLogger.verbose(this.uid, 'connectedCallback', `Loading.`, [this.src])
     this.load(this.src)
   }
 
@@ -61,10 +69,11 @@ class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extend
 
     if (['cache-quality', 'cache-type'].includes(name) && typeof this.src === 'string') {
       CACHE_IMAGES.delete(this.src)
-      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The image cache has been deleted.`, [this.src])
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The cache has been deleted.`, [this.src])
     }
 
     if (['cache', 'cache-quality', 'cache-type'].includes(name)) {
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `Loading.`, [this.src])
       this.load(this.src)
     }
   }
@@ -78,71 +87,73 @@ class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extend
     await sleep(1)
 
     if (typeof src !== 'string') {
-      return
+      return ElementLogger.warn(this.uid, 'load', `The source is not defined.`, [src])
     }
 
     if (FETCHING_IMAGES.has(src)) {
       await sleep(100)
-      ElementLogger.verbose(this.uid, 'load', `The src is already being fetched, will try again in 100ms.`, [src])
+      ElementLogger.verbose(this.uid, 'load', `The source is already being fetched, retrying in 100ms.`, [src])
 
+      ElementLogger.verbose(this.uid, 'load', `Retrying to load.`, [src])
       return this.load(src)
     }
 
     if (this.cache && CACHE_IMAGES.has(src)) {
       cache = CACHE_IMAGES.get(src)
-      ElementLogger.verbose(this.uid, 'load', `Cached base64 found for this src.`, [src, cache])
+      ElementLogger.verbose(this.uid, 'load', `Cache found.`, [src, cache])
     }
 
     if (typeof cache === 'undefined') {
       FETCHING_IMAGES.add(src)
-      ElementLogger.verbose(this.uid, 'load', `The src has been marked as fetching.`, [src])
+      ElementLogger.verbose(this.uid, 'load', `The source has been marked as fetching.`, [src])
     }
 
     this.imgElementSrc = cache ?? src
-    ElementLogger.verbose(this.uid, 'load', `Loading the src.`, [src])
+    ElementLogger.verbose(this.uid, 'load', `The image element src has been set.`, [this.imgElementSrc])
   }
 
   onError(event: ErrorEvent): void {
+    ElementLogger.error(this.uid, 'onError', `Failed to load the source.`, [this.src], event)
+
     if (typeof this.src === 'string') {
       FETCHING_IMAGES.delete(this.src)
-      ElementLogger.verbose(this.uid, 'onError', `The src has been unmarked as fetching.`, [this.src])
+      ElementLogger.verbose(this.uid, 'onError', `The source has been unmarked as fetching.`, [this.src])
     }
 
-    this.imgElementSrc = this.placeholder ?? DEFAULT_IMAGE_SRC
-    ElementLogger.error(this.uid, 'onError', `Falling back to the placeholder image.`, event)
+    this.imgElementSrc = this.placeholder
+    ElementLogger.error(this.uid, 'onError', `Falling back to the placeholder image.`, [this.imgElementSrc])
+
+    this.dispatchEvent(new ImageLoadErrorEvent(this.src, event))
   }
 
   onLoad(): void {
-    let base64: string | Error
+    let base64: string | Error | undefined
 
-    ElementLogger.verbose(this.uid, 'onLoad', `The src has been loaded.`, [this.src])
+    ElementLogger.verbose(this.uid, 'onLoad', `The source has been loaded.`, [this.src])
 
     if (typeof this.src !== 'string') {
-      return
+      return ElementLogger.warn(this.uid, 'onLoad', `The source is not defined.`, [this.src])
     }
 
     FETCHING_IMAGES.delete(this.src)
-    ElementLogger.verbose(this.uid, 'onLoad', `The src has been unmarked as fetching.`, [this.src])
+    ElementLogger.verbose(this.uid, 'onLoad', `The source has been unmarked as fetching.`, [this.src])
 
-    if (!this.cache || CACHE_IMAGES.has(this.src)) {
-      return
+    if (this.isCacheable) {
+      base64 = getImageElementBase64(this.imgElement, {
+        quality: this.cacheQuality,
+        type: this.cacheType
+      })
+      if (base64 instanceof Error || !base64) return ElementLogger.warn(this.uid, 'onLoad', `Failed to get the image base64.`, this.imgElement, [base64])
+
+      CACHE_IMAGES.set(this.src, base64)
+      ElementLogger.verbose(this.uid, 'onLoad', `The image has been cached.`, [this.src, base64])
+
+      this.imgElementSrc = base64
+      ElementLogger.verbose(this.uid, 'onLoad', `The image element src has been set to the base64.`, [this.imgElementSrc])
     }
 
-    if (this.src === (this.placeholder ?? DEFAULT_IMAGE_SRC)) {
-      return
-    }
-
-    base64 = getImageElementBase64(this.imgElement, {
-      quality: this.cacheQuality,
-      type: this.cacheType
-    })
-    if (base64 instanceof Error || !base64) return ElementLogger.warn(this.uid, 'onLoad', `Failed to get the image base64 or it is empty.`, [base64])
-
-    CACHE_IMAGES.set(this.src, base64)
-    ElementLogger.verbose(this.uid, 'onLoad', `The image has been cached.`, [this.src, base64])
-
-    this.imgElementSrc = base64
-    ElementLogger.verbose(this.uid, 'onLoad', `The element src has been set to the cached base64.`, [this.src, base64])
+    this.dispatchEvent(new ImageLoadEvent(this.src, base64 instanceof Error ? undefined : base64))
+    ElementLogger.verbose(this.uid, 'onLoad', `The "image-load" event has been dispatched.`)
   }
 
   render() {
@@ -158,6 +169,10 @@ class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extend
         style=${this.imgElementStyle}
       />
     `
+  }
+
+  get isCacheable(): boolean {
+    return typeof this.src === 'string' && this.cache === true && CACHE_IMAGES.has(this.src) === false && this.src !== this.placeholder
   }
 
   get imgElementCrossOrigin(): ImageElementCrossOrigin | undefined {
@@ -198,6 +213,19 @@ class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extend
 
   get name(): ElementName {
     return ElementName.IMAGE
+  }
+
+  get placeholder(): string {
+    return this._placeholder ?? DEFAULT_IMAGE_SRC
+  }
+
+  set placeholder(placeholder: string) {
+    let old: string | undefined
+
+    old = this._placeholder
+    this._placeholder = placeholder
+
+    this.requestUpdate('placeholder', old)
   }
 
   get src(): string | undefined {

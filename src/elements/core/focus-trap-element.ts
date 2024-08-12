@@ -33,6 +33,7 @@ class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElementEven
   /**
    * Properties
    */
+  /** */
   allowOutsideClick?: FocusTrapAllowOutsideClick
   checkCanFocusTrap?: FocusTrapCheckCanFocusTrap
   checkCanReturnFocus?: FocusTrapCheckCanReturnFocus
@@ -51,18 +52,22 @@ class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElementEven
   /**
    * Internals
    */
-  protected focusTrap!: FocusTrap
+  /** */
+  focusTrap!: FocusTrap
   focusTrapState?: FocusTrapElementState
 
   connectedCallback(): void {
     super.connectedCallback()
     setImmutableElementAttribute(this, 'focus-trap-element', '')
 
+    ElementLogger.verbose(this.uid, 'connectedCallback', `Creating the focus trap.`)
     this.createFocusTrap()
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
+
+    ElementLogger.verbose(this.uid, 'disconnectedCallback', `Deactivating the focus trap.`)
     this.deactivateFocusTrap()
   }
 
@@ -72,45 +77,45 @@ class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElementEven
   }
 
   activateFocusTrap(options?: ActivateOptions): void {
-    tc(() => this.focusTrap.activate(options))
-    ElementLogger.verbose(this.uid, 'activateFocusTrap', `The focus trap has been activated.`)
+    tc(() => this.focusTrap.activate(options), false)
+    ElementLogger.verbose(this.uid, 'activateFocusTrap', `The focus trap has been activated.`, options)
   }
 
   deactivateFocusTrap(options?: DeactivateOptions): void {
-    tc(() => this.focusTrap.deactivate(options))
-    ElementLogger.verbose(this.uid, 'deactivateFocusTrap', `The focus trap has been deactivated.`)
+    tc(() => this.focusTrap.deactivate(options), false)
+    ElementLogger.verbose(this.uid, 'deactivateFocusTrap', `The focus trap has been deactivated.`, options)
   }
 
   onFocusTrapActivate(): void {
     this.focusTrapState = 'activating'
-    ElementLogger.verbose(this.uid, 'onFocusTrapActivate', `The focus trap state has been set to activating.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapActivate', `The focus trap state has been set.`, [this.focusTrapState])
 
     this.dispatchEvent(new FocusTrapActivateEvent())
-    ElementLogger.verbose(this.uid, 'onFocusTrapActivate', `The focus-trap-activate event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapActivate', `The "focus-trap-activate" event has been dispatched.`)
   }
 
   onFocusTrapDeactivate(): void {
     this.focusTrapState = 'deactivating'
-    ElementLogger.verbose(this.uid, 'onFocusTrapDeactivate', `The focus trap state has been set to deactivating.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapDeactivate', `The focus trap state has been set.`, [this.focusTrapState])
 
     this.dispatchEvent(new FocusTrapDeactivateEvent())
-    ElementLogger.verbose(this.uid, 'onFocusTrapDeactivate', `The focus-trap-deactivate event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapDeactivate', `The "focus-trap-deactivate" event has been dispatched.`)
   }
 
   onFocusTrapPostActivate(): void {
     this.focusTrapState = 'activated'
-    ElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The focus trap state has been set to activated.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The focus trap state has been set.`, [this.focusTrapState])
 
     this.dispatchEvent(new FocusTrapPostActivateEvent())
-    ElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The focus-trap-post-activate event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapPostActivate', `The "focus-trap-post-activate" event has been dispatched.`)
   }
 
   onFocusTrapPostDeactivate(): void {
     this.focusTrapState = 'deactivated'
-    ElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The focus trap state has been set to deactivated.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The focus trap state has been set.`, [this.focusTrapState])
 
     this.dispatchEvent(new FocusTrapPostDeactivateEvent())
-    ElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The focus-trap-post-deactivate event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The "focus-trap-post-deactivate" event has been dispatched.`)
   }
 
   get focusTrapOptions(): Options {

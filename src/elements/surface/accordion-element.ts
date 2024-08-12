@@ -28,6 +28,10 @@ declare global {
 }
 
 class AccordionElement<E extends AccordionElementEventMap = AccordionElementEventMap, T = any> extends AriaAccordionElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   sections?: T[]
 
   get name(): ElementName {
@@ -48,6 +52,10 @@ class AccordionElement<E extends AccordionElementEventMap = AccordionElementEven
 }
 
 class AccordionSectionElement<E extends AccordionSectionElementEventMap = AccordionSectionElementEventMap> extends AriaAccordionSectionElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   headline?: string
   icon?: string
   text?: string

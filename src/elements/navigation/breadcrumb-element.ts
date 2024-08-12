@@ -17,6 +17,10 @@ declare global {
 }
 
 class BreadcrumbElement<E extends BreadcrumbElementEventMap = BreadcrumbElementEventMap, T = any> extends AriaBreadcrumbElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   items?: T[]
 
   get name(): ElementName {
@@ -35,6 +39,10 @@ class BreadcrumbListElement<E extends BreadcrumbListElementEventMap = Breadcrumb
 }
 
 class BreadcrumbItemElement<E extends BreadcrumbItemElementEventMap = BreadcrumbItemElementEventMap> extends AriaBreadcrumbItemElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   headline?: string
   href?: string
   icon?: string
