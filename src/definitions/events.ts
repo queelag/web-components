@@ -148,7 +148,7 @@ export interface AriaLinkElementEventMap extends BaseElementEventMap {}
 export interface AriaListElementEventMap extends BaseElementEventMap {}
 export interface AriaListItemElementEventMap extends BaseElementEventMap {}
 
-export interface AriaListBoxElementEventMap extends BaseElementEventMap {}
+export interface AriaListBoxElementEventMap extends FormControlElementEventMap {}
 
 export interface AriaListBoxOptionElementEventMap extends BaseElementEventMap {
   select: ListBoxOptionSelectEvent

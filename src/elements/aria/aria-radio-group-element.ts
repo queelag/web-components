@@ -235,8 +235,8 @@ class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadi
     this.checked = true
     ElementLogger.verbose(this.uid, 'check', `The button has been checked.`)
 
-    this.rootElement.value = this.value
-    ElementLogger.verbose(this.uid, 'check', `The value has been set.`, this.value)
+    ElementLogger.verbose(this.uid, 'check', `Setting the value.`)
+    this.rootElement.setValue(this.value)
 
     ElementLogger.verbose(this.uid, 'check', `Touching the group.`)
     this.rootElement.touch()

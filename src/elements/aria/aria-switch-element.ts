@@ -94,6 +94,9 @@ class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementE
     this.on = true
     ElementLogger.verbose(this.uid, '__on', `The switch has been turned on.`)
 
+    ElementLogger.verbose(this.uid, '__on', `Setting the value.`)
+    this.setValue(this.on)
+
     ElementLogger.verbose(this.uid, '__on', `Touching the switch.`)
     this.touch()
 
@@ -108,6 +111,9 @@ class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementE
 
     this.on = false
     ElementLogger.verbose(this.uid, 'off', `The switch has been turned off.`)
+
+    ElementLogger.verbose(this.uid, 'off', `Setting the value.`)
+    this.setValue(this.on)
 
     ElementLogger.verbose(this.uid, 'off', `Touching the switch.`)
     this.touch()

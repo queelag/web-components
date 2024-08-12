@@ -424,6 +424,8 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
   }
 
   removeOption(value: any): void {
+    let array: any[]
+
     if (this.single) {
       return ElementLogger.warn(this.uid, 'removeOption', `The combobox is not multiple.`)
     }
@@ -442,20 +444,20 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
       break
     }
 
-    this.value = isArray(this.value) ? this.value : []
-    this.value = removeArrayItems(this.value, [value])
+    array = isArray(this.value) ? this.value : []
+    array = removeArrayItems(array, [value])
 
-    ElementLogger.verbose(this.uid, 'removeOption', `The value has been set.`, this.value)
+    ElementLogger.verbose(this.uid, 'removeOption', `Removing the option from the value.`, value)
+    this.setValue(array)
   }
 
   clear(): void {
+    super.clear()
+
     if (this.inputElement) {
       this.inputElement.value = ''
       ElementLogger.verbose(this.uid, 'clear', `The input value has been reset.`, [this.inputElement.value])
     }
-
-    this.value = undefined
-    ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
   }
 
   findOptionElementByValue(value: any): AriaComboBoxOptionElement | undefined {
@@ -878,15 +880,19 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
     ElementLogger.verbose(this.uid, 'select', `The option has been selected.`)
 
     if (this.rootElement.single) {
-      this.rootElement.value = this.value
+      ElementLogger.verbose(this.uid, 'select', `Setting the value.`)
+      this.rootElement.setValue(this.value)
     }
 
     if (this.rootElement.multiple) {
-      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
-      this.rootElement.value = [...this.rootElement.value, this.value]
-    }
+      let value: any[]
 
-    ElementLogger.verbose(this.uid, 'select', `The value has been set.`, [this.rootElement.value])
+      value = isArray(this.rootElement.value) ? this.rootElement.value : []
+      value = [...value, this.value]
+
+      ElementLogger.verbose(this.uid, 'select', `Adding the option to the value.`, this.value)
+      this.rootElement.setValue(value)
+    }
 
     ElementLogger.verbose(this.uid, 'select', `Touching the combobox.`)
     this.rootElement.touch()
@@ -900,15 +906,19 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
     ElementLogger.verbose(this.uid, 'unselect', `The option has been unselected.`)
 
     if (this.rootElement.single) {
-      this.rootElement.value = undefined
+      ElementLogger.verbose(this.uid, 'unselect', `Clearing the value.`)
+      this.rootElement.clear()
     }
 
     if (this.rootElement.multiple) {
-      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
-      this.rootElement.value = removeArrayItems(this.rootElement.value, [this.value])
-    }
+      let value: any[]
 
-    ElementLogger.verbose(this.uid, 'unselect', `The value has been set.`, [this.rootElement.value])
+      value = isArray(this.rootElement.value) ? this.rootElement.value : []
+      value = removeArrayItems(value, [this.value])
+
+      ElementLogger.verbose(this.uid, 'unselect', `Removing the option from the value.`, this.value)
+      this.rootElement.setValue(value)
+    }
 
     ElementLogger.verbose(this.uid, 'unselect', `Touching the combobox.`)
     this.rootElement.touch()

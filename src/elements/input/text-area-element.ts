@@ -248,6 +248,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     super.value = value
 
     if (this.autosize) {
+      ElementLogger.verbose(this.uid, 'set value', `Computing the height.`)
       this.computeHeight()
     }
   }

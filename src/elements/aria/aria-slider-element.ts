@@ -470,12 +470,18 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     this.value = getLimitedNumber(fvalue, { min, max })
 
     if (this.rootElement.hasMultipleThumbs) {
-      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
-      this.rootElement.value[this.index] = value
+      let array: number[]
+
+      array = isArray(this.rootElement.value) ? this.rootElement.value : []
+      array[this.index] = value
+
+      ElementLogger.verbose(this.uid, 'setValue', `Setting the value.`, [this.index, value])
+      this.rootElement.setValue(array)
     }
 
     if (this.rootElement.hasSingleThumb) {
-      this.rootElement.value = value
+      ElementLogger.verbose(this.uid, 'setValue', `Setting the value.`)
+      this.rootElement.setValue(value)
     }
 
     ElementLogger.verbose(this.uid, 'setValue', `The value has been set.`, [this.value, this.rootElement.value])

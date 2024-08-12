@@ -449,15 +449,19 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
     ElementLogger.verbose(this.uid, 'select', `The option has been selected.`)
 
     if (this.rootElement.single) {
-      this.rootElement.value = this.value
+      ElementLogger.verbose(this.uid, 'select', `Setting the value.`)
+      this.rootElement.setValue(this.value)
     }
 
     if (this.rootElement.multiple) {
-      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
-      this.rootElement.value = [...this.rootElement.value, this.value]
-    }
+      let value: any[]
 
-    ElementLogger.verbose(this.uid, 'select', `The value has been set.`, this.rootElement.value)
+      value = isArray(this.rootElement.value) ? this.rootElement.value : []
+      value = [...value, this.value]
+
+      ElementLogger.verbose(this.uid, 'select', `Adding the option to the value.`, value)
+      this.rootElement.setValue(value)
+    }
 
     ElementLogger.verbose(this.uid, 'select', `Touching the listbox.`)
     this.rootElement.touch()
@@ -471,15 +475,19 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
     ElementLogger.verbose(this.uid, 'unselect', `The option has been unselected.`)
 
     if (this.rootElement.single) {
-      this.rootElement.value = undefined
+      ElementLogger.verbose(this.uid, 'unselect', `Clearing the value.`)
+      this.rootElement.clear()
     }
 
     if (this.rootElement.multiple) {
-      this.rootElement.value = isArray(this.rootElement.value) ? this.rootElement.value : []
-      this.rootElement.value = removeArrayItems(this.rootElement.value, [this.value])
-    }
+      let value: any[]
 
-    ElementLogger.verbose(this.uid, 'unselect', `The value has been set.`, this.rootElement.value)
+      value = isArray(this.rootElement.value) ? this.rootElement.value : []
+      value = removeArrayItems(this.rootElement.value, [this.value])
+
+      ElementLogger.verbose(this.uid, 'unselect', `Removing the option from the value.`, value)
+      this.rootElement.setValue(value)
+    }
 
     ElementLogger.verbose(this.uid, 'unselect', `Touching the listbox.`)
     this.rootElement.touch()

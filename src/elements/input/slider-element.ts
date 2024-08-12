@@ -28,7 +28,8 @@ class SliderElement<E extends SliderElementEventMap = SliderElementEventMap, T =
       return ElementLogger.warn(this.uid, 'onInput', `The slider is disabled or readonly.`)
     }
 
-    this.value = this.inputElement.value ? parseNumber(this.inputElement.value) : DEFAULT_SLIDER_THUMB_VALUE
+    ElementLogger.verbose(this.uid, 'onInput', `Setting the value.`)
+    this.setValue(this.inputElement.value ? parseNumber(this.inputElement.value) : DEFAULT_SLIDER_THUMB_VALUE)
   }
 
   render() {

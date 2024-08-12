@@ -95,6 +95,9 @@ class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxEl
     this.checked = true
     ElementLogger.verbose(this.uid, 'check', `The checkbox has been checked.`)
 
+    ElementLogger.verbose(this.uid, 'check', `Setting the value.`)
+    this.setValue(this.checked)
+
     ElementLogger.verbose(this.uid, 'check', `Touching the checkbox.`)
     this.touch()
 
@@ -109,6 +112,9 @@ class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxEl
 
     this.checked = false
     ElementLogger.verbose(this.uid, 'uncheck', `The checkbox has been unchecked.`)
+
+    ElementLogger.verbose(this.uid, 'uncheck', `Setting the value.`)
+    this.setValue(this.checked)
 
     ElementLogger.verbose(this.uid, 'uncheck', `Touching the checkbox.`)
     this.touch()
