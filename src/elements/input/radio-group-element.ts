@@ -21,7 +21,7 @@ declare global {
 
 class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupElementEventMap, T = any> extends AriaRadioGroupElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   buttons?: T[]
   getButtonLabel: GetRadioButtonLabel<T> = DEFAULT_GET_RADIO_BUTTON_LABEL

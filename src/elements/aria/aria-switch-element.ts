@@ -4,6 +4,7 @@ import { AriaSwitchController } from '../../controllers/aria-switch-controller.j
 import type { AriaSwitchElementEventMap } from '../../definitions/events.js'
 import { SwitchOffEvent } from '../../events/switch-off-event.js'
 import { SwitchOnEvent } from '../../events/switch-on-event.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
@@ -17,8 +18,9 @@ class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementE
   protected aria: AriaSwitchController = new AriaSwitchController(this)
 
   /**
-   * INTERNAL
+   * Internals
    */
+  /** */
   protected _on?: boolean
 
   connectedCallback(): void {
@@ -72,7 +74,7 @@ class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementE
       return ElementLogger.warn(this.id, 'onClick', `The switch is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, 'onKeyDown', `Clicking the switch.`)
+    ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the switch.`)
     this.onClick()
   }
 

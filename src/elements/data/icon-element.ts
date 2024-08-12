@@ -25,7 +25,7 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
   protected aria: AriaIconController = new AriaIconController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
   cache?: boolean
   color?: string
@@ -38,12 +38,12 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
   strokeWidth?: string
 
   /**
-   * INTERNAL
+   * Internals
    */
   protected _src?: string
 
   /**
-   * STATES
+   * States
    */
   svgElement?: SVGSVGElement
 

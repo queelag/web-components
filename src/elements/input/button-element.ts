@@ -16,7 +16,7 @@ declare global {
 
 class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> extends AriaButtonElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   async?: boolean
   icon?: string

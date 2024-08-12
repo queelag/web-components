@@ -20,7 +20,7 @@ declare global {
 
 class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   async?: boolean
   disabled?: boolean
@@ -28,7 +28,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
   spinning?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
   buttonElement?: ButtonElement
   fieldElements!: FormControlElement[]

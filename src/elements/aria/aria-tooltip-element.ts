@@ -11,6 +11,7 @@ import type {
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { TooltipHideEvent } from '../../events/tooltip-hide-event.js'
 import { TooltipShowEvent } from '../../events/tooltip-show-event.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaFloatingElement as FloatingElement } from '../core/floating-element.js'
@@ -28,15 +29,17 @@ class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipEleme
   protected aria: AriaTooltipController = new AriaTooltipController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   focusable?: boolean
   showOnMouseEnter?: boolean
   visible?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   arrowElement?: AriaTooltipArrowElement
   contentElement?: AriaTooltipContentElement
   triggerElement!: AriaTooltipTriggerElement
@@ -56,7 +59,7 @@ class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipEleme
       return
     }
 
-    ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Hiding the tooltip.`)
+    ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Hiding the tooltip.`)
     this.hide()
   }
 
@@ -127,8 +130,9 @@ class AriaTooltipContentElement<E extends AriaTooltipContentElementEventMap = Ar
   protected aria: AriaTooltipContentController = new AriaTooltipContentController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaTooltipElement
 
   get arrowElement(): AriaTooltipArrowElement | undefined {
@@ -163,8 +167,9 @@ class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = Ar
   protected aria: AriaTooltipTriggerController = new AriaTooltipTriggerController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaTooltipElement
 
   connectedCallback(): void {

@@ -22,14 +22,16 @@ class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogElementE
   protected aria: AriaDialogController = new AriaDialogController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   lockBodyScroll?: boolean
   visible?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   descriptionElement?: AriaDialogDescriptionElement
   labelElement?: AriaDialogLabelElement
 

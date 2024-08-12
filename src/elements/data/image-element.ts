@@ -21,7 +21,7 @@ declare global {
 
 class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   alt?: string
   cache?: boolean
@@ -33,17 +33,17 @@ class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extend
   placeholder?: string
 
   /**
-   * QUERIES
+   * Queries
    */
   imgElement!: HTMLImageElement
 
   /**
-   * INTERNAL
+   * Internals
    */
   protected _src?: string
 
   /**
-   * STATES
+   * States
    */
   imgElementSrc: string = this.placeholder ?? DEFAULT_IMAGE_SRC
 

@@ -13,14 +13,14 @@ declare global {
 
 class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   max?: number
   min?: number
   numeric?: boolean
 
   /**
-   * INTERNAL
+   * Internals
    */
   protected _text?: string
 

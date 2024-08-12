@@ -21,7 +21,7 @@ declare global {
 
 class QrCodeElement<E extends QrCodeElementEventMap = QrCodeElementEventMap> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   /** */
   backgroundColor?: string
@@ -34,7 +34,7 @@ class QrCodeElement<E extends QrCodeElementEventMap = QrCodeElementEventMap> ext
   version?: number
 
   /**
-   * Internal
+   * Internals
    */
   /** */
   modules?: BitMatrix

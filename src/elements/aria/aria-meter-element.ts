@@ -15,15 +15,17 @@ class AriaMeterElement<E extends AriaMeterElementEventMap = AriaMeterElementEven
   protected aria: AriaMeterController = new AriaMeterController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   max?: number
   min?: number
   native?: boolean
 
   /**
-   * INTERNAL
+   * Internals
    */
+  /** */
   protected _value?: number
 
   get value(): number {

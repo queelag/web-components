@@ -20,7 +20,7 @@ declare global {
 
 class InputElement<E extends InputElementEventMap = InputElementEventMap> extends FormControlElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   multiple?: boolean
   obscured?: boolean
@@ -30,12 +30,12 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
   type: InputElementType = DEFAULT_INPUT_TYPE
 
   /**
-   * QUERIES
+   * Queries
    */
   inputElement!: HTMLInputElement
 
   /**
-   * STATES
+   * States
    */
   temporaryValue: string = ''
 

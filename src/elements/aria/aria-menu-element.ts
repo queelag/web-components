@@ -13,6 +13,7 @@ import type {
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { MenuSubMenuCollapseEvent } from '../../events/menu-sub-menu-collapse-event.js'
 import { MenuSubMenuExpandEvent } from '../../events/menu-sub-menu-expand-event.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaFloatingElement as FloatingElement } from '../core/floating-element.js'
@@ -30,8 +31,9 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
   protected aria: AriaMenuController = new AriaMenuController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   collapseDebounceTime?: number
   collapseOnMouseLeave?: boolean
   expandOnMouseEnter?: boolean
@@ -39,8 +41,9 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
   typeaheadPredicate?: TypeaheadPredicate<AriaMenuItemElement>
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   buttonElement?: AriaMenuButtonElement
   expandedSubMenuElement?: AriaMenuSubMenuElement
   expandedSubMenuElements!: AriaMenuSubMenuElement[]
@@ -51,8 +54,9 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
   subMenuElement?: AriaMenuSubMenuElement
 
   /**
-   * INTERNAL
+   * Internals
    */
+  /** */
   expanded?: boolean
   focused!: boolean
 
@@ -147,7 +151,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
           item = this.shallowItemElements[this.shallowItemElements.length - 1]
 
           if (item) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `Focusing the last item.`, item)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last item.`, item)
             item.focus()
           }
 
@@ -156,12 +160,12 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
           }
 
           if (this.expandedSubMenuElement) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `Collapsing the expanded submenu.`, this.expandedSubMenuElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Collapsing the expanded submenu.`, this.expandedSubMenuElement)
             this.expandedSubMenuElement.collapse()
           }
 
           if (item?.subMenuElement) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `Expanding the last item submenu.`, item.subMenuElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the last item submenu.`, item.subMenuElement)
             item.subMenuElement.expand()
           }
 
@@ -172,7 +176,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
 
         if (item) {
           item.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `The previous item has been focused.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The previous item has been focused.`)
         }
 
         if (this.collapsed) {
@@ -180,12 +184,12 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
         }
 
         if (this.expandedSubMenuElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `Collapsing the expanded submenu.`, this.expandedSubMenuElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Collapsing the expanded submenu.`, this.expandedSubMenuElement)
           this.expandedSubMenuElement.collapse()
         }
 
         if (item?.subMenuElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `Expanding the previous item submenu.`, item.subMenuElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the previous item submenu.`, item.subMenuElement)
           item.subMenuElement.expand()
         }
 
@@ -202,7 +206,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
           item = this.shallowItemElements[0]
 
           if (item) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `Focusing the first item.`, item)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first item.`, item)
             item.focus()
           }
 
@@ -211,12 +215,12 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
           }
 
           if (this.expandedSubMenuElement) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `Collapsing the expanded submenu.`, this.expandedSubMenuElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Collapsing the expanded submenu.`, this.expandedSubMenuElement)
             this.expandedSubMenuElement.collapse()
           }
 
           if (item?.subMenuElement) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `Expanding the first item submenu.`, item.subMenuElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the first item submenu.`, item.subMenuElement)
             item.subMenuElement.expand()
           }
 
@@ -226,7 +230,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
         item = this.shallowItemElements[this.shallowFocusedItemElementIndex + 1]
 
         if (item) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `Focusing the next item.`, item)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the next item.`, item)
           item.focus()
         }
 
@@ -235,12 +239,12 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
         }
 
         if (this.expandedSubMenuElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `Collapsing the expanded submenu.`, this.expandedSubMenuElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Collapsing the expanded submenu.`, this.expandedSubMenuElement)
           this.expandedSubMenuElement.collapse()
         }
 
         if (item?.subMenuElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `Expanding the next item submenu.`, item.subMenuElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the next item submenu.`, item.subMenuElement)
           item.subMenuElement.expand()
         }
 
@@ -253,22 +257,22 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
           item = this.subMenuElement.shallowItemElements[0]
 
           if (this.collapsed) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Expanding the submenu.`, this.subMenuElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the submenu.`, this.subMenuElement)
             this.subMenuElement.expand()
 
             if (item) {
               item.focus()
-              ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The first item of the submenu has been focused.`)
+              ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The first item of the submenu has been focused.`)
             }
 
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Marking the menu as expanded.`)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Marking the menu as expanded.`)
             this.expand()
 
             break
           }
 
           if (item) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the first item of the submenu.`, item)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first item of the submenu.`, item)
             item.focus()
           }
 
@@ -279,22 +283,22 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
           item = this.shallowFocusedItemElement.subMenuElement.shallowItemElements[0]
 
           if (this.collapsed) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Expanding the submenu.`, this.shallowFocusedItemElement.subMenuElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the submenu.`, this.shallowFocusedItemElement.subMenuElement)
             this.shallowFocusedItemElement.subMenuElement.expand()
 
             if (item) {
-              ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the first item of the submenu.`, item)
+              ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first item of the submenu.`, item)
               item.focus()
             }
 
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Marking the menu as expanded.`)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Marking the menu as expanded.`)
             this.expand()
 
             break
           }
 
           if (item) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the first item of the submenu.`, item)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first item of the submenu.`, item)
             item.focus()
           }
 
@@ -310,22 +314,22 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
           item = this.subMenuElement.shallowItemElements[this.subMenuElement.shallowItemElements.length - 1]
 
           if (this.collapsed) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Expanding the submenu.`, this.subMenuElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the submenu.`, this.subMenuElement)
             this.subMenuElement.expand()
 
             if (item) {
-              ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the last item of the submenu.`, item)
+              ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last item of the submenu.`, item)
               item.focus()
             }
 
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Marking the menu as expanded.`)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Marking the menu as expanded.`)
             this.expand()
 
             break
           }
 
           if (item) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the last item of the submenu.`, item)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last item of the submenu.`, item)
             item.focus()
           }
 
@@ -336,22 +340,22 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
           item = this.shallowFocusedItemElement.subMenuElement.shallowItemElements[this.shallowFocusedItemElement.subMenuElement.shallowItemElements.length - 1]
 
           if (this.collapsed) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Expanding the submenu.`, this.shallowFocusedItemElement.subMenuElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the submenu.`, this.shallowFocusedItemElement.subMenuElement)
             this.shallowFocusedItemElement.subMenuElement.expand()
 
             if (item) {
-              ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the last item of the submenu.`, item)
+              ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last item of the submenu.`, item)
               item.focus()
             }
 
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Marking the menu as expanded.`)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Marking the menu as expanded.`)
             this.expand()
 
             break
           }
 
           if (item) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the last item of the submenu.`, item)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last item of the submenu.`, item)
             item.focus()
           }
 
@@ -363,25 +367,25 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.SPACE:
         if (this.buttonElement && this.subMenuElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Expanding the submenu.`, this.subMenuElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the submenu.`, this.subMenuElement)
           this.subMenuElement.expand()
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Marking the menu as expanded.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Marking the menu as expanded.`)
           this.expand()
         }
 
         if (this.shallowFocusedItemElement?.subMenuElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Expanding the submenu.`, this.shallowFocusedItemElement.subMenuElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the submenu.`, this.shallowFocusedItemElement.subMenuElement)
           this.shallowFocusedItemElement.subMenuElement.expand()
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Marking the menu as expanded.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Marking the menu as expanded.`)
           this.expand()
 
           break
         }
 
         if (this.shallowFocusedItemElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Clicking the focused item.`, this.shallowFocusedItemElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the focused item.`, this.shallowFocusedItemElement)
           this.shallowFocusedItemElement.click()
         }
 
@@ -392,10 +396,10 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
         }
 
         if (this.buttonElement && this.subMenuElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Collapsing the submenu.`, this.subMenuElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Collapsing the submenu.`, this.subMenuElement)
           this.subMenuElement.collapse()
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Marking the menu as collapsed.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Marking the menu as collapsed.`)
           this.collapse()
         }
 
@@ -406,7 +410,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
         item = this.shallowItemElements[0]
         if (!item) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Focusing the first item.`, item)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first item.`, item)
         item.focus()
 
         break
@@ -417,7 +421,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
         item = this.shallowItemElements[this.shallowItemElements.length - 1]
         if (!item) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Focusing the last item.`, item)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last item.`, item)
         item.focus()
 
         break
@@ -453,8 +457,8 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
   }
 
   onTypeaheadMatch = (item: AriaMenuItemElement) => {
+    ElementLogger.verbose(this.uid, 'onTypeaheadMatch', `Focusing the matched item.`, item)
     item.focus()
-    ElementLogger.verbose(this.uid, 'onMatch', `The matched item has been focused.`)
   }
 
   collapse(): void {
@@ -547,13 +551,15 @@ class AriaMenuButtonElement<E extends AriaMenuButtonElementEventMap = AriaMenuBu
   protected arai: AriaMenuButtonController = new AriaMenuButtonController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaMenuElement
 
   /**
-   * INTERNAL
+   * Internals
    */
+  /** */
   mouseEntered?: boolean
 
   connectedCallback(): void {
@@ -667,21 +673,24 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
   protected aria: AriaMenuItemController = new AriaMenuItemController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   focused?: boolean
   headline?: string
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   anchorElement?: HTMLAnchorElement
   rootElement!: AriaMenuElement
   subMenuElement?: AriaMenuSubMenuElement
 
   /**
-   * INTERNAL
+   * Internals
    */
+  /** */
   mouseEntered?: boolean
 
   connectedCallback(): void {
@@ -916,13 +925,15 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
   protected aria: AriaMenuSubMenuController = new AriaMenuSubMenuController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   expanded?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   itemElements!: AriaMenuItemElement[]
   parentItemElement?: AriaMenuItemElement
   parentSubMenuElement?: AriaMenuSubMenuElement
@@ -961,7 +972,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
           item = this.shallowItemElements[0]
           if (!item) break
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the first item.`, item)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first item.`, item)
           item.focus()
 
           break
@@ -970,7 +981,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
         item = this.shallowItemElements[this.shallowFocusedItemElementIndex + 1]
         if (!item) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the next item.`, item)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the next item.`, item)
         item.focus()
 
         break
@@ -982,7 +993,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
           item = this.shallowItemElements[this.shallowItemElements.length - 1]
           if (!item) break
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the last item.`, item)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last item.`, item)
           item.focus()
 
           break
@@ -991,7 +1002,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
         item = this.shallowItemElements[this.shallowFocusedItemElementIndex - 1]
         if (!item) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the previous item.`, item)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the previous item.`, item)
         item.focus()
 
         break
@@ -1005,11 +1016,11 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
           event.preventDefault()
           event.stopPropagation()
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `Collapsing the submenu.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Collapsing the submenu.`)
           this.collapse()
 
           if (this.parentItemElement) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `Focusing the parent item.`)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the parent item.`)
             this.parentItemElement.focus()
           }
         }
@@ -1032,52 +1043,46 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
           event.preventDefault()
           event.stopPropagation()
 
-          ElementLogger.verbose(
-            this.uid,
-            'onKeyDown',
-            'ARROW_RIGHT or ENTER or SPACE',
-            `Expanding the focused item submenu.`,
-            this.shallowFocusedItemElement.subMenuElement
-          )
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the focused item submenu.`, this.shallowFocusedItemElement.subMenuElement)
           this.shallowFocusedItemElement.subMenuElement.expand()
 
           item = this.shallowFocusedItemElement.subMenuElement.shallowItemElements[0]
           if (!item) break
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT or ENTER or SPACE', `Focusing the first item.`, item)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first item.`, item)
           item.focus()
 
           break
         }
 
         if (event.key !== KeyboardEventKey.ARROW_RIGHT && this.shallowFocusedItemElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT or ENTER or SPACE', `Clicking the focused item.`, this.shallowFocusedItemElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the focused item.`, this.shallowFocusedItemElement)
           this.shallowFocusedItemElement.click()
         }
 
         break
       }
       case KeyboardEventKey.ESCAPE:
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Collapsing the submenu.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Collapsing the submenu.`)
         this.collapse()
 
         if (this.shallow && this.rootElement.buttonElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Marking the menu as collapsed.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Marking the menu as collapsed.`)
           this.rootElement.collapse()
 
           if (this.rootElement.focusedItemElement) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Blurring the focused item.`, this.rootElement.focusedItemElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Blurring the focused item.`, this.rootElement.focusedItemElement)
             this.rootElement.focusedItemElement.blur()
           }
 
           this.rootElement.buttonElement.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The button has been focused.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The button has been focused.`)
 
           break
         }
 
         if (this.parentItemElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Focusing the parent item.`, this.parentItemElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the parent item.`, this.parentItemElement)
           this.parentItemElement.focus()
         }
 
@@ -1088,7 +1093,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
         item = this.shallowItemElements[0]
         if (!item) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Focusing the first item.`, item)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first item.`, item)
         item.focus()
 
         break
@@ -1099,7 +1104,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
         item = this.shallowItemElements[this.shallowItemElements.length - 1]
         if (!item) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Focusing the last item.`, item)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last item.`, item)
         item.focus()
 
         break

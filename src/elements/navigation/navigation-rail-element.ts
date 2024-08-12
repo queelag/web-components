@@ -13,7 +13,7 @@ declare global {
 
 class NavigationRailElement<E extends NavigationRailElementEventMap = NavigationRailElementEventMap, T = any> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   items?: T[]
 
@@ -28,7 +28,7 @@ class NavigationRailElement<E extends NavigationRailElementEventMap = Navigation
 
 class NavigationRailItemElement<E extends NavigationRailItemElementEventMap = NavigationRailItemElementEventMap> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   active?: boolean
   badge?: boolean

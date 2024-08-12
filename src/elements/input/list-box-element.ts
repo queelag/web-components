@@ -13,7 +13,7 @@ declare global {
 
 class ListBoxElement<E extends ListBoxElementEventMap = ListBoxElementEventMap, T = any> extends AriaListBoxElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   options?: T[]
 
@@ -30,7 +30,7 @@ class ListBoxElement<E extends ListBoxElementEventMap = ListBoxElementEventMap, 
 
 class ListBoxOptionElement<E extends ListBoxOptionElementEventMap = ListBoxOptionElementEventMap> extends AriaListBoxOptionElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   headline?: string
   leadingIcon?: string

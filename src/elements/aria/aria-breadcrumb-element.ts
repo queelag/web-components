@@ -34,13 +34,15 @@ class AriaBreadcrumbItemElement<E extends AriaBreadcrumbItemElementEventMap = Ar
   protected aria: AriaBreadcrumbItemController = new AriaBreadcrumbItemController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   current?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   anchorElement!: HTMLAnchorElement
 
   get name(): ElementName {

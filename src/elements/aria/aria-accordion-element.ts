@@ -18,6 +18,7 @@ import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { HeadingLevel } from '../../definitions/types.js'
 import { AccordionSectionCollapseEvent } from '../../events/accordion-section-collapse-event.js'
 import { AccordionSectionExpandEvent } from '../../events/accordion-section-expand-event.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -33,13 +34,15 @@ declare global {
 
 class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaAccordionElementEventMap> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   allowOnlyOneExpandedSection?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   buttonElements!: AriaAccordionButtonElement[]
   expandedSectionElements!: AriaAccordionSectionElement[]
 
@@ -70,52 +73,82 @@ class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaAccordio
     switch (event.key) {
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.SPACE:
-        ElementLogger.verbose(this.uid, 'onKeyDown', `Clicking the focused button element.`, this.focusedButtonElement)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the focused button element.`, this.focusedButtonElement)
         this.focusedButtonElement?.click()
 
         break
-      case KeyboardEventKey.ARROW_DOWN:
+      case KeyboardEventKey.ARROW_DOWN: {
+        let button: AriaAccordionButtonElement | undefined
+
         if (this.focusedButtonElementIndex < 0) {
-          return ElementLogger.verbose(this.uid, 'onKeyDown', `No button is focused.`)
+          return ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `No button is focused.`)
         }
 
         if (this.focusedButtonElementIndex >= this.buttonElements.length - 1) {
-          this.buttonElements[0]?.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The first button has been focused.`, this.buttonElements[0])
+          button = this.buttonElements[0]
+          if (!button) break
+
+          button.focus()
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The first button has been focused.`, button)
 
           break
         }
 
-        this.buttonElements[this.focusedButtonElementIndex + 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The next header button has been focused.`, this.buttonElements[this.focusedButtonElementIndex + 1])
+        button = this.buttonElements[this.focusedButtonElementIndex + 1]
+        if (!button) break
+
+        button.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The next button has been focused.`, button)
 
         break
-      case KeyboardEventKey.ARROW_UP:
+      }
+      case KeyboardEventKey.ARROW_UP: {
+        let button: AriaAccordionButtonElement | undefined
+
         if (this.focusedButtonElementIndex < 0) {
-          return ElementLogger.verbose(this.uid, 'onKeyDown', `No button is focused.`)
+          return ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `No button is focused.`)
         }
 
         if (this.focusedButtonElementIndex === 0) {
-          this.buttonElements[this.buttonElements.length - 1]?.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The last header button has been focused.`, this.buttonElements[this.buttonElements.length - 1])
+          button = this.buttonElements[this.buttonElements.length - 1]
+          if (!button) break
+
+          button.focus()
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The last button has been focused.`, button)
 
           break
         }
 
-        this.buttonElements[this.focusedButtonElementIndex - 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The previous header button has been focused.`, this.buttonElements[this.focusedButtonElementIndex - 1])
+        button = this.buttonElements[this.focusedButtonElementIndex - 1]
+        if (!button) break
+
+        button.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The previous header button has been focused.`, button)
 
         break
-      case KeyboardEventKey.HOME:
-        this.buttonElements[0]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The first header button has been focused.`, this.buttonElements[0])
+      }
+      case KeyboardEventKey.HOME: {
+        let button: AriaAccordionButtonElement | undefined
+
+        button = this.buttonElements[0]
+        if (!button) break
+
+        button.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The first button has been focused.`, button)
 
         break
-      case KeyboardEventKey.END:
-        this.buttonElements[this.buttonElements.length - 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The last header button has been focused.`, this.buttonElements[this.buttonElements.length - 1])
+      }
+      case KeyboardEventKey.END: {
+        let button: AriaAccordionButtonElement | undefined
+
+        button = this.buttonElements[this.buttonElements.length - 1]
+        if (!button) break
+
+        button.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The last button has been focused.`, button)
 
         break
+      }
     }
   }
 
@@ -152,14 +185,16 @@ class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEventMap 
   protected aria: AriaAccordionSectionController = new AriaAccordionSectionController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   expanded?: boolean
   uncollapsible?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   buttonElement?: AriaAccordionButtonElement
   panelElement?: AriaAccordionPanelElement
 
@@ -173,7 +208,7 @@ class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEventMap 
 
   collapse(): void {
     if (this.uncollapsible) {
-      return ElementLogger.verbose(this.uid, 'collapse', `The section is not collapsible.`)
+      return ElementLogger.warn(this.uid, 'collapse', `The section is not collapsible.`)
     }
 
     this.expanded = false
@@ -214,8 +249,9 @@ class AriaAccordionHeaderElement<E extends AriaAccordionHeaderElementEventMap = 
   protected aria: AriaAccordionHeaderController = new AriaAccordionHeaderController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   level?: HeadingLevel
 
   get name(): ElementName {
@@ -231,8 +267,9 @@ class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = 
   protected aria: AriaAccordionButtonController = new AriaAccordionButtonController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaAccordionElement
   sectionElement!: AriaAccordionSectionElement
 
@@ -259,6 +296,10 @@ class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = 
       let expanded: boolean = Boolean(this.sectionElement.expanded)
 
       for (let section of this.rootElement.expandedSectionElements) {
+        if (section.uncollapsible) {
+          continue
+        }
+
         ElementLogger.verbose(this.uid, 'onClick', `Collapsing a section.`, section)
         section.collapse()
       }
@@ -280,7 +321,7 @@ class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = 
     event.preventDefault()
     event.stopPropagation()
 
-    ElementLogger.verbose(this.uid, 'onKeyDown', `Clicking the button.`)
+    ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the button.`)
     this.onClick()
   }
 
@@ -310,8 +351,9 @@ class AriaAccordionPanelElement<E extends AriaAccordionPanelElementEventMap = Ar
   protected aria: AriaAccordionPanelController = new AriaAccordionPanelController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   sectionElement!: AriaAccordionSectionElement
 
   get name(): ElementName {

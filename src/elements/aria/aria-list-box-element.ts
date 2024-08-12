@@ -8,6 +8,7 @@ import type { AriaListBoxElementEventMap, AriaListBoxOptionElementEventMap } fro
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { ListBoxOptionSelectEvent } from '../../events/list-box-option-select-event.js'
 import { ListBoxOptionUnselectEvent } from '../../events/list-box-option-unselect-event.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
@@ -23,8 +24,9 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
   protected aria: AriaListBoxController = new AriaListBoxController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   multiple?: boolean
   selectFirstOptionOnFocus?: boolean
   selectionFollowsFocus?: boolean
@@ -32,8 +34,9 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
   typeaheadPredicate?: TypeaheadPredicate<AriaListBoxOptionElement>
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   focusedOptionElement?: AriaListBoxOptionElement
   optionElements!: AriaListBoxOptionElement[]
   selectedOptionElement?: AriaListBoxOptionElement
@@ -55,24 +58,33 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
   }
 
   onBlur = (): void => {
-    this.focusedOptionElement?.blur()
-    ElementLogger.verbose(this.uid, 'onBlur', `The focused option has been blurred.`)
+    if (!this.focusedOptionElement) {
+      return
+    }
+
+    ElementLogger.verbose(this.uid, 'onBlur', `Blurring the focused option.`, this.focusedOptionElement)
+    this.focusedOptionElement.blur()
   }
 
   onFocus = (): void => {
+    let option: AriaListBoxOptionElement | undefined
+
     if (this.selectedOptionElement) {
+      ElementLogger.verbose(this.uid, 'onFocus', `Focusing the selected option.`, this.selectedOptionElement)
       this.selectedOptionElement.focus()
-      ElementLogger.verbose(this.uid, 'onFocus', `The selected option has been focused.`)
 
       return
     }
 
-    this.optionElements[0]?.focus()
-    ElementLogger.verbose(this.uid, 'onFocus', `The first option has been focused.`)
+    option = this.optionElements.find((element: AriaListBoxOptionElement) => element.selected)
+    if (!option) return
+
+    ElementLogger.verbose(this.uid, 'onFocus', `Focusing the first option.`, option)
+    option.focus()
 
     if (this.selectFirstOptionOnFocus && this.single) {
-      this.optionElements[0]?.select()
-      ElementLogger.verbose(this.uid, 'onFocus', `The first option has been selected.`)
+      ElementLogger.verbose(this.uid, 'onFocus', `Selecting the first option.`, option)
+      option.select()
     }
   }
 
@@ -99,10 +111,14 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
       case KeyboardEventKey.ARROW_UP:
       case KeyboardEventKey.END:
       case KeyboardEventKey.HOME:
-        this.focusedOptionElement?.blur()
+        if (this.focusedOptionElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Blurring the focused option.`, this.focusedOptionElement)
+          this.focusedOptionElement.blur()
+        }
 
-        if (this.selectionFollowsFocus && this.single) {
-          this.selectedOptionElement?.unselect()
+        if (this.selectionFollowsFocus && this.single && this.selectedOptionElement) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Unselecting the selected option.`, this.selectedOptionElement)
+          this.selectedOptionElement.unselect()
         }
 
         break
@@ -115,98 +131,154 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
         }
 
         if (this.optionElements.every((element: AriaListBoxOptionElement) => element.selected)) {
-          for (let element of this.optionElements) {
-            element.unselect()
+          for (let option of this.optionElements) {
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Unselecting an option.`, option)
+            option.unselect()
           }
-          ElementLogger.verbose(this.uid, 'onKeyDown', `Every option has been unselected.`)
 
           break
         }
 
-        for (let element of this.optionElements) {
-          element.select()
+        for (let option of this.optionElements) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Selecting an option.`, option)
+          option.select()
         }
-        ElementLogger.verbose(this.uid, 'onKeyDown', `Every option has been selected.`)
 
         break
       case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_RIGHT:
+      case KeyboardEventKey.ARROW_RIGHT: {
+        let option: AriaListBoxOptionElement | undefined
+
         if (this.focusedOptionElementIndex >= this.optionElements.length - 1) {
-          this.optionElements[0]?.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The first option has been focused.`)
+          option = this.optionElements[0]
+          if (!option) break
+
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first option.`, option)
+          option.focus()
 
           if (this.selectionFollowsFocus && this.single) {
-            this.optionElements[0]?.select()
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Selecting the first option.`, option)
+            option.select()
           }
 
           break
         }
 
-        this.optionElements[this.focusedOptionElementIndex + 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The next option has been focused.`)
+        option = this.optionElements[this.focusedOptionElementIndex + 1]
 
-        if (this.selectionFollowsFocus && this.single) {
-          this.optionElements[this.focusedOptionElementIndex + 1]?.select()
+        if (option) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the next option.`, option)
+          option.focus()
+
+          if (this.selectionFollowsFocus && this.single) {
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Selecting the next option.`, option)
+            option.select()
+          }
         }
 
-        if (this.multiple && event.ctrlKey && this.focusedOptionElement) {
-          this.focusedOptionElement.selected = !this.focusedOptionElement.selected
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The next option has been selected.`)
+        option = this.focusedOptionElement
+        if (!option) break
+
+        if (this.multiple && event.ctrlKey) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `${option.selected ? 'Unselecting' : 'Selecting'} the focused option.`, option)
+          option.toggle()
         }
 
         break
+      }
       case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.ARROW_LEFT:
+      case KeyboardEventKey.ARROW_LEFT: {
+        let option: AriaListBoxOptionElement | undefined
+
         if (this.focusedOptionElementIndex <= 0) {
-          this.optionElements[this.optionElements.length - 1]?.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The last option has been focused.`)
+          option = this.optionElements[this.optionElements.length - 1]
+          if (!option) break
+
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last option.`, option)
+          option.focus()
 
           if (this.selectionFollowsFocus && this.single) {
-            this.optionElements[this.optionElements.length - 1]?.select()
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Selecting the last option.`, option)
+            option.select()
           }
 
           break
         }
 
-        this.optionElements[this.focusedOptionElementIndex - 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The previous option has been focused.`)
+        option = this.optionElements[this.focusedOptionElementIndex - 1]
 
-        if (this.selectionFollowsFocus && this.single) {
-          this.optionElements[this.focusedOptionElementIndex - 1]?.select()
+        if (option) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the previous option.`, option)
+          option.focus()
+
+          if (this.selectionFollowsFocus && this.single) {
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Selecting the previous option.`, option)
+            option.select()
+          }
         }
 
-        if (this.multiple && event.ctrlKey && this.focusedOptionElement) {
-          this.focusedOptionElement.selected = !this.focusedOptionElement.selected
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The previous option has been selected.`)
+        option = this.focusedOptionElement
+        if (!option) break
+
+        if (this.multiple && event.ctrlKey) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `${option.selected ? 'Unselecting' : 'Selecting'} the focused option.`, option)
+          option.toggle()
         }
 
         break
-      case KeyboardEventKey.END:
-        this.optionElements[this.optionElements.length - 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The last option has been focused.`)
+      }
+      case KeyboardEventKey.END: {
+        let option: AriaListBoxOptionElement | undefined
+
+        option = this.optionElements[this.optionElements.length - 1]
+
+        if (option) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last option.`, option)
+          option.focus()
+        }
 
         if (this.multiple && event.ctrlKey && event.shiftKey) {
           for (let i = this.focusedOptionElementIndex; i < this.optionElements.length; i++) {
-            this.optionElements[i]?.select()
+            option = this.optionElements[i]
+            if (!option) continue
+
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Selecting an option.`, option)
+            option.select()
           }
-          ElementLogger.verbose(this.uid, 'onKeyDown', `Every option from the focused one to the last one has been selected.`)
         }
 
         break
-      case KeyboardEventKey.HOME:
-        this.optionElements[0]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The first option has been focused.`)
+      }
+      case KeyboardEventKey.HOME: {
+        let option: AriaListBoxOptionElement | undefined
+
+        option = this.optionElements[0]
+
+        if (option) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first option.`, option)
+          option.focus()
+        }
 
         if (this.multiple && event.ctrlKey && event.shiftKey) {
           for (let i = 0; i < this.focusedOptionElementIndex; i++) {
-            this.optionElements[i]?.select()
+            option = this.optionElements[i]
+            if (!option) continue
+
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Selecting an option.`, option)
+            option.select()
           }
-          ElementLogger.verbose(this.uid, 'onKeyDown', `Every option from the first one to the focused one has been selected.`)
         }
 
         break
+      }
       case KeyboardEventKey.SPACE:
-        this.focusedOptionElement?.click()
+        if (!this.focusedOptionElement) {
+          break
+        }
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the focused option.`, this.focusedOptionElement)
+        this.focusedOptionElement.click()
+
         break
       default:
         if (event.key.length !== 1 || event.altKey || event.ctrlKey || event.metaKey) {
@@ -228,10 +300,13 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
   }
 
   onTypeaheadMatch = (element: AriaListBoxOptionElement) => {
-    this.focusedOptionElement?.blur()
+    if (this.focusedOptionElement) {
+      ElementLogger.verbose(this.uid, 'onTypeaheadMatch', `Blurring the focused option.`, this.focusedOptionElement)
+      this.focusedOptionElement.blur()
+    }
 
+    ElementLogger.verbose(this.uid, 'onTypeaheadMatch', `Focusing the matched option.`, element)
     element.focus()
-    ElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
   }
 
   isOptionElementFocused(element: AriaListBoxOptionElement): boolean {
@@ -289,15 +364,17 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
   protected aria: AriaListBoxOptionController = new AriaListBoxOptionController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   focused?: boolean
   selected?: boolean
   value?: any
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaListBoxElement
 
   connectedCallback(): void {
@@ -316,21 +393,27 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
 
   onClick = (): void => {
     if (this.rootElement.single) {
-      this.rootElement.selectedOptionElement?.unselect()
+      if (this.rootElement.selectedOptionElement) {
+        ElementLogger.verbose(this.uid, 'onClick', `Unselecting the selected option.`, this.rootElement.selectedOptionElement)
+        this.rootElement.selectedOptionElement.unselect()
+      }
 
+      ElementLogger.verbose(this.uid, 'onClick', `Selecting the option.`)
       this.select()
-      ElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
     }
 
     if (this.rootElement.multiple) {
-      this.selected = !this.selected
-      ElementLogger.verbose(this.uid, 'onClick', `The option has been ${this.selected ? 'selected' : 'unselected'}.`)
+      ElementLogger.verbose(this.uid, 'onClick', `${this.selected ? 'Unselecting' : 'Selecting'} the option.`)
+      this.toggle()
     }
 
-    this.rootElement.focusedOptionElement?.blur()
+    if (this.rootElement.focusedOptionElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Blurring the focused option.`, this.rootElement.focusedOptionElement)
+      this.rootElement.focusedOptionElement.blur()
+    }
 
+    ElementLogger.verbose(this.uid, 'onClick', `Focusing the option.`)
     this.focus()
-    ElementLogger.verbose(this.uid, 'onClick', `The option has been focused.`)
   }
 
   onMouseDown = (event: MouseEvent): void => {
@@ -342,6 +425,7 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
     ElementLogger.verbose(this.uid, 'blur', `The option has been blurred.`)
 
     this.dispatchEvent(new FocusEvent('blur'))
+    ElementLogger.verbose(this.uid, 'blur', `The "blur" event has been dispatched.`)
   }
 
   focus(options?: FocusOptions | null): void {
@@ -349,6 +433,15 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
     ElementLogger.verbose(this.uid, 'focus', `The option has been focused.`)
 
     this.dispatchEvent(new FocusEvent('focus'))
+    ElementLogger.verbose(this.uid, 'focus', `The "focus" event has been dispatched.`)
+  }
+
+  toggle(): void {
+    if (this.selected) {
+      return this.unselect()
+    }
+
+    this.select()
   }
 
   select(): void {

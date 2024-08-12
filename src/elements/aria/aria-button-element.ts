@@ -17,8 +17,9 @@ class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonElementE
   protected aria: AriaButtonController = new AriaButtonController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   disabled?: boolean
   native?: boolean
   pressed?: ButtonPressed

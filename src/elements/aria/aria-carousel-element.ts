@@ -33,6 +33,7 @@ import { CarouselSlideActivateEvent } from '../../events/carousel-slide-activate
 import { CarouselSlideDeactivateEvent } from '../../events/carousel-slide-deactivate-event.js'
 import { CarouselTabActivateEvent } from '../../events/carousel-tab-activate-event.js'
 import { CarouselTabDeactivateEvent } from '../../events/carousel-tab-deactivate-event.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaAriaButtonElement as AriaButtonElement } from './aria-button-element.js'
@@ -54,16 +55,18 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
   protected aria: AriaCarouselController = new AriaCarouselController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   automaticRotation?: boolean
   automaticRotationIntervalTime?: number
   infiniteRotation?: boolean
   reverseRotation?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   activeSlideElement?: AriaCarouselSlideElement
   activeTabElement?: AriaCarouselSlideElement
   rotationControlElement?: AriaCarouselRotationControlElement
@@ -73,13 +76,15 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
   tabsElement?: AriaCarouselTabsElement
 
   /**
-   * INTERNAL
+   * Internals
    */
+  /** */
   forceAutomaticRotation?: boolean
 
   /**
-   * STATES
+   * States
    */
+  /** */
   temporaryLive?: AriaLive
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -195,9 +200,7 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
   }
 
   activateNextSlide(): void {
-    if (this.slideElements.length <= 0) {
-      return ElementLogger.verbose(this.uid, 'activateNextSlide', `There are no slides.`)
-    }
+    let slide: AriaCarouselSlideElement | undefined, tab: AriaCarouselTabElement | undefined
 
     if (this.activeSlideElementIndex >= this.slideElements.length - 1) {
       if (!this.infiniteRotation) {
@@ -214,15 +217,19 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
         this.activeTabElement.deactivate()
       }
 
-      ElementLogger.verbose(this.uid, 'activateNextSlide', `Activating the first slide.`, this.slideElements[0])
-      this.slideElements[0]?.activate()
+      slide = this.slideElements[0]
 
-      if (this.tabElements.length <= 0) {
-        return ElementLogger.verbose(this.uid, 'activateNextSlide', `There are no tabs.`)
+      if (slide) {
+        ElementLogger.verbose(this.uid, 'activateNextSlide', `Activating the first slide.`, slide)
+        slide.activate()
       }
 
-      ElementLogger.verbose(this.uid, 'activateNextSlide', `Activating the first tab.`, this.tabElements[0])
-      this.tabElements[0]?.activate()
+      tab = this.tabElements[0]
+
+      if (tab) {
+        ElementLogger.verbose(this.uid, 'activateNextSlide', `Activating the first tab.`, tab)
+        tab.activate()
+      }
 
       return
     }
@@ -237,21 +244,23 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
       this.activeTabElement.deactivate()
     }
 
-    ElementLogger.verbose(this.uid, 'activateNextSlide', `Activating the next slide.`, this.slideElements[this.activeSlideElementIndex + 1])
-    this.slideElements[this.activeSlideElementIndex + 1]?.activate()
+    slide = this.slideElements[this.activeSlideElementIndex + 1]
 
-    if (this.tabElements.length <= 0) {
-      return ElementLogger.verbose(this.uid, 'activateNextSlide', `There are no tabs.`)
+    if (slide) {
+      ElementLogger.verbose(this.uid, 'activateNextSlide', `Activating the next slide.`, slide)
+      slide.activate()
     }
 
-    ElementLogger.verbose(this.uid, 'activateNextSlide', `Activating the next tab.`, this.tabElements[this.activeSlideElementIndex + 1])
-    this.tabElements[this.activeSlideElementIndex + 1]?.activate()
+    tab = this.tabElements[this.activeSlideElementIndex + 1]
+
+    if (tab) {
+      ElementLogger.verbose(this.uid, 'activateNextSlide', `Activating the next tab.`, tab)
+      tab.activate()
+    }
   }
 
   activatePreviousSlide(): void {
-    if (this.slideElements.length <= 0) {
-      return ElementLogger.verbose(this.uid, 'activatePreviousSlide', `There are no slides.`)
-    }
+    let slide: AriaCarouselSlideElement | undefined, tab: AriaCarouselTabElement | undefined
 
     if (this.activeSlideElementIndex <= 0) {
       if (!this.infiniteRotation) {
@@ -268,15 +277,19 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
         this.activeTabElement.deactivate()
       }
 
-      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Activating the last slide.`, this.slideElements[this.slideElements.length - 1])
-      this.slideElements[this.slideElements.length - 1]?.activate()
+      slide = this.slideElements[this.slideElements.length - 1]
 
-      if (this.tabElements.length <= 0) {
-        return ElementLogger.verbose(this.uid, 'activatePreviousSlide', `There are no tabs.`)
+      if (slide) {
+        ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Activating the last slide.`, slide)
+        slide.activate()
       }
 
-      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Activating the last tab.`, this.tabElements[this.tabElements.length - 1])
-      this.tabElements[this.tabElements.length - 1]?.activate()
+      tab = this.tabElements[this.tabElements.length - 1]
+
+      if (tab) {
+        ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Activating the last tab.`, tab)
+        tab.activate()
+      }
 
       return
     }
@@ -291,15 +304,19 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
       this.activeTabElement.deactivate()
     }
 
-    ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Activating the previous slide.`, this.slideElements[this.activeSlideElementIndex - 1])
-    this.slideElements[this.activeSlideElementIndex - 1]?.activate()
+    slide = this.slideElements[this.activeSlideElementIndex - 1]
 
-    if (this.tabElements.length <= 0) {
-      return ElementLogger.verbose(this.uid, 'activatePreviousSlide', `There are no tabs.`)
+    if (slide) {
+      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Activating the previous slide.`, slide)
+      slide.activate()
     }
 
-    ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Activating the previous tab.`, this.tabElements[this.activeSlideElementIndex - 1])
-    this.tabElements[this.activeSlideElementIndex - 1]?.activate()
+    tab = this.tabElements[this.activeSlideElementIndex - 1]
+
+    if (tab) {
+      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `Activating the previous tab.`, tab)
+      tab.activate()
+    }
   }
 
   get activeSlideElementIndex(): number {
@@ -351,8 +368,9 @@ class AriaCarouselSlidesElement<E extends AriaCarouselSlidesElementEventMap = Ar
   protected aria: AriaCarouselSlidesController = new AriaCarouselSlidesController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaCarouselElement
 
   get name(): ElementName {
@@ -368,13 +386,15 @@ class AriaCarouselSlideElement<E extends AriaCarouselSlideElementEventMap = Aria
   protected aria: AriaCarouselSlideController = new AriaCarouselSlideController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   active?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaCarouselElement
   slidesElement!: AriaCarouselSlidesElement
 
@@ -420,8 +440,9 @@ class AriaCarouselRotationControlElement<
   protected aria2: AriaCarouselRotationControlController = new AriaCarouselRotationControlController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaCarouselElement
 
   onClick(): void {
@@ -475,8 +496,9 @@ class AriaCarouselNextSlideControlElement<
   protected aria2: AriaCarouselNextSlideControlController = new AriaCarouselNextSlideControlController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaCarouselElement
 
   onClick(): void {
@@ -499,8 +521,9 @@ class AriaCarouselPreviousSlideControlElement<
   protected aria2: AriaCarouselPreviousSlideControlController = new AriaCarouselPreviousSlideControlController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaCarouselElement
 
   onClick(): void {
@@ -521,8 +544,9 @@ class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap = AriaCa
   protected aria: AriaCarouselTabsController = new AriaCarouselTabsController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   activeTabElement?: AriaCarouselTabElement
   focusedTabElement?: AriaCarouselTabElement
   rootElement!: AriaCarouselElement
@@ -550,57 +574,75 @@ class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap = AriaCa
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT', `Activating the previous slide.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Activating the previous slide.`)
         this.rootElement.activatePreviousSlide()
 
         break
       case KeyboardEventKey.ARROW_RIGHT:
         this.rootElement.activateNextSlide()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT', `Activating the next slide.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Activating the next slide.`)
 
         break
-      case KeyboardEventKey.END:
+      case KeyboardEventKey.END: {
+        let tab: AriaCarouselTabElement | undefined, slide: AriaCarouselSlideElement | undefined
+
         if (this.activeTabElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Deactivating the active tab.`, this.activeTabElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Deactivating the active tab.`, this.activeTabElement)
           this.activeTabElement.deactivate()
         }
 
         if (this.rootElement.activeSlideElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Deactivating the active slide.`, this.rootElement.activeSlideElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Deactivating the active slide.`, this.rootElement.activeSlideElement)
           this.rootElement.activeSlideElement.deactivate()
         }
 
-        this.tabElements[this.tabElements.length - 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last tab has been focused.`, this.tabElements[this.tabElements.length - 1])
+        tab = this.tabElements[this.tabElements.length - 1]
+        if (!tab) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Activating the last tab.`, this.tabElements[this.tabElements.length - 1])
-        this.tabElements[this.tabElements.length - 1]?.activate()
+        tab.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The last tab has been focused.`, tab)
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Activating the last slide.`, this.rootElement.slideElements[this.tabElements.length - 1])
-        this.rootElement.slideElements[this.tabElements.length - 1]?.activate()
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Activating the last tab.`, tab)
+        tab.activate()
+
+        slide = this.rootElement.slideElements[this.tabElements.length - 1]
+        if (!slide) break
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Activating the last slide.`, slide)
+        slide.activate()
 
         break
-      case KeyboardEventKey.HOME:
+      }
+      case KeyboardEventKey.HOME: {
+        let tab: AriaCarouselTabElement | undefined, slide: AriaCarouselSlideElement | undefined
+
         if (this.activeTabElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Deactivating the active tab.`, this.activeTabElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Deactivating the active tab.`, this.activeTabElement)
           this.activeTabElement.deactivate()
         }
 
         if (this.rootElement.activeSlideElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Deactivating the active slide.`, this.rootElement.activeSlideElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Deactivating the active slide.`, this.rootElement.activeSlideElement)
           this.rootElement.activeSlideElement.deactivate()
         }
 
-        this.tabElements[0]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first tab has been focused.`, this.tabElements[0])
+        tab = this.tabElements[0]
+        if (!tab) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Activating the first tab.`, this.tabElements[0])
-        this.tabElements[0]?.activate()
+        tab.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The first tab has been focused.`, tab)
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Activating the first slide.`, this.rootElement.slideElements[0])
-        this.rootElement.slideElements[0]?.activate()
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Activating the first tab.`, tab)
+        tab.activate()
+
+        slide = this.rootElement.slideElements[0]
+        if (!slide) break
+
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Activating the first slide.`, slide)
+        slide.activate()
 
         break
+      }
     }
   }
 
@@ -624,13 +666,15 @@ class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = AriaCaro
   protected aria: AriaCarouselTabController = new AriaCarouselTabController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   active?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaCarouselElement
   tabsElement!: AriaCarouselTabsElement
 

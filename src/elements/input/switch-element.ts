@@ -13,7 +13,7 @@ declare global {
 
 class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventMap> extends AriaSwitchElement<E> {
   /**
-   * QUERIES
+   * Queries
    */
   inputElement!: HTMLInputElement
 

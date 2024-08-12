@@ -13,7 +13,7 @@ declare global {
 
 class ListElement<E extends ListElementEventMap = ListElementEventMap, T = any> extends AriaListElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   items?: T[]
 
@@ -36,7 +36,7 @@ class ListElement<E extends ListElementEventMap = ListElementEventMap, T = any> 
 
 class ListItemElement<E extends ListItemElementEventMap = ListItemElementEventMap> extends AriaListItemElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   headline?: string
   leadingIcon?: string

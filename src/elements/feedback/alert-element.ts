@@ -13,7 +13,7 @@ declare global {
 
 class AlertElement<E extends AlertElementEventMap = AlertElementEventMap> extends AriaAlertElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   closable?: boolean
   headline?: string

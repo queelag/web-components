@@ -26,7 +26,7 @@ declare global {
 
 class FeedElement<E extends FeedElementEventMap = FeedElementEventMap, T = any> extends AriaFeedElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   articles?: T[]
 
@@ -46,7 +46,7 @@ class FeedElement<E extends FeedElementEventMap = FeedElementEventMap, T = any> 
 
 class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArticleElementEventMap, T = any> extends AriaFeedArticleElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   buttons?: T[]
   headline?: string

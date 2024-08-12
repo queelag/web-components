@@ -10,7 +10,7 @@ import { AracnaBaseElement as BaseElement } from './base-element.js'
 
 class FormControlElement<E extends FormControlElementEventMap = FormControlElementEventMap> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   disabled?: boolean
   focused?: boolean
@@ -21,12 +21,12 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
   touched?: boolean
 
   /**
-   * STATES
+   * States
    */
   validation?: FormControlElementValidation
 
   /**
-   * INTERNAL
+   * Internals
    */
   protected _schema?: FormControlElementSchema
   protected _target?: FormControlElementTarget

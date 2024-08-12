@@ -3,6 +3,7 @@ import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaLinkController } from '../../controllers/aria-link-controller.js'
 import { ElementName } from '../../definitions/enums.js'
 import type { AriaLinkElementEventMap } from '../../definitions/events.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -16,8 +17,9 @@ class AriaLinkElement<E extends AriaLinkElementEventMap = AriaLinkElementEventMa
   protected aria: AriaLinkController = new AriaLinkController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   href?: string
   target?: string
 
@@ -49,7 +51,7 @@ class AriaLinkElement<E extends AriaLinkElementEventMap = AriaLinkElementEventMa
       return
     }
 
-    ElementLogger.verbose(this.uid, 'onKeyDown', 'SPACE', `Clicking the link.`)
+    ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the link.`)
     this.click()
   }
 

@@ -5,6 +5,7 @@ import { ElementName } from '../../definitions/enums.js'
 import type { AriaCheckBoxElementEventMap } from '../../definitions/events.js'
 import { CheckBoxCheckEvent } from '../../events/check-box-check-event.js'
 import { CheckBoxUncheckEvent } from '../../events/check-box-uncheck-event.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
@@ -18,8 +19,9 @@ class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxEl
   protected aria: AriaCheckBoxController = new AriaCheckBoxController(this)
 
   /**
-   * INTERNAL
+   * Internals
    */
+  /** */
   protected _checked?: boolean
 
   connectedCallback(): void {
@@ -73,7 +75,7 @@ class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxEl
       return ElementLogger.warn(this.uid, 'onKeyDown', `The checkbox is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, 'onKeyDown', `Clicking the checkbox.`)
+    ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the checkbox.`)
     this.onClick()
   }
 

@@ -13,7 +13,7 @@ declare global {
 
 class MeterElement<E extends MeterElementEventMap = MeterElementEventMap> extends AriaMeterElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   low?: number
   high?: number

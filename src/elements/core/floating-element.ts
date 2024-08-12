@@ -21,7 +21,7 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
   protected _referenceElement?: HTMLElement
 
   /**
-   * PROPERTIES
+   * Properties
    */
   ancestorScroll?: boolean
   ancestorResize?: boolean
@@ -34,7 +34,7 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
   strategy?: Strategy
 
   /**
-   * INTERNAL
+   * Internals
    */
   cleanup?: Function
 

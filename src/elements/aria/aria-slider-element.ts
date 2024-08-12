@@ -17,6 +17,7 @@ import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { Orientation } from '../../definitions/types.js'
 import { SliderChangeEvent } from '../../events/slider-change-event.js'
 import { SliderThumbMoveEvent } from '../../events/slider-thumb-move-event.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { getSliderThumbElementPercentage, getSliderThumbElementStyleLeft, getSliderThumbElementStyleTop } from '../../utils/slider-element-utils.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
@@ -33,8 +34,9 @@ class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementE
   protected aria: AriaSliderController = new AriaSliderController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   decimals?: number
   disableSwap?: boolean
   max?: number
@@ -44,8 +46,9 @@ class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementE
   step?: number
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   thumbElements!: [AriaSliderThumbElement] | [AriaSliderThumbElement, AriaSliderThumbElement]
 
   connectedCallback(): void {
@@ -201,20 +204,23 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   protected aria: AriaSliderThumbController = new AriaSliderThumbController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   defaultValue?: number
   disableComputePosition?: boolean
   movable?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaSliderElement
 
   /**
-   * INTERNAL
+   * Internals
    */
+  /** */
   protected _value?: number
 
   connectedCallback(): void {
@@ -281,33 +287,33 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
       case KeyboardEventKey.ARROW_DOWN:
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT or ARROW_DOWN', `Decreasing the value.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Decreasing the value.`, [this.value])
         this.setValue(value - step)
 
         break
       case KeyboardEventKey.ARROW_RIGHT:
       case KeyboardEventKey.ARROW_UP:
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT or ARROW_UP', `Increasing the value.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Increasing the value.`, [this.value])
         this.setValue(value + step)
 
         break
       case KeyboardEventKey.PAGE_DOWN:
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `Decreasing the value.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Decreasing the value.`, [this.value])
         this.setValue(value - step * 10)
 
         break
       case KeyboardEventKey.PAGE_UP:
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `Increasing the value.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Increasing the value.`, [this.value])
         this.setValue(value + step * 10)
 
         break
       case KeyboardEventKey.HOME:
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Setting the value to the min.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Setting the value to the min.`, [this.value])
         this.setValue(min)
 
         break
       case KeyboardEventKey.END:
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Setting the value to the max.`, [this.value])
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Setting the value to the max.`, [this.value])
         this.setValue(max)
 
         break
@@ -322,7 +328,7 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
       case KeyboardEventKey.PAGE_UP:
       case KeyboardEventKey.HOME:
       case KeyboardEventKey.END:
-        ElementLogger.verbose(this.uid, 'onKeyDown', `Computing the thumb position.`)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Computing the position.`)
         this.computePosition()
 
         break

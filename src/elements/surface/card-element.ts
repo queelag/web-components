@@ -12,7 +12,7 @@ declare global {
 
 class CardElement<E extends CardElementEventMap = CardElementEventMap, T = any> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   buttons?: T[]
   headline?: string

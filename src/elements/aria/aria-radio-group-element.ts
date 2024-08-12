@@ -6,6 +6,7 @@ import type { AriaRadioButtonElementEventMap, AriaRadioGroupElementEventMap } fr
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { RadioButtonCheckEvent } from '../../events/radio-button-check-event.js'
 import { RadioButtonUncheckEvent } from '../../events/radio-button-uncheck-event.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
@@ -21,8 +22,9 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
   protected aria: AriaRadioGroupController = new AriaRadioGroupController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   buttonElements!: AriaRadioButtonElement[]
   checkedButtonElement?: AriaRadioButtonElement
   focusedButtonElement?: AriaRadioButtonElement
@@ -74,13 +76,7 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
       case KeyboardEventKey.ARROW_RIGHT:
       case KeyboardEventKey.ARROW_UP:
         if (this.checkedButtonElement) {
-          ElementLogger.verbose(
-            this.uid,
-            'onKeyDown',
-            'ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, or ARROW_UP',
-            `Unchecking the checked button.`,
-            this.checkedButtonElement
-          )
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Unchecking the checked button.`, this.checkedButtonElement)
           this.checkedButtonElement.uncheck()
         }
 
@@ -96,11 +92,11 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
           button = this.buttonElements[0]
           if (!button) break
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `Checking the first button.`, button)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Checking the first button.`, button)
           button.check()
 
           button.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `The first button has been focused.`, button)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The first button has been focused.`, button)
 
           break
         }
@@ -108,11 +104,11 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
         button = this.buttonElements[this.focusedButtonElementIndex + 1]
         if (!button) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `Checking the next button.`, button)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Checking the next button.`, button)
         button.check()
 
         button.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_RIGHT', `The next button has been focused.`, button)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The next button has been focused.`, button)
 
         break
       }
@@ -124,11 +120,11 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
           button = this.buttonElements[this.buttonElements.length - 1]
           if (!button) break
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `Checking the last button.`, button)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Checking the last button.`, button)
           button.check()
 
           button.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `The last button has been focused.`, button)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The last button has been focused.`, button)
 
           break
         }
@@ -136,14 +132,14 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
         button = this.buttonElements[this.focusedButtonElementIndex - 1]
         if (!button) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP or ARROW_LEFT', `Clicking the last button.`, button)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the last button.`, button)
         button.click()
 
         break
       }
       case KeyboardEventKey.SPACE:
         if (this.focusedButtonElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'SPACE', `Checking the focused button.`, this.focusedButtonElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Checking the focused button.`, this.focusedButtonElement)
           this.focusedButtonElement.check()
         }
 
@@ -191,14 +187,16 @@ class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadi
   protected aria: AriaRadioButtonController = new AriaRadioButtonController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   checked?: boolean
   value?: any
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaRadioGroupElement
 
   connectedCallback(): void {

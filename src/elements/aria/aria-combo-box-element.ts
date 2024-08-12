@@ -25,6 +25,7 @@ import { ComboBoxExpandEvent } from '../../events/combo-box-expand-event.js'
 import { ComboBoxOptionSelectEvent } from '../../events/combo-box-option-select-event.js'
 import { ComboBoxOptionUnselectEvent } from '../../events/combo-box-option-unselect-event.js'
 import { StateChangeEvent } from '../../events/state-change-event.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaFloatingElement as FloatingElement } from '../core/floating-element.js'
@@ -45,8 +46,9 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
   protected aria: AriaComboBoxController = new AriaComboBoxController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   autocomplete?: AriaComboBoxElementAutoComplete
   expanded?: boolean
   multiple?: boolean
@@ -57,8 +59,9 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
   typeaheadPredicate?: TypeaheadPredicate<AriaComboBoxOptionElement>
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   buttonElement?: AriaComboBoxButtonElement
   groupElement!: AriaComboBoxGroupElement
   inputElement?: AriaComboBoxInputElement
@@ -90,7 +93,11 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
-    this.listElement?.computePosition()
+
+    if (this.listElement) {
+      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `Computing the list position.`)
+      this.listElement.computePosition()
+    }
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
@@ -125,11 +132,11 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         let option: AriaComboBoxOptionElement | undefined
 
         if (this.collapsed) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_UP', `Expanding the combobox.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the combobox.`)
           this.expand()
 
           if (this.selectedOptionElement) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN or ARROW_UP', `Focusing the selected option.`, this.selectedOptionElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the selected option.`, this.selectedOptionElement)
             this.selectedOptionElement.focus()
 
             return
@@ -139,7 +146,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
             option = this.optionElements[0]
             if (!option) break
 
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the first option.`, option)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first option.`, option)
             option.focus()
           }
 
@@ -147,7 +154,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
             option = this.optionElements[this.optionElements.length - 1]
             if (!option) break
 
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the last option.`, option)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last option.`, option)
             option.focus()
           }
 
@@ -167,27 +174,27 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
             break
           }
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Blurring the focused option element.`, this.focusedOptionElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Blurring the focused option element.`, this.focusedOptionElement)
           this.focusedOptionElement?.blur()
 
           option = this.optionElements[0]
           if (!option) break
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the first option element.`, option)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first option element.`, option)
           option.focus()
 
           break
         }
 
         if (this.focusedOptionElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Blurring the focused option element.`, this.focusedOptionElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Blurring the focused option element.`, this.focusedOptionElement)
           this.focusedOptionElement.blur()
         }
 
         option = this.optionElements[this.focusedOptionElementIndex + 1]
         if (!option) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `Focusing the next option element.`, option)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the next option element.`, option)
         option.focus()
 
         break
@@ -201,28 +208,28 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
           }
 
           if (this.focusedOptionElement) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Blurring the focused option element.`, this.focusedOptionElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Blurring the focused option element.`, this.focusedOptionElement)
             this.focusedOptionElement.blur()
           }
 
           option = this.optionElements[this.optionElements.length - 1]
           if (!option) break
 
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the last option element.`, option)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last option element.`, option)
           option.focus()
 
           break
         }
 
         if (this.focusedOptionElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Blurring the focused option element.`, this.focusedOptionElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Blurring the focused option element.`, this.focusedOptionElement)
           this.focusedOptionElement.blur()
         }
 
         option = this.optionElements[this.focusedOptionElementIndex - 1]
         if (!option) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `Focusing the previous option element.`, option)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the previous option element.`, option)
         option.focus()
 
         break
@@ -231,19 +238,19 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         let option: AriaComboBoxOptionElement | undefined
 
         if (this.focusedOptionElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Blurring the focused option element.`, this.focusedOptionElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Blurring the focused option element.`, this.focusedOptionElement)
           this.focusedOptionElement?.blur()
         }
 
         if (this.collapsed) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Expanding the combobox.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the combobox.`)
           this.expand()
         }
 
         option = this.optionElements[this.optionElements.length - 1]
         if (!option) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `Focusing the last option element.`, option)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the last option element.`, option)
         option.focus()
 
         break
@@ -252,19 +259,19 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         let option: AriaComboBoxOptionElement | undefined
 
         if (this.focusedOptionElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Blurring the focused option element.`, this.focusedOptionElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Blurring the focused option element.`, this.focusedOptionElement)
           this.focusedOptionElement?.blur()
         }
 
         if (this.collapsed) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Expanding the combobox.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the combobox.`)
           this.expand()
         }
 
         option = this.optionElements[0]
         if (!option) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `Focusing the first option element.`, option)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the first option element.`, option)
         option.focus()
 
         break
@@ -276,11 +283,11 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         }
 
         if (this.collapsed) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Expanding the combobox.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the combobox.`)
           this.expand()
 
           if (this.selectedOptionElement) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Focusing the selected option element.`, this.selectedOptionElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the selected option element.`, this.selectedOptionElement)
             this.selectedOptionElement.focus()
           }
 
@@ -288,14 +295,14 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         }
 
         if (this.focusedOptionElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Clicking the focused option element.`, this.focusedOptionElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the focused option element.`, this.focusedOptionElement)
           this.focusedOptionElement.click()
 
           break
         }
 
         if (this.expanded) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `Collapsing the combobox.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Collapsing the combobox.`)
           this.collapse()
         }
 
@@ -307,19 +314,19 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
             case 'inline':
             case 'list':
               if (this.selectedOptionElement) {
-                ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Unselecting the selected option.`, this.selectedOptionElement)
+                ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Unselecting the selected option.`, this.selectedOptionElement)
                 this.selectedOptionElement.unselect()
               }
 
               this.inputElement.value = undefined
-              ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The input value has been reset.`, [this.inputElement.value])
+              ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The input value has been reset.`, [this.inputElement.value])
           }
 
           break
         }
 
         if (this.expanded) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Collapsing the combobox.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Collapsing the combobox.`)
           this.collapse()
 
           if (this.single && this.inputElement && this.selectedOptionElement) {
@@ -328,7 +335,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
           }
 
           if (this.focusedOptionElement) {
-            ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `Blurring the focused option element.`, this.focusedOptionElement)
+            ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Blurring the focused option element.`, this.focusedOptionElement)
             this.focusedOptionElement.blur()
           }
         }
@@ -338,14 +345,14 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         let option: AriaComboBoxOptionElement | undefined
 
         if (this.focusedOptionElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `Blurring the focused option element.`, this.focusedOptionElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Blurring the focused option element.`, this.focusedOptionElement)
           this.focusedOptionElement.blur()
         }
 
         option = this.optionElements[getLimitedNumber(getLimitedNumber(this.focusedOptionElementIndex, { min: 0 }) + 10, { min: 0 })]
         if (!option) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `Focusing the option 10~ places ahead.`, option)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the option 10~ places ahead.`, option)
         option.focus()
 
         break
@@ -354,14 +361,14 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         let option: AriaComboBoxOptionElement | undefined
 
         if (this.focusedOptionElement) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `Blurring the focused option element.`, this.focusedOptionElement)
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Blurring the focused option element.`, this.focusedOptionElement)
           this.focusedOptionElement.blur()
         }
 
         option = this.optionElements[getLimitedNumber(this.focusedOptionElementIndex - 10, { min: 0 })]
         if (!option) break
 
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `Focusing the option 10~ places behind.`, option)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the option 10~ places behind.`, option)
         option.focus()
 
         break
@@ -375,7 +382,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         event.stopPropagation()
 
         if (this.collapsed) {
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'typeahead', `Expanding the combobox.`)
+          ElementLogger.verbose(this.uid, 'onKeyDown', `Expanding the combobox.`)
           this.expand()
         }
 
@@ -438,13 +445,13 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
     this.value = isArray(this.value) ? this.value : []
     this.value = removeArrayItems(this.value, [value])
 
-    ElementLogger.verbose(this.uid, 'removeOption', `The option has been removed.`, this.value)
+    ElementLogger.verbose(this.uid, 'removeOption', `The value has been set.`, this.value)
   }
 
   clear(): void {
     if (this.inputElement) {
       this.inputElement.value = ''
-      ElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`, [this.inputElement.value])
+      ElementLogger.verbose(this.uid, 'clear', `The input value has been reset.`, [this.inputElement.value])
     }
 
     this.value = undefined
@@ -574,8 +581,9 @@ class AriaComboBoxButtonElement<E extends AriaComboBoxButtonElementEventMap = Ar
   protected aria: AriaComboBoxButtonController = new AriaComboBoxButtonController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaComboBoxElement
 
   connectedCallback(): void {
@@ -655,8 +663,9 @@ class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap = Aria
   protected aria: AriaComboBoxInputController = new AriaComboBoxInputController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   inputElement?: HTMLInputElement
   rootElement!: AriaComboBoxElement
 
@@ -768,8 +777,9 @@ class AriaComboBoxListElement<E extends AriaComboBoxListElementEventMap = AriaCo
   protected aria: AriaComboBoxListController = new AriaComboBoxListController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   rootElement!: AriaComboBoxElement
 
   get name(): ElementName {
@@ -802,21 +812,24 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
   protected aria: AriaComboBoxOptionController = new AriaComboBoxOptionController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   focused?: boolean
   selected?: boolean
   value?: any
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   listElement!: AriaComboBoxListElement
   rootElement!: AriaComboBoxElement
 
   /**
-   * INTERNAL
+   * Internals
    */
+  /** */
   _label?: string
 
   connectedCallback(): void {

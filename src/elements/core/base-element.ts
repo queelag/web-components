@@ -16,7 +16,7 @@ import { appendSquircleElement } from '../../utils/squircle-utils.js'
 
 class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends LitElement {
   /**
-   * PROPERTIES
+   * Properties
    */
   height?: string
   layer?: Layer
@@ -28,7 +28,7 @@ class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends L
   width?: string
 
   /**
-   * INTERNAL
+   * Internals
    */
   uid: string = generateRandomString({
     ...ELEMENT_UID_GENERATE_OPTIONS,

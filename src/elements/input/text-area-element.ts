@@ -19,7 +19,7 @@ declare global {
 
 class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMap> extends FormControlElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   autosize?: boolean
   cols?: number
@@ -31,13 +31,13 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
   touchTrigger?: TextAreaElementTouchTrigger
 
   /**
-   * QUERIES
+   * Queries
    */
   spanElement!: HTMLSpanElement
   textAreaElement!: HTMLTextAreaElement
 
   /**
-   * STATES
+   * States
    */
   computedHeight?: string
   temporaryValue: string = ''

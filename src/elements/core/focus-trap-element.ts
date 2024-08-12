@@ -31,7 +31,7 @@ import { AracnaBaseElement as BaseElement } from './base-element.js'
 
 class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElementEventMap> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   allowOutsideClick?: FocusTrapAllowOutsideClick
   checkCanFocusTrap?: FocusTrapCheckCanFocusTrap
@@ -49,7 +49,7 @@ class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElementEven
   setReturnFocus?: FocusTrapSetReturnFocus
 
   /**
-   * INTERNAL
+   * Internals
    */
   protected focusTrap!: FocusTrap
   focusTrapState?: FocusTrapElementState

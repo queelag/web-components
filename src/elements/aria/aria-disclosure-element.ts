@@ -11,6 +11,7 @@ import type {
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { DisclosureSectionCollapseEvent } from '../../events/disclosure-section-collapse-event.js'
 import { DisclosureSectionExpandEvent } from '../../events/disclosure-section-expand-event.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -25,8 +26,9 @@ declare global {
 
 class AriaDisclosureElement<E extends AriaDisclosureElementEventMap = AriaDisclosureElementEventMap> extends BaseElement<E> {
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   buttonElements!: AriaDisclosureButtonElement[]
 
   connectedCallback(): void {
@@ -72,13 +74,15 @@ class AriaDisclosureSectionElement<E extends AriaDisclosureSectionElementEventMa
   protected aria: AriaDisclosureSectionController = new AriaDisclosureSectionController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   expanded?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   buttonElement!: AriaDisclosureButtonElement
   panelElement?: AriaDisclosurePanelElement
 
@@ -116,7 +120,7 @@ class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEventMap 
   protected aria: AriaDisclosureButtonController = new AriaDisclosureButtonController(this)
 
   /**
-   * QUERIES
+   * Queries
    */
   sectionElement!: AriaDisclosureSectionElement
 
@@ -152,7 +156,7 @@ class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEventMap 
     event.preventDefault()
     event.stopPropagation()
 
-    ElementLogger.verbose(this.uid, 'onKeyDown', `Clicking the button.`)
+    ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the button.`)
     this.click()
   }
 

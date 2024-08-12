@@ -13,7 +13,7 @@ declare global {
 
 class DividerElement<E extends DividerElementEventMap = DividerElementEventMap> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   orientation?: Orientation
 

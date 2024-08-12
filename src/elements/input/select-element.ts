@@ -38,7 +38,7 @@ declare global {
 
 class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T = any> extends AriaComboBoxElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   getOptionLabel: GetSelectOptionLabel<T> = DEFAULT_GET_SELECT_OPTION_LABEL
   getOptionValue: GetSelectOptionValue<T> = DEFAULT_GET_SELECT_OPTION_VALUE
@@ -162,7 +162,7 @@ class SelectListElement<E extends SelectListElementEventMap = SelectListElementE
 
 class SelectOptionElement<E extends SelectOptionElementEventMap = SelectOptionElementEventMap> extends AriaComboBoxOptionElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   headline?: string
   leadingIcon?: string

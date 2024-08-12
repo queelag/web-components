@@ -12,7 +12,7 @@ declare global {
 
 class AvatarElement<E extends AvatarElementEventMap = AvatarElementEventMap> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   icon?: string
   image?: string

@@ -13,7 +13,7 @@ declare global {
 
 class ChipElement<E extends ChipElementEventMap = ChipElementEventMap> extends BaseElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   leadingIcon?: string
   leadingImage?: string

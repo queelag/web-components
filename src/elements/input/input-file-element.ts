@@ -15,14 +15,14 @@ declare global {
 
 class InputFileElement<E extends InputFileElementEventMap = InputFileElementEventMap> extends FormControlElement<E> {
   /**
-   * PROPERTIES
+   * Properties
    */
   deserializeFileResolveArrayBuffer?: boolean
   deserializeFileResolveText?: boolean
   multiple?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
   inputElement!: HTMLInputElement
 

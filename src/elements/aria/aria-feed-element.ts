@@ -15,6 +15,7 @@ import type {
   AriaFeedElementEventMap
 } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
+import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -31,13 +32,15 @@ class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMa
   protected aria: AriaFeedController = new AriaFeedController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   busy?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   articleElements!: AriaFeedArticleElement[]
   focusedArticleElement?: AriaFeedArticleElement
 
@@ -70,7 +73,13 @@ class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMa
         }
 
         this.previousTabbableElementSibling.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The previous tabbable element sibling has been focused.`, this.previousTabbableElementSibling)
+        ElementLogger.verbose(
+          this.uid,
+          'onKeyDown',
+          gkek(event),
+          `The previous tabbable element sibling has been focused.`,
+          this.previousTabbableElementSibling
+        )
 
         break
       case KeyboardEventKey.HOME:
@@ -79,27 +88,39 @@ class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMa
         }
 
         this.nextTabbableElementSibling.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The next tabbable element sibling has been focused.`, this.nextTabbableElementSibling)
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The next tabbable element sibling has been focused.`, this.nextTabbableElementSibling)
 
         break
-      case KeyboardEventKey.PAGE_DOWN:
+      case KeyboardEventKey.PAGE_DOWN: {
+        let article: AriaFeedArticleElement | undefined
+
         if (this.focusedArticleElementIndex >= this.articleElements.length - 1) {
-          return ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `No more articles to focus ahead.`)
+          return ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `No more articles to focus ahead.`)
         }
 
-        this.articleElements[this.focusedArticleElementIndex + 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The next article has been focused.`)
+        article = this.articleElements[this.focusedArticleElementIndex + 1]
+        if (!article) break
+
+        article.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The next article has been focused.`, article)
 
         break
-      case KeyboardEventKey.PAGE_UP:
+      }
+      case KeyboardEventKey.PAGE_UP: {
+        let article: AriaFeedArticleElement | undefined
+
         if (this.focusedArticleElementIndex <= 0) {
-          return ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `No more articles to focus behind.`)
+          return ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `No more articles to focus behind.`)
         }
 
-        this.articleElements[this.focusedArticleElementIndex - 1]?.focus()
-        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The previous article has been focused.`)
+        article = this.articleElements[this.focusedArticleElementIndex - 1]
+        if (!article) break
+
+        article.focus()
+        ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The previous article has been focused.`, article)
 
         break
+      }
     }
   }
 
@@ -155,13 +176,15 @@ class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = AriaFeed
   protected aria: AriaFeedArticleController = new AriaFeedArticleController(this)
 
   /**
-   * PROPERTIES
+   * Properties
    */
+  /** */
   focused?: boolean
 
   /**
-   * QUERIES
+   * Queries
    */
+  /** */
   descriptionElement?: AriaFeedArticleDescriptionElement
   labelElement?: AriaFeedArticleLabelElement
   rootElement!: AriaFeedElement
