@@ -20,13 +20,23 @@ import type { DialogCloseEvent } from '../events/dialog-close-event.js'
 import type { DialogOpenEvent } from '../events/dialog-open-event.js'
 import type { DisclosureSectionCollapseEvent } from '../events/disclosure-section-collapse-event.js'
 import type { DisclosureSectionExpandEvent } from '../events/disclosure-section-expand-event.js'
+import type { FloatingComputePositionEvent } from '../events/floating-compute-position-event.js'
 import type { FocusTrapActivateEvent } from '../events/focus-trap-activate-event.js'
 import type { FocusTrapDeactivateEvent } from '../events/focus-trap-deactivate-event.js'
 import type { FocusTrapPostActivateEvent } from '../events/focus-trap-post-activate-event.js'
 import type { FocusTrapPostDeactivateEvent } from '../events/focus-trap-post-deactivate-event.js'
+import type { FormControlChangeEvent } from '../events/form-control-change-event.js'
+import type { FormControlTouchEvent } from '../events/form-control-touch-event.js'
+import type { FormControlValidateEvent } from '../events/form-control-validate-event.js'
 import type { FormSubmitEvent } from '../events/form-submit-event.js'
+import type { IconFetchEvent } from '../events/icon-fetch-event.js'
+import type { IconParseEvent } from '../events/icon-parse-event.js'
+import type { ImageLoadErrorEvent } from '../events/image-load-error-event.js'
+import type { ImageLoadEvent } from '../events/image-load-event.js'
 import type { ListBoxOptionSelectEvent } from '../events/list-box-option-select-event.js'
 import type { ListBoxOptionUnselectEvent } from '../events/list-box-option-unselect-event.js'
+import type { MenuSubMenuCollapseEvent } from '../events/menu-sub-menu-collapse-event.js'
+import type { MenuSubMenuExpandEvent } from '../events/menu-sub-menu-expand-event.js'
 import type { RadioButtonCheckEvent } from '../events/radio-button-check-event.js'
 import type { RadioButtonUncheckEvent } from '../events/radio-button-uncheck-event.js'
 import type { SliderChangeEvent } from '../events/slider-change-event.js'
@@ -148,7 +158,11 @@ export interface AriaListBoxOptionElementEventMap extends BaseElementEventMap {
 export interface AriaMenuElementEventMap extends BaseElementEventMap {}
 export interface AriaMenuButtonElementEventMap extends BaseElementEventMap {}
 export interface AriaMenuItemElementEventMap extends BaseElementEventMap {}
-export interface AriaMenuSubMenuElementEventMap extends FloatingElementEventMap {}
+
+export interface AriaMenuSubMenuElementEventMap extends FloatingElementEventMap {
+  collapse: MenuSubMenuCollapseEvent
+  expand: MenuSubMenuExpandEvent
+}
 
 export interface AriaMeterElementEventMap extends BaseElementEventMap {}
 
@@ -199,7 +213,9 @@ export interface BaseElementEventMap extends HTMLElementEventMap {
   'state-change': StateChangeEvent
 }
 
-export interface FloatingElementEventMap extends BaseElementEventMap {}
+export interface FloatingElementEventMap extends BaseElementEventMap {
+  'floating-compute-position': FloatingComputePositionEvent
+}
 
 export interface FocusTrapElementEventMap extends BaseElementEventMap {
   'focus-trap-activate': FocusTrapActivateEvent
@@ -208,7 +224,11 @@ export interface FocusTrapElementEventMap extends BaseElementEventMap {
   'focus-trap-post-deactivate': FocusTrapPostDeactivateEvent
 }
 
-export interface FormControlElementEventMap extends BaseElementEventMap {}
+export interface FormControlElementEventMap extends BaseElementEventMap {
+  'form-control-change': FormControlChangeEvent<any>
+  'form-control-touch': FormControlTouchEvent
+  'form-control-validate': FormControlValidateEvent<any>
+}
 
 /**
  * Data Elements Events
@@ -234,8 +254,15 @@ export interface FeedArticleElementEventMap extends AriaFeedArticleElementEventM
 export interface FeedArticleDescriptionElementEventMap extends AriaFeedArticleDescriptionElementEventMap {}
 export interface FeedArticleLabelElementEventMap extends AriaFeedArticleLabelElementEventMap {}
 
-export interface IconElementEventMap extends BaseElementEventMap {}
-export interface ImageElementEventMap extends BaseElementEventMap {}
+export interface IconElementEventMap extends BaseElementEventMap {
+  fetch: IconFetchEvent
+  parse: IconParseEvent
+}
+
+export interface ImageElementEventMap extends BaseElementEventMap {
+  'image-load': ImageLoadEvent
+  'image-load-error': ImageLoadErrorEvent
+}
 
 export interface ListElementEventMap extends AriaListElementEventMap {}
 export interface ListItemElementEventMap extends AriaListItemElementEventMap {}
