@@ -114,5 +114,5 @@
   "sideEffects": false,
   "type": "module",
   "types": "index.d.ts",
-  "version": "1.0.81-rc.1"
+  "version": "1.0.81"
 }
