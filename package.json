@@ -83,6 +83,11 @@
       "import": "./elements/surface/*.js",
       "require": "./elements/surface/*.cjs",
       "types": "./elements/surface/*.d.ts"
+    },
+    "./elements/typography/*": {
+      "import": "./elements/typography/*.js",
+      "require": "./elements/typography/*.cjs",
+      "types": "./elements/typography/*.d.ts"
     }
   },
   "license": "MIT",
