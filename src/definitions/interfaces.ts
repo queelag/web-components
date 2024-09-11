@@ -14,6 +14,8 @@ export interface GetSliderThumbElementPercentageOptions extends GetNumberPercent
 
 export interface GetSquircleElementOptions extends CreateSquircleElementOptions {}
 
+export interface HeadingElementSanitizeConfig extends TextElementSanitizeConfig {}
+
 export interface IconElementSanitizeConfig extends SanitizeConfig {
   RETURN_DOM?: false
   RETURN_DOM_FRAGMENT?: false
@@ -28,6 +30,11 @@ export interface QueryDeclaration {
 
 export interface QueryDeclarations extends Record<string, QueryDeclaration> {}
 
+export interface RenderLocalizationStringToHTMLSanitizeConfig extends SanitizeConfig {
+  RETURN_DOM?: false
+  RETURN_DOM_FRAGMENT?: false
+}
+
 export interface ShapeOptions {
   rectangle?: {
     radius?: string | number
@@ -40,3 +47,5 @@ export interface ShapeOptions {
     size?: number
   }
 }
+
+export interface TextElementSanitizeConfig extends RenderLocalizationStringToHTMLSanitizeConfig {}

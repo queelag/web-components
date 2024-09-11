@@ -50,7 +50,7 @@ export function createSquircleElement(options?: CreateSquircleElementOptions): S
   svg = document.createElementNS(SVG_NAMESPACE_URI, 'svg')
   svg.setAttribute('curvature', curvature.toString())
   svg.setAttribute('fill', 'black')
-  svg.setAttribute('id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.SQUIRCLE }))
+  svg.setAttribute('id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS(), prefix: ElementName.SQUIRCLE }))
   svg.setAttribute('size', size.toString())
   svg.setAttribute('viewBox', viewbox)
   svg.setAttribute('xmlns', SVG_NAMESPACE_URI)

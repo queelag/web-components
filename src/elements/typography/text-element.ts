@@ -1,8 +1,10 @@
-import { Localization, LocalizationVariables } from '@aracna/core'
+import type { Localization, LocalizationVariables } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { html, nothing, PropertyDeclarations } from 'lit'
+import type { PropertyDeclarations } from 'lit'
 import { ElementName } from '../../definitions/enums.js'
-import { TextElementEventMap } from '../../definitions/events.js'
+import type { TextElementEventMap } from '../../definitions/events.js'
+import type { TextElementSanitizeConfig } from '../../definitions/interfaces.js'
+import { renderTextElement } from '../../utils/text-element-utils.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
 declare global {
@@ -14,13 +16,11 @@ declare global {
 class TextElement<E extends TextElementEventMap = TextElementEventMap> extends BaseElement<E> {
   localization?: Localization
   path?: string
+  sanitizeConfig?: TextElementSanitizeConfig
   variables?: LocalizationVariables
 
   render() {
-    return html`
-      ${super.render()}
-      <slot>${this.path ? this.localization?.get(this.path, this.variables) : nothing}</slot>
-    `
+    return renderTextElement.bind(this)(super.render())
   }
 
   get name(): ElementName {
@@ -30,6 +30,7 @@ class TextElement<E extends TextElementEventMap = TextElementEventMap> extends B
   static properties: PropertyDeclarations = {
     localization: { type: Object },
     path: { type: String, reflect: true },
+    sanitizeConfig: { type: Object, attribute: 'sanitize-config' },
     variables: { type: Object }
   }
 }

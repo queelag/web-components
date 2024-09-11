@@ -155,7 +155,7 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
 
     if (this.sanitize) {
       sanitized = DOMPurify.sanitize(string, {
-        ...DEFAULT_ICON_SANITIZE_CONFIG,
+        ...DEFAULT_ICON_SANITIZE_CONFIG(),
         ...this.sanitizeConfig
       })
       ElementLogger.verbose(this.uid, 'parseSVGString', `The string has been sanitized.`, [string, sanitized])

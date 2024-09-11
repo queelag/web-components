@@ -118,7 +118,7 @@ export class AriaComboBoxInputController implements ReactiveController {
         this.host.inputElement,
         'id',
         generateRandomString({
-          ...ELEMENT_UID_GENERATE_OPTIONS,
+          ...ELEMENT_UID_GENERATE_OPTIONS(),
           prefix: 'input'
         })
       )
@@ -145,7 +145,7 @@ export class AriaComboBoxListController implements ReactiveController {
         this.host,
         'id',
         generateRandomString({
-          ...ELEMENT_UID_GENERATE_OPTIONS,
+          ...ELEMENT_UID_GENERATE_OPTIONS(),
           prefix: this.host.name
         })
       )
@@ -181,7 +181,7 @@ export class AriaComboBoxOptionController implements ReactiveController {
         this.host,
         'id',
         generateRandomString({
-          ...ELEMENT_UID_GENERATE_OPTIONS,
+          ...ELEMENT_UID_GENERATE_OPTIONS(),
           prefix: this.host.name
         })
       )

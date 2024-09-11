@@ -3,7 +3,7 @@ import type { CanvasDataURLType } from '@aracna/web'
 import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/dom'
 import type { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
 import type { QRCodeErrorCorrectionLevel, QRCodeMaskPattern, QRCodeToSJISFunc } from 'qrcode'
-import type { IconElementSanitizeConfig } from './interfaces.js'
+import type { HeadingElementSanitizeConfig, IconElementSanitizeConfig, TextElementSanitizeConfig } from './interfaces.js'
 import type {
   AlertSeverity,
   AlertVariant,
@@ -696,10 +696,13 @@ export interface DisclosureSectionElementAttributes extends AriaDisclosureSectio
  */
 /** */
 
-export interface HeadingElementAttributes extends AriaHeadingElementAttributes, TextElementAttributes {}
+export interface HeadingElementAttributes extends AriaHeadingElementAttributes, TextElementAttributes {
+  'sanitize-config'?: HeadingElementSanitizeConfig
+}
 
 export interface TextElementAttributes extends BaseElementAttributes {
   localization?: Localization
   path?: string
+  'sanitize-config'?: TextElementSanitizeConfig
   variables?: LocalizationVariables
 }

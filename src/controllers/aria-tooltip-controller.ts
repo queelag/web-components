@@ -52,7 +52,7 @@ export class AriaTooltipContentController implements ReactiveController {
       this.host,
       'id',
       generateRandomString({
-        ...ELEMENT_UID_GENERATE_OPTIONS,
+        ...ELEMENT_UID_GENERATE_OPTIONS(),
         prefix: this.host.name
       })
     )

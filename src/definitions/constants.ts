@@ -1,5 +1,5 @@
 import { ALPHABET_HEX_LOWERCASE, type GenerateRandomStringOptions, type TypeaheadPredicate, getObjectProperty, isObject } from '@aracna/core'
-import type { IconElementSanitizeConfig } from './interfaces.js'
+import type { IconElementSanitizeConfig, RenderLocalizationStringToHTMLSanitizeConfig } from './interfaces.js'
 import type {
   AriaComboBoxElementFilterOptionsPredicate,
   GetRadioButtonLabel,
@@ -75,7 +75,7 @@ export const DEFAULT_BADGE_MIN: number = 0
  * Elements
  */
 /** */
-export const ELEMENT_UID_GENERATE_OPTIONS: GenerateRandomStringOptions = { alphabet: ALPHABET_HEX_LOWERCASE, size: 8 }
+export const ELEMENT_UID_GENERATE_OPTIONS: () => GenerateRandomStringOptions = () => ({ alphabet: ALPHABET_HEX_LOWERCASE, size: 8 })
 
 /**
  * IconElement
@@ -83,7 +83,7 @@ export const ELEMENT_UID_GENERATE_OPTIONS: GenerateRandomStringOptions = { alpha
 /** */
 export const CACHE_ICONS: Map<string, string> = new Map()
 export const DEFAULT_ICON_SVG_STRING: string = '<svg viewBox="0 0 0 0"></svg>'
-export const DEFAULT_ICON_SANITIZE_CONFIG: IconElementSanitizeConfig = { RETURN_DOM: false, RETURN_DOM_FRAGMENT: false }
+export const DEFAULT_ICON_SANITIZE_CONFIG: () => IconElementSanitizeConfig = () => ({ RETURN_DOM: false, RETURN_DOM_FRAGMENT: false })
 export const FETCHING_ICONS: Set<string> = new Set()
 
 /**
@@ -99,6 +99,15 @@ export const FETCHING_IMAGES: Set<string> = new Set()
  */
 /** */
 export const DEFAULT_INPUT_TYPE: InputElementType = 'text'
+
+/**
+ * Localization
+ */
+/** */
+export const DEFAULT_RENDER_LOCALIZATION_STRING_TO_HTML_SANITIZE_CONFIG: () => RenderLocalizationStringToHTMLSanitizeConfig = () => ({
+  RETURN_DOM: false,
+  RETURN_DOM_FRAGMENT: false
+})
 
 /**
  * RadioButtonElement

@@ -33,7 +33,7 @@ class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends L
    */
   /** */
   uid: string = generateRandomString({
-    ...ELEMENT_UID_GENERATE_OPTIONS,
+    ...ELEMENT_UID_GENERATE_OPTIONS(),
     prefix: this.name
   })
 
@@ -124,7 +124,7 @@ class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends L
     }
   }
 
-  render(): unknown {
+  render(): any {
     return html`
       ${this.styleHTML}
       <slot @slotchange=${this.onSlotChange}></slot>

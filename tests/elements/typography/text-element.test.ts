@@ -9,7 +9,7 @@ describe('TextElement', () => {
 
   beforeEach(() => {
     text = document.createElement('aracna-text')
-    localization = new Localization({ language: 'en', packs: [{ data: { text: 'Hello {name}' }, language: 'en' }] })
+    localization = new Localization({ language: 'en', packs: [{ data: { html: 'Hello <b>{name}</b>', text: 'Hello {name}' }, language: 'en' }] })
   })
 
   afterEach(() => {
@@ -32,5 +32,16 @@ describe('TextElement', () => {
     await render(text)
 
     expect(text.shadowRoot?.textContent).include('Hello John')
+  })
+
+  it('renders localization text with html', async () => {
+    text.localization = localization
+    text.path = 'html'
+    text.variables = { name: 'John' }
+
+    await render(text)
+
+    expect(text.shadowRoot?.innerHTML).include('Hello <b>John</b>')
+    expect(text.shadowRoot?.querySelector('b')?.textContent).toBe('John')
   })
 })

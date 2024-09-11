@@ -1,8 +1,10 @@
-import { Localization, LocalizationVariables } from '@aracna/core'
+import type { Localization, LocalizationVariables } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { html, nothing, PropertyDeclarations } from 'lit'
+import type { PropertyDeclarations } from 'lit'
 import { ElementName } from '../../definitions/enums.js'
-import { HeadingElementEventMap } from '../../definitions/events.js'
+import type { HeadingElementEventMap } from '../../definitions/events.js'
+import type { HeadingElementSanitizeConfig } from '../../definitions/interfaces.js'
+import { renderHeadingElement } from '../../utils/heading-element-utils.js'
 import { AracnaAriaHeadingElement as AriaHeadingElement } from '../aria/aria-heading-element.js'
 import { AracnaTextElement as TextElement } from './text-element.js'
 
@@ -15,13 +17,11 @@ declare global {
 class HeadingElement<E extends HeadingElementEventMap = HeadingElementEventMap> extends AriaHeadingElement<E> {
   localization?: Localization
   path?: string
+  sanitizeConfig?: HeadingElementSanitizeConfig
   variables?: LocalizationVariables
 
   render() {
-    return html`
-      ${super.render()}
-      <slot>${this.path ? this.localization?.get(this.path, this.variables) : nothing}</slot>
-    `
+    return renderHeadingElement.bind(this)(super.render())
   }
 
   get name(): ElementName {
