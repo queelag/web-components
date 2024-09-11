@@ -188,7 +188,7 @@ export type {
   FocusTrapElementAttributes as AracnaFocusTrapElementAttributes,
   FormControlElementAttributes as AracnaFormControlElementAttributes,
   FormElementAttributes as AracnaFormElementAttributes,
-  HeadingElementVariables as AracnaHeadingElementVariables,
+  HeadingElementAttributes as AracnaHeadingElementAttributes,
   IconElementAttributes as AracnaIconElementAttributes,
   ImageElementAttributes as AracnaImageElementAttributes,
   InputElementAttributes as AracnaInputElementAttributes,

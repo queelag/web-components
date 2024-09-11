@@ -696,7 +696,7 @@ export interface DisclosureSectionElementAttributes extends AriaDisclosureSectio
  */
 /** */
 
-export interface HeadingElementVariables extends AriaHeadingElementAttributes, TextElementAttributes {}
+export interface HeadingElementAttributes extends AriaHeadingElementAttributes, TextElementAttributes {}
 
 export interface TextElementAttributes extends BaseElementAttributes {
   localization?: Localization
