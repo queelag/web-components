@@ -143,6 +143,8 @@ export interface AriaFeedArticleElementEventMap extends BaseElementEventMap {}
 export interface AriaFeedArticleDescriptionElementEventMap extends BaseElementEventMap {}
 export interface AriaFeedArticleLabelElementEventMap extends BaseElementEventMap {}
 
+export interface AriaHeadingElementEventMap extends BaseElementEventMap {}
+
 export interface AriaLinkElementEventMap extends BaseElementEventMap {}
 
 export interface AriaListElementEventMap extends BaseElementEventMap {}
@@ -377,3 +379,10 @@ export interface DisclosureElementEventMap extends AriaDisclosureElementEventMap
 export interface DisclosureButtonElementEventMap extends AriaDisclosureButtonElementEventMap {}
 export interface DisclosurePanelElementEventMap extends AriaDisclosurePanelElementEventMap {}
 export interface DisclosureSectionElementEventMap extends AriaDisclosureSectionElementEventMap {}
+
+/**
+ * Typography Elements Events
+ */
+
+export interface HeadingElementEventMap extends AriaHeadingElementEventMap, TextElementEventMap {}
+export interface TextElementEventMap extends BaseElementEventMap {}

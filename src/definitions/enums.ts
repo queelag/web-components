@@ -50,6 +50,8 @@ export enum ElementName {
   ARIA_FEED_ARTICLE_DESCRIPTION = 'aria_feed_article_description',
   ARIA_FEED_ARTICLE_LABEL = 'aria_feed_article_label',
 
+  ARIA_HEADING = 'aria_heading',
+
   ARIA_LINK = 'aria_link',
 
   ARIA_LIST = 'aria_list',
@@ -133,6 +135,9 @@ export enum ElementName {
 
   FOCUS_TRAP = 'focus_trap',
   FORM = 'form',
+
+  HEADING = 'heading',
+
   ICON = 'icon',
   IMAGE = 'image',
   INPUT = 'input',
@@ -173,6 +178,8 @@ export enum ElementName {
   TABS = 'tabs',
   TABS_PANEL = 'tabs_panel',
   TABS_TAB = 'tabs_tab',
+
+  TEXT = 'text',
 
   TEXTAREA = 'textarea',
 

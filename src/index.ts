@@ -47,6 +47,7 @@ export {
   AriaFeedArticleLabelController as AracnaAriaFeedArticleLabelController,
   AriaFeedController as AracnaAriaFeedController
 } from './controllers/aria-feed-controller.js'
+export { AriaHeadingController as AracnaAriaHeadingController } from './controllers/aria-heading-controller.js'
 export { AriaIconController as AracnaAriaIconController } from './controllers/aria-icon-controller.js'
 export { AriaLinkController as AracnaAriaLinkController } from './controllers/aria-link-controller.js'
 export {
@@ -129,6 +130,7 @@ export type {
   AriaFeedArticleElementAttributes as AracnaAriaFeedArticleElementAttributes,
   AriaFeedArticleLabelElementAttributes as AracnaAriaFeedArticleLabelElementAttributes,
   AriaFeedElementAttributes as AracnaAriaFeedElementAttributes,
+  AriaHeadingElementAttributes as AracnaAriaHeadingElementAttributes,
   AriaLinkElementAttributes as AracnaAriaLinkElementAttributes,
   AriaListBoxElementAttributes as AracnaAriaListBoxElementAttributes,
   AriaListBoxOptionElementAttributes as AracnaAriaListBoxOptionElementAttributes,
@@ -186,6 +188,7 @@ export type {
   FocusTrapElementAttributes as AracnaFocusTrapElementAttributes,
   FormControlElementAttributes as AracnaFormControlElementAttributes,
   FormElementAttributes as AracnaFormElementAttributes,
+  HeadingElementVariables as AracnaHeadingElementVariables,
   IconElementAttributes as AracnaIconElementAttributes,
   ImageElementAttributes as AracnaImageElementAttributes,
   InputElementAttributes as AracnaInputElementAttributes,
@@ -219,6 +222,7 @@ export type {
   TabsPanelElementAttributes as AracnaTabsPanelElementAttributes,
   TabsTabElementAttributes as AracnaTabsTabElementAttributes,
   TextAreaElementAttributes as AracnaTextAreaElementAttributes,
+  TextElementAttributes as AracnaTextElementAttributes,
   TooltipArrowElementAttributes as AracnaTooltipArrowElementAttributes,
   TooltipContentElementAttributes as AracnaTooltipContentElementAttributes,
   TooltipElementAttributes as AracnaTooltipElementAttributes,
@@ -276,6 +280,7 @@ export type {
   AriaFeedArticleElementEventMap as AracnaAriaFeedArticleElementEventMap,
   AriaFeedArticleLabelElementEventMap as AracnaAriaFeedArticleLabelElementEventMap,
   AriaFeedElementEventMap as AracnaAriaFeedElementEventMap,
+  AriaHeadingElementEventMap as AracnaAriaHeadingElementEventMap,
   AriaLinkElementEventMap as AracnaAriaLinkElementEventMap,
   AriaListBoxElementEventMap as AracnaAriaListBoxElementEventMap,
   AriaListBoxOptionElementEventMap as AracnaAriaListBoxOptionElementEventMap,
@@ -333,6 +338,7 @@ export type {
   FocusTrapElementEventMap as AracnaFocusTrapElementEventMap,
   FormControlElementEventMap as AracnaFormControlElementEventMap,
   FormElementEventMap as AracnaFormElementEventMap,
+  HeadingElementEventMap as AracnaHeadingElementEventMap,
   IconElementEventMap as AracnaIconElementEventMap,
   ImageElementEventMap as AracnaImageElementEventMap,
   InputElementEventMap as AracnaInputElementEventMap,
@@ -366,6 +372,7 @@ export type {
   TabsPanelElementEventMap as AracnaTabsPanelElementEventMap,
   TabsTabElementEventMap as AracnaTabsTabElementEventMap,
   TextAreaElementEventMap as AracnaTextAreaElementEventMap,
+  TextElementEventMap as AracnaTextElementEventMap,
   TooltipArrowElementEventMap as AracnaTooltipArrowElementEventMap,
   TooltipContentElementEventMap as AracnaTooltipContentElementEventMap,
   TooltipElementEventMap as AracnaTooltipElementEventMap,

@@ -1,4 +1,4 @@
-import type { TypeaheadPredicate } from '@aracna/core'
+import type { Localization, LocalizationVariables, TypeaheadPredicate } from '@aracna/core'
 import type { CanvasDataURLType } from '@aracna/web'
 import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/dom'
 import type { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
@@ -147,6 +147,10 @@ export interface AriaFeedArticleElementAttributes extends BaseElementAttributes 
 
 export interface AriaFeedArticleDescriptionElementAttributes extends BaseElementAttributes {}
 export interface AriaFeedArticleLabelElementAttributes extends BaseElementAttributes {}
+
+export interface AriaHeadingElementAttributes extends BaseElementAttributes {
+  level?: HeadingLevel
+}
 
 export interface AriaLinkElementAttributes extends BaseElementAttributes {
   href?: string
@@ -685,4 +689,17 @@ export interface DisclosureSectionElementAttributes extends AriaDisclosureSectio
   headline?: string
   icon?: string
   text?: string
+}
+
+/**
+ * Typography Elements
+ */
+/** */
+
+export interface HeadingElementVariables extends AriaHeadingElementAttributes, TextElementAttributes {}
+
+export interface TextElementAttributes extends BaseElementAttributes {
+  localization?: Localization
+  path?: string
+  variables?: LocalizationVariables
 }

@@ -2,9 +2,13 @@ import { wf } from '@aracna/core'
 import { type ElementAttributeValue, setElementAttributes } from '@aracna/web'
 
 function waitForElementRender(selectors: string): Promise<void | Error> {
-  return wf(() => {
-    return document.querySelector(selectors)?.shadowRoot
-  })
+  return wf(
+    () => {
+      return document.querySelector(selectors)?.shadowRoot
+    },
+    4,
+    5000
+  )
 }
 
 export async function cleanup() {
