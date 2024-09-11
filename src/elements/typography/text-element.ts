@@ -14,8 +14,13 @@ declare global {
 }
 
 class TextElement<E extends TextElementEventMap = TextElementEventMap> extends BaseElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   localization?: Localization
   path?: string
+  renderHTML?: boolean
   sanitizeConfig?: TextElementSanitizeConfig
   variables?: LocalizationVariables
 
@@ -30,6 +35,7 @@ class TextElement<E extends TextElementEventMap = TextElementEventMap> extends B
   static properties: PropertyDeclarations = {
     localization: { type: Object },
     path: { type: String, reflect: true },
+    renderHTML: { type: Boolean, attribute: 'render-html' },
     sanitizeConfig: { type: Object, attribute: 'sanitize-config' },
     variables: { type: Object }
   }

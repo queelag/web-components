@@ -15,8 +15,13 @@ declare global {
 }
 
 class HeadingElement<E extends HeadingElementEventMap = HeadingElementEventMap> extends AriaHeadingElement<E> {
+  /**
+   * Properties
+   */
+  /** */
   localization?: Localization
   path?: string
+  renderHTML?: boolean
   sanitizeConfig?: HeadingElementSanitizeConfig
   variables?: LocalizationVariables
 

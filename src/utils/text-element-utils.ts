@@ -8,7 +8,9 @@ export function renderTextElement(this: TextElement, sr: TemplateResult): Templa
     ${sr}
     <slot>
       ${this.localization instanceof Localization && typeof this.path === 'string'
-        ? renderLocalizationStringToHTML(this.localization, this.path, this.variables, this.sanitizeConfig)
+        ? this.renderHTML !== false
+          ? renderLocalizationStringToHTML(this.localization, this.path, this.variables, this.sanitizeConfig)
+          : this.localization.get(this.path, this.variables)
         : nothing}
     </slot>
   `
