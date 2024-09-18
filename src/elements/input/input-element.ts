@@ -1,4 +1,4 @@
-import { encodeText, isArray, parseNumber, removeArrayItems, wf } from '@aracna/core'
+import { decodeText, encodeText, isArray, parseNumber, removeArrayItems, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import { type PropertyDeclarations } from 'lit'
 import { DEFAULT_INPUT_TYPE } from '../../definitions/constants.js'
@@ -26,6 +26,7 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
   /** */
   multiple?: boolean
   protected _obscured?: boolean
+  placeholder?: string
   touchTrigger?: InputElementTouchTrigger
   protected _type?: InputElementType
 
@@ -240,7 +241,7 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
   get inputElementValue(): string {
     switch (this.type) {
       case 'buffer':
-        return ''
+        return this.value instanceof Uint8Array ? decodeText(this.value) : ''
       case 'color':
       case 'email':
       case 'month':
@@ -254,7 +255,7 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
       case 'date':
         return this.value instanceof Date ? this.value.toISOString().replace(/T[0-9:.]+Z$/, '') : ''
       case 'datetime-local':
-        return this.value instanceof Date ? this.value.toISOString() : ''
+        return this.value instanceof Date ? this.value.toISOString().replace('Z', '') : ''
       case 'number':
         return typeof this.value === 'number' ? this.value.toString() : ''
       case 'text':
@@ -351,7 +352,6 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
   static properties: PropertyDeclarations = {
     multiple: { type: Boolean, reflect: true },
     obscured: { type: Boolean, reflect: true },
-    padding: { type: String, reflect: true },
     placeholder: { type: String, reflect: true },
     temporaryValue: { state: true },
     touchTrigger: { type: String, attribute: 'touch-trigger', reflect: true },

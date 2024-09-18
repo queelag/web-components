@@ -24,6 +24,7 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   deserializeFileResolveArrayBuffer?: boolean
   deserializeFileResolveText?: boolean
   multiple?: boolean
+  placeholder?: string
 
   /**
    * Queries
@@ -191,7 +192,6 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   }
 
   static properties: PropertyDeclarations = {
-    accept: { type: String, reflect: true },
     deserializeFileResolveArrayBuffer: {
       type: Boolean,
       attribute: 'deserialize-file-resolve-array-buffer',
@@ -202,7 +202,8 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
       attribute: 'deserialize-file-resolve-text',
       reflect: true
     },
-    multiple: { type: Boolean, reflect: true }
+    multiple: { type: Boolean, reflect: true },
+    placeholder: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {

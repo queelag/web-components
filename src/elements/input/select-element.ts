@@ -49,6 +49,7 @@ class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T =
   getOptionLabel: GetSelectOptionLabel<T> = DEFAULT_GET_SELECT_OPTION_LABEL
   getOptionValue: GetSelectOptionValue<T> = DEFAULT_GET_SELECT_OPTION_VALUE
   options?: T[]
+  placeholder?: string
 
   /**
    * Queries
@@ -140,7 +141,8 @@ class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T =
   static properties: PropertyDeclarations = {
     getOptionLabel: { type: Function, attribute: 'get-option-label' },
     getOptionValue: { type: Function, attribute: 'get-option-value' },
-    options: { type: Array }
+    options: { type: Array },
+    placeholder: { type: String, reflect: true }
   }
 
   static queries: QueryDeclarations = {

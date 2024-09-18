@@ -24,6 +24,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
   /** */
   autosize?: boolean
   multiple?: boolean
+  placeholder?: string
   touchTrigger?: TextAreaElementTouchTrigger
 
   /**
@@ -37,7 +38,6 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
    * States
    */
   /** */
-  computedHeight?: string
   temporaryValue: string = ''
 
   connectedCallback(): void {
@@ -161,7 +161,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
 
     style = getComputedStyle(this.textAreaElement)
 
-    if (typeof this.computedHeight === 'undefined') {
+    if (this.spanElement.style.opacity !== '0') {
       for (let property in style) {
         this.spanElement.style.cssText += `${property}:${style[property]};`
       }
@@ -180,10 +180,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     // this.spanElement.style.minHeight = style.height
     this.spanElement.style.width = '100%'
 
-    this.computedHeight = getComputedStyle(this.spanElement).height
-    ElementLogger.verbose(this.uid, 'computeHeight', `The height has been computed.`, [this.computedHeight])
-
-    this.textAreaElement.style.height = this.computedHeight
+    this.textAreaElement.style.height = getComputedStyle(this.spanElement).height
     ElementLogger.verbose(this.uid, 'computeHeight', `The textarea element height has been set.`, [this.textAreaElement.style.height])
   }
 
@@ -213,8 +210,8 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     }
 
     if (this.autosize) {
-      this.computedHeight = undefined
-      ElementLogger.verbose(this.uid, 'clear', `The computed height has been unset.`, [this.computedHeight])
+      this.textAreaElement.style.height = 'auto'
+      ElementLogger.verbose(this.uid, 'clear', `The textarea element height has been set to "auto".`, [this.textAreaElement.style.height])
     }
 
     this.textAreaElement.value = ''
@@ -269,13 +266,8 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
 
   static properties: PropertyDeclarations = {
     autosize: { type: Boolean, reflect: true },
-    cols: { type: Number, reflect: true },
-    computedHeight: { type: String, state: true },
     multiple: { type: Boolean, reflect: true },
-    padding: { type: String, reflect: true },
     placeholder: { type: String, reflect: true },
-    resize: { type: String, reflect: true },
-    rows: { type: Number, reflect: true },
     temporaryValue: { state: true },
     touchTrigger: { type: String, attribute: 'touch-trigger', reflect: true }
   }

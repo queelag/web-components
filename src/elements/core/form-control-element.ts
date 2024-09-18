@@ -72,7 +72,10 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
     this.validation = this.schema.validate(this.value)
     ElementLogger.verbose(this.uid, 'validate', `The value has been validated against the schema.`, this.validation)
 
-    this.dispatchEvent(new FormControlValidateEvent(this.schema, this.validation, this.value))
+    setImmutableElementAttribute(this, 'error', this.validation[0]?.message ?? undefined)
+    setImmutableElementAttribute(this, 'valid', this.validation[1] ? 'true' : 'false')
+
+    this.dispatchEvent(new FormControlValidateEvent(this.schema, this.validation, this.value, { error: this.error, touched: this.touched }))
     ElementLogger.verbose(this.uid, 'validate', `The "form-control-validate" event has been dispatched.`)
   }
 
@@ -85,7 +88,7 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
     this.value = value
     ElementLogger.verbose(this.uid, 'setValue', `The value has been set.`, value)
 
-    this.dispatchEvent(new FormControlChangeEvent(this.value))
+    this.dispatchEvent(new FormControlChangeEvent(this.value, { error: this.error, schema: this.schema, touched: this.touched, validation: this.validation }))
     ElementLogger.verbose(this.uid, 'setValue', `The "form-control-change" event has been dispatched.`)
   }
 

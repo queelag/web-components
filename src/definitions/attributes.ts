@@ -494,6 +494,7 @@ export interface FormElementAttributes<T = any> extends BaseElementAttributes {
 export interface InputElementAttributes extends FormControlElementAttributes {
   multiple?: boolean
   obscured?: boolean
+  placeholder?: string
   'touch-trigger'?: InputElementTouchTrigger
   type?: InputElementType
   value?: InputElementValue
@@ -512,6 +513,7 @@ export interface InputFileElementAttributes extends FormControlElementAttributes
   'deserialize-file-resolve-array-buffer'?: boolean
   'deserialize-file-resolve-text'?: boolean
   multiple?: boolean
+  placeholder?: string
 }
 
 export interface InputFileClearElementAttributes extends BaseElementAttributes {}
@@ -545,6 +547,7 @@ export interface RadioGroupElementAttributes<T = any> extends AriaRadioGroupElem
 
 export interface SelectElementAttributes<T, U = any> extends AriaComboBoxElementAttributes<T> {
   options?: U[]
+  placeholder?: string
   value?: any
 }
 
@@ -581,6 +584,7 @@ export interface SwitchElementAttributes extends AriaSwitchElementAttributes {
 export interface TextAreaElementAttributes extends FormControlElementAttributes {
   autosize?: boolean
   multiple?: boolean
+  placeholder?: string
   'touch-trigger'?: TextAreaElementTouchTrigger
 }
 
