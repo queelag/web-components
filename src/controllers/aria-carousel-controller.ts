@@ -27,7 +27,7 @@ export class AriaCarouselController implements ReactiveController {
 
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'aria-roledescription', 'carousel')
-    // setImmutableElementAttribute(this.host, 'aria-label', '')
+    setImmutableElementAttribute(this.host, 'aria-label', this.host.label)
     setImmutableElementAttribute(this.host, 'live', this.host.automaticRotation ? 'off' : 'polite')
     setImmutableElementAttribute(this.host, 'temporary-live', this.host.temporaryLive)
     setImmutableElementAttribute(this.host, 'role', 'region')
@@ -101,6 +101,7 @@ export class AriaCarouselRotationControlController implements ReactiveController
 
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.slidesElement.id)
+    setImmutableElementAttribute(this.host, 'aria-label', this.host.rootElement.automaticRotation ? 'Stop Automatic Slide Show' : 'Start Automatic Slide Show')
     setImmutableElementAttribute(this.host, 'role', 'button')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
   }

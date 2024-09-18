@@ -31,29 +31,15 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
 
   connectedCallback(): void {
     super.connectedCallback()
-
-    if (this.native) {
-      return
-    }
-
     this.addEventListener('keydown', this.onKeyDown)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
-
-    if (this.native) {
-      return
-    }
-
     this.removeEventListener('keydown', this.onKeyDown)
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
-    if (this.native) {
-      return
-    }
-
     switch (event.key) {
       case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_LEFT:

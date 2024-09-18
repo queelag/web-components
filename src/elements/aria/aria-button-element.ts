@@ -21,8 +21,14 @@ class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonElementE
    */
   /** */
   disabled?: boolean
-  native?: boolean
+  protected _label?: string
   pressed?: ButtonPressed
+
+  /**
+   * Queries
+   */
+  /** */
+  buttonElement?: HTMLButtonElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -63,13 +69,26 @@ class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonElementE
     super.click()
   }
 
+  get label(): string | undefined {
+    return this._label
+  }
+
+  set label(value: string | undefined) {
+    let old: string | undefined
+
+    old = this._label
+    this._label = value
+
+    this.requestUpdate('label', old)
+  }
+
   get name(): ElementName {
     return ElementName.ARIA_BUTTON
   }
 
   static properties: PropertyDeclarations = {
     disabled: { type: Boolean, reflect: true },
-    native: { type: Boolean, reflect: true },
+    label: { type: String, reflect: true },
     pressed: { type: String, reflect: true }
   }
 

@@ -4,10 +4,12 @@ import type { ReactiveController, ReactiveControllerHost } from 'lit'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants.js'
 import type {
   AracnaAriaComboBoxButtonElement as AriaComboBoxButtonElement,
+  AracnaAriaComboBoxClearElement as AriaComboBoxClearElement,
   AracnaAriaComboBoxElement as AriaComboBoxElement,
   AracnaAriaComboBoxInputElement as AriaComboBoxInputElement,
   AracnaAriaComboBoxListElement as AriaComboBoxListElement,
-  AracnaAriaComboBoxOptionElement as AriaComboBoxOptionElement
+  AracnaAriaComboBoxOptionElement as AriaComboBoxOptionElement,
+  AracnaAriaComboBoxOptionRemoveElement as AriaComboBoxOptionRemoveElement
 } from '../elements/aria/aria-combo-box-element.js'
 
 export class AriaComboBoxController implements ReactiveController {
@@ -24,7 +26,7 @@ export class AriaComboBoxController implements ReactiveController {
   }
 
   setAttributes(): void {
-    if (this.host.native) {
+    if (this.host.selectElement) {
       return
     }
 
@@ -89,6 +91,26 @@ export class AriaComboBoxButtonController implements ReactiveController {
     }
 
     setImmutableElementAttribute(this.host, 'role', 'combobox')
+    setImmutableElementAttribute(this.host, 'tabindex', '0')
+  }
+}
+
+export class AriaComboBoxClearController implements ReactiveController {
+  constructor(private host: ReactiveControllerHost & AriaComboBoxClearElement) {
+    this.host.addController(this)
+  }
+
+  hostConnected(): void {
+    this.setAttributes()
+  }
+
+  hostUpdate(): void {
+    this.setAttributes()
+  }
+
+  setAttributes(): void {
+    setImmutableElementAttribute(this.host, 'aria-label', 'Clear Searches')
+    setImmutableElementAttribute(this.host, 'role', 'button')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
   }
 }
@@ -204,5 +226,25 @@ export class AriaComboBoxOptionController implements ReactiveController {
         setImmutableElementAttribute(this.host.rootElement.buttonElement, 'aria-activedescendant', this.host.id)
       }
     }
+  }
+}
+
+export class AriaComboBoxOptionRemoveController implements ReactiveController {
+  constructor(private host: ReactiveControllerHost & AriaComboBoxOptionRemoveElement) {
+    this.host.addController(this)
+  }
+
+  hostConnected(): void {
+    this.setAttributes()
+  }
+
+  hostUpdate(): void {
+    this.setAttributes()
+  }
+
+  setAttributes(): void {
+    setImmutableElementAttribute(this.host, 'aria-label', `Remove Option ${this.host.option}`)
+    setImmutableElementAttribute(this.host, 'role', 'button')
+    setImmutableElementAttribute(this.host, 'tabindex', '-1')
   }
 }

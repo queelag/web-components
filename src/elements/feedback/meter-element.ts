@@ -1,7 +1,8 @@
+import { wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { html, type PropertyDeclarations } from 'lit'
+import { type PropertyDeclarations } from 'lit'
 import type { MeterElementEventMap } from '../../definitions/events.js'
-import { ifdef } from '../../directives/if-defined.js'
+import { QueryDeclarations } from '../../definitions/interfaces.js'
 import { getMeterElementPercentage } from '../../utils/meter-element-utils.js'
 import { AracnaAriaMeterElement as AriaMeterElement } from '../aria/aria-meter-element.js'
 
@@ -21,24 +22,44 @@ class MeterElement<E extends MeterElementEventMap = MeterElementEventMap> extend
   optimum?: number
   round?: boolean
 
-  render() {
-    if (this.native) {
-      return html`
-        <meter
-          min=${ifdef(this.min)}
-          max=${ifdef(this.max)}
-          low=${ifdef(this.low)}
-          high=${ifdef(this.high)}
-          optimum=${ifdef(this.optimum)}
-          style=${this.styleMap}
-          value=${ifdef(this._value)}
-        >
-          <slot></slot>
-        </meter>
-      `
+  connectedCallback(): void {
+    super.connectedCallback()
+    wf(() => this.meterElement, 4).then(this.setMeterElementAttributes)
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
     }
 
-    return super.render()
+    if (['low', 'high', 'max', 'min', 'optimum', 'round'].includes(name)) {
+      this.setMeterElementAttributes()
+    }
+  }
+
+  setMeterElementAttributes = (): void => {
+    if (!this.meterElement) {
+      return
+    }
+
+    if (typeof this.low === 'number') {
+      this.meterElement.low = this.low
+    }
+
+    if (typeof this.high === 'number') {
+      this.meterElement.high = this.high
+    }
+
+    this.meterElement.max = this.max
+    this.meterElement.min = this.min
+
+    if (typeof this.optimum === 'number') {
+      this.meterElement.optimum = this.optimum
+    }
+
+    this.meterElement.value = this.value
   }
 
   get percentage(): number {
@@ -54,6 +75,10 @@ class MeterElement<E extends MeterElementEventMap = MeterElementEventMap> extend
     high: { type: Number, reflect: true },
     optimum: { type: Number, reflect: true },
     round: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    meterElement: { selector: 'meter' }
   }
 }
 

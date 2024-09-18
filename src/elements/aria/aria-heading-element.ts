@@ -1,5 +1,5 @@
 import { defineCustomElement } from '@aracna/web'
-import type { PropertyDeclarations } from 'lit'
+import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaHeadingController } from '../../controllers/aria-heading-controller.js'
 import { ElementName } from '../../definitions/enums.js'
 import type { AriaHeadingElementEventMap } from '../../definitions/events.js'
@@ -41,6 +41,14 @@ class AriaHeadingElement<E extends AriaHeadingElementEventMap = AriaHeadingEleme
   static properties: PropertyDeclarations = {
     level: { type: Number, reflect: true }
   }
+
+  static styles: CSSResultGroup = [
+    css`
+      :host {
+        display: inline;
+      }
+    `
+  ]
 }
 
 defineCustomElement('aracna-aria-heading', AriaHeadingElement)

@@ -61,6 +61,7 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
   automaticRotation?: boolean
   automaticRotationIntervalTime?: number
   infiniteRotation?: boolean
+  label?: string
   reverseRotation?: boolean
 
   /**
@@ -343,6 +344,7 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
       attribute: 'infinite-rotation',
       reflect: true
     },
+    label: { type: String, reflect: true },
     reverseRotation: {
       type: Boolean,
       attribute: 'reverse-rotation',

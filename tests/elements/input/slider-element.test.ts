@@ -67,24 +67,29 @@ describe('SliderElement', () => {
   })
 
   it('supports native', async () => {
-    await render(slider, { native: 'true' })
+    let native: HTMLInputElement
+
+    native = document.createElement('input')
+    slider.append(native)
+
+    await render(slider)
 
     expect(slider.value).toBeUndefined()
-    expect(slider.renderRoot.querySelector('input')?.getAttribute('max')).toBe(String(DEFAULT_SLIDER_MAX))
-    expect(slider.renderRoot.querySelector('input')?.getAttribute('min')).toBe(String(DEFAULT_SLIDER_MIN))
-    expect(slider.renderRoot.querySelector('input')?.getAttribute('step')).toBe(String(DEFAULT_SLIDER_STEP))
-    expect(slider.renderRoot.querySelector('input')?.getAttribute('value')).toBe('')
+    expect(native.max).toBe(String(DEFAULT_SLIDER_MAX))
+    expect(native.min).toBe(String(DEFAULT_SLIDER_MIN))
+    expect(native.step).toBe(String(DEFAULT_SLIDER_STEP))
+    expect(native.value).toBe('50')
 
-    dispatchInputEvent(slider.renderRoot.querySelector('input'), '1')
+    dispatchInputEvent(native, '1')
     await slider.updateComplete
 
     expect(slider.value).toBe(1)
-    expect(slider.renderRoot.querySelector('input')?.getAttribute('value')).toBe('1')
+    expect(native.value).toBe('1')
 
     slider.clear()
     await slider.updateComplete
 
     expect(slider.value).toBeUndefined()
-    expect(slider.renderRoot.querySelector('input')?.getAttribute('value')).toBe('')
+    expect(native.value).toBe('0')
   })
 })

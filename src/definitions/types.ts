@@ -69,4 +69,3 @@ export type Size = number | string
 
 export type TextAreaElementTouchTrigger = 'blur' | 'input'
 export type TextAreaElementValue = string | string[] | undefined
-export type TextAreaElementResize = 'both' | 'horizontal' | 'vertical' | 'none'

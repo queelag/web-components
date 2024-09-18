@@ -1,7 +1,7 @@
-import { parseNumber } from '@aracna/core'
+import { parseNumber, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
-import { DEFAULT_SLIDER_MAX, DEFAULT_SLIDER_MIN, DEFAULT_SLIDER_STEP, DEFAULT_SLIDER_THUMB_VALUE } from '../../definitions/constants.js'
+import { type PropertyDeclarations } from 'lit'
+import { DEFAULT_SLIDER_THUMB_VALUE } from '../../definitions/constants.js'
 import { ElementName } from '../../definitions/enums.js'
 import type { SliderElementEventMap, SliderThumbElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
@@ -20,37 +20,70 @@ class SliderElement<E extends SliderElementEventMap = SliderElementEventMap, T =
    * Properties
    */
   /** */
-  inputElement!: HTMLInputElement
   thumbs?: T[]
 
-  onInput(): void {
+  connectedCallback(): void {
+    super.connectedCallback()
+
+    wf(() => this.inputElement, 4).then(() => {
+      this.setInputElementAttributes()
+      this.inputElement?.addEventListener('input', this.onInput)
+    })
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (['max', 'min', 'step'].includes(name)) {
+      this.setInputElementAttributes()
+    }
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.inputElement?.removeEventListener('input', this.onInput)
+  }
+
+  setInputElementAttributes = (): void => {
+    if (!this.inputElement) {
+      return
+    }
+
+    this.inputElement.max = this.max.toString()
+    this.inputElement.min = this.min.toString()
+    this.inputElement.step = this.step.toString()
+    this.inputElement.type = 'range'
+  }
+
+  onInput = (): void => {
     if (this.disabled || this.readonly) {
       return ElementLogger.warn(this.uid, 'onInput', `The slider is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, 'onInput', `Setting the value.`)
-    this.setValue(this.inputElement.value ? parseNumber(this.inputElement.value) : DEFAULT_SLIDER_THUMB_VALUE)
-  }
-
-  render() {
-    if (this.native) {
-      return html`
-        <input
-          @input=${this.onInput}
-          max=${this.max ?? DEFAULT_SLIDER_MAX}
-          min=${this.min ?? DEFAULT_SLIDER_MIN}
-          step=${this.step ?? DEFAULT_SLIDER_STEP}
-          type="range"
-          value=${this.value as number}
-        />
-      `
+    if (this.inputElement) {
+      ElementLogger.verbose(this.uid, 'onInput', `Setting the value.`)
+      this.setValue(this.inputElement.value ? parseNumber(this.inputElement.value) : DEFAULT_SLIDER_THUMB_VALUE)
     }
-
-    return super.render()
   }
 
   get name(): ElementName {
     return ElementName.SLIDER
+  }
+
+  get value(): number | number[] | undefined {
+    return super.value
+  }
+
+  set value(value: number | number[] | undefined) {
+    super.value = value
+
+    if (this.inputElement) {
+      this.inputElement.value = value?.toString() ?? DEFAULT_SLIDER_THUMB_VALUE.toString()
+    }
   }
 
   static properties: PropertyDeclarations = {
@@ -58,18 +91,9 @@ class SliderElement<E extends SliderElementEventMap = SliderElementEventMap, T =
   }
 
   static queries: QueryDeclarations = {
-    inputElement: { selector: 'input', shadow: true },
+    inputElement: { selector: 'input' },
     thumbElements: { selector: 'aracna-slider-thumb', all: true }
   }
-
-  static styles: CSSResultGroup = [
-    super.styles,
-    css`
-      :host([native]) input {
-        all: inherit;
-      }
-    `
-  ]
 }
 
 class SliderThumbElement<E extends SliderThumbElementEventMap = SliderThumbElementEventMap> extends AriaSliderThumbElement<E> {

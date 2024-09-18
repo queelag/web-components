@@ -1,5 +1,5 @@
+import { wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { css, type CSSResult, type CSSResultGroup, html } from 'lit'
 import type { SwitchElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
@@ -12,18 +12,58 @@ declare global {
 }
 
 class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventMap> extends AriaSwitchElement<E> {
-  /**
-   * Queries
-   */
-  /** */
-  inputElement!: HTMLInputElement
+  connectedCallback(): void {
+    super.connectedCallback()
 
-  onChange(): void {
+    wf(() => this.inputElement, 4).then(() => {
+      this.setInputElementAttributes()
+      this.inputElement?.addEventListener('change', this.onChange)
+    })
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (['disabled', 'readonly'].includes(name)) {
+      this.setInputElementAttributes()
+    }
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.inputElement?.removeEventListener('change', this.onChange)
+  }
+
+  setInputElementAttributes = (): void => {
+    if (!this.inputElement) {
+      return
+    }
+
+    if (typeof this.disabled === 'boolean') {
+      this.inputElement.disabled = this.disabled
+    }
+
+    this.inputElement.max = '1'
+    this.inputElement.min = '0'
+
+    if (typeof this.readonly === 'boolean') {
+      this.inputElement.readOnly = this.readonly
+    }
+
+    this.inputElement.step = '1'
+    this.inputElement.type = 'range'
+  }
+
+  onChange = (): void => {
     if (this.disabled || this.readonly) {
       return ElementLogger.warn(this.uid, 'onChange', `The switch is disabled or readonly.`)
     }
 
-    if (this.inputElement.value === '1') {
+    if (this.inputElement?.value === '1') {
       ElementLogger.verbose(this.uid, 'onChange', `Turning the switch on.`)
       return this.__on()
     }
@@ -32,30 +72,21 @@ class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventMap> ext
     this.off()
   }
 
-  render() {
-    if (this.native) {
-      return html`
-        <input @change=${this.onChange} ?disabled=${this.disabled} min="0" max="1" ?readonly=${this.readonly} step="1" type="range" value=${this.on ? 1 : 0} />
-      `
-    }
+  get value(): boolean | undefined {
+    return super.value
+  }
 
-    return super.render()
+  set value(value: boolean | undefined) {
+    super.value = value
+
+    if (this.inputElement) {
+      this.inputElement.value = value ? '1' : '0'
+    }
   }
 
   static queries: QueryDeclarations = {
-    inputElement: { selector: 'input', shadow: true }
+    inputElement: { selector: 'input' }
   }
-
-  static styles: CSSResultGroup = [
-    super.styles as CSSResult,
-    css`
-      :host([native]) input {
-        all: inherit;
-        height: 100%;
-        width: 100%;
-      }
-    `
-  ]
 }
 
 defineCustomElement('aracna-switch', SwitchElement)

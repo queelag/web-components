@@ -1,6 +1,6 @@
 import type { Localization, LocalizationVariables } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import type { PropertyDeclarations } from 'lit'
+import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { ElementName } from '../../definitions/enums.js'
 import type { TextElementEventMap } from '../../definitions/events.js'
 import type { TextElementSanitizeConfig } from '../../definitions/interfaces.js'
@@ -39,6 +39,14 @@ class TextElement<E extends TextElementEventMap = TextElementEventMap> extends B
     sanitizeConfig: { type: Object, attribute: 'sanitize-config' },
     variables: { type: Object }
   }
+
+  static styles: CSSResultGroup = [
+    css`
+      :host {
+        display: inline;
+      }
+    `
+  ]
 }
 
 defineCustomElement('aracna-text', TextElement)

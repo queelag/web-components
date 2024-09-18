@@ -21,10 +21,6 @@ export class AriaRadioGroupController implements ReactiveController {
   }
 
   setAttributes(): void {
-    if (this.host.native) {
-      return
-    }
-
     // setImmutableElementAttribute(this.host, 'aria-labelledby', '')
     setImmutableElementAttribute(this.host, 'aria-disabled', this.host.disabled ? 'true' : 'false')
     setImmutableElementAttribute(this.host, 'aria-readonly', this.host.readonly ? 'true' : 'false')

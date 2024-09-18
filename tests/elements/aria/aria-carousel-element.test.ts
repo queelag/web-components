@@ -80,18 +80,18 @@ describe('AriaCarouselElement', () => {
     expect(s2.getAttribute('role')).toBe('group')
     expect(s2.getAttribute('id')).toBeDefined()
 
-    expect(nsc.getAttribute('aria-label')).toBe('Next Slide')
     expect(nsc.getAttribute('aria-controls')).toBe(slides.id)
+    expect(nsc.getAttribute('aria-label')).toBe('Next Slide')
     expect(nsc.getAttribute('role')).toBe('button')
     expect(nsc.getAttribute('tabindex')).toBe('0')
 
-    expect(psc.getAttribute('aria-label')).toBe('Previous Slide')
     expect(psc.getAttribute('aria-controls')).toBe(slides.id)
+    expect(psc.getAttribute('aria-label')).toBe('Previous Slide')
     expect(psc.getAttribute('role')).toBe('button')
     expect(psc.getAttribute('tabindex')).toBe('0')
 
-    expect(rc.getAttribute('aria-label')).toBe('Start Automatic Slide Show')
     expect(rc.getAttribute('aria-controls')).toBe(slides.id)
+    expect(rc.getAttribute('aria-label')).toBe('Start Automatic Slide Show')
     expect(rc.getAttribute('role')).toBe('button')
     expect(rc.getAttribute('tabindex')).toBe('0')
   })

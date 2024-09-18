@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, DEFAULT_METER_VALUE } from '../../../src/definitions/constants'
 import '../../../src/elements/feedback/meter-element'
 import type { AracnaMeterElement as MeterElement } from '../../../src/elements/feedback/meter-element'
 import { render } from '../../../vitest/dom-utils'
@@ -24,34 +25,37 @@ describe('MeterElement', () => {
   })
 
   it('supports native', async () => {
-    await render(meter, { native: 'true' })
+    let native: HTMLMeterElement
+
+    native = document.createElement('meter')
+    meter.append(native)
+
+    await render(meter)
 
     expect(meter.getAttribute('aria-valuemax')).toBeNull()
     expect(meter.getAttribute('aria-valuemin')).toBeNull()
     expect(meter.getAttribute('aria-valuenow')).toBeNull()
     expect(meter.getAttribute('role')).toBeNull()
 
-    expect(meter.renderRoot.querySelector('meter')?.getAttribute('max')).toBeNull()
-    expect(meter.renderRoot.querySelector('meter')?.getAttribute('min')).toBeNull()
-    expect(meter.renderRoot.querySelector('meter')?.getAttribute('style')).toBe('')
-    expect(meter.renderRoot.querySelector('meter')?.getAttribute('value')).toBeNull()
+    expect(native.max).toBe(DEFAULT_METER_MAX)
+    expect(native.min).toBe(DEFAULT_METER_MIN)
+    expect(native.value).toBe(DEFAULT_METER_VALUE)
 
     meter.low = 0
     meter.high = 1
     meter.max = 1
     meter.min = 0
-    meter.native = true
     meter.optimum = 0.5
     meter.value = 0
+
     await meter.updateComplete
 
-    expect(meter.renderRoot.querySelector('meter')?.getAttribute('low')).toBe('0')
-    expect(meter.renderRoot.querySelector('meter')?.getAttribute('high')).toBe('1')
-    expect(meter.renderRoot.querySelector('meter')?.getAttribute('max')).toBe('1')
-    expect(meter.renderRoot.querySelector('meter')?.getAttribute('min')).toBe('0')
-    expect(meter.renderRoot.querySelector('meter')?.getAttribute('optimum')).toBe('0.5')
-    expect(meter.renderRoot.querySelector('meter')?.getAttribute('style')).toBe('')
-    expect(meter.renderRoot.querySelector('meter')?.getAttribute('value')).toBe('0')
+    expect(native.low).toBe(0)
+    expect(native.high).toBe(1)
+    expect(native.max).toBe(1)
+    expect(native.min).toBe(0)
+    expect(native.optimum).toBe(0.5)
+    expect(native.value).toBe(0)
   })
 
   it('returns percentage and optionally rounds it', async () => {

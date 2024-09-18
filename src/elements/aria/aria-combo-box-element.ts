@@ -3,20 +3,24 @@ import { defineCustomElement, KeyboardEventKey, scrollElementIntoView } from '@a
 import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import {
   AriaComboBoxButtonController,
+  AriaComboBoxClearController,
   AriaComboBoxController,
   AriaComboBoxInputController,
   AriaComboBoxListController,
-  AriaComboBoxOptionController
+  AriaComboBoxOptionController,
+  AriaComboBoxOptionRemoveController
 } from '../../controllers/aria-combo-box-controller.js'
 import { DEFAULT_COMBOBOX_FILTER_OPTIONS_PREDICATE, DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE } from '../../definitions/constants.js'
 import { ElementName } from '../../definitions/enums.js'
 import type {
   AriaComboBoxButtonElementEventMap,
+  AriaComboBoxClearElementEventMap,
   AriaComboBoxElementEventMap,
   AriaComboBoxGroupElementEventMap,
   AriaComboBoxInputElementEventMap,
   AriaComboBoxListElementEventMap,
-  AriaComboBoxOptionElementEventMap
+  AriaComboBoxOptionElementEventMap,
+  AriaComboBoxOptionRemoveElementEventMap
 } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { AriaComboBoxElementAutoComplete, AriaComboBoxElementFilterOptionsPredicate } from '../../definitions/types.js'
@@ -35,10 +39,12 @@ declare global {
   interface HTMLElementTagNameMap {
     'aracna-aria-combobox': AriaComboBoxElement
     'aracna-aria-combobox-button': AriaComboBoxButtonElement
+    'aracna-aria-combobox-clear': AriaComboBoxClearElement
     'aracna-aria-combobox-group': AriaComboBoxGroupElement
     'aracna-aria-combobox-input': AriaComboBoxInputElement
     'aracna-aria-combobox-list': AriaComboBoxListElement
     'aracna-aria-combobox-option': AriaComboBoxOptionElement
+    'aracna-aria-combobox-option-remove': AriaComboBoxOptionRemoveElement
   }
 }
 
@@ -68,13 +74,14 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
   listElement?: AriaComboBoxListElement
   focusedOptionElement?: AriaComboBoxOptionElement
   optionElements!: AriaComboBoxOptionElement[]
+  selectElement?: HTMLSelectElement
   selectedOptionElement?: AriaComboBoxOptionElement
   selectedOptionElements!: AriaComboBoxOptionElement[]
 
   connectedCallback(): void {
     super.connectedCallback()
 
-    if (this.native) {
+    if (this.selectElement) {
       return
     }
 
@@ -84,7 +91,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
   disconnectedCallback(): void {
     super.disconnectedCallback()
 
-    if (this.native) {
+    if (this.selectElement) {
       return
     }
 
@@ -101,7 +108,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
-    if (this.native) {
+    if (this.selectElement) {
       return
     }
 
@@ -1023,18 +1030,124 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
   ]
 }
 
+class AriaComboBoxOptionRemoveElement<E extends AriaComboBoxOptionRemoveElementEventMap = AriaComboBoxOptionRemoveElementEventMap> extends BaseElement<E> {
+  protected aria: AriaComboBoxOptionRemoveController = new AriaComboBoxOptionRemoveController(this)
+
+  /**
+   * Propertis
+   */
+  /** */
+  value?: any
+
+  /**
+   * Queries
+   */
+  /** */
+  rootElement!: AriaComboBoxElement
+
+  connectedCallback(): void {
+    super.connectedCallback()
+    this.addEventListener('click', this.onClick)
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.removeEventListener('click', this.onClick)
+  }
+
+  onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return ElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
+    }
+
+    ElementLogger.verbose(this.uid, 'onClick', `Removing the option.`, this.value)
+    this.rootElement.removeOption(this.value)
+  }
+
+  get name(): ElementName {
+    return ElementName.ARIA_COMBOBOX_OPTION_REMOVE
+  }
+
+  static properties: PropertyDeclarations = {
+    value: {}
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'aracna-aria-combobox', closest: true }
+  }
+
+  static styles: CSSResultGroup = [
+    super.styles,
+    css`
+      :host {
+        cursor: pointer;
+      }
+    `
+  ]
+}
+
+class AriaComboBoxClearElement<E extends AriaComboBoxClearElementEventMap = AriaComboBoxClearElementEventMap> extends BaseElement<E> {
+  protected aria: AriaComboBoxClearController = new AriaComboBoxClearController(this)
+
+  /**
+   * Queries
+   */
+  /** */
+  rootElement!: AriaComboBoxElement
+
+  connectedCallback(): void {
+    super.connectedCallback()
+    this.addEventListener('click', this.onClick)
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.removeEventListener('click', this.onClick)
+  }
+
+  onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return ElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
+    }
+
+    ElementLogger.verbose(this.uid, 'onClick', `Clearing the combobox...`)
+    this.rootElement.clear()
+  }
+
+  get name(): ElementName {
+    return ElementName.ARIA_COMBOBOX_CLEAR
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'aracna-aria-combobox', closest: true }
+  }
+
+  static styles: CSSResultGroup = [
+    super.styles,
+    css`
+      :host {
+        cursor: pointer;
+      }
+    `
+  ]
+}
+
 defineCustomElement('aracna-aria-combobox', AriaComboBoxElement)
 defineCustomElement('aracna-aria-combobox-button', AriaComboBoxButtonElement)
+defineCustomElement('aracna-aria-combobox-clear', AriaComboBoxClearElement)
 defineCustomElement('aracna-aria-combobox-group', AriaComboBoxGroupElement)
 defineCustomElement('aracna-aria-combobox-input', AriaComboBoxInputElement)
 defineCustomElement('aracna-aria-combobox-list', AriaComboBoxListElement)
 defineCustomElement('aracna-aria-combobox-option', AriaComboBoxOptionElement)
+defineCustomElement('aracna-aria-combobox-option-remove', AriaComboBoxOptionRemoveElement)
 
 export {
   AriaComboBoxButtonElement as AracnaAriaComboBoxButtonElement,
+  AriaComboBoxClearElement as AracnaAriaComboBoxClearElement,
   AriaComboBoxElement as AracnaAriaComboBoxElement,
   AriaComboBoxGroupElement as AracnaAriaComboBoxGroupElement,
   AriaComboBoxInputElement as AracnaAriaComboBoxInputElement,
   AriaComboBoxListElement as AracnaAriaComboBoxListElement,
-  AriaComboBoxOptionElement as AracnaAriaComboBoxOptionElement
+  AriaComboBoxOptionElement as AracnaAriaComboBoxOptionElement,
+  AriaComboBoxOptionRemoveElement as AracnaAriaComboBoxOptionRemoveElement
 }

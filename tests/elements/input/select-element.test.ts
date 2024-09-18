@@ -62,29 +62,41 @@ describe('SelectElement', () => {
   })
 
   it('supports native', async () => {
-    await render(select, { native: 'true', options: JSON.stringify([{ value: 'cat' }, { value: 'dog' }]) })
+    let native: HTMLSelectElement, option1: HTMLOptionElement, option2: HTMLOptionElement
+
+    native = document.createElement('select')
+    option1 = document.createElement('option')
+    option2 = document.createElement('option')
+
+    option1.value = 'cat'
+    option2.value = 'dog'
+
+    native.append(option1, option2)
+    select.append(native)
+
+    await render(select)
     expect(select.value).toBeUndefined()
 
-    dispatchChangeEvent(select.renderRoot.querySelector('select'), 'cat')
+    dispatchChangeEvent(native, 'cat')
     await select.updateComplete
 
     expect(select.value).toBe('cat')
-    expect(select.renderRoot.querySelector('option[value="cat"]')?.getAttribute('selected')).not.toBeNull()
-    expect(select.renderRoot.querySelector('option[value="dog"]')?.getAttribute('selected')).toBeNull()
+    expect(option1.selected).toBeTruthy()
+    expect(option2.selected).toBeFalsy()
 
-    dispatchChangeEvent(select.renderRoot.querySelector('select'), 'dog')
+    dispatchChangeEvent(native, 'dog')
     await select.updateComplete
 
     expect(select.value).toBe('dog')
-    expect(select.renderRoot.querySelector('option[value="cat"]')?.getAttribute('selected')).toBeNull()
-    expect(select.renderRoot.querySelector('option[value="dog"]')?.getAttribute('selected')).not.toBeNull()
+    expect(option1.selected).toBeFalsy()
+    expect(option2.selected).toBeTruthy()
 
     select.clear()
     await select.updateComplete
 
     expect(select.value).toBeUndefined()
-    expect(select.renderRoot.querySelector('option[value="cat"]')?.getAttribute('selected')).toBeNull()
-    expect(select.renderRoot.querySelector('option[value="dog"]')?.getAttribute('selected')).toBeNull()
+    expect(option1.selected).toBeFalsy()
+    expect(option2.selected).toBeFalsy()
   })
 
   it('supports multiple mode', async () => {

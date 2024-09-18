@@ -25,7 +25,12 @@ describe('CheckBoxElement', () => {
   })
 
   it('supports native checkbox', async () => {
-    await render(checkbox, { native: 'true' })
+    let native: HTMLInputElement
+
+    native = document.createElement('input')
+    checkbox.append(native)
+
+    await render(checkbox)
 
     expect(checkbox.getAttribute('aria-checked')).toBeNull()
     expect(checkbox.getAttribute('aria-disabled')).toBeNull()

@@ -1,9 +1,10 @@
+import { wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { css, type CSSResultGroup, html, type PropertyDeclarations } from 'lit'
+import { type PropertyDeclarations } from 'lit'
 import { ElementName } from '../../definitions/enums.js'
 import type { ButtonElementEventMap } from '../../definitions/events.js'
+import { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { ButtonType, ButtonVariant } from '../../definitions/types.js'
-import { ifdef } from '../../directives/if-defined.js'
 import { ButtonClickEvent } from '../../events/button-click-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaAriaButtonElement as AriaButtonElement } from '../aria/aria-button-element.js'
@@ -21,11 +22,44 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
   /** */
   async?: boolean
   icon?: string
-  normalized?: boolean
   spinning?: boolean
   text?: string
   type?: ButtonType
   variant?: ButtonVariant
+
+  connectedCallback(): void {
+    super.connectedCallback()
+    wf(() => this.buttonElement, 4).then(this.setButtonElementAttributes)
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (['disabled', 'label', 'pressed', 'text', 'type'].includes(name)) {
+      this.setButtonElementAttributes()
+    }
+  }
+
+  setButtonElementAttributes = (): void => {
+    if (!this.buttonElement) {
+      return
+    }
+
+    this.buttonElement.ariaLabel = this.label ?? null
+    this.buttonElement.ariaPressed = this.pressed ?? null
+
+    if (typeof this.disabled === 'boolean') {
+      this.buttonElement.disabled = this.disabled
+    }
+
+    if (typeof this.type === 'string') {
+      this.buttonElement.type = this.type as any
+    }
+  }
 
   click(): void {
     if (this.spinning) {
@@ -62,23 +96,12 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
     ElementLogger.verbose(this.uid, 'finalize', `The disabled and spinning properties have been set to false.`)
   }
 
-  render() {
-    if (this.native) {
-      return html`
-        <button
-          aria-label=${ifdef(this.text)}
-          aria-pressed=${ifdef(this.pressed)}
-          ?disabled=${this.disabled}
-          style=${this.styleMap}
-          tabindex="-1"
-          type=${ifdef(this.type)}
-        >
-          <slot>${this.text}</slot>
-        </button>
-      `
-    }
+  get label(): string | undefined {
+    return super.label ?? this.text
+  }
 
-    return super.render()
+  set label(label: string | undefined) {
+    super.label = label
   }
 
   get name(): ElementName {
@@ -88,39 +111,15 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
   static properties: PropertyDeclarations = {
     async: { type: Boolean, reflect: true },
     icon: { type: String, reflect: true },
-    normalized: { type: Boolean, reflect: true },
     spinning: { type: Boolean, reflect: true },
     text: { type: String, reflect: true },
     type: { type: String, reflect: true },
     variant: { type: String, reflect: true }
   }
 
-  static styles: CSSResultGroup = [
-    super.styles,
-    css`
-      * {
-        cursor: pointer;
-      }
-
-      :host(:not([native])) {
-        align-items: center;
-        justify-content: center;
-      }
-
-      :host([native]) button {
-        all: inherit;
-      }
-
-      :host([native][normalized]) button {
-        appearance: none;
-        background: none;
-        border: none;
-        height: 100%;
-        padding: none;
-        width: 100%;
-      }
-    `
-  ]
+  static queries: QueryDeclarations = {
+    buttonElement: { selector: 'button' }
+  }
 }
 
 defineCustomElement('aracna-button', ButtonElement)

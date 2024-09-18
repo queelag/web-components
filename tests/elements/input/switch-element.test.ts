@@ -25,7 +25,12 @@ describe('SwitchElement', () => {
   })
 
   it('supports native switch', async () => {
-    await render(switche, { native: 'true' })
+    let native: HTMLInputElement
+
+    native = document.createElement('input')
+    switche.append(native)
+
+    await render(switche)
 
     expect(switche.getAttribute('aria-checked')).toBeNull()
     expect(switche.getAttribute('aria-disabled')).toBeNull()

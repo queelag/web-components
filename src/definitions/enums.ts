@@ -31,10 +31,12 @@ export enum ElementName {
 
   ARIA_COMBOBOX = 'aria_combobox',
   ARIA_COMBOBOX_BUTTON = 'aria_combobox_button',
+  ARIA_COMBOBOX_CLEAR = 'aria_combobox_clear',
   ARIA_COMBOBOX_GROUP = 'aria_combobox_group',
   ARIA_COMBOBOX_INPUT = 'aria_combobox_input',
   ARIA_COMBOBOX_LIST = 'aria_combobox_list',
   ARIA_COMBOBOX_OPTION = 'aria_combobox_option',
+  ARIA_COMBOBOX_OPTION_REMOVE = 'aria_combobox_option_remove',
 
   ARIA_DIALOG = 'aria_dialog',
   ARIA_DIALOG_DESCRIPTION = 'aria_dialog_description',
@@ -140,8 +142,16 @@ export enum ElementName {
 
   ICON = 'icon',
   IMAGE = 'image',
+
   INPUT = 'input',
+  INPUT_CLEAR = 'input_clear',
+  INPUT_OBSCURE = 'input_obscure',
+  INPUT_ITEM_REMOVE = 'input_item_remove',
+
   INPUT_FILE = 'input_file',
+  INPUT_FILE_CLEAR = 'input_file_clear',
+  INPUT_FILE_REMOVE = 'input_file_remove',
+
   LIST = 'list',
   LIST_ITEM = 'list_item',
 
@@ -164,10 +174,12 @@ export enum ElementName {
 
   SELECT = 'select',
   SELECT_BUTTON = 'select_button',
+  SELECT_CLEAR = 'select_clear',
   SELECT_GROUP = 'select_group',
   SELECT_INPUT = 'select_input',
   SELECT_LIST = 'select_list',
   SELECT_OPTION = 'select_option',
+  SELECT_OPTION_REMOVE = 'select_option_remove',
 
   SLIDER = 'slider',
   SLIDER_THUMB = 'slider_thumb',
@@ -182,6 +194,8 @@ export enum ElementName {
   TEXT = 'text',
 
   TEXTAREA = 'textarea',
+  TEXTAREA_CLEAR = 'textarea_clear',
+  TEXTAREA_ITEM_REMOVE = 'textarea_item_remove',
 
   TOOLTIP = 'tooltip',
   TOOLTIP_ARROW = 'tooltip_arrow',

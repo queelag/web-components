@@ -1,10 +1,9 @@
 import { wf } from '@aracna/core'
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
-import { css, type CSSResultGroup, html, type PropertyDeclarations } from 'lit'
+import { type PropertyDeclarations } from 'lit'
 import { ElementName } from '../../definitions/enums.js'
 import type { FormElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
-import { ifdef } from '../../directives/if-defined.js'
 import { ButtonClickEvent } from '../../events/button-click-event.js'
 import { FormSubmitEvent } from '../../events/form-submit-event.js'
 import { gkek } from '../../functions/gkek.js'
@@ -39,12 +38,29 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
 
   connectedCallback(): void {
     super.connectedCallback()
-    wf(() => this.buttonElement, 4).then(() => this.buttonElement?.addEventListener('button-click', this.onButtonClick))
+
+    wf(() => this.buttonElement, 4).then(() => {
+      this.buttonElement?.addEventListener('button-click', this.onButtonClick)
+    })
+
+    this.setFormElementAttributes()
+
+    this.formElement.addEventListener('keydown', this.onKeyDown)
+    this.formElement.addEventListener('submit', this.onSubmit)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
+
     this.buttonElement?.removeEventListener('button-click', this.onButtonClick)
+
+    this.formElement?.removeEventListener('keydown', this.onKeyDown)
+    this.formElement?.removeEventListener('submit', this.onSubmit)
+  }
+
+  setFormElementAttributes = (): void => {
+    this.formElement.ariaDisabled = this.disabled ? 'true' : 'false'
+    this.formElement.noValidate = true
   }
 
   onButtonClick = (event: ButtonClickEvent): void => {
@@ -54,7 +70,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     event.detail?.finalize()
   }
 
-  onKeyDown(event: KeyboardEvent): void {
+  onKeyDown = (event: KeyboardEvent): void => {
     if (event.key !== KeyboardEventKey.ENTER) {
       return
     }
@@ -63,7 +79,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     this.formElement.requestSubmit()
   }
 
-  onSubmit(event: SubmitEvent): void {
+  onSubmit = (event: SubmitEvent): void => {
     let valid: boolean = true
 
     event.preventDefault()
@@ -102,14 +118,6 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     ElementLogger.verbose(this.uid, 'finalize', `The disabled and spinning properties have been set to false.`)
   }
 
-  render() {
-    return html`
-      <form aria-disabled=${ifdef(this.disabled)} @keydown=${this.onKeyDown} @submit=${this.onSubmit} novalidate>
-        <slot></slot>
-      </form>
-    `
-  }
-
   get name(): ElementName {
     return ElementName.FORM
   }
@@ -124,18 +132,8 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
   static queries: QueryDeclarations = {
     buttonElement: { selector: 'aracna-button[type="submit"]' },
     fieldElements: { selector: '[form-field-element]', all: true },
-    formElement: { selector: 'form', shadow: true }
+    formElement: { selector: 'form' }
   }
-
-  static styles: CSSResultGroup = [
-    super.styles,
-    css`
-      form {
-        height: 100%;
-        width: 100%;
-      }
-    `
-  ]
 }
 
 defineCustomElement('aracna-form', FormElement)

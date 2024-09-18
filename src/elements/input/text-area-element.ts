@@ -1,19 +1,19 @@
 import { isArray, isWindowNotDefined, removeArrayItems, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
-import type { DirectiveResult } from 'lit/directive.js'
 import { ElementName } from '../../definitions/enums.js'
-import type { TextAreaElementEventMap } from '../../definitions/events.js'
+import type { TextAreaClearElementEventMap, TextAreaElementEventMap, TextAreaItemRemoveElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
-import type { TextAreaElementResize, TextAreaElementTouchTrigger, TextAreaElementValue } from '../../definitions/types.js'
-import { ifdef } from '../../directives/if-defined.js'
-import { styleMap } from '../../directives/style-map.js'
+import type { TextAreaElementTouchTrigger, TextAreaElementValue } from '../../definitions/types.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
     'aracna-textarea': TextAreaElement
+    'aracna-textarea-clear': TextAreaClearElement
+    'aracna-textarea-item-remove': TextAreaItemRemoveElement
   }
 }
 
@@ -23,12 +23,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
    */
   /** */
   autosize?: boolean
-  cols?: number
   multiple?: boolean
-  padding?: string
-  placeholder?: string
-  resize?: TextAreaElementResize
-  rows?: number
   touchTrigger?: TextAreaElementTouchTrigger
 
   /**
@@ -52,6 +47,15 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
       ElementLogger.verbose(this.uid, 'connectedCallback', `Computing the height.`)
       wf(() => this.textAreaElement, 4).then(() => this.computeHeight())
     }
+
+    wf(() => this.textAreaElement, 4).then(() => {
+      this.setTextAreaElementAttributes()
+
+      this.textAreaElement.addEventListener('blur', this.onBlur)
+      this.textAreaElement.addEventListener('focus', this.onFocus)
+      this.textAreaElement.addEventListener('input', this.onInput)
+      this.textAreaElement.addEventListener('keyup', this.onKeyUp)
+    })
   }
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -65,9 +69,34 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
       ElementLogger.verbose(this.uid, 'attributeChangedCallback', `Computing the height.`)
       this.computeHeight()
     }
+
+    if (['disabled', 'readonly'].includes(name)) {
+      this.setTextAreaElementAttributes()
+    }
   }
 
-  onBlur(): void {
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+
+    this.textAreaElement?.removeEventListener('blur', this.onBlur)
+    this.textAreaElement?.removeEventListener('focus', this.onFocus)
+    this.textAreaElement?.removeEventListener('input', this.onInput)
+    this.textAreaElement?.removeEventListener('keyup', this.onKeyUp)
+  }
+
+  setTextAreaElementAttributes = (): void => {
+    if (typeof this.disabled === 'boolean') {
+      this.textAreaElement.disabled = this.disabled
+    }
+
+    if (typeof this.readonly === 'boolean') {
+      this.textAreaElement.readOnly = this.readonly
+    }
+
+    this.textAreaElement.style.overflowY = 'hidden'
+  }
+
+  onBlur = (): void => {
     this.focused = false
     ElementLogger.verbose(this.uid, 'onBlur', `The textarea has been marked as blurred.`)
 
@@ -77,18 +106,18 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     }
   }
 
-  onFocus(): void {
+  onFocus = (): void => {
     this.focused = true
     ElementLogger.verbose(this.uid, 'onFocus', `The textarea has been marked as focused.`)
   }
 
-  onInput(): void {
-    if (this.multiple) {
+  onInput = (): void => {
+    if (this.multiple && this.textAreaElement) {
       this.temporaryValue = this.textAreaElement.value
       ElementLogger.verbose(this.uid, 'onInput', `The temporary value has been set.`, [this.temporaryValue])
     }
 
-    if (this.single) {
+    if (this.single && this.textAreaElement) {
       ElementLogger.verbose(this.uid, 'onInput', `Setting the value.`)
       this.setValue(this.textAreaElement.value)
     }
@@ -99,7 +128,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     }
   }
 
-  onKeyUp(event: KeyboardEvent): void {
+  onKeyUp = (event: KeyboardEvent): void => {
     let value: string[]
 
     if (event.key !== 'Enter' || this.single) {
@@ -126,7 +155,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
   computeHeight(): void {
     let style: CSSStyleDeclaration
 
-    if (isWindowNotDefined()) {
+    if (isWindowNotDefined() || !this.textAreaElement) {
       return
     }
 
@@ -153,6 +182,9 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
 
     this.computedHeight = getComputedStyle(this.spanElement).height
     ElementLogger.verbose(this.uid, 'computeHeight', `The height has been computed.`, [this.computedHeight])
+
+    this.textAreaElement.style.height = this.computedHeight
+    ElementLogger.verbose(this.uid, 'computeHeight', `The textarea element height has been set.`, [this.textAreaElement.style.height])
   }
 
   removeItem(item: string): void {
@@ -197,20 +229,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
 
   render() {
     return html`
-      <textarea
-        ?autofocus=${this.autofocus}
-        @blur=${this.onBlur}
-        cols=${ifdef(this.cols)}
-        ?disabled=${this.disabled}
-        @focus=${this.onFocus}
-        @input=${this.onInput}
-        @keyup=${this.onKeyUp}
-        placeholder=${ifdef(this.placeholder)}
-        ?readonly=${this.readonly}
-        rows=${ifdef(this.rows)}
-        style=${this.styleMap}
-        .value=${this.textAreaElementValue}
-      ></textarea>
+      ${super.render()}
       <span></span>
     `
   }
@@ -221,15 +240,6 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
 
   get single(): boolean {
     return !this.multiple
-  }
-
-  get styleMap(): DirectiveResult {
-    return styleMap({
-      ...this.styleInfo,
-      minHeight: this.computedHeight,
-      padding: this.padding,
-      resize: this.resize
-    })
   }
 
   get textAreaElementValue(): string {
@@ -251,6 +261,10 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
       ElementLogger.verbose(this.uid, 'set value', `Computing the height.`)
       this.computeHeight()
     }
+
+    if (this.textAreaElement) {
+      this.textAreaElement.value = this.textAreaElementValue
+    }
   }
 
   static properties: PropertyDeclarations = {
@@ -268,7 +282,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
 
   static queries: QueryDeclarations = {
     spanElement: { selector: 'span', shadow: true },
-    textAreaElement: { selector: 'textarea', shadow: true }
+    textAreaElement: { selector: 'textarea' }
   }
 
   static styles: CSSResultGroup = [
@@ -276,13 +290,6 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     css`
       :host([autosize]) textarea {
         overflow-y: hidden;
-      }
-
-      :host([normalized]) textarea {
-        background: none;
-        border: none;
-        outline: none;
-        padding: none;
       }
 
       textarea {
@@ -294,6 +301,92 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
   ]
 }
 
-defineCustomElement('aracna-textarea', TextAreaElement)
+class TextAreaClearElement<E extends TextAreaClearElementEventMap = TextAreaClearElementEventMap> extends BaseElement<E> {
+  /**
+   * Queries
+   */
+  /** */
+  rootElement!: TextAreaElement
 
-export { TextAreaElement as AracnaTextAreaElement }
+  connectedCallback(): void {
+    super.connectedCallback()
+    this.addEventListener('click', this.onClick)
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.removeEventListener('click', this.onClick)
+  }
+
+  onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return ElementLogger.warn(this.uid, 'onClick', `The textarea is disabled or readonly.`)
+    }
+
+    ElementLogger.verbose(this.uid, 'onClick', `Clearing the value...`)
+    this.rootElement.clear()
+  }
+
+  get name(): ElementName {
+    return ElementName.TEXTAREA_CLEAR
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'aracna-textarea', closest: true }
+  }
+}
+
+class TextAreaItemRemoveElement<E extends TextAreaItemRemoveElementEventMap = TextAreaItemRemoveElementEventMap> extends BaseElement<E> {
+  /**
+   * Properties
+   */
+  /** */
+  item!: string
+
+  /**
+   * Queries
+   */
+  /** */
+  rootElement!: TextAreaElement
+
+  connectedCallback(): void {
+    super.connectedCallback()
+    this.addEventListener('click', this.onClick)
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.removeEventListener('click', this.onClick)
+  }
+
+  onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return ElementLogger.warn(this.uid, 'onClick', `The textarea is disabled or readonly.`)
+    }
+
+    ElementLogger.verbose(this.uid, 'onClick', `Removing the item...`, [this.item])
+    this.rootElement.removeItem(this.item)
+  }
+
+  get name(): ElementName {
+    return ElementName.TEXTAREA_ITEM_REMOVE
+  }
+
+  static properties: PropertyDeclarations = {
+    item: { type: String, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'aracna-textarea', closest: true }
+  }
+}
+
+defineCustomElement('aracna-textarea', TextAreaElement)
+defineCustomElement('aracna-textarea-clear', TextAreaClearElement)
+defineCustomElement('aracna-textarea-remove-item', TextAreaItemRemoveElement)
+
+export {
+  TextAreaClearElement as AracnaTextAreaClearElement,
+  TextAreaElement as AracnaTextAreaElement,
+  TextAreaItemRemoveElement as AracnaTextAreaItemRemoveElement
+}

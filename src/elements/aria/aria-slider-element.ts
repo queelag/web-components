@@ -37,24 +37,25 @@ class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementE
    * Properties
    */
   /** */
-  decimals?: number
+  protected _decimals?: number
   disableSwap?: boolean
-  max?: number
-  min?: number
-  minDistance?: number
-  orientation?: Orientation
-  step?: number
+  protected _max?: number
+  protected _min?: number
+  protected _minDistance?: number
+  protected _orientation?: Orientation
+  protected _step?: number
 
   /**
    * Queries
    */
   /** */
+  inputElement?: HTMLInputElement
   thumbElements!: [AriaSliderThumbElement] | [AriaSliderThumbElement, AriaSliderThumbElement]
 
   connectedCallback(): void {
     super.connectedCallback()
 
-    if (this.native) {
+    if (this.inputElement) {
       return
     }
 
@@ -64,7 +65,7 @@ class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementE
   disconnectedCallback(): void {
     super.disconnectedCallback()
 
-    if (this.native) {
+    if (this.inputElement) {
       return
     }
 
@@ -85,7 +86,7 @@ class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementE
   }
 
   onClick(event: MouseEvent): void {
-    if (this.native) {
+    if (this.inputElement) {
       return
     }
 
@@ -144,12 +145,82 @@ class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementE
     })
   }
 
-  get value(): number | number[] | undefined {
-    return super.value
+  get decimals(): number {
+    return this._decimals ?? DEFAULT_SLIDER_DECIMALS
   }
 
-  set value(value: number | number[] | undefined) {
-    super.value = value
+  set decimals(value: number | undefined) {
+    let old: number | undefined
+
+    old = this._decimals
+    this._decimals = value
+
+    this.requestUpdate('decimals', old)
+  }
+
+  get max(): number {
+    return this._max ?? DEFAULT_SLIDER_MAX
+  }
+
+  set max(value: number | undefined) {
+    let old: number | undefined
+
+    old = this._max
+    this._max = value
+
+    this.requestUpdate('max', old)
+  }
+
+  get min(): number {
+    return this._min ?? DEFAULT_SLIDER_MIN
+  }
+
+  set min(value: number | undefined) {
+    let old: number | undefined
+
+    old = this._min
+    this._min = value
+
+    this.requestUpdate('min', old)
+  }
+
+  get minDistance(): number {
+    return this._minDistance ?? DEFAULT_SLIDER_MIN_DISTANCE
+  }
+
+  set minDistance(value: number | undefined) {
+    let old: number | undefined
+
+    old = this._minDistance
+    this._minDistance = value
+
+    this.requestUpdate('minDistance', old)
+  }
+
+  get orientation(): Orientation {
+    return this._orientation ?? DEFAULT_SLIDER_ORIENTATION
+  }
+
+  set orientation(value: Orientation | undefined) {
+    let old: Orientation | undefined
+
+    old = this._orientation
+    this._orientation = value
+
+    this.requestUpdate('orientation', old)
+  }
+
+  get step(): number {
+    return this._step ?? DEFAULT_SLIDER_STEP
+  }
+
+  set step(value: number | undefined) {
+    let old: number | undefined
+
+    old = this._step
+    this._step = value
+
+    this.requestUpdate('step', old)
   }
 
   get thumbElementsPercentage(): number[] {
@@ -158,6 +229,14 @@ class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementE
 
   get thumbElementsValue(): number[] {
     return this.thumbElements.map((thumb: AriaSliderThumbElement) => thumb.value ?? thumb.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE)
+  }
+
+  get value(): number | number[] | undefined {
+    return super.value
+  }
+
+  set value(value: number | number[] | undefined) {
+    super.value = value
   }
 
   get hasMultipleThumbs(): boolean {
@@ -279,9 +358,9 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
       return ElementLogger.warn(this.uid, 'onKeyDown', `The slider is disabled or readonly.`)
     }
 
-    max = this.rootElement.max ?? DEFAULT_SLIDER_MAX
-    min = this.rootElement.min ?? DEFAULT_SLIDER_MIN
-    step = this.rootElement.step ?? DEFAULT_SLIDER_STEP
+    max = this.rootElement.max
+    min = this.rootElement.min
+    step = this.rootElement.step
     value = this.value ?? DEFAULT_SLIDER_THUMB_VALUE
 
     switch (event.key) {
@@ -431,10 +510,10 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   setValueByPercentage(percentage: number): void {
     let decimals: number, max: number, min: number, step: number, value: number
 
-    decimals = this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS
-    max = this.rootElement.max ?? DEFAULT_SLIDER_MAX
-    min = this.rootElement.min ?? DEFAULT_SLIDER_MIN
-    step = this.rootElement.step ?? DEFAULT_SLIDER_STEP
+    decimals = this.rootElement.decimals
+    max = this.rootElement.max
+    min = this.rootElement.min
+    step = this.rootElement.step
 
     value = getLimitedNumber(getFixedNumber(((max - min) * percentage) / 100 + min, decimals), { min, max })
     if (!isNumberMultipleOf(value * 10 ** decimals, step * 10 ** decimals)) return
@@ -446,9 +525,9 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   setValue(value: number): void {
     let decimals: number, max: number, min: number, fvalue: number
 
-    decimals = this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS
-    max = this.rootElement.max ?? DEFAULT_SLIDER_MAX
-    min = this.rootElement.min ?? DEFAULT_SLIDER_MIN
+    decimals = this.rootElement.decimals
+    max = this.rootElement.max
+    min = this.rootElement.min
     fvalue = getFixedNumber(value, decimals)
 
     if (this.rootElement.disableSwap && this.rootElement.hasMultipleThumbs) {
@@ -456,7 +535,7 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
 
       pthumb = this.rootElement.thumbElements[this.index - 1]
       nthumb = this.rootElement.thumbElements[this.index + 1]
-      mdistance = this.rootElement.minDistance ?? DEFAULT_SLIDER_MIN_DISTANCE
+      mdistance = this.rootElement.minDistance
 
       if (pthumb && fvalue < (pthumb.value ?? pthumb.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE) + mdistance) {
         return
@@ -499,8 +578,8 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   getPercentageByCoordinates(x: number, y: number): number {
     let decimals: number, orientation: Orientation, rect: DOMRect, percentage: number
 
-    decimals = this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS
-    orientation = this.rootElement.orientation ?? DEFAULT_SLIDER_ORIENTATION
+    decimals = this.rootElement.decimals
+    orientation = this.rootElement.orientation
     rect = this.rootElement.getBoundingClientRect()
 
     switch (orientation) {

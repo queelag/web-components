@@ -26,33 +26,41 @@ describe('ButtonElement', () => {
   })
 
   it('supports native button element', async () => {
-    await render(button, { native: 'true' })
+    let native: HTMLButtonElement
+
+    native = document.createElement('button')
+    button.append(native)
+
+    await render(button)
 
     expect(button.getAttribute('aria-disabled')).toBeNull()
     expect(button.getAttribute('aria-pressed')).toBeNull()
     expect(button.getAttribute('role')).toBeNull()
-    expect(button.getAttribute('tabindex')).toBe('0')
+    expect(button.getAttribute('tabindex')).toBeNull()
 
-    expect(button.shadowRoot?.querySelector('button')?.getAttribute('aria-label')).toBeNull()
-    expect(button.shadowRoot?.querySelector('button')?.getAttribute('aria-pressed')).toBeNull()
-    expect(button.shadowRoot?.querySelector('button')?.getAttribute('disabled')).toBeNull()
-    expect(button.shadowRoot?.querySelector('button')?.getAttribute('style')).toBe('')
-    expect(button.shadowRoot?.querySelector('button')?.getAttribute('tabindex')).toBe('-1')
-    expect(button.shadowRoot?.querySelector('button')?.getAttribute('type')).toBeNull()
+    expect(native.ariaLabel).toBeNull()
+    expect(native.ariaPressed).toBeNull()
+    expect(native.disabled).toBeFalsy()
+    expect(native.tabIndex).toBe(0)
+    expect(native.type).toBe('submit')
 
-    await render(button, { disabled: 'true', native: 'true', pressed: 'true', text: 'label', type: 'button' })
+    button.disabled = true
+    button.pressed = 'true'
+    button.text = 'label'
+    button.type = 'button'
+
+    await button.updateComplete
 
     expect(button.getAttribute('aria-disabled')).toBeNull()
     expect(button.getAttribute('aria-pressed')).toBeNull()
     expect(button.getAttribute('role')).toBeNull()
-    expect(button.getAttribute('tabindex')).toBe('0')
+    expect(button.getAttribute('tabindex')).toBeNull()
 
-    expect(button.shadowRoot?.querySelector('button')?.getAttribute('aria-label')).toBe('label')
-    expect(button.shadowRoot?.querySelector('button')?.getAttribute('aria-pressed')).toBe('true')
-    expect(button.shadowRoot?.querySelector('button')?.getAttribute('disabled')).toBe('')
-    expect(button.shadowRoot?.querySelector('button')?.getAttribute('style')).toBe('')
-    expect(button.shadowRoot?.querySelector('button')?.getAttribute('tabindex')).toBe('-1')
-    expect(button.shadowRoot?.querySelector('button')?.getAttribute('type')).toBe('button')
+    expect(native.ariaLabel).toBe('label')
+    expect(native.ariaPressed).toBe('true')
+    expect(native.disabled).toBeTruthy()
+    expect(native.tabIndex).toBe(0)
+    expect(native.type).toBe('button')
   })
 
   it('supports async click', async () => {

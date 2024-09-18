@@ -1,4 +1,4 @@
-import { setImmutableElementAttribute } from '@aracna/web'
+import { removeImmutableElementAttribute, setImmutableElementAttribute } from '@aracna/web'
 import type { ReactiveController, ReactiveControllerHost } from 'lit'
 import type { AracnaAriaCheckBoxElement as AriaCheckBoxElement } from '../elements/aria/aria-check-box-element.js'
 
@@ -16,7 +16,13 @@ export class AriaCheckBoxController implements ReactiveController {
   }
 
   setAttributes(): void {
-    if (this.host.native) {
+    if (this.host.inputElement) {
+      removeImmutableElementAttribute(this.host, 'aria-checked')
+      removeImmutableElementAttribute(this.host, 'aria-disabled')
+      removeImmutableElementAttribute(this.host, 'aria-readonly')
+      removeImmutableElementAttribute(this.host, 'role')
+      removeImmutableElementAttribute(this.host, 'tabindex')
+
       return
     }
 

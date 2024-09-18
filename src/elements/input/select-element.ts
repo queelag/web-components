@@ -1,38 +1,43 @@
-import { isArray, removeArrayItems } from '@aracna/core'
+import { isArray, removeArrayItems, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
+import { type PropertyDeclarations } from 'lit'
 import { DEFAULT_GET_SELECT_OPTION_LABEL, DEFAULT_GET_SELECT_OPTION_VALUE } from '../../definitions/constants.js'
 import { ElementName } from '../../definitions/enums.js'
 import type {
   SelectButtonElementEventMap,
+  SelectClearElementEventMap,
   SelectElementEventMap,
   SelectGroupElementEventMap,
   SelectInputElementEventMap,
   SelectListElementEventMap,
-  SelectOptionElementEventMap
+  SelectOptionElementEventMap,
+  SelectOptionRemoveElementEventMap
 } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { GetSelectOptionLabel, GetSelectOptionValue } from '../../definitions/types.js'
-import { map } from '../../directives/map.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { findSelectOptionByValue } from '../../utils/select-element-utils.js'
 import {
   AracnaAriaComboBoxButtonElement as AriaComboBoxButtonElement,
+  AracnaAriaComboBoxClearElement as AriaComboBoxClearElement,
   AracnaAriaComboBoxElement as AriaComboBoxElement,
   AracnaAriaComboBoxGroupElement as AriaComboBoxGroupElement,
   AracnaAriaComboBoxInputElement as AriaComboBoxInputElement,
   AracnaAriaComboBoxListElement as AriaComboBoxListElement,
-  AracnaAriaComboBoxOptionElement as AriaComboBoxOptionElement
+  AracnaAriaComboBoxOptionElement as AriaComboBoxOptionElement,
+  AracnaAriaComboBoxOptionRemoveElement as AriaComboBoxOptionRemoveElement
 } from '../aria/aria-combo-box-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
     'aracna-select': SelectElement
     'aracna-select-button': SelectButtonElement
+    'aracna-select-clear': SelectClearElement
     'aracna-select-group': SelectGroupElement
     'aracna-select-input': SelectInputElement
     'aracna-select-list': SelectListElement
     'aracna-select-option': SelectOptionElement
+    'aracna-select-option-remove': SelectOptionRemoveElement
   }
 }
 
@@ -44,16 +49,58 @@ class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T =
   getOptionLabel: GetSelectOptionLabel<T> = DEFAULT_GET_SELECT_OPTION_LABEL
   getOptionValue: GetSelectOptionValue<T> = DEFAULT_GET_SELECT_OPTION_VALUE
   options?: T[]
-  selectElement?: HTMLSelectElement
 
-  onChange(): void {
-    let option: T | undefined
+  /**
+   * Queries
+   */
+  selectOptionElements!: HTMLOptionElement[]
 
-    if (this.multiple && this.native) {
-      return ElementLogger.warn(this.uid, 'onChange', `The multiple and native properties are not supported together.`)
+  connectedCallback(): void {
+    super.connectedCallback()
+
+    wf(() => this.selectElement, 4).then(() => {
+      this.setSelectElementAttributes()
+      this.selectElement?.addEventListener('change', this.onChange)
+    })
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
     }
 
-    option = findSelectOptionByValue(this.options ?? [], this.selectElement?.value)
+    if (['disabled', 'readonly'].includes(name)) {
+      this.setSelectElementAttributes()
+    }
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.selectElement?.removeEventListener('change', this.onChange)
+  }
+
+  setSelectElementAttributes = (): void => {
+    if (!this.selectElement) {
+      return
+    }
+
+    if (typeof this.disabled === 'boolean') {
+      this.selectElement.disabled = this.disabled
+    } else if (typeof this.readonly === 'boolean') {
+      this.selectElement.disabled = this.readonly
+    }
+  }
+
+  onChange = (): void => {
+    let option: T | undefined
+
+    if (this.multiple && this.selectElement) {
+      return ElementLogger.warn(this.uid, 'onChange', `The multiple property is not supported when the select element is defined.`)
+    }
+
+    option = findSelectOptionByValue<any>(this.options ?? this.selectOptionElements, this.selectElement?.value)
     if (!option) return ElementLogger.warn(this.uid, 'onChange', `Failed to find the option.`)
 
     if (this.multiple) {
@@ -74,24 +121,16 @@ class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T =
     this.setValue(this.getOptionValue(option))
   }
 
-  removeOption(option: T): void {
-    super.removeOption(this.getOptionValue(option))
+  clear(): void {
+    super.clear()
+
+    if (this.selectElement) {
+      this.selectElement.value = ''
+    }
   }
 
-  render() {
-    if (this.native) {
-      return html`
-        <select @change=${this.onChange} ?disabled=${this.disabled ?? this.readonly}>
-          ${map(
-            this.options ?? [],
-            (option: T) =>
-              html`<option ?selected=${this.getOptionValue(option) === this.value} value=${this.getOptionValue(option)}>${this.getOptionLabel(option)}</option>`
-          )}
-        </select>
-      `
-    }
-
-    return html`<slot></slot>`
+  removeOption(option: T): void {
+    super.removeOption(this.getOptionValue(option))
   }
 
   get name(): ElementName {
@@ -111,22 +150,14 @@ class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T =
     listElement: { selector: 'aracna-select-list' },
     focusedOptionElement: { selector: 'aracna-select-option[focused]' },
     optionElements: { selector: 'aracna-select-option', all: true },
-    selectElement: { selector: 'select', shadow: true },
+    selectElement: { selector: 'select' },
+    selectOptionElements: { selector: 'option', all: true },
     selectedOptionElement: { selector: 'aracna-select-option[selected]' },
     selectedOptionElements: {
       selector: 'aracna-select-option[selected]',
       all: true
     }
   }
-
-  static styles: CSSResultGroup = [
-    super.styles,
-    css`
-      :host([native]) select {
-        width: 100%;
-      }
-    `
-  ]
 }
 
 class SelectGroupElement<E extends SelectGroupElementEventMap = SelectGroupElementEventMap> extends AriaComboBoxGroupElement<E> {
@@ -209,18 +240,42 @@ class SelectOptionElement<E extends SelectOptionElementEventMap = SelectOptionEl
   }
 }
 
+class SelectOptionRemoveElement<E extends SelectOptionRemoveElementEventMap = SelectOptionRemoveElementEventMap> extends AriaComboBoxOptionRemoveElement<E> {
+  get name(): ElementName {
+    return ElementName.SELECT_OPTION_REMOVE
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'aracna-select', closest: true }
+  }
+}
+
+class SelectClearElement<E extends SelectClearElementEventMap = SelectClearElementEventMap> extends AriaComboBoxClearElement<E> {
+  get name(): ElementName {
+    return ElementName.SELECT_CLEAR
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'aracna-select', closest: true }
+  }
+}
+
 defineCustomElement('aracna-select', SelectElement)
 defineCustomElement('aracna-select-button', SelectButtonElement)
+defineCustomElement('aracna-select-clear', SelectClearElement)
 defineCustomElement('aracna-select-group', SelectGroupElement)
 defineCustomElement('aracna-select-input', SelectInputElement)
 defineCustomElement('aracna-select-list', SelectListElement)
 defineCustomElement('aracna-select-option', SelectOptionElement)
+defineCustomElement('aracna-select-option-remove', SelectOptionRemoveElement)
 
 export {
   SelectButtonElement as AracnaSelectButtonElement,
+  SelectClearElement as AracnaSelectClearElement,
   SelectElement as AracnaSelectElement,
   SelectGroupElement as AracnaSelectGroupElement,
   SelectInputElement as AracnaSelectInputElement,
   SelectListElement as AracnaSelectListElement,
-  SelectOptionElement as AracnaSelectOptionElement
+  SelectOptionElement as AracnaSelectOptionElement,
+  SelectOptionRemoveElement as AracnaSelectOptionRemoveElement
 }

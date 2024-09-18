@@ -23,10 +23,16 @@ class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementE
   /** */
   protected _on?: boolean
 
+  /**
+   * Queries
+   */
+  /** */
+  inputElement?: HTMLInputElement
+
   connectedCallback(): void {
     super.connectedCallback()
 
-    if (this.native) {
+    if (this.inputElement) {
       return
     }
 
@@ -37,7 +43,7 @@ class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementE
   disconnectedCallback(): void {
     super.disconnectedCallback()
 
-    if (this.native) {
+    if (this.inputElement) {
       return
     }
 
@@ -46,7 +52,7 @@ class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementE
   }
 
   onClick(): void {
-    if (this.native) {
+    if (this.inputElement) {
       return
     }
 
@@ -59,7 +65,7 @@ class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementE
   }
 
   onKeyDown(event: KeyboardEvent): void {
-    if (this.native) {
+    if (this.inputElement) {
       return
     }
 

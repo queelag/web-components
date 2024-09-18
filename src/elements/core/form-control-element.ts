@@ -17,8 +17,6 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
   /** */
   disabled?: boolean
   focused?: boolean
-  native?: boolean
-  normalized?: boolean
   path?: string
   readonly?: boolean
   touched?: boolean
@@ -163,8 +161,6 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
   static properties: PropertyDeclarations = {
     disabled: { type: Boolean, reflect: true },
     focused: { type: Boolean, reflect: true },
-    native: { type: Boolean, reflect: true },
-    normalized: { type: Boolean, reflect: true },
     path: { type: String, reflect: true },
     readonly: { type: Boolean, reflect: true },
     schema: { type: Object },

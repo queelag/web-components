@@ -64,32 +64,6 @@ describe('RadioGroupElement', () => {
     expect(button2.checked).toBeFalsy()
   })
 
-  it('supports native', async () => {
-    await render(radio, { buttons: JSON.stringify([{ value: 'cat' }, { value: 'dog' }]), native: 'true' })
-    expect(radio.value).toBeUndefined()
-
-    radio.renderRoot.querySelector('input[value="cat"]')?.dispatchEvent(new MouseEvent('click'))
-    await radio.updateComplete
-
-    expect(radio.value).toBe('cat')
-    expect(radio.renderRoot.querySelector('input[value="cat"]')?.getAttribute('checked')).not.toBeNull()
-    expect(radio.renderRoot.querySelector('input[value="dog"]')?.getAttribute('checked')).toBeNull()
-
-    radio.renderRoot.querySelector('input[value="dog"]')?.dispatchEvent(new MouseEvent('click'))
-    await radio.updateComplete
-
-    expect(radio.value).toBe('dog')
-    expect(radio.renderRoot.querySelector('input[value="cat"]')?.getAttribute('checked')).toBeNull()
-    expect(radio.renderRoot.querySelector('input[value="dog"]')?.getAttribute('checked')).not.toBeNull()
-
-    radio.clear()
-    await radio.updateComplete
-
-    expect(radio.value).toBeUndefined()
-    expect(radio.renderRoot.querySelector('input[value="cat"]')?.getAttribute('checked')).toBeNull()
-    expect(radio.renderRoot.querySelector('input[value="dog"]')?.getAttribute('checked')).toBeNull()
-  })
-
   it('does not work if disabled or readonly', async () => {
     let button: RadioButtonElement = document.createElement('aracna-radio-button')
 

@@ -37,6 +37,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
   collapseDebounceTime?: number
   collapseOnMouseLeave?: boolean
   expandOnMouseEnter?: boolean
+  label?: string
   typeaheadDebounceTime?: number
   typeaheadPredicate?: TypeaheadPredicate<AriaMenuItemElement>
 
@@ -519,6 +520,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
       attribute: 'expand-on-mouse-enter',
       reflect: true
     },
+    label: { type: String, reflect: true },
     typeaheadDebounceTime: {
       type: Number,
       attribute: 'typeahead-debounce-time',

@@ -17,7 +17,7 @@ export class AriaMeterController implements ReactiveController {
   }
 
   setAttributes(): void {
-    if (this.host.native) {
+    if (this.host.meterElement) {
       return
     }
 

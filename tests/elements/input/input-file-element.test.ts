@@ -5,7 +5,7 @@ import type { AracnaInputFileElement as InputFileElement } from '../../../src/el
 import { dispatchInputFileEvent, render } from '../../../vitest/dom-utils'
 
 describe('InputFileElement', () => {
-  let input: InputFileElement, file: File
+  let input: InputFileElement, native: HTMLInputElement, file: File
 
   beforeAll(async () => {
     // @ts-ignore
@@ -18,6 +18,10 @@ describe('InputFileElement', () => {
 
   beforeEach(() => {
     input = document.createElement('aracna-input-file')
+    native = document.createElement('input')
+
+    input.append(native)
+
     file = new File(['hello'], 'file', { lastModified: Date.now(), type: 'text/plain' })
   })
 
@@ -28,16 +32,16 @@ describe('InputFileElement', () => {
   it('has correct attributes', async () => {
     await render(input)
 
-    expect(input.renderRoot.querySelector('input')?.getAttribute('disabled')).toBeNull()
-    expect(input.renderRoot.querySelector('input')?.getAttribute('multiple')).toBeNull()
-    expect(input.renderRoot.querySelector('input')?.getAttribute('readonly')).toBeNull()
-    expect(input.renderRoot.querySelector('input')?.getAttribute('type')).toBe('file')
+    expect(native.disabled).toBeFalsy()
+    expect(native.multiple).toBeFalsy()
+    expect(native.readOnly).toBeFalsy()
+    expect(native.type).toBe('file')
   })
 
   it('deserializes', async () => {
     await render(input)
 
-    dispatchInputFileEvent(input.renderRoot.querySelector('input'), [file])
+    dispatchInputFileEvent(native, [file])
     await wf(() => input.file)
 
     expect(input.file?.arrayBuffer).toStrictEqual(new ArrayBuffer(0))
@@ -64,7 +68,7 @@ describe('InputFileElement', () => {
   it('deserializes and resolves array buffer', async () => {
     await render(input, { 'deserialize-file-resolve-array-buffer': 'true' })
 
-    dispatchInputFileEvent(input.renderRoot.querySelector('input'), [file])
+    dispatchInputFileEvent(native, [file])
     await wf(() => input.file)
 
     expect(input.file?.arrayBuffer).toEqual(encodeText('hello').buffer)
@@ -79,7 +83,7 @@ describe('InputFileElement', () => {
   it('deserializes and resolves text', async () => {
     await render(input, { 'deserialize-file-resolve-text': 'true' })
 
-    dispatchInputFileEvent(input.renderRoot.querySelector('input'), [file])
+    dispatchInputFileEvent(native, [file])
     await wf(() => input.file)
 
     expect(input.file?.arrayBuffer).toStrictEqual(new ArrayBuffer(0))
@@ -94,12 +98,12 @@ describe('InputFileElement', () => {
   it('supports multiple files', async () => {
     await render(input, { multiple: 'true' })
 
-    dispatchInputFileEvent(input.renderRoot.querySelector('input'), [file])
+    dispatchInputFileEvent(native, [file])
     await wf(() => input.files.length > 0)
 
     expect(input.files[0]).toBeInstanceOf(AracnaFile)
 
-    dispatchInputFileEvent(input.renderRoot.querySelector('input'), [file, file])
+    dispatchInputFileEvent(native, [file, file])
     await wf(() => input.files.length > 1)
 
     expect(input.files[0]).toBeInstanceOf(AracnaFile)

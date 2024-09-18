@@ -112,6 +112,7 @@ export interface AriaComboBoxElementEventMap extends FormControlElementEventMap 
 }
 
 export interface AriaComboBoxButtonElementEventMap extends BaseElementEventMap {}
+export interface AriaComboBoxClearElementEventMap extends BaseElementEventMap {}
 export interface AriaComboBoxGroupElementEventMap extends BaseElementEventMap {}
 export interface AriaComboBoxInputElementEventMap extends BaseElementEventMap {}
 export interface AriaComboBoxListElementEventMap extends FloatingElementEventMap {}
@@ -120,6 +121,8 @@ export interface AriaComboBoxOptionElementEventMap extends BaseElementEventMap {
   select: ComboBoxOptionSelectEvent
   unselect: ComboBoxOptionUnselectEvent
 }
+
+export interface AriaComboBoxOptionRemoveElementEventMap extends BaseElementEventMap {}
 
 export interface AriaDialogElementEventMap extends FocusTrapElementEventMap {
   'dialog-close': DialogCloseEvent
@@ -310,7 +313,13 @@ export interface FormElementEventMap extends BaseElementEventMap {
 }
 
 export interface InputElementEventMap extends FormControlElementEventMap {}
+export interface InputClearElementEventMap extends BaseElementEventMap {}
+export interface InputItemRemoveElementEventMap extends BaseElementEventMap {}
+export interface InputObscureElementEventMap extends BaseElementEventMap {}
+
 export interface InputFileElementEventMap extends FormControlElementEventMap {}
+export interface InputFileClearElementEventMap extends BaseElementEventMap {}
+export interface InputFileRemoveElementEventMap extends BaseElementEventMap {}
 
 export interface ListBoxElementEventMap extends AriaListBoxElementEventMap {}
 export interface ListBoxOptionElementEventMap extends AriaListBoxOptionElementEventMap {}
@@ -320,16 +329,21 @@ export interface RadioGroupElementEventMap extends AriaRadioGroupElementEventMap
 
 export interface SelectElementEventMap extends AriaComboBoxElementEventMap {}
 export interface SelectButtonElementEventMap extends AriaComboBoxButtonElementEventMap {}
+export interface SelectClearElementEventMap extends AriaComboBoxClearElementEventMap {}
 export interface SelectGroupElementEventMap extends AriaComboBoxGroupElementEventMap {}
 export interface SelectInputElementEventMap extends AriaComboBoxInputElementEventMap {}
 export interface SelectListElementEventMap extends AriaComboBoxListElementEventMap {}
 export interface SelectOptionElementEventMap extends AriaComboBoxOptionElementEventMap {}
+export interface SelectOptionRemoveElementEventMap extends AriaComboBoxOptionRemoveElementEventMap {}
 
 export interface SliderElementEventMap extends AriaSliderElementEventMap {}
 export interface SliderThumbElementEventMap extends AriaSliderThumbElementEventMap {}
 
 export interface SwitchElementEventMap extends AriaSwitchElementEventMap {}
+
 export interface TextAreaElementEventMap extends FormControlElementEventMap {}
+export interface TextAreaClearElementEventMap extends BaseElementEventMap {}
+export interface TextAreaItemRemoveElementEventMap extends BaseElementEventMap {}
 
 /**
  * Layout Elements Events

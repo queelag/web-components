@@ -1,4 +1,4 @@
-import type { Localization, LocalizationVariables, TypeaheadPredicate } from '@aracna/core'
+import type { AracnaFile, Localization, LocalizationVariables, TypeaheadPredicate } from '@aracna/core'
 import type { CanvasDataURLType } from '@aracna/web'
 import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/dom'
 import type { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
@@ -29,7 +29,6 @@ import type {
   Orientation,
   Shape,
   Size,
-  TextAreaElementResize,
   TextAreaElementTouchTrigger
 } from './types.js'
 
@@ -69,7 +68,7 @@ export interface AriaBreadcrumbItemElementAttributes extends BaseElementAttribut
 
 export interface AriaButtonElementAttributes extends BaseElementAttributes {
   disabled?: boolean
-  native?: boolean
+  label?: string
   pressed?: ButtonPressed
 }
 
@@ -77,6 +76,7 @@ export interface AriaCarouselElementAttributes extends BaseElementAttributes {
   'automatic-rotation'?: boolean
   'automatic-rotation-interval-time'?: number
   'infinite-rotation'?: boolean
+  label?: string
   'reverse-rotation'?: boolean
 }
 
@@ -110,6 +110,7 @@ export interface AriaComboBoxElementAttributes<T> extends FormControlElementAttr
 }
 
 export interface AriaComboBoxButtonElementAttributes extends BaseElementAttributes {}
+export interface AriaComboBoxClearElementAttributes extends BaseElementAttributes {}
 export interface AriaComboBoxGroupElementAttributes extends BaseElementAttributes {}
 export interface AriaComboBoxInputElementAttributes extends BaseElementAttributes {}
 export interface AriaComboBoxListElementAttributes extends FloatingElementAttributes {}
@@ -118,6 +119,10 @@ export interface AriaComboBoxOptionElementAttributes extends BaseElementAttribut
   focused?: boolean
   label?: string
   selected?: boolean
+  value?: any
+}
+
+export interface AriaComboBoxOptionRemoveElementAttributes extends BaseElementAttributes {
   value?: any
 }
 
@@ -176,6 +181,7 @@ export interface AriaMenuElementAttributes<T> extends TypeaheadElementAttributes
   'collapse-debounce-time'?: number
   'collapse-on-mouse-leave'?: boolean
   'expand-on-mouse-enter'?: boolean
+  label?: string
 }
 
 export interface AriaMenuButtonElementAttributes extends BaseElementAttributes {}
@@ -192,7 +198,6 @@ export interface AriaMenuSubMenuElementAttributes extends FloatingElementAttribu
 export interface AriaMeterElementAttributes extends BaseElementAttributes {
   max?: number
   min?: number
-  native?: boolean
   value?: number
 }
 
@@ -292,8 +297,6 @@ export interface FocusTrapElementAttributes extends BaseElementAttributes {
 export interface FormControlElementAttributes extends BaseElementAttributes {
   disabled?: boolean
   focused?: boolean
-  native?: boolean
-  normalized?: boolean
   path?: string
   readonly?: boolean
   schema?: FormControlElementSchema
@@ -467,7 +470,6 @@ export interface MeterElementAttributes extends AriaMeterElementAttributes {
 export interface ButtonElementAttributes extends AriaButtonElementAttributes {
   async?: boolean
   icon?: string
-  normalized?: boolean
   spinning?: boolean
   text?: string
   type?: ButtonType
@@ -490,21 +492,32 @@ export interface FormElementAttributes<T = any> extends BaseElementAttributes {
 }
 
 export interface InputElementAttributes extends FormControlElementAttributes {
-  autofocus?: boolean
   multiple?: boolean
   obscured?: boolean
-  padding?: string
-  placeholder?: string
   'touch-trigger'?: InputElementTouchTrigger
   type?: InputElementType
   value?: InputElementValue
 }
+
+export interface InputClearElementAttributes extends BaseElementAttributes {}
+
+export interface InputItemRemoveElementAttributes extends BaseElementAttributes {
+  item: string
+}
+
+export interface InputObscureElementAttributes extends BaseElementAttributes {}
 
 export interface InputFileElementAttributes extends FormControlElementAttributes {
   accept?: string
   'deserialize-file-resolve-array-buffer'?: boolean
   'deserialize-file-resolve-text'?: boolean
   multiple?: boolean
+}
+
+export interface InputFileClearElementAttributes extends BaseElementAttributes {}
+
+export interface InputFileRemoveElementAttributes extends BaseElementAttributes {
+  file: AracnaFile
 }
 
 export interface ListBoxElementAttributes<T = any> extends AriaListBoxElementAttributes<T> {}
@@ -564,13 +577,14 @@ export interface SwitchElementAttributes extends AriaSwitchElementAttributes {
 
 export interface TextAreaElementAttributes extends FormControlElementAttributes {
   autosize?: boolean
-  cols?: number
   multiple?: boolean
-  padding?: string
-  placeholder?: string
-  resize?: TextAreaElementResize
-  rows?: number
   'touch-trigger'?: TextAreaElementTouchTrigger
+}
+
+export interface TextAreaClearElementAttributes extends BaseElementAttributes {}
+
+export interface TextAreaItemRemoveElementAttributes extends BaseElementAttributes {
+  item: string
 }
 
 /**

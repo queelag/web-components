@@ -25,10 +25,14 @@ import { FormSubmitEvent } from '../../../src/events/form-submit-event'
 import { dispatchClickEvent, dispatchSubmitEvent, render } from '../../../vitest/dom-utils'
 
 describe('FormElement', () => {
-  let form: FormElement, onSubmit: Mock
+  let form: FormElement, native: HTMLFormElement, onSubmit: Mock
 
   beforeEach(() => {
     form = document.createElement('aracna-form')
+    native = document.createElement('form')
+
+    form.append(native)
+
     onSubmit = vi.fn()
   })
 
@@ -38,13 +42,13 @@ describe('FormElement', () => {
 
   it('has novalidate', async () => {
     await render(form)
-    expect(form.shadowRoot?.querySelector('form')?.getAttribute('novalidate')).toBeDefined()
+    expect(native.noValidate).toBeTruthy()
   })
 
   it('submits', async () => {
     await render(form, {}, { 'form-submit': onSubmit })
 
-    dispatchSubmitEvent(form.renderRoot.querySelector('form'))
+    dispatchSubmitEvent(native)
     expect(onSubmit).toBeCalledTimes(1)
   })
 
@@ -56,7 +60,7 @@ describe('FormElement', () => {
 
     await render(form, { async: 'true' }, { 'form-submit': onSubmit })
 
-    dispatchSubmitEvent(form.renderRoot.querySelector('form'))
+    dispatchSubmitEvent(native)
 
     expect(onSubmit).toBeCalledTimes(1)
     expect(form.getAttribute('disabled')).toBeDefined()
@@ -71,7 +75,7 @@ describe('FormElement', () => {
   it('does not submit if the form is disabled', async () => {
     await render(form, { disabled: 'true' }, { 'form-submit': onSubmit })
 
-    dispatchSubmitEvent(form.renderRoot.querySelector('form'))
+    dispatchSubmitEvent(native)
     expect(onSubmit).toBeCalledTimes(0)
   })
 
@@ -99,7 +103,7 @@ describe('FormElement', () => {
 
     expect(form.fieldElements).toHaveLength(8)
 
-    dispatchSubmitEvent(form.renderRoot.querySelector('form'))
+    dispatchSubmitEvent(native)
     expect(onSubmit).toBeCalledTimes(1)
   })
 
@@ -111,12 +115,12 @@ describe('FormElement', () => {
 
     await render(form, {}, { 'form-submit': onSubmit })
 
-    dispatchSubmitEvent(form.renderRoot.querySelector('form'))
+    dispatchSubmitEvent(native)
     expect(onSubmit).toBeCalledTimes(0)
 
     input.value = 'a'
 
-    dispatchSubmitEvent(form.renderRoot.querySelector('form'))
+    dispatchSubmitEvent(native)
     expect(onSubmit).toBeCalledTimes(1)
   })
 

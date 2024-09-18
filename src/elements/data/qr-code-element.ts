@@ -25,9 +25,9 @@ class QrCodeElement<E extends QrCodeElementEventMap = QrCodeElementEventMap> ext
    * Properties
    */
   /** */
-  backgroundColor?: string
+  protected _backgroundColor?: string
   errorCorrectionLevel?: QRCodeErrorCorrectionLevel
-  foregroundColor?: string
+  protected _foregroundColor?: string
   margin?: number
   maskPattern?: QRCodeMaskPattern
   text?: string
@@ -82,16 +82,42 @@ class QrCodeElement<E extends QrCodeElementEventMap = QrCodeElementEventMap> ext
   render() {
     return html`
       <svg height=${this.styleInfo.height} shape-rendering="crispEdges" viewBox=${this.svgElementViewBox} width=${this.styleInfo.width}>
-        <path d=${this.backgroundPathElementD} fill=${this.backgroundColor ?? '#FFF'}></path>
-        <path d=${this.foregroundPathElementD} stroke=${this.foregroundColor ?? '#000'}></path>
+        <path d=${this.backgroundPathElementD} fill=${this.backgroundColor}></path>
+        <path d=${this.foregroundPathElementD} stroke=${this.foregroundColor}></path>
       </svg>
     `
+  }
+
+  get backgroundColor(): string {
+    return this._backgroundColor ?? '#FFF'
+  }
+
+  set backgroundColor(value: string) {
+    let old: string | undefined
+
+    old = this._backgroundColor
+    this._backgroundColor = value
+
+    this.requestUpdate('backgroundColor', old)
   }
 
   get backgroundPathElementD(): string {
     let size: number = (this.modules?.size ?? 0) + (this.margin ?? 0) * 2
 
     return `M0 0h${size}v${size}H0z`
+  }
+
+  get foregroundColor(): string {
+    return this._foregroundColor ?? '#000'
+  }
+
+  set foregroundColor(value: string) {
+    let old: string | undefined
+
+    old = this._foregroundColor
+    this._foregroundColor = value
+
+    this.requestUpdate('foregroundColor', old)
   }
 
   get foregroundPathElementD(): string | undefined {

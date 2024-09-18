@@ -195,8 +195,8 @@ class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEventMap 
    * Queries
    */
   /** */
-  buttonElement?: AriaAccordionButtonElement
-  panelElement?: AriaAccordionPanelElement
+  buttonElement!: AriaAccordionButtonElement
+  panelElement!: AriaAccordionPanelElement
 
   toggle(): void {
     if (this.expanded) {

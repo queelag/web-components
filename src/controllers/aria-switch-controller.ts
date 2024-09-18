@@ -16,7 +16,7 @@ export class AriaSwitchController implements ReactiveController {
   }
 
   setAttributes(): void {
-    if (this.host.native) {
+    if (this.host.inputElement) {
       return
     }
 

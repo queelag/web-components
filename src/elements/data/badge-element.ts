@@ -16,8 +16,8 @@ class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap> extend
    * Properties
    */
   /** */
-  max?: number
-  min?: number
+  protected _max?: number
+  protected _min?: number
   numeric?: boolean
 
   /**
@@ -33,12 +33,35 @@ class BadgeElement<E extends BadgeElementEventMap = BadgeElementEventMap> extend
     `
   }
 
+  get max(): number | undefined {
+    return this._max ?? DEFAULT_BADGE_MAX
+  }
+
+  set max(max: number | undefined) {
+    let old: number | undefined
+
+    old = this._max
+    this._max = max
+
+    this.requestUpdate('max', old)
+  }
+
+  get min(): number | undefined {
+    return this._min ?? DEFAULT_BADGE_MIN
+  }
+
+  set min(min: number | undefined) {
+    let old: number | undefined
+
+    old = this._min
+    this._min = min
+
+    this.requestUpdate('min', old)
+  }
+
   get text(): string {
     if (this.numeric) {
-      return getLimitedNumber(parseNumber(this._text ?? '0'), {
-        min: this.min ?? DEFAULT_BADGE_MIN,
-        max: this.max ?? DEFAULT_BADGE_MAX
-      }).toString()
+      return getLimitedNumber(parseNumber(this._text), { min: this.min, max: this.max }).toString()
     }
 
     return this._text ?? ''

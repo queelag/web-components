@@ -1,12 +1,10 @@
 import { defineCustomElement } from '@aracna/web'
-import { css, type CSSResultGroup, html, type PropertyDeclarations } from 'lit'
+import { type PropertyDeclarations } from 'lit'
 import { DEFAULT_GET_RADIO_BUTTON_LABEL, DEFAULT_GET_RADIO_BUTTON_VALUE } from '../../definitions/constants.js'
 import { ElementName } from '../../definitions/enums.js'
 import type { RadioButtonElementEventMap, RadioGroupElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { GetRadioButtonLabel, GetRadioButtonValue } from '../../definitions/types.js'
-import { map } from '../../directives/map.js'
-import { ElementLogger } from '../../loggers/element-logger.js'
 import {
   AracnaAriaRadioButtonElement as AriaRadioButtonElement,
   AracnaAriaRadioGroupElement as AriaRadioGroupElement
@@ -28,43 +26,6 @@ class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupElementE
   getButtonLabel: GetRadioButtonLabel<T> = DEFAULT_GET_RADIO_BUTTON_LABEL
   getButtonValue: GetRadioButtonValue<T> = DEFAULT_GET_RADIO_BUTTON_VALUE
 
-  onChange(button: T): void {
-    let value: unknown
-
-    if (this.disabled || this.readonly) {
-      return ElementLogger.warn(this.uid, 'onChange', `The group is disabled or readonly.`)
-    }
-
-    value = this.getButtonValue(button)
-
-    ElementLogger.verbose(this.uid, 'onChange', `Setting the value.`, value)
-    this.setValue(value)
-  }
-
-  render() {
-    if (this.native) {
-      return map(
-        this.buttons ?? [],
-        (button: T) => html`
-          <div class="button">
-            <input
-              @change=${() => this.onChange(button)}
-              ?checked=${this.getButtonValue(button) === this.value}
-              ?disabled=${this.disabled}
-              name=${this.uid}
-              ?readonly=${this.readonly}
-              type="radio"
-              value=${this.getButtonValue(button)}
-            />
-            <label for=${this.getButtonValue(button)}>${this.getButtonLabel(button)}</label>
-          </div>
-        `
-      )
-    }
-
-    return super.render()
-  }
-
   get name(): ElementName {
     return ElementName.RADIO_GROUP
   }
@@ -80,22 +41,6 @@ class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupElementE
     checkedButtonElement: { selector: 'aracna-radio-button[checked]' },
     focusedButtonElement: { selector: 'aracna-radio-button:focus' }
   }
-
-  static styles: CSSResultGroup = [
-    super.styles,
-    css`
-      :host([native]) div.button {
-        align-items: center;
-        display: flex;
-        justify-content: flex-start;
-        width: 100%;
-      }
-
-      :host([native]) div.button label {
-        all: inherit;
-      }
-    `
-  ]
 }
 
 class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButtonElementEventMap> extends AriaRadioButtonElement<E> {

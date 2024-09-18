@@ -1,16 +1,18 @@
-import { AracnaFile, type DeserializeFileOptions, deserializeFile, isArray, removeArrayItems } from '@aracna/core'
+import { AracnaFile, type DeserializeFileOptions, deserializeFile, isArray, removeArrayItems, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
+import { type CSSResultGroup, type PropertyDeclarations, css } from 'lit'
 import { ElementName } from '../../definitions/enums.js'
-import type { InputFileElementEventMap } from '../../definitions/events.js'
+import type { InputFileClearElementEventMap, InputFileElementEventMap, InputFileRemoveElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
-import { ifdef } from '../../directives/if-defined.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
     'aracna-input-file': InputFileElement
+    'aracna-input-file-clear': InputFileClearElement
+    'aracna-input-file-remove': InputFileRemoveElement
   }
 }
 
@@ -19,7 +21,6 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
    * Properties
    */
   /** */
-  accept?: string
   deserializeFileResolveArrayBuffer?: boolean
   deserializeFileResolveText?: boolean
   multiple?: boolean
@@ -30,10 +31,52 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   /** */
   inputElement!: HTMLInputElement
 
-  async onChange(): Promise<void> {
+  connectedCallback(): void {
+    super.connectedCallback()
+
+    wf(() => this.inputElement, 4).then(() => {
+      this.setInputElementAttributes()
+      this.inputElement.addEventListener('change', this.onChange)
+    })
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (['disabled', 'multiple', 'readonly'].includes(name)) {
+      this.setInputElementAttributes()
+    }
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.inputElement?.removeEventListener('change', this.onChange)
+  }
+
+  setInputElementAttributes = (): void => {
+    if (typeof this.disabled === 'boolean') {
+      this.inputElement.disabled = this.disabled
+    }
+
+    if (typeof this.multiple === 'boolean') {
+      this.inputElement.multiple = this.multiple
+    }
+
+    if (typeof this.readonly === 'boolean') {
+      this.inputElement.readOnly = this.readonly
+    }
+
+    this.inputElement.type = 'file'
+  }
+
+  onChange = async (): Promise<void> => {
     let files: AracnaFile[] = []
 
-    for (let f of this.inputElement.files ?? []) {
+    for (let f of this.inputElement?.files ?? []) {
       let file: AracnaFile
 
       file = await deserializeFile(f, this.deserializeFileOptions)
@@ -100,31 +143,6 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
     this.touch()
   }
 
-  render() {
-    if (this.native) {
-      return html`<input
-        accept=${ifdef(this.accept)}
-        @change=${this.onChange}
-        ?disabled=${this.disabled}
-        ?multiple=${this.multiple}
-        ?readonly=${this.readonly}
-        type="file"
-      />`
-    }
-
-    return html`
-      <input
-        accept=${ifdef(this.accept)}
-        @change=${this.onChange}
-        ?disabled=${this.disabled}
-        ?multiple=${this.multiple}
-        ?readonly=${this.readonly}
-        type="file"
-      />
-      <slot></slot>
-    `
-  }
-
   get deserializeFileOptions(): DeserializeFileOptions {
     return {
       resolveArrayBuffer: this.deserializeFileResolveArrayBuffer,
@@ -188,31 +206,105 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   }
 
   static queries: QueryDeclarations = {
-    inputElement: { selector: 'input', shadow: true }
+    inputElement: { selector: 'input' }
   }
 
   static styles: CSSResultGroup = [
     super.styles,
     css`
-      :host([native]) input {
-        all: inherit;
-      }
-
-      :host(:not([native])) {
+      :host {
         position: relative;
-      }
-
-      :host(:not([native])) input {
-        cursor: pointer;
-        height: 100%;
-        opacity: 0;
-        position: absolute;
-        width: 100%;
       }
     `
   ]
 }
 
-defineCustomElement('aracna-input-file', InputFileElement)
+class InputFileRemoveElement<E extends InputFileRemoveElementEventMap = InputFileRemoveElementEventMap> extends BaseElement<E> {
+  /**
+   * Properties
+   */
+  /** */
+  file!: AracnaFile
 
-export { InputFileElement as AracnaInputFileElement }
+  /**
+   * Queries
+   */
+  /** */
+  rootElement!: InputFileElement
+
+  connectedCallback(): void {
+    super.connectedCallback()
+    this.addEventListener('click', this.onClick)
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.removeEventListener('click', this.onClick)
+  }
+
+  onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return ElementLogger.warn(this.uid, 'onClick', `The input is disabled or readonly.`)
+    }
+
+    ElementLogger.verbose(this.uid, 'onClick', `Removing the file...`, [this.file])
+    this.rootElement.removeFile(this.file)
+  }
+
+  get name(): ElementName {
+    return ElementName.INPUT_FILE_REMOVE
+  }
+
+  static properties: PropertyDeclarations = {
+    item: { type: String, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'aracna-input-file', closest: true }
+  }
+}
+
+class InputFileClearElement<E extends InputFileClearElementEventMap = InputFileClearElementEventMap> extends BaseElement<E> {
+  /**
+   * Queries
+   */
+  /** */
+  rootElement!: InputFileElement
+
+  connectedCallback(): void {
+    super.connectedCallback()
+    this.addEventListener('click', this.onClick)
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.removeEventListener('click', this.onClick)
+  }
+
+  onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return ElementLogger.warn(this.uid, 'onClick', `The input is disabled or readonly.`)
+    }
+
+    ElementLogger.verbose(this.uid, 'onClick', `Clearing the value...`)
+    this.rootElement.clear()
+  }
+
+  get name(): ElementName {
+    return ElementName.INPUT_FILE_CLEAR
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'aracna-input-file', closest: true }
+  }
+}
+
+defineCustomElement('aracna-input-file', InputFileElement)
+defineCustomElement('aracna-input-file-clear', InputFileClearElement)
+defineCustomElement('aracna-input-file-remove', InputFileRemoveElement)
+
+export {
+  InputFileClearElement as AracnaInputFileClearElement,
+  InputFileElement as AracnaInputFileElement,
+  InputFileRemoveElement as AracnaInputFileRemoveElement
+}

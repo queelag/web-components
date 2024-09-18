@@ -1,20 +1,21 @@
-import { encodeText, isArray, parseNumber, removeArrayItems } from '@aracna/core'
+import { encodeText, isArray, parseNumber, removeArrayItems, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
-import type { DirectiveResult } from 'lit/directive.js'
+import { type PropertyDeclarations } from 'lit'
 import { DEFAULT_INPUT_TYPE } from '../../definitions/constants.js'
 import { ElementName } from '../../definitions/enums.js'
-import type { InputElementEventMap } from '../../definitions/events.js'
+import type { InputClearElementEventMap, InputElementEventMap, InputItemRemoveElementEventMap, InputObscureElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { InputElementTouchTrigger, InputElementType, InputElementValue } from '../../definitions/types.js'
-import { ifdef } from '../../directives/if-defined.js'
-import { styleMap } from '../../directives/style-map.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
+import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
 declare global {
   interface HTMLElementTagNameMap {
     'aracna-input': InputElement
+    'aracna-input-clear': InputClearElement
+    'aracna-input-obscure': InputObscureElement
+    'aracna-input-item-remove': InputItemRemoveElement
   }
 }
 
@@ -24,11 +25,9 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
    */
   /** */
   multiple?: boolean
-  obscured?: boolean
-  padding?: string
-  placeholder?: string
+  protected _obscured?: boolean
   touchTrigger?: InputElementTouchTrigger
-  type: InputElementType = DEFAULT_INPUT_TYPE
+  protected _type?: InputElementType
 
   /**
    * Queries
@@ -42,7 +41,51 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
   /** */
   temporaryValue: string = ''
 
-  onBlur(): void {
+  connectedCallback(): void {
+    super.connectedCallback()
+
+    wf(() => this.inputElement, 4).then(() => {
+      this.setInputElementAttributes()
+
+      this.inputElement.addEventListener('blur', this.onBlur)
+      this.inputElement.addEventListener('focus', this.onFocus)
+      this.inputElement.addEventListener('input', this.onInput)
+      this.inputElement.addEventListener('keyup', this.onKeyUp)
+    })
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    if (['disabled', 'readonly'].includes(name)) {
+      this.setInputElementAttributes()
+    }
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+
+    this.inputElement?.removeEventListener('blur', this.onBlur)
+    this.inputElement?.removeEventListener('focus', this.onFocus)
+    this.inputElement?.removeEventListener('input', this.onInput)
+    this.inputElement?.removeEventListener('keyup', this.onKeyUp)
+  }
+
+  setInputElementAttributes = (): void => {
+    if (typeof this.disabled === 'boolean') {
+      this.inputElement.disabled = this.disabled
+    }
+
+    if (typeof this.readonly === 'boolean') {
+      this.inputElement.readOnly = this.readonly
+    }
+  }
+
+  onBlur = (): void => {
     this.focused = false
     ElementLogger.verbose(this.uid, 'onBlur', `The input has been marked as blurred.`)
 
@@ -52,12 +95,12 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
     }
   }
 
-  onFocus(): void {
+  onFocus = (): void => {
     this.focused = true
     ElementLogger.verbose(this.uid, 'onFocus', `The input has been marked as focused.`)
   }
 
-  onInput(): void {
+  onInput = (): void => {
     switch (this.type) {
       case 'buffer':
         ElementLogger.verbose(this.uid, 'onInput', `Setting the encoded value.`)
@@ -108,7 +151,7 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
     }
   }
 
-  onKeyUp(event: KeyboardEvent): void {
+  onKeyUp = (event: KeyboardEvent): void => {
     let value: string[]
 
     if (event.key !== 'Enter' || this.type !== 'text' || this.single) {
@@ -182,24 +225,6 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
     ElementLogger.verbose(this.uid, 'reveal', `The input has been focused.`)
   }
 
-  render() {
-    return html`
-      <input
-        ?autofocus=${this.autofocus}
-        @blur=${this.onBlur}
-        ?disabled=${this.disabled}
-        @focus=${this.onFocus}
-        @input=${this.onInput}
-        @keyup=${this.onKeyUp}
-        placeholder=${ifdef(this.placeholder)}
-        ?readonly=${this.readonly}
-        style=${this.styleMap}
-        type=${this.inputElementType}
-        .value=${this.inputElementValue}
-      />
-    `
-  }
-
   get inputElementType(): any {
     if (this.obscured) {
       return 'password'
@@ -247,15 +272,42 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
     return ElementName.INPUT
   }
 
+  get obscured(): boolean | undefined {
+    return this._obscured
+  }
+
+  set obscured(obscured: boolean | undefined) {
+    let old: boolean | undefined
+
+    old = this._obscured
+    this._obscured = obscured
+
+    this.requestUpdate('obscured', old)
+
+    if (this.inputElement) {
+      this.inputElement.type = this.inputElementType
+    }
+  }
+
   get single(): boolean {
     return !this.multiple
   }
 
-  get styleMap(): DirectiveResult {
-    return styleMap({
-      ...this.sizeStyleInfo,
-      padding: this.padding
-    })
+  get type(): InputElementType {
+    return this._type || DEFAULT_INPUT_TYPE
+  }
+
+  set type(type: InputElementType | undefined) {
+    let old: InputElementType | undefined
+
+    old = this._type
+    this._type = type
+
+    this.requestUpdate('type', old)
+
+    if (this.inputElement) {
+      this.inputElement.type = this.inputElementType
+    }
   }
 
   get value(): InputElementValue {
@@ -290,6 +342,10 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
 
   set value(value: InputElementValue) {
     super.value = value
+
+    if (this.inputElement) {
+      this.inputElement.value = this.inputElementValue
+    }
   }
 
   static properties: PropertyDeclarations = {
@@ -303,26 +359,138 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
   }
 
   static queries: QueryDeclarations = {
-    inputElement: { selector: 'input', shadow: true }
+    inputElement: { selector: 'input' }
+  }
+}
+
+class InputObscureElement<E extends InputObscureElementEventMap = InputObscureElementEventMap> extends BaseElement<E> {
+  /**
+   * Queries
+   */
+  /** */
+  rootElement!: InputElement
+
+  connectedCallback(): void {
+    super.connectedCallback()
+    this.addEventListener('click', this.onClick)
   }
 
-  static styles: CSSResultGroup = [
-    super.styles,
-    css`
-      :host([normalized]) input {
-        background: none;
-        border: none;
-        outline: none;
-        padding: none;
-      }
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.removeEventListener('click', this.onClick)
+  }
 
-      input {
-        all: inherit;
-      }
-    `
-  ]
+  onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return ElementLogger.warn(this.uid, 'onClick', `The input is disabled or readonly.`)
+    }
+
+    if (this.rootElement.obscured) {
+      ElementLogger.verbose(this.uid, 'onClick', `Revealing the value...`)
+      return this.rootElement.reveal()
+    }
+
+    ElementLogger.verbose(this.uid, 'onClick', `Obscuring the value...`)
+    this.rootElement.obscure()
+  }
+
+  get name(): ElementName {
+    return ElementName.INPUT_OBSCURE
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'aracna-input', closest: true }
+  }
+}
+
+class InputItemRemoveElement<E extends InputItemRemoveElementEventMap = InputItemRemoveElementEventMap> extends BaseElement<E> {
+  /**
+   * Properties
+   */
+  /** */
+  item!: string
+
+  /**
+   * Queries
+   */
+  /** */
+  rootElement!: InputElement
+
+  connectedCallback(): void {
+    super.connectedCallback()
+    this.addEventListener('click', this.onClick)
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.removeEventListener('click', this.onClick)
+  }
+
+  onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return ElementLogger.warn(this.uid, 'onClick', `The input is disabled or readonly.`)
+    }
+
+    ElementLogger.verbose(this.uid, 'onClick', `Removing the item...`, [this.item])
+    this.rootElement.removeItem(this.item)
+  }
+
+  get name(): ElementName {
+    return ElementName.INPUT_ITEM_REMOVE
+  }
+
+  static properties: PropertyDeclarations = {
+    item: { type: String, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'aracna-input', closest: true }
+  }
+}
+
+class InputClearElement<E extends InputClearElementEventMap = InputClearElementEventMap> extends BaseElement<E> {
+  /**
+   * Queries
+   */
+  /** */
+  rootElement!: InputElement
+
+  connectedCallback(): void {
+    super.connectedCallback()
+    this.addEventListener('click', this.onClick)
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    this.removeEventListener('click', this.onClick)
+  }
+
+  onClick = (): void => {
+    if (this.rootElement.disabled || this.rootElement.readonly) {
+      return ElementLogger.warn(this.uid, 'onClick', `The input is disabled or readonly.`)
+    }
+
+    ElementLogger.verbose(this.uid, 'onClick', `Clearing the value...`)
+    this.rootElement.clear()
+  }
+
+  get name(): ElementName {
+    return ElementName.INPUT_CLEAR
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'aracna-input', closest: true }
+  }
 }
 
 defineCustomElement('aracna-input', InputElement)
+defineCustomElement('aracna-input-clear', InputClearElement)
+defineCustomElement('aracna-input-item-remove', InputItemRemoveElement)
+defineCustomElement('aracna-input-obscure', InputObscureElement)
 
-export { InputElement as AracnaInputElement }
+export {
+  InputClearElement as AracnaInputClearElement,
+  InputElement as AracnaInputElement,
+  InputItemRemoveElement as AracnaInputItemRemoveElement,
+  InputObscureElement as AracnaInputObscureElement
+}

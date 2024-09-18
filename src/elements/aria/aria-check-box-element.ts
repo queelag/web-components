@@ -24,10 +24,16 @@ class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxEl
   /** */
   protected _checked?: boolean
 
+  /**
+   * Queries
+   */
+  /** */
+  inputElement?: HTMLInputElement
+
   connectedCallback(): void {
     super.connectedCallback()
 
-    if (this.native) {
+    if (this.inputElement) {
       return
     }
 
@@ -38,7 +44,7 @@ class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxEl
   disconnectedCallback(): void {
     super.disconnectedCallback()
 
-    if (this.native) {
+    if (this.inputElement) {
       return
     }
 
@@ -47,7 +53,7 @@ class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxEl
   }
 
   onClick(): void {
-    if (this.native) {
+    if (this.inputElement) {
       return
     }
 
@@ -60,7 +66,7 @@ class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxEl
   }
 
   onKeyDown(event: KeyboardEvent): void {
-    if (this.native) {
+    if (this.inputElement) {
       return
     }
 
