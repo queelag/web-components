@@ -549,6 +549,7 @@ export interface SelectElementAttributes<T, U = any> extends AriaComboBoxElement
 }
 
 export interface SelectButtonElementAttributes extends AriaComboBoxButtonElementAttributes {}
+export interface SelectClearElementAttributes extends AriaComboBoxClearElementAttributes {}
 export interface SelectGroupElementAttributes extends AriaComboBoxGroupElementAttributes {}
 export interface SelectInputElementAttributes extends AriaComboBoxInputElementAttributes {}
 export interface SelectListElementAttributes extends AriaComboBoxListElementAttributes {}
@@ -563,6 +564,8 @@ export interface SelectOptionElementAttributes extends AriaComboBoxOptionElement
   'trailing-image'?: string
   'trailing-text'?: string
 }
+
+export interface SelectOptionRemoveElementAttributes extends AriaComboBoxOptionRemoveElementAttributes {}
 
 export interface SliderElementAttributes<T = any> extends AriaSliderElementAttributes {
   thumbs?: T[]
