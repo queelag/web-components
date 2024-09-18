@@ -245,6 +245,6 @@ export class AriaComboBoxOptionRemoveController implements ReactiveController {
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'aria-label', `Remove Option ${this.host.value}`)
     setImmutableElementAttribute(this.host, 'role', 'button')
-    setImmutableElementAttribute(this.host, 'tabindex', '-1')
+    setImmutableElementAttribute(this.host, 'tabindex', '0')
   }
 }
