@@ -150,10 +150,10 @@ describe('InputElement', () => {
 
     await render(input, { type: 'datetime-local' })
 
-    dispatchInputEvent(native, '2022-01-01T02:00')
+    dispatchInputEvent(native, '2022-01-01T00:00')
 
-    expect(native.value).toBe('2022-01-01T01:00')
-    expect(input.value).toStrictEqual(new Date('2022-01-01T02:00'))
+    expect(native.value).toBe('2022-01-01T00:00')
+    expect(input.value).toStrictEqual(new Date('2022-01-01T00:00'))
 
     input.clear()
     expect(input.value).toBeUndefined()

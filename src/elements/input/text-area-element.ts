@@ -166,6 +166,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
         this.spanElement.style.cssText += `${property}:${style[property]};`
       }
 
+      this.spanElement.style.boxSizing = 'border-box'
       this.spanElement.style.opacity = '0'
       this.spanElement.style.pointerEvents = 'none'
       this.spanElement.style.position = 'absolute'

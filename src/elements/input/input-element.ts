@@ -7,6 +7,7 @@ import type { InputClearElementEventMap, InputElementEventMap, InputItemRemoveEl
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { InputElementTouchTrigger, InputElementType, InputElementValue } from '../../definitions/types.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
+import { getDateDate, getDateHours, getDateMilliseconds, getDateMinutes, getDateMonth, getDateSeconds } from '../../utils/date-utils.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
 
@@ -253,9 +254,14 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
       case 'week':
         return typeof this.value === 'string' ? this.value : ''
       case 'date':
-        return this.value instanceof Date ? this.value.toISOString().replace(/T[0-9:.]+Z$/, '') : ''
+        return this.value instanceof Date ? `${this.value.getFullYear()}-${getDateMonth(this.value)}-${getDateDate(this.value)}` : ''
       case 'datetime-local':
-        return this.value instanceof Date ? this.value.toISOString().replace('Z', '') : ''
+        return this.value instanceof Date
+          ? [
+              `${this.value.getFullYear()}-${getDateMonth(this.value)}-${getDateDate(this.value)}`,
+              `${getDateHours(this.value)}:${getDateMinutes(this.value)}:${getDateSeconds(this.value)}.${getDateMilliseconds(this.value)}`
+            ].join('T')
+          : ''
       case 'number':
         return typeof this.value === 'number' ? this.value.toString() : ''
       case 'text':

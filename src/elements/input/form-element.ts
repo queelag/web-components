@@ -90,8 +90,11 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     }
 
     for (let element of this.fieldElements) {
-      ElementLogger.verbose(this.uid, 'onSubmit', `Touching an element.`, element)
+      ElementLogger.verbose(this.uid, 'onSubmit', `Touching an element...`, element)
       element.touch()
+
+      ElementLogger.verbose(this.uid, 'onSubmit', `Validating an element...`, element)
+      element.validate()
 
       valid = valid && element.isValid
     }
@@ -130,7 +133,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
   }
 
   static queries: QueryDeclarations = {
-    buttonElement: { selector: 'aracna-button[type="submit"]' },
+    buttonElement: { selector: '[type="submit"]' },
     fieldElements: { selector: '[form-field-element]', all: true },
     formElement: { selector: 'form' }
   }
