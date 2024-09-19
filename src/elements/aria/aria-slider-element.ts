@@ -314,16 +314,6 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     wf(() => this.rootElement, 4).then(() => this.computePosition())
   }
 
-  disconnectedCallback(): void {
-    super.disconnectedCallback()
-
-    this.removeEventListener('keydown', this.onKeyDown)
-    this.removeEventListener('mousedown', this.onMouseDown)
-    this.removeEventListener('touchend', this.onTouchEnd)
-    this.removeEventListener('touchmove', this.onTouchMove)
-    this.removeEventListener('touchstart', this.onTouchStart)
-  }
-
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
 
@@ -334,6 +324,16 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     if (['default-value', 'value'].includes(name)) {
       wf(() => this.rootElement, 4).then(() => this.computePosition())
     }
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+
+    this.removeEventListener('keydown', this.onKeyDown)
+    this.removeEventListener('mousedown', this.onMouseDown)
+    this.removeEventListener('touchend', this.onTouchEnd)
+    this.removeEventListener('touchmove', this.onTouchMove)
+    this.removeEventListener('touchstart', this.onTouchStart)
   }
 
   onKeyDown = (event: KeyboardEvent): void => {

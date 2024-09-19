@@ -50,15 +50,6 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
     wf(() => this.referenceElement, 4).then(() => this.computePosition())
   }
 
-  disconnectedCallback(): void {
-    super.disconnectedCallback()
-
-    if (this.cleanup) {
-      this.cleanup()
-      ElementLogger.verbose(this.uid, 'disconnectedCallback', `Cleaned up.`)
-    }
-  }
-
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
 
@@ -68,6 +59,15 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
 
     ElementLogger.verbose(this.uid, 'attributeChangedCallback', `Computing position.`)
     this.computePosition()
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+
+    if (this.cleanup) {
+      this.cleanup()
+      ElementLogger.verbose(this.uid, 'disconnectedCallback', `Cleaned up.`)
+    }
   }
 
   computePosition = async (): Promise<void> => {

@@ -1,9 +1,9 @@
 import type { Localization, LocalizationVariables } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { css, PropertyValues, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { ElementName } from '../../definitions/enums.js'
 import type { TextElementEventMap } from '../../definitions/events.js'
-import type { TextElementSanitizeConfig } from '../../definitions/interfaces.js'
+import type { QueryDeclarations, TextElementSanitizeConfig } from '../../definitions/interfaces.js'
 import { renderTextElement } from '../../utils/text-element-utils.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -21,11 +21,30 @@ class TextElement<E extends TextElementEventMap = TextElementEventMap> extends B
   localization?: Localization
   path?: string
   renderHTML?: boolean
+  sanitize?: boolean
   sanitizeConfig?: TextElementSanitizeConfig
   variables?: LocalizationVariables
 
+  /**
+   * Queries
+   */
+  /** */
+  elements!: Element[]
+
+  updated(_changedProperties: PropertyValues): void {
+    super.updated(_changedProperties)
+
+    for (let element of this.elements) {
+      if (element.hasAttribute('part')) {
+        continue
+      }
+
+      element.setAttribute('part', element.tagName.toLowerCase())
+    }
+  }
+
   render() {
-    return renderTextElement.bind(this)(super.render())
+    return renderTextElement.bind(this)()
   }
 
   get name(): ElementName {
@@ -36,8 +55,13 @@ class TextElement<E extends TextElementEventMap = TextElementEventMap> extends B
     localization: { type: Object },
     path: { type: String, reflect: true },
     renderHTML: { type: Boolean, attribute: 'render-html' },
+    sanitize: { type: Boolean, reflect: true },
     sanitizeConfig: { type: Object, attribute: 'sanitize-config' },
     variables: { type: Object }
+  }
+
+  static queries: QueryDeclarations = {
+    elements: { selector: 'slot *', shadow: true, all: true }
   }
 
   static styles: CSSResultGroup = [

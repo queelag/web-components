@@ -8,7 +8,8 @@ export function renderLocalizationStringToHTML(
   localization: Localization,
   path: string,
   variables?: LocalizationVariables,
+  sanitize?: boolean,
   sanitizeConfig: RenderLocalizationStringToHTMLSanitizeConfig = DEFAULT_RENDER_LOCALIZATION_STRING_TO_HTML_SANITIZE_CONFIG()
 ) {
-  return unsafeHTML(DOMPurify.sanitize(localization.get(path, variables), sanitizeConfig))
+  return unsafeHTML(sanitize ? DOMPurify.sanitize(localization.get(path, variables), sanitizeConfig) : localization.get(path, variables))
 }

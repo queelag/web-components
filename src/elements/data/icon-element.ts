@@ -79,7 +79,7 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
 
   async generateSVGElement(src: string | undefined): Promise<void> {
     if (typeof src !== 'string') {
-      return ElementLogger.warn(this.uid, 'generateSVGElement', `The source is not defined.`, [src])
+      return ElementLogger.verbose(this.uid, 'generateSVGElement', `The source is not defined.`, [src])
     }
 
     if (isStringURL(src)) {

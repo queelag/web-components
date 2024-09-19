@@ -58,7 +58,7 @@ describe('HeadingElement', () => {
 
     await render(heading)
 
-    expect(heading.shadowRoot?.innerHTML).include('Hello <b>John</b>')
+    expect(heading.shadowRoot?.innerHTML).include('Hello <b part="b">John</b>')
     expect(heading.shadowRoot?.querySelector('b')?.textContent).toBe('John')
   })
 })

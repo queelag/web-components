@@ -724,6 +724,7 @@ export interface HeadingElementAttributes extends AriaHeadingElementAttributes, 
 export interface TextElementAttributes extends BaseElementAttributes {
   localization?: Localization
   path?: string
+  sanitize?: boolean
   'sanitize-config'?: TextElementSanitizeConfig
   variables?: LocalizationVariables
 }

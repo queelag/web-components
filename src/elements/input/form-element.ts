@@ -1,12 +1,11 @@
 import { wf } from '@aracna/core'
-import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { defineCustomElement } from '@aracna/web'
 import { type PropertyDeclarations } from 'lit'
 import { ElementName } from '../../definitions/enums.js'
 import type { FormElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { ButtonClickEvent } from '../../events/button-click-event.js'
 import { FormSubmitEvent } from '../../events/form-submit-event.js'
-import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 import type { AracnaFormControlElement as FormControlElement } from '../core/form-control-element.js'
@@ -44,8 +43,6 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     })
 
     this.setFormElementAttributes()
-
-    this.formElement.addEventListener('keydown', this.onKeyDown)
     this.formElement.addEventListener('submit', this.onSubmit)
   }
 
@@ -53,8 +50,6 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     super.disconnectedCallback()
 
     this.buttonElement?.removeEventListener('button-click', this.onButtonClick)
-
-    this.formElement?.removeEventListener('keydown', this.onKeyDown)
     this.formElement?.removeEventListener('submit', this.onSubmit)
   }
 
@@ -68,15 +63,6 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     this.formElement.requestSubmit()
 
     event.detail?.finalize()
-  }
-
-  onKeyDown = (event: KeyboardEvent): void => {
-    if (event.key !== KeyboardEventKey.ENTER) {
-      return
-    }
-
-    ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Requesting submit.`)
-    this.formElement.requestSubmit()
   }
 
   onSubmit = (event: SubmitEvent): void => {

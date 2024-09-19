@@ -59,18 +59,9 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   }
 
   setInputElementAttributes = (): void => {
-    if (typeof this.disabled === 'boolean') {
-      this.inputElement.disabled = this.disabled
-    }
-
-    if (typeof this.multiple === 'boolean') {
-      this.inputElement.multiple = this.multiple
-    }
-
-    if (typeof this.readonly === 'boolean') {
-      this.inputElement.readOnly = this.readonly
-    }
-
+    this.inputElement.disabled = Boolean(this.disabled)
+    this.inputElement.multiple = Boolean(this.multiple)
+    this.inputElement.readOnly = Boolean(this.readonly)
     this.inputElement.type = 'file'
   }
 

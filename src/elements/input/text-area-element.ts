@@ -43,11 +43,6 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
   connectedCallback(): void {
     super.connectedCallback()
 
-    if (this.autosize) {
-      ElementLogger.verbose(this.uid, 'connectedCallback', `Computing the height.`)
-      wf(() => this.textAreaElement, 4).then(() => this.computeHeight())
-    }
-
     wf(() => this.textAreaElement, 4).then(() => {
       this.setTextAreaElementAttributes()
 
@@ -55,6 +50,11 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
       this.textAreaElement.addEventListener('focus', this.onFocus)
       this.textAreaElement.addEventListener('input', this.onInput)
       this.textAreaElement.addEventListener('keyup', this.onKeyUp)
+
+      if (this.autosize) {
+        ElementLogger.verbose(this.uid, 'connectedCallback', `Computing the height.`)
+        this.computeHeight()
+      }
     })
   }
 
@@ -70,7 +70,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
       this.computeHeight()
     }
 
-    if (['disabled', 'readonly'].includes(name)) {
+    if (['disabled', 'path', 'placeholder', 'readonly', 'target', 'value'].includes(name)) {
       this.setTextAreaElementAttributes()
     }
   }
@@ -85,15 +85,15 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
   }
 
   setTextAreaElementAttributes = (): void => {
-    if (typeof this.disabled === 'boolean') {
-      this.textAreaElement.disabled = this.disabled
-    }
+    this.textAreaElement.disabled = Boolean(this.disabled)
+    this.textAreaElement.readOnly = Boolean(this.readonly)
 
-    if (typeof this.readonly === 'boolean') {
-      this.textAreaElement.readOnly = this.readonly
+    if (typeof this.placeholder === 'string') {
+      this.textAreaElement.placeholder = this.placeholder
     }
 
     this.textAreaElement.style.overflowY = 'hidden'
+    this.textAreaElement.value = this.textAreaElementValue
   }
 
   onBlur = (): void => {

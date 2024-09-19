@@ -63,7 +63,7 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
       return
     }
 
-    if (['disabled', 'readonly'].includes(name)) {
+    if (['disabled', 'multiple', 'path', 'placeholder', 'readonly', 'target', 'value'].includes(name)) {
       this.setInputElementAttributes()
     }
   }
@@ -78,13 +78,14 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
   }
 
   setInputElementAttributes = (): void => {
-    if (typeof this.disabled === 'boolean') {
-      this.inputElement.disabled = this.disabled
+    this.inputElement.disabled = Boolean(this.disabled)
+
+    if (typeof this.placeholder === 'string') {
+      this.inputElement.placeholder = this.placeholder
     }
 
-    if (typeof this.readonly === 'boolean') {
-      this.inputElement.readOnly = this.readonly
-    }
+    this.inputElement.readOnly = Boolean(this.readonly)
+    this.inputElement.value = this.inputElementValue
   }
 
   onBlur = (): void => {

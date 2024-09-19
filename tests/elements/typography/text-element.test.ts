@@ -41,7 +41,7 @@ describe('TextElement', () => {
 
     await render(text)
 
-    expect(text.shadowRoot?.innerHTML).include('Hello <b>John</b>')
+    expect(text.shadowRoot?.innerHTML).include('Hello <b part="b">John</b>')
     expect(text.shadowRoot?.querySelector('b')?.textContent).toBe('John')
   })
 })

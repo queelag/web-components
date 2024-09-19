@@ -38,7 +38,7 @@ class SliderElement<E extends SliderElementEventMap = SliderElementEventMap, T =
       return
     }
 
-    if (['max', 'min', 'step'].includes(name)) {
+    if (['disabled', 'max', 'min', 'readonly', 'step'].includes(name)) {
       this.setInputElementAttributes()
     }
   }
@@ -53,8 +53,10 @@ class SliderElement<E extends SliderElementEventMap = SliderElementEventMap, T =
       return
     }
 
+    this.inputElement.disabled = Boolean(this.disabled)
     this.inputElement.max = this.max.toString()
     this.inputElement.min = this.min.toString()
+    this.inputElement.readOnly = Boolean(this.readonly)
     this.inputElement.step = this.step.toString()
     this.inputElement.type = 'range'
   }

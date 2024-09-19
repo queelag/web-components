@@ -51,10 +51,7 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
 
     this.buttonElement.ariaLabel = this.label ?? null
     this.buttonElement.ariaPressed = this.pressed ?? null
-
-    if (typeof this.disabled === 'boolean') {
-      this.buttonElement.disabled = this.disabled
-    }
+    this.buttonElement.disabled = Boolean(this.disabled)
 
     if (typeof this.type === 'string') {
       this.buttonElement.type = this.type as any

@@ -87,11 +87,7 @@ class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T =
       return
     }
 
-    if (typeof this.disabled === 'boolean') {
-      this.selectElement.disabled = this.disabled
-    } else if (typeof this.readonly === 'boolean') {
-      this.selectElement.disabled = this.readonly
-    }
+    this.selectElement.disabled = Boolean(this.disabled ?? this.readonly)
   }
 
   onChange = (): void => {

@@ -28,7 +28,7 @@ class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventMap> ext
       return
     }
 
-    if (['disabled', 'readonly'].includes(name)) {
+    if (['disabled', 'path', 'readonly', 'target', 'value'].includes(name)) {
       this.setInputElementAttributes()
     }
   }
@@ -56,6 +56,7 @@ class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventMap> ext
 
     this.inputElement.step = '1'
     this.inputElement.type = 'range'
+    this.inputElement.value = this.value ? '1' : '0'
   }
 
   onChange = (): void => {

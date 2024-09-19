@@ -30,7 +30,7 @@ class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElementEventMa
       return
     }
 
-    if (['disabled', 'readonly'].includes(name)) {
+    if (['checked', 'disabled', 'path', 'readonly', 'target', 'value'].includes(name)) {
       this.setInputElementAttributes()
     }
   }
@@ -45,14 +45,9 @@ class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElementEventMa
       return
     }
 
-    if (typeof this.disabled === 'boolean') {
-      this.inputElement.disabled = this.disabled
-    }
-
-    if (typeof this.readonly === 'boolean') {
-      this.inputElement.readOnly = this.readonly
-    }
-
+    this.inputElement.checked = Boolean(this.checked)
+    this.inputElement.disabled = Boolean(this.disabled)
+    this.inputElement.readOnly = Boolean(this.readonly)
     this.inputElement.type = 'checkbox'
   }
 
