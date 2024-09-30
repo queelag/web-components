@@ -6,6 +6,7 @@ import { ElementName } from '../../definitions/enums.js'
 import type { InputClearElementEventMap, InputElementEventMap, InputItemRemoveElementEventMap, InputObscureElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { InputElementTouchTrigger, InputElementType, InputElementValue } from '../../definitions/types.js'
+import { InputChangeEvent } from '../../events/input-change-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { getDateDate, getDateHours, getDateMilliseconds, getDateMinutes, getDateMonth, getDateSeconds } from '../../utils/date-utils.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
@@ -226,6 +227,15 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
 
     this.inputElement.focus()
     ElementLogger.verbose(this.uid, 'reveal', `The input has been focused.`)
+  }
+
+  setValue(value: InputElementValue): void {
+    super.setValue(value)
+
+    this.dispatchEvent(
+      new InputChangeEvent(this.value, this.inputElementValue, { error: this.error, schema: this.schema, touched: this.touched, validation: this.validation })
+    )
+    ElementLogger.verbose(this.uid, 'setValue', `The "input-change" event has been dispatched.`)
   }
 
   get inputElementType(): any {

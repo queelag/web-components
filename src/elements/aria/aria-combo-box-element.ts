@@ -322,7 +322,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
             case 'list':
               if (this.selectedOptionElement) {
                 ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Unselecting the selected option.`, this.selectedOptionElement)
-                this.selectedOptionElement.unselect()
+                this.selectedOptionElement.unselect(true)
               }
 
               this.inputElement.value = undefined
@@ -908,11 +908,11 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
     ElementLogger.verbose(this.uid, 'select', `The "select" event has been dispatched.`)
   }
 
-  unselect(): void {
+  unselect(clear?: boolean): void {
     this.selected = false
     ElementLogger.verbose(this.uid, 'unselect', `The option has been unselected.`)
 
-    if (this.rootElement.single) {
+    if (clear && this.rootElement.single) {
       ElementLogger.verbose(this.uid, 'unselect', `Clearing the value.`)
       this.rootElement.clear()
     }
