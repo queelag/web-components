@@ -33,6 +33,7 @@ import type { IconFetchEvent } from '../events/icon-fetch-event.js'
 import type { IconParseEvent } from '../events/icon-parse-event.js'
 import type { ImageLoadErrorEvent } from '../events/image-load-error-event.js'
 import type { ImageLoadEvent } from '../events/image-load-event.js'
+import type { InputChangeEvent } from '../events/input-change-event.js'
 import type { ListBoxOptionSelectEvent } from '../events/list-box-option-select-event.js'
 import type { ListBoxOptionUnselectEvent } from '../events/list-box-option-unselect-event.js'
 import type { MenuSubMenuCollapseEvent } from '../events/menu-sub-menu-collapse-event.js'
@@ -312,7 +313,10 @@ export interface FormElementEventMap extends BaseElementEventMap {
   'form-submit': FormSubmitEvent
 }
 
-export interface InputElementEventMap extends FormControlElementEventMap {}
+export interface InputElementEventMap extends FormControlElementEventMap {
+  'input-change': InputChangeEvent<any>
+}
+
 export interface InputClearElementEventMap extends BaseElementEventMap {}
 export interface InputItemRemoveElementEventMap extends BaseElementEventMap {}
 export interface InputObscureElementEventMap extends BaseElementEventMap {}
