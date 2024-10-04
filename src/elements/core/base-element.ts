@@ -108,16 +108,16 @@ class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends L
       let declaration: QueryDeclaration, get: () => any
 
       declaration = declarations[key] as QueryDeclaration
-      get = () => this.querySelector(declaration.selector) || undefined
+      get = () => this.querySelector(declaration.selector) ?? undefined
 
       if (declaration.all && declaration.shadow) {
-        get = () => [...this.renderRoot.querySelectorAll(declaration.selector)]
+        get = () => (this.renderRoot ? [...this.renderRoot.querySelectorAll(declaration.selector)] : [])
       } else if (declaration.all) {
         get = () => [...this.querySelectorAll(declaration.selector)]
       } else if (declaration.closest) {
-        get = () => this.closest(declaration.selector) || undefined
+        get = () => this.closest(declaration.selector) ?? undefined
       } else if (declaration.shadow) {
-        get = () => this.renderRoot.querySelector(declaration.selector) || undefined
+        get = () => this.renderRoot?.querySelector(declaration.selector) ?? undefined
       }
 
       Object.defineProperty(this, key, { configurable: true, get })
