@@ -53,6 +53,8 @@ export class AriaBreadcrumbItemController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host.anchorElement, 'aria-current', this.host.current ? 'page' : undefined)
+    if (this.host.anchorElement) {
+      setImmutableElementAttribute(this.host.anchorElement, 'aria-current', this.host.current ? 'page' : undefined)
+    }
   }
 }

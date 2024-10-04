@@ -30,14 +30,14 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
    * Queries
    */
   /** */
-  inputElement!: HTMLInputElement
+  inputElement?: HTMLInputElement
 
   connectedCallback(): void {
     super.connectedCallback()
 
     wf(() => this.inputElement, 4).then(() => {
       this.setInputElementAttributes()
-      this.inputElement.addEventListener('change', this.onChange)
+      this.inputElement?.addEventListener('change', this.onChange)
     })
   }
 
@@ -59,6 +59,10 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   }
 
   setInputElementAttributes = (): void => {
+    if (!this.inputElement) {
+      return
+    }
+
     this.inputElement.disabled = Boolean(this.disabled)
     this.inputElement.multiple = Boolean(this.multiple)
     this.inputElement.readOnly = Boolean(this.readonly)
@@ -98,8 +102,10 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   }
 
   removeFile(file: AracnaFile): void {
-    this.inputElement.value = ''
-    ElementLogger.verbose(this.uid, 'removeFile', `The input element value has been reset.`, [this.inputElement.value])
+    if (this.inputElement) {
+      this.inputElement.value = ''
+      ElementLogger.verbose(this.uid, 'removeFile', `The input element value has been reset.`, [this.inputElement.value])
+    }
 
     if (this.multiple) {
       let value: AracnaFile[]
@@ -121,6 +127,10 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   }
 
   open = (): void => {
+    if (!this.inputElement) {
+      return
+    }
+
     ElementLogger.verbose(this.uid, 'open', `Clicking the input element.`)
     this.inputElement.click()
   }
@@ -128,8 +138,10 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   clear = (): void => {
     super.clear()
 
-    this.inputElement.value = ''
-    ElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`, [this.inputElement.value])
+    if (this.inputElement) {
+      this.inputElement.value = ''
+      ElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`, [this.inputElement.value])
+    }
 
     ElementLogger.verbose(this.uid, 'clear', `Touching.`)
     this.touch()
@@ -216,13 +228,13 @@ class InputFileRemoveElement<E extends InputFileRemoveElementEventMap = InputFil
    * Properties
    */
   /** */
-  file!: AracnaFile
+  file?: AracnaFile
 
   /**
    * Queries
    */
   /** */
-  rootElement!: InputFileElement
+  rootElement?: InputFileElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -235,12 +247,14 @@ class InputFileRemoveElement<E extends InputFileRemoveElementEventMap = InputFil
   }
 
   onClick = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The input is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, 'onClick', `Removing the file...`, [this.file])
-    this.rootElement.removeFile(this.file)
+    if (this.rootElement && this.file) {
+      ElementLogger.verbose(this.uid, 'onClick', `Removing the file...`, [this.file])
+      this.rootElement.removeFile(this.file)
+    }
   }
 
   get name(): ElementName {
@@ -261,7 +275,7 @@ class InputFileClearElement<E extends InputFileClearElementEventMap = InputFileC
    * Queries
    */
   /** */
-  rootElement!: InputFileElement
+  rootElement?: InputFileElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -274,12 +288,14 @@ class InputFileClearElement<E extends InputFileClearElementEventMap = InputFileC
   }
 
   onClick = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The input is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, 'onClick', `Clearing the value...`)
-    this.rootElement.clear()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Clearing the value...`)
+      this.rootElement.clear()
+    }
   }
 
   get name(): ElementName {

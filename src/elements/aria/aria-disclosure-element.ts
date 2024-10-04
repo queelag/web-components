@@ -83,7 +83,7 @@ class AriaDisclosureSectionElement<E extends AriaDisclosureSectionElementEventMa
    * Queries
    */
   /** */
-  buttonElement!: AriaDisclosureButtonElement
+  buttonElement?: AriaDisclosureButtonElement
   panelElement?: AriaDisclosurePanelElement
 
   collapse(): void {
@@ -122,7 +122,7 @@ class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEventMap 
   /**
    * Queries
    */
-  sectionElement!: AriaDisclosureSectionElement
+  sectionElement?: AriaDisclosureSectionElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -139,13 +139,15 @@ class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEventMap 
   }
 
   onClick(): void {
-    if (this.sectionElement.expanded) {
+    if (this.sectionElement?.expanded) {
       ElementLogger.verbose(this.uid, 'onClick', `Collapsing the section.`)
       return this.sectionElement.collapse()
     }
 
-    ElementLogger.verbose(this.uid, 'onClick', `Expanding the section.`)
-    this.sectionElement.expand()
+    if (this.sectionElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Expanding the section.`)
+      this.sectionElement.expand()
+    }
   }
 
   onKeyDown(event: KeyboardEvent): void {

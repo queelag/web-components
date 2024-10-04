@@ -59,7 +59,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
    */
   /** */
   expanded?: boolean
-  focused!: boolean
+  focused?: boolean
 
   constructor() {
     super()
@@ -556,7 +556,7 @@ class AriaMenuButtonElement<E extends AriaMenuButtonElementEventMap = AriaMenuBu
    * Queries
    */
   /** */
-  rootElement!: AriaMenuElement
+  rootElement?: AriaMenuElement
 
   /**
    * Internals
@@ -583,7 +583,7 @@ class AriaMenuButtonElement<E extends AriaMenuButtonElementEventMap = AriaMenuBu
   onClick(): void {
     let submenu: AriaMenuSubMenuElement | undefined
 
-    submenu = this.rootElement.subMenuElement
+    submenu = this.rootElement?.subMenuElement
     if (!submenu) return
 
     ElementLogger.verbose(this.uid, 'onClick', `${submenu.collapsed ? 'Expanding' : 'Collapsing'} the submenu.`, submenu)
@@ -597,7 +597,7 @@ class AriaMenuButtonElement<E extends AriaMenuButtonElementEventMap = AriaMenuBu
     if (submenu.expanded) {
       let item: AriaMenuItemElement | undefined
 
-      item = this.rootElement.itemElements[0]
+      item = this.rootElement?.itemElements[0]
       if (!item) return
 
       ElementLogger.verbose(this.uid, 'onClick', `Focusing the first item.`, item)
@@ -609,7 +609,7 @@ class AriaMenuButtonElement<E extends AriaMenuButtonElementEventMap = AriaMenuBu
     this.mouseEntered = true
     ElementLogger.verbose(this.uid, 'onMouseEnter', `The mouse has entered.`)
 
-    if (this.rootElement.expandOnMouseEnter) {
+    if (this.rootElement?.expandOnMouseEnter) {
       if (this.rootElement.subMenuElement) {
         ElementLogger.verbose(this.uid, 'onMouseEnter', `Expanding the submenu.`, this.rootElement.subMenuElement)
         this.rootElement.subMenuElement.expand()
@@ -624,11 +624,11 @@ class AriaMenuButtonElement<E extends AriaMenuButtonElementEventMap = AriaMenuBu
     this.mouseEntered = false
     ElementLogger.verbose(this.uid, 'onMouseEnter', `The mouse has left.`)
 
-    debounce(this.onMouseLeaveDebounce, this.rootElement.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, this.uid)
+    debounce(this.onMouseLeaveDebounce, this.rootElement?.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, this.uid)
   }
 
   onMouseLeaveDebounce = (): void => {
-    if (!this.rootElement.collapseOnMouseLeave) {
+    if (!this.rootElement?.collapseOnMouseLeave) {
       return ElementLogger.verbose(this.uid, 'onMouseLeave', `The menu should not collapse on mouse leave.`)
     }
 
@@ -686,7 +686,7 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
    */
   /** */
   anchorElement?: HTMLAnchorElement
-  rootElement!: AriaMenuElement
+  rootElement?: AriaMenuElement
   subMenuElement?: AriaMenuSubMenuElement
 
   /**
@@ -771,8 +771,8 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
 
     if (this.subMenuElement) {
       switch (true) {
-        case this.rootElement.expanded:
-        case this.rootElement.expandOnMouseEnter && this.shallow:
+        case this.rootElement?.expanded:
+        case this.rootElement?.expandOnMouseEnter && this.shallow:
         // case this.sameDepthExpandedSubMenuElement !== null:
         case this.subMenuElement.deep:
           ElementLogger.verbose(this.uid, 'onMouseEnter', `Expanding the submenu.`, this.subMenuElement)
@@ -790,11 +790,11 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
     this.mouseEntered = false
     ElementLogger.verbose(this.uid, 'onMouseLeave', `The mouse is outside.`)
 
-    debounce(this.onMouseLeaveDebounce, this.rootElement.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, this.uid)
+    debounce(this.onMouseLeaveDebounce, this.rootElement?.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, this.uid)
   }
 
   onMouseLeaveDebounce = (): void => {
-    if (!this.rootElement.collapseOnMouseLeave) {
+    if (!this.rootElement?.collapseOnMouseLeave) {
       return ElementLogger.verbose(this.uid, 'onMouseLeave', `The menu should not collapse on mouse leave.`)
     }
 
@@ -832,7 +832,7 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
   }
 
   focus(options?: FocusOptions | undefined): void {
-    if (this.rootElement.focusedItemElement) {
+    if (this.rootElement?.focusedItemElement) {
       ElementLogger.verbose(this.uid, 'focus', `Blurring the focused item.`, this.rootElement.focusedItemElement)
       this.rootElement.focusedItemElement.blur()
     }
@@ -862,7 +862,7 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
   get depth(): number {
     let n: number, closest: AriaMenuItemElement | null | undefined
 
-    n = this.rootElement.buttonElement ? 1 : 0
+    n = this.rootElement?.buttonElement ? 1 : 0
     closest = this.parentElement?.closest('aracna-aria-menu-item')
 
     while (typeof closest === 'object' && closest !== null && closest !== this) {
@@ -874,7 +874,7 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
   }
 
   get index(): number {
-    return [...this.rootElement.itemElements].indexOf(this)
+    return this.rootElement ? [...this.rootElement.itemElements].indexOf(this) : -1
   }
 
   get name(): ElementName {
@@ -882,19 +882,19 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
   }
 
   get sameDepthItemElements(): NodeListOf<AriaMenuItemElement> {
-    return this.rootElement.querySelectorAll(`aracna-aria-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement?.querySelectorAll(`aracna-aria-menu-item[depth="${this.depth}"][focused]`) ?? (new NodeList() as any)
   }
 
   get sameDepthFocusedItemElement(): AriaMenuItemElement | null {
-    return this.rootElement.querySelector(`aracna-aria-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement?.querySelector(`aracna-aria-menu-item[depth="${this.depth}"][focused]`) ?? null
   }
 
   get sameDepthFocusedItemElements(): NodeListOf<AriaMenuItemElement> {
-    return this.rootElement.querySelectorAll(`aracna-aria-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement?.querySelectorAll(`aracna-aria-menu-item[depth="${this.depth}"][focused]`) ?? (new NodeList() as any)
   }
 
   get sameDepthExpandedSubMenuElement(): AriaMenuSubMenuElement | null {
-    return this.rootElement.querySelector(`aracna-aria-menu-submenu[depth="${this.depth}"][expanded]`)
+    return this.rootElement?.querySelector(`aracna-aria-menu-submenu[depth="${this.depth}"][expanded]`) ?? null
   }
 
   get shallow(): boolean {
@@ -939,7 +939,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
   itemElements!: AriaMenuItemElement[]
   parentItemElement?: AriaMenuItemElement
   parentSubMenuElement?: AriaMenuSubMenuElement
-  rootElement!: AriaMenuElement
+  rootElement?: AriaMenuElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -1068,7 +1068,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
         ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Collapsing the submenu.`)
         this.collapse()
 
-        if (this.shallow && this.rootElement.buttonElement) {
+        if (this.shallow && this.rootElement?.buttonElement) {
           ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Marking the menu as collapsed.`)
           this.rootElement.collapse()
 
@@ -1120,10 +1120,10 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
         event.stopPropagation()
 
         typeahead<AriaMenuItemElement>(this.uid, event.key)
-          .setDebounceTime(this.rootElement.typeaheadDebounceTime)
+          .setDebounceTime(this.rootElement?.typeaheadDebounceTime)
           .setItems([...this.shallowItemElements])
           .setListeners([])
-          .setPredicate(this.rootElement.typeaheadPredicate ?? DEFAULT_MENU_TYPEAHEAD_PREDICATE)
+          .setPredicate(this.rootElement?.typeaheadPredicate ?? DEFAULT_MENU_TYPEAHEAD_PREDICATE)
           .on('match', this.onTypeaheadMatch)
 
         break
@@ -1155,8 +1155,10 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
     this.expanded = true
     ElementLogger.verbose(this.uid, 'expand', `The submenu has been expanded.`)
 
-    ElementLogger.verbose(this.uid, 'expand', `Marking the menu as expanded.`)
-    this.rootElement.expand()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'expand', `Marking the menu as expanded.`)
+      this.rootElement.expand()
+    }
 
     this.dispatchEvent(new MenuSubMenuExpandEvent())
     ElementLogger.verbose(this.uid, 'expand', `The "expand" event has been dispatched.`)
@@ -1194,7 +1196,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
   }
 
   get referenceElement(): HTMLElement | undefined {
-    return this === this.parentSubMenuElement ? (this.parentItemElement ?? this.rootElement.buttonElement) : this.parentSubMenuElement
+    return this === this.parentSubMenuElement ? (this.parentItemElement ?? this.rootElement?.buttonElement) : this.parentSubMenuElement
   }
 
   get shallow(): boolean {

@@ -43,7 +43,7 @@ class AriaBreadcrumbItemElement<E extends AriaBreadcrumbItemElementEventMap = Ar
    * Queries
    */
   /** */
-  anchorElement!: HTMLAnchorElement
+  anchorElement?: HTMLAnchorElement
 
   get name(): ElementName {
     return ElementName.ARIA_BREADCRUMB_ITEM

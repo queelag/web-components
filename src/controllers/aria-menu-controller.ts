@@ -42,7 +42,7 @@ export class AriaMenuButtonController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.subMenuElement?.id)
+    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement?.subMenuElement?.id)
     setImmutableElementAttribute(this.host, 'aria-haspopup', 'true')
     setImmutableElementAttribute(this.host, 'role', 'button')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
@@ -94,7 +94,7 @@ export class AriaMenuItemController implements ReactiveController {
 
     switch (true) {
       case this.host.focused:
-      case parseNumber(this.host.depth) === 0 && this.host.index === 0 && !this.host.rootElement.focusedItemElement:
+      case parseNumber(this.host.depth) === 0 && this.host.index === 0 && !this.host.rootElement?.focusedItemElement:
         setImmutableElementAttribute(this.host, 'tabindex', '0')
         break
       default:
@@ -132,7 +132,7 @@ export class AriaMenuSubMenuController implements ReactiveController {
       )
     }
 
-    if (this.host.rootElement.buttonElement && this.host.shallow) {
+    if (this.host.rootElement?.buttonElement && this.host.shallow) {
       setImmutableElementAttribute(this.host, 'aria-labelledby', this.host.rootElement.buttonElement.id)
       setImmutableElementAttribute(this.host.rootElement.buttonElement, 'aria-expanded', this.host.expanded ? 'true' : 'false')
     }

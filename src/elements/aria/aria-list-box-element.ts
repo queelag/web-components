@@ -375,7 +375,7 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
    * Queries
    */
   /** */
-  rootElement!: AriaListBoxElement
+  rootElement?: AriaListBoxElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -392,7 +392,7 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
   }
 
   onClick = (): void => {
-    if (this.rootElement.single) {
+    if (this.rootElement?.single) {
       if (this.rootElement.selectedOptionElement) {
         ElementLogger.verbose(this.uid, 'onClick', `Unselecting the selected option.`, this.rootElement.selectedOptionElement)
         this.rootElement.selectedOptionElement.unselect()
@@ -402,12 +402,12 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
       this.select()
     }
 
-    if (this.rootElement.multiple) {
+    if (this.rootElement?.multiple) {
       ElementLogger.verbose(this.uid, 'onClick', `${this.selected ? 'Unselecting' : 'Selecting'} the option.`)
       this.toggle()
     }
 
-    if (this.rootElement.focusedOptionElement) {
+    if (this.rootElement?.focusedOptionElement) {
       ElementLogger.verbose(this.uid, 'onClick', `Blurring the focused option.`, this.rootElement.focusedOptionElement)
       this.rootElement.focusedOptionElement.blur()
     }
@@ -448,12 +448,12 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
     this.selected = true
     ElementLogger.verbose(this.uid, 'select', `The option has been selected.`)
 
-    if (this.rootElement.single) {
+    if (this.rootElement?.single) {
       ElementLogger.verbose(this.uid, 'select', `Setting the value.`)
       this.rootElement.setValue(this.value)
     }
 
-    if (this.rootElement.multiple) {
+    if (this.rootElement?.multiple) {
       let value: any[]
 
       value = isArray(this.rootElement.value) ? this.rootElement.value : []
@@ -463,8 +463,10 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
       this.rootElement.setValue(value)
     }
 
-    ElementLogger.verbose(this.uid, 'select', `Touching the listbox.`)
-    this.rootElement.touch()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'select', `Touching the listbox.`)
+      this.rootElement.touch()
+    }
 
     this.dispatchEvent(new ListBoxOptionSelectEvent(this.value))
     ElementLogger.verbose(this.uid, 'select', `The "select" event has been dispatched.`)
@@ -474,12 +476,12 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
     this.selected = false
     ElementLogger.verbose(this.uid, 'unselect', `The option has been unselected.`)
 
-    if (clear && this.rootElement.single) {
+    if (clear && this.rootElement?.single) {
       ElementLogger.verbose(this.uid, 'unselect', `Clearing the value.`)
       this.rootElement.clear()
     }
 
-    if (this.rootElement.multiple) {
+    if (this.rootElement?.multiple) {
       let value: any[]
 
       value = isArray(this.rootElement.value) ? this.rootElement.value : []
@@ -489,8 +491,10 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
       this.rootElement.setValue(value)
     }
 
-    ElementLogger.verbose(this.uid, 'unselect', `Touching the listbox.`)
-    this.rootElement.touch()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'unselect', `Touching the listbox.`)
+      this.rootElement.touch()
+    }
 
     this.dispatchEvent(new ListBoxOptionUnselectEvent(this.value))
     ElementLogger.verbose(this.uid, 'unselect', `The "unselect" event has been dispatched.`)

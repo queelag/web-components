@@ -183,7 +183,7 @@ class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadi
    * Queries
    */
   /** */
-  rootElement!: AriaRadioGroupElement
+  rootElement?: AriaRadioGroupElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -196,11 +196,11 @@ class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadi
   }
 
   onClick(): void {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The group is disabled or readonly.`)
     }
 
-    if (this.rootElement.checkedButtonElement) {
+    if (this.rootElement?.checkedButtonElement) {
       ElementLogger.verbose(this.uid, 'onClick', `Unchecking the checked button.`, this.rootElement.checkedButtonElement)
       this.rootElement.checkedButtonElement.uncheck()
     }
@@ -208,7 +208,7 @@ class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadi
     ElementLogger.verbose(this.uid, 'onClick', `Checking the button.`)
     this.check()
 
-    if (this.rootElement.focusedButtonElement) {
+    if (this.rootElement?.focusedButtonElement) {
       ElementLogger.verbose(this.uid, 'onClick', `Blurring the focused button.`, this.rootElement.focusedButtonElement)
       this.rootElement.focusedButtonElement.blur()
     }
@@ -221,11 +221,13 @@ class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadi
     this.checked = true
     ElementLogger.verbose(this.uid, 'check', `The button has been checked.`)
 
-    ElementLogger.verbose(this.uid, 'check', `Setting the value.`)
-    this.rootElement.setValue(this.value)
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'check', `Setting the value.`)
+      this.rootElement.setValue(this.value)
 
-    ElementLogger.verbose(this.uid, 'check', `Touching the group.`)
-    this.rootElement.touch()
+      ElementLogger.verbose(this.uid, 'check', `Touching the group.`)
+      this.rootElement.touch()
+    }
 
     this.dispatchEvent(new RadioButtonCheckEvent(this.value))
     ElementLogger.verbose(this.uid, 'check', `The "check" event has been dispatched.`)
@@ -235,8 +237,10 @@ class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadi
     this.checked = false
     ElementLogger.verbose(this.uid, 'uncheck', `The button has been unchecked.`)
 
-    ElementLogger.verbose(this.uid, 'uncheck', `Touching the group.`)
-    this.rootElement.touch()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'uncheck', `Touching the group.`)
+      this.rootElement.touch()
+    }
 
     this.dispatchEvent(new RadioButtonUncheckEvent(this.value))
     ElementLogger.verbose(this.uid, 'uncheck', `The "uncheck" event has been dispatched.`)
@@ -247,7 +251,7 @@ class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadi
   }
 
   get index(): number {
-    return this.rootElement.buttonElements.indexOf(this)
+    return this.rootElement?.buttonElements.indexOf(this) ?? -1
   }
 
   get name(): ElementName {

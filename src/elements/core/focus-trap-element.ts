@@ -53,7 +53,7 @@ class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElementEven
    * Internals
    */
   /** */
-  focusTrap!: FocusTrap
+  focusTrap?: FocusTrap
   focusTrapState?: FocusTrapElementState
 
   connectedCallback(): void {
@@ -77,12 +77,20 @@ class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElementEven
   }
 
   activateFocusTrap(options?: ActivateOptions): void {
-    tc(() => this.focusTrap.activate(options), false)
+    if (!this.focusTrap) {
+      return
+    }
+
+    tc(() => this.focusTrap?.activate(options), false)
     ElementLogger.verbose(this.uid, 'activateFocusTrap', `The focus trap has been activated.`, options)
   }
 
   deactivateFocusTrap(options?: DeactivateOptions): void {
-    tc(() => this.focusTrap.deactivate(options), false)
+    if (!this.focusTrap) {
+      return
+    }
+
+    tc(() => this.focusTrap?.deactivate(options), false)
     ElementLogger.verbose(this.uid, 'deactivateFocusTrap', `The focus trap has been deactivated.`, options)
   }
 

@@ -55,7 +55,7 @@ export class AriaListBoxOptionController implements ReactiveController {
       )
     }
 
-    if (this.host.focused) {
+    if (this.host.focused && this.host.rootElement) {
       setImmutableElementAttribute(this.host.rootElement, 'aria-activedescendant', this.host.id)
     }
   }

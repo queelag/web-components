@@ -69,7 +69,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
    */
   /** */
   buttonElement?: AriaComboBoxButtonElement
-  groupElement!: AriaComboBoxGroupElement
+  groupElement?: AriaComboBoxGroupElement
   inputElement?: AriaComboBoxInputElement
   listElement?: AriaComboBoxListElement
   focusedOptionElement?: AriaComboBoxOptionElement
@@ -593,7 +593,7 @@ class AriaComboBoxButtonElement<E extends AriaComboBoxButtonElementEventMap = Ar
    * Queries
    */
   /** */
-  rootElement!: AriaComboBoxElement
+  rootElement?: AriaComboBoxElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -610,7 +610,7 @@ class AriaComboBoxButtonElement<E extends AriaComboBoxButtonElementEventMap = Ar
   }
 
   onBlur = (): void => {
-    if (this.rootElement.single && this.rootElement.focusedOptionElement) {
+    if (this.rootElement?.single && this.rootElement.focusedOptionElement) {
       if (this.rootElement.selectedOptionElement) {
         ElementLogger.verbose(this.uid, 'onBlur', `Unselecting the selected option.`, this.rootElement.selectedOptionElement)
         this.rootElement.selectedOptionElement.unselect()
@@ -623,18 +623,18 @@ class AriaComboBoxButtonElement<E extends AriaComboBoxButtonElementEventMap = Ar
       this.rootElement.focusedOptionElement.blur()
     }
 
-    if (this.rootElement.expanded) {
+    if (this.rootElement?.expanded) {
       ElementLogger.verbose(this.uid, 'onBlur', `Collapsing the combobox.`)
       this.rootElement.collapse()
     }
   }
 
   onClick = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
     }
 
-    if (this.rootElement.collapsed) {
+    if (this.rootElement?.collapsed) {
       ElementLogger.verbose(this.uid, 'onClick', `Expanding the combobox.`)
       this.rootElement.expand()
 
@@ -646,8 +646,10 @@ class AriaComboBoxButtonElement<E extends AriaComboBoxButtonElementEventMap = Ar
       return
     }
 
-    ElementLogger.verbose(this.uid, 'onClick', `Collapsing the combobox.`)
-    this.rootElement.collapse()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Collapsing the combobox.`)
+      this.rootElement.collapse()
+    }
   }
 
   get name(): ElementName {
@@ -676,7 +678,7 @@ class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap = Aria
    */
   /** */
   inputElement?: HTMLInputElement
-  rootElement!: AriaComboBoxElement
+  rootElement?: AriaComboBoxElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -695,33 +697,37 @@ class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap = Aria
   }
 
   onBlur = (): void => {
-    this.rootElement.collapse()
-    ElementLogger.verbose(this.uid, 'onBlur', `The combobox has been collapsed.`)
+    if (this.rootElement) {
+      this.rootElement.collapse()
+      ElementLogger.verbose(this.uid, 'onBlur', `The combobox has been collapsed.`)
+    }
 
-    if (this.rootElement.single && this.inputElement && this.rootElement.selectedOptionElement) {
+    if (this.rootElement?.single && this.inputElement && this.rootElement.selectedOptionElement) {
       this.value = this.rootElement.selectedOptionElement.label ?? this.rootElement.selectedOptionElement.innerText
       ElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option label.`)
     }
   }
 
   onClick = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
     }
 
-    this.rootElement.expand()
-    ElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded.`)
+    if (this.rootElement) {
+      this.rootElement.expand()
+      ElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded.`)
 
-    this.rootElement.selectedOptionElement?.focus()
-    ElementLogger.verbose(this.uid, 'onFocus', `The selected option has been focused.`)
+      this.rootElement.selectedOptionElement?.focus()
+      ElementLogger.verbose(this.uid, 'onFocus', `The selected option has been focused.`)
+    }
   }
 
   onInput = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onInput', `The combobox is disabled or readonly.`)
     }
 
-    if (this.rootElement.collapsed) {
+    if (this.rootElement?.collapsed) {
       ElementLogger.verbose(this.uid, 'onInput', `Expanding the combobox.`)
       this.rootElement.expand()
 
@@ -743,7 +749,7 @@ class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap = Aria
   }
 
   clear(): void {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'clear', `The combobox is disabled or readonly.`)
     }
 
@@ -789,14 +795,14 @@ class AriaComboBoxListElement<E extends AriaComboBoxListElementEventMap = AriaCo
    * Queries
    */
   /** */
-  rootElement!: AriaComboBoxElement
+  rootElement?: AriaComboBoxElement
 
   get name(): ElementName {
     return ElementName.ARIA_COMBOBOX_LIST
   }
 
-  get referenceElement(): AriaComboBoxGroupElement {
-    return this.rootElement.groupElement
+  get referenceElement(): AriaComboBoxGroupElement | undefined {
+    return this.rootElement?.groupElement
   }
 
   static queries: QueryDeclarations = {
@@ -832,8 +838,8 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
    * Queries
    */
   /** */
-  listElement!: AriaComboBoxListElement
-  rootElement!: AriaComboBoxElement
+  listElement?: AriaComboBoxListElement
+  rootElement?: AriaComboBoxElement
 
   /**
    * Internals
@@ -862,8 +868,8 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
       return
     }
 
-    if (name === 'focused' && typeof value === 'string') {
-      scrollElementIntoView(this.listElement, this, this.rootElement.scrollIntoViewOptions)
+    if (name === 'focused' && typeof value === 'string' && this.listElement) {
+      scrollElementIntoView(this.listElement, this, this.rootElement?.scrollIntoViewOptions)
       ElementLogger.verbose(this.uid, ' attributeChangedCallback', `The option has been scrolled into view.`)
     }
   }
@@ -886,12 +892,12 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
     this.selected = true
     ElementLogger.verbose(this.uid, 'select', `The option has been selected.`)
 
-    if (this.rootElement.single) {
+    if (this.rootElement?.single) {
       ElementLogger.verbose(this.uid, 'select', `Setting the value.`)
       this.rootElement.setValue(this.value)
     }
 
-    if (this.rootElement.multiple) {
+    if (this.rootElement?.multiple) {
       let value: any[]
 
       value = isArray(this.rootElement.value) ? this.rootElement.value : []
@@ -901,8 +907,10 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
       this.rootElement.setValue(value)
     }
 
-    ElementLogger.verbose(this.uid, 'select', `Touching the combobox.`)
-    this.rootElement.touch()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'select', `Touching the combobox.`)
+      this.rootElement.touch()
+    }
 
     this.dispatchEvent(new ComboBoxOptionSelectEvent(this.value))
     ElementLogger.verbose(this.uid, 'select', `The "select" event has been dispatched.`)
@@ -912,12 +920,12 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
     this.selected = false
     ElementLogger.verbose(this.uid, 'unselect', `The option has been unselected.`)
 
-    if (clear && this.rootElement.single) {
+    if (clear && this.rootElement?.single) {
       ElementLogger.verbose(this.uid, 'unselect', `Clearing the value.`)
       this.rootElement.clear()
     }
 
-    if (this.rootElement.multiple) {
+    if (this.rootElement?.multiple) {
       let value: any[]
 
       value = isArray(this.rootElement.value) ? this.rootElement.value : []
@@ -927,19 +935,21 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
       this.rootElement.setValue(value)
     }
 
-    ElementLogger.verbose(this.uid, 'unselect', `Touching the combobox.`)
-    this.rootElement.touch()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'unselect', `Touching the combobox.`)
+      this.rootElement.touch()
+    }
 
     this.dispatchEvent(new ComboBoxOptionUnselectEvent(this.value))
     ElementLogger.verbose(this.uid, 'unselect', `The "unselect" event has been dispatched.`)
   }
 
   onClick(): void {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
     }
 
-    if (this.rootElement.single) {
+    if (this.rootElement?.single) {
       if (this.rootElement.focusedOptionElement) {
         ElementLogger.verbose(this.uid, 'onClick', `Blurring the focused option element.`, this.rootElement.focusedOptionElement)
         this.rootElement.focusedOptionElement.blur()
@@ -972,7 +982,7 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
       }
     }
 
-    if (this.rootElement.multiple) {
+    if (this.rootElement?.multiple) {
       if (this.selected) {
         ElementLogger.verbose(this.uid, 'onClick', `Unselecting the option.`)
         return this.unselect()
@@ -1043,7 +1053,7 @@ class AriaComboBoxOptionRemoveElement<E extends AriaComboBoxOptionRemoveElementE
    * Queries
    */
   /** */
-  rootElement!: AriaComboBoxElement
+  rootElement?: AriaComboBoxElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -1056,12 +1066,14 @@ class AriaComboBoxOptionRemoveElement<E extends AriaComboBoxOptionRemoveElementE
   }
 
   onClick = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, 'onClick', `Removing the option.`, this.value)
-    this.rootElement.removeOption(this.value)
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Removing the option.`, this.value)
+      this.rootElement.removeOption(this.value)
+    }
   }
 
   get name(): ElementName {
@@ -1093,7 +1105,7 @@ class AriaComboBoxClearElement<E extends AriaComboBoxClearElementEventMap = Aria
    * Queries
    */
   /** */
-  rootElement!: AriaComboBoxElement
+  rootElement?: AriaComboBoxElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -1106,12 +1118,14 @@ class AriaComboBoxClearElement<E extends AriaComboBoxClearElementEventMap = Aria
   }
 
   onClick = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The combobox is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, 'onClick', `Clearing the combobox...`)
-    this.rootElement.clear()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Clearing the combobox...`)
+      this.rootElement.clear()
+    }
   }
 
   get name(): ElementName {

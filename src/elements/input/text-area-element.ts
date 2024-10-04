@@ -32,7 +32,7 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
    */
   /** */
   spanElement!: HTMLSpanElement
-  textAreaElement!: HTMLTextAreaElement
+  textAreaElement?: HTMLTextAreaElement
 
   /**
    * States
@@ -46,10 +46,10 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     wf(() => this.textAreaElement, 4).then(() => {
       this.setTextAreaElementAttributes()
 
-      this.textAreaElement.addEventListener('blur', this.onBlur)
-      this.textAreaElement.addEventListener('focus', this.onFocus)
-      this.textAreaElement.addEventListener('input', this.onInput)
-      this.textAreaElement.addEventListener('keyup', this.onKeyUp)
+      this.textAreaElement?.addEventListener('blur', this.onBlur)
+      this.textAreaElement?.addEventListener('focus', this.onFocus)
+      this.textAreaElement?.addEventListener('input', this.onInput)
+      this.textAreaElement?.addEventListener('keyup', this.onKeyUp)
 
       if (this.autosize) {
         ElementLogger.verbose(this.uid, 'connectedCallback', `Computing the height.`)
@@ -85,6 +85,10 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
   }
 
   setTextAreaElementAttributes = (): void => {
+    if (!this.textAreaElement) {
+      return
+    }
+
     this.textAreaElement.disabled = Boolean(this.disabled)
     this.textAreaElement.readOnly = Boolean(this.readonly)
 
@@ -145,8 +149,10 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     ElementLogger.verbose(this.uid, 'onKeyUp', `Adding the item to the value.`, [this.temporaryValue])
     this.setValue(value)
 
-    this.textAreaElement.value = ''
-    ElementLogger.verbose(this.uid, 'onKeyUp', `The textarea element value has been reset.`, [this.textAreaElement.value])
+    if (this.textAreaElement) {
+      this.textAreaElement.value = ''
+      ElementLogger.verbose(this.uid, 'onKeyUp', `The textarea element value has been reset.`, [this.textAreaElement.value])
+    }
 
     ElementLogger.verbose(this.uid, 'onKeyUp', `Touching.`)
     this.touch()
@@ -210,16 +216,18 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
       ElementLogger.verbose(this.uid, 'clear', `The temporary value has been reset.`, [this.temporaryValue])
     }
 
-    if (this.autosize) {
+    if (this.autosize && this.textAreaElement) {
       this.textAreaElement.style.height = 'auto'
       ElementLogger.verbose(this.uid, 'clear', `The textarea element height has been set to "auto".`, [this.textAreaElement.style.height])
     }
 
-    this.textAreaElement.value = ''
-    ElementLogger.verbose(this.uid, 'clear', `The textarea element value has been reset.`, [this.textAreaElement.value])
+    if (this.textAreaElement) {
+      this.textAreaElement.value = ''
+      ElementLogger.verbose(this.uid, 'clear', `The textarea element value has been reset.`, [this.textAreaElement.value])
 
-    this.textAreaElement.focus()
-    ElementLogger.verbose(this.uid, 'clear', `The textarea element has been focused.`)
+      this.textAreaElement.focus()
+      ElementLogger.verbose(this.uid, 'clear', `The textarea element has been focused.`)
+    }
 
     ElementLogger.verbose(this.uid, 'clear', `Touching.`)
     this.touch()
@@ -299,7 +307,7 @@ class TextAreaClearElement<E extends TextAreaClearElementEventMap = TextAreaClea
    * Queries
    */
   /** */
-  rootElement!: TextAreaElement
+  rootElement?: TextAreaElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -312,12 +320,14 @@ class TextAreaClearElement<E extends TextAreaClearElementEventMap = TextAreaClea
   }
 
   onClick = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The textarea is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, 'onClick', `Clearing the value...`)
-    this.rootElement.clear()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Clearing the value...`)
+      this.rootElement.clear()
+    }
   }
 
   get name(): ElementName {
@@ -334,13 +344,13 @@ class TextAreaItemRemoveElement<E extends TextAreaItemRemoveElementEventMap = Te
    * Properties
    */
   /** */
-  item!: string
+  item?: string
 
   /**
    * Queries
    */
   /** */
-  rootElement!: TextAreaElement
+  rootElement?: TextAreaElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -353,12 +363,14 @@ class TextAreaItemRemoveElement<E extends TextAreaItemRemoveElementEventMap = Te
   }
 
   onClick = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The textarea is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, 'onClick', `Removing the item...`, [this.item])
-    this.rootElement.removeItem(this.item)
+    if (this.rootElement && typeof this.item === 'string') {
+      ElementLogger.verbose(this.uid, 'onClick', `Removing the item...`, [this.item])
+      this.rootElement.removeItem(this.item)
+    }
   }
 
   get name(): ElementName {

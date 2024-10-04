@@ -195,8 +195,8 @@ class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEventMap 
    * Queries
    */
   /** */
-  buttonElement!: AriaAccordionButtonElement
-  panelElement!: AriaAccordionPanelElement
+  buttonElement?: AriaAccordionButtonElement
+  panelElement?: AriaAccordionPanelElement
 
   toggle(): void {
     if (this.expanded) {
@@ -270,8 +270,8 @@ class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = 
    * Queries
    */
   /** */
-  rootElement!: AriaAccordionElement
-  sectionElement!: AriaAccordionSectionElement
+  rootElement?: AriaAccordionElement
+  sectionElement?: AriaAccordionSectionElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -288,12 +288,12 @@ class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = 
   }
 
   onClick(): void {
-    if (this.sectionElement.uncollapsible && this.sectionElement.expanded) {
+    if (this.sectionElement?.uncollapsible && this.sectionElement.expanded) {
       return ElementLogger.verbose(this.sectionElement.uid, 'onClick', `The section isn't collapsible once expanded.`)
     }
 
-    if (this.rootElement.allowOnlyOneExpandedSection && this.rootElement.expandedSectionElements.length > 0) {
-      let expanded: boolean = Boolean(this.sectionElement.expanded)
+    if (this.rootElement?.allowOnlyOneExpandedSection && this.rootElement.expandedSectionElements.length > 0) {
+      let expanded: boolean = Boolean(this.sectionElement?.expanded)
 
       for (let section of this.rootElement.expandedSectionElements) {
         if (section.uncollapsible) {
@@ -309,8 +309,10 @@ class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = 
       }
     }
 
-    ElementLogger.verbose(this.uid, 'onClick', `Toggling the section.`)
-    this.sectionElement.toggle()
+    if (this.sectionElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Toggling the section.`)
+      this.sectionElement.toggle()
+    }
   }
 
   onKeyDown(event: KeyboardEvent): void {
@@ -354,7 +356,7 @@ class AriaAccordionPanelElement<E extends AriaAccordionPanelElementEventMap = Ar
    * Queries
    */
   /** */
-  sectionElement!: AriaAccordionSectionElement
+  sectionElement?: AriaAccordionSectionElement
 
   get name(): ElementName {
     return ElementName.ARIA_ACCORDION_PANEL

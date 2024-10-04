@@ -32,7 +32,9 @@ export class AriaCarouselController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'temporary-live', this.host.temporaryLive)
     setImmutableElementAttribute(this.host, 'role', 'region')
 
-    setImmutableElementAttribute(this.host.slidesElement, 'aria-live', this.host.temporaryLive ?? (this.host.automaticRotation ? 'off' : 'polite'))
+    if (this.host.slidesElement) {
+      setImmutableElementAttribute(this.host.slidesElement, 'aria-live', this.host.temporaryLive ?? (this.host.automaticRotation ? 'off' : 'polite'))
+    }
 
     if (this.host.rotationControlElement) {
       setImmutableElementAttribute(
@@ -59,7 +61,7 @@ export class AriaCarouselNextSlideControlController implements ReactiveControlle
 
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'aria-label', 'Next Slide')
-    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.slidesElement.id)
+    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement?.slidesElement?.id)
     setImmutableElementAttribute(this.host, 'role', 'button')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
   }
@@ -80,7 +82,7 @@ export class AriaCarouselPreviousSlideControlController implements ReactiveContr
 
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'aria-label', 'Previous Slide')
-    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.slidesElement.id)
+    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement?.slidesElement?.id)
     setImmutableElementAttribute(this.host, 'role', 'button')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
   }
@@ -100,8 +102,8 @@ export class AriaCarouselRotationControlController implements ReactiveController
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.slidesElement.id)
-    setImmutableElementAttribute(this.host, 'aria-label', this.host.rootElement.automaticRotation ? 'Stop Automatic Slide Show' : 'Start Automatic Slide Show')
+    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement?.slidesElement?.id)
+    setImmutableElementAttribute(this.host, 'aria-label', this.host.rootElement?.automaticRotation ? 'Stop Automatic Slide Show' : 'Start Automatic Slide Show')
     setImmutableElementAttribute(this.host, 'role', 'button')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
   }
@@ -121,9 +123,9 @@ export class AriaCarouselSlideController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-label', `${this.host.index + 1} of ${this.host.rootElement.slideElements.length}`)
+    setImmutableElementAttribute(this.host, 'aria-label', `${this.host.index + 1} of ${this.host.rootElement?.slideElements.length}`)
     setImmutableElementAttribute(this.host, 'aria-roledescription', 'slide')
-    setImmutableElementAttribute(this.host, 'role', this.host.rootElement.tabsElement ? 'tabpanel' : 'group')
+    setImmutableElementAttribute(this.host, 'role', this.host.rootElement?.tabsElement ? 'tabpanel' : 'group')
 
     if (this.host.id.length <= 0) {
       setImmutableElementAttribute(
@@ -179,7 +181,7 @@ export class AriaCarouselTabController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.slideElements[this.host.index]?.id)
+    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement?.slideElements[this.host.index]?.id)
     setImmutableElementAttribute(this.host, 'aria-label', `Slide ${this.host.index + 1}`)
     setImmutableElementAttribute(this.host, 'aria-selected', this.host.active ? 'true' : undefined)
     setImmutableElementAttribute(this.host, 'role', 'tab')

@@ -33,7 +33,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
   /** */
   buttonElement?: ButtonElement
   fieldElements!: FormControlElement[]
-  formElement!: HTMLFormElement
+  formElement?: HTMLFormElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -42,8 +42,10 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
       this.buttonElement?.addEventListener('button-click', this.onButtonClick)
     })
 
-    this.setFormElementAttributes()
-    this.formElement.addEventListener('submit', this.onSubmit)
+    wf(() => this.formElement, 4).then(() => {
+      this.setFormElementAttributes()
+      this.formElement?.addEventListener('submit', this.onSubmit)
+    })
   }
 
   disconnectedCallback(): void {
@@ -54,13 +56,19 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
   }
 
   setFormElementAttributes = (): void => {
+    if (!this.formElement) {
+      return
+    }
+
     this.formElement.ariaDisabled = this.disabled ? 'true' : 'false'
     this.formElement.noValidate = true
   }
 
   onButtonClick = (event: ButtonClickEvent): void => {
-    ElementLogger.verbose(this.uid, 'onButtonClick', `Requesting submit.`)
-    this.formElement.requestSubmit()
+    if (this.formElement) {
+      ElementLogger.verbose(this.uid, 'onButtonClick', `Requesting submit.`)
+      this.formElement.requestSubmit()
+    }
 
     event.detail?.finalize()
   }

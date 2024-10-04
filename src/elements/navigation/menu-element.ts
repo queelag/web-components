@@ -88,7 +88,7 @@ class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElementEventMa
   get depth(): number {
     let n: number, closest: MenuItemElement | null | undefined
 
-    n = this.rootElement.buttonElement ? 1 : 0
+    n = this.rootElement?.buttonElement ? 1 : 0
     closest = this.parentElement?.closest('aracna-menu-item')
 
     while (typeof closest === 'object' && closest !== null && closest !== this) {
@@ -104,19 +104,19 @@ class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElementEventMa
   }
 
   get sameDepthItemElements(): NodeListOf<MenuItemElement> {
-    return this.rootElement.querySelectorAll(`aracna-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement?.querySelectorAll(`aracna-menu-item[depth="${this.depth}"][focused]`) ?? (new NodeList() as any)
   }
 
   get sameDepthFocusedItemElement(): MenuItemElement | null {
-    return this.rootElement.querySelector(`aracna-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement?.querySelector(`aracna-menu-item[depth="${this.depth}"][focused]`) ?? null
   }
 
   get sameDepthFocusedItemElements(): NodeListOf<MenuItemElement> {
-    return this.rootElement.querySelectorAll(`aracna-menu-item[depth="${this.depth}"][focused]`)
+    return this.rootElement?.querySelectorAll(`aracna-menu-item[depth="${this.depth}"][focused]`) ?? (new NodeList() as any)
   }
 
   get sameDepthExpandedSubMenuElement(): MenuSubMenuElement | null {
-    return this.rootElement.querySelector(`aracna-menu-submenu[depth="${this.depth}"][expanded]`)
+    return this.rootElement?.querySelector(`aracna-menu-submenu[depth="${this.depth}"][expanded]`) ?? null
   }
 
   static properties: PropertyDeclarations = {

@@ -22,7 +22,7 @@ export class AriaDisclosureButtonController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-controls', this.host.sectionElement.panelElement?.id)
+    setImmutableElementAttribute(this.host, 'aria-controls', this.host.sectionElement?.panelElement?.id)
     setImmutableElementAttribute(this.host, 'role', 'button')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
   }
@@ -69,6 +69,8 @@ export class AriaDisclosureSectionController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host.buttonElement, 'aria-expanded', this.host.expanded ? 'true' : undefined)
+    if (this.host.buttonElement) {
+      setImmutableElementAttribute(this.host.buttonElement, 'aria-expanded', this.host.expanded ? 'true' : undefined)
+    }
   }
 }

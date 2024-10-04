@@ -42,7 +42,7 @@ class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipEleme
   /** */
   arrowElement?: AriaTooltipArrowElement
   contentElement?: AriaTooltipContentElement
-  triggerElement!: AriaTooltipTriggerElement
+  triggerElement?: AriaTooltipTriggerElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -133,10 +133,10 @@ class AriaTooltipContentElement<E extends AriaTooltipContentElementEventMap = Ar
    * Queries
    */
   /** */
-  rootElement!: AriaTooltipElement
+  rootElement?: AriaTooltipElement
 
   get arrowElement(): AriaTooltipArrowElement | undefined {
-    return this.rootElement.arrowElement
+    return this.rootElement?.arrowElement
   }
 
   get name(): ElementName {
@@ -144,7 +144,7 @@ class AriaTooltipContentElement<E extends AriaTooltipContentElementEventMap = Ar
   }
 
   get referenceElement(): AriaTooltipTriggerElement | undefined {
-    return this.rootElement.triggerElement
+    return this.rootElement?.triggerElement
   }
 
   static queries: QueryDeclarations = {
@@ -170,7 +170,7 @@ class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = Ar
    * Queries
    */
   /** */
-  rootElement!: AriaTooltipElement
+  rootElement?: AriaTooltipElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -193,22 +193,34 @@ class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = Ar
   }
 
   onBlur = (): void => {
+    if (!this.rootElement) {
+      return
+    }
+
     ElementLogger.verbose(this.uid, 'onBlur', `Hiding the tooltip.`)
     this.rootElement.hide()
   }
 
   onClick = (): void => {
+    if (!this.rootElement) {
+      return
+    }
+
     ElementLogger.verbose(this.uid, 'onClick', `Showing the tooltip.`)
     this.rootElement.show()
   }
 
   onFocus = (): void => {
+    if (!this.rootElement) {
+      return
+    }
+
     ElementLogger.verbose(this.uid, 'onFocus', `Showing the tooltip.`)
     this.rootElement.show()
   }
 
   onMouseEnter = (): void => {
-    if (!this.rootElement.showOnMouseEnter) {
+    if (!this.rootElement?.showOnMouseEnter) {
       return
     }
 
@@ -217,6 +229,10 @@ class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = Ar
   }
 
   onMouseLeave = (): void => {
+    if (!this.rootElement) {
+      return
+    }
+
     ElementLogger.verbose(this.uid, 'onMouseLeave', `Hiding the tooltip.`)
     this.rootElement.hide()
   }

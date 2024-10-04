@@ -231,7 +231,7 @@ class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsTabEleme
    * Queries
    */
   /** */
-  rootElement!: AriaTabsElement
+  rootElement?: AriaTabsElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -249,7 +249,7 @@ class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsTabEleme
   }
 
   select(): void {
-    if (this.rootElement.selectedTabElement) {
+    if (this.rootElement?.selectedTabElement) {
       ElementLogger.verbose(this.uid, 'select', `Unselecting the selected tab.`, this.rootElement.selectedTabElement)
       this.rootElement.selectedTabElement.unselect()
     }
@@ -273,7 +273,7 @@ class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsTabEleme
   }
 
   get index(): number {
-    return this.rootElement.tabElements.indexOf(this)
+    return this.rootElement?.tabElements.indexOf(this) ?? -1
   }
 
   get name(): ElementName {
@@ -305,10 +305,10 @@ class AriaTabsPanelElement<E extends AriaTabsPanelElementEventMap = AriaTabsPane
    * Queries
    */
   /** */
-  rootElement!: AriaTabsElement
+  rootElement?: AriaTabsElement
 
   get index(): number {
-    return this.rootElement.panelElements.indexOf(this)
+    return this.rootElement?.panelElements.indexOf(this) ?? -1
   }
 
   get name(): ElementName {

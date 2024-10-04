@@ -82,7 +82,7 @@ export class AriaComboBoxButtonController implements ReactiveController {
   }
 
   setAttributes(): void {
-    if (this.host.rootElement.inputElement) {
+    if (this.host.rootElement?.inputElement) {
       setImmutableElementAttribute(this.host, 'aria-label', 'Previous Searches')
       setImmutableElementAttribute(this.host, 'role', 'button')
       setImmutableElementAttribute(this.host, 'tabindex', '-1')
@@ -173,7 +173,7 @@ export class AriaComboBoxListController implements ReactiveController {
       )
     }
 
-    if (this.host.rootElement.inputElement) {
+    if (this.host.rootElement?.inputElement) {
       setImmutableElementAttribute(this.host, 'aria-label', 'Previous Searches')
     }
 
@@ -209,7 +209,7 @@ export class AriaComboBoxOptionController implements ReactiveController {
       )
     }
 
-    if (this.host.rootElement.inputElement) {
+    if (this.host.rootElement?.inputElement) {
       if (!this.host.rootElement.inputElement?.inputElement) {
         return
       }
@@ -221,7 +221,7 @@ export class AriaComboBoxOptionController implements ReactiveController {
       return
     }
 
-    if (this.host.rootElement.buttonElement) {
+    if (this.host.rootElement?.buttonElement) {
       if (this.host.focused) {
         setImmutableElementAttribute(this.host.rootElement.buttonElement, 'aria-activedescendant', this.host.id)
       }

@@ -23,7 +23,7 @@ export class AriaAccordionButtonController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-controls', this.host.sectionElement.panelElement?.id)
+    setImmutableElementAttribute(this.host, 'aria-controls', this.host.sectionElement?.panelElement?.id)
     setImmutableElementAttribute(this.host, 'role', 'button')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
 
@@ -73,7 +73,7 @@ export class AriaAccordionPanelController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-labelledby', this.host.sectionElement.buttonElement?.id)
+    setImmutableElementAttribute(this.host, 'aria-labelledby', this.host.sectionElement?.buttonElement?.id)
     setImmutableElementAttribute(this.host, 'role', 'region')
 
     if (this.host.id.length <= 0) {

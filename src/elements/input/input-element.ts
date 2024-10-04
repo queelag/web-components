@@ -36,7 +36,7 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
    * Queries
    */
   /** */
-  inputElement!: HTMLInputElement
+  inputElement?: HTMLInputElement
 
   /**
    * States
@@ -50,10 +50,10 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
     wf(() => this.inputElement, 4).then(() => {
       this.setInputElementAttributes()
 
-      this.inputElement.addEventListener('blur', this.onBlur)
-      this.inputElement.addEventListener('focus', this.onFocus)
-      this.inputElement.addEventListener('input', this.onInput)
-      this.inputElement.addEventListener('keyup', this.onKeyUp)
+      this.inputElement?.addEventListener('blur', this.onBlur)
+      this.inputElement?.addEventListener('focus', this.onFocus)
+      this.inputElement?.addEventListener('input', this.onInput)
+      this.inputElement?.addEventListener('keyup', this.onKeyUp)
     })
   }
 
@@ -79,6 +79,10 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
   }
 
   setInputElementAttributes = (): void => {
+    if (!this.inputElement) {
+      return
+    }
+
     this.inputElement.disabled = Boolean(this.disabled)
 
     if (typeof this.placeholder === 'string') {
@@ -105,6 +109,10 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
   }
 
   onInput = (): void => {
+    if (!this.inputElement) {
+      return
+    }
+
     switch (this.type) {
       case 'buffer':
         ElementLogger.verbose(this.uid, 'onInput', `Setting the encoded value.`)
@@ -172,8 +180,10 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
     ElementLogger.verbose(this.uid, 'onKeyUp', `Adding the item to the value.`, [this.temporaryValue])
     this.setValue(value)
 
-    this.inputElement.value = ''
-    ElementLogger.verbose(this.uid, 'onKeyUp', `The input value has been reset.`, [this.inputElement.value])
+    if (this.inputElement) {
+      this.inputElement.value = ''
+      ElementLogger.verbose(this.uid, 'onKeyUp', `The input value has been reset.`, [this.inputElement.value])
+    }
 
     ElementLogger.verbose(this.uid, 'onKeyUp', `Touching.`)
     this.touch()
@@ -204,11 +214,13 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
       ElementLogger.verbose(this.uid, 'clear', `The temporary value has been reset.`, [this.temporaryValue])
     }
 
-    this.inputElement.value = ''
-    ElementLogger.verbose(this.uid, 'clear', `The input value has been reset.`, [this.inputElement.value])
+    if (this.inputElement) {
+      this.inputElement.value = ''
+      ElementLogger.verbose(this.uid, 'clear', `The input value has been reset.`, [this.inputElement.value])
 
-    this.inputElement.focus()
-    ElementLogger.verbose(this.uid, 'clear', `The input has been focused.`)
+      this.inputElement.focus()
+      ElementLogger.verbose(this.uid, 'clear', `The input has been focused.`)
+    }
 
     this.touch()
   }
@@ -217,16 +229,20 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
     this.obscured = true
     ElementLogger.verbose(this.uid, 'obscure', `The value has been obscured.`)
 
-    this.inputElement.focus()
-    ElementLogger.verbose(this.uid, 'obscure', `The input has been focused.`)
+    if (this.inputElement) {
+      this.inputElement.focus()
+      ElementLogger.verbose(this.uid, 'obscure', `The input has been focused.`)
+    }
   }
 
   reveal(): void {
     this.obscured = false
     ElementLogger.verbose(this.uid, 'reveal', `The value has been revealed.`)
 
-    this.inputElement.focus()
-    ElementLogger.verbose(this.uid, 'reveal', `The input has been focused.`)
+    if (this.inputElement) {
+      this.inputElement.focus()
+      ElementLogger.verbose(this.uid, 'reveal', `The input has been focused.`)
+    }
   }
 
   setValue(value: InputElementValue): void {
@@ -385,7 +401,7 @@ class InputObscureElement<E extends InputObscureElementEventMap = InputObscureEl
    * Queries
    */
   /** */
-  rootElement!: InputElement
+  rootElement?: InputElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -398,17 +414,19 @@ class InputObscureElement<E extends InputObscureElementEventMap = InputObscureEl
   }
 
   onClick = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The input is disabled or readonly.`)
     }
 
-    if (this.rootElement.obscured) {
+    if (this.rootElement?.obscured) {
       ElementLogger.verbose(this.uid, 'onClick', `Revealing the value...`)
       return this.rootElement.reveal()
     }
 
-    ElementLogger.verbose(this.uid, 'onClick', `Obscuring the value...`)
-    this.rootElement.obscure()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Obscuring the value...`)
+      this.rootElement.obscure()
+    }
   }
 
   get name(): ElementName {
@@ -425,13 +443,13 @@ class InputItemRemoveElement<E extends InputItemRemoveElementEventMap = InputIte
    * Properties
    */
   /** */
-  item!: string
+  item?: string
 
   /**
    * Queries
    */
   /** */
-  rootElement!: InputElement
+  rootElement?: InputElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -444,12 +462,14 @@ class InputItemRemoveElement<E extends InputItemRemoveElementEventMap = InputIte
   }
 
   onClick = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The input is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, 'onClick', `Removing the item...`, [this.item])
-    this.rootElement.removeItem(this.item)
+    if (this.rootElement && typeof this.item === 'string') {
+      ElementLogger.verbose(this.uid, 'onClick', `Removing the item...`, [this.item])
+      this.rootElement.removeItem(this.item)
+    }
   }
 
   get name(): ElementName {
@@ -470,7 +490,7 @@ class InputClearElement<E extends InputClearElementEventMap = InputClearElementE
    * Queries
    */
   /** */
-  rootElement!: InputElement
+  rootElement?: InputElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -483,12 +503,14 @@ class InputClearElement<E extends InputClearElementEventMap = InputClearElementE
   }
 
   onClick = (): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onClick', `The input is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, 'onClick', `Clearing the value...`)
-    this.rootElement.clear()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'onClick', `Clearing the value...`)
+      this.rootElement.clear()
+    }
   }
 
   get name(): ElementName {

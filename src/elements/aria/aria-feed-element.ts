@@ -187,7 +187,7 @@ class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = AriaFeed
   /** */
   descriptionElement?: AriaFeedArticleDescriptionElement
   labelElement?: AriaFeedArticleLabelElement
-  rootElement!: AriaFeedElement
+  rootElement?: AriaFeedElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -214,7 +214,7 @@ class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = AriaFeed
   }
 
   get index(): number {
-    return this.rootElement.articleElements.indexOf(this)
+    return this.rootElement?.articleElements.indexOf(this) ?? -1
   }
 
   get name(): ElementName {

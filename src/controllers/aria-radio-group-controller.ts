@@ -48,7 +48,7 @@ export class AriaRadioButtonController implements ReactiveController {
     switch (true) {
       case this.host.checked:
       case this.host.focused:
-      case this.host.index === 0 && !this.host.rootElement.checkedButtonElement:
+      case this.host.index === 0 && !this.host.rootElement?.checkedButtonElement:
         setImmutableElementAttribute(this.host, 'tabindex', '0')
         break
       default:

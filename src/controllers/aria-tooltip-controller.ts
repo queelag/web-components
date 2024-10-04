@@ -73,6 +73,6 @@ export class AriaTooltipTriggerController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-describedby', this.host.rootElement.contentElement?.id)
+    setImmutableElementAttribute(this.host, 'aria-describedby', this.host.rootElement?.contentElement?.id)
   }
 }

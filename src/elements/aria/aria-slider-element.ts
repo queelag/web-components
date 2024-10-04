@@ -294,7 +294,7 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
    * Queries
    */
   /** */
-  rootElement!: AriaSliderElement
+  rootElement?: AriaSliderElement
 
   /**
    * Internals
@@ -354,13 +354,13 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
         break
     }
 
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, 'onKeyDown', `The slider is disabled or readonly.`)
     }
 
-    max = this.rootElement.max
-    min = this.rootElement.min
-    step = this.rootElement.step
+    max = this.rootElement?.max ?? DEFAULT_SLIDER_MAX
+    min = this.rootElement?.min ?? DEFAULT_SLIDER_MIN
+    step = this.rootElement?.step ?? DEFAULT_SLIDER_STEP
     value = this.value ?? DEFAULT_SLIDER_THUMB_VALUE
 
     switch (event.key) {
@@ -440,7 +440,7 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   }
 
   onMouseDownOrTouchStart = (fn: string): void => {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, fn, `The slider is disabled or readonly.`)
     }
 
@@ -470,7 +470,7 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   }
 
   onMouseUpOrTouchEnd(fn: string): void {
-    if (this.rootElement.disabled || this.rootElement.readonly) {
+    if (this.rootElement?.disabled || this.rootElement?.readonly) {
       return ElementLogger.warn(this.uid, fn, `The slider is disabled or readonly.`)
     }
 
@@ -490,10 +490,10 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
       return
     }
 
-    this.style.left = getSliderThumbElementStyleLeft(this.percentage, this.rootElement.orientation)
+    this.style.left = getSliderThumbElementStyleLeft(this.percentage, this.rootElement?.orientation)
     ElementLogger.verbose(this.uid, 'computePosition', `The left style has been set.`, [this.style.left])
 
-    this.style.top = getSliderThumbElementStyleTop(this.percentage, this.rootElement.orientation)
+    this.style.top = getSliderThumbElementStyleTop(this.percentage, this.rootElement?.orientation)
     ElementLogger.verbose(this.uid, 'computePosition', `The top style has been set.`, [this.style.top])
   }
 
@@ -510,10 +510,10 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   setValueByPercentage(percentage: number): void {
     let decimals: number, max: number, min: number, step: number, value: number
 
-    decimals = this.rootElement.decimals
-    max = this.rootElement.max
-    min = this.rootElement.min
-    step = this.rootElement.step
+    decimals = this.rootElement?.decimals ?? DEFAULT_SLIDER_DECIMALS
+    max = this.rootElement?.max ?? DEFAULT_SLIDER_MAX
+    min = this.rootElement?.min ?? DEFAULT_SLIDER_MIN
+    step = this.rootElement?.step ?? DEFAULT_SLIDER_STEP
 
     value = getLimitedNumber(getFixedNumber(((max - min) * percentage) / 100 + min, decimals), { min, max })
     if (!isNumberMultipleOf(value * 10 ** decimals, step * 10 ** decimals)) return
@@ -525,12 +525,12 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   setValue(value: number): void {
     let decimals: number, max: number, min: number, fvalue: number
 
-    decimals = this.rootElement.decimals
-    max = this.rootElement.max
-    min = this.rootElement.min
+    decimals = this.rootElement?.decimals ?? DEFAULT_SLIDER_DECIMALS
+    max = this.rootElement?.max ?? DEFAULT_SLIDER_MAX
+    min = this.rootElement?.min ?? DEFAULT_SLIDER_MIN
     fvalue = getFixedNumber(value, decimals)
 
-    if (this.rootElement.disableSwap && this.rootElement.hasMultipleThumbs) {
+    if (this.rootElement?.disableSwap && this.rootElement.hasMultipleThumbs) {
       let pthumb: AriaSliderThumbElement | undefined, nthumb: AriaSliderThumbElement | undefined, mdistance: number
 
       pthumb = this.rootElement.thumbElements[this.index - 1]
@@ -548,7 +548,7 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
 
     this.value = getLimitedNumber(fvalue, { min, max })
 
-    if (this.rootElement.hasMultipleThumbs) {
+    if (this.rootElement?.hasMultipleThumbs) {
       let array: number[]
 
       array = isArray(this.rootElement.value) ? this.rootElement.value : []
@@ -558,25 +558,33 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
       this.rootElement.setValue(array)
     }
 
-    if (this.rootElement.hasSingleThumb) {
+    if (this.rootElement?.hasSingleThumb) {
       ElementLogger.verbose(this.uid, 'setValue', `Setting the value.`)
       this.rootElement.setValue(value)
     }
 
-    ElementLogger.verbose(this.uid, 'setValue', `The value has been set.`, [this.value, this.rootElement.value])
+    ElementLogger.verbose(this.uid, 'setValue', `The value has been set.`, [this.value, this.rootElement?.value])
 
-    ElementLogger.verbose(this.uid, 'setValue', `Touching the slider.`)
-    this.rootElement.touch()
+    if (this.rootElement) {
+      ElementLogger.verbose(this.uid, 'setValue', `Touching the slider.`)
+      this.rootElement.touch()
+    }
 
     this.dispatchEvent(new SliderThumbMoveEvent(this.value, this.percentage))
     ElementLogger.verbose(this.uid, 'setValue', `The "move" event has been dispatched.`, [this.value, this.percentage])
 
-    this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.value, this.rootElement.percentage))
-    ElementLogger.verbose(this.uid, 'setValue', `The "change" event has been dispatched.`, [this.rootElement.value, this.rootElement.percentage])
+    if (this.rootElement) {
+      this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.value, this.rootElement.percentage))
+      ElementLogger.verbose(this.uid, 'setValue', `The "change" event has been dispatched.`, [this.rootElement.value, this.rootElement.percentage])
+    }
   }
 
   getPercentageByCoordinates(x: number, y: number): number {
     let decimals: number, orientation: Orientation, rect: DOMRect, percentage: number
+
+    if (!this.rootElement) {
+      return 0
+    }
 
     decimals = this.rootElement.decimals
     orientation = this.rootElement.orientation
@@ -604,7 +612,7 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   }
 
   get index(): number {
-    return this.rootElement.thumbElements.indexOf(this)
+    return this.rootElement?.thumbElements.indexOf(this) ?? -1
   }
 
   get name(): ElementName {
@@ -613,9 +621,9 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
 
   get percentage(): number {
     return getSliderThumbElementPercentage(this.value, {
-      decimals: this.rootElement.decimals,
-      max: this.rootElement.max,
-      min: this.rootElement.min
+      decimals: this.rootElement?.decimals ?? DEFAULT_SLIDER_DECIMALS,
+      max: this.rootElement?.max ?? DEFAULT_SLIDER_MAX,
+      min: this.rootElement?.min ?? DEFAULT_SLIDER_MIN
     })
   }
 
