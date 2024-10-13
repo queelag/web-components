@@ -119,7 +119,7 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
     FETCHING_ICONS.add(src)
     ElementLogger.verbose(this.uid, 'fetchSource', `The source has been marked as fetching.`, [src])
 
-    response = await Fetch.get(src, { parse: 'text' })
+    response = await Fetch.get(src, { decode: { type: 'text' } })
     if (response instanceof Error) return rvp(() => FETCHING_ICONS.delete(src))
 
     FETCHING_ICONS.delete(src)
