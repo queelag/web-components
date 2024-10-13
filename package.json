@@ -40,54 +40,54 @@
   },
   "exports": {
     ".": {
+      "types": "./index.d.ts",
       "import": "./index.js",
-      "require": "./index.cjs",
-      "types": "./index.d.ts"
+      "require": "./index.cjs"
     },
     "./elements/aria/*": {
+      "types": "./elements/aria/*.d.ts",
       "import": "./elements/aria/*.js",
-      "require": "./elements/aria/*.cjs",
-      "types": "./elements/aria/*.d.ts"
+      "require": "./elements/aria/*.cjs"
     },
     "./elements/core/*": {
+      "types": "./elements/core/*.d.ts",
       "import": "./elements/core/*.js",
-      "require": "./elements/core/*.cjs",
-      "types": "./elements/core/*.d.ts"
+      "require": "./elements/core/*.cjs"
     },
     "./elements/data/*": {
+      "types": "./elements/data/*.d.ts",
       "import": "./elements/data/*.js",
-      "require": "./elements/data/*.cjs",
-      "types": "./elements/data/*.d.ts"
+      "require": "./elements/data/*.cjs"
     },
     "./elements/feedback/*": {
+      "types": "./elements/feedback/*.d.ts",
       "import": "./elements/feedback/*.js",
-      "require": "./elements/feedback/*.cjs",
-      "types": "./elements/feedback/*.d.ts"
+      "require": "./elements/feedback/*.cjs"
     },
     "./elements/input/*": {
+      "types": "./elements/input/*.d.ts",
       "import": "./elements/input/*.js",
-      "require": "./elements/input/*.cjs",
-      "types": "./elements/input/*.d.ts"
+      "require": "./elements/input/*.cjs"
     },
     "./elements/layout/*": {
+      "types": "./elements/layout/*.d.ts",
       "import": "./elements/layout/*.js",
-      "require": "./elements/layout/*.cjs",
-      "types": "./elements/layout/*.d.ts"
+      "require": "./elements/layout/*.cjs"
     },
     "./elements/navigation/*": {
+      "types": "./elements/navigation/*.d.ts",
       "import": "./elements/navigation/*.js",
-      "require": "./elements/navigation/*.cjs",
-      "types": "./elements/navigation/*.d.ts"
+      "require": "./elements/navigation/*.cjs"
     },
     "./elements/surface/*": {
+      "types": "./elements/surface/*.d.ts",
       "import": "./elements/surface/*.js",
-      "require": "./elements/surface/*.cjs",
-      "types": "./elements/surface/*.d.ts"
+      "require": "./elements/surface/*.cjs"
     },
     "./elements/typography/*": {
+      "types": "./elements/typography/*.d.ts",
       "import": "./elements/typography/*.js",
-      "require": "./elements/typography/*.cjs",
-      "types": "./elements/typography/*.d.ts"
+      "require": "./elements/typography/*.cjs"
     }
   },
   "license": "MIT",
