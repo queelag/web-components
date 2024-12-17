@@ -65,9 +65,22 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
   }
 
   onButtonClick = (event: ButtonClickEvent): void => {
-    if (this.formElement) {
+    if (typeof this.formElement?.requestSubmit === 'function') {
       ElementLogger.verbose(this.uid, 'onButtonClick', `Requesting submit.`)
       this.formElement.requestSubmit()
+
+      return event.detail?.finalize()
+    }
+
+    if (this.formElement) {
+      let input: HTMLInputElement
+
+      input = document.createElement('input')
+      input.type = 'submit'
+
+      this.formElement.appendChild(input)
+      input.click()
+      this.formElement.removeChild(input)
     }
 
     event.detail?.finalize()
