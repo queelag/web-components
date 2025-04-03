@@ -1,5 +1,6 @@
 import { build } from 'esbuild'
 import { minifyHTMLLiteralsPlugin } from 'esbuild-plugin-minify-html-literals'
+import { rm } from 'fs/promises'
 import { glob } from 'glob'
 
 /** @type {import('esbuild').BuildOptions} */
@@ -8,6 +9,8 @@ const OPTIONS = {
   minify: true,
   plugins: [minifyHTMLLiteralsPlugin()]
 }
+
+await rm('dist', { force: true, recursive: true })
 
 /**
  * ESM

@@ -1,38 +1,32 @@
 {
   "author": "Dario Sechi",
-  "dependencies": {
-    "@floating-ui/dom": "^1.6.11",
-    "@types/dompurify": "^3.0.5",
-    "dompurify": "^3.1.7",
-    "focus-trap": "^7.6.0",
-    "qrcode": "^1.5.4",
-    "tabbable": "^6.2.0"
-  },
   "devDependencies": {
-    "@aracna/core": "^1.1.92",
-    "@aracna/web": "^1.0.77",
-    "@astrojs/lit": "^4.3.0",
-    "@astrojs/tailwind": "^5.1.2",
-    "@microsoft/api-extractor": "^7.47.9",
+    "@aracna/core": "^1.1.95",
+    "@aracna/web": "^1.0.81",
+    "@floating-ui/dom": "^1.6.13",
+    "@microsoft/api-extractor": "^7.52.2",
+    "@types/node": "^22.14.0",
     "@types/qrcode": "^1.5.5",
-    "@vitest/coverage-v8": "^2.1.2",
-    "@vitest/ui": "^2.1.2",
-    "@webcomponents/template-shadowroot": "^0.2.1",
-    "astro": "^4.16.2",
-    "esbuild": "^0.24.0",
+    "@vitest/coverage-v8": "^3.1.1",
+    "@vitest/ui": "^3.1.1",
+    "dompurify": "^3.2.5",
+    "esbuild": "^0.25.2",
     "esbuild-plugin-minify-html-literals": "^2.0.1",
-    "glob": "^11.0.0",
-    "jsdom": "^25.0.1",
+    "focus-trap": "^7.6.4",
+    "glob": "^11.0.1",
+    "jsdom": "^26.0.0",
     "lit": "^3.2.1",
     "node-fetch": "^3.3.2",
-    "prettier": "^3.3.3",
+    "prettier": "^3.5.3",
+    "qrcode": "^1.5.4",
     "resize-observer-polyfill": "^1.5.1",
     "superstruct": "^2.0.2",
-    "tailwindcss": "^3.4.13",
+    "tabbable": "^6.2.0",
+    "tailwindcss": "^4.1.2",
     "ts-lit-plugin": "^2.0.2",
-    "tslib": "^2.7.0",
-    "typescript": "^5.6.3",
-    "vitest": "^2.1.2"
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.2",
+    "vitest": "^3.1.1"
   },
   "engines": {
     "node": ">=16",
@@ -98,7 +92,12 @@
   "peerDependencies": {
     "@aracna/core": ">= 1.1.0",
     "@aracna/web": ">= 1.0.0",
-    "lit": ">= 2.7.0"
+    "@floating-ui/dom": ">= 1.6.0",
+    "dompurify": ">= 3.2.0",
+    "focus-trap": ">= 7.6.0",
+    "lit": ">= 2.7.0",
+    "qrcode": ">= 1.5.0",
+    "tabbable": ">= 6.2.0"
   },
   "prettier": {
     "jsxSingleQuote": true,
@@ -110,10 +109,10 @@
   "publishConfig": {
     "directory": "dist"
   },
-  "repository": "https://github.com/aracna/web-components",
+  "repository": "https://github.com/queelag/web-components",
   "scripts": {
-    "build": "rm -rf dist && node esbuild.mjs && pnpm tsc && pnpm api-extractor run --local",
-    "prepublish": "pnpm test && pnpm build && cp LICENSE package.json README.md dist",
+    "build": "node esbuild.mjs && pnpm tsc && pnpm api-extractor run --local",
+    "prepublish": "pnpm test && pnpm build && node scripts/pre-publish.mjs",
     "test": "vitest run"
   },
   "sideEffects": false,
