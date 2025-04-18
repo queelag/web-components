@@ -62,7 +62,7 @@ export class AriaRadioButtonController implements ReactiveController {
         'id',
         generateRandomString({
           ...ELEMENT_UID_GENERATE_OPTIONS(),
-          prefix: this.host.name
+          prefix: this.host.slug
         })
       )
     }
