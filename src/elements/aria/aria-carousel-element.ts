@@ -12,7 +12,7 @@ import {
   AriaCarouselTabsController
 } from '../../controllers/aria-carousel-controller.js'
 import { DEFAULT_CAROUSEL_ROTATION_DURATION } from '../../definitions/constants.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   AriaCarouselElementEventMap,
   AriaCarouselNextSlideControlElementEventMap,
@@ -324,8 +324,8 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
     return this.activeSlideElement ? this.slideElements.indexOf(this.activeSlideElement) : -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_CAROUSEL
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_CAROUSEL
   }
 
   static properties: PropertyDeclarations = {
@@ -375,8 +375,8 @@ class AriaCarouselSlidesElement<E extends AriaCarouselSlidesElementEventMap = Ar
   /** */
   rootElement?: AriaCarouselElement
 
-  get name(): ElementName {
-    return ElementName.ARIA_CAROUSEL_SLIDES
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_CAROUSEL_SLIDES
   }
 
   static queries: QueryDeclarations = {
@@ -424,8 +424,8 @@ class AriaCarouselSlideElement<E extends AriaCarouselSlideElementEventMap = Aria
     return this.rootElement?.slideElements.indexOf(this) ?? -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_CAROUSEL_SLIDE
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_CAROUSEL_SLIDE
   }
 
   static properties: PropertyDeclarations = {
@@ -489,8 +489,8 @@ class AriaCarouselRotationControlElement<
     ElementLogger.verbose(this.uid, 'onClick', `The "rotation-start" event has been dispatched.`)
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_CAROUSEL_ROTATION_CONTROL
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_CAROUSEL_ROTATION_CONTROL
   }
 
   static queries: QueryDeclarations = {
@@ -518,8 +518,8 @@ class AriaCarouselNextSlideControlElement<
     this.rootElement.activateNextSlide()
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_CAROUSEL_NEXT_SLIDE_CONTROL
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_CAROUSEL_NEXT_SLIDE_CONTROL
   }
 
   static queries: QueryDeclarations = {
@@ -547,8 +547,8 @@ class AriaCarouselPreviousSlideControlElement<
     this.rootElement.activatePreviousSlide()
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_CAROUSEL_PREVIOUS_SLIDE_CONTROL
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_CAROUSEL_PREVIOUS_SLIDE_CONTROL
   }
 
   static queries: QueryDeclarations = {
@@ -670,8 +670,8 @@ class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap = AriaCa
     return this.activeTabElement ? this.tabElements.indexOf(this.activeTabElement) : -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_CAROUSEL_TABS
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_CAROUSEL_TABS
   }
 
   static queries: QueryDeclarations = {
@@ -757,8 +757,8 @@ class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = AriaCaro
     return this.tabsElement?.tabElements?.indexOf(this) ?? -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_CAROUSEL_TAB
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_CAROUSEL_TAB
   }
 
   static properties: PropertyDeclarations = {

@@ -3,7 +3,7 @@ import { KeyboardEventKey, defineCustomElement } from '@aracna/web'
 import { type CSSResultGroup, type PropertyDeclarations, css } from 'lit'
 import { AriaListBoxController, AriaListBoxOptionController } from '../../controllers/aria-list-box-controller.js'
 import { DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE } from '../../definitions/constants.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaListBoxElementEventMap, AriaListBoxOptionElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { ListBoxOptionSelectEvent } from '../../events/list-box-option-select-event.js'
@@ -317,8 +317,8 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
     return this.focusedOptionElement ? this.optionElements.indexOf(this.focusedOptionElement) : -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_LISTBOX
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_LISTBOX
   }
 
   get single(): boolean {
@@ -500,8 +500,8 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
     ElementLogger.verbose(this.uid, 'unselect', `The "unselect" event has been dispatched.`)
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_LISTBOX_OPTION
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_LISTBOX_OPTION
   }
 
   static properties: PropertyDeclarations = {

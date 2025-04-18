@@ -6,7 +6,7 @@ import {
   SQUIRCLES_CONTAINER_ID,
   SVG_NAMESPACE_URI
 } from '../definitions/constants.js'
-import { ElementName } from '../definitions/enums.js'
+import { ElementSlug } from '../definitions/enums.js'
 import type { AppendSquircleElementOptions, CreateSquircleElementOptions, GetSquircleElementOptions } from '../definitions/interfaces.js'
 
 /**
@@ -50,7 +50,7 @@ export function createSquircleElement(options?: CreateSquircleElementOptions): S
   svg = document.createElementNS(SVG_NAMESPACE_URI, 'svg')
   svg.setAttribute('curvature', curvature.toString())
   svg.setAttribute('fill', 'black')
-  svg.setAttribute('id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS(), prefix: ElementName.SQUIRCLE }))
+  svg.setAttribute('id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS(), prefix: ElementSlug.SQUIRCLE }))
   svg.setAttribute('size', size.toString())
   svg.setAttribute('viewBox', viewbox)
   svg.setAttribute('xmlns', SVG_NAMESPACE_URI)
@@ -89,7 +89,7 @@ export function getSquircleElement(options?: GetSquircleElementOptions): SVGSVGE
  * [Aracna Reference](https://aracna.dariosechi.it/web/utils/squircle)
  */
 export function getSquircleClipPathID(size: number, curvature: number = DEFAULT_SQUIRCLE_CURVATURE): string {
-  return `${ElementName.SQUIRCLE_CLIP_PATH}_${size}_${curvature}`.replace(/\./g, '')
+  return `${ElementSlug.SQUIRCLE_CLIP_PATH}_${size}_${curvature}`.replace(/\./g, '')
 }
 /**
  * Returns the path D of a squircle.

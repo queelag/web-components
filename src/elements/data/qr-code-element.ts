@@ -9,7 +9,7 @@ import {
   type QRCodeMaskPattern,
   type QRCodeToSJISFunc
 } from 'qrcode'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { QrCodeElementEventMap } from '../../definitions/events.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
@@ -128,8 +128,8 @@ class QrCodeElement<E extends QrCodeElementEventMap = QrCodeElementEventMap> ext
     return getQrCodeSvgPath(this.modules, this.margin)
   }
 
-  get name(): ElementName {
-    return ElementName.QR_CODE
+  get slug(): ElementSlug {
+    return ElementSlug.QR_CODE
   }
 
   get svgElementViewBox(): string {

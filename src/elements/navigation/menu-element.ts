@@ -1,7 +1,7 @@
 import { parseNumber } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { MenuButtonElementEventMap, MenuElementEventMap, MenuItemElementEventMap, MenuSubMenuElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import {
@@ -27,8 +27,8 @@ class MenuElement<E extends MenuElementEventMap = MenuElementEventMap, T = any> 
   /** */
   items?: T[]
 
-  get name(): ElementName {
-    return ElementName.MENU
+  get slug(): ElementSlug {
+    return ElementSlug.MENU
   }
 
   static properties: PropertyDeclarations = {
@@ -53,8 +53,8 @@ class MenuElement<E extends MenuElementEventMap = MenuElementEventMap, T = any> 
 }
 
 class MenuButtonElement<E extends MenuButtonElementEventMap = MenuButtonElementEventMap> extends AriaMenuButtonElement<E> {
-  get name(): ElementName {
-    return ElementName.MENU_BUTTON
+  get slug(): ElementSlug {
+    return ElementSlug.MENU_BUTTON
   }
 
   static queries: QueryDeclarations = {
@@ -99,8 +99,8 @@ class MenuItemElement<E extends MenuItemElementEventMap = MenuItemElementEventMa
     return n
   }
 
-  get name(): ElementName {
-    return ElementName.MENU_ITEM
+  get slug(): ElementSlug {
+    return ElementSlug.MENU_ITEM
   }
 
   get sameDepthItemElements(): NodeListOf<MenuItemElement> {
@@ -161,8 +161,8 @@ class MenuSubMenuElement<E extends MenuSubMenuElementEventMap = MenuSubMenuEleme
     return n
   }
 
-  get name(): ElementName {
-    return ElementName.MENU_SUBMENU
+  get slug(): ElementSlug {
+    return ElementSlug.MENU_SUBMENU
   }
 
   get shallowFocusedItemElement(): MenuItemElement | null {

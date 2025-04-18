@@ -1,5 +1,5 @@
 import { defineCustomElement } from '@aracna/web'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   TooltipArrowElementEventMap,
   TooltipContentElementEventMap,
@@ -24,8 +24,8 @@ declare global {
 }
 
 class TooltipElement<E extends TooltipElementEventMap = TooltipElementEventMap> extends AriaTooltipElement<E> {
-  get name(): ElementName {
-    return ElementName.TOOLTIP
+  get slug(): ElementSlug {
+    return ElementSlug.TOOLTIP
   }
 
   static queries: QueryDeclarations = {
@@ -36,14 +36,14 @@ class TooltipElement<E extends TooltipElementEventMap = TooltipElementEventMap> 
 }
 
 class TooltipArrowElement<E extends TooltipArrowElementEventMap = TooltipArrowElementEventMap> extends AriaTooltipArrowElement<E> {
-  get name(): ElementName {
-    return ElementName.TOOLTIP_ARROW
+  get slug(): ElementSlug {
+    return ElementSlug.TOOLTIP_ARROW
   }
 }
 
 class TooltipContentElement<E extends TooltipContentElementEventMap = TooltipContentElementEventMap> extends AriaTooltipContentElement<E> {
-  get name(): ElementName {
-    return ElementName.TOOLTIP_CONTENT
+  get slug(): ElementSlug {
+    return ElementSlug.TOOLTIP_CONTENT
   }
 
   static queries: QueryDeclarations = {
@@ -52,8 +52,8 @@ class TooltipContentElement<E extends TooltipContentElementEventMap = TooltipCon
 }
 
 class TooltipTriggerElement<E extends TooltipTriggerElementEventMap = TooltipTriggerElementEventMap> extends AriaTooltipTriggerElement<E> {
-  get name(): ElementName {
-    return ElementName.TOOLTIP_TRIGGER
+  get slug(): ElementSlug {
+    return ElementSlug.TOOLTIP_TRIGGER
   }
 
   static queries: QueryDeclarations = {

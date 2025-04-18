@@ -1,7 +1,7 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
 import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaTooltipContentController, AriaTooltipController, AriaTooltipTriggerController } from '../../controllers/aria-tooltip-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   AriaTooltipArrowElementEventMap,
   AriaTooltipContentElementEventMap,
@@ -79,8 +79,8 @@ class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipEleme
     ElementLogger.verbose(this.uid, 'hide', `The "hide" event has been dispatched.`)
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_TOOLTIP
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_TOOLTIP
   }
 
   static properties: PropertyDeclarations = {
@@ -110,8 +110,8 @@ class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipEleme
 }
 
 class AriaTooltipArrowElement<E extends AriaTooltipArrowElementEventMap = AriaTooltipArrowElementEventMap> extends BaseElement<E> {
-  get name(): ElementName {
-    return ElementName.ARIA_TOOLTIP_ARROW
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_TOOLTIP_ARROW
   }
 
   static styles: CSSResultGroup = [
@@ -139,8 +139,8 @@ class AriaTooltipContentElement<E extends AriaTooltipContentElementEventMap = Ar
     return this.rootElement?.arrowElement
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_TOOLTIP_CONTENT
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_TOOLTIP_CONTENT
   }
 
   get referenceElement(): AriaTooltipTriggerElement | undefined {
@@ -237,8 +237,8 @@ class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = Ar
     this.rootElement.hide()
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_TOOLTIP_TRIGGER
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_TOOLTIP_TRIGGER
   }
 
   static queries: QueryDeclarations = {

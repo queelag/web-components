@@ -2,7 +2,7 @@ import { isArray, removeArrayItems, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import { type PropertyDeclarations } from 'lit'
 import { DEFAULT_GET_SELECT_OPTION_LABEL, DEFAULT_GET_SELECT_OPTION_VALUE } from '../../definitions/constants.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   SelectButtonElementEventMap,
   SelectClearElementEventMap,
@@ -130,8 +130,8 @@ class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T =
     super.removeOption(this.getOptionValue(option))
   }
 
-  get name(): ElementName {
-    return ElementName.SELECT
+  get slug(): ElementSlug {
+    return ElementSlug.SELECT
   }
 
   static properties: PropertyDeclarations = {
@@ -159,14 +159,14 @@ class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T =
 }
 
 class SelectGroupElement<E extends SelectGroupElementEventMap = SelectGroupElementEventMap> extends AriaComboBoxGroupElement<E> {
-  get name(): ElementName {
-    return ElementName.SELECT_GROUP
+  get slug(): ElementSlug {
+    return ElementSlug.SELECT_GROUP
   }
 }
 
 class SelectButtonElement<E extends SelectButtonElementEventMap = SelectButtonElementEventMap> extends AriaComboBoxButtonElement<E> {
-  get name(): ElementName {
-    return ElementName.SELECT_BUTTON
+  get slug(): ElementSlug {
+    return ElementSlug.SELECT_BUTTON
   }
 
   static queries: QueryDeclarations = {
@@ -175,8 +175,8 @@ class SelectButtonElement<E extends SelectButtonElementEventMap = SelectButtonEl
 }
 
 class SelectInputElement<E extends SelectInputElementEventMap = SelectInputElementEventMap> extends AriaComboBoxInputElement<E> {
-  get name(): ElementName {
-    return ElementName.SELECT_INPUT
+  get slug(): ElementSlug {
+    return ElementSlug.SELECT_INPUT
   }
 
   static queries: QueryDeclarations = {
@@ -186,8 +186,8 @@ class SelectInputElement<E extends SelectInputElementEventMap = SelectInputEleme
 }
 
 class SelectListElement<E extends SelectListElementEventMap = SelectListElementEventMap> extends AriaComboBoxListElement<E> {
-  get name(): ElementName {
-    return ElementName.SELECT_LIST
+  get slug(): ElementSlug {
+    return ElementSlug.SELECT_LIST
   }
 
   static queries: QueryDeclarations = {
@@ -217,8 +217,8 @@ class SelectOptionElement<E extends SelectOptionElementEventMap = SelectOptionEl
     super.label = label
   }
 
-  get name(): ElementName {
-    return ElementName.SELECT_OPTION
+  get slug(): ElementSlug {
+    return ElementSlug.SELECT_OPTION
   }
 
   static properties: PropertyDeclarations = {
@@ -239,8 +239,8 @@ class SelectOptionElement<E extends SelectOptionElementEventMap = SelectOptionEl
 }
 
 class SelectOptionRemoveElement<E extends SelectOptionRemoveElementEventMap = SelectOptionRemoveElementEventMap> extends AriaComboBoxOptionRemoveElement<E> {
-  get name(): ElementName {
-    return ElementName.SELECT_OPTION_REMOVE
+  get slug(): ElementSlug {
+    return ElementSlug.SELECT_OPTION_REMOVE
   }
 
   static queries: QueryDeclarations = {
@@ -249,8 +249,8 @@ class SelectOptionRemoveElement<E extends SelectOptionRemoveElementEventMap = Se
 }
 
 class SelectClearElement<E extends SelectClearElementEventMap = SelectClearElementEventMap> extends AriaComboBoxClearElement<E> {
-  get name(): ElementName {
-    return ElementName.SELECT_CLEAR
+  get slug(): ElementSlug {
+    return ElementSlug.SELECT_CLEAR
   }
 
   static queries: QueryDeclarations = {

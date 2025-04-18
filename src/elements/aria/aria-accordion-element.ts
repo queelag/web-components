@@ -6,7 +6,7 @@ import {
   AriaAccordionPanelController,
   AriaAccordionSectionController
 } from '../../controllers/aria-accordion-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   AriaAccordionButtonElementEventMap,
   AriaAccordionElementEventMap,
@@ -160,8 +160,8 @@ class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaAccordio
     return this.buttonElements.indexOf(document.activeElement as AriaAccordionButtonElement)
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_ACCORDION
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_ACCORDION
   }
 
   static queries: QueryDeclarations = {
@@ -230,8 +230,8 @@ class AriaAccordionSectionElement<E extends AriaAccordionSectionElementEventMap 
     return !this.expanded
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_ACCORDION_SECTION
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_ACCORDION_SECTION
   }
 
   static queries: QueryDeclarations = {
@@ -254,8 +254,8 @@ class AriaAccordionHeaderElement<E extends AriaAccordionHeaderElementEventMap = 
   /** */
   level?: HeadingLevel
 
-  get name(): ElementName {
-    return ElementName.ARIA_ACCORDION_HEADER
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_ACCORDION_HEADER
   }
 
   static properties: PropertyDeclarations = {
@@ -327,8 +327,8 @@ class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = 
     this.onClick()
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_ACCORDION_BUTTON
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_ACCORDION_BUTTON
   }
 
   static queries: QueryDeclarations = {
@@ -358,8 +358,8 @@ class AriaAccordionPanelElement<E extends AriaAccordionPanelElementEventMap = Ar
   /** */
   sectionElement?: AriaAccordionSectionElement
 
-  get name(): ElementName {
-    return ElementName.ARIA_ACCORDION_PANEL
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_ACCORDION_PANEL
   }
 
   static queries: QueryDeclarations = {

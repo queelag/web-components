@@ -1,10 +1,10 @@
-import { wf } from '@aracna/core'
+import { tcp, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import { type PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { ButtonElementEventMap } from '../../definitions/events.js'
 import { QueryDeclarations } from '../../definitions/interfaces.js'
-import type { ButtonType, ButtonVariant } from '../../definitions/types.js'
+import type { ButtonClickCallbackFn, ButtonType, ButtonVariant } from '../../definitions/types.js'
 import { ButtonClickEvent } from '../../events/button-click-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaAriaButtonElement as AriaButtonElement } from '../aria/aria-button-element.js'
@@ -78,19 +78,21 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
       ElementLogger.verbose(this.uid, 'onClick', `The disabled and spinning properties have been set to true.`)
     }
 
-    this.dispatchEvent(new ButtonClickEvent(this.finalize))
+    this.dispatchEvent(new ButtonClickEvent(this.callback))
     ElementLogger.verbose(this.uid, 'onClick', `The "button-click" event has been dispatched.`)
   }
 
-  finalize = (): void => {
-    if (!this.async) {
-      return ElementLogger.warn(this.uid, 'finalize', `The button is not async.`)
+  callback = async (fn?: ButtonClickCallbackFn): Promise<void> => {
+    if (fn) {
+      await tcp(() => fn())
     }
 
-    this.spinning = false
-    this.disabled = false
+    if (this.async) {
+      this.disabled = false
+      this.spinning = false
 
-    ElementLogger.verbose(this.uid, 'finalize', `The disabled and spinning properties have been set to false.`)
+      ElementLogger.verbose(this.uid, 'callback', `The disabled and spinning properties have been set to false.`)
+    }
   }
 
   get label(): string | undefined {
@@ -101,8 +103,8 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
     super.label = label
   }
 
-  get name(): ElementName {
-    return ElementName.BUTTON
+  get slug(): ElementSlug {
+    return ElementSlug.BUTTON
   }
 
   static properties: PropertyDeclarations = {

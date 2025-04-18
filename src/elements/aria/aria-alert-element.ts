@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import { AriaAlertController } from '../../controllers/aria-alert-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaAlertElementEventMap } from '../../definitions/events.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -13,8 +13,8 @@ declare global {
 class AriaAlertElement<E extends AriaAlertElementEventMap = AriaAlertElementEventMap> extends BaseElement<E> {
   protected aria: AriaAlertController = new AriaAlertController(this)
 
-  get name(): ElementName {
-    return ElementName.ARIA_ALERT
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_ALERT
   }
 }
 

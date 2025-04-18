@@ -486,8 +486,8 @@ export interface CheckBoxElementAttributes extends AriaCheckBoxElementAttributes
 
 export interface FormElementAttributes<T = any> extends BaseElementAttributes {
   async?: boolean
+  controls?: T[]
   disabled?: boolean
-  fields?: T[]
   spinning?: boolean
 }
 

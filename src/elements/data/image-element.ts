@@ -4,7 +4,7 @@ import { css, type CSSResultGroup, html, type PropertyDeclarations } from 'lit'
 import type { DirectiveResult } from 'lit/directive.js'
 import type { StyleMapDirective } from 'lit/directives/style-map.js'
 import { DEFAULT_IMAGE_SIZE, DEFAULT_IMAGE_SRC, FETCHING_IMAGES } from '../../definitions/constants.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { ImageElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { ImageElementCrossOrigin } from '../../definitions/types.js'
@@ -211,8 +211,8 @@ class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extend
     })
   }
 
-  get name(): ElementName {
-    return ElementName.IMAGE
+  get slug(): ElementSlug {
+    return ElementSlug.IMAGE
   }
 
   get placeholder(): string {

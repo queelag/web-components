@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { BreadcrumbElementEventMap, BreadcrumbItemElementEventMap, BreadcrumbListElementEventMap } from '../../definitions/events.js'
 import {
   AracnaAriaBreadcrumbElement as AriaBreadcrumbElement,
@@ -23,8 +23,8 @@ class BreadcrumbElement<E extends BreadcrumbElementEventMap = BreadcrumbElementE
   /** */
   items?: T[]
 
-  get name(): ElementName {
-    return ElementName.BREADCRUMB
+  get slug(): ElementSlug {
+    return ElementSlug.BREADCRUMB
   }
 
   static properties: PropertyDeclarations = {
@@ -33,8 +33,8 @@ class BreadcrumbElement<E extends BreadcrumbElementEventMap = BreadcrumbElementE
 }
 
 class BreadcrumbListElement<E extends BreadcrumbListElementEventMap = BreadcrumbListElementEventMap> extends AriaBreadcrumbListElement<E> {
-  get name(): ElementName {
-    return ElementName.BREADCRUMB_LIST
+  get slug(): ElementSlug {
+    return ElementSlug.BREADCRUMB_LIST
   }
 }
 
@@ -47,8 +47,8 @@ class BreadcrumbItemElement<E extends BreadcrumbItemElementEventMap = Breadcrumb
   href?: string
   icon?: string
 
-  get name(): ElementName {
-    return ElementName.BREADCRUMB_ITEM
+  get slug(): ElementSlug {
+    return ElementSlug.BREADCRUMB_ITEM
   }
 
   static properties: PropertyDeclarations = {

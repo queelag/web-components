@@ -7,7 +7,7 @@ import {
   AriaFeedArticleLabelController,
   AriaFeedController
 } from '../../controllers/aria-feed-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   AriaFeedArticleDescriptionElementEventMap,
   AriaFeedArticleElementEventMap,
@@ -128,8 +128,8 @@ class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMa
     return this.focusedArticleElement ? this.articleElements.indexOf(this.focusedArticleElement) : -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_FEED
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_FEED
   }
 
   get nextTabbableElementSibling(): FocusableElement | null {
@@ -217,8 +217,8 @@ class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = AriaFeed
     return this.rootElement?.articleElements.indexOf(this) ?? -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_FEED_ARTICLE
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_FEED_ARTICLE
   }
 
   static properties: PropertyDeclarations = {
@@ -235,8 +235,8 @@ class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = AriaFeed
 class AriaFeedArticleLabelElement<E extends AriaFeedArticleLabelElementEventMap = AriaFeedArticleLabelElementEventMap> extends BaseElement<E> {
   protected aria: AriaFeedArticleLabelController = new AriaFeedArticleLabelController(this)
 
-  get name(): ElementName {
-    return ElementName.ARIA_FEED_ARTICLE_LABEL
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_FEED_ARTICLE_LABEL
   }
 }
 
@@ -245,8 +245,8 @@ class AriaFeedArticleDescriptionElement<
 > extends BaseElement<E> {
   protected aria: AriaFeedArticleDescriptionController = new AriaFeedArticleDescriptionController(this)
 
-  get name(): ElementName {
-    return ElementName.ARIA_FEED_ARTICLE_DESCRIPTION
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_FEED_ARTICLE_DESCRIPTION
   }
 }
 

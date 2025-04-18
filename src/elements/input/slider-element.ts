@@ -2,7 +2,7 @@ import { parseNumber, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import { type PropertyDeclarations } from 'lit'
 import { DEFAULT_SLIDER_THUMB_VALUE } from '../../definitions/constants.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { SliderElementEventMap, SliderThumbElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
@@ -72,8 +72,8 @@ class SliderElement<E extends SliderElementEventMap = SliderElementEventMap, T =
     }
   }
 
-  get name(): ElementName {
-    return ElementName.SLIDER
+  get slug(): ElementSlug {
+    return ElementSlug.SLIDER
   }
 
   get value(): number | number[] | undefined {
@@ -99,8 +99,8 @@ class SliderElement<E extends SliderElementEventMap = SliderElementEventMap, T =
 }
 
 class SliderThumbElement<E extends SliderThumbElementEventMap = SliderThumbElementEventMap> extends AriaSliderThumbElement<E> {
-  get name(): ElementName {
-    return ElementName.SLIDER_THUMB
+  get slug(): ElementSlug {
+    return ElementSlug.SLIDER_THUMB
   }
 
   static queries: QueryDeclarations = {

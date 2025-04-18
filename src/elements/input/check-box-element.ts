@@ -1,7 +1,7 @@
 import { wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import { css, type CSSResultGroup } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { CheckBoxElementEventMap } from '../../definitions/events.js'
 import { QueryDeclarations } from '../../definitions/interfaces.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
@@ -56,8 +56,8 @@ class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElementEventMa
     this.toggle()
   }
 
-  get name(): ElementName {
-    return ElementName.CHECKBOX
+  get slug(): ElementSlug {
+    return ElementSlug.CHECKBOX
   }
 
   get value(): boolean | undefined {

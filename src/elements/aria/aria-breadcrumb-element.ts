@@ -1,7 +1,7 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
 import { AriaBreadcrumbController, AriaBreadcrumbItemController, AriaBreadcrumbListController } from '../../controllers/aria-breadcrumb-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaBreadcrumbElementEventMap, AriaBreadcrumbItemElementEventMap, AriaBreadcrumbListElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
@@ -17,16 +17,16 @@ declare global {
 class AriaBreadcrumbElement<E extends AriaBreadcrumbElementEventMap = AriaBreadcrumbElementEventMap> extends BaseElement<E> {
   protected aria: AriaBreadcrumbController = new AriaBreadcrumbController(this)
 
-  get name(): ElementName {
-    return ElementName.ARIA_BREADCRUMB
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_BREADCRUMB
   }
 }
 
 class AriaBreadcrumbListElement<E extends AriaBreadcrumbListElementEventMap = AriaBreadcrumbListElementEventMap> extends BaseElement<E> {
   protected aria: AriaBreadcrumbListController = new AriaBreadcrumbListController(this)
 
-  get name(): ElementName {
-    return ElementName.ARIA_BREADCRUMB_LIST
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_BREADCRUMB_LIST
   }
 }
 
@@ -45,8 +45,8 @@ class AriaBreadcrumbItemElement<E extends AriaBreadcrumbItemElementEventMap = Ar
   /** */
   anchorElement?: HTMLAnchorElement
 
-  get name(): ElementName {
-    return ElementName.ARIA_BREADCRUMB_ITEM
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_BREADCRUMB_ITEM
   }
 
   static queries: QueryDeclarations = {

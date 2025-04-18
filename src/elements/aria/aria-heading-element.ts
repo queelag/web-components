@@ -1,7 +1,7 @@
 import { defineCustomElement } from '@aracna/web'
 import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaHeadingController } from '../../controllers/aria-heading-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaHeadingElementEventMap } from '../../definitions/events.js'
 import type { HeadingLevel } from '../../definitions/types.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
@@ -34,8 +34,8 @@ class AriaHeadingElement<E extends AriaHeadingElementEventMap = AriaHeadingEleme
     this.requestUpdate('level', old)
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_HEADING
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_HEADING
   }
 
   static properties: PropertyDeclarations = {

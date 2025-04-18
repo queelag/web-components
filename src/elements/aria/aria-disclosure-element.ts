@@ -1,7 +1,7 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
 import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaDisclosureButtonController, AriaDisclosurePanelController, AriaDisclosureSectionController } from '../../controllers/aria-disclosure-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   AriaDisclosureButtonElementEventMap,
   AriaDisclosureElementEventMap,
@@ -61,8 +61,8 @@ class AriaDisclosureElement<E extends AriaDisclosureElementEventMap = AriaDisclo
     return this.buttonElements.find((button: AriaDisclosureButtonElement) => button === document.activeElement)
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_DISCLOSURE
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_DISCLOSURE
   }
 
   static queries: QueryDeclarations = {
@@ -102,8 +102,8 @@ class AriaDisclosureSectionElement<E extends AriaDisclosureSectionElementEventMa
     ElementLogger.verbose(this.uid, 'expand', `The "expand" event has been dispatched.`)
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_DISCLOSURE_SECTION
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_DISCLOSURE_SECTION
   }
 
   static properties: PropertyDeclarations = {
@@ -162,8 +162,8 @@ class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEventMap 
     this.click()
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_DISCLOSURE_BUTTON
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_DISCLOSURE_BUTTON
   }
 
   static queries: QueryDeclarations = {
@@ -186,8 +186,8 @@ class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEventMap 
 class AriaDisclosurePanelElement<E extends AriaDisclosurePanelElementEventMap = AriaDisclosurePanelElementEventMap> extends BaseElement<E> {
   protected aria: AriaDisclosurePanelController = new AriaDisclosurePanelController(this)
 
-  get name(): ElementName {
-    return ElementName.ARIA_DISCLOSURE_PANEL
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_DISCLOSURE_PANEL
   }
 }
 

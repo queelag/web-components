@@ -1,7 +1,7 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
 import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaButtonController } from '../../controllers/aria-button-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaButtonElementEventMap } from '../../definitions/events.js'
 import type { ButtonPressed } from '../../definitions/types.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
@@ -82,8 +82,8 @@ class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonElementE
     this.requestUpdate('label', old)
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_BUTTON
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_BUTTON
   }
 
   static properties: PropertyDeclarations = {

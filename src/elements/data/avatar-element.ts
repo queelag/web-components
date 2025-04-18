@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AvatarElementEventMap } from '../../definitions/events.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -19,8 +19,8 @@ class AvatarElement<E extends AvatarElementEventMap = AvatarElementEventMap> ext
   image?: string
   text?: string
 
-  get name(): ElementName {
-    return ElementName.AVATAR
+  get slug(): ElementSlug {
+    return ElementSlug.AVATAR
   }
 
   static properties: PropertyDeclarations = {

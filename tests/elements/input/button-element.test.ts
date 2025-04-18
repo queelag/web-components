@@ -66,7 +66,7 @@ describe('ButtonElement', () => {
   it('supports async click', async () => {
     let listener: Mock = vi.fn(async (event: ButtonClickEvent) => {
       await sleep(100)
-      event.detail?.finalize()
+      event.detail?.callback()
     })
 
     await render(button, { async: 'true' }, { 'button-click': listener })

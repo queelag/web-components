@@ -1,7 +1,7 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
 import { AriaDialogController, AriaDialogDescriptionController, AriaDialogLabelController } from '../../controllers/aria-dialog-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaDialogDescriptionElementEventMap, AriaDialogElementEventMap, AriaDialogLabelElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { DialogCloseEvent } from '../../events/dialog-close-event.js'
@@ -91,8 +91,8 @@ class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogElementE
     ElementLogger.verbose(this.uid, 'onFocusTrapPostDeactivate', `The "dialog-close" event has been dispatched.`)
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_DIALOG
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_DIALOG
   }
 
   static properties: PropertyDeclarations = {
@@ -113,16 +113,16 @@ class AriaDialogElement<E extends AriaDialogElementEventMap = AriaDialogElementE
 class AriaDialogDescriptionElement<E extends AriaDialogDescriptionElementEventMap = AriaDialogDescriptionElementEventMap> extends BaseElement<E> {
   protected aria: AriaDialogDescriptionController = new AriaDialogDescriptionController(this)
 
-  get name(): ElementName {
-    return ElementName.ARIA_DIALOG_DESCRIPTION
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_DIALOG_DESCRIPTION
   }
 }
 
 class AriaDialogLabelElement<E extends AriaDialogLabelElementEventMap = AriaDialogLabelElementEventMap> extends BaseElement<E> {
   protected aria: AriaDialogLabelController = new AriaDialogLabelController(this)
 
-  get name(): ElementName {
-    return ElementName.ARIA_DIALOG_LABEL
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_DIALOG_LABEL
   }
 }
 

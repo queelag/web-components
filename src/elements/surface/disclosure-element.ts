@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   DisclosureButtonElementEventMap,
   DisclosureElementEventMap,
@@ -31,8 +31,8 @@ class DisclosureElement<E extends DisclosureElementEventMap = DisclosureElementE
   /** */
   sections?: T[]
 
-  get name(): ElementName {
-    return ElementName.DISCLOSURE
+  get slug(): ElementSlug {
+    return ElementSlug.DISCLOSURE
   }
 
   static properties: PropertyDeclarations = {
@@ -53,8 +53,8 @@ class DisclosureSectionElement<E extends DisclosureSectionElementEventMap = Disc
   icon?: string
   text?: string
 
-  get name(): ElementName {
-    return ElementName.DISCLOSURE_SECTION
+  get slug(): ElementSlug {
+    return ElementSlug.DISCLOSURE_SECTION
   }
 
   static properties: PropertyDeclarations = {
@@ -70,8 +70,8 @@ class DisclosureSectionElement<E extends DisclosureSectionElementEventMap = Disc
 }
 
 class DisclosureButtonElement<E extends DisclosureButtonElementEventMap = DisclosureButtonElementEventMap> extends AriaDisclosureButtonElement<E> {
-  get name(): ElementName {
-    return ElementName.DISCLOSURE_BUTTON
+  get slug(): ElementSlug {
+    return ElementSlug.DISCLOSURE_BUTTON
   }
 
   static queries: QueryDeclarations = {
@@ -80,8 +80,8 @@ class DisclosureButtonElement<E extends DisclosureButtonElementEventMap = Disclo
 }
 
 class DisclosurePanelElement<E extends DisclosurePanelElementEventMap = DisclosurePanelElementEventMap> extends AriaDisclosurePanelElement<E> {
-  get name(): ElementName {
-    return ElementName.DISCLOSURE_PANEL
+  get slug(): ElementSlug {
+    return ElementSlug.DISCLOSURE_PANEL
   }
 }
 

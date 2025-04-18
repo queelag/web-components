@@ -1,7 +1,7 @@
 import type { Localization, LocalizationVariables } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations, PropertyValues } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { HeadingElementEventMap } from '../../definitions/events.js'
 import type { HeadingElementSanitizeConfig, QueryDeclarations } from '../../definitions/interfaces.js'
 import { renderHeadingElement } from '../../utils/heading-element-utils.js'
@@ -48,8 +48,8 @@ class HeadingElement<E extends HeadingElementEventMap = HeadingElementEventMap> 
     return renderHeadingElement.bind(this)()
   }
 
-  get name(): ElementName {
-    return ElementName.HEADING
+  get slug(): ElementSlug {
+    return ElementSlug.HEADING
   }
 
   static queries: QueryDeclarations = {

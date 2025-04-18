@@ -1,7 +1,7 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
 import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaCheckBoxController } from '../../controllers/aria-check-box-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaCheckBoxElementEventMap } from '../../definitions/events.js'
 import { CheckBoxCheckEvent } from '../../events/check-box-check-event.js'
 import { CheckBoxUncheckEvent } from '../../events/check-box-uncheck-event.js'
@@ -148,8 +148,8 @@ class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxEl
     super.value = checked
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_CHECKBOX
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_CHECKBOX
   }
 
   get value(): boolean | undefined {

@@ -1,6 +1,8 @@
 import { sleep } from '@aracna/core'
 import { size, string } from 'superstruct'
 import { Mock, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { FormErrors } from '../../../src/definitions/types'
+import { AracnaFormControlElement as FormControlElement } from '../../../src/elements/core/form-control-element'
 import '../../../src/elements/input/button-element'
 import { AracnaButtonElement as ButtonElement } from '../../../src/elements/input/button-element'
 import '../../../src/elements/input/check-box-element'
@@ -55,7 +57,7 @@ describe('FormElement', () => {
   it('submits asynchronously', async () => {
     onSubmit = vi.fn(async (event: FormSubmitEvent) => {
       await sleep(100)
-      event.detail?.finalize()
+      event.detail?.callback()
     })
 
     await render(form, { async: 'true' }, { 'form-submit': onSubmit })
@@ -79,7 +81,7 @@ describe('FormElement', () => {
     expect(onSubmit).toBeCalledTimes(0)
   })
 
-  it('finds all children fields', async () => {
+  it('finds all children controls', async () => {
     let checkbox: CheckBoxElement,
       input: InputElement,
       inputfile: InputFileElement,
@@ -87,7 +89,8 @@ describe('FormElement', () => {
       select: SelectElement,
       slider: SliderElement,
       switche: SwitchElement,
-      textarea: TextAreaElement
+      textarea: TextAreaElement,
+      controls: FormControlElement[] | undefined
 
     checkbox = document.createElement('aracna-checkbox')
     input = document.createElement('aracna-input')
@@ -99,29 +102,45 @@ describe('FormElement', () => {
     textarea = document.createElement('aracna-textarea')
 
     form.append(checkbox, input, inputfile, radiogroup, select, slider, switche, textarea)
+
+    onSubmit = vi.fn((event: FormSubmitEvent) => {
+      controls = event.detail?.controls
+    })
+
     await render(form, {}, { 'form-submit': onSubmit })
 
-    expect(form.fieldElements).toHaveLength(8)
+    expect(form.controlElements).toHaveLength(8)
 
     dispatchSubmitEvent(native)
     expect(onSubmit).toBeCalledTimes(1)
+    expect(controls).toHaveLength(8)
   })
 
-  it('does not submit if one of the fields is not valid', async () => {
-    let input: InputElement = document.createElement('aracna-input')
+  it('errors is defined if one of the controls is not valid', async () => {
+    let input: InputElement, errors: FormErrors | undefined
 
+    input = document.createElement('aracna-input')
+
+    input.name = 'name'
     input.schema = size(string(), 1, 1)
+
     form.append(input)
+
+    onSubmit = vi.fn((event: FormSubmitEvent) => {
+      errors = event.detail?.errors
+    })
 
     await render(form, {}, { 'form-submit': onSubmit })
 
     dispatchSubmitEvent(native)
-    expect(onSubmit).toBeCalledTimes(0)
+    expect(onSubmit).toBeCalledTimes(1)
+    expect(errors?.name).toBeDefined()
 
     input.value = 'a'
 
     dispatchSubmitEvent(native)
-    expect(onSubmit).toBeCalledTimes(1)
+    expect(onSubmit).toBeCalledTimes(2)
+    expect(errors).toBeUndefined()
   })
 
   it('works with a child button of type submit', async () => {
@@ -135,5 +154,26 @@ describe('FormElement', () => {
 
     dispatchClickEvent(button)
     expect(onSubmit).toBeCalledTimes(1)
+  })
+
+  it('returns the form data', async () => {
+    let input: InputElement, data: FormData | undefined
+
+    input = document.createElement('aracna-input')
+
+    input.name = 'name'
+    input.value = 'john'
+
+    form.append(input)
+
+    onSubmit = vi.fn((event: FormSubmitEvent) => {
+      data = event.detail?.data
+    })
+
+    await render(form, {}, { 'form-submit': onSubmit })
+
+    dispatchSubmitEvent(native)
+    expect(onSubmit).toBeCalledTimes(1)
+    expect(data?.get('name')).toEqual('john')
   })
 })

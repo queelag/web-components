@@ -5,7 +5,7 @@ import type { DirectiveResult } from 'lit/directive.js'
 import type { StyleInfo } from 'lit/directives/style-map.js'
 import { ElementCollector } from '../../collectors/element-collector.js'
 import { DEFAULT_SQUIRCLE_CURVATURE, ELEMENT_UID_GENERATE_OPTIONS } from '../../definitions/constants.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { BaseElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclaration, QueryDeclarations } from '../../definitions/interfaces.js'
 import type { Layer, Shape, Size } from '../../definitions/types.js'
@@ -34,7 +34,7 @@ class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends L
   /** */
   uid: string = generateRandomString({
     ...ELEMENT_UID_GENERATE_OPTIONS(),
-    prefix: this.name
+    prefix: this.slug
   })
 
   constructor() {
@@ -131,8 +131,8 @@ class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends L
     `
   }
 
-  get name(): string {
-    return ElementName.BASE
+  get slug(): string {
+    return ElementSlug.BASE
   }
 
   get numericSize(): number {

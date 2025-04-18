@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   FeedArticleDescriptionElementEventMap,
   FeedArticleElementEventMap,
@@ -31,8 +31,8 @@ class FeedElement<E extends FeedElementEventMap = FeedElementEventMap, T = any> 
   /** */
   articles?: T[]
 
-  get name(): ElementName {
-    return ElementName.FEED
+  get slug(): ElementSlug {
+    return ElementSlug.FEED
   }
 
   static properties: PropertyDeclarations = {
@@ -62,8 +62,8 @@ class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArticleEleme
   trailingImage?: string
   trailingText?: string
 
-  get name(): ElementName {
-    return ElementName.FEED_ARTICLE
+  get slug(): ElementSlug {
+    return ElementSlug.FEED_ARTICLE
   }
 
   static properties: PropertyDeclarations = {
@@ -88,16 +88,16 @@ class FeedArticleElement<E extends FeedArticleElementEventMap = FeedArticleEleme
 }
 
 class FeedArticleLabelElement<E extends FeedArticleLabelElementEventMap = FeedArticleLabelElementEventMap> extends AriaFeedArticleLabelElement<E> {
-  get name(): ElementName {
-    return ElementName.FEED_ARTICLE_LABEL
+  get slug(): ElementSlug {
+    return ElementSlug.FEED_ARTICLE_LABEL
   }
 }
 
 class FeedArticleDescriptionElement<
   E extends FeedArticleDescriptionElementEventMap = FeedArticleDescriptionElementEventMap
 > extends AriaFeedArticleDescriptionElement<E> {
-  get name(): ElementName {
-    return ElementName.FEED_ARTICLE_DESCRIPTION
+  get slug(): ElementSlug {
+    return ElementSlug.FEED_ARTICLE_DESCRIPTION
   }
 }
 

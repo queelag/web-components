@@ -1,7 +1,7 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
 import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaRadioButtonController, AriaRadioGroupController } from '../../controllers/aria-radio-group-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaRadioButtonElementEventMap, AriaRadioGroupElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { RadioButtonCheckEvent } from '../../events/radio-button-check-event.js'
@@ -150,8 +150,8 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
     return this.focusedButtonElement ? this.buttonElements.indexOf(this.focusedButtonElement) : -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_RADIO_GROUP
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_RADIO_GROUP
   }
 
   get value(): any {
@@ -254,8 +254,8 @@ class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadi
     return this.rootElement?.buttonElements.indexOf(this) ?? -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_RADIO_BUTTON
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_RADIO_BUTTON
   }
 
   static properties: PropertyDeclarations = {

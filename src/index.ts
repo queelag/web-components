@@ -243,7 +243,7 @@ export type {
   TypeaheadElementAttributes as AracnaTypeaheadElementAttributes
 } from './definitions/attributes.js'
 export * from './definitions/constants.js'
-export { ElementName as AracnaElementName, LoggerName as WebComponentsLoggerName } from './definitions/enums.js'
+export { ElementSlug as AracnaElementSlug, LoggerName as WebComponentsLoggerName } from './definitions/enums.js'
 export type {
   AccordionButtonElementEventMap as AracnaAccordionButtonElementEventMap,
   AccordionElementEventMap as AracnaAccordionElementEventMap,

@@ -7,6 +7,9 @@ export type AriaComboBoxElementAutoComplete = 'none' | 'inline' | 'list' | 'both
 export type AriaComboBoxElementFilterOptionsPredicate<T> = (option: T, index: number, options: T[], inputElementValue: string) => boolean
 export type AriaLive = 'off' | 'polite' | 'assertive'
 
+export type ButtonClickCallback = (fn: ButtonClickCallbackFn) => Promise<void>
+export type ButtonClickCallbackFn = () => Promise<void>
+
 export type ButtonPressed = 'false' | 'mixed' | 'true'
 export type ButtonType = 'button' | 'menu' | 'reset' | 'submit'
 export type ButtonVariant = 'fill' | 'fill-tonal' | 'opacity' | 'outline' | 'text'
@@ -30,6 +33,11 @@ export type FocusTrapElementState = 'activating' | 'activated' | 'deactivating' 
 export type FormControlElementSchema = Struct<any, any> | undefined
 export type FormControlElementTarget = Record<PropertyKey, any>
 export type FormControlElementValidation = [StructError | undefined, any]
+
+export type FormErrors = Record<string, StructError>
+
+export type FormSubmitCallback = (fn: FormSubmitCallbackFn) => Promise<void>
+export type FormSubmitCallbackFn = () => Promise<void>
 
 export type GetRadioButtonLabel<T> = (button: T) => string | undefined
 export type GetRadioButtonValue<T> = (button: T) => unknown

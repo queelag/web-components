@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import { AriaDialogController } from '../../controllers/aria-dialog-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   AriaAlertDialogDescriptionElementEventMap,
   AriaAlertDialogElementEventMap,
@@ -27,8 +27,8 @@ class AriaAlertDialogElement<E extends AriaAlertDialogElementEventMap = AriaAler
     this.aria = new AriaDialogController(this, true)
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_ALERT_DIALOG
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_ALERT_DIALOG
   }
 
   static queries: QueryDeclarations = {
@@ -40,14 +40,14 @@ class AriaAlertDialogElement<E extends AriaAlertDialogElementEventMap = AriaAler
 class AriaAlertDialogDescriptionElement<
   E extends AriaAlertDialogDescriptionElementEventMap = AriaAlertDialogDescriptionElementEventMap
 > extends AriaDialogDescriptionElement<E> {
-  get name(): ElementName {
-    return ElementName.ARIA_ALERT_DIALOG_DESCRIPTION
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_ALERT_DIALOG_DESCRIPTION
   }
 }
 
 class AriaAlertDialogLabelElement<E extends AriaAlertDialogLabelElementEventMap = AriaAlertDialogLabelElementEventMap> extends AriaDialogLabelElement<E> {
-  get name(): ElementName {
-    return ElementName.ARIA_ALERT_DIALOG_LABEL
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_ALERT_DIALOG_LABEL
   }
 }
 

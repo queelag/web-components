@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { ListElementEventMap, ListItemElementEventMap } from '../../definitions/events.js'
 import { AracnaAriaListElement as AriaListElement, AracnaAriaListItemElement as AriaListItemElement } from '../aria/aria-list-element.js'
 
@@ -18,8 +18,8 @@ class ListElement<E extends ListElementEventMap = ListElementEventMap, T = any> 
   /** */
   items?: T[]
 
-  get name(): ElementName {
-    return ElementName.LIST
+  get slug(): ElementSlug {
+    return ElementSlug.LIST
   }
 
   get isItemsEmpty(): boolean {
@@ -49,8 +49,8 @@ class ListItemElement<E extends ListItemElementEventMap = ListItemElementEventMa
   trailingImage?: string
   trailingText?: string
 
-  get name(): ElementName {
-    return ElementName.LIST_ITEM
+  get slug(): ElementSlug {
+    return ElementSlug.LIST_ITEM
   }
 
   static properties: PropertyDeclarations = {

@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { NavigationBarElementEventMap, NavigationBarItemElementEventMap } from '../../definitions/events.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -18,8 +18,8 @@ class NavigationBarElement<E extends NavigationBarElementEventMap = NavigationBa
   /** */
   items?: T[]
 
-  get name(): ElementName {
-    return ElementName.NAVIGATION_BAR
+  get slug(): ElementSlug {
+    return ElementSlug.NAVIGATION_BAR
   }
 
   static properties: PropertyDeclarations = {
@@ -38,8 +38,8 @@ class NavigationBarItemElement<E extends NavigationBarItemElementEventMap = Navi
   icon?: string
   text?: string
 
-  get name(): ElementName {
-    return ElementName.NAVIGATION_BAR_ITEM
+  get slug(): ElementSlug {
+    return ElementSlug.NAVIGATION_BAR_ITEM
   }
 
   static properties: PropertyDeclarations = {

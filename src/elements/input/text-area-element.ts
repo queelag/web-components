@@ -1,7 +1,7 @@
 import { isArray, isWindowNotDefined, removeArrayItems, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { TextAreaClearElementEventMap, TextAreaElementEventMap, TextAreaItemRemoveElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { TextAreaElementTouchTrigger, TextAreaElementValue } from '../../definitions/types.js'
@@ -240,8 +240,8 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     `
   }
 
-  get name(): ElementName {
-    return ElementName.TEXTAREA
+  get slug(): ElementSlug {
+    return ElementSlug.TEXTAREA
   }
 
   get single(): boolean {
@@ -330,8 +330,8 @@ class TextAreaClearElement<E extends TextAreaClearElementEventMap = TextAreaClea
     }
   }
 
-  get name(): ElementName {
-    return ElementName.TEXTAREA_CLEAR
+  get slug(): ElementSlug {
+    return ElementSlug.TEXTAREA_CLEAR
   }
 
   static queries: QueryDeclarations = {
@@ -373,8 +373,8 @@ class TextAreaItemRemoveElement<E extends TextAreaItemRemoveElementEventMap = Te
     }
   }
 
-  get name(): ElementName {
-    return ElementName.TEXTAREA_ITEM_REMOVE
+  get slug(): ElementSlug {
+    return ElementSlug.TEXTAREA_ITEM_REMOVE
   }
 
   static properties: PropertyDeclarations = {

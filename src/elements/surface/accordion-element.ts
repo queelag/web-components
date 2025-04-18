@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   AccordionButtonElementEventMap,
   AccordionElementEventMap,
@@ -34,8 +34,8 @@ class AccordionElement<E extends AccordionElementEventMap = AccordionElementEven
   /** */
   sections?: T[]
 
-  get name(): ElementName {
-    return ElementName.ACCORDION
+  get slug(): ElementSlug {
+    return ElementSlug.ACCORDION
   }
 
   static properties: PropertyDeclarations = {
@@ -60,8 +60,8 @@ class AccordionSectionElement<E extends AccordionSectionElementEventMap = Accord
   icon?: string
   text?: string
 
-  get name(): ElementName {
-    return ElementName.ACCORDION_SECTION
+  get slug(): ElementSlug {
+    return ElementSlug.ACCORDION_SECTION
   }
 
   static properties: PropertyDeclarations = {
@@ -77,14 +77,14 @@ class AccordionSectionElement<E extends AccordionSectionElementEventMap = Accord
 }
 
 class AccordionHeaderElement<E extends AccordionHeaderElementEventMap = AccordionHeaderElementEventMap> extends AriaAccordionHeaderElement<E> {
-  get name(): ElementName {
-    return ElementName.ACCORDION_HEADER
+  get slug(): ElementSlug {
+    return ElementSlug.ACCORDION_HEADER
   }
 }
 
 class AccordionButtonElement<E extends AccordionButtonElementEventMap = AccordionButtonElementEventMap> extends AriaAccordionButtonElement<E> {
-  get name(): ElementName {
-    return ElementName.ACCORDION_BUTTON
+  get slug(): ElementSlug {
+    return ElementSlug.ACCORDION_BUTTON
   }
 
   static queries: QueryDeclarations = {
@@ -94,8 +94,8 @@ class AccordionButtonElement<E extends AccordionButtonElementEventMap = Accordio
 }
 
 class AccordionPanelElement<E extends AccordionPanelElementEventMap = AccordionPanelElementEventMap> extends AriaAccordionPanelElement<E> {
-  get name(): ElementName {
-    return ElementName.ACCORDION_PANEL
+  get slug(): ElementSlug {
+    return ElementSlug.ACCORDION_PANEL
   }
 
   static queries: QueryDeclarations = {

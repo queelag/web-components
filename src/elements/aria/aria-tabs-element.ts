@@ -1,7 +1,7 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
 import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaTabsController, AriaTabsPanelController, AriaTabsTabController } from '../../controllers/aria-tabs-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaTabsElementEventMap, AriaTabsPanelElementEventMap, AriaTabsTabElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { TabsTabSelectEvent } from '../../events/tabs-tab-select-event.js'
@@ -194,8 +194,8 @@ class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElementEventMa
     return !this.automaticActivation
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_TABS
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_TABS
   }
 
   get selectedTabElementIndex(): number {
@@ -276,8 +276,8 @@ class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsTabEleme
     return this.rootElement?.tabElements.indexOf(this) ?? -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_TABS_TAB
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_TABS_TAB
   }
 
   static properties: PropertyDeclarations = {
@@ -311,8 +311,8 @@ class AriaTabsPanelElement<E extends AriaTabsPanelElementEventMap = AriaTabsPane
     return this.rootElement?.panelElements.indexOf(this) ?? -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_TABS_PANEL
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_TABS_PANEL
   }
 
   static queries: QueryDeclarations = {

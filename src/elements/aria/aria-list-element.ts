@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import { AriaListController, AriaListItemController } from '../../controllers/aria-list-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { ListElementEventMap, ListItemElementEventMap } from '../../definitions/events.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -14,16 +14,16 @@ declare global {
 class AriaListElement<E extends ListElementEventMap = ListElementEventMap> extends BaseElement<E> {
   protected aria: AriaListController = new AriaListController(this)
 
-  get name(): ElementName {
-    return ElementName.ARIA_LIST
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_LIST
   }
 }
 
 class AriaListItemElement<E extends ListItemElementEventMap = ListItemElementEventMap> extends BaseElement<E> {
   protected aria: AriaListItemController = new AriaListItemController(this)
 
-  get name(): ElementName {
-    return ElementName.ARIA_LIST_ITEM
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_LIST_ITEM
   }
 }
 

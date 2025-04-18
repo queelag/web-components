@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   CarouselElementEventMap,
   CarouselNextSlideControlElementEventMap,
@@ -43,8 +43,8 @@ class CarouselElement<E extends CarouselElementEventMap = CarouselElementEventMa
   /** */
   slides?: T[]
 
-  get name(): ElementName {
-    return ElementName.CAROUSEL
+  get slug(): ElementSlug {
+    return ElementSlug.CAROUSEL
   }
 
   static properties: PropertyDeclarations = {
@@ -63,8 +63,8 @@ class CarouselElement<E extends CarouselElementEventMap = CarouselElementEventMa
 }
 
 class CarouselSlidesElement<E extends CarouselSlidesElementEventMap = CarouselSlidesElementEventMap> extends AriaCarouselSlidesElement<E> {
-  get name(): ElementName {
-    return ElementName.CAROUSEL_SLIDES
+  get slug(): ElementSlug {
+    return ElementSlug.CAROUSEL_SLIDES
   }
 
   static queries: QueryDeclarations = {
@@ -73,8 +73,8 @@ class CarouselSlidesElement<E extends CarouselSlidesElementEventMap = CarouselSl
 }
 
 class CarouselSlideElement<E extends CarouselSlideElementEventMap = CarouselSlideElementEventMap> extends AriaCarouselSlideElement<E> {
-  get name(): ElementName {
-    return ElementName.CAROUSEL_SLIDE
+  get slug(): ElementSlug {
+    return ElementSlug.CAROUSEL_SLIDE
   }
 
   static queries: QueryDeclarations = {
@@ -86,8 +86,8 @@ class CarouselSlideElement<E extends CarouselSlideElementEventMap = CarouselSlid
 class CarouselRotationControlElement<
   E extends CarouselRotationControlElementEventMap = CarouselRotationControlElementEventMap
 > extends AriaCarouselRotationControlElement<E> {
-  get name(): ElementName {
-    return ElementName.CAROUSEL_ROTATION_CONTROL
+  get slug(): ElementSlug {
+    return ElementSlug.CAROUSEL_ROTATION_CONTROL
   }
 
   static queries: QueryDeclarations = {
@@ -98,8 +98,8 @@ class CarouselRotationControlElement<
 class CarouselNextSlideControlElement<
   E extends CarouselNextSlideControlElementEventMap = CarouselNextSlideControlElementEventMap
 > extends AriaCarouselNextSlideControlElement<E> {
-  get name(): ElementName {
-    return ElementName.CAROUSEL_NEXT_SLIDE_CONTROL
+  get slug(): ElementSlug {
+    return ElementSlug.CAROUSEL_NEXT_SLIDE_CONTROL
   }
 
   static queries: QueryDeclarations = {
@@ -110,8 +110,8 @@ class CarouselNextSlideControlElement<
 class CarouselPreviousSlideControlElement<
   E extends CarouselPreviousSlideControlElementEventMap = CarouselPreviousSlideControlElementEventMap
 > extends AriaCarouselPreviousSlideControlElement<E> {
-  get name(): ElementName {
-    return ElementName.CAROUSEL_PREVIOUS_SLIDE_CONTROL
+  get slug(): ElementSlug {
+    return ElementSlug.CAROUSEL_PREVIOUS_SLIDE_CONTROL
   }
 
   static queries: QueryDeclarations = {
@@ -120,8 +120,8 @@ class CarouselPreviousSlideControlElement<
 }
 
 class CarouselTabsElement<E extends CarouselTabsElementEventMap = CarouselTabsElementEventMap> extends AriaCarouselTabsElement<E> {
-  get name(): ElementName {
-    return ElementName.CAROUSEL_TABS
+  get slug(): ElementSlug {
+    return ElementSlug.CAROUSEL_TABS
   }
 
   static queries: QueryDeclarations = {
@@ -133,8 +133,8 @@ class CarouselTabsElement<E extends CarouselTabsElementEventMap = CarouselTabsEl
 }
 
 class CarouselTabElement<E extends CarouselTabElementEventMap = CarouselTabElementEventMap> extends AriaCarouselTabElement<E> {
-  get name(): ElementName {
-    return ElementName.CAROUSEL_TAB
+  get slug(): ElementSlug {
+    return ElementSlug.CAROUSEL_TAB
   }
 
   static queries: QueryDeclarations = {

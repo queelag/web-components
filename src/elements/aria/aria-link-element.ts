@@ -1,7 +1,7 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
 import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaLinkController } from '../../controllers/aria-link-controller.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaLinkElementEventMap } from '../../definitions/events.js'
 import { gkek } from '../../functions/gkek.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
@@ -55,8 +55,8 @@ class AriaLinkElement<E extends AriaLinkElementEventMap = AriaLinkElementEventMa
     this.click()
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_LINK
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_LINK
   }
 
   static properties: PropertyDeclarations = {

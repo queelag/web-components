@@ -6,7 +6,7 @@ import type { DirectiveResult } from 'lit/directive.js'
 import type { StyleMapDirective } from 'lit/directives/style-map.js'
 import { AriaIconController } from '../../controllers/aria-icon-controller.js'
 import { CACHE_ICONS, DEFAULT_ICON_SANITIZE_CONFIG, DEFAULT_ICON_SVG_STRING, FETCHING_ICONS, SVG_NAMESPACE_URI } from '../../definitions/constants.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { IconElementEventMap } from '../../definitions/events.js'
 import type { IconElementSanitizeConfig } from '../../definitions/interfaces.js'
 import { ifdef } from '../../directives/if-defined.js'
@@ -196,8 +196,8 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
     `
   }
 
-  get name(): ElementName {
-    return ElementName.ICON
+  get slug(): ElementSlug {
+    return ElementSlug.ICON
   }
 
   get src(): string | undefined {

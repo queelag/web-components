@@ -10,7 +10,7 @@ import {
   createFocusTrap
 } from 'focus-trap'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { FocusTrapElementEventMap } from '../../definitions/events.js'
 import type {
   FocusTrapAllowOutsideClick,
@@ -156,8 +156,8 @@ class FocusTrapElement<E extends FocusTrapElementEventMap = FocusTrapElementEven
     return omitObjectProperties(options, (_, __, value: unknown) => typeof value === 'undefined')
   }
 
-  get name(): ElementName {
-    return ElementName.FOCUS_TRAP
+  get slug(): ElementSlug {
+    return ElementSlug.FOCUS_TRAP
   }
 
   static properties: PropertyDeclarations = {

@@ -3,7 +3,7 @@ import { defineCustomElement, KeyboardEventKey, setImmutableElementAttribute } f
 import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
 import { AriaMenuButtonController, AriaMenuController, AriaMenuItemController, AriaMenuSubMenuController } from '../../controllers/aria-menu-controller.js'
 import { DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, DEFAULT_MENU_TYPEAHEAD_PREDICATE } from '../../definitions/constants.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   AriaMenuButtonElementEventMap,
   AriaMenuElementEventMap,
@@ -486,8 +486,8 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
     return !this.expanded
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_MENU
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_MENU
   }
 
   get shallowFocusedItemElementIndex(): number {
@@ -653,8 +653,8 @@ class AriaMenuButtonElement<E extends AriaMenuButtonElementEventMap = AriaMenuBu
     ElementLogger.verbose(this.uid, 'onMouseLeave', `The button has been focused.`)
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_MENU_BUTTON
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_MENU_BUTTON
   }
 
   static queries: QueryDeclarations = {
@@ -877,8 +877,8 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
     return this.rootElement ? [...this.rootElement.itemElements].indexOf(this) : -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_MENU_ITEM
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_MENU_ITEM
   }
 
   get sameDepthItemElements(): NodeListOf<AriaMenuItemElement> {
@@ -1191,8 +1191,8 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
     return n
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_MENU_SUBMENU
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_MENU_SUBMENU
   }
 
   get referenceElement(): HTMLElement | undefined {

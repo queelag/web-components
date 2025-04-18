@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { CardElementEventMap } from '../../definitions/events.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -21,8 +21,8 @@ class CardElement<E extends CardElementEventMap = CardElementEventMap, T = any> 
   subhead?: string
   text?: string
 
-  get name(): ElementName {
-    return ElementName.CARD
+  get slug(): ElementSlug {
+    return ElementSlug.CARD
   }
 
   static properties: PropertyDeclarations = {

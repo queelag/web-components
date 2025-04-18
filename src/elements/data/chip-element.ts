@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { ChipElementEventMap } from '../../definitions/events.js'
 import type { ChipElementVariant } from '../../definitions/types.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
@@ -25,8 +25,8 @@ class ChipElement<E extends ChipElementEventMap = ChipElementEventMap> extends B
   trailingText?: string
   variant?: ChipElementVariant
 
-  get name(): ElementName {
-    return ElementName.CHIP
+  get slug(): ElementSlug {
+    return ElementSlug.CHIP
   }
 
   static properties: PropertyDeclarations = {

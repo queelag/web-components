@@ -1,10 +1,10 @@
-import { wf } from '@aracna/core'
+import { tcp, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import { type PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { FormElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
-import { ButtonClickEvent } from '../../events/button-click-event.js'
+import { FormErrors, FormSubmitCallbackFn } from '../../definitions/types.js'
 import { FormSubmitEvent } from '../../events/form-submit-event.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
@@ -23,8 +23,8 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
    */
   /** */
   async?: boolean
+  controls?: T[]
   disabled?: boolean
-  fields?: T[]
   spinning?: boolean
 
   /**
@@ -32,14 +32,14 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
    */
   /** */
   buttonElement?: ButtonElement
-  fieldElements!: FormControlElement[]
+  controlElements!: FormControlElement[]
   formElement?: HTMLFormElement
 
   connectedCallback(): void {
     super.connectedCallback()
 
     wf(() => this.buttonElement, 4).then(() => {
-      this.buttonElement?.addEventListener('button-click', this.onButtonClick)
+      this.buttonElement?.addEventListener('click', this.onButtonClick)
     })
 
     wf(() => this.formElement, 4).then(() => {
@@ -51,7 +51,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
   disconnectedCallback(): void {
     super.disconnectedCallback()
 
-    this.buttonElement?.removeEventListener('button-click', this.onButtonClick)
+    this.buttonElement?.removeEventListener('click', this.onButtonClick)
     this.formElement?.removeEventListener('submit', this.onSubmit)
   }
 
@@ -64,12 +64,15 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     this.formElement.noValidate = true
   }
 
-  onButtonClick = (event: ButtonClickEvent): void => {
+  onButtonClick = (event: MouseEvent): void => {
+    event.preventDefault()
+    event.stopPropagation()
+
     if (typeof this.formElement?.requestSubmit === 'function') {
       ElementLogger.verbose(this.uid, 'onButtonClick', `Requesting submit.`)
       this.formElement.requestSubmit()
 
-      return event.detail?.finalize()
+      return
     }
 
     if (this.formElement) {
@@ -82,8 +85,6 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
       input.click()
       this.formElement.removeChild(input)
     }
-
-    event.detail?.finalize()
   }
 
   onSubmit = (event: SubmitEvent): void => {
@@ -96,7 +97,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
       return ElementLogger.warn(this.uid, 'onSubmit', `The form is disabled or spinning.`)
     }
 
-    for (let element of this.fieldElements) {
+    for (let element of this.controlElements) {
       ElementLogger.verbose(this.uid, 'onSubmit', `Touching an element...`, element)
       element.touch()
 
@@ -106,10 +107,6 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
       valid = valid && element.isValid
     }
 
-    if (!valid) {
-      return ElementLogger.warn(this.uid, 'onSubmit', `The form is not valid.`)
-    }
-
     if (this.async) {
       this.disabled = true
       this.spinning = true
@@ -117,31 +114,65 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
       ElementLogger.verbose(this.uid, 'onSubmit', `The disabled and spinning properties has been set to true.`)
     }
 
-    this.dispatchEvent(new FormSubmitEvent(this.finalize))
+    this.dispatchEvent(new FormSubmitEvent(this.callback, this.controlElements, this.data, this.errors))
     ElementLogger.verbose(this.uid, 'onSubmit', `The "form-submit" event has been dispatched.`)
   }
 
-  finalize = (): void => {
-    this.disabled = false
-    this.spinning = false
+  callback = async (fn?: FormSubmitCallbackFn): Promise<void> => {
+    if (fn) {
+      await tcp(() => fn())
+    }
 
-    ElementLogger.verbose(this.uid, 'finalize', `The disabled and spinning properties have been set to false.`)
+    if (this.async) {
+      this.disabled = false
+      this.spinning = false
+
+      ElementLogger.verbose(this.uid, 'callback', `The disabled and spinning properties have been set to false.`)
+    }
   }
 
-  get name(): ElementName {
-    return ElementName.FORM
+  get data(): FormData {
+    let data: FormData = new FormData()
+
+    for (let element of this.controlElements) {
+      if (element.name) {
+        data.append(element.name, element.value)
+      }
+    }
+
+    return data
+  }
+
+  get errors(): FormErrors | undefined {
+    let errors: FormErrors = {}
+
+    for (let element of this.controlElements) {
+      if (element.error && element.name) {
+        errors[element.name] = element.error
+      }
+    }
+
+    if (Object.keys(errors).length <= 0) {
+      return undefined
+    }
+
+    return errors
+  }
+
+  get slug(): ElementSlug {
+    return ElementSlug.FORM
   }
 
   static properties: PropertyDeclarations = {
     async: { type: Boolean, reflect: true },
+    controls: { type: Array },
     disabled: { type: Boolean, reflect: true },
-    fields: { type: Array },
     spinning: { type: Boolean, reflect: true }
   }
 
   static queries: QueryDeclarations = {
     buttonElement: { selector: '[type="submit"]' },
-    fieldElements: { selector: '[form-field-element]', all: true },
+    controlElements: { selector: '[form-control-element]', all: true },
     formElement: { selector: 'form' }
   }
 }

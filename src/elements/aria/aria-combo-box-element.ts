@@ -11,7 +11,7 @@ import {
   AriaComboBoxOptionRemoveController
 } from '../../controllers/aria-combo-box-controller.js'
 import { DEFAULT_COMBOBOX_FILTER_OPTIONS_PREDICATE, DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE } from '../../definitions/constants.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type {
   AriaComboBoxButtonElementEventMap,
   AriaComboBoxClearElementEventMap,
@@ -505,8 +505,8 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
     return this.focusedOptionElement ? this.optionElements.indexOf(this.focusedOptionElement) : -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_COMBOBOX
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_COMBOBOX
   }
 
   get scrollIntoViewOptions(): ScrollIntoViewOptions {
@@ -581,8 +581,8 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
 }
 
 class AriaComboBoxGroupElement<E extends AriaComboBoxGroupElementEventMap = AriaComboBoxGroupElementEventMap> extends BaseElement<E> {
-  get name(): ElementName {
-    return ElementName.ARIA_COMBOBOX_GROUP
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_COMBOBOX_GROUP
   }
 }
 
@@ -652,8 +652,8 @@ class AriaComboBoxButtonElement<E extends AriaComboBoxButtonElementEventMap = Ar
     }
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_COMBOBOX_BUTTON
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_COMBOBOX_BUTTON
   }
 
   static queries: QueryDeclarations = {
@@ -759,8 +759,8 @@ class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap = Aria
     }
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_COMBOBOX_INPUT
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_COMBOBOX_INPUT
   }
 
   get value(): string | undefined {
@@ -797,8 +797,8 @@ class AriaComboBoxListElement<E extends AriaComboBoxListElementEventMap = AriaCo
   /** */
   rootElement?: AriaComboBoxElement
 
-  get name(): ElementName {
-    return ElementName.ARIA_COMBOBOX_LIST
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_COMBOBOX_LIST
   }
 
   get referenceElement(): AriaComboBoxGroupElement | undefined {
@@ -1010,8 +1010,8 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
     this.requestUpdate('label', old)
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_COMBOBOX_OPTION
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_COMBOBOX_OPTION
   }
 
   get unselected(): boolean {
@@ -1076,8 +1076,8 @@ class AriaComboBoxOptionRemoveElement<E extends AriaComboBoxOptionRemoveElementE
     }
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_COMBOBOX_OPTION_REMOVE
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_COMBOBOX_OPTION_REMOVE
   }
 
   static properties: PropertyDeclarations = {
@@ -1128,8 +1128,8 @@ class AriaComboBoxClearElement<E extends AriaComboBoxClearElementEventMap = Aria
     }
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_COMBOBOX_CLEAR
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_COMBOBOX_CLEAR
   }
 
   static queries: QueryDeclarations = {

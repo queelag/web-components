@@ -1,7 +1,7 @@
 import { AracnaFile, type DeserializeFileOptions, deserializeFile, isArray, removeArrayItems, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import { type CSSResultGroup, type PropertyDeclarations, css } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { InputFileClearElementEventMap, InputFileElementEventMap, InputFileRemoveElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import { ElementLogger } from '../../loggers/element-logger.js'
@@ -154,8 +154,8 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
     }
   }
 
-  get name(): ElementName {
-    return ElementName.INPUT_FILE
+  get slug(): ElementSlug {
+    return ElementSlug.INPUT_FILE
   }
 
   get file(): AracnaFile | undefined {
@@ -257,8 +257,8 @@ class InputFileRemoveElement<E extends InputFileRemoveElementEventMap = InputFil
     }
   }
 
-  get name(): ElementName {
-    return ElementName.INPUT_FILE_REMOVE
+  get slug(): ElementSlug {
+    return ElementSlug.INPUT_FILE_REMOVE
   }
 
   static properties: PropertyDeclarations = {
@@ -298,8 +298,8 @@ class InputFileClearElement<E extends InputFileClearElementEventMap = InputFileC
     }
   }
 
-  get name(): ElementName {
-    return ElementName.INPUT_FILE_CLEAR
+  get slug(): ElementSlug {
+    return ElementSlug.INPUT_FILE_CLEAR
   }
 
   static queries: QueryDeclarations = {

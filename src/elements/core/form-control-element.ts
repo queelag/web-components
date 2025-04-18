@@ -1,5 +1,6 @@
 import { setImmutableElementAttribute } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
+import { StructError } from 'superstruct'
 import { FormControlElementCollector } from '../../collectors/form-control-element-collector.js'
 import type { FormControlElementEventMap } from '../../definitions/events.js'
 import type { FormControlElementSchema, FormControlElementTarget, FormControlElementValidation } from '../../definitions/types.js'
@@ -17,6 +18,7 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
   /** */
   disabled?: boolean
   focused?: boolean
+  name?: string
   path?: string
   readonly?: boolean
   touched?: boolean
@@ -37,7 +39,7 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
 
   connectedCallback(): void {
     super.connectedCallback()
-    setImmutableElementAttribute(this, 'form-field-element', '')
+    setImmutableElementAttribute(this, 'form-control-element', '')
 
     FormControlElementCollector.set(this)
 
@@ -75,7 +77,7 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
     setImmutableElementAttribute(this, 'error', this.validation[0]?.message ?? undefined)
     setImmutableElementAttribute(this, 'valid', this.validation[1] ? 'true' : 'false')
 
-    this.dispatchEvent(new FormControlValidateEvent(this.schema, this.validation, this.value, { error: this.error, touched: this.touched }))
+    this.dispatchEvent(new FormControlValidateEvent(this.schema, this.validation, this.value, { error: this.error?.message, touched: this.touched }))
     ElementLogger.verbose(this.uid, 'validate', `The "form-control-validate" event has been dispatched.`)
   }
 
@@ -88,16 +90,14 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
     this.value = value
     ElementLogger.verbose(this.uid, 'setValue', `The value has been set.`, value)
 
-    this.dispatchEvent(new FormControlChangeEvent(this.value, { error: this.error, schema: this.schema, touched: this.touched, validation: this.validation }))
+    this.dispatchEvent(
+      new FormControlChangeEvent(this.value, { error: this.error?.message, schema: this.schema, touched: this.touched, validation: this.validation })
+    )
     ElementLogger.verbose(this.uid, 'setValue', `The "form-control-change" event has been dispatched.`)
   }
 
-  get error(): string | undefined {
-    if (!this.validation) {
-      return undefined
-    }
-
-    return this.validation[0]?.message
+  get error(): StructError | undefined {
+    return this.validation?.[0]
   }
 
   get schema(): FormControlElementSchema | undefined {
@@ -164,6 +164,7 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
   static properties: PropertyDeclarations = {
     disabled: { type: Boolean, reflect: true },
     focused: { type: Boolean, reflect: true },
+    name: { type: String, reflect: true },
     path: { type: String, reflect: true },
     readonly: { type: Boolean, reflect: true },
     schema: { type: Object },

@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { ButtonGroupElementEventMap } from '../../definitions/events.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'
 
@@ -17,8 +17,8 @@ class ButtonGroupElement<E extends ButtonGroupElementEventMap = ButtonGroupEleme
   /** */
   buttons?: T[]
 
-  get name(): ElementName {
-    return ElementName.BUTTON_GROUP
+  get slug(): ElementSlug {
+    return ElementSlug.BUTTON_GROUP
   }
 
   static properties: PropertyDeclarations = {

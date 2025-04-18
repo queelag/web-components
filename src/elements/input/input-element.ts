@@ -2,7 +2,7 @@ import { decodeText, encodeText, isArray, parseNumber, removeArrayItems, wf } fr
 import { defineCustomElement } from '@aracna/web'
 import { type PropertyDeclarations } from 'lit'
 import { DEFAULT_INPUT_TYPE } from '../../definitions/constants.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { InputClearElementEventMap, InputElementEventMap, InputItemRemoveElementEventMap, InputObscureElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { InputElementTouchTrigger, InputElementType, InputElementValue } from '../../definitions/types.js'
@@ -302,8 +302,8 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
     }
   }
 
-  get name(): ElementName {
-    return ElementName.INPUT
+  get slug(): ElementSlug {
+    return ElementSlug.INPUT
   }
 
   get obscured(): boolean | undefined {
@@ -429,8 +429,8 @@ class InputObscureElement<E extends InputObscureElementEventMap = InputObscureEl
     }
   }
 
-  get name(): ElementName {
-    return ElementName.INPUT_OBSCURE
+  get slug(): ElementSlug {
+    return ElementSlug.INPUT_OBSCURE
   }
 
   static queries: QueryDeclarations = {
@@ -472,8 +472,8 @@ class InputItemRemoveElement<E extends InputItemRemoveElementEventMap = InputIte
     }
   }
 
-  get name(): ElementName {
-    return ElementName.INPUT_ITEM_REMOVE
+  get slug(): ElementSlug {
+    return ElementSlug.INPUT_ITEM_REMOVE
   }
 
   static properties: PropertyDeclarations = {
@@ -513,8 +513,8 @@ class InputClearElement<E extends InputClearElementEventMap = InputClearElementE
     }
   }
 
-  get name(): ElementName {
-    return ElementName.INPUT_CLEAR
+  get slug(): ElementSlug {
+    return ElementSlug.INPUT_CLEAR
   }
 
   static queries: QueryDeclarations = {

@@ -1,7 +1,7 @@
 import { defineCustomElement } from '@aracna/web'
 import { type PropertyDeclarations } from 'lit'
 import { DEFAULT_GET_RADIO_BUTTON_LABEL, DEFAULT_GET_RADIO_BUTTON_VALUE } from '../../definitions/constants.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { RadioButtonElementEventMap, RadioGroupElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { GetRadioButtonLabel, GetRadioButtonValue } from '../../definitions/types.js'
@@ -26,8 +26,8 @@ class RadioGroupElement<E extends RadioGroupElementEventMap = RadioGroupElementE
   getButtonLabel: GetRadioButtonLabel<T> = DEFAULT_GET_RADIO_BUTTON_LABEL
   getButtonValue: GetRadioButtonValue<T> = DEFAULT_GET_RADIO_BUTTON_VALUE
 
-  get name(): ElementName {
-    return ElementName.RADIO_GROUP
+  get slug(): ElementSlug {
+    return ElementSlug.RADIO_GROUP
   }
 
   static properties: PropertyDeclarations = {
@@ -52,8 +52,8 @@ class RadioButtonElement<E extends RadioButtonElementEventMap = RadioButtonEleme
   icon?: string
   text?: string
 
-  get name(): ElementName {
-    return ElementName.RADIO_BUTTON
+  get slug(): ElementSlug {
+    return ElementSlug.RADIO_BUTTON
   }
 
   static properties: PropertyDeclarations = {

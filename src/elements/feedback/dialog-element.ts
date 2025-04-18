@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { DialogDescriptionElementEventMap, DialogElementEventMap, DialogLabelElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import {
@@ -26,8 +26,8 @@ class DialogElement<E extends DialogElementEventMap = DialogElementEventMap> ext
   icon?: string
   text?: string
 
-  get name(): ElementName {
-    return ElementName.DIALOG
+  get slug(): ElementSlug {
+    return ElementSlug.DIALOG
   }
 
   static properties: PropertyDeclarations = {
@@ -43,14 +43,14 @@ class DialogElement<E extends DialogElementEventMap = DialogElementEventMap> ext
 }
 
 class DialogLabelElement<E extends DialogLabelElementEventMap = DialogElementEventMap> extends AriaDialogLabelElement<E> {
-  get name(): ElementName {
-    return ElementName.DIALOG_LABEL
+  get slug(): ElementSlug {
+    return ElementSlug.DIALOG_LABEL
   }
 }
 
 class DialogDescriptionElement<E extends DialogDescriptionElementEventMap = DialogElementEventMap> extends AriaDialogDescriptionElement<E> {
-  get name(): ElementName {
-    return ElementName.DIALOG_DESCRIPTION
+  get slug(): ElementSlug {
+    return ElementSlug.DIALOG_DESCRIPTION
   }
 }
 

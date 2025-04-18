@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { TabsElementEventMap, TabsPanelElementEventMap, TabsTabElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import {
@@ -24,8 +24,8 @@ class TabsElement<E extends TabsElementEventMap = TabsElementEventMap, T = any> 
   /** */
   tabs?: T[]
 
-  get name(): ElementName {
-    return ElementName.TABS
+  get slug(): ElementSlug {
+    return ElementSlug.TABS
   }
 
   static properties: PropertyDeclarations = {
@@ -41,8 +41,8 @@ class TabsElement<E extends TabsElementEventMap = TabsElementEventMap, T = any> 
 }
 
 class TabsTabElement<E extends TabsTabElementEventMap = TabsTabElementEventMap> extends AriaTabsTabElement<E> {
-  get name(): ElementName {
-    return ElementName.TABS_TAB
+  get slug(): ElementSlug {
+    return ElementSlug.TABS_TAB
   }
 
   static queries: QueryDeclarations = {
@@ -51,8 +51,8 @@ class TabsTabElement<E extends TabsTabElementEventMap = TabsTabElementEventMap> 
 }
 
 class TabsPanelElement<E extends TabsPanelElementEventMap = TabsPanelElementEventMap> extends AriaTabsPanelElement<E> {
-  get name(): ElementName {
-    return ElementName.TABS_PANEL
+  get slug(): ElementSlug {
+    return ElementSlug.TABS_PANEL
   }
 
   static queries: QueryDeclarations = {

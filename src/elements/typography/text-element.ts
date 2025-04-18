@@ -1,7 +1,7 @@
 import type { Localization, LocalizationVariables } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import { css, PropertyValues, type CSSResultGroup, type PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { TextElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations, TextElementSanitizeConfig } from '../../definitions/interfaces.js'
 import { renderTextElement } from '../../utils/text-element-utils.js'
@@ -47,8 +47,8 @@ class TextElement<E extends TextElementEventMap = TextElementEventMap> extends B
     return renderTextElement.bind(this)()
   }
 
-  get name(): ElementName {
-    return ElementName.TEXT
+  get slug(): ElementSlug {
+    return ElementSlug.TEXT
   }
 
   static properties: PropertyDeclarations = {

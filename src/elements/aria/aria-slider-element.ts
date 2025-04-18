@@ -11,7 +11,7 @@ import {
   DEFAULT_SLIDER_STEP,
   DEFAULT_SLIDER_THUMB_VALUE
 } from '../../definitions/constants.js'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaSliderElementEventMap, AriaSliderThumbElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
 import type { Orientation } from '../../definitions/types.js'
@@ -108,8 +108,8 @@ class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementE
     this.thumbElements[0].computePosition()
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_SLIDER
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_SLIDER
   }
 
   get percentage(): number | number[] {
@@ -615,8 +615,8 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     return this.rootElement?.thumbElements.indexOf(this) ?? -1
   }
 
-  get name(): ElementName {
-    return ElementName.ARIA_SLIDER_THUMB
+  get slug(): ElementSlug {
+    return ElementSlug.ARIA_SLIDER_THUMB
   }
 
   get percentage(): number {

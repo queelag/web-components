@@ -1,6 +1,6 @@
 import { defineCustomElement } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
-import { ElementName } from '../../definitions/enums.js'
+import { ElementSlug } from '../../definitions/enums.js'
 import type { AlertElementEventMap } from '../../definitions/events.js'
 import type { AlertSeverity, AlertVariant } from '../../definitions/types.js'
 import { AracnaAriaAlertElement as AriaAlertElement } from '../aria/aria-alert-element.js'
@@ -23,8 +23,8 @@ class AlertElement<E extends AlertElementEventMap = AlertElementEventMap> extend
   text?: string
   variant?: AlertVariant
 
-  get name(): ElementName {
-    return ElementName.ALERT
+  get slug(): ElementSlug {
+    return ElementSlug.ALERT
   }
 
   static properties: PropertyDeclarations = {
