@@ -93,6 +93,24 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
     this.inputElement.value = this.inputElementValue
   }
 
+  blur(): void {
+    if (!this.inputElement) {
+      return super.blur()
+    }
+
+    this.inputElement.blur()
+    ElementLogger.verbose(this.uid, 'blur', `The input element has been blurred.`)
+  }
+
+  focus(options?: FocusOptions): void {
+    if (!this.inputElement) {
+      return super.focus(options)
+    }
+
+    this.inputElement.focus(options)
+    ElementLogger.verbose(this.uid, 'focus', `The input element has been focused.`)
+  }
+
   onBlur = (): void => {
     this.focused = false
     ElementLogger.verbose(this.uid, 'onBlur', `The input has been marked as blurred.`)
@@ -182,7 +200,7 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
 
     if (this.inputElement) {
       this.inputElement.value = ''
-      ElementLogger.verbose(this.uid, 'onKeyUp', `The input value has been reset.`, [this.inputElement.value])
+      ElementLogger.verbose(this.uid, 'onKeyUp', `The input element value has been reset.`, [this.inputElement.value])
     }
 
     ElementLogger.verbose(this.uid, 'onKeyUp', `Touching.`)
@@ -216,10 +234,10 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
 
     if (this.inputElement) {
       this.inputElement.value = ''
-      ElementLogger.verbose(this.uid, 'clear', `The input value has been reset.`, [this.inputElement.value])
+      ElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`, [this.inputElement.value])
 
       this.inputElement.focus()
-      ElementLogger.verbose(this.uid, 'clear', `The input has been focused.`)
+      ElementLogger.verbose(this.uid, 'clear', `The input element has been focused.`)
     }
 
     this.touch()
@@ -231,7 +249,7 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
 
     if (this.inputElement) {
       this.inputElement.focus()
-      ElementLogger.verbose(this.uid, 'obscure', `The input has been focused.`)
+      ElementLogger.verbose(this.uid, 'obscure', `The input element has been focused.`)
     }
   }
 
@@ -241,7 +259,7 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
 
     if (this.inputElement) {
       this.inputElement.focus()
-      ElementLogger.verbose(this.uid, 'reveal', `The input has been focused.`)
+      ElementLogger.verbose(this.uid, 'reveal', `The input element has been focused.`)
     }
   }
 

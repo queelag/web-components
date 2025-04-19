@@ -90,6 +90,24 @@ class SelectElement<E extends SelectElementEventMap = SelectElementEventMap, T =
     this.selectElement.disabled = Boolean(this.disabled ?? this.readonly)
   }
 
+  blur(): void {
+    if (!this.selectElement) {
+      return super.blur()
+    }
+
+    this.selectElement.blur()
+    ElementLogger.verbose(this.uid, 'blur', 'The select element has been blurred.')
+  }
+
+  focus(options?: FocusOptions): void {
+    if (!this.selectElement) {
+      return super.focus(options)
+    }
+
+    this.selectElement.focus(options)
+    ElementLogger.verbose(this.uid, 'focus', 'The select element has been focused.')
+  }
+
   onChange = (): void => {
     let option: T | undefined
 

@@ -59,6 +59,24 @@ class SwitchElement<E extends SwitchElementEventMap = SwitchElementEventMap> ext
     this.inputElement.value = this.value ? '1' : '0'
   }
 
+  blur(): void {
+    if (!this.inputElement) {
+      return super.blur()
+    }
+
+    this.inputElement.blur()
+    ElementLogger.verbose(this.uid, 'blur', 'The input element has been blurred.')
+  }
+
+  focus(options?: FocusOptions): void {
+    if (!this.inputElement) {
+      return super.focus(options)
+    }
+
+    this.inputElement.focus(options)
+    ElementLogger.verbose(this.uid, 'focus', 'The input element has been focused.')
+  }
+
   onChange = (): void => {
     if (this.disabled || this.readonly) {
       return ElementLogger.warn(this.uid, 'onChange', `The switch is disabled or readonly.`)

@@ -100,6 +100,24 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     this.textAreaElement.value = this.textAreaElementValue
   }
 
+  blur(): void {
+    if (!this.textAreaElement) {
+      return super.blur()
+    }
+
+    this.textAreaElement.blur()
+    ElementLogger.verbose(this.uid, 'blur', `The textarea element has been blurred.`)
+  }
+
+  focus(options?: FocusOptions): void {
+    if (!this.textAreaElement) {
+      return super.focus(options)
+    }
+
+    this.textAreaElement.focus(options)
+    ElementLogger.verbose(this.uid, 'focus', `The textarea element has been focused.`)
+  }
+
   onBlur = (): void => {
     this.focused = false
     ElementLogger.verbose(this.uid, 'onBlur', `The textarea has been marked as blurred.`)

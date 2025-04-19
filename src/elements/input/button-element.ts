@@ -58,12 +58,30 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
     }
   }
 
+  blur(): void {
+    if (!this.buttonElement) {
+      return super.blur()
+    }
+
+    this.buttonElement.blur()
+    ElementLogger.verbose(this.uid, 'blur', 'The button element has been blurred.')
+  }
+
   click(): void {
     if (this.spinning) {
       return ElementLogger.warn(this.uid, 'click', `The button is spinning.`)
     }
 
     super.click()
+  }
+
+  focus(options?: FocusOptions): void {
+    if (!this.buttonElement) {
+      return super.focus(options)
+    }
+
+    this.buttonElement.focus(options)
+    ElementLogger.verbose(this.uid, 'focus', 'The button element has been focused.')
   }
 
   onClick = (): void => {

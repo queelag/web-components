@@ -51,6 +51,24 @@ class CheckBoxElement<E extends CheckBoxElementEventMap = CheckBoxElementEventMa
     this.inputElement.type = 'checkbox'
   }
 
+  blur(): void {
+    if (!this.inputElement) {
+      return super.blur()
+    }
+
+    this.inputElement.blur()
+    ElementLogger.verbose(this.uid, 'blur', 'The input element has been blurred.')
+  }
+
+  focus(options?: FocusOptions): void {
+    if (!this.inputElement) {
+      return super.focus(options)
+    }
+
+    this.inputElement.focus(options)
+    ElementLogger.verbose(this.uid, 'focus', 'The input element has been focused.')
+  }
+
   onChange = (): void => {
     ElementLogger.verbose(this.uid, 'onChange', `${this.checked ? 'Checking' : 'Unchecking'} the checkbox.`)
     this.toggle()
