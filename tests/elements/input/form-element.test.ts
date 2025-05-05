@@ -154,6 +154,17 @@ describe('FormElement', () => {
 
     dispatchClickEvent(button)
     expect(onSubmit).toBeCalledTimes(1)
+
+    button.remove()
+
+    button = document.createElement('aracna-button')
+    button.type = 'submit'
+
+    form.append(button)
+    await sleep(100)
+
+    dispatchClickEvent(button)
+    expect(onSubmit).toBeCalledTimes(2)
   })
 
   it('returns the form data', async () => {

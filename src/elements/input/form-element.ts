@@ -87,6 +87,15 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     }
   }
 
+  onSlotChange(): void {
+    super.onSlotChange()
+
+    wf(() => this.buttonElement, 4).then(() => {
+      this.buttonElement?.removeEventListener('click', this.onButtonClick)
+      this.buttonElement?.addEventListener('click', this.onButtonClick)
+    })
+  }
+
   onSubmit = (event: SubmitEvent): void => {
     let valid: boolean = true
 
