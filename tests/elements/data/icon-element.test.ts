@@ -1,4 +1,4 @@
-import { importNodeFetch, useNodeFetch, wf } from '@aracna/core'
+import { wf } from '@aracna/core'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { SVG_NAMESPACE_URI } from '../../../src/definitions/constants'
 import '../../../src/elements/data/icon-element'
@@ -39,8 +39,6 @@ describe('IconElement', () => {
   })
 
   it('renders from url', async () => {
-    await useNodeFetch(await importNodeFetch())
-
     await render(icon, { src: 'https://raw.githubusercontent.com/feathericons/feather/master/icons/compass.svg' })
     await wf(() => icon.shadowRoot?.querySelector('circle'))
 

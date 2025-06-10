@@ -11,8 +11,9 @@ export default defineConfig({
     globals: true,
     include: ['tests/**/*.test.ts'],
     setupFiles: [
+      'vitest/stubs/blob-stub.ts',
+      'vitest/stubs/file-stub.ts',
       'vitest/stubs/get-bounding-client-rect-stub.ts',
-      'vitest/stubs/polyfill-stub.ts',
       'vitest/stubs/resize-observer-stub.ts',
       'vitest/stubs/scroll-to-stub.ts',
       'vitest/stubs/touch-stub.ts'

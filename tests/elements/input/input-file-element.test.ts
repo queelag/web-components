@@ -1,20 +1,11 @@
-import { AracnaFile, encodeText, importNodeFetch, useNodeFetch, wf } from '@aracna/core'
-import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { AracnaFile, encodeText, wf } from '@aracna/core'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/input-file-element'
 import type { AracnaInputFileElement as InputFileElement } from '../../../src/elements/input/input-file-element'
 import { dispatchInputFileEvent, render } from '../../../vitest/dom-utils'
 
 describe('InputFileElement', () => {
   let input: InputFileElement, native: HTMLInputElement, file: File
-
-  beforeAll(async () => {
-    // @ts-ignore
-    delete global.Blob
-    // @ts-ignore
-    delete global.File
-
-    await useNodeFetch(await importNodeFetch())
-  })
 
   beforeEach(() => {
     input = document.createElement('aracna-input-file')
