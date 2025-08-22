@@ -1,7 +1,7 @@
 {
   "author": "Dario Sechi",
   "devDependencies": {
-    "@aracna/core": "^1.3.2",
+    "@aracna/core": "^1.3.3",
     "@aracna/web": "^1.0.84",
     "@floating-ui/dom": "^1.7.4",
     "@microsoft/api-extractor": "^7.52.11",

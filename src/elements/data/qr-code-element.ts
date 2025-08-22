@@ -163,9 +163,9 @@ function svgCmd(cmd: string, x: number, y?: number) {
 }
 
 function getQrCodeSvgPath(modules: BitMatrix, margin: number = 0) {
-  let data: Uint8Array, size: number, path: string, moveBy: number, newRow: boolean, lineLength: number
+  let data: Uint8Array<ArrayBuffer>, size: number, path: string, moveBy: number, newRow: boolean, lineLength: number
 
-  data = modules.data
+  data = modules.data as Uint8Array<ArrayBuffer>
   size = modules.size
 
   path = ''

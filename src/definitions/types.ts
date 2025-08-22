@@ -68,7 +68,7 @@ export type InputElementType =
   | 'url'
   | 'week'
 
-export type InputElementValue = Date | number | string | string[] | Uint8Array | undefined
+export type InputElementValue = Date | number | string | string[] | Uint8Array<ArrayBuffer> | undefined
 
 export type Layer = 0 | 1 | 2 | 3
 export type Orientation = 'horizontal' | 'vertical'
