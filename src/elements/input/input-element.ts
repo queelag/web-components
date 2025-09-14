@@ -277,11 +277,14 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
       return 'password'
     }
 
-    if (this.type === 'buffer') {
-      return 'text'
+    switch (this.type) {
+      case 'buffer':
+        return 'text'
+      case 'password':
+        return this.obscured === false ? 'text' : 'password'
+      default:
+        return this.type
     }
-
-    return this.type
   }
 
   get inputElementValue(): string {
