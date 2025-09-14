@@ -439,14 +439,14 @@ class InputObscureElement<E extends InputObscureElementEventMap = InputObscureEl
       return ElementLogger.warn(this.uid, 'onClick', `The input is disabled or readonly.`)
     }
 
-    if (this.rootElement?.obscured) {
-      ElementLogger.verbose(this.uid, 'onClick', `Revealing the value...`)
-      return this.rootElement.reveal()
+    if (this.rootElement?.obscured === false) {
+      ElementLogger.verbose(this.uid, 'onClick', `Obscuring the value...`)
+      return this.rootElement.obscure()
     }
 
     if (this.rootElement) {
-      ElementLogger.verbose(this.uid, 'onClick', `Obscuring the value...`)
-      this.rootElement.obscure()
+      ElementLogger.verbose(this.uid, 'onClick', `Revealing the value...`)
+      this.rootElement.reveal()
     }
   }
 
