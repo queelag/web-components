@@ -1,6 +1,7 @@
 import { decodeText, encodeText, isArray, parseNumber, removeArrayItems, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
 import { type PropertyDeclarations } from 'lit'
+import { InputController } from '../../controllers/input-controller.js'
 import { DEFAULT_INPUT_TYPE } from '../../definitions/constants.js'
 import { ElementSlug } from '../../definitions/enums.js'
 import type { InputClearElementEventMap, InputElementEventMap, InputItemRemoveElementEventMap, InputObscureElementEventMap } from '../../definitions/events.js'
@@ -22,6 +23,8 @@ declare global {
 }
 
 class InputElement<E extends InputElementEventMap = InputElementEventMap> extends FormControlElement<E> {
+  protected controller: InputController = new InputController(this)
+
   /**
    * Properties
    */
@@ -64,7 +67,7 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
       return
     }
 
-    if (['disabled', 'multiple', 'path', 'placeholder', 'readonly', 'target', 'value'].includes(name)) {
+    if (['disabled', 'multiple', 'obscured', 'path', 'placeholder', 'readonly', 'target', 'value'].includes(name)) {
       this.setInputElementAttributes()
     }
   }
@@ -90,6 +93,7 @@ class InputElement<E extends InputElementEventMap = InputElementEventMap> extend
     }
 
     this.inputElement.readOnly = Boolean(this.readonly)
+    this.inputElement.type = this.inputElementType
     this.inputElement.value = this.inputElementValue
   }
 

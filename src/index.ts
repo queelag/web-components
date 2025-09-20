@@ -83,6 +83,7 @@ export {
   AriaTooltipController as AracnaAriaTooltipController,
   AriaTooltipTriggerController as AracnaAriaTooltipTriggerController
 } from './controllers/aria-tooltip-controller.js'
+export { InputController as AracnaInputController } from './controllers/input-controller.js'
 export type {
   AccordionButtonElementAttributes as AracnaAccordionButtonElementAttributes,
   AccordionElementAttributes as AracnaAccordionElementAttributes,
