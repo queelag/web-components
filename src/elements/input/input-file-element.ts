@@ -280,7 +280,7 @@ class InputFileRemoveElement<E extends InputFileRemoveElementEventMap = InputFil
   }
 
   static properties: PropertyDeclarations = {
-    item: { type: String, reflect: true }
+    file: { type: Object }
   }
 
   static queries: QueryDeclarations = {
