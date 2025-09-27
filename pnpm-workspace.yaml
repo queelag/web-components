@@ -2,5 +2,4 @@ onlyBuiltDependencies:
   - esbuild
 
 packages:
-  - packages/@aracna/core
-  - packages/@aracna/web
+  - packages/@aracna/*

@@ -85,10 +85,6 @@ importers:
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.5.2)(@vitest/ui@3.2.4)(jiti@2.4.2)(jsdom@27.0.0(postcss@8.5.6))(yaml@2.7.1)
     publishDirectory: dist
 
-  packages/@aracna/core: {}
-
-  packages/@aracna/web: {}
-
 packages:
 
   '@ampproject/remapping@2.3.0':
