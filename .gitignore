@@ -2,6 +2,8 @@ coverage
 declarations
 dist
 node_modules
+packages/@aracna/core
+packages/@aracna/web
 play
 
 .DS_Store

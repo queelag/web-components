@@ -72,7 +72,7 @@ class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends L
 
     if (name === 'shape-squircle-curvature' && this.shape === 'squircle') {
       appendSquircleElement({
-        curvature: parseNumber(value, DEFAULT_SQUIRCLE_CURVATURE),
+        curvature: parseNumber(value, { fallback: DEFAULT_SQUIRCLE_CURVATURE }),
         size: this.numericSize
       })
     }

@@ -113,7 +113,7 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
         ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The automatic rotation has been stopped.`)
       }
 
-      setInterval(this.onAutomaticRotation, parseNumber(value, DEFAULT_CAROUSEL_ROTATION_DURATION), this.uid)
+      setInterval(this.onAutomaticRotation, parseNumber(value, { fallback: DEFAULT_CAROUSEL_ROTATION_DURATION }), this.uid)
       ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The automatic rotation has been started.`)
     }
   }
