@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite'
 import { html } from 'lit'
-import '../src/elements/input/radio-group-element'
+import '../../src/elements/input/radio-group-element'
 import './radio-group.css'
 
 const meta: Meta = {

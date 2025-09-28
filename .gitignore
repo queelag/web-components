@@ -4,6 +4,7 @@ dist
 node_modules
 packages/@aracna/core
 packages/@aracna/web
+packages/@aracna-icons/feather
 play
 storybook-static
 

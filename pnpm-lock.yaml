@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@aracna-icons/feather':
+        specifier: workspace:*
+        version: link:packages/@aracna-icons/feather
       '@aracna/core':
         specifier: workspace:*
         version: link:packages/@aracna/core

@@ -1,5 +1,5 @@
-import { omitObjectProperties, rv, tcp, wf } from '@aracna/core'
-import { setImmutableElementAttribute } from '@aracna/web'
+import { cloneArray, omitObjectProperties, parseNumber, rv, tcp, wf } from '@aracna/core'
+import { getElementStyleCompatibleValue, setImmutableElementAttribute } from '@aracna/web'
 import {
   type AutoUpdateOptions,
   type ComputePositionConfig,
@@ -95,22 +95,23 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
     ElementLogger.verbose(this.uid, 'computePosition', `The left and top styles have been set.`, [this.style.left, this.style.top])
 
     if (this.arrowElement && position.middlewareData.arrow) {
-      let side: string | undefined
+      let sideX: keyof CSSStyleDeclaration | undefined, sideY: keyof CSSStyleDeclaration | undefined
 
-      this.arrowElement.style.left = position.middlewareData.arrow.x + 'px'
-      this.arrowElement.style.top = position.middlewareData.arrow.y + 'px'
+      sideX = this.getArrowStaticSideX(position)
+      sideY = this.getArrowStaticSideY(position)
 
-      ElementLogger.verbose(this.uid, 'computePosition', `The arrow left and top styles have been set.`, [
-        this.arrowElement.style.left,
-        this.arrowElement.style.top
+      this.arrowElement.style[sideX] =
+        getElementStyleCompatibleValue(parseNumber(position.middlewareData.arrow.x) - parseNumber(position.middlewareData.offset?.x)) ?? '0px'
+
+      this.arrowElement.style[sideY] =
+        getElementStyleCompatibleValue(parseNumber(position.middlewareData.arrow.y) - parseNumber(position.middlewareData.offset?.y)) ?? '0px'
+
+      ElementLogger.verbose(this.uid, 'computePosition', `The arrow styles have been set.`, [
+        sideX,
+        sideY,
+        this.arrowElement.style[sideX],
+        this.arrowElement.style[sideY]
       ])
-
-      side = this.getArrowStaticSide(position)
-
-      if (side) {
-        this.arrowElement.style[side as any] = '-4px'
-        ElementLogger.verbose(this.uid, 'computePosition', `The arrow ${side} style has been set.`, [this.arrowElement.style[side as any]])
-      }
     }
 
     this.cleanup = autoUpdate(this.referenceElement, this, () => rv(this.computePosition), this.autoUpdateOptions)
@@ -127,16 +128,33 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
     this.computePosition()
   }
 
-  getArrowStaticSide(position: ComputePositionReturn): string | undefined {
-    switch (position.placement.split('-')[0]) {
-      case 'bottom':
-        return 'top'
+  getArrowStaticSideX(position: ComputePositionReturn): 'left' | 'right' {
+    switch (position.placement) {
       case 'left':
+      case 'left-end':
+      case 'left-start':
         return 'left'
       case 'right':
+      case 'right-end':
+      case 'right-start':
+        return 'right'
+      default:
         return 'left'
+    }
+  }
+
+  getArrowStaticSideY(position: ComputePositionReturn): 'top' | 'bottom' {
+    switch (position.placement) {
       case 'top':
+      case 'top-end':
+      case 'top-start':
+        return 'top'
+      case 'bottom':
+      case 'bottom-end':
+      case 'bottom-start':
         return 'bottom'
+      default:
+        return 'top'
     }
   }
 
@@ -157,14 +175,13 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
     let options: Partial<ComputePositionConfig>
 
     options = {
-      middleware: this.middlewares ?? [],
+      middleware: cloneArray(this.middlewares ?? []),
       placement: this.placement,
       platform: this.platform,
       strategy: this.strategy
     }
 
-    if (this.arrowElement) {
-      options.middleware = options.middleware ?? []
+    if (this.arrowElement && options.middleware) {
       options.middleware.push(arrow({ element: this.arrowElement, padding: this.arrowPadding }))
     }
 

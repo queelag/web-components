@@ -424,7 +424,7 @@ describe('AriaCarouselElement', () => {
     expect(s2.active).toBeFalsy()
   })
 
-  it('stops on focus or on mouse enter and resumes on blur or mouse leave', async () => {
+  it('stops on focus or on pointer enter and resumes on blur or pointer leave', async () => {
     await render(carousel, { 'automatic-rotation': 'true', 'infinite-rotation': 'true' })
 
     /**
@@ -461,7 +461,7 @@ describe('AriaCarouselElement', () => {
     expect(s2.active).toBeTruthy()
 
     /**
-     * Enter the carousel with the mouse and sleep for 100ms to assert that the automatic rotation was stopped
+     * Enter the carousel with a pointer and sleep for 100ms to assert that the automatic rotation was stopped
      */
     dispatchPointerEnterEvent(carousel)
     await sleep(100)
@@ -472,7 +472,7 @@ describe('AriaCarouselElement', () => {
     expect(s2.active).toBeTruthy()
 
     /**
-     * Leave the carousel with the mouse and sleep for 100ms to assert that the automatic rotation was resumed
+     * Leave the carousel with a pointer and sleep for 100ms to assert that the automatic rotation was resumed
      */
     dispatchPointerLeaveEvent(carousel)
     await sleep(100)
@@ -494,7 +494,7 @@ describe('AriaCarouselElement', () => {
     await s1.updateComplete
 
     /**
-     * Click the rotation control and expect the automatic rotation to start and to ignore focus/mouseenter events
+     * Click the rotation control and expect the automatic rotation to start and to ignore focus/pointerenter events
      */
     rc.click()
     await rc.updateComplete

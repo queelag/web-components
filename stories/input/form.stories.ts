@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite'
 import { html } from 'lit'
-import '../src/elements/input/form-element'
+import '../../src/elements/input/form-element'
 import './form.css'
 
 const meta: Meta = {

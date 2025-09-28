@@ -1,5 +1,6 @@
 packages:
   - packages/@aracna/*
+  - packages/@aracna-icons/*
 
 onlyBuiltDependencies:
   - edgedriver

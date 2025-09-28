@@ -118,9 +118,7 @@ class AriaTooltipArrowElement<E extends AriaTooltipArrowElementEventMap = AriaTo
     super.styles,
     css`
       :host {
-        left: 0;
         position: absolute;
-        top: 0;
       }
     `
   ]

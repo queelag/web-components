@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite'
 import { html } from 'lit'
-import '../src/elements/input/slider-element'
+import '../../src/elements/input/slider-element'
 import './slider.css'
 
 const meta: Meta = {
