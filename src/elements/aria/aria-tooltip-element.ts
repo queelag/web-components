@@ -67,6 +67,9 @@ class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipEleme
     this.visible = true
     ElementLogger.verbose(this.uid, 'show', `The tooltip has been shown.`)
 
+    ElementLogger.verbose(this.uid, 'show', `Computing the content position.`)
+    this.contentElement?.computePosition()
+
     this.dispatchEvent(new TooltipShowEvent())
     ElementLogger.verbose(this.uid, 'show', `The "show" event has been dispatched.`)
   }

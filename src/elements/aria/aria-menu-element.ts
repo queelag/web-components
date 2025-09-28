@@ -1155,6 +1155,9 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
     this.expanded = true
     ElementLogger.verbose(this.uid, 'expand', `The submenu has been expanded.`)
 
+    ElementLogger.verbose(this.uid, 'expand', `Computing the submenu position.`)
+    this.computePosition()
+
     if (this.rootElement) {
       ElementLogger.verbose(this.uid, 'expand', `Marking the menu as expanded.`)
       this.rootElement.expand()

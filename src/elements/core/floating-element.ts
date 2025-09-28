@@ -48,6 +48,9 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
 
     ElementLogger.verbose(this.uid, 'connectedCallback', `Computing position.`)
     wf(() => this.referenceElement, 4).then(() => this.computePosition())
+
+    ElementLogger.verbose(this.uid, 'connectedCallback', `Computing position including arrow.`)
+    wf(() => this.arrowElement && this.referenceElement, 4).then(() => this.computePosition())
   }
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {

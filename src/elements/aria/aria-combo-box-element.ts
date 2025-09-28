@@ -426,6 +426,9 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
     this.expanded = true
     ElementLogger.verbose(this.uid, 'expand', `The combobox has been expanded.`)
 
+    ElementLogger.verbose(this.uid, 'expand', `Computing the list position.`)
+    this.listElement?.computePosition()
+
     this.dispatchEvent(new ComboBoxExpandEvent())
     ElementLogger.verbose(this.uid, 'expand', `The "expand" event has been dispatched.`)
   }
