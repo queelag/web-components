@@ -25,8 +25,10 @@ export const Primary: Story = {
       <aracna-tooltip-trigger>
         <aracna-icon fill="none" size=${16} src=${ICON_F_INFO} stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=${2}></aracna-icon>
       </aracna-tooltip-trigger>
-      <aracna-tooltip-arrow></aracna-tooltip-arrow>
-      <aracna-tooltip-content .middlewares=${[autoPlacement(), offset(10)]}>Lorem ipsum</aracna-tooltip-content>
+      <aracna-tooltip-content .middlewares=${[autoPlacement(), offset(10)]}>
+        <span>Lorem ipsum</span>
+        <aracna-tooltip-arrow></aracna-tooltip-arrow>
+      </aracna-tooltip-content>
     </aracna-tooltip>
   `
 }

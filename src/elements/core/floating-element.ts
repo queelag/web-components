@@ -101,10 +101,16 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
       sideY = this.getArrowStaticSideY(position)
 
       this.arrowElement.style[sideX] =
-        getElementStyleCompatibleValue(parseNumber(position.middlewareData.arrow.x) - parseNumber(position.middlewareData.offset?.x)) ?? '0px'
+        getElementStyleCompatibleValue(
+          parseNumber(position.middlewareData.arrow.x) -
+            (typeof position.middlewareData.arrow.x !== 'number' ? this.arrowElement.getBoundingClientRect().width : 0)
+        ) ?? ''
 
       this.arrowElement.style[sideY] =
-        getElementStyleCompatibleValue(parseNumber(position.middlewareData.arrow.y) - parseNumber(position.middlewareData.offset?.y)) ?? '0px'
+        getElementStyleCompatibleValue(
+          parseNumber(position.middlewareData.arrow.y) -
+            (typeof position.middlewareData.arrow.y !== 'number' ? this.arrowElement.getBoundingClientRect().height : 0)
+        ) ?? ''
 
       ElementLogger.verbose(this.uid, 'computePosition', `The arrow styles have been set.`, [
         sideX,
@@ -133,11 +139,11 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
       case 'left':
       case 'left-end':
       case 'left-start':
-        return 'left'
+        return 'right'
       case 'right':
       case 'right-end':
       case 'right-start':
-        return 'right'
+        return 'left'
       default:
         return 'left'
     }
@@ -148,11 +154,11 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
       case 'top':
       case 'top-end':
       case 'top-start':
-        return 'top'
+        return 'bottom'
       case 'bottom':
       case 'bottom-end':
       case 'bottom-start':
-        return 'bottom'
+        return 'top'
       default:
         return 'top'
     }
