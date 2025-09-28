@@ -11,9 +11,6 @@ const options = {
   plugins: [minifyHTMLLiteralsPlugin()]
 }
 
-/** @type {import('esbuild').BuildOptions['external']} */
-const external = ['@aracna/core', '@aracna/web', '@floating-ui/dom', 'dompurify', 'focus-trap', 'qrcode', 'tabbable']
-
 export async function bundle() {
   await Promise.all(
     [
@@ -35,11 +32,10 @@ export async function bundle() {
         ...options,
         bundle: true,
         entryPoints: ['src/index.ts'],
-        external,
         format: 'cjs',
         outfile: 'dist/index.cjs',
-        platform: 'neutral',
-        treeShaking: true
+        packages: 'external',
+        platform: 'neutral'
       }),
       /**
        * IIFE
@@ -68,11 +64,10 @@ export async function bundle() {
               ...options,
               bundle: true,
               entryPoints: [element],
-              external,
               format: 'cjs',
               outfile: element.replace('src', 'dist').replace('.ts', '.cjs'),
-              platform: 'neutral',
-              treeShaking: true
+              packages: 'external',
+              platform: 'neutral'
             }),
             /**
              * IIFE
