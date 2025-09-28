@@ -50,13 +50,13 @@ describe('AriaSwitchElement', () => {
     expect(switche.getAttribute('aria-checked')).toBe('false')
     expect(switche.getAttribute('on')).toBeNull()
 
-    dispatchKeyDownEvent(switche, KeyboardEventKey.SPACE)
+    await dispatchKeyDownEvent(KeyboardEventKey.SPACE, switche)
     await switche.updateComplete
 
     expect(switche.getAttribute('aria-checked')).toBe('true')
     expect(switche.getAttribute('on')).not.toBeNull()
 
-    dispatchKeyDownEvent(switche, KeyboardEventKey.SPACE)
+    await dispatchKeyDownEvent(KeyboardEventKey.SPACE)
     await switche.updateComplete
 
     expect(switche.getAttribute('aria-checked')).toBe('false')

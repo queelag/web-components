@@ -42,7 +42,7 @@ export class AriaRadioButtonController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-checked', this.host.checked ? 'true' : undefined)
+    setImmutableElementAttribute(this.host, 'aria-checked', this.host.checked ? 'true' : 'false')
     setImmutableElementAttribute(this.host, 'role', 'radio')
 
     switch (true) {

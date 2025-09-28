@@ -306,10 +306,7 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     super.connectedCallback()
 
     this.addEventListener('keydown', this.onKeyDown)
-    this.addEventListener('mousedown', this.onMouseDown)
-    this.addEventListener('touchend', this.onTouchEnd)
-    this.addEventListener('touchmove', this.onTouchMove, { passive: true })
-    this.addEventListener('touchstart', this.onTouchStart, { passive: true })
+    this.addEventListener('pointerdown', this.onPointerDown)
 
     wf(() => this.rootElement, 4).then(() => this.computePosition())
   }
@@ -330,10 +327,7 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     super.disconnectedCallback()
 
     this.removeEventListener('keydown', this.onKeyDown)
-    this.removeEventListener('mousedown', this.onMouseDown)
-    this.removeEventListener('touchend', this.onTouchEnd)
-    this.removeEventListener('touchmove', this.onTouchMove)
-    this.removeEventListener('touchstart', this.onTouchStart)
+    this.removeEventListener('pointerdown', this.onPointerDown)
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
@@ -414,75 +408,41 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     }
   }
 
-  onMouseDown = (): void => {
-    this.onMouseDownOrTouchStart('onMouseDown')
-
-    document.addEventListener('mousemove', this.onMouseMove)
-    document.addEventListener('mouseup', this.onMouseUp)
-
-    ElementLogger.verbose(this.uid, 'onMouseDown', `The "mousemove" and "mouseup" listeners have been added.`)
-  }
-
-  onTouchStart = (): void => {
-    this.onMouseDownOrTouchStart('onTouchStart')
-  }
-
-  onTouchMove = (event: TouchEvent): void => {
-    if (!event.touches[0]) {
-      return
-    }
-
-    this.onMouseMoveOrTouchMove('onTouchMove', event.touches[0].clientX, event.touches[0].clientY)
-  }
-
-  onTouchEnd = (): void => {
-    this.onMouseUpOrTouchEnd('onTouchEnd')
-  }
-
-  onMouseDownOrTouchStart = (fn: string): void => {
+  onPointerDown = (): void => {
     if (this.rootElement?.disabled || this.rootElement?.readonly) {
-      return ElementLogger.warn(this.uid, fn, `The slider is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, 'onPointerDown', `The slider is disabled or readonly.`)
     }
+
+    document.addEventListener('pointermove', this.onPointerMove)
+    document.addEventListener('pointerup', this.onPointerUp)
 
     this.movable = true
-    ElementLogger.debug(this.uid, fn, `The thumb has been unlocked.`)
+    ElementLogger.debug(this.uid, 'onPointerDown', `The thumb has been unlocked.`)
   }
 
-  onMouseMove = (event: MouseEvent): void => {
-    this.onMouseMoveOrTouchMove('onMouseMove', event.clientX, event.clientY)
-  }
-
-  onMouseUp = (): void => {
-    this.onMouseUpOrTouchEnd('onMouseUp')
-  }
-
-  onMouseMoveOrTouchMove(fn: string, x: number, y: number): void {
+  onPointerMove = (event: PointerEvent): void => {
     if (!this.movable) {
-      ElementLogger.verbose(this.uid, fn, `The thumb is not movable.`)
+      ElementLogger.verbose(this.uid, 'onPointerMove', `The thumb is not movable.`)
       return
     }
 
-    ElementLogger.verbose(this.uid, fn, `Setting the value by the coordinates.`, [x, y])
-    this.setValueByCoordinates(x, y)
+    ElementLogger.verbose(this.uid, 'onPointerMove', `Setting the value by the coordinates.`, [event.clientX, event.clientY])
+    this.setValueByCoordinates(event.clientX, event.clientY)
 
-    ElementLogger.verbose(this.uid, fn, `Computing the position.`)
+    ElementLogger.verbose(this.uid, 'onPointerMove', `Computing the position.`)
     this.computePosition()
   }
 
-  onMouseUpOrTouchEnd(fn: string): void {
+  onPointerUp = (): void => {
     if (this.rootElement?.disabled || this.rootElement?.readonly) {
-      return ElementLogger.warn(this.uid, fn, `The slider is disabled or readonly.`)
+      return ElementLogger.warn(this.uid, 'onPointerUp', `The slider is disabled or readonly.`)
     }
 
-    ElementLogger.verbose(this.uid, fn, `The value has been set.`, [this.value])
+    document.removeEventListener('pointermove', this.onPointerMove)
+    document.removeEventListener('pointerup', this.onPointerUp)
 
     this.movable = false
-    ElementLogger.verbose(this.uid, fn, `The thumb has been locked.`)
-
-    document.removeEventListener('mousemove', this.onMouseMove)
-    document.removeEventListener('mouseup', this.onMouseUp)
-
-    ElementLogger.verbose(this.uid, fn, `The "mousemove" and "mouseup" listeners have been removed.`)
+    ElementLogger.verbose(this.uid, 'onPointerUp', `The thumb has been locked.`)
   }
 
   computePosition(): void {

@@ -161,6 +161,8 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
       return ElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
     }
 
+    this.temporaryValue = this.temporaryValue.trim()
+
     value = isArray(this.value) ? this.value : []
     value = [...value, this.temporaryValue]
 

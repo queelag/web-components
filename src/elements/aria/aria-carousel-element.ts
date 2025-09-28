@@ -123,8 +123,8 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
 
     this.addEventListener('focusin', this.onFocusIn)
     this.addEventListener('focusout', this.onFocusOut)
-    this.addEventListener('mouseenter', this.onMouseEnter)
-    this.addEventListener('mouseleave', this.onMouseLeave)
+    this.addEventListener('pointerenter', this.onPointerEnter)
+    this.addEventListener('pointerleave', this.onPointerLeave)
 
     if (this.automaticRotation) {
       setInterval(this.onAutomaticRotation, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION, this.uid)
@@ -137,30 +137,30 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
 
     this.removeEventListener('focusin', this.onFocusIn)
     this.removeEventListener('focusout', this.onFocusOut)
-    this.removeEventListener('mouseenter', this.onMouseEnter)
-    this.removeEventListener('mouseleave', this.onMouseLeave)
+    this.removeEventListener('pointerenter', this.onPointerEnter)
+    this.removeEventListener('pointerleave', this.onPointerLeave)
 
     clearInterval(this.uid)
     ElementLogger.verbose(this.uid, 'disconnectedCallback', `The automatic rotation has been stopped.`)
   }
 
   onFocusIn(): void {
-    this.onFocusInOrMouseEnter('onFocusIn')
+    this.onFocusInOrPointerEnter('onFocusIn')
   }
 
   onFocusOut(): void {
-    this.onFocusOutOrMouseLeave('onFocusOut')
+    this.onFocusOutOrPointerLeave('onFocusOut')
   }
 
-  onMouseEnter(): void {
-    this.onFocusInOrMouseEnter('onMouseEnter')
+  onPointerEnter(): void {
+    this.onFocusInOrPointerEnter('onPointerEnter')
   }
 
-  onMouseLeave(): void {
-    this.onFocusOutOrMouseLeave('onMouseLeave')
+  onPointerLeave(): void {
+    this.onFocusOutOrPointerLeave('onPointerLeave')
   }
 
-  onFocusOutOrMouseLeave(fn: string): void {
+  onFocusOutOrPointerLeave(fn: string): void {
     if (this.forceAutomaticRotation || !this.automaticRotation) {
       return ElementLogger.verbose(this.uid, fn, `The automatic rotation is nor enabled nor forced.`)
     }
@@ -175,7 +175,7 @@ class AriaCarouselElement<E extends AriaCarouselElementEventMap = AriaCarouselEl
     ElementLogger.verbose(this.uid, fn, `The "rotation-resume" event has been dispatched.`)
   }
 
-  onFocusInOrMouseEnter(fn: string): void {
+  onFocusInOrPointerEnter(fn: string): void {
     if (this.forceAutomaticRotation || !this.automaticRotation) {
       return ElementLogger.verbose(this.uid, fn, `The automatic rotation is nor enabled nor forced.`)
     }

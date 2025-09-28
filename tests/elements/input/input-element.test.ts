@@ -3,7 +3,7 @@ import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/input-element'
 import type { AracnaInputElement as InputElement } from '../../../src/elements/input/input-element'
-import { dispatchBlurEvent, dispatchFocusEvent, dispatchInputEvent, dispatchKeyUpEvent, render } from '../../../vitest/dom-utils'
+import { dispatchInputEvent, dispatchKeyDownEvent, render } from '../../../vitest/dom-utils'
 
 describe('InputElement', () => {
   let input: InputElement, native: HTMLInputElement
@@ -32,10 +32,10 @@ describe('InputElement', () => {
     await render(input)
     expect(input.focused).toBeFalsy()
 
-    dispatchFocusEvent(native)
+    input.focus()
     expect(input.focused).toBeTruthy()
 
-    dispatchBlurEvent(native)
+    native.blur()
     expect(input.focused).toBeFalsy()
   })
 
@@ -204,13 +204,13 @@ describe('InputElement', () => {
     expect(native.value).toBe('hello')
     expect(input.value).toBeUndefined()
 
-    dispatchKeyUpEvent(native, KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ENTER, native)
 
     expect(native.value).toBe('')
     expect(input.value).toStrictEqual(['hello'])
 
     dispatchInputEvent(native, 'world')
-    dispatchKeyUpEvent(native, KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ENTER, native)
 
     expect(input.value).toStrictEqual(['hello', 'world'])
 

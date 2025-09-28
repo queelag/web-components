@@ -1,5 +1,9 @@
+/// <reference types="@vitest/browser/providers/webdriverio" />
+
 import { wf } from '@aracna/core'
-import { type ElementAttributeValue, setElementAttributes } from '@aracna/web'
+import { type ElementAttributeValue, KeyboardEventKey, setElementAttributes } from '@aracna/web'
+import { userEvent } from '@vitest/browser/context'
+import { ButtonNames } from 'webdriverio'
 
 function waitForElementRender(selectors: string): Promise<void | Error> {
   return wf(
@@ -64,14 +68,6 @@ export function dispatchFocusOutEvent<T extends HTMLElement>(element: T | null):
 }
 
 /**
- * FORM EVENTS
- */
-
-export function dispatchSubmitEvent<T extends HTMLFormElement>(element: T | null): void {
-  return dispatchEvent(element, new Event('submit'))
-}
-
-/**
  * INPUT EVENTS
  */
 
@@ -112,54 +108,62 @@ export function dispatchInputFileEvent(input: HTMLInputElement | null, files: Fi
  * KEYBOARD EVENTS
  */
 
-export function dispatchKeyDownEvent<T extends HTMLElement>(element: T | null, key: string, init?: KeyboardEventInit): void {
-  return dispatchEvent(element, new KeyboardEvent('keydown', { key, ...init }))
+export async function dispatchKeyDownEvent<T extends HTMLElement>(key: KeyboardEventKey | string, element?: T | null): Promise<void> {
+  let text: string
+
+  text = Object.values(KeyboardEventKey).includes(key as KeyboardEventKey) ? `{${key}}` : key
+
+  if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+    return userEvent.type(element, text)
+  }
+
+  if (element) {
+    element.focus()
+  }
+
+  return userEvent.keyboard(text)
 }
 
-export function dispatchKeyUpEvent<T extends HTMLElement>(element: T | null, key: string, init?: KeyboardEventInit): void {
-  return dispatchEvent(element, new KeyboardEvent('keyup', { key, ...init }))
+export async function dispatchKeyUpEvent<T extends HTMLElement>(key: KeyboardEventKey | string, element?: T | null): Promise<void> {
+  let text: string
+
+  text = Object.values(KeyboardEventKey).includes(key as KeyboardEventKey) ? `{/${key}}` : key
+
+  if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+    return userEvent.type(element, text)
+  }
+
+  if (element) {
+    element.focus()
+  }
+
+  return userEvent.keyboard(text)
 }
 
 /**
- * MOUSE EVENTS
+ * POINTER EVENTS
  */
 
 export function dispatchClickEvent<T extends HTMLElement>(element: T | null, init?: MouseEventInit): void {
   return dispatchEvent(element, new MouseEvent('click', init))
 }
 
-export function dispatchMouseDownEvent<T extends HTMLElement>(element: T | null): void {
-  return dispatchEvent(element, new MouseEvent('mousedown'))
+export async function dispatchPointerDownEvent<T extends HTMLElement>(element: T | null, button?: ButtonNames): Promise<void> {
+  return dispatchEvent(element, new PointerEvent('pointerdown'))
 }
 
-export function dispatchMouseEnterEvent<T extends HTMLElement>(element: T | null): void {
-  return dispatchEvent(element, new MouseEvent('mouseenter'))
+export function dispatchPointerEnterEvent<T extends HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new PointerEvent('pointerenter'))
 }
 
-export function dispatchMouseLeaveEvent<T extends HTMLElement>(element: T | null): void {
-  return dispatchEvent(element, new MouseEvent('mouseleave'))
+export function dispatchPointerLeaveEvent<T extends HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new PointerEvent('pointerleave'))
 }
 
-export function dispatchMouseMoveEvent<T extends Document | HTMLElement>(element: T | null, init?: MouseEventInit): void {
-  return dispatchEvent(element, new MouseEvent('mousemove', init))
+export function dispatchPointerMoveEvent<T extends Document | HTMLElement>(element: T | null, init?: PointerEventInit): void {
+  return dispatchEvent(element, new PointerEvent('pointermove', init))
 }
 
-export function dispatchMouseUpEvent<T extends Document | HTMLElement>(element: T | null): void {
-  return dispatchEvent(element, new MouseEvent('mouseup'))
-}
-
-/**
- * TOUCH EVENTS
- */
-
-export function dispatchTouchEndEvent<T extends HTMLElement>(element: T | null): void {
-  return dispatchEvent(element, new TouchEvent('touchend'))
-}
-
-export function dispatchTouchMoveEvent<T extends HTMLElement>(element: T | null, init?: TouchEventInit): void {
-  return dispatchEvent(element, new TouchEvent('touchmove', init))
-}
-
-export function dispatchTouchStartEvent<T extends HTMLElement>(element: T | null): void {
-  return dispatchEvent(element, new TouchEvent('touchstart'))
+export function dispatchPointerUpEvent<T extends Document | HTMLElement>(element: T | null): void {
+  return dispatchEvent(element, new PointerEvent('pointerup'))
 }

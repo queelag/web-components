@@ -284,7 +284,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_DOWN and expect the combobox to expand, every option should be blurred and unselected
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN, button)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -300,7 +300,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ESCAPE and expect the combobox to collapse
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ESCAPE)
+    await dispatchKeyDownEvent(KeyboardEventKey.ESCAPE)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).toBeNull()
@@ -316,7 +316,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_UP and expect the combobox to expand, every option should be blurred and unselected
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -332,7 +332,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_DOWN again and expect the first option to be focused
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -348,7 +348,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ENTER and expect the first option to be selected and unfocused, the combobox should be collapsed
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).toBeNull()
@@ -364,7 +364,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_UP and expect the combobox to expand, the first option should be focused and selected
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -380,7 +380,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_UP again and nothing happens since there is no infinite focus
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -396,7 +396,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_DOWN and expect the next option to be focused
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -412,7 +412,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_DOWN again and nothing happens since there is no infinite focus
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -428,7 +428,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press SPACE and expect the second option to be selected and unfocused, the combobox should be collapsed
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.SPACE)
+    await dispatchKeyDownEvent(KeyboardEventKey.SPACE)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).toBeNull()
@@ -444,7 +444,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ENTER and expect the combobox to be expanded, the second option should be focused and selected
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -460,7 +460,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press HOME and expect the first option to be focused
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.HOME)
+    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -476,7 +476,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press END and expect the last option to be focused
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.END)
+    await dispatchKeyDownEvent(KeyboardEventKey.END)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -492,7 +492,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ESCAPE and expect the combobox to be collapsed
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ESCAPE)
+    await dispatchKeyDownEvent(KeyboardEventKey.ESCAPE)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).toBeNull()
@@ -508,7 +508,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Type "c" and expect the first option to be focused, the combobox should be expanded
      */
-    dispatchKeyDownEvent(combobox, 'c')
+    await dispatchKeyDownEvent('c')
     await combobox.updateComplete
     await sleep(100)
 
@@ -526,9 +526,9 @@ describe('AriaComboBoxElement', () => {
      * Sleep for 100ms to let the typeahed value reset, type "dog" and expect the second option to be focused
      */
     await sleep(100)
-    dispatchKeyDownEvent(combobox, 'd')
-    dispatchKeyDownEvent(combobox, 'o')
-    dispatchKeyDownEvent(combobox, 'g')
+    await dispatchKeyDownEvent('d')
+    await dispatchKeyDownEvent('o')
+    await dispatchKeyDownEvent('g')
     await combobox.updateComplete
     await sleep(100)
 
@@ -553,7 +553,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_DOWN and expect the combobox to expand, the first option should be focused
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN, ninput)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -569,7 +569,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ESCAPE and expect the combobox to collapse
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ESCAPE)
+    await dispatchKeyDownEvent(KeyboardEventKey.ESCAPE)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).toBeNull()
@@ -585,7 +585,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_UP and expect the combobox to expand, the last option should be focused
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -601,7 +601,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_DOWN and expect the first option to be focused
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -617,7 +617,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_UP and expect the second option to be focused
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -633,7 +633,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ENTER and expect the second option to be selected and unfocused, the combobox should be collapsed
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).toBeNull()
@@ -649,7 +649,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_DOWN and expect the combobox to expand, the second option should be focused and selected
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -665,7 +665,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_DOWN again and expect the first option to be focused
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -681,7 +681,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ESCAPE and expect the combobox to collapse
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ESCAPE)
+    await dispatchKeyDownEvent(KeyboardEventKey.ESCAPE)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).toBeNull()
@@ -697,7 +697,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_UP and expect the combobox to expand, the second option should be focused and selected
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -713,7 +713,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ARROW_UP again and expect the first option to be focused
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -729,7 +729,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ENTER and expect the second option to be selected and unfocused, the combobox should be collapsed
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).toBeNull()
@@ -745,7 +745,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ENTER again and expect the combobox to expand, the first option should be focused and selected
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -761,7 +761,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press END and expect the last option to be focused
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.END)
+    await dispatchKeyDownEvent(KeyboardEventKey.END)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -777,7 +777,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press HOME and expect the first option to be focused
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.HOME)
+    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).not.toBeNull()
@@ -793,7 +793,7 @@ describe('AriaComboBoxElement', () => {
     /**
      * Press ESCAPE and expect the combobox to be collapsed
      */
-    dispatchKeyDownEvent(combobox, KeyboardEventKey.ESCAPE)
+    await dispatchKeyDownEvent(KeyboardEventKey.ESCAPE, ninput)
     await combobox.updateComplete
 
     expect(combobox.getAttribute('expanded')).toBeNull()
@@ -807,16 +807,16 @@ describe('AriaComboBoxElement', () => {
     expect(o2.getAttribute('selected')).toBeNull()
 
     /**
-     * Type "d" and nothing happens since typeahead is disabled when there is an input
+     * Type "d" and expect the combobox to expand, the second option should be focused
      */
-    dispatchKeyDownEvent(combobox, 'd')
+    await dispatchKeyDownEvent('d', ninput)
     await combobox.updateComplete
 
-    expect(combobox.getAttribute('expanded')).toBeNull()
-    expect(ninput.getAttribute('aria-expanded')).toBe('false')
-    expect(ninput.getAttribute('aria-activedescendant')).toBeNull()
+    expect(combobox.getAttribute('expanded')).not.toBeNull()
+    expect(ninput.getAttribute('aria-expanded')).toBe('true')
+    expect(ninput.getAttribute('aria-activedescendant')).toBe(o1.id)
     expect(o1.getAttribute('aria-selected')).toBe('true')
-    expect(o1.getAttribute('focused')).toBeNull()
+    expect(o1.getAttribute('focused')).not.toBeNull()
     expect(o1.getAttribute('selected')).not.toBeNull()
     expect(o2.getAttribute('aria-selected')).toBeNull()
     expect(o2.getAttribute('focused')).toBeNull()

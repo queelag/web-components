@@ -179,8 +179,8 @@ export interface AriaListBoxOptionElementAttributes extends BaseElementAttribute
 
 export interface AriaMenuElementAttributes<T> extends TypeaheadElementAttributes<T> {
   'collapse-debounce-time'?: number
-  'collapse-on-mouse-leave'?: boolean
-  'expand-on-mouse-enter'?: boolean
+  'collapse-on-pointer-leave'?: boolean
+  'expand-on-pointer-enter'?: boolean
   label?: string
 }
 
@@ -241,7 +241,7 @@ export interface AriaTabsPanelElementAttributes extends BaseElementAttributes {}
 
 export interface AriaTooltipElementAttributes extends BaseElementAttributes {
   focusable?: boolean
-  'show-on-mouse-enter'?: boolean
+  'show-on-pointer-enter'?: boolean
   visible?: boolean
 }
 

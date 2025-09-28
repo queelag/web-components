@@ -13,13 +13,11 @@ import type {
   AracnaAriaCarouselTabsElement as AriaCarouselTabsElement
 } from '../../../src/elements/aria/aria-carousel-element'
 import {
-  dispatchBlurEvent,
-  dispatchFocusEvent,
   dispatchFocusInEvent,
   dispatchFocusOutEvent,
   dispatchKeyDownEvent,
-  dispatchMouseEnterEvent,
-  dispatchMouseLeaveEvent,
+  dispatchPointerEnterEvent,
+  dispatchPointerLeaveEvent,
   render
 } from '../../../vitest/dom-utils'
 
@@ -275,7 +273,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Press ARROW_RIGHT and expect the second slide and tab to be active
      */
-    dispatchKeyDownEvent(tabs, KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t1)
     await tabs.updateComplete
 
     expect(s1.active).toBeFalsy()
@@ -286,7 +284,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Press ARROW_RIGHT and nothing happens since there is no infinite rotation
      */
-    dispatchKeyDownEvent(tabs, KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
     await tabs.updateComplete
 
     expect(s1.active).toBeFalsy()
@@ -297,7 +295,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Press ARROW_LEFT and expect the first slide and tab to be active
      */
-    dispatchKeyDownEvent(tabs, KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
     await tabs.updateComplete
 
     expect(s1.active).toBeTruthy()
@@ -308,7 +306,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Press ARROW_LEFT and nothing happens since there is no infinite rotation
      */
-    dispatchKeyDownEvent(tabs, KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
     await tabs.updateComplete
 
     expect(s1.active).toBeTruthy()
@@ -319,7 +317,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Press END and expect the last slide and tab to be active
      */
-    dispatchKeyDownEvent(tabs, KeyboardEventKey.END)
+    await dispatchKeyDownEvent(KeyboardEventKey.END)
     await tabs.updateComplete
 
     expect(s1.active).toBeFalsy()
@@ -330,7 +328,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Press HOME and expect the first slide and tab to be active
      */
-    dispatchKeyDownEvent(tabs, KeyboardEventKey.HOME)
+    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
     await tabs.updateComplete
 
     expect(s1.active).toBeTruthy()
@@ -465,7 +463,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Enter the carousel with the mouse and sleep for 100ms to assert that the automatic rotation was stopped
      */
-    dispatchMouseEnterEvent(carousel)
+    dispatchPointerEnterEvent(carousel)
     await sleep(100)
 
     expect(carousel.getAttribute('live')).toBe('off')
@@ -476,7 +474,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Leave the carousel with the mouse and sleep for 100ms to assert that the automatic rotation was resumed
      */
-    dispatchMouseLeaveEvent(carousel)
+    dispatchPointerLeaveEvent(carousel)
     await sleep(100)
 
     expect(carousel.getAttribute('live')).toBe('off')
@@ -509,7 +507,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Focus the carousel and sleep for 100ms to assert that the automatic rotation is still running
      */
-    dispatchFocusEvent(carousel)
+    carousel.focus()
     await sleep(100)
 
     expect(carousel.getAttribute('live')).toBe('off')
@@ -520,7 +518,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Blur the carousel and sleep for 100ms to assert that the automatic rotation is still running
      */
-    dispatchBlurEvent(carousel)
+    carousel.blur()
     await sleep(100)
 
     expect(carousel.getAttribute('live')).toBe('off')

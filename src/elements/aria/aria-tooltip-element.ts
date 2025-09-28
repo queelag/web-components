@@ -33,7 +33,7 @@ class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipEleme
    */
   /** */
   focusable?: boolean
-  showOnMouseEnter?: boolean
+  showOnPointerEnter?: boolean
   visible?: boolean
 
   /**
@@ -85,9 +85,9 @@ class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipEleme
 
   static properties: PropertyDeclarations = {
     focusable: { type: Boolean, reflect: true },
-    showOnMouseEnter: {
+    showOnPointerEnter: {
       type: Boolean,
-      attribute: 'show-on-mouse-enter',
+      attribute: 'show-on-pointer-enter',
       reflect: true
     },
     visible: { type: Boolean, reflect: true }
@@ -178,8 +178,8 @@ class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = Ar
     this.addEventListener('blur', this.onBlur)
     this.addEventListener('click', this.onClick)
     this.addEventListener('focus', this.onFocus)
-    this.addEventListener('mouseenter', this.onMouseEnter)
-    this.addEventListener('mouseleave', this.onMouseLeave)
+    this.addEventListener('pointerenter', this.onPointerEnter)
+    this.addEventListener('pointerleave', this.onPointerLeave)
   }
 
   disconnectedCallback(): void {
@@ -188,8 +188,8 @@ class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = Ar
     this.removeEventListener('blur', this.onBlur)
     this.removeEventListener('click', this.onClick)
     this.removeEventListener('focus', this.onFocus)
-    this.removeEventListener('mouseenter', this.onMouseEnter)
-    this.removeEventListener('mouseleave', this.onMouseLeave)
+    this.removeEventListener('pointerenter', this.onPointerEnter)
+    this.removeEventListener('pointerleave', this.onPointerLeave)
   }
 
   onBlur = (): void => {
@@ -219,21 +219,21 @@ class AriaTooltipTriggerElement<E extends AriaTooltipTriggerElementEventMap = Ar
     this.rootElement.show()
   }
 
-  onMouseEnter = (): void => {
-    if (!this.rootElement?.showOnMouseEnter) {
+  onPointerEnter = (): void => {
+    if (!this.rootElement?.showOnPointerEnter) {
       return
     }
 
-    ElementLogger.verbose(this.uid, 'onMouseEnter', `Showing the tooltip.`)
+    ElementLogger.verbose(this.uid, 'onPointerEnter', `Showing the tooltip.`)
     this.rootElement.show()
   }
 
-  onMouseLeave = (): void => {
+  onPointerLeave = (): void => {
     if (!this.rootElement) {
       return
     }
 
-    ElementLogger.verbose(this.uid, 'onMouseLeave', `Hiding the tooltip.`)
+    ElementLogger.verbose(this.uid, 'onPointerLeave', `Hiding the tooltip.`)
     this.rootElement.hide()
   }
 

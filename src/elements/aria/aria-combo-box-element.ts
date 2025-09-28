@@ -851,14 +851,14 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
     super.connectedCallback()
 
     this.addEventListener('click', this.onClick)
-    this.addEventListener('mousedown', this.onMouseDown)
+    this.addEventListener('pointerdown', this.onPointerDown)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
 
     this.removeEventListener('click', this.onClick)
-    this.removeEventListener('mousedown', this.onMouseDown)
+    this.removeEventListener('pointerdown', this.onPointerDown)
   }
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -993,7 +993,7 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
     }
   }
 
-  onMouseDown = (event: MouseEvent): void => {
+  onPointerDown = (event: PointerEvent): void => {
     event.preventDefault()
   }
 

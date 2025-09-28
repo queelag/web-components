@@ -35,8 +35,8 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
    */
   /** */
   collapseDebounceTime?: number
-  collapseOnMouseLeave?: boolean
-  expandOnMouseEnter?: boolean
+  collapseOnPointerLeave?: boolean
+  expandOnPointerEnter?: boolean
   label?: string
   typeaheadDebounceTime?: number
   typeaheadPredicate?: TypeaheadPredicate<AriaMenuItemElement>
@@ -176,8 +176,8 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
         item = this.shallowItemElements[this.shallowFocusedItemElementIndex - 1]
 
         if (item) {
+          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Focusing the previous item.`, item)
           item.focus()
-          ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The previous item has been focused.`)
         }
 
         if (this.collapsed) {
@@ -510,14 +510,14 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
       attribute: 'collapse-debounce-time',
       reflect: true
     },
-    collapseOnMouseLeave: {
+    collapseOnPointerLeave: {
       type: Boolean,
-      attribute: 'collapse-on-mouse-leave',
+      attribute: 'collapse-on-pointer-leave',
       reflect: true
     },
-    expandOnMouseEnter: {
+    expandOnPointerEnter: {
       type: Boolean,
-      attribute: 'expand-on-mouse-enter',
+      attribute: 'expand-on-pointer-enter',
       reflect: true
     },
     label: { type: String, reflect: true },
@@ -562,22 +562,22 @@ class AriaMenuButtonElement<E extends AriaMenuButtonElementEventMap = AriaMenuBu
    * Internals
    */
   /** */
-  mouseEntered?: boolean
+  pointerEntered?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
 
     this.addEventListener('click', this.onClick)
-    this.addEventListener('mouseenter', this.onMouseEnter)
-    this.addEventListener('mouseleave', this.onMouseLeave)
+    this.addEventListener('pointerenter', this.onPointerEnter)
+    this.addEventListener('pointerleave', this.onPointerLeave)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
 
     this.removeEventListener('click', this.onClick)
-    this.removeEventListener('mouseenter', this.onMouseEnter)
-    this.removeEventListener('mouseleave', this.onMouseLeave)
+    this.removeEventListener('pointerenter', this.onPointerEnter)
+    this.removeEventListener('pointerleave', this.onPointerLeave)
   }
 
   onClick(): void {
@@ -605,52 +605,52 @@ class AriaMenuButtonElement<E extends AriaMenuButtonElementEventMap = AriaMenuBu
     }
   }
 
-  onMouseEnter(): void {
-    this.mouseEntered = true
-    ElementLogger.verbose(this.uid, 'onMouseEnter', `The mouse has entered.`)
+  onPointerEnter(): void {
+    this.pointerEntered = true
+    ElementLogger.verbose(this.uid, 'onPointerEnter', `The pointer has entered.`)
 
-    if (this.rootElement?.expandOnMouseEnter) {
+    if (this.rootElement?.expandOnPointerEnter) {
       if (this.rootElement.subMenuElement) {
-        ElementLogger.verbose(this.uid, 'onMouseEnter', `Expanding the submenu.`, this.rootElement.subMenuElement)
+        ElementLogger.verbose(this.uid, 'onPointerEnter', `Expanding the submenu.`, this.rootElement.subMenuElement)
         this.rootElement.subMenuElement.expand()
       }
 
       this.focus()
-      ElementLogger.verbose(this.uid, 'onMouseEnter', `The button has been focused.`)
+      ElementLogger.verbose(this.uid, 'onPointerEnter', `The button has been focused.`)
     }
   }
 
-  onMouseLeave(): void {
-    this.mouseEntered = false
-    ElementLogger.verbose(this.uid, 'onMouseEnter', `The mouse has left.`)
+  onPointerLeave(): void {
+    this.pointerEntered = false
+    ElementLogger.verbose(this.uid, 'onPointerEnter', `The pointer has left.`)
 
-    debounce(this.onMouseLeaveDebounce, this.rootElement?.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, this.uid)
+    debounce(this.onPointerLeaveDebounce, this.rootElement?.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, this.uid)
   }
 
-  onMouseLeaveDebounce = (): void => {
-    if (!this.rootElement?.collapseOnMouseLeave) {
-      return ElementLogger.verbose(this.uid, 'onMouseLeave', `The menu should not collapse on mouse leave.`)
+  onPointerLeaveDebounce = (): void => {
+    if (!this.rootElement?.collapseOnPointerLeave) {
+      return ElementLogger.verbose(this.uid, 'onPointerLeave', `The menu should not collapse on pointer leave.`)
     }
 
-    if (this.mouseEntered) {
-      return ElementLogger.verbose(this.uid, 'onMouseLeave', `The mouse is still inside.`)
+    if (this.pointerEntered) {
+      return ElementLogger.verbose(this.uid, 'onPointerLeave', `The pointer is still inside.`)
     }
 
     if (!this.rootElement.subMenuElement) {
-      return ElementLogger.verbose(this.uid, 'onMouseLeave', `The menu has no submenu.`)
+      return ElementLogger.verbose(this.uid, 'onPointerLeave', `The menu has no submenu.`)
     }
 
     for (let item of this.rootElement.subMenuElement.itemElements) {
-      if (item.mouseEntered) {
-        return ElementLogger.verbose(this.uid, 'onMouseLeave', `The mouse is still inside of the items.`, item)
+      if (item.pointerEntered) {
+        return ElementLogger.verbose(this.uid, 'onPointerLeave', `The pointer is still inside of the items.`, item)
       }
     }
 
-    ElementLogger.verbose(this.uid, 'onMouseLeave', `Collapsing the submenu.`, this.rootElement.subMenuElement)
+    ElementLogger.verbose(this.uid, 'onPointerLeave', `Collapsing the submenu.`, this.rootElement.subMenuElement)
     this.rootElement.subMenuElement.collapse()
 
     this.focus()
-    ElementLogger.verbose(this.uid, 'onMouseLeave', `The button has been focused.`)
+    ElementLogger.verbose(this.uid, 'onPointerLeave', `The button has been focused.`)
   }
 
   get slug(): ElementSlug {
@@ -693,7 +693,7 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
    * Internals
    */
   /** */
-  mouseEntered?: boolean
+  pointerEntered?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -701,8 +701,8 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
     this.addEventListener('click', this.onClick)
     this.addEventListener('blur', this.onBlur)
     this.addEventListener('focus', this.onFocus)
-    this.addEventListener('mouseenter', this.onMouseEnter)
-    this.addEventListener('mouseleave', this.onMouseLeave)
+    this.addEventListener('pointerenter', this.onPointerEnter)
+    this.addEventListener('pointerleave', this.onPointerLeave)
   }
 
   disconnectedCallback(): void {
@@ -711,8 +711,8 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
     this.removeEventListener('click', this.onClick)
     this.removeEventListener('blur', this.onBlur)
     this.removeEventListener('focus', this.onFocus)
-    this.removeEventListener('mouseenter', this.onMouseEnter)
-    this.removeEventListener('mouseleave', this.onMouseLeave)
+    this.removeEventListener('pointerenter', this.onPointerEnter)
+    this.removeEventListener('pointerleave', this.onPointerLeave)
   }
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -760,59 +760,59 @@ class AriaMenuItemElement<E extends AriaMenuItemElementEventMap = AriaMenuItemEl
     }
   }
 
-  onMouseEnter(): void {
-    this.mouseEntered = true
-    ElementLogger.verbose(this.uid, 'onMouseEnter', `The mouse is inside.`)
+  onPointerEnter(): void {
+    this.pointerEntered = true
+    ElementLogger.verbose(this.uid, 'onPointerEnter', `The pointer is inside.`)
 
     if (this.sameDepthExpandedSubMenuElement) {
-      ElementLogger.verbose(this.uid, 'onMouseEnter', `Collapsing the same depth submenu.`, this.sameDepthExpandedSubMenuElement)
+      ElementLogger.verbose(this.uid, 'onPointerEnter', `Collapsing the same depth submenu.`, this.sameDepthExpandedSubMenuElement)
       this.sameDepthExpandedSubMenuElement.collapse()
     }
 
     if (this.subMenuElement) {
       switch (true) {
         case this.rootElement?.expanded:
-        case this.rootElement?.expandOnMouseEnter && this.shallow:
+        case this.rootElement?.expandOnPointerEnter && this.shallow:
         // case this.sameDepthExpandedSubMenuElement !== null:
         case this.subMenuElement.deep:
-          ElementLogger.verbose(this.uid, 'onMouseEnter', `Expanding the submenu.`, this.subMenuElement)
+          ElementLogger.verbose(this.uid, 'onPointerEnter', `Expanding the submenu.`, this.subMenuElement)
           this.subMenuElement.expand()
 
           break
       }
     }
 
-    ElementLogger.verbose(this.uid, 'onMouseEnter', `Focusing the item.`)
+    ElementLogger.verbose(this.uid, 'onPointerEnter', `Focusing the item.`)
     this.focus()
   }
 
-  onMouseLeave(): void {
-    this.mouseEntered = false
-    ElementLogger.verbose(this.uid, 'onMouseLeave', `The mouse is outside.`)
+  onPointerLeave(): void {
+    this.pointerEntered = false
+    ElementLogger.verbose(this.uid, 'onPointerLeave', `The pointer is outside.`)
 
-    debounce(this.onMouseLeaveDebounce, this.rootElement?.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, this.uid)
+    debounce(this.onPointerLeaveDebounce, this.rootElement?.collapseDebounceTime ?? DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, this.uid)
   }
 
-  onMouseLeaveDebounce = (): void => {
-    if (!this.rootElement?.collapseOnMouseLeave) {
-      return ElementLogger.verbose(this.uid, 'onMouseLeave', `The menu should not collapse on mouse leave.`)
+  onPointerLeaveDebounce = (): void => {
+    if (!this.rootElement?.collapseOnPointerLeave) {
+      return ElementLogger.verbose(this.uid, 'onPointerLeave', `The menu should not collapse on pointer leave.`)
     }
 
-    if (this.mouseEntered) {
-      return ElementLogger.verbose(this.uid, 'onMouseLeave', `The mouse is still inside.`)
+    if (this.pointerEntered) {
+      return ElementLogger.verbose(this.uid, 'onPointerLeave', `The pointer is still inside.`)
     }
 
-    if (this.rootElement.buttonElement?.mouseEntered) {
-      return ElementLogger.verbose(this.uid, 'onMouseLeave', `The mouse is inside the button.`)
+    if (this.rootElement.buttonElement?.pointerEntered) {
+      return ElementLogger.verbose(this.uid, 'onPointerLeave', `The pointer is inside the button.`)
     }
 
     if (this.subMenuElement) {
-      ElementLogger.verbose(this.uid, 'onMouseLeave', `Collapsing the submenu.`, this.subMenuElement)
+      ElementLogger.verbose(this.uid, 'onPointerLeave', `Collapsing the submenu.`, this.subMenuElement)
       this.subMenuElement.collapse()
     }
 
     if (this.deep) {
-      ElementLogger.verbose(this.uid, 'onMouseLeave', `Blurring the item.`)
+      ElementLogger.verbose(this.uid, 'onPointerLeave', `Blurring the item.`)
       this.blur()
     }
   }

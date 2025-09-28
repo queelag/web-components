@@ -381,14 +381,14 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
     super.connectedCallback()
 
     this.addEventListener('click', this.onClick)
-    this.addEventListener('mousedown', this.onMouseDown)
+    this.addEventListener('pointerdown', this.onPointerDown)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
 
     this.removeEventListener('click', this.onClick)
-    this.removeEventListener('mousedown', this.onMouseDown)
+    this.removeEventListener('pointerdown', this.onPointerDown)
   }
 
   onClick = (): void => {
@@ -416,7 +416,7 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
     this.focus()
   }
 
-  onMouseDown = (event: MouseEvent): void => {
+  onPointerDown = (event: PointerEvent): void => {
     // event.preventDefault()
   }
 

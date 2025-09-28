@@ -2,7 +2,7 @@ import { KeyboardEventKey } from '@aracna/web'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import '../../../src/elements/input/text-area-element'
 import type { AracnaTextAreaElement as TextAreaElement } from '../../../src/elements/input/text-area-element'
-import { dispatchInputEvent, dispatchKeyUpEvent, render } from '../../../vitest/dom-utils'
+import { dispatchInputEvent, dispatchKeyDownEvent, render } from '../../../vitest/dom-utils'
 
 describe('TextAreaElement', () => {
   let textarea: TextAreaElement, native: HTMLTextAreaElement
@@ -44,12 +44,12 @@ describe('TextAreaElement', () => {
     expect(native.value).toBe('hello')
     expect(textarea.value).toBeUndefined()
 
-    dispatchKeyUpEvent(native, KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ENTER, native)
     expect(native.value).toBe('')
     expect(textarea.value).toStrictEqual(['hello'])
 
     dispatchInputEvent(native, 'world')
-    dispatchKeyUpEvent(native, KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ENTER, native)
     expect(textarea.value).toStrictEqual(['hello', 'world'])
 
     textarea.removeItem('hello')

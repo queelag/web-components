@@ -4,7 +4,6 @@ import { Mock, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { FormErrors } from '../../../src/definitions/types'
 import { AracnaFormControlElement as FormControlElement } from '../../../src/elements/core/form-control-element'
 import '../../../src/elements/input/button-element'
-import { AracnaButtonElement as ButtonElement } from '../../../src/elements/input/button-element'
 import '../../../src/elements/input/check-box-element'
 import { AracnaCheckBoxElement as CheckBoxElement } from '../../../src/elements/input/check-box-element'
 import '../../../src/elements/input/form-element'
@@ -24,15 +23,19 @@ import { AracnaSwitchElement as SwitchElement } from '../../../src/elements/inpu
 import '../../../src/elements/input/text-area-element'
 import { AracnaTextAreaElement as TextAreaElement } from '../../../src/elements/input/text-area-element'
 import { FormSubmitEvent } from '../../../src/events/form-submit-event'
-import { dispatchClickEvent, dispatchSubmitEvent, render } from '../../../vitest/dom-utils'
+import { render } from '../../../vitest/dom-utils'
 
 describe('FormElement', () => {
-  let form: FormElement, native: HTMLFormElement, onSubmit: Mock
+  let form: FormElement, native: HTMLFormElement, button: HTMLButtonElement, onSubmit: Mock
 
   beforeEach(() => {
     form = document.createElement('aracna-form')
     native = document.createElement('form')
 
+    button = document.createElement('button')
+    button.type = 'submit'
+
+    native.append(button)
     form.append(native)
 
     onSubmit = vi.fn()
@@ -50,7 +53,7 @@ describe('FormElement', () => {
   it('submits', async () => {
     await render(form, {}, { 'form-submit': onSubmit })
 
-    dispatchSubmitEvent(native)
+    native.requestSubmit()
     expect(onSubmit).toBeCalledTimes(1)
   })
 
@@ -62,7 +65,7 @@ describe('FormElement', () => {
 
     await render(form, { async: 'true' }, { 'form-submit': onSubmit })
 
-    dispatchSubmitEvent(native)
+    native.requestSubmit()
 
     expect(onSubmit).toBeCalledTimes(1)
     expect(form.getAttribute('disabled')).toBeDefined()
@@ -77,7 +80,7 @@ describe('FormElement', () => {
   it('does not submit if the form is disabled', async () => {
     await render(form, { disabled: 'true' }, { 'form-submit': onSubmit })
 
-    dispatchSubmitEvent(native)
+    native.requestSubmit()
     expect(onSubmit).toBeCalledTimes(0)
   })
 
@@ -111,7 +114,8 @@ describe('FormElement', () => {
 
     expect(form.controlElements).toHaveLength(8)
 
-    dispatchSubmitEvent(native)
+    native.requestSubmit()
+
     expect(onSubmit).toBeCalledTimes(1)
     expect(controls).toHaveLength(8)
   })
@@ -132,38 +136,35 @@ describe('FormElement', () => {
 
     await render(form, {}, { 'form-submit': onSubmit })
 
-    dispatchSubmitEvent(native)
+    native.requestSubmit()
+
     expect(onSubmit).toBeCalledTimes(1)
     expect(errors?.name).toBeDefined()
 
     input.value = 'a'
 
-    dispatchSubmitEvent(native)
+    native.requestSubmit()
+
     expect(onSubmit).toBeCalledTimes(2)
     expect(errors).toBeUndefined()
   })
 
   it('works with a child button of type submit', async () => {
-    let button: ButtonElement = document.createElement('aracna-button')
-
-    button.type = 'submit'
-    form.append(button)
-
     await render(form, {}, { 'form-submit': onSubmit })
     await sleep(100)
 
-    dispatchClickEvent(button)
+    button.click()
     expect(onSubmit).toBeCalledTimes(1)
 
     button.remove()
 
-    button = document.createElement('aracna-button')
+    button = document.createElement('button')
     button.type = 'submit'
 
     form.append(button)
     await sleep(100)
 
-    dispatchClickEvent(button)
+    button.click()
     expect(onSubmit).toBeCalledTimes(2)
   })
 
@@ -183,7 +184,8 @@ describe('FormElement', () => {
 
     await render(form, {}, { 'form-submit': onSubmit })
 
-    dispatchSubmitEvent(native)
+    native.requestSubmit()
+
     expect(onSubmit).toBeCalledTimes(1)
     expect(data?.get('name')).toEqual('john')
   })

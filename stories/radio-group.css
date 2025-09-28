@@ -1,0 +1,25 @@
+aracna-radio-group {
+    border: 1px solid gray;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    width: 256px;
+}
+
+aracna-radio-button {
+    border-top: 1px solid gray;
+    padding: 8px;
+
+    &:focus {
+        box-shadow: 0 0 0 2px black;
+        outline: none;
+    }
+
+    &:first-child {
+        border-top: none;
+    }
+
+    &[checked] {
+        background-color: lightgray;
+    }
+}

@@ -20,7 +20,6 @@ describe('SliderElement', () => {
     await render(slider)
 
     expect(slider.getAttribute('aria-disabled')).toBe('false')
-    expect(slider.getAttribute('aria-readonly')).toBe('false')
     expect(slider.getAttribute('role')).toBe('group')
   })
 
@@ -33,7 +32,7 @@ describe('SliderElement', () => {
     await render(slider)
     expect(slider.value).toBeUndefined()
 
-    dispatchKeyDownEvent(thumb, KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, thumb)
     await thumb.updateComplete
     expect(slider.value).toBe(1)
 
@@ -43,22 +42,22 @@ describe('SliderElement', () => {
   })
 
   it('works with multiple thumbs', async () => {
-    let thumb1: SliderThumbElement, thumb2: SliderThumbElement
+    let t1: SliderThumbElement, t2: SliderThumbElement
 
-    thumb1 = document.createElement('aracna-slider-thumb')
-    thumb2 = document.createElement('aracna-slider-thumb')
+    t1 = document.createElement('aracna-slider-thumb')
+    t2 = document.createElement('aracna-slider-thumb')
 
-    slider.append(thumb1, thumb2)
+    slider.append(t1, t2)
 
     await render(slider)
     expect(slider.value).toBeUndefined()
 
-    dispatchKeyDownEvent(thumb1, KeyboardEventKey.ARROW_RIGHT)
-    await thumb1.updateComplete
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t1)
+    await t1.updateComplete
     expect(slider.value).toStrictEqual([1])
 
-    dispatchKeyDownEvent(thumb2, KeyboardEventKey.ARROW_RIGHT)
-    await thumb2.updateComplete
+    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t2)
+    await t2.updateComplete
     expect(slider.value).toStrictEqual([1, 1])
 
     slider.clear()

@@ -32,10 +32,10 @@ describe('AriaButtonElement', () => {
     await render(button)
 
     button.focus()
-    dispatchKeyDownEvent(button, KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
     expect(onClick).toBeCalledTimes(1)
 
-    dispatchKeyDownEvent(button, KeyboardEventKey.SPACE)
+    await dispatchKeyDownEvent(KeyboardEventKey.SPACE)
     expect(onClick).toBeCalledTimes(2)
   })
 

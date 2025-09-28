@@ -7,7 +7,7 @@ import type {
   AracnaAriaTooltipElement as AriaTooltipElement,
   AracnaAriaTooltipTriggerElement as AriaTooltipTriggerElement
 } from '../../../src/elements/aria/aria-tooltip-element'
-import { dispatchKeyDownEvent, dispatchMouseEnterEvent, dispatchMouseLeaveEvent, render } from '../../../vitest/dom-utils'
+import { dispatchKeyDownEvent, dispatchPointerEnterEvent, dispatchPointerLeaveEvent, render } from '../../../vitest/dom-utils'
 
 describe('AriaTooltipElement', () => {
   let tooltip: AriaTooltipElement, arrow: AriaTooltipArrowElement, content: AriaTooltipContentElement, trigger: AriaTooltipTriggerElement
@@ -69,33 +69,33 @@ describe('AriaTooltipElement', () => {
     expect(trigger.getAttribute('tabindex')).toBeNull()
   })
 
-  it('does not show on mouse enter', async () => {
+  it('does not show on pointer enter', async () => {
     await render(tooltip)
 
     expect(tooltip.getAttribute('visible')).toBeNull()
 
-    dispatchMouseEnterEvent(trigger)
+    dispatchPointerEnterEvent(trigger)
     await trigger.updateComplete
 
     expect(tooltip.getAttribute('visible')).toBeNull()
 
-    dispatchMouseLeaveEvent(trigger)
+    dispatchPointerLeaveEvent(trigger)
     await trigger.updateComplete
 
     expect(tooltip.getAttribute('visible')).toBeNull()
   })
 
-  it('shows and hides on mouse events if show on mouse enter is enabled', async () => {
-    await render(tooltip, { 'show-on-mouse-enter': 'true' })
+  it('shows and hides on pointer events if show on pointer enter is enabled', async () => {
+    await render(tooltip, { 'show-on-pointer-enter': 'true' })
 
     expect(tooltip.getAttribute('visible')).toBeNull()
 
-    dispatchMouseEnterEvent(trigger)
+    dispatchPointerEnterEvent(trigger)
     await trigger.updateComplete
 
     expect(tooltip.getAttribute('visible')).not.toBeNull()
 
-    dispatchMouseLeaveEvent(trigger)
+    dispatchPointerLeaveEvent(trigger)
     await trigger.updateComplete
 
     expect(tooltip.getAttribute('visible')).toBeNull()
@@ -113,12 +113,14 @@ describe('AriaTooltipElement', () => {
   })
 
   it('hides when the ESCAPE key is pressed', async () => {
-    await render(tooltip, { visible: 'true' })
+    await render(tooltip, { focusable: 'true', visible: 'true' })
 
     expect(tooltip.getAttribute('visible')).not.toBeNull()
 
-    dispatchKeyDownEvent(tooltip, KeyboardEventKey.ESCAPE)
-    await trigger.updateComplete
+    trigger.focus()
+
+    await dispatchKeyDownEvent(KeyboardEventKey.ESCAPE)
+    await tooltip.updateComplete
 
     expect(tooltip.getAttribute('visible')).toBeNull()
   })

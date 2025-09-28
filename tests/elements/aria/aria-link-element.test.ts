@@ -47,7 +47,7 @@ describe('AriaLinkElement', () => {
 
     window.open = vi.fn()
 
-    dispatchKeyDownEvent(link, KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ENTER, link)
     await link.updateComplete
 
     expect(window.open).toBeCalledTimes(1)

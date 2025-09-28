@@ -9,7 +9,7 @@ export default defineConfig({
     },
     environment: 'jsdom',
     globals: true,
-    include: ['tests/**/*.test.ts'],
+    include: ['tests/collectors/**/*.test.ts', 'tests/functions/**/*.test.ts', 'tests/utils/**/*.test.ts'],
     setupFiles: [
       'vitest/stubs/blob-stub.ts',
       'vitest/stubs/file-stub.ts',

@@ -99,7 +99,7 @@ describe('AriaFeedElement', () => {
     /**
      * Press PAGE_DOWN and expect the next (second) article to be focused
      */
-    dispatchKeyDownEvent(feed, KeyboardEventKey.PAGE_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.PAGE_DOWN)
     await feed.updateComplete
 
     expect(a1.getAttribute('focused')).toBeNull()
@@ -108,7 +108,7 @@ describe('AriaFeedElement', () => {
     /**
      * Press PAGE_UP and expect the previous (first) article to be focused
      */
-    dispatchKeyDownEvent(feed, KeyboardEventKey.PAGE_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.PAGE_UP)
     await feed.updateComplete
 
     expect(a1.getAttribute('focused')).not.toBeNull()
@@ -117,7 +117,7 @@ describe('AriaFeedElement', () => {
     /**
      * Press END and expect the first tabbable element before the feed to be focused
      */
-    // dispatchKeyDownEvent(feed, KeyboardEventKey.END)
+    // await dispatchKeyDownEvent( KeyboardEventKey.END)
     // await feed.updateComplete
 
     // expect(ptabbable).toBe(document.activeElement)
@@ -127,7 +127,7 @@ describe('AriaFeedElement', () => {
     /**
      * Press HOME and expect the first tabbable element after the feed to be focused
      */
-    // dispatchKeyDownEvent(feed, KeyboardEventKey.END)
+    // await dispatchKeyDownEvent( KeyboardEventKey.END)
     // await feed.updateComplete
 
     // expect(ntabbable).toBe(document.activeElement)
