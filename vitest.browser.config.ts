@@ -1,5 +1,4 @@
-/// <reference types="@vitest/browser/providers/webdriverio" />
-
+import { webdriverio } from '@vitest/browser-webdriverio'
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
@@ -7,7 +6,7 @@ export default defineConfig({
     browser: {
       enabled: true,
       instances: [{ browser: 'firefox', headless: true }],
-      provider: 'webdriverio'
+      provider: webdriverio()
     },
     include: ['tests/elements/**/*.test.ts']
   }
