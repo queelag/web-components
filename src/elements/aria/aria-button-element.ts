@@ -21,7 +21,6 @@ class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonElementE
    */
   /** */
   disabled?: boolean
-  protected _label?: string
   pressed?: ButtonPressed
 
   /**
@@ -69,26 +68,12 @@ class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonElementE
     super.click()
   }
 
-  get label(): string | undefined {
-    return this._label
-  }
-
-  set label(value: string | undefined) {
-    let old: string | undefined
-
-    old = this._label
-    this._label = value
-
-    this.requestUpdate('label', old)
-  }
-
   get slug(): ElementSlug {
     return ElementSlug.ARIA_BUTTON
   }
 
   static properties: PropertyDeclarations = {
     disabled: { type: Boolean, reflect: true },
-    label: { type: String, reflect: true },
     pressed: { type: String, reflect: true }
   }
 

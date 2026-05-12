@@ -56,7 +56,6 @@ describe('ButtonElement', () => {
     expect(button.getAttribute('role')).toBeNull()
     expect(button.getAttribute('tabindex')).toBeNull()
 
-    expect(native.ariaLabel).toBe('label')
     expect(native.ariaPressed).toBe('true')
     expect(native.disabled).toBeTruthy()
     expect(native.tabIndex).toBe(0)

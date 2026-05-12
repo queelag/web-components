@@ -1,8 +1,6 @@
-/// <reference types="@vitest/browser/providers/webdriverio" />
-
 import { wf } from '@aracna/core'
 import { type ElementAttributeValue, KeyboardEventKey, setElementAttributes } from '@aracna/web'
-import { userEvent } from '@vitest/browser/context'
+import { userEvent } from 'vitest/browser'
 import { ButtonNames } from 'webdriverio'
 
 function waitForElementRender(selectors: string): Promise<void | Error> {

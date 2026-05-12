@@ -39,7 +39,7 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
       return
     }
 
-    if (['disabled', 'label', 'pressed', 'text', 'type'].includes(name)) {
+    if (['disabled', 'pressed', 'text', 'type'].includes(name)) {
       this.setButtonElementAttributes()
     }
   }
@@ -49,8 +49,7 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
       return
     }
 
-    this.buttonElement.ariaLabel = this.label ?? null
-    this.buttonElement.ariaPressed = this.pressed ?? null
+    this.buttonElement.ariaPressed = this.pressed || null
     this.buttonElement.disabled = Boolean(this.disabled)
 
     if (typeof this.type === 'string') {
@@ -111,14 +110,6 @@ class ButtonElement<E extends ButtonElementEventMap = ButtonElementEventMap> ext
 
       ElementLogger.verbose(this.uid, 'callback', `The disabled and spinning properties have been set to false.`)
     }
-  }
-
-  get label(): string | undefined {
-    return super.label ?? this.text
-  }
-
-  set label(label: string | undefined) {
-    super.label = label
   }
 
   get slug(): ElementSlug {

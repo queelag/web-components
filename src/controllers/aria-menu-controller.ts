@@ -23,7 +23,6 @@ export class AriaMenuController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-label', this.host.label)
     setImmutableElementAttribute(this.host, 'role', this.host.buttonElement ? 'menu' : 'menubar')
   }
 }

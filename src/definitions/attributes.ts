@@ -68,7 +68,6 @@ export interface AriaBreadcrumbItemElementAttributes extends BaseElementAttribut
 
 export interface AriaButtonElementAttributes extends BaseElementAttributes {
   disabled?: boolean
-  label?: string
   pressed?: ButtonPressed
 }
 
@@ -76,7 +75,6 @@ export interface AriaCarouselElementAttributes extends BaseElementAttributes {
   'automatic-rotation'?: boolean
   'automatic-rotation-interval-time'?: number
   'infinite-rotation'?: boolean
-  label?: string
   'reverse-rotation'?: boolean
 }
 
@@ -181,7 +179,6 @@ export interface AriaMenuElementAttributes<T> extends TypeaheadElementAttributes
   'collapse-debounce-time'?: number
   'collapse-on-pointer-leave'?: boolean
   'expand-on-pointer-enter'?: boolean
-  label?: string
 }
 
 export interface AriaMenuButtonElementAttributes extends BaseElementAttributes {}

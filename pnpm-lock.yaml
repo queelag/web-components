@@ -118,12 +118,6 @@ importers:
         version: 9.24.0
     publishDirectory: dist
 
-  packages/@aracna-icons/feather: {}
-
-  packages/@aracna/core: {}
-
-  packages/@aracna/web: {}
-
 packages:
 
   '@acemir/cssom@0.9.31':
