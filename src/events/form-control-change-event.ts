@@ -1,7 +1,7 @@
 import { IsomorphicEvent } from '@aracna/web'
 import type { FormControlElementSchema, FormControlElementValidation } from '../definitions/types.js'
 
-interface Detail<T> {
+export interface FormControlChangeEventDetail<T> {
   error?: string
   schema?: FormControlElementSchema
   touched?: boolean
@@ -9,12 +9,9 @@ interface Detail<T> {
   value: T
 }
 
-interface Optional extends Omit<Detail<any>, 'value'> {}
+interface Optional extends Omit<FormControlChangeEventDetail<any>, 'value'> {}
 
-/**
- * @category Event
- */
-export class FormControlChangeEvent<T> extends IsomorphicEvent<Detail<T>> {
+export class FormControlChangeEvent<T> extends IsomorphicEvent<FormControlChangeEventDetail<T>> {
   constructor(value: T, optional: Optional) {
     super('form-control-change', { detail: { ...optional, value } })
   }

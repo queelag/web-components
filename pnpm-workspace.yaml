@@ -2,6 +2,11 @@ packages:
   - packages/@aracna/*
   - packages/@aracna-icons/*
 
+allowBuilds:
+  edgedriver: true
+  esbuild: true
+  geckodriver: true
+
 onlyBuiltDependencies:
   - edgedriver
   - esbuild

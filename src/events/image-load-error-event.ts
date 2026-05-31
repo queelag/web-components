@@ -1,14 +1,11 @@
 import { IsomorphicEvent } from '@aracna/web'
 
-interface Detail {
+export interface ImageLoadErrorEventDetail {
   event: ErrorEvent
   src?: string
 }
 
-/**
- * @category Event
- */
-export class ImageLoadErrorEvent extends IsomorphicEvent<Detail> {
+export class ImageLoadErrorEvent extends IsomorphicEvent<ImageLoadErrorEventDetail> {
   constructor(src: string | undefined, event: ErrorEvent) {
     super('image-load-error', { detail: { event, src } })
   }

@@ -1,15 +1,12 @@
 import { IsomorphicEvent } from '@aracna/web'
 import { DEFAULT_SLIDER_THUMB_VALUE } from '../definitions/constants.js'
 
-interface Detail {
+export interface SliderThumbMoveEventDetail {
   percentage: number
   value: number
 }
 
-/**
- * @category Event
- */
-export class SliderThumbMoveEvent extends IsomorphicEvent<Detail> {
+export class SliderThumbMoveEvent extends IsomorphicEvent<SliderThumbMoveEventDetail> {
   constructor(value: number | undefined, percentage: number) {
     super('move', { detail: { percentage, value: value ?? DEFAULT_SLIDER_THUMB_VALUE } })
   }

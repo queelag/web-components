@@ -2,7 +2,7 @@ import { IsomorphicEvent } from '@aracna/web'
 import { StructError } from 'superstruct'
 import type { FormControlElementSchema, FormControlElementValidation } from '../definitions/types.js'
 
-interface Detail<T> {
+export interface InputChangeEventDetail<T> {
   domValue: string
   error?: StructError
   schema?: FormControlElementSchema
@@ -11,12 +11,9 @@ interface Detail<T> {
   value: T
 }
 
-interface Optional extends Omit<Detail<any>, 'domValue' | 'value'> {}
+interface Optional extends Omit<InputChangeEventDetail<any>, 'domValue' | 'value'> {}
 
-/**
- * @category Event
- */
-export class InputChangeEvent<T> extends IsomorphicEvent<Detail<T>> {
+export class InputChangeEvent<T> extends IsomorphicEvent<InputChangeEventDetail<T>> {
   constructor(value: T, domValue: string, optional: Optional) {
     super('input-change', { detail: { ...optional, domValue, value } })
   }

@@ -1,6 +1,6 @@
 import { IsomorphicEvent } from '@aracna/web'
 
-interface Detail {
+export interface IconParseEventDetail {
   cache?: string
   element: SVGSVGElement
   sanitized?: string
@@ -8,10 +8,7 @@ interface Detail {
   string: string
 }
 
-/**
- * @category Event
- */
-export class IconParseEvent extends IsomorphicEvent<Detail> {
+export class IconParseEvent extends IsomorphicEvent<IconParseEventDetail> {
   constructor(src: string, string: string, element: SVGSVGElement, cache?: string, sanitized?: string) {
     super('parse', { detail: { cache, element, sanitized, src, string } })
   }

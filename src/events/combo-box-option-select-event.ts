@@ -1,13 +1,10 @@
 import { IsomorphicEvent } from '@aracna/web'
 
-interface Detail {
+export interface ComboBoxOptionSelectEventDetail {
   value?: any
 }
 
-/**
- * @category Event
- */
-export class ComboBoxOptionSelectEvent extends IsomorphicEvent<Detail> {
+export class ComboBoxOptionSelectEvent extends IsomorphicEvent<ComboBoxOptionSelectEventDetail> {
   constructor(value: any) {
     super('select', { detail: { value } })
   }

@@ -1,13 +1,10 @@
 import { IsomorphicEvent } from '@aracna/web'
 
-interface Detail {
+export interface RadioButtonCheckEventDetail {
   value?: any
 }
 
-/**
- * @category Event
- */
-export class RadioButtonCheckEvent extends IsomorphicEvent<Detail> {
+export class RadioButtonCheckEvent extends IsomorphicEvent<RadioButtonCheckEventDetail> {
   constructor(value: any) {
     super('check', { detail: { value } })
   }

@@ -1,15 +1,12 @@
 import { IsomorphicEvent } from '@aracna/web'
 
-interface Detail {
+export interface AttributeChangeEventDetail {
   name: string
   old: string | null
   value: string | null
 }
 
-/**
- * @category Event
- */
-export class AttributeChangeEvent extends IsomorphicEvent<Detail> {
+export class AttributeChangeEvent extends IsomorphicEvent<AttributeChangeEventDetail> {
   constructor(name: string, old: string | null, value: string | null) {
     super('attribute-change', { detail: { name, old, value } })
   }

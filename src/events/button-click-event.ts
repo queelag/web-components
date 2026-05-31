@@ -1,14 +1,11 @@
 import { IsomorphicEvent } from '@aracna/web'
 import { ButtonClickCallback } from '../definitions/types.js'
 
-interface Detail {
+export interface ButtonClickEventDetail {
   callback: Function
 }
 
-/**
- * @category Event
- */
-export class ButtonClickEvent extends IsomorphicEvent<Detail> {
+export class ButtonClickEvent extends IsomorphicEvent<ButtonClickEventDetail> {
   constructor(callback: ButtonClickCallback) {
     super('button-click', { detail: { callback } })
   }
