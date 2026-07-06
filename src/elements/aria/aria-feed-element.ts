@@ -1,3 +1,5 @@
+// biome-ignore-all lint/correctness/noUnresolvedImports: not working for tabbable
+
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
 import type { PropertyDeclarations } from 'lit'
 import { type FocusableElement, tabbable } from 'tabbable'
@@ -56,10 +58,10 @@ class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMa
 
   onKeyDown = (event: KeyboardEvent): void => {
     switch (event.key) {
-      case KeyboardEventKey.END:
-      case KeyboardEventKey.HOME:
-      case KeyboardEventKey.PAGE_DOWN:
-      case KeyboardEventKey.PAGE_UP:
+      case KeyboardEventKey.End:
+      case KeyboardEventKey.Home:
+      case KeyboardEventKey.PageDown:
+      case KeyboardEventKey.PageUp:
         event.preventDefault()
         event.stopPropagation()
 
@@ -67,7 +69,7 @@ class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMa
     }
 
     switch (event.key) {
-      case KeyboardEventKey.END:
+      case KeyboardEventKey.End:
         if (!this.previousTabbableElementSibling) {
           break
         }
@@ -82,7 +84,7 @@ class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMa
         )
 
         break
-      case KeyboardEventKey.HOME:
+      case KeyboardEventKey.Home:
         if (!this.nextTabbableElementSibling) {
           break
         }
@@ -91,7 +93,7 @@ class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMa
         ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `The next tabbable element sibling has been focused.`, this.nextTabbableElementSibling)
 
         break
-      case KeyboardEventKey.PAGE_DOWN: {
+      case KeyboardEventKey.PageDown: {
         let article: AriaFeedArticleElement | undefined
 
         if (this.focusedArticleElementIndex >= this.articleElements.length - 1) {
@@ -106,7 +108,7 @@ class AriaFeedElement<E extends AriaFeedElementEventMap = AriaFeedElementEventMa
 
         break
       }
-      case KeyboardEventKey.PAGE_UP: {
+      case KeyboardEventKey.PageUp: {
         let article: AriaFeedArticleElement | undefined
 
         if (this.focusedArticleElementIndex <= 0) {
@@ -214,6 +216,7 @@ class AriaFeedArticleElement<E extends AriaFeedArticleElementEventMap = AriaFeed
   }
 
   get index(): number {
+    // biome-ignore lint/suspicious/noUnnecessaryConditions: optional is necessary
     return this.rootElement?.articleElements.indexOf(this) ?? -1
   }
 

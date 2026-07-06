@@ -135,7 +135,7 @@ describe('AriaAccordionElement', () => {
      * Focus the first section button and press ENTER, expect the first section to be expanded
      */
     b1.focus()
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter)
     await accordion.updateComplete
 
     expect(s1.expanded).toBeTruthy()
@@ -146,8 +146,8 @@ describe('AriaAccordionElement', () => {
     /**
      * Press ARROW_DOWN and expect the second section to be focused, press SPACE and expect the second section to be expanded
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
-    await dispatchKeyDownEvent(KeyboardEventKey.SPACE)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
+    await dispatchKeyDownEvent(KeyboardEventKey.Space)
     await accordion.updateComplete
 
     expect(s1.expanded).toBeTruthy()
@@ -158,8 +158,8 @@ describe('AriaAccordionElement', () => {
     /**
      * Press ARROW_UP and expect the first section to be focused, press SPACE and expect the first section to be collapsed
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowUp)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter)
     await accordion.updateComplete
 
     expect(s1.expanded).toBeFalsy()
@@ -170,8 +170,8 @@ describe('AriaAccordionElement', () => {
     /**
      * Press END and expect the last section to be focused, press ENTER and expect the last section to be collapsed
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.END)
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.End)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter)
     await accordion.updateComplete
 
     expect(s1.expanded).toBeFalsy()
@@ -182,8 +182,8 @@ describe('AriaAccordionElement', () => {
     /**
      * Press HOME and expect the first section to be focused, press ENTER and expect the first section to be expanded
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.Home)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter)
     await accordion.updateComplete
 
     expect(s1.expanded).toBeTruthy()

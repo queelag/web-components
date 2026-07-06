@@ -1,7 +1,7 @@
 import { Fetch, type FetchResponse, isStringURL, isWindowNotDefined, rvp, sleep } from '@aracna/core'
 import { defineCustomElement, getElementStyleCompatibleValue, isStringSVG } from '@aracna/web'
 import DOMPurify from 'dompurify'
-import { type PropertyDeclarations, type TemplateResult, html, svg } from 'lit'
+import { html, type PropertyDeclarations, svg, type TemplateResult } from 'lit'
 import type { DirectiveResult } from 'lit/directive.js'
 import type { StyleMapDirective } from 'lit/directives/style-map.js'
 import { AriaIconController } from '../../controllers/aria-icon-controller.js'
@@ -97,7 +97,7 @@ class IconElement<E extends IconElementEventMap = IconElementEventMap> extends B
   }
 
   async fetchSource(src?: string): Promise<void> {
-    let response: FetchResponse<string> | Error, text: string | Error
+    let response: FetchResponse<string> | Error
 
     if (typeof src !== 'string') {
       return ElementLogger.warn(this.uid, 'fetchSource', `The source is not defined.`, [src])

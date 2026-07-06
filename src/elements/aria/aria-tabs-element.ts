@@ -1,5 +1,5 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
-import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { AriaTabsController, AriaTabsPanelController, AriaTabsTabController } from '../../controllers/aria-tabs-controller.js'
 import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaTabsElementEventMap, AriaTabsPanelElementEventMap, AriaTabsTabElementEventMap } from '../../definitions/events.js'
@@ -48,14 +48,14 @@ class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElementEventMa
 
   onKeyDown = (event: KeyboardEvent): void => {
     switch (event.key) {
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.END:
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.HOME:
-      case KeyboardEventKey.SPACE:
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowLeft:
+      case KeyboardEventKey.ArrowRight:
+      case KeyboardEventKey.ArrowUp:
+      case KeyboardEventKey.End:
+      case KeyboardEventKey.Enter:
+      case KeyboardEventKey.Home:
+      case KeyboardEventKey.Space:
         event.preventDefault()
         event.stopPropagation()
 
@@ -63,8 +63,8 @@ class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElementEventMa
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_UP: {
+      case KeyboardEventKey.ArrowLeft:
+      case KeyboardEventKey.ArrowUp: {
         let tab: AriaTabsTabElement | undefined
 
         if (this.focusedTabElementIndex === 0) {
@@ -99,8 +99,8 @@ class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElementEventMa
 
         break
       }
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_RIGHT: {
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowRight: {
         let tab: AriaTabsTabElement | undefined
 
         if (this.focusedTabElementIndex >= this.tabElements.length - 1) {
@@ -135,7 +135,7 @@ class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElementEventMa
 
         break
       }
-      case KeyboardEventKey.HOME: {
+      case KeyboardEventKey.Home: {
         let tab: AriaTabsTabElement | undefined
 
         tab = this.tabElements[0]
@@ -153,7 +153,7 @@ class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElementEventMa
 
         break
       }
-      case KeyboardEventKey.END: {
+      case KeyboardEventKey.End: {
         let tab: AriaTabsTabElement | undefined
 
         tab = this.tabElements[this.tabElements.length - 1]
@@ -171,8 +171,8 @@ class AriaTabsElement<E extends AriaTabsElementEventMap = AriaTabsElementEventMa
 
         break
       }
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.SPACE:
+      case KeyboardEventKey.Enter:
+      case KeyboardEventKey.Space:
         if (this.automaticActivation) {
           break
         }
@@ -273,6 +273,7 @@ class AriaTabsTabElement<E extends AriaTabsTabElementEventMap = AriaTabsTabEleme
   }
 
   get index(): number {
+    // biome-ignore lint/suspicious/noUnnecessaryConditions: optional is necessary
     return this.rootElement?.tabElements.indexOf(this) ?? -1
   }
 
@@ -308,6 +309,7 @@ class AriaTabsPanelElement<E extends AriaTabsPanelElementEventMap = AriaTabsPane
   rootElement?: AriaTabsElement
 
   get index(): number {
+    // biome-ignore lint/suspicious/noUnnecessaryConditions: optional is necessary
     return this.rootElement?.panelElements.indexOf(this) ?? -1
   }
 

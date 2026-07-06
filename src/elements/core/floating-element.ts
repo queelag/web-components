@@ -2,15 +2,15 @@ import { cloneArray, omitObjectProperties, parseNumber, rv, tcp, wf } from '@ara
 import { getElementStyleCompatibleValue, setImmutableElementAttribute } from '@aracna/web'
 import {
   type AutoUpdateOptions,
+  arrow,
+  autoUpdate,
   type ComputePositionConfig,
   type ComputePositionReturn,
+  computePosition,
   type Middleware,
   type Placement,
   type Platform,
-  type Strategy,
-  arrow,
-  autoUpdate,
-  computePosition
+  type Strategy
 } from '@floating-ui/dom'
 import type { PropertyDeclarations } from 'lit'
 import type { FloatingElementEventMap } from '../../definitions/events.js'
@@ -40,7 +40,7 @@ class FloatingElement<E extends FloatingElementEventMap = FloatingElementEventMa
    * Internals
    */
   /** */
-  cleanup?: Function
+  cleanup?: CallableFunction
 
   connectedCallback(): void {
     super.connectedCallback()

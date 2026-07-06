@@ -1,5 +1,5 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
-import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import {
   AriaAccordionButtonController,
   AriaAccordionHeaderController,
@@ -58,12 +58,12 @@ class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaAccordio
 
   onKeyDown = (event: KeyboardEvent): void => {
     switch (event.key) {
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.SPACE:
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.HOME:
-      case KeyboardEventKey.END:
+      case KeyboardEventKey.Enter:
+      case KeyboardEventKey.Space:
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowUp:
+      case KeyboardEventKey.Home:
+      case KeyboardEventKey.End:
         event.preventDefault()
         event.stopPropagation()
 
@@ -71,13 +71,13 @@ class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaAccordio
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.SPACE:
+      case KeyboardEventKey.Enter:
+      case KeyboardEventKey.Space:
         ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the focused button element.`, this.focusedButtonElement)
         this.focusedButtonElement?.click()
 
         break
-      case KeyboardEventKey.ARROW_DOWN: {
+      case KeyboardEventKey.ArrowDown: {
         let button: AriaAccordionButtonElement | undefined
 
         if (this.focusedButtonElementIndex < 0) {
@@ -102,7 +102,7 @@ class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaAccordio
 
         break
       }
-      case KeyboardEventKey.ARROW_UP: {
+      case KeyboardEventKey.ArrowUp: {
         let button: AriaAccordionButtonElement | undefined
 
         if (this.focusedButtonElementIndex < 0) {
@@ -127,7 +127,7 @@ class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaAccordio
 
         break
       }
-      case KeyboardEventKey.HOME: {
+      case KeyboardEventKey.Home: {
         let button: AriaAccordionButtonElement | undefined
 
         button = this.buttonElements[0]
@@ -138,7 +138,7 @@ class AriaAccordionElement<E extends AriaAccordionElementEventMap = AriaAccordio
 
         break
       }
-      case KeyboardEventKey.END: {
+      case KeyboardEventKey.End: {
         let button: AriaAccordionButtonElement | undefined
 
         button = this.buttonElements[this.buttonElements.length - 1]
@@ -316,7 +316,7 @@ class AriaAccordionButtonElement<E extends AriaAccordionButtonElementEventMap = 
   }
 
   onKeyDown(event: KeyboardEvent): void {
-    if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {
+    if (event.key !== KeyboardEventKey.Enter && event.key !== KeyboardEventKey.Space) {
       return
     }
 

@@ -120,9 +120,9 @@ class QrCodeElement<E extends QrCodeElementEventMap = QrCodeElementEventMap> ext
     this.requestUpdate('foregroundColor', old)
   }
 
-  get foregroundPathElementD(): string | undefined {
+  get foregroundPathElementD(): string | null {
     if (typeof this.modules === 'undefined') {
-      return undefined
+      return null
     }
 
     return getQrCodeSvgPath(this.modules, this.margin)
@@ -179,7 +179,7 @@ function getQrCodeSvgPath(modules: BitMatrix, margin: number = 0) {
     col = Math.floor(i % size)
     row = Math.floor(i / size)
 
-    if (!col && !newRow) {
+    if (!(col || newRow)) {
       newRow = true
     }
 

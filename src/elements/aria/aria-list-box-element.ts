@@ -1,6 +1,6 @@
-import { type TypeaheadPredicate, isArray, removeArrayItems, typeahead } from '@aracna/core'
-import { KeyboardEventKey, defineCustomElement } from '@aracna/web'
-import { type CSSResultGroup, type PropertyDeclarations, css } from 'lit'
+import { isArray, removeArrayItems, type TypeaheadPredicate, typeahead } from '@aracna/core'
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { AriaListBoxController, AriaListBoxOptionController } from '../../controllers/aria-list-box-controller.js'
 import { DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE } from '../../definitions/constants.js'
 import { ElementSlug } from '../../definitions/enums.js'
@@ -91,13 +91,13 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
   onKeyDown = (event: KeyboardEvent): void => {
     switch (event.key) {
       case KeyboardEventKey.A:
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.END:
-      case KeyboardEventKey.HOME:
-      case KeyboardEventKey.SPACE:
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowLeft:
+      case KeyboardEventKey.ArrowRight:
+      case KeyboardEventKey.ArrowUp:
+      case KeyboardEventKey.End:
+      case KeyboardEventKey.Home:
+      case KeyboardEventKey.Space:
         event.preventDefault()
         event.stopPropagation()
 
@@ -105,12 +105,12 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.END:
-      case KeyboardEventKey.HOME:
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowLeft:
+      case KeyboardEventKey.ArrowRight:
+      case KeyboardEventKey.ArrowUp:
+      case KeyboardEventKey.End:
+      case KeyboardEventKey.Home:
         if (this.focusedOptionElement) {
           ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Blurring the focused option.`, this.focusedOptionElement)
           this.focusedOptionElement.blur()
@@ -145,8 +145,8 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
         }
 
         break
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_RIGHT: {
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowRight: {
         let option: AriaListBoxOptionElement | undefined
 
         if (this.focusedOptionElementIndex >= this.optionElements.length - 1) {
@@ -186,8 +186,8 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
 
         break
       }
-      case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.ARROW_LEFT: {
+      case KeyboardEventKey.ArrowUp:
+      case KeyboardEventKey.ArrowLeft: {
         let option: AriaListBoxOptionElement | undefined
 
         if (this.focusedOptionElementIndex <= 0) {
@@ -227,7 +227,7 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
 
         break
       }
-      case KeyboardEventKey.END: {
+      case KeyboardEventKey.End: {
         let option: AriaListBoxOptionElement | undefined
 
         option = this.optionElements[this.optionElements.length - 1]
@@ -249,7 +249,7 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
 
         break
       }
-      case KeyboardEventKey.HOME: {
+      case KeyboardEventKey.Home: {
         let option: AriaListBoxOptionElement | undefined
 
         option = this.optionElements[0]
@@ -271,7 +271,7 @@ class AriaListBoxElement<E extends AriaListBoxElementEventMap = AriaListBoxEleme
 
         break
       }
-      case KeyboardEventKey.SPACE:
+      case KeyboardEventKey.Space:
         if (!this.focusedOptionElement) {
           break
         }
@@ -416,7 +416,7 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
     this.focus()
   }
 
-  onPointerDown = (event: PointerEvent): void => {
+  onPointerDown = (_: PointerEvent): void => {
     // event.preventDefault()
   }
 
@@ -428,6 +428,7 @@ class AriaListBoxOptionElement<E extends AriaListBoxOptionElementEventMap = Aria
     ElementLogger.verbose(this.uid, 'blur', `The "blur" event has been dispatched.`)
   }
 
+  // biome-ignore lint/correctness/noUnusedFunctionParameters: parameter used by consumer
   focus(options?: FocusOptions | null): void {
     this.focused = true
     ElementLogger.verbose(this.uid, 'focus', `The option has been focused.`)

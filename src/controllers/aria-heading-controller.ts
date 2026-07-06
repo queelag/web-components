@@ -1,6 +1,6 @@
 import { setImmutableElementAttribute } from '@aracna/web'
 import type { ReactiveController, ReactiveControllerHost } from 'lit'
-import { AracnaAriaHeadingElement as AriaHeadingElement } from '../elements/aria/aria-heading-element.js'
+import type { AracnaAriaHeadingElement as AriaHeadingElement } from '../elements/aria/aria-heading-element.js'
 
 export class AriaHeadingController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaHeadingElement) {

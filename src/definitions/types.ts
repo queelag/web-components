@@ -1,3 +1,5 @@
+// biome-ignore-all lint/correctness/noUnresolvedImports: not working for focus-trap
+
 import type { FocusTargetValueOrFalse, KeyboardEventToBoolean, MouseEventToBoolean } from 'focus-trap'
 import type { Struct, StructError } from 'superstruct'
 

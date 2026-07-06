@@ -1,6 +1,6 @@
 import { getLimitedNumber, parseNumber } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
+import { type CSSResultGroup, css, html, type PropertyDeclarations } from 'lit'
 import { DEFAULT_BADGE_MAX, DEFAULT_BADGE_MIN } from '../../definitions/constants.js'
 import type { BadgeElementEventMap } from '../../definitions/events.js'
 import { AracnaBaseElement as BaseElement } from '../core/base-element.js'

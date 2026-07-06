@@ -683,7 +683,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_DOWN and expect the first submenu to be expanded, the first item should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN, button)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown, button)
     await menu.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -697,7 +697,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_UP and expect the previous (eigth) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowUp)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -711,7 +711,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_DOWN and expect the next (first) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -725,7 +725,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_DOWN and expect the next (second) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -739,7 +739,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_UP and expect the previous (first) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowUp)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -753,7 +753,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press END and expect the last (eigth) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.END)
+    await dispatchKeyDownEvent(KeyboardEventKey.End)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -767,7 +767,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press HOME and expect the first item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
+    await dispatchKeyDownEvent(KeyboardEventKey.Home)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -781,7 +781,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_LEFT and expect nothing to happen.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -795,7 +795,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_RIGHT and expect nothing to happen.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -809,7 +809,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_DOWN and expect the next (second) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -823,7 +823,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_LEFT and expect nothing to happen.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -837,7 +837,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_RIGHT and expect the second submenu to be expanded, the first (third) item of the second submenu should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -851,7 +851,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_DOWN and expect the second (fourth) item of the second submenu to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await sm2.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -865,7 +865,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ENTER and expect the third submenu to be expanded, the first (fifth) item of the third submenu should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter)
     await sm2.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -879,7 +879,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ENTER and expect the first (fifth) item of the third submenu to be clicked.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter)
     await sm3.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -894,7 +894,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_LEFT and expect the third submenu to be collapsed, the parent (fourth) item should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await sm3.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -908,7 +908,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_LEFT and expect the second submenu to be collapsed, the parent (second) item should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await sm2.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -922,7 +922,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_LEFT and expect nothing to happen.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('true')
@@ -936,7 +936,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ESCAPE and expect the first submenu to be collapsed.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ESCAPE)
+    await dispatchKeyDownEvent(KeyboardEventKey.Escape)
     await sm1.updateComplete
 
     expect(button.getAttribute('aria-expanded')).toBe('false')
@@ -980,7 +980,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_LEFT and expect the previous (twelfth) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await menu.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -994,7 +994,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_RIGHT and expect the next (first) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await menu.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -1008,7 +1008,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_RIGHT and expect the next (second) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await menu.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -1022,7 +1022,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_LEFT and expect the previous (first) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await menu.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -1036,7 +1036,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press END and expect the last (twelfth) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.END)
+    await dispatchKeyDownEvent(KeyboardEventKey.End)
     await menu.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -1050,7 +1050,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press HOME and expect the first (first) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
+    await dispatchKeyDownEvent(KeyboardEventKey.Home)
     await menu.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -1064,7 +1064,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_UP and expect nothing to happen.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowUp)
     await menu.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -1078,7 +1078,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_DOWN and expect nothing to happen.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await menu.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -1092,7 +1092,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ENTER and expect the first item to be clicked.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter)
     await menu.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -1107,7 +1107,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_RIGHT and expect the next (second) item to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await menu.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -1121,7 +1121,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_DOWN and expect the first submenu to be expanded, the first (third) item of the submenu should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await menu.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('true')
@@ -1135,7 +1135,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_LEFT and expect the first submenu to be collapsed, the first item should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await sm1.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -1149,7 +1149,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_RIGHT and expect the first submenu to be expanded, the second item should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await menu.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('true')
@@ -1163,7 +1163,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_DOWN and expect the first item of the first submenu to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await sm1.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('true')
@@ -1177,7 +1177,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_DOWN and expect the second item of the first submenu to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await sm1.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('true')
@@ -1191,7 +1191,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_RIGHT and expect the second submenu to be expanded, the first item of the second submenu should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await sm1.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('true')
@@ -1205,7 +1205,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_DOWN and expect the second item of the second submenu to be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await sm2.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('true')
@@ -1219,7 +1219,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_RIGHT and expect the third submenu to be expanded, the first item of the third submenu should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await sm2.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('true')
@@ -1233,7 +1233,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_LEFT and expect the third submenu to be collapsed, the parent item of the third submenu should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await sm3.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('true')
@@ -1247,7 +1247,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_LEFT and expect the second submenu to be collapsed, the parent item of the second submenu should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await sm2.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('true')
@@ -1261,7 +1261,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ARROW_LEFT and expect the first submenu to be collapsed, the first item should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await sm1.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')
@@ -1295,7 +1295,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ESCAPE and expect the third submenu to be collapsed, the parent item of the third submenu should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ESCAPE)
+    await dispatchKeyDownEvent(KeyboardEventKey.Escape)
     await sm3.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('true')
@@ -1309,7 +1309,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ESCAPE and expect the second submenu to be collapsed, the parent item of the second submenu should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ESCAPE)
+    await dispatchKeyDownEvent(KeyboardEventKey.Escape)
     await sm2.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('true')
@@ -1323,7 +1323,7 @@ describe('AriaMenuElement', () => {
     /**
      * Press ESCAPE and expect the first submenu to be collapsed, the parent item of the first submenu should be focused.
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ESCAPE)
+    await dispatchKeyDownEvent(KeyboardEventKey.Escape)
     await sm1.updateComplete
 
     expect(i2.getAttribute('aria-expanded')).toBe('false')

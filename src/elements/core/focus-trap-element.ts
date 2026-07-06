@@ -1,13 +1,15 @@
+// biome-ignore-all lint/correctness/noUnresolvedImports: not working for focus-trap
+
 import { omitObjectProperties, tc } from '@aracna/core'
 import { setImmutableElementAttribute } from '@aracna/web'
 import {
   type ActivateOptions,
+  createFocusTrap,
   type DeactivateOptions,
   type FocusTarget,
   type FocusTargetOrFalse,
   type FocusTrap,
-  type Options,
-  createFocusTrap
+  type Options
 } from 'focus-trap'
 import type { PropertyDeclarations } from 'lit'
 import { ElementSlug } from '../../definitions/enums.js'

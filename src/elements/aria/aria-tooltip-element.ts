@@ -1,5 +1,5 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
-import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { AriaTooltipContentController, AriaTooltipController, AriaTooltipTriggerController } from '../../controllers/aria-tooltip-controller.js'
 import { ElementSlug } from '../../definitions/enums.js'
 import type {
@@ -55,7 +55,7 @@ class AriaTooltipElement<E extends AriaTooltipElementEventMap = AriaTooltipEleme
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
-    if (event.key !== KeyboardEventKey.ESCAPE) {
+    if (event.key !== KeyboardEventKey.Escape) {
       return
     }
 

@@ -28,7 +28,7 @@ export function findRadioButtonLabelByValue<T>(
   let option: T | undefined
 
   option = findRadioButtonByValue(options, value, getValue)
-  if (!option) return undefined
+  if (!option) return
 
   return getLabel(option)
 }

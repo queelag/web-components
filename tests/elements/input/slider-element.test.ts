@@ -32,7 +32,7 @@ describe('SliderElement', () => {
     await render(slider)
     expect(slider.value).toBeUndefined()
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, thumb)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, thumb)
     await thumb.updateComplete
     expect(slider.value).toBe(1)
 
@@ -52,11 +52,11 @@ describe('SliderElement', () => {
     await render(slider)
     expect(slider.value).toBeUndefined()
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t1)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, t1)
     await t1.updateComplete
     expect(slider.value).toStrictEqual([1])
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t2)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, t2)
     await t2.updateComplete
     expect(slider.value).toStrictEqual([1, 1])
 

@@ -1,6 +1,6 @@
-import { getLimitedNumber, isArray, removeArrayItems, typeahead, type TypeaheadPredicate } from '@aracna/core'
+import { getLimitedNumber, isArray, removeArrayItems, type TypeaheadPredicate, typeahead } from '@aracna/core'
 import { defineCustomElement, KeyboardEventKey, scrollElementIntoView } from '@aracna/web'
-import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import {
   AriaComboBoxButtonController,
   AriaComboBoxClearController,
@@ -113,13 +113,13 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.END:
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.ESCAPE:
-      case KeyboardEventKey.SPACE:
-        if (event.key === KeyboardEventKey.SPACE && this.inputElement) {
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowUp:
+      case KeyboardEventKey.End:
+      case KeyboardEventKey.Enter:
+      case KeyboardEventKey.Escape:
+      case KeyboardEventKey.Space:
+        if (event.key === KeyboardEventKey.Space && this.inputElement) {
           break
         }
 
@@ -134,8 +134,8 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_UP: {
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowUp: {
         let option: AriaComboBoxOptionElement | undefined
 
         if (this.collapsed) {
@@ -149,7 +149,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
             return
           }
 
-          if (this.inputElement && event.key === KeyboardEventKey.ARROW_DOWN) {
+          if (this.inputElement && event.key === KeyboardEventKey.ArrowDown) {
             option = this.optionElements[0]
             if (!option) break
 
@@ -157,7 +157,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
             option.focus()
           }
 
-          if (this.inputElement && event.key === KeyboardEventKey.ARROW_UP) {
+          if (this.inputElement && event.key === KeyboardEventKey.ArrowUp) {
             option = this.optionElements[this.optionElements.length - 1]
             if (!option) break
 
@@ -173,7 +173,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_DOWN: {
+      case KeyboardEventKey.ArrowDown: {
         let option: AriaComboBoxOptionElement | undefined
 
         if (this.focusedOptionElementIndex >= this.optionElements.length - 1) {
@@ -206,7 +206,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
 
         break
       }
-      case KeyboardEventKey.ARROW_UP: {
+      case KeyboardEventKey.ArrowUp: {
         let option: AriaComboBoxOptionElement | undefined
 
         if (this.focusedOptionElementIndex <= 0) {
@@ -241,7 +241,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
 
         break
       }
-      case KeyboardEventKey.END: {
+      case KeyboardEventKey.End: {
         let option: AriaComboBoxOptionElement | undefined
 
         if (this.focusedOptionElement) {
@@ -262,7 +262,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
 
         break
       }
-      case KeyboardEventKey.HOME: {
+      case KeyboardEventKey.Home: {
         let option: AriaComboBoxOptionElement | undefined
 
         if (this.focusedOptionElement) {
@@ -283,9 +283,9 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
 
         break
       }
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.SPACE:
-        if (event.key === KeyboardEventKey.SPACE && this.inputElement) {
+      case KeyboardEventKey.Enter:
+      case KeyboardEventKey.Space:
+        if (event.key === KeyboardEventKey.Space && this.inputElement) {
           break
         }
 
@@ -314,7 +314,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         }
 
         break
-      case KeyboardEventKey.ESCAPE:
+      case KeyboardEventKey.Escape:
         if (this.single && this.collapsed && this.inputElement) {
           switch (this.autocomplete) {
             case 'both':
@@ -348,7 +348,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
         }
 
         break
-      case KeyboardEventKey.PAGE_DOWN: {
+      case KeyboardEventKey.PageDown: {
         let option: AriaComboBoxOptionElement | undefined
 
         if (this.focusedOptionElement) {
@@ -364,7 +364,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
 
         break
       }
-      case KeyboardEventKey.PAGE_UP: {
+      case KeyboardEventKey.PageUp: {
         let option: AriaComboBoxOptionElement | undefined
 
         if (this.focusedOptionElement) {
@@ -486,7 +486,7 @@ class AriaComboBoxElement<E extends AriaComboBoxElementEventMap = AriaComboBoxEl
       case 'both':
       case 'inline':
       case 'list':
-        return options.filter((option: T, index: number, options: T[]) => predicate(option, index, options, this.inputElement?.value ?? ''))
+        return options.filter((option: T, index: number, opts: T[]) => predicate(option, index, opts, this.inputElement?.value ?? ''))
       default:
         return options
     }
@@ -771,7 +771,7 @@ class AriaComboBoxInputElement<E extends AriaComboBoxInputElementEventMap = Aria
   }
 
   set value(value: string | undefined) {
-    let old: string | undefined
+    let old: string | undefined = this.inputElement?.value
 
     if (this.inputElement) {
       this.inputElement.value = value ?? ''
@@ -884,6 +884,7 @@ class AriaComboBoxOptionElement<E extends AriaComboBoxOptionElementEventMap = Ar
     this.dispatchEvent(new FocusEvent('blur'))
   }
 
+  // biome-ignore lint/correctness/noUnusedFunctionParameters: parameter used by consumer
   focus(options?: FocusOptions | undefined): void {
     this.focused = true
     ElementLogger.verbose(this.uid, 'focus', `The option has been focused.`)

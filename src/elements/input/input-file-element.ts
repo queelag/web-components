@@ -1,6 +1,6 @@
 import { AracnaFile, type DeserializeFileOptions, deserializeFile, isArray, removeArrayItems, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { type CSSResultGroup, type PropertyDeclarations, css } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { ElementSlug } from '../../definitions/enums.js'
 import type { InputFileClearElementEventMap, InputFileElementEventMap, InputFileRemoveElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
@@ -90,15 +90,17 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
   onChange = async (): Promise<void> => {
     let files: AracnaFile[] = []
 
-    for (let f of this.inputElement?.files ?? []) {
-      let file: AracnaFile
+    await Promise.all(
+      [...(this.inputElement?.files ?? [])].map(async (f: File) => {
+        let file: AracnaFile
 
-      file = await deserializeFile(f, this.deserializeFileOptions)
-      ElementLogger.verbose(this.uid, 'onChange', `The file has been deserialized.`, file)
+        file = await deserializeFile(f, this.deserializeFileOptions)
+        ElementLogger.verbose(this.uid, 'onChange', `The file has been deserialized.`, file)
 
-      files.push(file)
-      ElementLogger.verbose(this.uid, 'onChange', `The file has been added to the files.`, file, files)
-    }
+        files.push(file)
+        ElementLogger.verbose(this.uid, 'onChange', `The file has been added to the files.`, file, files)
+      })
+    )
 
     if (this.multiple) {
       ElementLogger.verbose(this.uid, 'onChange', `Setting the files as the value.`, files)
@@ -176,12 +178,12 @@ class InputFileElement<E extends InputFileElementEventMap = InputFileElementEven
     return ElementSlug.INPUT_FILE
   }
 
-  get file(): AracnaFile | undefined {
+  get file(): AracnaFile | null {
     if (this.multiple) {
-      return undefined
+      return null
     }
 
-    return this.value as AracnaFile | undefined
+    return this.value as AracnaFile
   }
 
   get files(): AracnaFile[] {

@@ -1,6 +1,6 @@
-import { debounce, parseNumber, typeahead, type TypeaheadPredicate } from '@aracna/core'
+import { debounce, parseNumber, type TypeaheadPredicate, typeahead } from '@aracna/core'
 import { defineCustomElement, KeyboardEventKey, setImmutableElementAttribute } from '@aracna/web'
-import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { AriaMenuButtonController, AriaMenuController, AriaMenuItemController, AriaMenuSubMenuController } from '../../controllers/aria-menu-controller.js'
 import { DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME, DEFAULT_MENU_TYPEAHEAD_PREDICATE } from '../../definitions/constants.js'
 import { ElementSlug } from '../../definitions/enums.js'
@@ -124,15 +124,15 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
 
   onKeyDown(event: KeyboardEvent): void {
     switch (event.key) {
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.END:
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.ESCAPE:
-      case KeyboardEventKey.HOME:
-      case KeyboardEventKey.SPACE:
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowLeft:
+      case KeyboardEventKey.ArrowRight:
+      case KeyboardEventKey.ArrowUp:
+      case KeyboardEventKey.End:
+      case KeyboardEventKey.Enter:
+      case KeyboardEventKey.Escape:
+      case KeyboardEventKey.Home:
+      case KeyboardEventKey.Space:
         event.preventDefault()
         event.stopPropagation()
 
@@ -140,7 +140,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_LEFT: {
+      case KeyboardEventKey.ArrowLeft: {
         let item: AriaMenuItemElement | undefined
 
         if (this.buttonElement) {
@@ -195,7 +195,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
 
         break
       }
-      case KeyboardEventKey.ARROW_RIGHT: {
+      case KeyboardEventKey.ArrowRight: {
         let item: AriaMenuItemElement | undefined
 
         if (this.buttonElement) {
@@ -250,7 +250,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
 
         break
       }
-      case KeyboardEventKey.ARROW_DOWN: {
+      case KeyboardEventKey.ArrowDown: {
         let item: AriaMenuItemElement | undefined
 
         if (this.buttonElement && this.subMenuElement) {
@@ -307,7 +307,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
 
         break
       }
-      case KeyboardEventKey.ARROW_UP: {
+      case KeyboardEventKey.ArrowUp: {
         let item: AriaMenuItemElement | undefined
 
         if (this.buttonElement && this.subMenuElement) {
@@ -364,8 +364,8 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
 
         break
       }
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.SPACE:
+      case KeyboardEventKey.Enter:
+      case KeyboardEventKey.Space:
         if (this.buttonElement && this.subMenuElement) {
           ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Expanding the submenu.`, this.subMenuElement)
           this.subMenuElement.expand()
@@ -390,7 +390,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
         }
 
         break
-      case KeyboardEventKey.ESCAPE:
+      case KeyboardEventKey.Escape:
         if (this.collapsed) {
           break
         }
@@ -404,7 +404,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
         }
 
         break
-      case KeyboardEventKey.HOME: {
+      case KeyboardEventKey.Home: {
         let item: AriaMenuItemElement | undefined
 
         item = this.shallowItemElements[0]
@@ -415,7 +415,7 @@ class AriaMenuElement<E extends AriaMenuElementEventMap = AriaMenuElementEventMa
 
         break
       }
-      case KeyboardEventKey.END: {
+      case KeyboardEventKey.End: {
         let item: AriaMenuItemElement | undefined
 
         item = this.shallowItemElements[this.shallowItemElements.length - 1]
@@ -951,13 +951,13 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
 
   onKeyDown(event: KeyboardEvent): void {
     switch (event.key) {
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.END:
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.ESCAPE:
-      case KeyboardEventKey.HOME:
-      case KeyboardEventKey.SPACE:
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowUp:
+      case KeyboardEventKey.End:
+      case KeyboardEventKey.Enter:
+      case KeyboardEventKey.Escape:
+      case KeyboardEventKey.Home:
+      case KeyboardEventKey.Space:
         event.preventDefault()
         event.stopPropagation()
 
@@ -965,7 +965,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_DOWN: {
+      case KeyboardEventKey.ArrowDown: {
         let item: AriaMenuItemElement | undefined
 
         if (this.shallowFocusedItemElementIndex >= this.shallowItemElements.length - 1) {
@@ -986,7 +986,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
 
         break
       }
-      case KeyboardEventKey.ARROW_UP: {
+      case KeyboardEventKey.ArrowUp: {
         let item: AriaMenuItemElement | undefined
 
         if (this.shallowFocusedItemElementIndex <= 0) {
@@ -1007,7 +1007,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
 
         break
       }
-      case KeyboardEventKey.ARROW_LEFT:
+      case KeyboardEventKey.ArrowLeft:
         if (this.shallow) {
           break
         }
@@ -1026,9 +1026,9 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
         }
 
         break
-      case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.SPACE: {
+      case KeyboardEventKey.ArrowRight:
+      case KeyboardEventKey.Enter:
+      case KeyboardEventKey.Space: {
         let item: AriaMenuItemElement | undefined
 
         // if (this.shallow) {
@@ -1055,14 +1055,14 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
           break
         }
 
-        if (event.key !== KeyboardEventKey.ARROW_RIGHT && this.shallowFocusedItemElement) {
+        if (event.key !== KeyboardEventKey.ArrowRight && this.shallowFocusedItemElement) {
           ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Clicking the focused item.`, this.shallowFocusedItemElement)
           this.shallowFocusedItemElement.click()
         }
 
         break
       }
-      case KeyboardEventKey.ESCAPE:
+      case KeyboardEventKey.Escape:
         ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Collapsing the submenu.`)
         this.collapse()
 
@@ -1087,7 +1087,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
         }
 
         break
-      case KeyboardEventKey.HOME: {
+      case KeyboardEventKey.Home: {
         let item: AriaMenuItemElement | undefined
 
         item = this.shallowItemElements[0]
@@ -1098,7 +1098,7 @@ class AriaMenuSubMenuElement<E extends AriaMenuSubMenuElementEventMap = AriaMenu
 
         break
       }
-      case KeyboardEventKey.END: {
+      case KeyboardEventKey.End: {
         let item: AriaMenuItemElement | undefined
 
         item = this.shallowItemElements[this.shallowItemElements.length - 1]

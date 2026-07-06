@@ -1,3 +1,5 @@
+// biome-ignore-all lint/correctness/noUnresolvedImports: not working for focus-trap
+
 import type { AracnaFile, Localization, LocalizationVariables, TypeaheadPredicate } from '@aracna/core'
 import type { CanvasDataURLType } from '@aracna/web'
 import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/dom'
@@ -263,8 +265,8 @@ export interface BaseElementAttributes {
 }
 
 export interface FloatingElementAttributes extends BaseElementAttributes {
-  'ancestor-scroll'?: boolean
   'ancestor-resize'?: boolean
+  'ancestor-scroll'?: boolean
   'animation-frame'?: boolean
   'arrow-padding'?: number
   'element-resize'?: boolean
@@ -377,9 +379,9 @@ export interface IconElementAttributes extends BaseElementAttributes {
   'sanitize-config'?: IconElementSanitizeConfig
   src?: string
   stroke?: string
-  'stroke-width'?: string | number
   'stroke-linecap'?: string
   'stroke-linejoin'?: string
+  'stroke-width'?: string | number
 }
 
 export interface ImageElementAttributes extends BaseElementAttributes {
@@ -453,8 +455,8 @@ export interface DialogDescriptionElementAttributes extends AriaDialogDescriptio
 export interface DialogLabelElementAttributes extends AriaDialogLabelElementAttributes {}
 
 export interface MeterElementAttributes extends AriaMeterElementAttributes {
-  low?: number
   high?: number
+  low?: number
   optimum?: number
   round?: boolean
 }

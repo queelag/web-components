@@ -204,13 +204,13 @@ describe('InputElement', () => {
     expect(native.value).toBe('hello')
     expect(input.value).toBeUndefined()
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER, native)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter, native)
 
     expect(native.value).toBe('')
     expect(input.value).toStrictEqual(['hello'])
 
     dispatchInputEvent(native, 'world')
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER, native)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter, native)
 
     expect(input.value).toStrictEqual(['hello', 'world'])
 

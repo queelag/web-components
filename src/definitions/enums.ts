@@ -1,4 +1,15 @@
 export enum ElementSlug {
+  ACCORDION = 'accordion',
+  ACCORDION_BUTTON = 'accordion-button',
+  ACCORDION_HEADER = 'accordion-header',
+  ACCORDION_PANEL = 'accordion-panel',
+  ACCORDION_SECTION = 'accordion-section',
+
+  ALERT = 'alert',
+
+  ALERT_DIALOG = 'alert-dialog',
+  ALERT_DIALOG_DESCRIPTION = 'alert-dialog-description',
+  ALERT_DIALOG_LABEL = 'alert-dialog-label',
   ARIA_ACCORDION = 'aria-accordion',
   ARIA_ACCORDION_BUTTON = 'aria-accordion-button',
   ARIA_ACCORDION_HEADER = 'aria-accordion-header',
@@ -8,13 +19,13 @@ export enum ElementSlug {
   ARIA_ALERT = 'aria-alert',
 
   ARIA_ALERT_DIALOG = 'aria-alert-dialog',
-  ARIA_ALERT_DIALOG_DESCRIPTION = 'aria-alert-dialog',
-  ARIA_ALERT_DIALOG_LABEL = 'aria-alert-dialog',
+  ARIA_ALERT_DIALOG_DESCRIPTION = 'aria-alert-dialog-description',
+  ARIA_ALERT_DIALOG_LABEL = 'aria-alert-dialog-label',
 
   ARIA_BREADCRUMB = 'aria-breadcrumb',
   ARIA_BREADCRUMB_ANCHOR = 'aria-breadcrumb-anchor',
+  ARIA_BREADCRUMB_ITEM = 'aria-breadcrumb-item',
   ARIA_BREADCRUMB_LIST = 'aria-breadcrumb-list',
-  ARIA_BREADCRUMB_ITEM = 'aria-breadcrumb-list',
 
   ARIA_BUTTON = 'aria-button',
 
@@ -24,8 +35,8 @@ export enum ElementSlug {
   ARIA_CAROUSEL_ROTATION_CONTROL = 'aria-carousel-rotation',
   ARIA_CAROUSEL_SLIDE = 'aria-carousel-slide',
   ARIA_CAROUSEL_SLIDES = 'aria-carousel-slides',
-  ARIA_CAROUSEL_TABS = 'aria-carousel-tabs',
   ARIA_CAROUSEL_TAB = 'aria-carousel-tab',
+  ARIA_CAROUSEL_TABS = 'aria-carousel-tabs',
 
   ARIA_CHECKBOX = 'aria-checkbox',
 
@@ -36,7 +47,7 @@ export enum ElementSlug {
   ARIA_COMBOBOX_INPUT = 'aria-combobox-input',
   ARIA_COMBOBOX_LIST = 'aria-combobox-list',
   ARIA_COMBOBOX_OPTION = 'aria-combobox-option',
-  ARIA_COMBOBOX_OPTION_REMOVE = 'aria-combobox-option',
+  ARIA_COMBOBOX_OPTION_REMOVE = 'aria-combobox-option-remove',
 
   ARIA_DIALOG = 'aria-dialog',
   ARIA_DIALOG_DESCRIPTION = 'aria-dialog-description',
@@ -49,8 +60,8 @@ export enum ElementSlug {
 
   ARIA_FEED = 'aria-feed',
   ARIA_FEED_ARTICLE = 'aria-feed-article',
-  ARIA_FEED_ARTICLE_DESCRIPTION = 'aria-feed-article',
-  ARIA_FEED_ARTICLE_LABEL = 'aria-feed-article',
+  ARIA_FEED_ARTICLE_DESCRIPTION = 'aria-feed-article-description',
+  ARIA_FEED_ARTICLE_LABEL = 'aria-feed-article-label',
 
   ARIA_HEADING = 'aria-heading',
 
@@ -66,7 +77,7 @@ export enum ElementSlug {
   ARIA_MENU_BUTTON = 'aria-menu-button',
   ARIA_MENU_ITEM = 'aria-menu-item',
   ARIA_MENU_SUBMENU = 'aria-menu-submenu',
-  ARIA_MENU_SUBMENU_ITEM = 'aria-menu-submenu',
+  ARIA_MENU_SUBMENU_ITEM = 'aria-menu-submenu-item',
 
   ARIA_RADIO_BUTTON = 'aria-radio-button',
   ARIA_RADIO_GROUP = 'aria-radio-group',
@@ -83,29 +94,17 @@ export enum ElementSlug {
   ARIA_TOOLTIP_CONTENT = 'aria-tooltip-content',
   ARIA_TOOLTIP_TRIGGER = 'aria-tooltip-trigger',
 
-  ACCORDION = 'accordion',
-  ACCORDION_BUTTON = 'accordion-button',
-  ACCORDION_HEADER = 'accordion-header',
-  ACCORDION_PANEL = 'accordion-panel',
-  ACCORDION_SECTION = 'accordion-section',
-
-  ALERT = 'alert',
-
-  ALERT_DIALOG = 'alert-dialog',
-  ALERT_DIALOG_DESCRIPTION = 'alert-dialog-description',
-  ALERT_DIALOG_LABEL = 'alert-dialog-label',
-
   AVATAR = 'avatar',
 
   BASE = 'base',
 
-  BUTTON = 'button',
-  BUTTON_GROUP = 'button-group',
-
   BREADCRUMB = 'breadcrumb',
   BREADCRUMB_ANCHOR = 'breadcrumb-anchor',
-  BREADCRUMB_LIST = 'breadcrumb-list',
   BREADCRUMB_ITEM = 'breadcrumb-list-item',
+  BREADCRUMB_LIST = 'breadcrumb-list',
+
+  BUTTON = 'button',
+  BUTTON_GROUP = 'button-group',
 
   CARD = 'card',
 
@@ -115,8 +114,8 @@ export enum ElementSlug {
   CAROUSEL_ROTATION_CONTROL = 'carousel-rotation-control',
   CAROUSEL_SLIDE = 'carousel-slide',
   CAROUSEL_SLIDES = 'carousel-slides',
-  CAROUSEL_TABS = 'carousel-tabs',
   CAROUSEL_TAB = 'carousel-tab',
+  CAROUSEL_TABS = 'carousel-tabs',
 
   CHECKBOX = 'checkbox',
   CHIP = 'chip',
@@ -145,12 +144,12 @@ export enum ElementSlug {
 
   INPUT = 'input',
   INPUT_CLEAR = 'input-clear',
-  INPUT_OBSCURE = 'input-obscure',
-  INPUT_ITEM_REMOVE = 'input-item-remove',
 
   INPUT_FILE = 'input-file',
   INPUT_FILE_CLEAR = 'input-file-clear',
   INPUT_FILE_REMOVE = 'input-file-remove',
+  INPUT_ITEM_REMOVE = 'input-item-remove',
+  INPUT_OBSCURE = 'input-obscure',
 
   LIST = 'list',
   LIST_ITEM = 'list-item',

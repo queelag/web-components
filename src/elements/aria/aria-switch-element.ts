@@ -1,5 +1,5 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
-import { css, type CSSResult, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResult, type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { AriaSwitchController } from '../../controllers/aria-switch-controller.js'
 import type { AriaSwitchElementEventMap } from '../../definitions/events.js'
 import { SwitchOffEvent } from '../../events/switch-off-event.js'
@@ -69,7 +69,7 @@ class AriaSwitchElement<E extends AriaSwitchElementEventMap = AriaSwitchElementE
       return
     }
 
-    if (event.key !== KeyboardEventKey.SPACE) {
+    if (event.key !== KeyboardEventKey.Space) {
       return
     }
 

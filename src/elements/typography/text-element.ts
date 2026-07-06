@@ -1,6 +1,6 @@
 import type { Localization, LocalizationVariables } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { css, PropertyValues, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations, PropertyValues } from 'lit'
 import { ElementSlug } from '../../definitions/enums.js'
 import type { TextElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations, TextElementSanitizeConfig } from '../../definitions/interfaces.js'

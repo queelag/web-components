@@ -7,11 +7,13 @@ export function renderTextElement(this: TextElement): TemplateResult {
   return html`
     ${this.styleHTML}
     <slot>
-      ${this.localization instanceof Localization && typeof this.path === 'string'
-        ? this.renderHTML !== false
-          ? renderLocalizationStringToHTML(this.localization, this.path, this.variables, this.sanitize, this.sanitizeConfig)
-          : this.localization.get(this.path, this.variables)
-        : nothing}
+      ${
+        this.localization instanceof Localization && typeof this.path === 'string'
+          ? this.renderHTML !== false
+            ? renderLocalizationStringToHTML(this.localization, this.path, this.variables, this.sanitize, this.sanitizeConfig)
+            : this.localization.get(this.path, this.variables)
+          : nothing
+      }
     </slot>
   `
 }

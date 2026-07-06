@@ -1,6 +1,6 @@
 import { clearInterval, isIntervalSet, parseNumber, setInterval } from '@aracna/core'
-import { KeyboardEventKey, defineCustomElement } from '@aracna/web'
-import { type CSSResultGroup, type PropertyDeclarations, css } from 'lit'
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import {
   AriaCarouselController,
   AriaCarouselNextSlideControlController,
@@ -419,6 +419,7 @@ class AriaCarouselSlideElement<E extends AriaCarouselSlideElementEventMap = Aria
   }
 
   get index(): number {
+    // biome-ignore lint/suspicious/noUnnecessaryConditions: optional is necessary
     return this.rootElement?.slideElements.indexOf(this) ?? -1
   }
 
@@ -578,30 +579,30 @@ class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap = AriaCa
 
   onKeyDown(event: KeyboardEvent): void {
     switch (event.key) {
-      case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.END:
-      case KeyboardEventKey.HOME:
+      case KeyboardEventKey.ArrowLeft:
+      case KeyboardEventKey.ArrowRight:
+      case KeyboardEventKey.End:
+      case KeyboardEventKey.Home:
         event.preventDefault()
         event.stopPropagation()
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_LEFT:
+      case KeyboardEventKey.ArrowLeft:
         if (this.rootElement) {
           ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Activating the previous slide.`)
           this.rootElement.activatePreviousSlide()
         }
 
         break
-      case KeyboardEventKey.ARROW_RIGHT:
+      case KeyboardEventKey.ArrowRight:
         if (this.rootElement) {
           this.rootElement.activateNextSlide()
           ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Activating the next slide.`)
         }
 
         break
-      case KeyboardEventKey.END: {
+      case KeyboardEventKey.End: {
         let tab: AriaCarouselTabElement | undefined, slide: AriaCarouselSlideElement | undefined
 
         if (this.activeTabElement) {
@@ -631,7 +632,7 @@ class AriaCarouselTabsElement<E extends AriaCarouselTabsElementEventMap = AriaCa
 
         break
       }
-      case KeyboardEventKey.HOME: {
+      case KeyboardEventKey.Home: {
         let tab: AriaCarouselTabElement | undefined, slide: AriaCarouselSlideElement | undefined
 
         if (this.activeTabElement) {
@@ -752,7 +753,8 @@ class AriaCarouselTabElement<E extends AriaCarouselTabElementEventMap = AriaCaro
   }
 
   get index(): number {
-    return this.tabsElement?.tabElements?.indexOf(this) ?? -1
+    // biome-ignore lint/suspicious/noUnnecessaryConditions: optional is necessary
+    return this.tabsElement?.tabElements.indexOf(this) ?? -1
   }
 
   get slug(): ElementSlug {

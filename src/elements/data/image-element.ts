@@ -1,6 +1,6 @@
 import { sleep } from '@aracna/core'
 import { CACHE_IMAGES, type CanvasDataURLType, defineCustomElement, getElementStyleCompatibleValue, getImageElementBase64 } from '@aracna/web'
-import { css, type CSSResultGroup, html, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, html, type PropertyDeclarations } from 'lit'
 import type { DirectiveResult } from 'lit/directive.js'
 import type { StyleMapDirective } from 'lit/directives/style-map.js'
 import { DEFAULT_IMAGE_SIZE, DEFAULT_IMAGE_SRC, FETCHING_IMAGES } from '../../definitions/constants.js'
@@ -175,7 +175,7 @@ class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extend
     return typeof this.src === 'string' && this.cache === true && CACHE_IMAGES.has(this.src) === false && this.src !== this.placeholder
   }
 
-  get imgElementCrossOrigin(): ImageElementCrossOrigin | undefined {
+  get imgElementCrossOrigin(): ImageElementCrossOrigin | null {
     if (this.crossOrigin) {
       return this.crossOrigin
     }
@@ -184,10 +184,10 @@ class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extend
       return 'anonymous'
     }
 
-    return undefined
+    return null
   }
 
-  get imgElementLoading(): 'eager' | 'lazy' | undefined {
+  get imgElementLoading(): 'eager' | 'lazy' | null {
     if (this.eager) {
       return 'eager'
     }
@@ -196,7 +196,7 @@ class ImageElement<E extends ImageElementEventMap = ImageElementEventMap> extend
       return 'lazy'
     }
 
-    return undefined
+    return null
   }
 
   get imgElementStyle(): DirectiveResult<typeof StyleMapDirective> {

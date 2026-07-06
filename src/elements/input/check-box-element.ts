@@ -1,6 +1,6 @@
 import { wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { css, type CSSResultGroup } from 'lit'
+import { type CSSResultGroup, css } from 'lit'
 import { ElementSlug } from '../../definitions/enums.js'
 import type { CheckBoxElementEventMap } from '../../definitions/events.js'
 import { QueryDeclarations } from '../../definitions/interfaces.js'

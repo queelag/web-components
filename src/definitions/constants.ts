@@ -1,4 +1,4 @@
-import { ALPHABET_HEX_LOWERCASE, type GenerateRandomStringOptions, type TypeaheadPredicate, getObjectProperty, isObject } from '@aracna/core'
+import { ALPHABET_HEX_LOWERCASE, type GenerateRandomStringOptions, getObjectProperty, isObject, type TypeaheadPredicate } from '@aracna/core'
 import type { IconElementSanitizeConfig, RenderLocalizationStringToHTMLSanitizeConfig } from './interfaces.js'
 import type {
   AriaComboBoxElementFilterOptionsPredicate,

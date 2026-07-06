@@ -123,7 +123,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
       ElementLogger.verbose(this.uid, 'onSubmit', `The disabled and spinning properties has been set to true.`)
     }
 
-    this.dispatchEvent(new FormSubmitEvent(this.callback, this.controlElements, this.data, this.errors))
+    this.dispatchEvent(new FormSubmitEvent(this.callback, this.controlElements, this.data, this.errors ?? undefined))
     ElementLogger.verbose(this.uid, 'onSubmit', `The "form-submit" event has been dispatched.`)
   }
 
@@ -152,7 +152,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     return data
   }
 
-  get errors(): FormErrors | undefined {
+  get errors(): FormErrors | null {
     let errors: FormErrors = {}
 
     for (let element of this.controlElements) {
@@ -162,7 +162,7 @@ class FormElement<E extends FormElementEventMap = FormElementEventMap, T = any> 
     }
 
     if (Object.keys(errors).length <= 0) {
-      return undefined
+      return null
     }
 
     return errors

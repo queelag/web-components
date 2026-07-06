@@ -1,5 +1,5 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
-import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { AriaRadioButtonController, AriaRadioGroupController } from '../../controllers/aria-radio-group-controller.js'
 import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaRadioButtonElementEventMap, AriaRadioGroupElementEventMap } from '../../definitions/events.js'
@@ -41,11 +41,11 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
 
   onKeyDown = (event: KeyboardEvent): void => {
     switch (event.key) {
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.SPACE:
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowLeft:
+      case KeyboardEventKey.ArrowRight:
+      case KeyboardEventKey.ArrowUp:
+      case KeyboardEventKey.Space:
         event.preventDefault()
         event.stopPropagation()
 
@@ -57,10 +57,10 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ARROW_UP:
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowLeft:
+      case KeyboardEventKey.ArrowRight:
+      case KeyboardEventKey.ArrowUp:
         if (this.checkedButtonElement) {
           ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Unchecking the checked button.`, this.checkedButtonElement)
           this.checkedButtonElement.uncheck()
@@ -70,8 +70,8 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_RIGHT: {
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowRight: {
         let button: AriaRadioButtonElement | undefined
 
         if (this.focusedButtonElementIndex >= this.buttonElements.length - 1) {
@@ -98,8 +98,8 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
 
         break
       }
-      case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.ARROW_LEFT: {
+      case KeyboardEventKey.ArrowUp:
+      case KeyboardEventKey.ArrowLeft: {
         let button: AriaRadioButtonElement | undefined
 
         if (this.focusedButtonElementIndex <= 0) {
@@ -123,7 +123,7 @@ class AriaRadioGroupElement<E extends AriaRadioGroupElementEventMap = AriaRadioG
 
         break
       }
-      case KeyboardEventKey.SPACE:
+      case KeyboardEventKey.Space:
         if (this.focusedButtonElement) {
           ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Checking the focused button.`, this.focusedButtonElement)
           this.focusedButtonElement.check()
@@ -251,6 +251,7 @@ class AriaRadioButtonElement<E extends AriaRadioButtonElementEventMap = AriaRadi
   }
 
   get index(): number {
+    // biome-ignore lint/suspicious/noUnnecessaryConditions: optional is necessary
     return this.rootElement?.buttonElements.indexOf(this) ?? -1
   }
 

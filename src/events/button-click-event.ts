@@ -2,7 +2,7 @@ import { IsomorphicEvent } from '@aracna/web'
 import { ButtonClickCallback } from '../definitions/types.js'
 
 export interface ButtonClickEventDetail {
-  callback: Function
+  callback: CallableFunction
 }
 
 export class ButtonClickEvent extends IsomorphicEvent<ButtonClickEventDetail> {

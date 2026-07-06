@@ -1,44 +1,11 @@
 {
+  "name": "@aracna/web-components",
+  "version": "1.1.18",
+  "repository": "https://github.com/queelag/web-components",
+  "license": "MIT",
   "author": "Dario Sechi",
-  "devDependencies": {
-    "@aracna-icons/feather": "workspace:*",
-    "@aracna/core": "workspace:*",
-    "@aracna/web": "workspace:*",
-    "@floating-ui/dom": "^1.7.6",
-    "@microsoft/api-extractor": "^7.58.7",
-    "@storybook/addon-a11y": "^10.4.1",
-    "@storybook/addon-docs": "^10.4.1",
-    "@storybook/addon-vitest": "^10.4.1",
-    "@storybook/web-components-vite": "^10.4.1",
-    "@types/node": "^25.9.1",
-    "@types/qrcode": "^1.5.6",
-    "@vitest/browser": "^4.1.7",
-    "@vitest/browser-webdriverio": "^4.1.7",
-    "@vitest/coverage-v8": "^4.1.7",
-    "@vitest/ui": "^4.1.7",
-    "dompurify": "^3.4.7",
-    "esbuild": "^0.28.0",
-    "esbuild-plugin-minify-html-literals": "^3.0.0",
-    "focus-trap": "^8.2.1",
-    "glob": "^13.0.6",
-    "jsdom": "^29.1.1",
-    "lit": "^3.3.3",
-    "prettier": "^3.8.3",
-    "qrcode": "^1.5.4",
-    "resize-observer-polyfill": "^1.5.1",
-    "storybook": "^10.4.1",
-    "superstruct": "^2.0.2",
-    "tabbable": "^6.4.0",
-    "ts-lit-plugin": "^2.0.2",
-    "typedoc": "^0.28.19",
-    "typescript": "^6.0.3",
-    "vitest": "^4.1.7",
-    "webdriverio": "^9.27.2"
-  },
-  "engines": {
-    "node": ">=18",
-    "pnpm": ">=11"
-  },
+  "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "types": "./index.d.ts",
@@ -91,11 +58,60 @@
       "require": "./elements/typography/*.cjs"
     }
   },
-  "license": "MIT",
   "main": "index.cjs",
   "module": "index.js",
-  "name": "@aracna/web-components",
-  "packageManager": "pnpm@11.5.0+sha512.dbfcc4f81cf48597afd4bc391ffdf12c11f1a9fb83a395bfa6b0a2d9cc2fd8ffebafdb1ccbd529632153f793904c2615b7f09fe1a345473fd1c35845172a8eb1",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "lint": "biome check --write",
+    "prepublish": "vitest run && node scripts/build.mjs",
+    "storybook": "storybook dev -p 6006",
+    "test": "pnpm run /^test:.*/",
+    "test:integration": "vitest run --config=vitest.browser.config.ts",
+    "test:unit": "vitest run --config=vitest.config.ts"
+  },
+  "prettier": {
+    "jsxSingleQuote": true,
+    "printWidth": 160,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none"
+  },
+  "devDependencies": {
+    "@aracna-icons/feather": "workspace:*",
+    "@aracna/core": "workspace:*",
+    "@aracna/web": "workspace:*",
+    "@biomejs/biome": "^2.5.2",
+    "@floating-ui/dom": "^1.7.6",
+    "@microsoft/api-extractor": "^7.58.7",
+    "@storybook/addon-a11y": "^10.4.1",
+    "@storybook/addon-docs": "^10.4.1",
+    "@storybook/addon-vitest": "^10.4.1",
+    "@storybook/web-components-vite": "^10.4.1",
+    "@types/node": "^25.9.1",
+    "@types/qrcode": "^1.5.6",
+    "@vitest/browser": "^4.1.7",
+    "@vitest/browser-webdriverio": "^4.1.7",
+    "@vitest/coverage-v8": "^4.1.7",
+    "@vitest/ui": "^4.1.7",
+    "dompurify": "^3.4.7",
+    "esbuild": "^0.28.0",
+    "esbuild-plugin-minify-html-literals": "^3.0.0",
+    "focus-trap": "^8.2.1",
+    "glob": "^13.0.6",
+    "jsdom": "^29.1.1",
+    "lit": "^3.3.3",
+    "qrcode": "^1.5.4",
+    "resize-observer-polyfill": "^1.5.1",
+    "storybook": "^10.4.1",
+    "superstruct": "^2.0.2",
+    "tabbable": "^6.4.0",
+    "ts-lit-plugin": "^2.0.2",
+    "typedoc": "^0.28.19",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.7",
+    "webdriverio": "^9.27.2"
+  },
   "peerDependencies": {
     "@aracna/core": ">= 1.5.0",
     "@aracna/web": ">= 1.1.0",
@@ -106,27 +122,12 @@
     "qrcode": ">= 1.5.0",
     "tabbable": ">= 6.4.0"
   },
-  "prettier": {
-    "jsxSingleQuote": true,
-    "printWidth": 160,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "none"
+  "packageManager": "pnpm@11.5.0+sha512.dbfcc4f81cf48597afd4bc391ffdf12c11f1a9fb83a395bfa6b0a2d9cc2fd8ffebafdb1ccbd529632153f793904c2615b7f09fe1a345473fd1c35845172a8eb1",
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=11"
   },
   "publishConfig": {
     "directory": "dist"
-  },
-  "repository": "https://github.com/queelag/web-components",
-  "scripts": {
-    "build": "node scripts/build.mjs",
-    "prepublish": "vitest run && node scripts/build.mjs",
-    "test": "pnpm run /^test:.*/",
-    "test:integration": "vitest run --config=vitest.browser.config.ts",
-    "test:unit": "vitest run --config=vitest.config.ts",
-    "storybook": "storybook dev -p 6006"
-  },
-  "sideEffects": false,
-  "type": "module",
-  "types": "index.d.ts",
-  "version": "1.1.18"
+  }
 }

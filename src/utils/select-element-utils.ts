@@ -28,7 +28,7 @@ export function findSelectOptionLabelByValue<T>(
   let option: T | undefined
 
   option = findSelectOptionByValue(options, value, getValue)
-  if (!option) return undefined
+  if (!option) return
 
   return getLabel(option)
 }

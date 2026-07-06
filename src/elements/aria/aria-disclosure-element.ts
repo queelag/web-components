@@ -1,5 +1,5 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
-import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { AriaDisclosureButtonController, AriaDisclosurePanelController, AriaDisclosureSectionController } from '../../controllers/aria-disclosure-controller.js'
 import { ElementSlug } from '../../definitions/enums.js'
 import type {
@@ -43,8 +43,8 @@ class AriaDisclosureElement<E extends AriaDisclosureElementEventMap = AriaDisclo
 
   onKeyDown = (event: KeyboardEvent): void => {
     switch (event.key) {
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.SPACE:
+      case KeyboardEventKey.Enter:
+      case KeyboardEventKey.Space:
         event.preventDefault()
         event.stopPropagation()
 
@@ -151,7 +151,7 @@ class AriaDisclosureButtonElement<E extends AriaDisclosureButtonElementEventMap 
   }
 
   onKeyDown(event: KeyboardEvent): void {
-    if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {
+    if (event.key !== KeyboardEventKey.Enter && event.key !== KeyboardEventKey.Space) {
       return
     }
 

@@ -141,7 +141,7 @@ describe('AriaListBoxElement', () => {
     expect(o2.getAttribute('focused')).toBeNull()
     expect(o2.getAttribute('selected')).toBeNull()
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN, listbox)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown, listbox)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o2.id)
@@ -152,7 +152,7 @@ describe('AriaListBoxElement', () => {
     expect(o2.getAttribute('focused')).not.toBeNull()
     expect(o2.getAttribute('selected')).not.toBeNull()
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowUp)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o1.id)
@@ -207,7 +207,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press ARROW_DOWN and expect the second option to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o2.id)
@@ -221,7 +221,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press ARROW_RIGHT and expect the first option to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o1.id)
@@ -235,7 +235,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press ARROW_LEFT and expect the second option to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o2.id)
@@ -249,7 +249,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press ARROW_UP and expect the first option to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowUp)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o1.id)
@@ -263,7 +263,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press END and expect the last (second) option to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.END)
+    await dispatchKeyDownEvent(KeyboardEventKey.End)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o2.id)
@@ -277,7 +277,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press HOME and expect the first option to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
+    await dispatchKeyDownEvent(KeyboardEventKey.Home)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o1.id)
@@ -305,7 +305,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press SPACE and expect the first option to be selected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.SPACE)
+    await dispatchKeyDownEvent(KeyboardEventKey.Space)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o1.id)
@@ -337,7 +337,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press ARROW_DOWN and expect the second option to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o2.id)
@@ -351,7 +351,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press ARROW_RIGHT and expect the first option to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o1.id)
@@ -365,7 +365,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press ARROW_LEFT and expect the second option to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o2.id)
@@ -379,7 +379,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press ARROW_UP and expect the first option to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowUp)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o1.id)
@@ -393,7 +393,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press END and expect the last (second) option to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.END)
+    await dispatchKeyDownEvent(KeyboardEventKey.End)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o2.id)
@@ -407,7 +407,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press HOME and expect the first option to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
+    await dispatchKeyDownEvent(KeyboardEventKey.Home)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o1.id)
@@ -421,7 +421,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press SPACE and expect the first option to be selected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.SPACE)
+    await dispatchKeyDownEvent(KeyboardEventKey.Space)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o1.id)
@@ -435,7 +435,7 @@ describe('AriaListBoxElement', () => {
     /**
      * Press SPACE again and expect the first option to be unselected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.SPACE)
+    await dispatchKeyDownEvent(KeyboardEventKey.Space)
     await listbox.updateComplete
 
     expect(listbox.getAttribute('aria-activedescendant')).toBe(o1.id)

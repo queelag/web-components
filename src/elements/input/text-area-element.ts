@@ -1,6 +1,6 @@
 import { isArray, isWindowNotDefined, removeArrayItems, wf } from '@aracna/core'
 import { defineCustomElement } from '@aracna/web'
-import { type CSSResultGroup, type PropertyDeclarations, css, html } from 'lit'
+import { type CSSResultGroup, css, html, type PropertyDeclarations } from 'lit'
 import { ElementSlug } from '../../definitions/enums.js'
 import type { TextAreaClearElementEventMap, TextAreaElementEventMap, TextAreaItemRemoveElementEventMap } from '../../definitions/events.js'
 import type { QueryDeclarations } from '../../definitions/interfaces.js'
@@ -188,8 +188,8 @@ class TextAreaElement<E extends TextAreaElementEventMap = TextAreaElementEventMa
     style = getComputedStyle(this.textAreaElement)
 
     if (this.spanElement.style.opacity !== '0') {
-      for (let property in style) {
-        this.spanElement.style.cssText += `${property}:${style[property]};`
+      for (let property of Object.keys(style)) {
+        this.spanElement.style.cssText += `${property}:${style[property as keyof CSSStyleDeclaration]};`
       }
 
       this.spanElement.style.boxSizing = 'border-box'

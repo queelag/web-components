@@ -12,8 +12,8 @@ import {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'aracna-radio-group': RadioGroupElement
     'aracna-radio-button': RadioButtonElement
+    'aracna-radio-group': RadioGroupElement
   }
 }
 

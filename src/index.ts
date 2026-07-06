@@ -8,9 +8,9 @@ export {
 } from './controllers/aria-accordion-controller.js'
 export { AriaAlertController as AracnaAriaAlertController } from './controllers/aria-alert-controller.js'
 export {
-  AriaBreadcrumbListController as AracanAriaBreadcrumbListController,
   AriaBreadcrumbController as AracnaAriaBreadcrumbController,
-  AriaBreadcrumbItemController as AracnaAriaBreadcrumbItemController
+  AriaBreadcrumbItemController as AracnaAriaBreadcrumbItemController,
+  AriaBreadcrumbListController as AracanAriaBreadcrumbListController
 } from './controllers/aria-breadcrumb-controller.js'
 export { AriaButtonController as AracnaAriaButtonController } from './controllers/aria-button-controller.js'
 export {

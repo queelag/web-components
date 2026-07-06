@@ -273,7 +273,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Press ARROW_RIGHT and expect the second slide and tab to be active
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t1)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, t1)
     await tabs.updateComplete
 
     expect(s1.active).toBeFalsy()
@@ -284,7 +284,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Press ARROW_RIGHT and nothing happens since there is no infinite rotation
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await tabs.updateComplete
 
     expect(s1.active).toBeFalsy()
@@ -295,7 +295,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Press ARROW_LEFT and expect the first slide and tab to be active
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await tabs.updateComplete
 
     expect(s1.active).toBeTruthy()
@@ -306,7 +306,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Press ARROW_LEFT and nothing happens since there is no infinite rotation
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await tabs.updateComplete
 
     expect(s1.active).toBeTruthy()
@@ -317,7 +317,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Press END and expect the last slide and tab to be active
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.END)
+    await dispatchKeyDownEvent(KeyboardEventKey.End)
     await tabs.updateComplete
 
     expect(s1.active).toBeFalsy()
@@ -328,7 +328,7 @@ describe('AriaCarouselElement', () => {
     /**
      * Press HOME and expect the first slide and tab to be active
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
+    await dispatchKeyDownEvent(KeyboardEventKey.Home)
     await tabs.updateComplete
 
     expect(s1.active).toBeTruthy()

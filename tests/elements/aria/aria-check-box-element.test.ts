@@ -53,7 +53,7 @@ describe('AriaCheckBoxElement', () => {
     /**
      * Press SPACE and expected the checkbox to be checked
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.SPACE, checkbox)
+    await dispatchKeyDownEvent(KeyboardEventKey.Space, checkbox)
     await checkbox.updateComplete
 
     expect(checkbox.checked).toBeTruthy()

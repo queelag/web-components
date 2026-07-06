@@ -1,6 +1,6 @@
 import { sleep } from '@aracna/core'
 import { size, string } from 'superstruct'
-import { Mock, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest'
 import { FormErrors } from '../../../src/definitions/types'
 import { AracnaFormControlElement as FormControlElement } from '../../../src/elements/core/form-control-element'
 import '../../../src/elements/input/button-element'

@@ -1,6 +1,6 @@
 import { generateRandomString, parseNumber } from '@aracna/core'
 import { getElementStyleCompatibleValue, setImmutableElementAttribute } from '@aracna/web'
-import { type CSSResultGroup, LitElement, type PropertyDeclarations, type TemplateResult, css, html } from 'lit'
+import { type CSSResultGroup, css, html, LitElement, type PropertyDeclarations, type TemplateResult } from 'lit'
 import type { DirectiveResult } from 'lit/directive.js'
 import type { StyleInfo } from 'lit/directives/style-map.js'
 import { ElementCollector } from '../../collectors/element-collector.js'
@@ -99,12 +99,14 @@ class BaseElement<E extends BaseElementEventMap = BaseElementEventMap> extends L
     return super.removeEventListener(type, listener, options)
   }
 
-  onSlotChange(): void {}
+  onSlotChange(): void {
+    //
+  }
 
   defineQueries(): void {
     let declarations: QueryDeclarations = (this.constructor as any).queries
 
-    for (let key in declarations) {
+    for (let key of Object.keys(declarations)) {
       let declaration: QueryDeclaration, get: () => any
 
       declaration = declarations[key] as QueryDeclaration

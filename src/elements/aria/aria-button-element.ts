@@ -1,5 +1,5 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
-import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { AriaButtonController } from '../../controllers/aria-button-controller.js'
 import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaButtonElementEventMap } from '../../definitions/events.js'
@@ -51,10 +51,12 @@ class AriaButtonElement<E extends AriaButtonElementEventMap = AriaButtonElementE
     super.click()
   }
 
-  onClick(): void {}
+  onClick(): void {
+    //
+  }
 
   onKeyDown = (event: KeyboardEvent): void => {
-    if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {
+    if (event.key !== KeyboardEventKey.Enter && event.key !== KeyboardEventKey.Space) {
       return
     }
 

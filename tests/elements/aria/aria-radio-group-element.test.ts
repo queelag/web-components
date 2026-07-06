@@ -102,7 +102,7 @@ describe('AriaRadioGroupElement', () => {
     /**
      * Press SPACE and expect the first button to be checked
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.SPACE)
+    await dispatchKeyDownEvent(KeyboardEventKey.Space)
     await radio.updateComplete
 
     expect(b1.getAttribute('aria-checked')).toBe('true')
@@ -114,7 +114,7 @@ describe('AriaRadioGroupElement', () => {
     /**
      * Press ARROW_DOWN and expect the second button to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await radio.updateComplete
 
     expect(b1.getAttribute('aria-checked')).toBe('false')
@@ -126,7 +126,7 @@ describe('AriaRadioGroupElement', () => {
     /**
      * Press ARROW_RIGHT and expect the first button to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await radio.updateComplete
 
     expect(b1.getAttribute('aria-checked')).toBe('true')
@@ -138,7 +138,7 @@ describe('AriaRadioGroupElement', () => {
     /**
      * Press ARROW_LEFT and expect the second button to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await radio.updateComplete
 
     expect(b1.getAttribute('aria-checked')).toBe('false')
@@ -150,7 +150,7 @@ describe('AriaRadioGroupElement', () => {
     /**
      * Press ARROW_UP and expect the first button to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowUp)
     await radio.updateComplete
 
     expect(b1.getAttribute('aria-checked')).toBe('true')

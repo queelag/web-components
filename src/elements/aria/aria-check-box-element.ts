@@ -1,5 +1,5 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
-import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { AriaCheckBoxController } from '../../controllers/aria-check-box-controller.js'
 import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaCheckBoxElementEventMap } from '../../definitions/events.js'
@@ -70,7 +70,7 @@ class AriaCheckBoxElement<E extends AriaCheckBoxElementEventMap = AriaCheckBoxEl
       return
     }
 
-    if (event.key !== KeyboardEventKey.SPACE) {
+    if (event.key !== KeyboardEventKey.Space) {
       return
     }
 

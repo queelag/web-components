@@ -5,6 +5,7 @@ import type { AracnaBaseElement as BaseElement } from '../elements/core/base-ele
  *
  * [Aracna Reference](https://aracna.dariosechi.it/web/collectors/element-collector)
  */
+// biome-ignore lint/complexity/noStaticOnlyClass: intended
 export class ElementCollector {
   /**
    * The map of elements by their ID.
@@ -19,8 +20,13 @@ export class ElementCollector {
    * Stores an element by its ID and UID.
    */
   static set<T extends BaseElement>(element: T): void {
-    element.id && this.mapByID.set(element.id, element)
-    element.uid && this.mapByUID.set(element.uid, element)
+    if (element.id) {
+      ElementCollector.mapByID.set(element.id, element)
+    }
+
+    if (element.uid) {
+      ElementCollector.mapByUID.set(element.uid, element)
+    }
   }
 
   /**
@@ -32,14 +38,14 @@ export class ElementCollector {
    */
   static get<T extends BaseElement>(uid: string): T | undefined
   static get<T extends BaseElement>(...args: any[]): T | undefined {
-    return this.mapByID.get(args[0]) || this.mapByUID.get(args[0])
+    return ElementCollector.mapByID.get(args[0]) || ElementCollector.mapByUID.get(args[0])
   }
 
   /**
    * Deletes an element by its ID and UID.
    */
   static delete<T extends BaseElement>(element: T): void {
-    this.mapByID.delete(element.id)
-    this.mapByUID.delete(element.uid)
+    ElementCollector.mapByID.delete(element.id)
+    ElementCollector.mapByUID.delete(element.uid)
   }
 }

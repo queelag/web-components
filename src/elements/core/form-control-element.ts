@@ -63,13 +63,9 @@ class FormControlElement<E extends FormControlElementEventMap = FormControlEleme
   }
 
   validate(): void {
-    let old: FormControlElementValidation | undefined
-
     if (!this.schema) {
       return ElementLogger.verbose(this.uid, 'validate', `No schema to validate against.`)
     }
-
-    old = this.validation
 
     this.validation = this.schema.validate(this.value)
     ElementLogger.verbose(this.uid, 'validate', `The value has been validated against the schema.`, this.validation)

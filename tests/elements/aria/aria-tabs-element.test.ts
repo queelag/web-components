@@ -132,7 +132,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press ARROW_RIGHT and expect the first tab to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).toBeNull()
@@ -146,7 +146,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press ENTER and expect the first tab to be selected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).not.toBeNull()
@@ -160,8 +160,8 @@ describe('AriaTabsElement', () => {
     /**
      * Press ARROW_DOWN and expect the next (second) tab to be focused, press SPACE and expect it to be selected too
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
-    await dispatchKeyDownEvent(KeyboardEventKey.SPACE)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
+    await dispatchKeyDownEvent(KeyboardEventKey.Space)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).toBeNull()
@@ -175,7 +175,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press ARROW_LEFT and expect the previous (first) tab to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).toBeNull()
@@ -189,7 +189,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press ENTER and expect the first tab to be selected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).not.toBeNull()
@@ -203,8 +203,8 @@ describe('AriaTabsElement', () => {
     /**
      * Press ARROW_UP and expect the previous (second) tab to be focused, press SPACE and expect it to be selected too
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowUp)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).toBeNull()
@@ -218,7 +218,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press HOME and expect the first tab to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
+    await dispatchKeyDownEvent(KeyboardEventKey.Home)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).toBeNull()
@@ -232,7 +232,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press ENTER and expect the first tab to be selected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).not.toBeNull()
@@ -246,7 +246,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press END and expect the last (second) tab to be focused
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.END)
+    await dispatchKeyDownEvent(KeyboardEventKey.End)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).not.toBeNull()
@@ -260,7 +260,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press ENTER and expect the second tab to be selected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).toBeNull()
@@ -294,7 +294,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press ARROW_RIGHT and expect the first tab to be focused and selected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).not.toBeNull()
@@ -308,7 +308,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press ARROW_DOWN and expect the next (second) tab to be focused and selected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).toBeNull()
@@ -322,7 +322,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press ARROW_LEFT and expect the previous (first) tab to be focused and selected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).not.toBeNull()
@@ -336,7 +336,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press ARROW_UP and expect the previous (second) tab to be focused and selected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowUp)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).toBeNull()
@@ -350,7 +350,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press HOME and expect the first tab to be focused and selected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
+    await dispatchKeyDownEvent(KeyboardEventKey.Home)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).not.toBeNull()
@@ -364,7 +364,7 @@ describe('AriaTabsElement', () => {
     /**
      * Press END and expect the last (second) tab to be focused and selected
      */
-    await dispatchKeyDownEvent(KeyboardEventKey.END)
+    await dispatchKeyDownEvent(KeyboardEventKey.End)
     await tabs.updateComplete
 
     expect(t1.getAttribute('aria-selected')).toBeNull()

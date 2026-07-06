@@ -1,5 +1,5 @@
 import { defineCustomElement } from '@aracna/web'
-import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { AriaHeadingController } from '../../controllers/aria-heading-controller.js'
 import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaHeadingElementEventMap } from '../../definitions/events.js'

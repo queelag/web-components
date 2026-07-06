@@ -1,6 +1,6 @@
 import { getFixedNumber, getLimitedNumber, isArray, isNumberMultipleOf, wf } from '@aracna/core'
-import { KeyboardEventKey, defineCustomElement } from '@aracna/web'
-import { type CSSResultGroup, type PropertyDeclarations, css } from 'lit'
+import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { AriaSliderController, AriaSliderThumbController } from '../../controllers/aria-slider-controller.js'
 import {
   DEFAULT_SLIDER_DECIMALS,
@@ -121,8 +121,8 @@ class AriaSliderElement<E extends AriaSliderElementEventMap = AriaSliderElementE
         value[1] = this.value[1] ?? this.thumbElements[1]?.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE
       }
 
-      return value.map((value: number) =>
-        getSliderThumbElementPercentage(value, {
+      return value.map((val: number) =>
+        getSliderThumbElementPercentage(val, {
           decimals: this.decimals,
           max: this.max,
           min: this.min
@@ -334,14 +334,14 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     let max: number, min: number, step: number, value: number
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.PAGE_DOWN:
-      case KeyboardEventKey.PAGE_UP:
-      case KeyboardEventKey.HOME:
-      case KeyboardEventKey.END:
+      case KeyboardEventKey.ArrowLeft:
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowRight:
+      case KeyboardEventKey.ArrowUp:
+      case KeyboardEventKey.PageDown:
+      case KeyboardEventKey.PageUp:
+      case KeyboardEventKey.Home:
+      case KeyboardEventKey.End:
         event.preventDefault()
         event.stopPropagation()
 
@@ -352,40 +352,42 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
       return ElementLogger.warn(this.uid, 'onKeyDown', `The slider is disabled or readonly.`)
     }
 
+    // biome-ignore-start lint/suspicious/noUnnecessaryConditions: rootElement is optional
     max = this.rootElement?.max ?? DEFAULT_SLIDER_MAX
     min = this.rootElement?.min ?? DEFAULT_SLIDER_MIN
     step = this.rootElement?.step ?? DEFAULT_SLIDER_STEP
     value = this.value ?? DEFAULT_SLIDER_THUMB_VALUE
+    // biome-ignore-end lint/suspicious/noUnnecessaryConditions: rootElement is optional
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_DOWN:
+      case KeyboardEventKey.ArrowLeft:
+      case KeyboardEventKey.ArrowDown:
         ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Decreasing the value.`, [this.value])
         this.setValue(value - step)
 
         break
-      case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ARROW_UP:
+      case KeyboardEventKey.ArrowRight:
+      case KeyboardEventKey.ArrowUp:
         ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Increasing the value.`, [this.value])
         this.setValue(value + step)
 
         break
-      case KeyboardEventKey.PAGE_DOWN:
+      case KeyboardEventKey.PageDown:
         ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Decreasing the value.`, [this.value])
         this.setValue(value - step * 10)
 
         break
-      case KeyboardEventKey.PAGE_UP:
+      case KeyboardEventKey.PageUp:
         ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Increasing the value.`, [this.value])
         this.setValue(value + step * 10)
 
         break
-      case KeyboardEventKey.HOME:
+      case KeyboardEventKey.Home:
         ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Setting the value to the min.`, [this.value])
         this.setValue(min)
 
         break
-      case KeyboardEventKey.END:
+      case KeyboardEventKey.End:
         ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Setting the value to the max.`, [this.value])
         this.setValue(max)
 
@@ -393,14 +395,14 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
     }
 
     switch (event.key) {
-      case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_DOWN:
-      case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.PAGE_DOWN:
-      case KeyboardEventKey.PAGE_UP:
-      case KeyboardEventKey.HOME:
-      case KeyboardEventKey.END:
+      case KeyboardEventKey.ArrowLeft:
+      case KeyboardEventKey.ArrowDown:
+      case KeyboardEventKey.ArrowRight:
+      case KeyboardEventKey.ArrowUp:
+      case KeyboardEventKey.PageDown:
+      case KeyboardEventKey.PageUp:
+      case KeyboardEventKey.Home:
+      case KeyboardEventKey.End:
         ElementLogger.verbose(this.uid, 'onKeyDown', gkek(event), `Computing the position.`)
         this.computePosition()
 
@@ -470,10 +472,12 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   setValueByPercentage(percentage: number): void {
     let decimals: number, max: number, min: number, step: number, value: number
 
+    // biome-ignore-start lint/suspicious/noUnnecessaryConditions: rootElement is optional
     decimals = this.rootElement?.decimals ?? DEFAULT_SLIDER_DECIMALS
     max = this.rootElement?.max ?? DEFAULT_SLIDER_MAX
     min = this.rootElement?.min ?? DEFAULT_SLIDER_MIN
     step = this.rootElement?.step ?? DEFAULT_SLIDER_STEP
+    // biome-ignore-end lint/suspicious/noUnnecessaryConditions: rootElement is optional
 
     value = getLimitedNumber(getFixedNumber(((max - min) * percentage) / 100 + min, decimals), { min, max })
     if (!isNumberMultipleOf(value * 10 ** decimals, step * 10 ** decimals)) return
@@ -485,9 +489,12 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   setValue(value: number): void {
     let decimals: number, max: number, min: number, fvalue: number
 
+    // biome-ignore-start lint/suspicious/noUnnecessaryConditions: rootElement is optional
     decimals = this.rootElement?.decimals ?? DEFAULT_SLIDER_DECIMALS
     max = this.rootElement?.max ?? DEFAULT_SLIDER_MAX
     min = this.rootElement?.min ?? DEFAULT_SLIDER_MIN
+    // biome-ignore-end lint/suspicious/noUnnecessaryConditions: rootElement is optional
+
     fvalue = getFixedNumber(value, decimals)
 
     if (this.rootElement?.disableSwap && this.rootElement.hasMultipleThumbs) {
@@ -572,6 +579,7 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   }
 
   get index(): number {
+    // biome-ignore lint/suspicious/noUnnecessaryConditions: optional is necessary
     return this.rootElement?.thumbElements.indexOf(this) ?? -1
   }
 
@@ -580,11 +588,13 @@ class AriaSliderThumbElement<E extends AriaSliderThumbElementEventMap = AriaSlid
   }
 
   get percentage(): number {
+    // biome-ignore-start lint/suspicious/noUnnecessaryConditions: rootElement is optional
     return getSliderThumbElementPercentage(this.value, {
       decimals: this.rootElement?.decimals ?? DEFAULT_SLIDER_DECIMALS,
       max: this.rootElement?.max ?? DEFAULT_SLIDER_MAX,
       min: this.rootElement?.min ?? DEFAULT_SLIDER_MIN
     })
+    // biome-ignore-end lint/suspicious/noUnnecessaryConditions: rootElement is optional
   }
 
   get value(): number | undefined {

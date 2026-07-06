@@ -17,8 +17,8 @@ declare global {
   interface HTMLElementTagNameMap {
     'aracna-input': InputElement
     'aracna-input-clear': InputClearElement
-    'aracna-input-obscure': InputObscureElement
     'aracna-input-item-remove': InputItemRemoveElement
+    'aracna-input-obscure': InputObscureElement
   }
 }
 

@@ -181,61 +181,61 @@ describe('AriaSliderElement', () => {
     expect(t1.getAttribute('aria-valuenow')).toBe('0')
     expect(t1.getAttribute('value')).toBeNull()
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT, t1)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft, t1)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('0')
     expect(t1.getAttribute('value')).toBe('0')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('1')
     expect(t1.getAttribute('value')).toBe('1')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowDown)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('0')
     expect(t1.getAttribute('value')).toBe('0')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowUp)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('1')
     expect(t1.getAttribute('value')).toBe('1')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.PAGE_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.PageUp)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('11')
     expect(t1.getAttribute('value')).toBe('11')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.PAGE_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.PageDown)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('1')
     expect(t1.getAttribute('value')).toBe('1')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.PAGE_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.PageDown)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('0')
     expect(t1.getAttribute('value')).toBe('0')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.END)
+    await dispatchKeyDownEvent(KeyboardEventKey.End)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('100')
     expect(t1.getAttribute('value')).toBe('100')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.PAGE_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.PageUp)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('100')
     expect(t1.getAttribute('value')).toBe('100')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
+    await dispatchKeyDownEvent(KeyboardEventKey.Home)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('0')
@@ -251,7 +251,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('0')
     expect(t2.getAttribute('value')).toBeNull()
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t2)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, t2)
     await t2.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('0')
@@ -259,7 +259,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('1')
     expect(t2.getAttribute('value')).toBe('1')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t1)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, t1)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('1')
@@ -267,7 +267,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('1')
     expect(t2.getAttribute('value')).toBe('1')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT, t2)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft, t2)
     await t2.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('1')
@@ -275,7 +275,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('0')
     expect(t2.getAttribute('value')).toBe('0')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.PAGE_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.PageUp)
     await t2.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('1')
@@ -283,7 +283,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('10')
     expect(t2.getAttribute('value')).toBe('10')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.PAGE_UP, t1)
+    await dispatchKeyDownEvent(KeyboardEventKey.PageUp, t1)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('11')
@@ -301,7 +301,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('0')
     expect(t2.getAttribute('value')).toBeNull()
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t1)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, t1)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('0')
@@ -309,7 +309,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('0')
     expect(t2.getAttribute('value')).toBeNull()
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t2)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, t2)
     await t2.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('0')
@@ -317,7 +317,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('1')
     expect(t2.getAttribute('value')).toBe('1')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t1)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, t1)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('1')
@@ -325,7 +325,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('1')
     expect(t2.getAttribute('value')).toBe('1')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT, t2)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft, t2)
     await t2.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('1')
@@ -349,7 +349,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('10')
     expect(t2.getAttribute('value')).toBe('10')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t1)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, t1)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('0')
@@ -357,7 +357,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('10')
     expect(t2.getAttribute('value')).toBe('10')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t2)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, t2)
     await t2.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('0')
@@ -365,7 +365,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('11')
     expect(t2.getAttribute('value')).toBe('11')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t1)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, t1)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('1')
@@ -373,7 +373,7 @@ describe('AriaSliderElement', () => {
     expect(t2.getAttribute('aria-valuenow')).toBe('11')
     expect(t2.getAttribute('value')).toBe('11')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT, t2)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft, t2)
     await t2.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('1')
@@ -388,37 +388,37 @@ describe('AriaSliderElement', () => {
     expect(t1.getAttribute('aria-valuenow')).toBe('0')
     expect(t1.getAttribute('value')).toBeNull()
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_RIGHT, t1)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowRight, t1)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('0.1')
     expect(t1.getAttribute('value')).toBe('0.1')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.PAGE_UP)
+    await dispatchKeyDownEvent(KeyboardEventKey.PageUp)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('1.1')
     expect(t1.getAttribute('value')).toBe('1.1')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.PAGE_DOWN)
+    await dispatchKeyDownEvent(KeyboardEventKey.PageDown)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('0.1')
     expect(t1.getAttribute('value')).toBe('0.1')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.END)
+    await dispatchKeyDownEvent(KeyboardEventKey.End)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('2')
     expect(t1.getAttribute('value')).toBe('2')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ARROW_LEFT)
+    await dispatchKeyDownEvent(KeyboardEventKey.ArrowLeft)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('1.9')
     expect(t1.getAttribute('value')).toBe('1.9')
 
-    await dispatchKeyDownEvent(KeyboardEventKey.HOME)
+    await dispatchKeyDownEvent(KeyboardEventKey.Home)
     await t1.updateComplete
 
     expect(t1.getAttribute('aria-valuenow')).toBe('0')

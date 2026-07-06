@@ -44,12 +44,12 @@ describe('TextAreaElement', () => {
     expect(native.value).toBe('hello')
     expect(textarea.value).toBeUndefined()
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER, native)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter, native)
     expect(native.value).toBe('')
     expect(textarea.value).toStrictEqual(['hello'])
 
     dispatchInputEvent(native, 'world')
-    await dispatchKeyDownEvent(KeyboardEventKey.ENTER, native)
+    await dispatchKeyDownEvent(KeyboardEventKey.Enter, native)
     expect(textarea.value).toStrictEqual(['hello', 'world'])
 
     textarea.removeItem('hello')

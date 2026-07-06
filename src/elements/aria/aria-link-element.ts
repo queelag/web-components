@@ -1,5 +1,5 @@
 import { defineCustomElement, KeyboardEventKey } from '@aracna/web'
-import { css, type CSSResultGroup, type PropertyDeclarations } from 'lit'
+import { type CSSResultGroup, css, type PropertyDeclarations } from 'lit'
 import { AriaLinkController } from '../../controllers/aria-link-controller.js'
 import { ElementSlug } from '../../definitions/enums.js'
 import type { AriaLinkElementEventMap } from '../../definitions/events.js'
@@ -47,7 +47,7 @@ class AriaLinkElement<E extends AriaLinkElementEventMap = AriaLinkElementEventMa
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
-    if (event.key !== KeyboardEventKey.ENTER) {
+    if (event.key !== KeyboardEventKey.Enter) {
       return
     }
 

@@ -119,7 +119,7 @@ describe('AriaTooltipElement', () => {
 
     trigger.focus()
 
-    await dispatchKeyDownEvent(KeyboardEventKey.ESCAPE)
+    await dispatchKeyDownEvent(KeyboardEventKey.Escape)
     await tooltip.updateComplete
 
     expect(tooltip.getAttribute('visible')).toBeNull()
